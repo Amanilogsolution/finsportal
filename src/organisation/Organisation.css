@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 .appcontainer{
     width: 99.1vw;
@@ -8,4 +9,16 @@
 
 .modelbg{
     background: red;
+=======
+
+.appcontainer{
+    width: 99.1vw;
+    height: 100vh;
+    background: rgb(137, 192, 236);
+}
+
+
+.modelbg{
+    background: red;
+>>>>>>> 804497b4f8d07553c7566d241d9775d6aac15a89
 }
