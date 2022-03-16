@@ -45,7 +45,7 @@ function Org() {
                       </label>
                       <input
                         type="text"
-                        className="form-select"
+                        className="form-control"
                         placeholder
                         value="India"
                         required
@@ -58,7 +58,7 @@ function Org() {
                         State/Union Territory
                         <span style={{ color: "red" }}>*</span>
                       </label>
-                      <select id="inputState" className="form-select">
+                      <select id="inputState" className="form-control">
                         <option selected="">
                           Selecte State/Union Territory
                         </option>
@@ -148,7 +148,7 @@ function Org() {
                       <label>Currency</label>
                       <input
                         type="text"
-                        className="form-select"
+                        className="form-control"
                         value="INR-Indian Rupees"
                         placeholder
                         disabled
@@ -159,7 +159,7 @@ function Org() {
                       <label>Language</label>
                       <input
                         type="text"
-                        className="form-select"
+                        className="form-control"
                         value="English"
                         placeholder
                         disabled
@@ -170,7 +170,7 @@ function Org() {
                   <div className="form-group">
                     <label>Time Zone</label>
                     <input
-                      className="form-select"
+                      className="form-control"
                       type="text"
                       placeholder
                       value="(GMT 5:30) India Standard Time(Asia/Calcutta)"

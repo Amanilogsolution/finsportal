@@ -16,7 +16,7 @@ const Customer = () => {
             <Menu />
            
 <div>
-  <div className="container">
+  <div className="container mr-0">
     <br />  <h3 className="text-left ml-5">New Customer</h3>
  
     <div className="row ">
