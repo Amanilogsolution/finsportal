@@ -1,0 +1,18 @@
+.orgcontainer{
+    background: rgb(137, 192, 236);
+    padding-bottom: 30px;
+    font-size: 15px;
+}
+
+.orgcontainer .newlinep{
+    color: blue;
+    font-size: 15px;
+    cursor:pointer;
+
+}
+.regtext{
+    color: rgb(192, 192, 192);
+    font-size: 15px;
+    letter-spacing: 1.3px;
+}
+
