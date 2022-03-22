@@ -1,7 +1,6 @@
 .logincontainer{
     height: 100vh;
-    /* border: 2px solid red; */
-    background: url("./images/bg1.jpg") no-repeat center center fixed;
+    background: url("../../images/bg1.jpg") no-repeat center center fixed;
 }
 
 .login-box{

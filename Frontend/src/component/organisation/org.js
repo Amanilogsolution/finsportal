@@ -1,5 +1,6 @@
 import "./org.css";
 import { useState } from "react";
+import {register} from "../../api/index";
 function Org() {
 
   const [gstbox, setgstbox] = useState(false);
@@ -7,6 +8,26 @@ function Org() {
   const formshow = () => {
     document.getElementById("formallbox").style.display = "block";
     document.getElementById("newlinepid").style.display = "none";
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const org_name = document.getElementById("org_name").value;
+    const org_country = document.getElementById("org_country").value;
+    const org_state = document.getElementById("inputState").value;
+    const org_street1 = document.getElementById("org_stret1").value;
+    const org_street2 = document.getElementById("org_stret2").value;
+    const org_city = document.getElementById("org_city").value;
+    const org_pin = document.getElementById("org_pin").value;
+    const org_currency = document.getElementById("org_currency").value;
+    const org_lang = document.getElementById("org_lang").value;
+    const org_timezone = document.getElementById("org_timezone").value;
+    const org_gst = document.getElementById("org_gst").value;
+    console.log(org_name, org_country, org_state, org_street1, org_street2, org_city, org_pin, org_currency, org_lang, org_timezone, org_gst);
+    
+   const result = await register(org_name, org_country, org_state, org_street1, org_street2, org_city, org_pin, org_currency, org_lang, org_timezone, org_gst)
+    console.log(result);
+    window.location.href='/home'
   };
 
   const handleClick = () => {
@@ -31,12 +52,14 @@ function Org() {
                   Set up your organization profile
                 </h3>
                 <br />
-                <form>
+
+                <form onSubmit={handleSubmit}>
+
                   <div className="form-group">
                     <label>
                       Organization Name <span style={{ color: "red" }}>*</span>
                     </label>
-                    <input type="text" className="form-control" placeholder />
+                    <input type="text" className="form-control" placeholder id="org_name" />
                   </div>
                   <div className="form-row">
                     <div className="col form-group">
@@ -45,9 +68,10 @@ function Org() {
                       </label>
                       <input
                         type="text"
-                        className="form-select"
+                        className="form-control"
                         placeholder
                         value="India"
+                        id="org_country"
                         required
                         disabled
                         style={{ cursor: "not-allowed" }}
@@ -58,7 +82,7 @@ function Org() {
                         State/Union Territory
                         <span style={{ color: "red" }}>*</span>
                       </label>
-                      <select id="inputState" className="form-select">
+                      <select id="inputState" className="form-control">
                         <option selected="">
                           Selecte State/Union Territory
                         </option>
@@ -75,9 +99,6 @@ function Org() {
                         <option>Karnataka</option>
                         <option>Kerala</option>
                         <option>Madhya Pradesh</option>
-                        <option>Maharashtra</option>
-                        <option>Manipur</option>
-                        <option>Meghalaya</option>
                         <option>Mizoram</option>
                         <option>Nagaland</option>
                         <option>Odisha</option>
@@ -111,11 +132,40 @@ function Org() {
                     Add Organization Address
                   </p>
                   <div id="formallbox" style={{ display: "none" }}>
+                  <div className="form-row">
+                  <div className="col form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Contact Person Name"
+                        id='org_contactname'
+                      />
+                    </div>
+                    <div className="form-group col-md-6">
+                      <input
+                        type="tel"
+                        className="form-control"
+                        maxLength="12"
+                        placeholder="Contact Mobile no."
+                        id='org_contact_mobile'
+                      />
+                    </div>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Contact Email"
+                        id='org_contact_email'
+                      />
+                    </div>
+                   
                     <div className="form-group">
                       <input
                         type="text"
                         className="form-control"
                         placeholder="Street 1"
+                        id='org_stret1'
                       />
                     </div>
                     <div className="form-group">
@@ -123,6 +173,7 @@ function Org() {
                         type="text"
                         className="form-control"
                         placeholder="Street 2"
+                        id='org_stret2'
                       />
                     </div>
                     <div className="form-row">
@@ -131,6 +182,7 @@ function Org() {
                           type="text"
                           className="form-control"
                           placeholder="City"
+                          id='org_city'
                         />
                       </div>
                       <div className="form-group col-md-6">
@@ -138,6 +190,7 @@ function Org() {
                           type="text"
                           className="form-control"
                           placeholder="Zip/Postal Code"
+                          id="org_pin"
                         />
                       </div>
                     </div>
@@ -148,8 +201,9 @@ function Org() {
                       <label>Currency</label>
                       <input
                         type="text"
-                        className="form-select"
-                        value="INR-Indian Rupees"
+                        className="form-control"
+                        value="INR-Rupees"
+                        id="org_currency"
                         placeholder
                         disabled
                         style={{ cursor: "not-allowed" }}
@@ -159,25 +213,16 @@ function Org() {
                       <label>Language</label>
                       <input
                         type="text"
-                        className="form-select"
+                        className="form-control"
                         value="English"
+                        id="org_lang"
                         placeholder
                         disabled
                         style={{ cursor: "not-allowed" }}
                       />
                     </div>
                   </div>
-                  <div className="form-group">
-                    <label>Time Zone</label>
-                    <input
-                      className="form-select"
-                      type="text"
-                      placeholder
-                      value="(GMT 5:30) India Standard Time(Asia/Calcutta)"
-                      disabled
-                      style={{ cursor: "not-allowed" }}
-                    />
-                  </div>
+               
                   <p>
                     Is this business registered for GST?
                     <input
@@ -194,6 +239,7 @@ function Org() {
                         <input
                           type="text"
                           className="form-control"
+                          id="org_gst"
                           placeholder="Enter Your GSTIN"
                           style={{ fontSize: "15px" }}
                         />

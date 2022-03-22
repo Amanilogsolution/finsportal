@@ -1,16 +1,18 @@
 import React from 'react';
-import './App.css';
-import Header from './Header';
-import Menu from './Menu';
-import Dashboard from './Dashboard';
-import Footer from './Footer';
+import './Home.css';
+// import Image from '../images/logo.png';
+import Header from '../Header/Header';
+import Menu from '../Menu/Menu';
+import Dashboard from '../Dashboard/Dashboard';
+import Footer from '../Footer/Footer';
 // import Login from './Login';
 
 function Home() {
   return (
     <div  className="wrapper">
    <div className="preloader flex-column justify-content-center align-items-center">
-       <img className="animation__shake" src="public/dist/img/AdminLTELogo.png" alt="Awl" height={60} width={60} />
+   <div class="spinner-border" role="status">
+</div>
 </div>
       <Header />
       <Menu/>
