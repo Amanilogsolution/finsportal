@@ -4,7 +4,7 @@ export default class Menu extends Component {
   render() {
     return (
    <div>
-  <aside className="main-sidebar sidebar-light-primary elevation-4">
+  <aside className="main-sidebar sidebar-dark-primary elevation-4">
     <a href="index3.html" className="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{opacity: '.8'}} />
       <span className="brand-text font-weight-light">Fins</span>
@@ -71,6 +71,39 @@ export default class Menu extends Component {
                 <a href="/vendor" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
                   <p> Vendor</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="nav-item">
+            <a href="/Customer" className="nav-link active">
+              <i className="fa fa-shopping-bag" aria-hidden="true"></i>
+              <p >
+              &nbsp;  Master 
+                <i className="right fas fa-angle-left" />
+              </p>
+            </a>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+                <a href="/ShowCountry" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p> Country</p>
+                </a>
+              </li>
+            </ul>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+                <a href="/ShowState" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p> State</p>
+                </a>
+              </li>
+            </ul>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+                <a href="/StateMaster" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p> City</p>
                 </a>
               </li>
             </ul>

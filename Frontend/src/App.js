@@ -6,6 +6,12 @@ import Customer from './component/Customer/Customer'
 // import Organisation from './organisation/Organisation'
 import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
+import StateMaster from './component/Master/State/StateMaster';
+import ShowState from './component/Master/State/ShowState';
+import EditState from './component/Master/State/EditState';
+import ShowCountry from './component/Master/Country/ShowCountry';
+import AddCountry from './component/Master/Country/AddCountry';
+import EditCountry from './component/Master/Country/EditCountry';
 
 export default class App extends Component {
   render() {
@@ -19,6 +25,12 @@ export default class App extends Component {
           {/* <Route path="/Organisation" element={<Organisation/>}/> */}
           <Route path="/org" element={<Org/>}/>
           <Route path="/vendor" element={<Vendor/>}/>
+          <Route path="/StateMaster" element={<StateMaster/>}/>
+          <Route path="/ShowState" element={<ShowState/>}/>
+          <Route path="/EditState" element={<EditState/>}/>
+          <Route path="/ShowCountry" element={<ShowCountry/>}/>
+          <Route path="/AddCountry" element={<AddCountry/>}/>
+          <Route path="/EditCountry" element={<EditCountry/>}/>
           </Routes>
         
         </BrowserRouter>
