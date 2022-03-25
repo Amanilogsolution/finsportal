@@ -3,6 +3,8 @@ const router = express.Router();
 
 const statesController = require('../controller/state');
 const countryController = require('../controller/country');
+const currencyController = require('../controller/currency');
+const cityController = require('../controller/city');
 
 router.get('/Totalstate', statesController.TotalStates);
 router.post('/deleteState', statesController.deleteState);
@@ -16,6 +18,17 @@ router.post('/Showcountry', countryController.showcountry);
 router.post('/Updatecountry', countryController.updatecountry);
 router.post('/deleteCountry', countryController.deletecountry);
 
+router.get('/currency', currencyController.currency);
+router.post('/InsertCurrecy', currencyController.InsertCurrency);
+router.post('/DeleteCurrency', currencyController.deleteCurrency);
+router.post('/UpdateCurrency', currencyController.UpdateCurrency);
+router.post('/ShowCurrency', currencyController.ShowCurrency);
+
+router.get('/Totalcity',cityController.city)
+router.post('/InsertCity',cityController.insertCity)
+router.post('/DeleteCity',cityController.deleteCity)
+router.post('/showcity',cityController.showcity)
+router.post('/UpdateCity',cityController.updateCity)
 
 
 module.exports = router;

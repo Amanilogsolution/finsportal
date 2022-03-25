@@ -53,3 +53,54 @@ export const deletecountry = async (sno,status) => {
     const url = `${process.env.REACT_APP_APIURL}/api/deleteCountry`
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const currency = async () => {
+    const url = `${process.env.REACT_APP_APIURL}/api/currency`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertCurrency = async (country_name, country_code, currency_name, currency_code ) => {
+    const url = `${process.env.REACT_APP_APIURL}/api/InsertCurrecy`
+    return axios.post(url, {country_name, country_code, currency_name, currency_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const deleteCurrency = async (sno,status) => {
+    const url = `${process.env.REACT_APP_APIURL}/api/deleteCurrency`
+    return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdateCurrency = async (sno, country_name, country_code, currency_name, currency_code ) => {
+    console.log(sno, country_name, country_code, currency_name, currency_code)
+    const url = `${process.env.REACT_APP_APIURL}/api/UpdateCurrency`
+    return axios.post(url, {sno, country_name, country_code, currency_name, currency_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showCurrency = async (sno) => {
+    const url = `${process.env.REACT_APP_APIURL}/api/ShowCurrency`
+    return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const Totalcity = async () => {
+    const url = `${process.env.REACT_APP_APIURL}/api/Totalcity`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
+export const InsertCity = async (city_id, city_name, state_id, state_code, country_id, country_code) => {
+    console.log(city_id, city_name, state_id, state_code, country_id, country_code)
+    const url = `${process.env.REACT_APP_APIURL}/api/InsertCity`
+    return axios.post(url, {city_id, city_name, state_id, state_code, country_id, country_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const deleteCity = async (sno,status) => {
+    const url = `${process.env.REACT_APP_APIURL}/api/DeleteCity`
+    return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showCity = async (sno) => {
+    const url = `${process.env.REACT_APP_APIURL}/api/showcity`
+    return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const updateCity = async (sno, city_id, city_name, state_id, state_code, country_id, country_code) => {
+    console.log( state_id)
+    const url = `${process.env.REACT_APP_APIURL}/api/UpdateCity`
+    return axios.post(url, {sno, city_id, city_name, state_id, state_code, country_id, country_code}).then(response => response.data).catch(error => console.log(error));
+}

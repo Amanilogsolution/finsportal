@@ -70,10 +70,5 @@ async function deletecountry(req,res){
             }
                 }
 
-
-
-//INSERT INTO tbl_countries (country_name,country_id,country_code,country_phonecode
-// ,add_user_name,add_system_name,add_date_time,add_ip_address ,status)
-// VALUES ('India',1,'IND',91,'Rupesh','hp',getdate(),'1','Active');
     
 module.exports={countries,InsertCountry,showcountry,updatecountry,deletecountry}

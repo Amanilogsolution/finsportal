@@ -101,9 +101,17 @@ export default class Menu extends Component {
             </ul>
             <ul className="nav nav-treeview">
               <li className="nav-item">
-                <a href="/StateMaster" className="nav-link active">
+                <a href="/Showcity" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
                   <p> City</p>
+                </a>
+              </li>
+            </ul>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+                <a href="/ShowCurrency" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Currency</p>
                 </a>
               </li>
             </ul>

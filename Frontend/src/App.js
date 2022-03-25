@@ -12,6 +12,12 @@ import EditState from './component/Master/State/EditState';
 import ShowCountry from './component/Master/Country/ShowCountry';
 import AddCountry from './component/Master/Country/AddCountry';
 import EditCountry from './component/Master/Country/EditCountry';
+import ShowCurrency from './component/Master/Currency/ShowCurrency';
+import AddCurrency from './component/Master/Currency/AddCurrency';
+import EditCurrency from './component/Master/Currency/EditCurrency';
+import Showcity from './component/Master/City/Showcity';
+import Addcity from './component/Master/City/Addcity';
+import EditCity from './component/Master/City/EditCity';
 
 export default class App extends Component {
   render() {
@@ -31,6 +37,12 @@ export default class App extends Component {
           <Route path="/ShowCountry" element={<ShowCountry/>}/>
           <Route path="/AddCountry" element={<AddCountry/>}/>
           <Route path="/EditCountry" element={<EditCountry/>}/>
+          <Route path="/ShowCurrency" element={<ShowCurrency/>}/>
+          <Route path="/AddCurrency" element={<AddCurrency/>}/>
+          <Route path="/EditCurrency" element={<EditCurrency/>}/>
+          <Route path="/Showcity" element={<Showcity/>}/>
+          <Route path="/Addcity" element={<Addcity/>}/>
+          <Route path='/EditCity' element={<EditCity/>}/>
           </Routes>
         
         </BrowserRouter>
