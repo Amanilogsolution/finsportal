@@ -10,15 +10,12 @@ import {updateState} from '../../../api/index.js'
      const [statetype,setStateType] = useState()
      useEffect(async() => {
          const result = await showstate(localStorage.getItem('stateSno'));
-         console.log(result)
          setData(result)
 
 
-         console.log(result.state_type)
          if(result.state_type == 'state'){
              document.getElementById('State').checked = true
 
-             console.log('hello')
              setStateType('state')
          }
          else{
@@ -34,9 +31,7 @@ import {updateState} from '../../../api/index.js'
             const state_code = document.getElementById('State_code').value;
             const state_short_name = document.getElementById('State_short').value;
             
-            console.log(country_name,state_name,state_code,state_short_name)
             const result = await updateState(localStorage.getItem('stateSno'),country_name,state_name,state_code,state_short_name,statetype);
-            console.log(result)
             if(result){
                 window.location.href = '/ShowState'
             }

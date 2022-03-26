@@ -41,16 +41,21 @@ const columns = [
      sortable: true,
      selector: 'null',
       cell: (row) => [
-        <a>{row.status}</a>,
-        <a style={{marginLeft:"8px"}}  href='./ShowState' onClick={async()=>
-                                                        {
-                                                          if(row.status == 'Active')
-                                                        {const status = 'DeActive'
-                                                          await deletestate(row.sno,status)
-                                                        }
-                                                        else { const status = 'Active'
-                                                          await deletestate(row.sno,status)
-                                                        }}}>{row.status}</a>
+<div className='droplist'>
+       <select onChange={async(e) =>
+               {
+                     const status=e.target.value;
+                   await deletestate(row.sno,status)
+                  window.location.href='ShowState'
+                }
+                    }>
+                      <option selected disabled hidden> {row.status}</option>
+
+        
+         <option value='Active'>Active</option>
+         <option value='DeActive' >DeActive</option>
+       </select>
+      </div>
       ]
      },
 
@@ -60,8 +65,10 @@ const columns = [
     
         selector: "null",
         cell: (row) => [
-            <a title='View Document'onClick={()=> localStorage.setItem('stateSno',`${row.sno}`)} href="EditState">Edit</a>
-            
+
+          <a title='View Document' href="EditState">
+          <button class="editbtn btn-success " onClick={() => localStorage.setItem('stateSno',`${row.sno}`)} >Edit</button></a>
+
         ]
       }
 ];
@@ -73,12 +80,10 @@ const [data,setData] = useState([])
      useEffect(async() => {
          const result =await getstates();
          setData(result)
-         console.log(result);
      }, [])
 
      const handleClick = (e) => {
        e.preventDefault()
-        console.log('Hello')
      }
 
      const tableData= {
@@ -96,7 +101,7 @@ const [data,setData] = useState([])
           <Menu />
           <div>
             <div className="content-wrapper">
-            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./StateMaster"}} class="btn btn-primary">Add State</button>
+            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./StateMaster"}} class="btn btn-primary">Add State</button>
               <div className="container-fluid">
                   <br/>
                 

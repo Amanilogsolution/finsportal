@@ -104,3 +104,31 @@ export const updateCity = async (sno, city_id, city_name, state_id, state_code, 
     const url = `${process.env.REACT_APP_APIURL}/api/UpdateCity`
     return axios.post(url, {sno, city_id, city_name, state_id, state_code, country_id, country_code}).then(response => response.data).catch(error => console.log(error));
 }
+
+
+
+
+export const TotalUnit = async () => {
+    const url = `http://localhost:3008/api/TotalUnit`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
+
+export const Unit = async (unit_name,unit_symbol) => {
+    const url = `http://localhost:3008/api/Unit`
+    return axios.post(url, {unit_name, unit_symbol}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showunit = async (sno) => {
+    const url = `http://localhost:3008/api/showunit`
+    return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateUnit = async (sno, unit_name, unit_symbol) => {
+    const url = `http://localhost:3008/api/UpdateUnit`
+    return axios.post(url, {sno, unit_name, unit_symbol}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const deleteUnit = async (sno,status) => {
+    const url = `http://localhost:3008/api/deleteUnit`
+    return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
+}

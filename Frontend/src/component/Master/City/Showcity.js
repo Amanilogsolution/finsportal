@@ -44,29 +44,40 @@ const columns = [
            sortable: true,
            selector: 'null',
             cell: (row) => [
-              <a>{row.status}</a>,
-              <a style={{marginLeft:"8px"}}  href='./Showcity' onClick={async()=>
-                                                              {
-                                                                if(row.status == 'Active')
-                                                              {const status = 'DeActive'
-                                                                await deleteCity(row.sno,status)
-                                                              }
-                                                              else { const status = 'Active'
-                                                                await deleteCity(row.sno,status)
-                                                              }}}>{row.status}</a>
+                <div className='droplist'>
+                <select onChange={async(e) =>
+                        {
+                              const status=e.target.value;
+                            await deleteCity(row.sno,status)
+                           window.location.href='ShowCity'
+                         }
+                             }>
+                               <option selected disabled hidden> {row.status}</option>
+         
+                 
+                  <option value='Active'>Active</option>
+                  <option value='DeActive' >DeActive</option>
+                </select>
+               </div>
             ]
            },
+
+
+
+       {
+        name: "Actions",
+        sortable: false,
+    
+        selector: "null",
+        cell: (row) => [
+
+          <a title='View Document' href="EditCity">
+        <button class="editbtn btn-success " onClick={() => localStorage.setItem('citySno',`${row.sno}`)} >Edit</button></a>
+
+        ]
+      }
       
-          {
-              name: "Actions",
-              sortable: false,
-          
-              selector: "null",
-              cell: (row) => [
-                  <a title='View Document'onClick={()=> localStorage.setItem('citySno',`${row.sno}`)} href="EditCity">Edit</a>
-                  
-              ]
-            }
+         
 ]
 
  const Showcity = ()=> {

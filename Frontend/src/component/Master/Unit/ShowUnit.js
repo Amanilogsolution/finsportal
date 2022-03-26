@@ -2,45 +2,36 @@ import React, { useEffect,useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Totalcountry } from '../../../api';
+import { TotalUnit } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import {deletecountry} from '../../../api';
+import {deleteUnit} from '../../../api';
 
 
 const columns = [
     {
-        name:'Country Name',
-        selector:'country_name',
+        name:'Unit Name',
+        selector:'unit_name',
         sortable: true
     },
     {
-        name:'Country Code',
-        selector:'country_code',
+        name:'Unit Symbol',
+        selector:'unit_symbol',
         sortable: true
     },
-    {
-        name:'Country Id',
-        selector:'country_id',
-        sortable: true
-    },
-    {
-        name:'Country phone code',
-        selector:'country_phonecode',
-        sortable: true
-    },
-    {
-        name: 'Status',
-       sortable: true,
-       selector: 'null',
-        cell: (row) => [
-<div className='droplist'>
+   
+  {
+    name: 'Status',
+    selector: 'null',
+    cell: (row) => [
+
+      <div className='droplist'>
        <select onChange={async(e) =>
                {
                      const status=e.target.value;
-                   await deletecountry(row.sno,status)
-                  window.location.href='ShowCountry'
+                   await deleteUnit(row.sno,status)
+                  window.location.href='ShowUnit'
                 }
                     }>
                       <option selected disabled hidden> {row.status}</option>
@@ -50,8 +41,9 @@ const columns = [
          <option value='DeActive' >DeActive</option>
        </select>
       </div>
-        ]
-       },
+    ]
+  },
+   
        {
         name: "Actions",
         sortable: false,
@@ -59,19 +51,21 @@ const columns = [
         selector: "null",
         cell: (row) => [
 
-            <a title='View Document' href="EditCountry">
-            <button class="editbtn btn-success " onClick={() => localStorage.setItem('countrySno',`${row.sno}`)} >Edit</button></a>
+          <a title='View Document' href="EditUnit">
+        <button class="editbtn btn-success " onClick={() => localStorage.setItem('unitSno',`${row.sno}`)} >Edit</button></a>
+
         ]
       }
 ]
 
 
- const ShowCountry = () => {
+ const ShowUnit = () => {
      const [data,setData] = useState([])
 
     useEffect(async() => {
-      const result = await Totalcountry()
+      const result = await TotalUnit()
       setData(result)
+      console.log(result)
     }, [])
 
     const tableData= {
@@ -88,10 +82,10 @@ const columns = [
           <Menu />
           <div>
           <div className="content-wrapper">
-          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCountry"}} class="btn btn-primary">Add Country</button>
+          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./AddUnit"}} class="btn btn-primary">Add Unit</button>
           <div className="container-fluid">
           <br/>
-          <h3 className="text-left ml-5">Country</h3>
+          <h3 className="text-left ml-5">Unit</h3>
           <br/>
                 <div className="row ">
                   <div className="col ml-5">
@@ -127,4 +121,4 @@ const columns = [
     )
   }
 
-export default ShowCountry
+export default ShowUnit

@@ -14,7 +14,6 @@ import {addstates} from "../../../api";
         const state_name = document.getElementById("State_name").value;
         const state_code = document.getElementById("state_code").value;
         const state_short_name = document.getElementById("State_Short_Name").value;
-        console.log(state_name,country_name,state_code,state_short_name,select_type);
        const result =  await addstates(state_name,country_name,state_code,state_short_name,select_type);
        if(result){
            window.location.href='./ShowState'
@@ -23,7 +22,6 @@ import {addstates} from "../../../api";
     const handleChange = (e) => {
         let data = e.target.value
         setStateType(data)
-        console.log(data)
     }
 
   

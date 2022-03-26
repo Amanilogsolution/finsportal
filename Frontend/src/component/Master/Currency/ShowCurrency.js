@@ -34,16 +34,22 @@ const columns = [
        sortable: true,
        selector: 'null',
         cell: (row) => [
-          <a>{row.status}</a>,
-          <a style={{marginLeft:"8px"}}  href='./ShowCurrency' onClick={async()=>
-                                                          {
-                                                            if(row.status == 'Active')
-                                                          {const status = 'DeActive'
-                                                            await deleteCurrency(row.sno,status)
-                                                          }
-                                                          else { const status = 'Active'
-                                                            await deleteCurrency(row.sno,status)
-                                                          }}}>{row.status}</a>
+            <div className='droplist'>
+            <select onChange={async(e) =>
+                    {
+                       console.log(e.target.value);
+                          const status=e.target.value;
+                        await deleteCurrency(row.sno,status)
+                       window.location.href='ShowCurrency'
+                     }
+                         }>
+                           <option selected disabled hidden> {row.status}</option>
+     
+             
+              <option value='Active'>Active</option>
+              <option value='DeActive' >DeActive</option>
+            </select>
+           </div>
         ]
        },
     {
@@ -52,8 +58,9 @@ const columns = [
     
         selector: "null",
         cell: (row) => [
-            <a title='View Document'onClick={()=> localStorage.setItem('CurrencySno',`${row.sno}`)} href="EditCurrency">Edit</a>
-            
+
+            <a title='View Document' href="EditCurrency">
+            <button class="editbtn btn-success " onClick={() => localStorage.setItem('CurrencySno',`${row.sno}`)} >Edit</button></a>
         ]
       }
 ]

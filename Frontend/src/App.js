@@ -18,6 +18,10 @@ import EditCurrency from './component/Master/Currency/EditCurrency';
 import Showcity from './component/Master/City/Showcity';
 import Addcity from './component/Master/City/Addcity';
 import EditCity from './component/Master/City/EditCity';
+import ShowUnit from './component/Master/Unit/ShowUnit';
+import AddUnit from './component/Master/Unit/AddUnit';
+import EditUnit from './component/Master/Unit/EditUnit';
+import PageNotFound from './component/pagenotfound/pagenotfound';
 
 export default class App extends Component {
   render() {
@@ -43,6 +47,10 @@ export default class App extends Component {
           <Route path="/Showcity" element={<Showcity/>}/>
           <Route path="/Addcity" element={<Addcity/>}/>
           <Route path='/EditCity' element={<EditCity/>}/>
+          <Route path="/ShowUnit" element={<ShowUnit/>}/>
+          <Route path="/AddUnit" element={<AddUnit/>}/>
+          <Route path="/EditUnit" element={<EditUnit/>}/>
+          <Route path="*" element={<PageNotFound/>}/>
           </Routes>
         
         </BrowserRouter>
