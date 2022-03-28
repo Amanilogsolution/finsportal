@@ -123,7 +123,7 @@ const Header = () => {
 
             <h5 className="cardtitle">Organisation Profile</h5>
             &nbsp;
-            <i class="fa fa-building" ></i> &nbsp;
+            <i className="fa fa-building" ></i> &nbsp;
             <a href="/org" className="card-link">
               Orgaisation Profile
             </a>

@@ -22,6 +22,7 @@ import {updateState} from '../../../api/index.js'
              document.getElementById('UT').checked = true
              setStateType('UT')
          }
+
         }, [])
 
         const handleClick = async(e) => {
@@ -59,7 +60,7 @@ import {updateState} from '../../../api/index.js'
         <div>
       <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
-          <div class="spinner-border" role="status"> </div>
+          <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
         <Menu />
@@ -109,7 +110,7 @@ import {updateState} from '../../../api/index.js'
                         <div className="form-row" onChange={handleChange}>
                               <div className="col form-group">
                                 <label
-                                  for="user_name"
+                                  htmlfor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                     Select Type 

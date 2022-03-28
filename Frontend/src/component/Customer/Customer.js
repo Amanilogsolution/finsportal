@@ -33,7 +33,7 @@ const Customer = () => {
     <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-          <div class="spinner-border" role="status">
+          <div className="spinner-border" role="status">
           </div>
         </div>
         <Header />
@@ -51,9 +51,9 @@ const Customer = () => {
                         <div className="form-row">
                           <div className="col form-group">
                             <label
-                              for="user_name"
+                              htmlfor="user_name"
                               className="col-md-2 col-form-label font-weight-normal">
-                              <div class="tooltip1">
+                              <div className="tooltip1">
                                 Customer Type
                                 <span className="tooltipcontent">
                                   The contacts which are associated to any
@@ -93,9 +93,9 @@ const Customer = () => {
                             htmlFor="user_name"
                             className="col-md-2 col-form-label font-weight-normal"
                           >
-                            <div class="tooltip1">
+                            <div className="tooltip1">
                               Primary Contact
-                              <span class="tooltipcontent">
+                              <span className="tooltipcontent">
                                 The name you enter here will be for your primary
                                 contact.You can continue to add multiple contact
                                 Persons from the detailspage.
@@ -159,7 +159,7 @@ const Customer = () => {
                             htmlFor="user_name"
                             className="col-md-2 col-form-label font-weight-normal"
                           >
-                            <div class="tooltip1" style={{ border: "none" }}>
+                            <div className="tooltip1" style={{ border: "none" }}>
                               <span
                                 style={{
                                   color: "red",
@@ -168,7 +168,7 @@ const Customer = () => {
                               >
                                 Customer Display Name *
                               </span>
-                              <span class="tooltipcontent">
+                              <span className="tooltipcontent">
                                 This name will be displayed on the transaction
                                 you create for this Customer.
                               </span>
@@ -437,8 +437,8 @@ const Customer = () => {
 
                             <div className="form-row">
                               <label
-                                for="user_name"
-                                class="col-md-2 col-form-label font-weight-normal"
+                                htmlfor="user_name"
+                                className="col-md-2 col-form-label font-weight-normal"
                               >
                                 PAN
                               </label>
@@ -483,7 +483,7 @@ const Customer = () => {
                             <div className="form-row">
                               <div className="col form-group">
                                 <label
-                                  for="user_name"
+                                  htmlfor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   <span style={{ color: "red" }}>
@@ -565,7 +565,7 @@ const Customer = () => {
                               <div className=" form-group">
                                 <button
                                   type="button"
-                                  class="btn btn-primary "
+                                  className="btn btn-primary "
                                   data-toggle="modal"
                                   data-target="#exampleModal"
                                 >
@@ -620,9 +620,9 @@ const Customer = () => {
                                 htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                                <div class="tooltip1">
+                                <div className="tooltip1">
                                   Enable Portal?
-                                  <span class="tooltipcontent">
+                                  <span className="tooltipcontent">
                                     Give your customers access to portal to view
                                     transaction and make online payments.
                                   </span>
@@ -637,7 +637,7 @@ const Customer = () => {
                                 />
                                 <label
                                   className="form-check-label"
-                                  for="flexCheckDefault"
+                                  htmlfor="flexCheckDefault"
                                 >
                                   Allow portal access for this customer
                                 </label>
@@ -649,9 +649,9 @@ const Customer = () => {
                                 htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                                <div class="tooltip1">
+                                <div className="tooltip1">
                                   Portal Language
-                                  <span class="tooltipcontent">
+                                  <span className="tooltipcontent">
                                     This will change the contact's portal in
                                     corresponding languages.
                                   </span>
@@ -718,7 +718,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   Attention
                                 </label>
@@ -733,7 +733,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   Country / Region
                                 </label>
@@ -750,7 +750,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   City
                                 </label>
@@ -771,7 +771,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   City
                                 </label>
@@ -786,7 +786,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   State
                                 </label>
@@ -803,7 +803,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   Zip Code
                                 </label>
@@ -818,7 +818,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   Phone
                                 </label>
@@ -833,7 +833,7 @@ const Customer = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="user_name"
-                                  class="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   Fax
                                 </label>
@@ -1090,33 +1090,33 @@ const Customer = () => {
             </div>
             {/* ------------------ Modal start -----------------------------*/}
             <div
-              class="modal fade"
+              className="modal fade"
               id="exampleModal"
               tabindex="-1"
               role="dialog"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
             >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
                       Add Currency
                     </h5>
                     <button
                       type="button"
-                      class="close"
+                      className="close"
                       data-dismiss="modal"
                       aria-label="Close"
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
+                  <div className="modal-body">
                     <div className=" ">
                       <label
                         htmlFor="user_name"
-                        class=" col-form-label font-weight-normal"
+                        className=" col-form-label font-weight-normal"
                       >
                         <span style={{ color: "red" }}> Currency Code *</span>
                       </label>
@@ -1137,7 +1137,7 @@ const Customer = () => {
                     <div className=" ">
                       <label
                         htmlFor="user_name"
-                        class=" col-form-label font-weight-normal"
+                        className=" col-form-label font-weight-normal"
                       >
                         <span style={{ color: "red" }}> Currency Symbol *</span>
                       </label>
@@ -1152,7 +1152,7 @@ const Customer = () => {
                     <div className=" ">
                       <label
                         htmlFor="user_name"
-                        class=" col-form-label font-weight-normal"
+                        className=" col-form-label font-weight-normal"
                       >
                         <span style={{ color: "red" }}> Currency Name *</span>
                       </label>
@@ -1167,15 +1167,15 @@ const Customer = () => {
                   
                   
                   </div>
-                  <div class="modal-footer">
+                  <div className="modal-footer">
                     <button
                       type="button"
-                      class="btn btn-secondary"
+                      className="btn btn-secondary"
                       data-dismiss="modal"
                     >
                       Close
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" className="btn btn-primary">
                       ADD
                     </button>
                   </div>

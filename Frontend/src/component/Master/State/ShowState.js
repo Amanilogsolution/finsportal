@@ -67,7 +67,7 @@ const columns = [
         cell: (row) => [
 
           <a title='View Document' href="EditState">
-          <button class="editbtn btn-success " onClick={() => localStorage.setItem('stateSno',`${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success " onClick={() => localStorage.setItem('stateSno',`${row.sno}`)} >Edit</button></a>
 
         ]
       }
@@ -95,13 +95,13 @@ const [data,setData] = useState([])
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />
           <div>
             <div className="content-wrapper">
-            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./StateMaster"}} class="btn btn-primary">Add State</button>
+            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./StateMaster"}} className="btn btn-primary">Add State</button>
               <div className="container-fluid">
                   <br/>
                 

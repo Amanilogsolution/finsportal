@@ -52,7 +52,7 @@ const columns = [
         cell: (row) => [
 
           <a title='View Document' href="EditUnit">
-        <button class="editbtn btn-success " onClick={() => localStorage.setItem('unitSno',`${row.sno}`)} >Edit</button></a>
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('unitSno',`${row.sno}`)} >Edit</button></a>
 
         ]
       }
@@ -65,7 +65,6 @@ const columns = [
     useEffect(async() => {
       const result = await TotalUnit()
       setData(result)
-      console.log(result)
     }, [])
 
     const tableData= {
@@ -76,13 +75,13 @@ const columns = [
       <div>
          <div className="wrapper">
          <div className="preloader flex-column justify-content-center align-items-center">
-         <div class="spinner-border" role="status"> </div>
+         <div className="spinner-border" role="status"> </div>
          </div>
          <Header />
           <Menu />
           <div>
           <div className="content-wrapper">
-          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./AddUnit"}} class="btn btn-primary">Add Unit</button>
+          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./AddUnit"}} className="btn btn-primary">Add Unit</button>
           <div className="container-fluid">
           <br/>
           <h3 className="text-left ml-5">Unit</h3>

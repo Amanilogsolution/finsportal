@@ -9,7 +9,6 @@ import {showCurrency} from '../../../api';
     const[data,setData] = useState([])
     useEffect(async() => {
         const result = await showCurrency(localStorage.getItem('CurrencySno'));
-        console.log(result)
         setData(result)
     }, [])
     
@@ -20,7 +19,6 @@ import {showCurrency} from '../../../api';
         const currency_name = document.getElementById('currency_name').value;
         const currency_code = document.getElementById('currency_code').value;
         const result = await UpdateCurrency(localStorage.getItem('CurrencySno'),country_name,country_code,currency_name,currency_code);
-        console.log(result)
         if(result){
             window.location.href = '/ShowCurrency'
         }
@@ -43,7 +41,7 @@ import {showCurrency} from '../../../api';
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />

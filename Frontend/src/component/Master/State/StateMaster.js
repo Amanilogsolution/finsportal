@@ -29,7 +29,7 @@ import {addstates} from "../../../api";
         <div>
       <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
-          <div class="spinner-border" role="status"> </div>
+          <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
         <Menu />
@@ -78,7 +78,7 @@ import {addstates} from "../../../api";
                         <div className="form-row" onChange={handleChange}>
                               <div className="col form-group">
                                 <label
-                                  for="user_name"
+                                  htmlfor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                     Select Type 

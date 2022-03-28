@@ -59,9 +59,9 @@ function Organisation() {
                         <a href="#">ILogsolution.com</a>
                       </small>
                     </div>
-                    <div class="form-group">
-                      <label class="col-md-4 control-label" for="save"></label>
-                      <div class="col-md-20" style={{ width: "100%" }}>
+                    <div className="form-group">
+                      <label className="col-md-4 control-label" htmlfor="save"></label>
+                      <div className="col-md-20" style={{ width: "100%" }}>
                         <button
                           id="save"
                           name="save"

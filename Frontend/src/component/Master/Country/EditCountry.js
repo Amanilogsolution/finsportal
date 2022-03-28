@@ -41,7 +41,7 @@ import {updatecountry} from '../../../api'
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />

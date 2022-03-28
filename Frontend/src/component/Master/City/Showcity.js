@@ -72,7 +72,7 @@ const columns = [
         cell: (row) => [
 
           <a title='View Document' href="EditCity">
-        <button class="editbtn btn-success " onClick={() => localStorage.setItem('citySno',`${row.sno}`)} >Edit</button></a>
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno',`${row.sno}`)} >Edit</button></a>
 
         ]
       }
@@ -84,7 +84,6 @@ const columns = [
      const[data,setData] = useState([])
      useEffect(async() => {
           const result = await Totalcity()
-          console.log(result)
           setData(result)
         }, [])
         const tableData ={
@@ -95,13 +94,13 @@ const columns = [
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />
           <div>
             <div className="content-wrapper">
-            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./Addcity"}} class="btn btn-primary">Add City</button>
+            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./Addcity"}} className="btn btn-primary">Add City</button>
               <div className="container-fluid">
                   <br/>
                 

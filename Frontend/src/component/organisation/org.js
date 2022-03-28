@@ -23,10 +23,8 @@ function Org() {
     const org_lang = document.getElementById("org_lang").value;
     const org_timezone = document.getElementById("org_timezone").value;
     const org_gst = document.getElementById("org_gst").value;
-    console.log(org_name, org_country, org_state, org_street1, org_street2, org_city, org_pin, org_currency, org_lang, org_timezone, org_gst);
     
    const result = await register(org_name, org_country, org_state, org_street1, org_street2, org_city, org_pin, org_currency, org_lang, org_timezone, org_gst)
-    console.log(result);
     window.location.href='/home'
   };
 

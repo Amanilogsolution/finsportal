@@ -12,7 +12,6 @@ import {Unit} from '../../../api';
         const unit_symbol = document.getElementById('unit_symbol').value;
        
         const result = await Unit(unit_name,unit_symbol);
-        console.log(result)
         if(result){
             window.location.href = '/ShowUnit'
         }
@@ -22,7 +21,7 @@ import {Unit} from '../../../api';
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />

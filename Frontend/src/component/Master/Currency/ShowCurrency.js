@@ -37,7 +37,6 @@ const columns = [
             <div className='droplist'>
             <select onChange={async(e) =>
                     {
-                       console.log(e.target.value);
                           const status=e.target.value;
                         await deleteCurrency(row.sno,status)
                        window.location.href='ShowCurrency'
@@ -60,7 +59,7 @@ const columns = [
         cell: (row) => [
 
             <a title='View Document' href="EditCurrency">
-            <button class="editbtn btn-success " onClick={() => localStorage.setItem('CurrencySno',`${row.sno}`)} >Edit</button></a>
+            <button className="editbtn btn-success " onClick={() => localStorage.setItem('CurrencySno',`${row.sno}`)} >Edit</button></a>
         ]
       }
 ]
@@ -70,7 +69,6 @@ const columns = [
 
      useEffect(async() => {
        const result = await currency()
-       console.log(result)
        setData(result)
      }, [])
 
@@ -82,13 +80,13 @@ const columns = [
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />
           <div>
             <div className="content-wrapper">
-            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCurrency"}} class="btn btn-primary">Add Currency</button>
+            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCurrency"}} className="btn btn-primary">Add Currency</button>
               <div className="container-fluid">
                   <br/>
                 

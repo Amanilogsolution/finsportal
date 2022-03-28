@@ -9,7 +9,6 @@ import {UpdateUnit} from '../../../api/index.js'
      const [data,setData] = useState({})
      useEffect(async() => {
          const result = await showunit(localStorage.getItem('unitSno'));
-         console.log(result)
          setData(result)
 
 
@@ -22,9 +21,7 @@ import {UpdateUnit} from '../../../api/index.js'
             const unit_symbol = document.getElementById('unit_symbol').value;
             
             
-            console.log(unit_name,unit_symbol)
             const result = await UpdateUnit(localStorage.getItem('unitSno'),unit_name,unit_symbol);
-            console.log(result)
             if(result){
                 window.location.href = '/ShowUnit'
             }
@@ -43,7 +40,7 @@ import {UpdateUnit} from '../../../api/index.js'
         <div>
       <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
-          <div class="spinner-border" role="status"> </div>
+          <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
         <Menu />

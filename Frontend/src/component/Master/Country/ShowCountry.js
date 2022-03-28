@@ -60,7 +60,7 @@ const columns = [
         cell: (row) => [
 
             <a title='View Document' href="EditCountry">
-            <button class="editbtn btn-success " onClick={() => localStorage.setItem('countrySno',`${row.sno}`)} >Edit</button></a>
+            <button className="editbtn btn-success " onClick={() => localStorage.setItem('countrySno',`${row.sno}`)} >Edit</button></a>
         ]
       }
 ]
@@ -82,13 +82,13 @@ const columns = [
       <div>
          <div className="wrapper">
          <div className="preloader flex-column justify-content-center align-items-center">
-         <div class="spinner-border" role="status"> </div>
+         <div className="spinner-border" role="status"> </div>
          </div>
          <Header />
           <Menu />
           <div>
           <div className="content-wrapper">
-          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCountry"}} class="btn btn-primary">Add Country</button>
+          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCountry"}} className="btn btn-primary">Add Country</button>
           <div className="container-fluid">
           <br/>
           <h3 className="text-left ml-5">Country</h3>

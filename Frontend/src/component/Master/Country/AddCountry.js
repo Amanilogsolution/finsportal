@@ -13,7 +13,6 @@ import {InsertCountry} from '../../../api';
         const country_code = document.getElementById('country_code').value;
         const country_phonecode = document.getElementById('Country_phonecode').value;
         const result = await InsertCountry(country_name,country_id,country_code,country_phonecode);
-        console.log(result)
         if(result){
             window.location.href = '/ShowCountry'
         }
@@ -23,7 +22,7 @@ import {InsertCountry} from '../../../api';
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div class="spinner-border" role="status"> </div>
+            <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
           <Menu />

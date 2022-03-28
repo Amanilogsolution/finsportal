@@ -123,6 +123,14 @@ export default class Menu extends Component {
                 </a>
               </li>
             </ul>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+                <a href="/TotalBank" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Bank</p>
+                </a>
+              </li>
+            </ul>
           </li>
         
           <li className="nav-header"></li>
