@@ -10,24 +10,27 @@ import {insertBank}  from '../../../api'
 
     const handleClick = async(e) => {
     e.preventDefault();
-    const bank_id = document.getElementById('bank_id').value;
-    const subcode = document.getElementById('subcode').value;
+    // const bank_id = document.getElementById('bank_id').value;
+    const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
     const address_line2 = document.getElementById('address_line2').value;
-    const branch = document.getElementById('branch').value;
+    // const branch = document.getElementById('branch').value;
     const state = document.getElementById('state').value;
     const city = document.getElementById('city').value;
     const pincode = document.getElementById('pincode').value;
     const ifsc_code = document.getElementById('ifsc_code').value;
-    const glcode = document.getElementById('glcode').value;
+    // const glcode = document.getElementById('glcode').value;
     const bank_name = document.getElementById('bank_name').value;
     const acname = document.getElementById('acname').value;
-    const company_id = document.getElementById('company_id').value;
-    console.log(bank_id,subcode,account_no,address_line1,address_line2,branch,state,city,pincode,ifsc_code,glcode,acname,company_id,actype)
+    // const company_id = document.getElementById('company_id').value;
+    const description = document.getElementById('description').value;
 
-    const result = await insertBank(bank_id, subcode,bank_name, account_no, address_line1, address_line2, branch, state,city,pincode,ifsc_code,glcode,actype,acname,company_id)
-    console.log(result)
+    console.log(account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
+    console.log(actype)
+
+    const result = await insertBank( account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
+    // console.log(result)
     if(result){
         window.location.href='/TotalBank'
     }
@@ -55,30 +58,41 @@ import {insertBank}  from '../../../api'
                     <div className="card" style={{ width: "100%" }}>
                       <article className="card-body">
                         <form>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Id</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='bank_id' placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Sub Code</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='subcode' placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-  
-  
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='bank_name'  placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
+                        <div className="form-row"onChange={handleChange}>
+                              <div className="col form-group" >
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Select Account type</label>
 
+                                <label className="form-check form-check-inline">
+                                  <input
+                                    className="form-check-input"  type="radio"
+                                    name="taxpreference"
+                                    value="Bank"  
+                                  />Bank
+                                </label>
+                                <label className="form-check form-check-inline">
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="taxpreference"
+                                    value="CreditCard" 
+                                  />Credit Card
+                                </label>
+                              </div>
+                            </div>
+                            <div className="form-row">
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name </label>
+                            <div className="col form-group">
+                              <input type="text" className="form-control col-md-4" id='acname'  placeholder />
+                            </div>
+                            {/* form-group end.// */}
+                          </div>
+                          <div className="form-row">
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Code</label>
+                            <div className="col form-group">
+                              <input type="text" className="form-control col-md-4" id='account_code' placeholder />
+                            </div>
+                            {/* form-group end.// */}
+                          </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number</label>
                             <div className="col form-group">
@@ -86,37 +100,21 @@ import {insertBank}  from '../../../api'
                             </div>
                             {/* form-group end.// */}
                           </div>
-
-                        <div className="form-row"onChange={handleChange}>
-                              <div className="col form-group" >
-                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account type</label>
-
-                                <label className="form-check form-check-inline">
-                                  <input
-                                    className="form-check-input"  type="radio"
-                                    name="taxpreference"
-                                    value="Saving"  
-                                  />Saving
-                                </label>
-                                <label className="form-check form-check-inline">
-                                  <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    name="taxpreference"
-                                    value="Current" 
-                                  />Current
-                                  
-                                </label>
-                                <label className="form-check form-check-inline">
-                                  <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    name="taxpreference"
-                                    value="Fixed" 
-                                  />Fixed
-                                </label>
-                              </div>
+                          <div className="form-row">
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
+                            <div className="col form-group">
+                              <input type="text" className="form-control col-md-4" id='bank_name'  placeholder />
                             </div>
+                            {/* form-group end.// */}
+                          </div>
+                          <div className="form-row">
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
+                            <div className="col form-group">
+                              <input type="text" className="form-control col-md-4" id='ifsc_code'  placeholder />
+                            </div>
+                            {/* form-group end.// */}
+                          </div>
+
 
 
                           <div className="form-row">
@@ -131,14 +129,6 @@ import {insertBank}  from '../../../api'
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line2 </label>
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='address_line2'  placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Branch </label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='branch'  placeholder />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -166,35 +156,10 @@ import {insertBank}  from '../../../api'
                             </div>
                             {/* form-group end.// */}
                           </div>
-
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Description</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='ifsc_code'  placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Glcode </label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='glcode'  placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-  
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name </label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='acname'  placeholder />
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Company ID </label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='company_id'  placeholder />
+                            <textarea class="form-control col-md-4" id="description" rows="3"></textarea>
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -204,7 +169,7 @@ import {insertBank}  from '../../../api'
                       {/* card-body end .// */}
                       <div className="border-top card-body">
                         <button className="btn btn-success" onClick={handleClick} >Save</button>
-                        <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./ShowState"}}>Cancel</button>
+                        <button className="btn btn-light ml-3" onClick={()=>{window.location.href="AddBankList"}}>Cancel</button>
                       </div>
                     </div>
                     {/* card.// */}

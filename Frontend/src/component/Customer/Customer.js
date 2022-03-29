@@ -9,8 +9,10 @@ const Customer = () => {
   const [address, setAddress] = useState(false);
   const [showremark, setShowremark] = useState(false);
   const [contactperson, setContactperson] = useState(false);
-  const [addperson, setAddperson] = useState([1]);
   const [texpreferance, setTexprefernace] = useState(false);
+  const [showMaster, setShowMaster] = useState(true);
+  const [showMasterdropdown, setShowMasterdropdown] = useState(false);
+ 
 
   const formshow = () => {
     document.getElementById("distoggle").style.display = "block";
@@ -19,12 +21,10 @@ const Customer = () => {
 
   const selectgst = () => {
     var a = document.getElementById("gsttreatment").value;
-    if ( a == "Select GST Treatment" || a == "Unregistered Bussiness" || a == "Consumer" || a == "Overseas") 
-    {
+    if (a == "Select GST Treatment" || a == "Unregistered Bussiness" || a == "Consumer" || a == "Overseas") {
       document.getElementById("gstin").style.display = "none";
     }
-    else
-    {
+    else {
       document.getElementById("gstin").style.display = "flex";
     }
   };
@@ -38,7 +38,6 @@ const Customer = () => {
         </div>
         <Header />
         <Menu />
-
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
@@ -48,6 +47,60 @@ const Customer = () => {
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <form>
+                        <div className="form-row">
+                          <div className="col form-group" id="valexisting" >
+                            <label
+                              htmlfor="user_name"
+                              className="col-md-2 col-form-label font-weight-normal">
+                              <div className="tooltip1">   
+                              </div>
+                            </label>
+                            <label className="form-check form-check-inline">
+                              <input className="form-check-input" type="radio" name="masterid"
+                                onClick={()=> {setShowMaster(true);setShowMasterdropdown(false)}}
+                                checked="checked" />
+                              <span className="form-check-label font-weight-normal">
+                                Non Existing
+                              </span>
+                            </label>
+                            <label className="form-check form-check-inline">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="masterid"
+                                onClick={()=> {setShowMaster(false);setShowMasterdropdown(true)}}
+                               
+                              />
+                              <span className="form-check-label font-weight-normal">
+                                Existing Customer
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+
+                        {showMaster ? (
+                        <div className="form-row">
+                          <label htmlFor="user_name"className="col-md-2 col-form-label font-weight-normal">Master Id </label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" placeholder/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>):null }
+
+                          {showMasterdropdown ? (
+                        <div className="form-row" id='masterdropdown'>
+                        <label htmlFor="user_name"className="col-md-2 col-form-label font-weight-normal">Master Id </label>
+                              <div className="col form-group">
+                                <select
+                                  id="gsttreatment"
+                                  className="form-control col-md-4"
+                                >
+                                  <option selected>Select Master ID</option>
+                              
+                                </select>
+                              </div>
+                              {/* form-group end.// */}
+                            </div>):null}
                         <div className="form-row">
                           <div className="col form-group">
                             <label
@@ -62,7 +115,7 @@ const Customer = () => {
                                 </span>
                               </div>
                             </label>
-                         
+
                             <label className="form-check form-check-inline">
                               <input
                                 className="form-check-input"
@@ -75,7 +128,7 @@ const Customer = () => {
                               </span>
                             </label>
                             <label className="form-check form-check-inline">
-                            <input
+                              <input
                                 className="form-check-input"
                                 type="radio"
                                 name="gender"
@@ -155,17 +208,9 @@ const Customer = () => {
                         </div>
 
                         <div className="form-row">
-                          <label
-                            htmlFor="user_name"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
+                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
                             <div className="tooltip1" style={{ border: "none" }}>
-                              <span
-                                style={{
-                                  color: "red",
-                                  borderBottom: "1px dashed red",
-                                }}
-                              >
+                              <span style={{ color: "red", borderBottom: "1px dashed red", }}>
                                 Customer Display Name *
                               </span>
                               <span className="tooltipcontent">
@@ -175,11 +220,7 @@ const Customer = () => {
                             </div>
                           </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              className="form-control col-md-4"
-                              placeholder
-                            />
+                            <input type="text" className="form-control col-md-4" placeholder/>
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -415,7 +456,7 @@ const Customer = () => {
                               className="form-row"
                               id="gstin"
                               style={{ display: "none" }}
-                             >
+                            >
                               <label
                                 htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal"
@@ -1007,72 +1048,70 @@ const Customer = () => {
                         ) : null}
                         {/*---------------------------  Add Contact Person ---------------------------- */}
                         {contactperson ? (
-                          <div>
-                            <table className="table">
-                              <thead className="thead-light">
-                                <tr>
-                                  <th scope="col"> First Name</th>
-                                  <th scope="col">Last Name</th>
-                                  <th scope="col">Email Address</th>
-                                  <th scope="col"> Work Phone</th>
-                                  <th scope="col">Mobile</th>
-                                  <th scope="col">Skype Name/Number</th>
-                                  <th scope="col">Designation</th>
-                                  <th scope="col">Department</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {addperson.map((element, index) => (
-                                  <tr>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                    <td>
-                                      <input className="inpfield" />
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                            <button
-                              className="btn btn-primary "
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setAddperson([...addperson, 1]);
-                              }}
-                            >
-                              Add Contact Person
-                            </button>
-                            <button
-                              className="btn btn-danger ml-3"
-                              onClick={(e, index) => {
-                                e.preventDefault();
-                                const list = [...addperson];
-                                list.splice(index, 1);
-                                setAddperson(list);
-                              }}
-                            >
-                              Delete
-                            </button>
+                          <div className="Address mt-3">
+                            {/* <div
+                             className="Address_left"
+                             style={{ width: "50%", float: "left" }}> */}
+                            <label>Contact Person</label>
+                            <div className="form-row">
+                              <label
+                                htmlFor="user_name"
+                                className="col-md-2 col-form-label font-weight-normal"
+                              >
+                                First Name
+                              </label>
+                              <div className="col form-group">
+                                <input
+                                  type="email"
+                                  className="form-control col-md-4"
+                                  placeholder
+                                />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Last Name</label>
+                              <div className="col form-group">
+                                <input type="name" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
+                              <div className="col form-group">
+                                <input type="email" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
+                              <div className="col form-group">
+                                <input type="number" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
+                              <div className="col form-group">
+                                <input type="number" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
+                              <div className="col form-group">
+                                <input type="text" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Designation</label>
+                              <div className="col form-group">
+                                <input type="text" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Department</label>
+                              <div className="col form-group">
+                                <input type="text" className="form-control col-md-4" placeholder />
+                              </div>
+                            </div>
                           </div>
+                          //  </div>
                         ) : null}
                       </form>
                     </article>
@@ -1164,8 +1203,8 @@ const Customer = () => {
                         />
                       </div>
                     </div>
-                  
-                  
+
+
                   </div>
                   <div className="modal-footer">
                     <button

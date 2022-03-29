@@ -150,11 +150,10 @@ const ShowUser = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                        
                         />
                       </DataTableExtensions>
-
                     </article>
-
                   </div>
                 </div>
               </div>

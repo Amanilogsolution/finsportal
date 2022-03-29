@@ -126,9 +126,10 @@ export const deleteUnit = async (sno,status) => {
 
 
 
-export const insertBank = async (bank_id, subcode,bank_name, account_no, address_line1, address_line2, branch, state,city,pincode,ifsc_code,glcode,ac_type,acname,company_id) => {
+export const insertBank = async (account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description) => {
+    console.log(account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
     const url = `${process.env.REACT_APP_APIURL}/api/AddBank`
-    return axios.post(url, {bank_id, subcode,bank_name, account_no, address_line1, address_line2, branch, state,city,pincode,ifsc_code,glcode,ac_type,acname,company_id}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description}).then(response => response.data).catch(error => console.log(error));
 }
 export const totalBank = async () => {
     const url = `${process.env.REACT_APP_APIURL}/api/TotalBank`
@@ -142,9 +143,9 @@ export const showBank = async (sno) => {
     const url = `${process.env.REACT_APP_APIURL}/api/ShowBank`
     return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
 }
-export const updateBank = async (sno, bank_id, subcode,account_no, ac_type,bank_name, address_line1, address_line2, branch, state, city, pincode, ifsc_code, glcode, acname, company_id) => {
+export const updateBank = async (sno,account_code,account_no,type,bank_name,address_line1,address_line2,state,city,pincode,ifsc_code,acname,description) => {
     const url = `${process.env.REACT_APP_APIURL}/api/UpdateBank`
-    return axios.post(url, {sno, bank_id, subcode, bank_name ,account_no, ac_type, address_line1, address_line2, branch, state, city, pincode, ifsc_code, glcode, ac_type, acname, company_id}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {sno,account_code,account_no,type,bank_name,address_line1,address_line2,state,city,pincode,ifsc_code,acname,description}).then(response => response.data).catch(error => console.log(error));
 }
 
 

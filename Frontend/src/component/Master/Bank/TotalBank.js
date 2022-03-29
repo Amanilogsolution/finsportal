@@ -9,11 +9,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 
 
 const columns = [
-    {
-        name: 'Bank Id',
-        selector: 'bank_id',
-        sortable: true
-        },
+   
     {
     name: 'Bank Name',
     selector: 'bank_name',
@@ -29,11 +25,7 @@ const columns = [
             selector: 'address_line1',
             sortable: true
             },
-            {
-                name: 'Branch',
-                selector: 'branch',
-                sortable: true
-                },
+           
                 {
                     name: 'State',
                     selector: 'state',
@@ -116,7 +108,7 @@ const columns = [
           <Menu />
           <div>
             <div className="content-wrapper">
-            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddBank"}} className="btn btn-primary">Add Bank</button>
+            <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddBankList"}} className="btn btn-primary">Add Bank</button>
               <div className="container-fluid">
                   <br/>
                 

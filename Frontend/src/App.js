@@ -25,10 +25,12 @@ import EditUnit from './component/Master/Unit/EditUnit';
 import AddBank from './component/Master/Bank/AddBank';
 import TotalBank from './component/Master/Bank/TotalBank';
 import EditBank from './component/Master/Bank/EditBank';
+import AddBankList from './component/Master/Bank/AddBankList';
 
 import ShowUser from './component/Master/User/ShowUser';
 import AddUser from './component/Master/User/Adduser';
 import EditUser from './component/Master/User/EditUser';
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -63,6 +65,7 @@ export default class App extends Component {
           <Route path="/AddBank" element={<AddBank/>}/>
           <Route path="/TotalBank" element={<TotalBank/>}/>
           <Route path="/EditBank" element={<EditBank/>}/>
+          <Route path="/AddBankList" element={<AddBankList/>}/>
 
           <Route path="/ShowUser" element={<ShowUser/>}/>
           <Route path="/AddUser" element={<AddUser/>}/>
