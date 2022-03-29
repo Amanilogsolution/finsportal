@@ -29,7 +29,7 @@ import {insertBank}  from '../../../api'
     const result = await insertBank(bank_id, subcode,bank_name, account_no, address_line1, address_line2, branch, state,city,pincode,ifsc_code,glcode,actype,acname,company_id)
     console.log(result)
     if(result){
-        window.location.href('/TotalBank')
+        window.location.href='/TotalBank'
     }
     }
 

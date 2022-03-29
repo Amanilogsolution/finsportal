@@ -1,5 +1,6 @@
 const sql =require('mssql')
 const sqlConfig = require('../config.js')
+const os = require('os')
 
 const InsertBank = async (req, res) => {
     const bank_id = req.body.bank_id;
@@ -19,8 +20,8 @@ const InsertBank = async (req, res) => {
     const company_id = req.body.company_id;
 try{
     await sql.connect(sqlConfig)
-    const result = await sql.query(`insert into tbl_bankmaster (bank_id,subcode,bank_name,account_no,address_line1,address_line2,branch,state,city,pincode,ifsc_code,status,glcode,ac_type,acname,company_id)
-                    values('${bank_id}','${subcode}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${branch}','${state}','${city}','${pincode}','${ifsc_code}','Active','${glcode}','${ac_type}','${acname}','${company_id}')`)
+    const result = await sql.query(`insert into tbl_bankmaster (bank_id,subcode,bank_name,account_no,address_line1,address_line2,branch,state,city,pincode,ifsc_code,status,glcode,ac_type,acname,company_id,add_date_time,add_user_name,add_system_name,add_ip_address)
+                    values('${bank_id}','${subcode}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${branch}','${state}','${city}','${pincode}','${ifsc_code}','Active','${glcode}','${ac_type}','${acname}','${company_id}',getdate(),'Aman','${os.hostname()}','${req.ip}')`)
     res.send('Added')
 }
 catch(err){
@@ -82,7 +83,7 @@ const DeleteBank = async (req, res) => {
     const company_id = req.body.company_id;
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update tbl_bankmaster set bank_id='${bank_id}',subcode='${subcode}',bank_name='${bank_name}',account_no='${account_no}',address_line1='${address_line1}',address_line2='${address_line2}',branch='${branch}',state='${state}',city='${city}',pincode=${pincode},ifsc_code='${ifsc_code}',glcode='${glcode}',ac_type='${ac_type}',acname='${acname}',company_id='${company_id}' where sno='${sno}'`)
+        const result = await sql.query(`update tbl_bankmaster set bank_id='${bank_id}',subcode='${subcode}',bank_name='${bank_name}',account_no='${account_no}',address_line1='${address_line1}',address_line2='${address_line2}',branch='${branch}',state='${state}',city='${city}',pincode=${pincode},ifsc_code='${ifsc_code}',glcode='${glcode}',ac_type='${ac_type}',acname='${acname}',company_id='${company_id}',update_date_time=getdate(),update_user_name='Rupesh',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno='${sno}'`)
         res.send('Updated')
     }
     catch(err){

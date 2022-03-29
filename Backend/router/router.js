@@ -7,6 +7,7 @@ const currencyController = require('../controller/currency');
 const cityController = require('../controller/city');
 const unitController = require('../controller/unit');
 const bankController = require('../controller/Bank');
+const userController = require('../controller/user');
 
 router.get('/Totalstate', statesController.TotalStates);
 router.post('/deleteState', statesController.deleteState);
@@ -43,6 +44,12 @@ router.post('/AddBank',bankController.InsertBank)
 router.post('/DeleteBank',bankController.DeleteBank)
 router.post('/ShowBank',bankController.ShowBank)
 router.post('/UpdateBank',bankController.UpdateBank)
+
+router.get('/TotalUser',userController.user)
+router.post('/InsertUser',userController.InsertUser)
+router.post('/showuser',userController.showuser)
+router.post('/updateuser',userController.updateuser)
+router.post('/deleteuser',userController.deleteuser)
 
 
 module.exports = router;

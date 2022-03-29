@@ -99,8 +99,6 @@ export const updateCity = async (sno, city_id, city_name, state_id, state_code, 
 }
 
 
-
-
 export const TotalUnit = async () => {
     const url = `http://localhost:3008/api/TotalUnit`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
@@ -126,6 +124,8 @@ export const deleteUnit = async (sno,status) => {
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
+
+
 export const insertBank = async (bank_id, subcode,bank_name, account_no, address_line1, address_line2, branch, state,city,pincode,ifsc_code,glcode,ac_type,acname,company_id) => {
     const url = `${process.env.REACT_APP_APIURL}/api/AddBank`
     return axios.post(url, {bank_id, subcode,bank_name, account_no, address_line1, address_line2, branch, state,city,pincode,ifsc_code,glcode,ac_type,acname,company_id}).then(response => response.data).catch(error => console.log(error));
@@ -145,5 +145,38 @@ export const showBank = async (sno) => {
 export const updateBank = async (sno, bank_id, subcode,account_no, ac_type,bank_name, address_line1, address_line2, branch, state, city, pincode, ifsc_code, glcode, acname, company_id) => {
     const url = `${process.env.REACT_APP_APIURL}/api/UpdateBank`
     return axios.post(url, {sno, bank_id, subcode, bank_name ,account_no, ac_type, address_line1, address_line2, branch, state, city, pincode, ifsc_code, glcode, ac_type, acname, company_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const TotalUser = async () => {
+    const url = `http://localhost:3008/api/TotalUser`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const User = async (employee_name, role,warehouse,username,password,
+    email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication) => {
+        console.log(employee_name, role,warehouse,username,password,
+            email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication)
+    const url = `http://localhost:3008/api/InsertUser`
+return axios.post(url, {employee_name, role,warehouse,username,password,email_id,phone,
+    operatemode,customer,reporting_to,designation,two_factor_authentication}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showuser = async (sno) => {
+    const url = `http://localhost:3008/api/showuser`
+    return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateUser = async (sno, employee_name, role,warehouse,user_name,password,
+    email_id,phone,operate_mode,customer,reporting_to,designation,two_factor_authentication) => {
+    const url = `http://localhost:3008/api/UpdateUser`
+    return axios.post(url, {sno, employee_name, role,warehouse,user_name,password,email_id,phone,
+        operate_mode,customer,reporting_to,designation,two_factor_authentication}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const deleteUser = async (sno,status) => {
+    const url = `http://localhost:3008/api/deleteUser`
+    return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 

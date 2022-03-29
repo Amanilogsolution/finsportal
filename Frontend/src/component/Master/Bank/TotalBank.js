@@ -124,10 +124,10 @@ const columns = [
                 <br/>
                 <div className="row ">
                   <div className="col ml-0">
-                    <div className="card" style={{ width: "100%" }}>
-                      <article className="card-body">
-                      <DataTableExtensions
-      {...tableData}
+                  <div className="card" style={{ width: "100%" }}>
+                  <article className="card-body">
+                <DataTableExtensions
+               {...tableData}
     >
       <DataTable
         noHeader

@@ -21,10 +21,16 @@ import EditCity from './component/Master/City/EditCity';
 import ShowUnit from './component/Master/Unit/ShowUnit';
 import AddUnit from './component/Master/Unit/AddUnit';
 import EditUnit from './component/Master/Unit/EditUnit';
-import PageNotFound from './component/pagenotfound/pagenotfound';
+
 import AddBank from './component/Master/Bank/AddBank';
 import TotalBank from './component/Master/Bank/TotalBank';
 import EditBank from './component/Master/Bank/EditBank';
+
+import ShowUser from './component/Master/User/ShowUser';
+import AddUser from './component/Master/User/Adduser';
+import EditUser from './component/Master/User/EditUser';
+import PageNotFound from './component/pagenotfound/pagenotfound';
+
 
 export default class App extends Component {
   render() {
@@ -57,6 +63,10 @@ export default class App extends Component {
           <Route path="/AddBank" element={<AddBank/>}/>
           <Route path="/TotalBank" element={<TotalBank/>}/>
           <Route path="/EditBank" element={<EditBank/>}/>
+
+          <Route path="/ShowUser" element={<ShowUser/>}/>
+          <Route path="/AddUser" element={<AddUser/>}/>
+          <Route path="/EditUser" element={<EditUser/>}/>
           <Route path="*" element={<PageNotFound/>}/>
           </Routes>
         
