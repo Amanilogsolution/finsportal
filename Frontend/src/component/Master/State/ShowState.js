@@ -58,7 +58,6 @@ const columns = [
       </div>
       ]
      },
-
     {
         name: "Actions",
         sortable: false,
@@ -112,19 +111,16 @@ const [data,setData] = useState([])
                     <div className="card" style={{ width: "100%" }}>
                       <article className="card-body">
                       <DataTableExtensions
-      {...tableData}
-    >
-      <DataTable
-        noHeader
-        defaultSortField="id"
-        defaultSortAsc={false}
-        pagination
-        highlightOnHover
-      />
-    </DataTableExtensions>
-                     
-                      </article>
-                    
+                       {...tableData} >
+                  <DataTable
+                    noHeader
+                   defaultSortField="id"
+                   defaultSortAsc={false}
+                    pagination
+                    highlightOnHover
+                     />
+    </DataTableExtensions>            
+                      </article> 
                     </div>
                     {/* card.// */}
                   </div>

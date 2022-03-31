@@ -681,29 +681,16 @@ const Vendor = () => {
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label
-                                  htmlFor="user_name"
-                                  className="col-md-2 col-form-label font-weight-normal"
-                                >
-                                  State
-                                </label>
+                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
                                 <div className="col-md-6 form-group">
-                                  <select
-                                    id="inputState"
-                                    className="form-control"
-                                  >
+                                  <select  id="inputState"  className="form-control">
                                     <option selected> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// */}
                               </div>
                               <div className="form-row">
-                                <label
-                                  htmlFor="user_name"
-                                  className="col-md-2 col-form-label font-weight-normal"
-                                >
-                                  Zip Code
-                                </label>
+                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal"> Zip Code </label>
                                 <div className="col form-group">
                                   <input
                                     type="email"

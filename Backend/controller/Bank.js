@@ -68,23 +68,18 @@ const DeleteBank = async (req, res) => {
         }
  const UpdateBank = async (req, res) => {
     const sno = req.body.sno;
-    
     const account_code = req.body.account_code;
     const bank_name = req.body.bank_name;
     const account_no = req.body.account_no;
     const address_line1 = req.body.address_line1;
     const address_line2 = req.body.address_line2;
-   
     const state = req.body.state;
     const city = req.body.city;
     const pincode = req.body.pincode;
     const ifsc_code = req.body.ifsc_code;
-  
     const type = req.body.type;
     const acname = req.body.acname;
     const description = req.body.description;
-    console.log(req.body)
- 
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(`update tbl_bankmaster set account_code='${account_code}',bank_name='${bank_name}',account_no='${account_no}',address_line1='${address_line1}',address_line2='${address_line2}',state='${state}',city='${city}',pincode=${pincode},ifsc_code='${ifsc_code}',ac_type='${type}',acname='${acname}',description='${description}',update_date_time=getdate(),update_user_name='Rupesh',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno='${sno}'`)

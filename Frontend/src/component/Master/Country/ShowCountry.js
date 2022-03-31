@@ -8,7 +8,6 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import {deletecountry} from '../../../api';
 
-
 const columns = [
     {
         name:'Country Name',

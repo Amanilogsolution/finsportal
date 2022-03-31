@@ -30,6 +30,7 @@ import AddBankList from './component/Master/Bank/AddBankList';
 import ShowUser from './component/Master/User/ShowUser';
 import AddUser from './component/Master/User/Adduser';
 import EditUser from './component/Master/User/EditUser';
+import Practice from './component/practice';
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -70,6 +71,7 @@ export default class App extends Component {
           <Route path="/ShowUser" element={<ShowUser/>}/>
           <Route path="/AddUser" element={<AddUser/>}/>
           <Route path="/EditUser" element={<EditUser/>}/>
+          <Route path="/Practice" element={<Practice/>}/>
           <Route path="*" element={<PageNotFound/>}/>
           </Routes>
         

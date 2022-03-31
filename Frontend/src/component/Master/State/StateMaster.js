@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {addstates} from "../../../api";
+import { Totalcountry } from '../../../api';
 
 
  const  StateMaster = () =>  {
      const [select_type,setStateType] = useState();
+     const [selectCountry,setSelectCountry] = useState([]);
+     const [selectedCountry,setSelectedCountry] = useState('india');
+
+     useEffect(async() => {
+       const result = await Totalcountry()
+       console.log(result)
+       setSelectCountry(result)
+    }, [])
 
     const handleClick = async(e) => {
         e.preventDefault();
-        const country_name = document.getElementById("Country_name").value;
+        
         const state_name = document.getElementById("State_name").value;
         const state_code = document.getElementById("state_code").value;
         const state_short_name = document.getElementById("State_Short_Name").value;
-       const result =  await addstates(state_name,country_name,state_code,state_short_name,select_type);
+        console.log(selectedCountry,state_name,state_code,state_short_name)
+
+       const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type);
        if(result){
            window.location.href='./ShowState'
        }
@@ -22,6 +33,11 @@ import {addstates} from "../../../api";
     const handleChange = (e) => {
         let data = e.target.value
         setStateType(data)
+    }
+    const handleChangeCountry = (e) => {
+        let data = e.target.value
+        console.log(data)
+        setSelectedCountry(data)
     }
 
   
@@ -46,7 +62,21 @@ import {addstates} from "../../../api";
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='Country_name' placeholder />
+                            {/* <input type="text" className="form-control col-md-4" id='Country_name' placeholder /> */}
+                            <select
+                              id="inputState"
+                              className="form-control col-md-"
+                              onChange={handleChangeCountry}
+                            
+                            >
+                              <option selected default hidden value="India">India</option>
+                              {
+                                selectCountry.map((data) => (
+                                    <option value={data.country_name}>{data.country_name}</option>
+                                ))
+                                
+                              }
+                            </select>
                           </div>
                           {/* form-group end.// */}
                         </div>
