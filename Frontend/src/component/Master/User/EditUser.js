@@ -1,0 +1,214 @@
+import React, { useEffect, useState } from 'react'
+import Header from "../../Header/Header";
+import Menu from "../../Menu/Menu";
+import Footer from "../../Footer/Footer";
+import {showuser} from '../../../api/index.js'
+import {UpdateUser} from '../../../api/index.js'
+
+ const EditUser = () => {
+     const [data,setData] = useState({})
+     useEffect(async() => {
+         const result = await showuser(localStorage.getItem('userSno'));
+         console.log(result)
+         setData(result)
+        }, [])
+
+        const handleClick = async(e) => {
+            e.preventDefault();
+            const employee_name = document.getElementById('employee_name').value;
+            const role = document.getElementById('role').value;
+            const warehouse = document.getElementById('warehouse').value;
+            const user_name = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email_id = document.getElementById('email_id').value;
+            const phone = document.getElementById('phone').value;
+            const operate_mode = document.getElementById('operatemode').value;
+            const customer = document.getElementById('customer').value;
+            const reporting_to = document.getElementById('reporting_to').value;
+            const designation = document.getElementById('designation').value;
+            const two_factor_authentication = document.getElementById('two_factor_authentication').value;
+          
+            
+            const result = await UpdateUser(localStorage.getItem('userSno'),employee_name,
+            role,warehouse,user_name,password,email_id,phone,operate_mode,
+            customer,reporting_to,designation,two_factor_authentication);
+            if(result){
+                window.location.href = '/ShowUser'
+            }
+        }
+
+
+        const handleChangeempname = (e) => {
+          setData({...data,employee_name:e.target.value})  
+        }
+        const handleChangerole = (e) => {
+            setData({...data,role:e.target.value})
+        }
+
+        const handleChangeware = (e) => {
+          setData({...data,warehouse:e.target.value})  
+        }
+        const handleChangeusername = (e) => {
+            setData({...data,user_name:e.target.value})
+        }
+
+        const handleChangepassword = (e) => {
+          setData({...data,password:e.target.value})  
+        }
+        const handleChangeemail = (e) => {
+            setData({...data,email_id:e.target.value})
+        }
+
+        const handleChangephone = (e) => {
+          setData({...data,phone:e.target.value})  
+        }
+        const handleChangeoperatemode = (e) => {
+            setData({...data,operate_mode:e.target.value})
+        }
+        const handleChangecustomer= (e) => {
+          setData({...data,customer:e.target.value})  
+        }
+        const handleChangereporting_to = (e) => {
+            setData({...data,reporting_to:e.target.value})
+        }
+
+        const handleChangedesignation = (e) => {
+          setData({...data,designation:e.target.value})  
+        }
+        const handleChangetwo_factor_authentication = (e) => {
+            setData({...data,two_factor_authentication:e.target.value})
+        }
+        
+   
+
+    return (
+        <div>
+      <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+          <div className="spinner-border" role="status"> </div>
+        </div>
+        <Header />
+        <Menu />
+        <div>
+          <div className="content-wrapper">
+            <div className="container-fluid">
+              <br /> <h3 className="text-left ml-5">Edit User</h3>
+              <div className="row ">
+                <div className="col ml-5">
+                  <div className="card" style={{ width: "100%" }}>
+                    <article className="card-body">
+                      <form>
+                        {/* form-group start.// */}
+                        <div className="form-row">
+                          <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee Name</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='employee_name' value={data.employee_name} onChange={(e) => handleChangeempname(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                         {/* form-group start.// */}
+                        <div className="form-row">
+                          <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='role'  value={data.role} onChange={(e) => handleChangerole(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                         {/* form-group start.// */}
+                         <div className="form-row">
+                          <label htmlFor="warehouse" className="col-md-2 col-form-label font-weight-normal">Warehouse</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='warehouse'  value={data.warehouse} onChange={(e) => handleChangeware(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">Username</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='username'  value={data.user_name} onChange={(e) => handleChangeusername(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
+                          <div className="col form-group">
+                            <input type="password" className="form-control col-md-4" id='password'  value={data.password} onChange={(e) => handleChangepassword(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email ID</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='email_id'  value={data.email_id} onChange={(e) => handleChangeemail(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone</label>
+                          <div className="col form-group">
+                            <input type="number" className="form-control col-md-4" id='phone'  value={data.phone} onChange={(e) => handleChangephone(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        {/* asjnasjnaas */}
+
+                        <div className="form-row">
+                          <label htmlFor="operatemode" className="col-md-2 col-form-label font-weight-normal">Operate mode</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='operatemode'  value={data.operate_mode} onChange={(e) => handleChangeoperatemode(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='customer'  value={data.customer} onChange={(e) => handleChangecustomer(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting To</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='reporting_to'  value={data.reporting_to} onChange={(e) => handleChangereporting_to(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='designation'  value={data.designation} onChange={(e) => handleChangedesignation(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="two_factor_authentication" className="col-md-2 col-form-label font-weight-normal">Two Factor Authentication</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='two_factor_authentication'  value={data.two_factor_authentication} onChange={(e) => handleChangetwo_factor_authentication(e)}/>
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+                        
+
+                      </form>
+                    </article>
+                    {/* card-body end .// */}
+                    <div className="border-top card-body">
+                      <button className="btn btn-success" onClick={handleClick}>Update</button>
+                      <button className="btn btn-light ml-3" onClick={()=>window.location.href='./ShowUser'}>Cancel</button>
+                    </div>
+                  </div>
+                  {/* card.// */}
+                </div>
+                {/* col.//*/}
+              </div>
+              {/* row.//*/}
+            </div>   
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </div>
+    )
+ 
+}
+export default EditUser
