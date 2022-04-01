@@ -26,6 +26,11 @@ export const updateState = async (sno, country_name,state_name, state_code, stat
     const url = `http://192.168.146.103:3008/api/EditState`
     return axios.post(url, {sno,country_name, state_name, state_code, state_short_name, select_type}).then(response => response.data).catch(error => console.log(error));
 }
+export const showstateCity = async (country) => {
+    console.log(country)
+    const url = `${process.env.REACT_APP_APIURL}/api/showstateCity`
+    return axios.post(url, {country}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const Totalcountry = async () => {
     const url = `http://192.168.146.103:3008/api/Totalcountry`
@@ -79,9 +84,11 @@ export const Totalcity = async () => {
     const url = `http://192.168.146.103:3008/api/Totalcity`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
-export const InsertCity = async (city_id, city_name, state_id, state_code, country_id, country_code) => {
-    const url = `http://192.168.146.103:3008/api/InsertCity`
-    return axios.post(url, {city_id, city_name, state_id, state_code, country_id, country_code}).then(response => response.data).catch(error => console.log(error));
+
+export const InsertCity = async (city_id, city_name,  state_name, country_name) => {
+    console.log(city_id, city_name,  state_name, country_name)
+    const url = `${process.env.REACT_APP_APIURL}/api/InsertCity`
+    return axios.post(url, {city_id, city_name, state_name, country_name}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const deleteCity = async (sno,status) => {
@@ -94,9 +101,9 @@ export const showCity = async (sno) => {
     return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateCity = async (sno, city_id, city_name, state_id, state_code, country_id, country_code) => {
-    const url = `http://192.168.146.103:3008/api/UpdateCity`
-    return axios.post(url, {sno, city_id, city_name, state_id, state_code, country_id, country_code}).then(response => response.data).catch(error => console.log(error));
+export const updateCity = async (sno, city_id, city_name, state_name,country_name) => {
+    const url = `${process.env.REACT_APP_APIURL}/api/UpdateCity`
+    return axios.post(url, {sno, city_id, city_name, state_name,country_name}).then(response => response.data).catch(error => console.log(error));
 }
 
 

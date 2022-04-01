@@ -1,10 +1,11 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {User} from '../../../api';
 
  const AddUser = () => {
+   const [authentication,setAuthentication] = useState('')
 
     const handleClick = async(e) => {
         e.preventDefault();
@@ -19,13 +20,19 @@ import {User} from '../../../api';
         const customer = document.getElementById('customer').value;
         const reporting_to = document.getElementById('reporting_to').value;
         const designation = document.getElementById('designation').value;
-        const tfa = document.getElementById('tfa').value;
+       
+        console.log(employee_name,role,warehouse,user_name,password,email_id,phone,operate_mode,customer,reporting_to,designation,authentication)
         const result = await User(employee_name,role,warehouse,user_name,
-          password,email_id,phone,operate_mode,customer,reporting_to,designation,tfa);
+          password,email_id,phone,operate_mode,customer,reporting_to,designation,authentication);
         if(result){
             window.location.href = '/ShowUser'
         }
     }
+    const handleChange = (e) => {
+      let data = e.target.value
+      setAuthentication(data)
+      console.log(data)
+  }
  
     return (
         <div>
@@ -128,14 +135,35 @@ import {User} from '../../../api';
                             </div>
                             {/* form-group end.// */}
                           </div>
-  
-                          <div className="form-row">
-                            <label htmlFor="tfa" className="col-md-2 col-form-label font-weight-normal">Two Factor Authentication</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='tfa'  placeholder='Two Factor Authentication'/>
+                          <div className="form-row"
+                           onChange={handleChange}
+                           >
+                              <div className="col form-group">
+                                <label
+                                  htmlfor="user_name"
+                                  className="col-md-2 col-form-label font-weight-normal"
+                                >
+                                   Two Factor Authentication
+                                </label>
+
+                                <label className="form-check form-check-inline">
+                                  <input
+                                    className="form-check-input"  type="radio"
+                                    name="taxpreference"
+                                    value="With OTP"  
+                                  />With OTP
+                                </label>
+                                <label className="form-check form-check-inline">
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="taxpreference"
+                                    value="Without OTP" 
+                                  />Without OTP
+                                  
+                                </label>
+                              </div>
                             </div>
-                            {/* form-group end.// */}
-                          </div>
     
   
                           
