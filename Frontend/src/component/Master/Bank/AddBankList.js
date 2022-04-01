@@ -46,24 +46,24 @@ function AddBankList() {
                           <div className="imgrow">
                             <div className="imgrow1">
                               <div className="col1">
-                                <img src="https://samrajyasales.org/images/state-bank-of-india-logo.jpg" alt="sbi bank" />
+                                <img src="https://samrajyasales.org/images/state-bank-of-india-logo.jpg" alt="sbi bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col1">
-                                <img src="https://logos-download.com/wp-content/uploads/2016/06/Kotak_Mahindra_Bank_logo.png" alt="kotak bank" />
+                                <img src="https://logos-download.com/wp-content/uploads/2016/06/Kotak_Mahindra_Bank_logo.png" alt="kotak bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col1">
-                                <img src="https://logos-world.net/wp-content/uploads/2021/02/IDBI-Bank-Emblem.png" alt="idbi bank" />
+                                <img src="https://logos-world.net/wp-content/uploads/2021/02/IDBI-Bank-Emblem.png" alt="idbi bank" data-toggle="modal" data-target="#exampleModalCenter"/>
                               </div>
                             </div>
                             <div className="imgrow2">
                               <div className="col2">
-                                <img src="http://www.newswireglobal.com/wp-content/uploads/2021/04/icici-bank-ne-logo.jpg" alt="icic bank" />
+                                <img src="http://www.newswireglobal.com/wp-content/uploads/2021/04/icici-bank-ne-logo.jpg" alt="icic bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col2">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREyHOs77XDEzkOr8sumDDxD850uaGsGzt9BHugrv9M_JzMGldbAt2UW77wo6zVEOZsPA&usqp=CAU" alt="canra bank" />
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREyHOs77XDEzkOr8sumDDxD850uaGsGzt9BHugrv9M_JzMGldbAt2UW77wo6zVEOZsPA&usqp=CAU" alt="canra bank" data-toggle="modal" data-target="#exampleModalCenter"/>
                               </div>
                               <div className="col2">
-                                <img src="https://iconape.com/wp-content/files/ek/208557/svg/208557.svg" alt="pnb bank" />
+                                <img src="https://iconape.com/wp-content/files/ek/208557/svg/208557.svg" alt="pnb bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                             </div>
                           </div>
@@ -110,6 +110,40 @@ function AddBankList() {
           </div>
           <Footer />
         </div>
+                {/*########################### Modal Start ################################*/}
+                <div className="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLongTitle">Select Account Type</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body text-center">
+                Select your Bank account type and help to optimize your feeds accordingly.
+                <div className="modalcards" >
+                  <div className="modalcard" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#0554e6" class="bi bi-person" viewBox="0 0 16 16">
+                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                    </svg><br />
+                    Personal Account
+                  </div>
+                  <div className="modalcard " >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#0554e6" class="bi bi-bank2" viewBox="0 0 16 16">
+                      <path d="M8.277.084a.5.5 0 0 0-.554 0l-7.5 5A.5.5 0 0 0 .5 6h1.875v7H1.5a.5.5 0 0 0 0 1h13a.5.5 0 1 0 0-1h-.875V6H15.5a.5.5 0 0 0 .277-.916l-7.5-5zM12.375 6v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zM8 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM.5 15a.5.5 0 0 0 0 1h15a.5.5 0 1 0 0-1H.5z" />
+                    </svg><br />
+                    Corporate Account
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* ################### Modal End ########################## */}
       </div>
 
     </>
