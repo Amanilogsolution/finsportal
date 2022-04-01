@@ -6,7 +6,6 @@ import { totalBank, deleteBank } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import './addbanklist.css'
 
 
 const columns = [
@@ -47,25 +46,25 @@ const columns = [
     selector: 'ifsc_code',
     sortable: true
   },
-  // {
-  //   name: 'Status',
-  //   sortable: true,
-  //   selector: 'null',
-  //   cell: (row) => [
-  //     <div className='droplist'>
-  //       <select onChange={async (e) => {
-  //         const status = e.target.value;
-  //         await deleteBank(row.sno, status)
-  //         window.location.href = 'TotalBank'
-  //       }
-  //       }>
-  //         <option selected disabled hidden> {row.status}</option>
-  //         <option value='Active'>Active</option>
-  //         <option value='DeActive' >DeActive</option>
-  //       </select>
-  //     </div>
-  //   ]
-  // },
+  {
+    name: 'Status',
+    sortable: true,
+    selector: 'null',
+    cell: (row) => [
+      <div className='droplist'>
+        <select onChange={async (e) => {
+          const status = e.target.value;
+          await deleteBank(row.sno, status)
+          window.location.href = 'TotalBank'
+        }
+        }>
+          <option selected disabled hidden> {row.status}</option>
+          <option value='Active'>Active</option>
+          <option value='DeActive' >DeActive</option>
+        </select>
+      </div>
+    ]
+  },
   {
     name:'Active',
     selector: 'status',

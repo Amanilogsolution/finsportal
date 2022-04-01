@@ -4,14 +4,25 @@ import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {showstate} from '../../../api/index.js'
 import {updateState} from '../../../api/index.js'
+import { Totalcountry } from '../../../api';
 
  const EditState = () => {
      const [data,setData] = useState({})
      const [statetype,setStateType] = useState()
+     const [selectCountry,setSelectCountry] = useState([]);
+     const [selectedCountry,setSelectedCountry] = useState();
      useEffect(async() => {
          const result = await showstate(localStorage.getItem('stateSno'));
+         console.log(result)
          setData(result)
+         var name = result.country_name
+         console.log(name)
+        //  setSelectCountry(result.country_name)
 
+         const country= await Totalcountry()
+         console.log(country)
+         setSelectCountry(country)
+         
 
          if(result.state_type == 'state'){
              document.getElementById('State').checked = true
@@ -27,20 +38,24 @@ import {updateState} from '../../../api/index.js'
 
         const handleClick = async(e) => {
             e.preventDefault();
-            const country_name = document.getElementById('Country_name').value;
+            // const country_name = document.getElementById('Country_name').value;
             const state_name = document.getElementById('State_name').value;
             const state_code = document.getElementById('State_code').value;
             const state_short_name = document.getElementById('State_short').value;
-            
-            const result = await updateState(localStorage.getItem('stateSno'),country_name,state_name,state_code,state_short_name,statetype);
+           
+             if(selectedCountry == undefined){
+               console.log(data.country_name)
+            const result = await updateState(localStorage.getItem('stateSno'),data.country_name,state_name,state_code,state_short_name,statetype);
             if(result){
                 window.location.href = '/ShowState'
-            }
+          }
+          }else{
+            const result = await updateState(localStorage.getItem('stateSno'),selectedCountry,state_name,state_code,state_short_name,statetype);
+            if(result){
+              window.location.href = '/ShowState'
         }
+          }
 
-
-        const handleChangeCname = (e) => {
-          setData({...data,country_name:e.target.value})  
         }
         const handleChangeSname = (e) => {
             setData({...data,state_name:e.target.value})
@@ -54,6 +69,10 @@ import {updateState} from '../../../api/index.js'
         const handleChange = (e) => {
            let state = e.target.value;
             setStateType(state)
+        }
+        const handleChangeCountry = (e) => {
+            let country = e.target.value; 
+            setSelectedCountry(country)
         }
 
     return (
@@ -77,7 +96,22 @@ import {updateState} from '../../../api/index.js'
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='Country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)}/>
+                            {/* <input type="text" className="form-control col-md-4" id='Country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)}/> */}
+                            <select
+                              id="inputState"
+                              className="form-control col-md-4"
+                              onChange={handleChangeCountry}
+                              
+                            >
+                              <option selected default hidden>{data.country_name}</option>
+                              {
+                                selectCountry.map((data) => (
+                                    <option value={data.country_name}>{data.country_name}</option>
+                                ))
+                                
+                              }
+
+                            </select>
                           </div>
                           {/* form-group end.// */}
                         </div>

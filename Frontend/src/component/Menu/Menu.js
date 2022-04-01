@@ -16,7 +16,7 @@ export default class Menu extends Component {
           <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
         </div>
         <div className="info">
-          <a href="#" className="d-block">Rupesh kumar</a>
+          <a href="#" className="d-block">Aman Lohan</a>
         </div>
       </div>
       <div className="form-inline">

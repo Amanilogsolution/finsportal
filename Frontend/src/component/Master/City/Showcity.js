@@ -82,8 +82,6 @@ const columns = [
             ]
           },
 
-
-
        {
         name: "Actions",
         sortable: false,

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "name": "daterangepicker",
   "main": [
@@ -19,25 +18,3 @@
     "moment": ">=2.9.0"
  }
 }
-=======
-{
-  "name": "daterangepicker",
-  "main": [
-    "daterangepicker.js",
-    "daterangepicker.css"
-  ],
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests",
-    "moment.js",
-    "moment.min.js"
-  ],
-  "dependencies": {
-    "jquery": "1.9.1 - 3",
-    "moment": ">=2.9.0"
- }
-}
->>>>>>> 804497b4f8d07553c7566d241d9775d6aac15a89
