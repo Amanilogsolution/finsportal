@@ -52,6 +52,26 @@ const columns = [
         ]
        },
        {
+        name:'Active',
+        selector: 'null',
+        cell: (row) => [
+            <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
+              {
+                if(row.status == 'Active'){
+                  const checkvalue ='Deactive'
+                  await deletecountry(row.sno,checkvalue)
+                      window.location.href='ShowCountry'
+    
+                }
+                else{
+                  const checkvalue ='Active'
+                  await deletecountry(row.sno,checkvalue)
+                      window.location.href='ShowCountry'
+                }
+               }} />
+        ]
+      },
+       {
         name: "Actions",
         sortable: false,
     
