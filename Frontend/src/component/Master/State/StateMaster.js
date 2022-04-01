@@ -40,7 +40,6 @@ import { Totalcountry } from '../../../api';
         setSelectedCountry(data)
     }
 
-  
     return (
         <div>
       <div className="wrapper">

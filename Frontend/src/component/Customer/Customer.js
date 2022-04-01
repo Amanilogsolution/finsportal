@@ -101,6 +101,23 @@ const Customer = () => {
                               </div>
                               {/* form-group end.// */}
                             </div>):null}
+
+                            <div className="form-row">
+                          <label
+                            htmlFor="user_name"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            Customer Id
+                          </label>
+                          <div className="col form-group">
+                            <input
+                              type="text"
+                              className="form-control col-md-4"
+                              placeholder
+                            />
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
                         <div className="form-row">
                           <div className="col form-group">
                             <label
