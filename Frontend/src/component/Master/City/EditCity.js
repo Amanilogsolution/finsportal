@@ -4,25 +4,43 @@ import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {showCity} from '../../../api';
 import {updateCity} from '../../../api';
-
+import { Totalcountry } from '../../../api';
+import { showstateCity } from '../../../api';
 
  const EditCity = () => {
      const [data,setData] = useState({})
+     const [state,setState] = useState()
+     const [selectCountry,setSelectCountry] = useState([]);
+     const [selectState,setSelectState] = useState([]);
+     const [country,setCountry] = useState()
+
         useEffect(async() => {
             const result = await showCity(localStorage.getItem('citySno'));
             setData(result)
-        }, [])
+            setState(result.state_name)
+            setCountry(result.country_name)
+            if(result.country_name){
+          
+            const statesresult = await showstateCity(result.country_name)
+            console.log(statesresult)
+            setSelectState(statesresult)
+            }
+
+            const country= await Totalcountry()
+         console.log(country)
+         setSelectCountry(country)
+        }, [] )
 
         const handleClick = async(e) => {
             e.preventDefault();
             const city_id = document.getElementById('city_id').value;
             const city_name = document.getElementById('city_name').value;
-            const state_id = document.getElementById('state_id').value;
-            const state_code = document.getElementById('state_code').value;
-            const country_id = document.getElementById('country_id').value;
-            const country_code = document.getElementById('country_code').value;
-
-            const result = await updateCity(localStorage.getItem('citySno'),city_id,city_name,state_id,state_code,country_id,country_code);
+            // const state_id = document.getElementById('state_id').value;
+            // const state_code = document.getElementById('state_code').value;
+            // const country_id = document.getElementById('country_id').value;
+            // const country_code = document.getElementById('country_code').value;
+            console.log(city_id,city_name,state,country)
+            const result = await updateCity(localStorage.getItem('citySno'),city_id,city_name,state,country);
             if(result){
                 window.location.href = '/ShowCity'
             }
@@ -34,18 +52,24 @@ import {updateCity} from '../../../api';
         const handleChangeCityname = (e) => {
             setData({...data,city_name:e.target.value})
         }
-        const handleChangeStateid = (e) => {
-            setData({...data,state_id:e.target.value})
+        const handleChangeState = async(e) => {
+          let data = e.target.value
+          console.log(data)
+          setState(data)
         }
-        const handleChangeStatecode = (e) => {
-            setData({...data,state_code:e.target.value})
-        }
-        const handleChangeCountryid = (e) => {
-            setData({...data,country_id:e.target.value})
-        }
-        const handleChangeCountrycode = (e) => {
-            setData({...data,country_code:e.target.value})
-        }
+     
+        const handleChangeCountry = async(e) => {
+          let country = e.target.value; 
+          setCountry(country)
+          const statesresult = await showstateCity(country)
+          console.log(statesresult)
+          console.log(country)
+          setTimeout(() => {
+            setSelectState(statesresult)
+          }, 1000);
+        
+        
+      }
   
     return (
         <div>
@@ -64,6 +88,47 @@ import {updateCity} from '../../../api';
                     <div className="card" style={{ width: "100%" }}>
                       <article className="card-body">
                         <form>
+                        <div className="form-row">
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
+                            <div className="col form-group">
+                            <select
+                              id="inputState"
+                              className="form-control col-md-4"
+                              onChange={handleChangeCountry}
+                              
+                            >
+                              <option selected default hidden>{country}</option>
+                              {
+                                selectCountry.map((data) => (
+                                    <option value={data.country_name}>{data.country_name}</option>
+                                ))
+                                
+                              }
+
+                            </select>                            </div>
+                            {/* form-group end.// */}
+                          </div>
+
+                          <div className="form-row">
+                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Name</label>
+                            <div className="col form-group">
+                            <select
+                              id="inputState"
+                              className="form-control col-md-4"
+                              onChange={handleChangeState}
+                            
+                            >
+                              <option selected default hidden >{data.state_name}</option>
+                              {
+                                selectState.map((data) => (
+                                    <option value={data.state_name}>{data.state_name}</option>
+                                ))
+                                
+                              }
+                            </select> 
+                            </div>
+                            {/* form-group end.// */}
+                          </div>
                       
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City Id</label>
@@ -72,42 +137,10 @@ import {updateCity} from '../../../api';
                             </div>
                             {/* form-group end.// */}
                           </div>
-  
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City Name</label>
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='city_name'  placeholder value={data.city_name} onChange={(e) => handleChangeCityname(e)}/>
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-  
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Id</label>
-                            <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='state_id' placeholder value={data.state_id} onChange={(e) => handleChangeStateid(e)}/>
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-  
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Code</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='state_code' placeholder value={data.state_code} onChange={(e) => handleChangeStatecode(e)}/>
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-                         < div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Id</label>
-                            <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='country_id' placeholder value={data.country_id} onChange={(e) => handleChangeCountryid(e)}/>
-                            </div>
-                            {/* form-group end.// */}
-                          </div>
-  
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Code</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_code' placeholder value={data.country_code} onChange={(e) => handleChangeCountrycode(e)}/>
                             </div>
                             {/* form-group end.// */}
                           </div>

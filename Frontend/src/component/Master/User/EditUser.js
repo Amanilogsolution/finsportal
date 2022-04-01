@@ -7,10 +7,22 @@ import {UpdateUser} from '../../../api/index.js'
 
  const EditUser = () => {
      const [data,setData] = useState({})
+     const [authentication,setAuthentication] = useState('')
+
      useEffect(async() => {
          const result = await showuser(localStorage.getItem('userSno'));
          console.log(result)
          setData(result)
+
+         if(result.two_factor_authentication == 'With OTP'){
+          document.getElementById('otp').checked = true
+          setAuthentication('With OTP')
+      }
+      else{
+          document.getElementById('noOTP').checked = true
+          setAuthentication('Without OTP')
+      }
+
         }, [])
 
         const handleClick = async(e) => {
@@ -26,12 +38,10 @@ import {UpdateUser} from '../../../api/index.js'
             const customer = document.getElementById('customer').value;
             const reporting_to = document.getElementById('reporting_to').value;
             const designation = document.getElementById('designation').value;
-            const two_factor_authentication = document.getElementById('two_factor_authentication').value;
           
-            
             const result = await UpdateUser(localStorage.getItem('userSno'),employee_name,
             role,warehouse,user_name,password,email_id,phone,operate_mode,
-            customer,reporting_to,designation,two_factor_authentication);
+            customer,reporting_to,designation,authentication);
             if(result){
                 window.location.href = '/ShowUser'
             }
@@ -78,6 +88,10 @@ import {UpdateUser} from '../../../api/index.js'
         const handleChangetwo_factor_authentication = (e) => {
             setData({...data,two_factor_authentication:e.target.value})
         }
+        const handleChange = (e) => {
+          let state = e.target.value;
+          setAuthentication(state)
+       }
         
    
 
@@ -180,13 +194,38 @@ import {UpdateUser} from '../../../api/index.js'
                           </div>
                           {/* form-group end.// */}
                         </div>
-                        <div className="form-row">
-                          <label htmlFor="two_factor_authentication" className="col-md-2 col-form-label font-weight-normal">Two Factor Authentication</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='two_factor_authentication'  value={data.two_factor_authentication} onChange={(e) => handleChangetwo_factor_authentication(e)}/>
-                          </div>
-                          {/* form-group end.// */}
-                        </div>
+
+                        <div className="form-row" onChange={handleChange}>
+                              <div className="col form-group">
+                                <label
+                                  htmlfor="user_name"
+                                  className="col-md-2 col-form-label font-weight-normal"
+                                >
+                                    Select Type 
+                                </label>
+
+                                <label className="form-check form-check-inline">
+
+                                  <input
+                                    className="form-check-input"  type="radio"
+                                    name="taxpreference"
+                                    value="With OTP"  
+                                    id="otp" 
+                                  />With OTP
+                                </label>
+                                <label className="form-check form-check-inline">
+
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="taxpreference"
+                                    value="Without OTP" 
+                                    id="noOTP"
+                                  />Without OTP
+                                  
+                                </label>
+                              </div>
+                            </div>
                         
 
                       </form>
