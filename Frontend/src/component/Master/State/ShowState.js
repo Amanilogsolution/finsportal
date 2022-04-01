@@ -58,6 +58,29 @@ const columns = [
       </div>
       ]
      },
+<<<<<<< HEAD
+=======
+     {
+      name:'Active',
+      selector: 'null',
+      cell: (row) => [
+          <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
+            {
+              if(row.status == 'Active'){
+                const checkvalue ='Deactive'
+                await deletestate(row.sno,checkvalue)
+                    window.location.href='ShowState'
+  
+              }
+              else{
+                const checkvalue ='Active'
+                await deletestate(row.sno,checkvalue)
+                    window.location.href='ShowState'
+              }
+             }} />
+      ]
+    },
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
     {
         name: "Actions",
         sortable: false,
@@ -111,6 +134,7 @@ const [data,setData] = useState([])
                     <div className="card" style={{ width: "100%" }}>
                       <article className="card-body">
                       <DataTableExtensions
+<<<<<<< HEAD
                        {...tableData} >
                   <DataTable
                     noHeader
@@ -121,6 +145,21 @@ const [data,setData] = useState([])
                      />
     </DataTableExtensions>            
                       </article> 
+=======
+      {...tableData}
+    >
+      <DataTable
+        noHeader
+        defaultSortField="id"
+        defaultSortAsc={false}
+        pagination
+        highlightOnHover
+      />
+    </DataTableExtensions>
+                     
+                      </article>
+                    
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
                     </div>
                     {/* card.// */}
                   </div>

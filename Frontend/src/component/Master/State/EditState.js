@@ -4,11 +4,15 @@ import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {showstate} from '../../../api/index.js'
 import {updateState} from '../../../api/index.js'
+<<<<<<< HEAD
 import { Totalcountry } from '../../../api';
+=======
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
 
  const EditState = () => {
      const [data,setData] = useState({})
      const [statetype,setStateType] = useState()
+<<<<<<< HEAD
      const [selectCountry,setSelectCountry] = useState([]);
      const [selectedCountry,setSelectedCountry] = useState();
      useEffect(async() => {
@@ -23,6 +27,12 @@ import { Totalcountry } from '../../../api';
          console.log(country)
          setSelectCountry(country)
          
+=======
+     useEffect(async() => {
+         const result = await showstate(localStorage.getItem('stateSno'));
+         setData(result)
+
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
 
          if(result.state_type == 'state'){
              document.getElementById('State').checked = true
@@ -38,6 +48,7 @@ import { Totalcountry } from '../../../api';
 
         const handleClick = async(e) => {
             e.preventDefault();
+<<<<<<< HEAD
             // const country_name = document.getElementById('Country_name').value;
             const state_name = document.getElementById('State_name').value;
             const state_code = document.getElementById('State_code').value;
@@ -56,6 +67,22 @@ import { Totalcountry } from '../../../api';
         }
           }
 
+=======
+            const country_name = document.getElementById('Country_name').value;
+            const state_name = document.getElementById('State_name').value;
+            const state_code = document.getElementById('State_code').value;
+            const state_short_name = document.getElementById('State_short').value;
+            
+            const result = await updateState(localStorage.getItem('stateSno'),country_name,state_name,state_code,state_short_name,statetype);
+            if(result){
+                window.location.href = '/ShowState'
+            }
+        }
+
+
+        const handleChangeCname = (e) => {
+          setData({...data,country_name:e.target.value})  
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
         }
         const handleChangeSname = (e) => {
             setData({...data,state_name:e.target.value})
@@ -70,10 +97,13 @@ import { Totalcountry } from '../../../api';
            let state = e.target.value;
             setStateType(state)
         }
+<<<<<<< HEAD
         const handleChangeCountry = (e) => {
             let country = e.target.value; 
             setSelectedCountry(country)
         }
+=======
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
 
     return (
         <div>
@@ -96,6 +126,7 @@ import { Totalcountry } from '../../../api';
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
+<<<<<<< HEAD
                             {/* <input type="text" className="form-control col-md-4" id='Country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)}/> */}
                             <select
                               id="inputState"
@@ -112,6 +143,9 @@ import { Totalcountry } from '../../../api';
                               }
 
                             </select>
+=======
+                            <input type="text" className="form-control col-md-4" id='Country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)}/>
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
                           </div>
                           {/* form-group end.// */}
                         </div>

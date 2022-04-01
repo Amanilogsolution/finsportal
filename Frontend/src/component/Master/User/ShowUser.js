@@ -68,6 +68,29 @@ const columns = [
     ]
   },
   {
+<<<<<<< HEAD
+=======
+    name:'Active',
+    selector: 'null',
+    cell: (row) => [
+        <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
+          {
+            if(row.status == 'Active'){
+              const checkvalue ='Deactive'
+              await deleteUser(row.sno,checkvalue)
+                  window.location.href='ShowUser'
+
+            }
+            else{
+              const checkvalue ='Active'
+              await deleteUser(row.sno,checkvalue)
+                  window.location.href='ShowUser'
+            }
+           }} />
+    ]
+  },
+  {
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
     name: 'Operate Mode',
     selector: 'operate_mode',
     sortable: true

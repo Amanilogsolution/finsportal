@@ -43,6 +43,29 @@ const columns = [
       </div>
     ]
   },
+<<<<<<< HEAD
+=======
+  {
+    name:'Active',
+    selector: 'null',
+    cell: (row) => [
+        <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
+          {
+            if(row.status == 'Active'){
+              const checkvalue ='Deactive'
+              await deleteUnit(row.sno,checkvalue)
+                  window.location.href='ShowUnit'
+
+            }
+            else{
+              const checkvalue ='Active'
+              await deleteUnit(row.sno,checkvalue)
+                  window.location.href='ShowUnit'
+            }
+           }} />
+    ]
+  },
+>>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
    
        {
         name: "Actions",
