@@ -222,12 +222,9 @@ import {UpdateUser} from '../../../api/index.js'
                                     value="Without OTP" 
                                     id="noOTP"
                                   />Without OTP
-                                  
                                 </label>
                               </div>
                             </div>
-                        
-
                       </form>
                     </article>
                     {/* card-body end .// */}
