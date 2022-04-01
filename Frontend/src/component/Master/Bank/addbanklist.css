@@ -139,3 +139,25 @@
      }
 
 }
+
+
+
+/* modal style start  */
+
+
+.modalcards{
+    display:flex;
+    margin:5px 0px 2px 0px;
+}
+.modalcards .modalcard{
+     border-radius: 10px;
+     width: 38%;
+     margin-left:20px;
+     padding:10px;
+}
+
+.modalcards .modalcard:hover{
+    box-shadow:2px 2px 5px gray;
+
+}
+/* modal style end  */
