@@ -14,6 +14,8 @@ router.post('/deleteState', statesController.deleteState);
 router.post('/state', statesController.state);
 router.post('/showstate', statesController.showstate);
 router.post('/EditState', statesController.EditState);
+router.post('/showstateCity', statesController.showstateCity);
+
 
 router.get('/Totalcountry', countryController.countries);
 router.post('/InsertCountry', countryController.InsertCountry);
