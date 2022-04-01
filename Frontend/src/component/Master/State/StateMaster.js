@@ -1,21 +1,13 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {addstates} from "../../../api";
-<<<<<<< HEAD
 import { Totalcountry } from '../../../api';
-=======
->>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
 
 
  const  StateMaster = () =>  {
      const [select_type,setStateType] = useState();
-<<<<<<< HEAD
      const [selectCountry,setSelectCountry] = useState([]);
      const [selectedCountry,setSelectedCountry] = useState('india');
 
@@ -34,16 +26,6 @@ import { Totalcountry } from '../../../api';
         console.log(selectedCountry,state_name,state_code,state_short_name)
 
        const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type);
-=======
-
-    const handleClick = async(e) => {
-        e.preventDefault();
-        const country_name = document.getElementById("Country_name").value;
-        const state_name = document.getElementById("State_name").value;
-        const state_code = document.getElementById("state_code").value;
-        const state_short_name = document.getElementById("State_Short_Name").value;
-       const result =  await addstates(state_name,country_name,state_code,state_short_name,select_type);
->>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
        if(result){
            window.location.href='./ShowState'
        }
@@ -52,14 +34,11 @@ import { Totalcountry } from '../../../api';
         let data = e.target.value
         setStateType(data)
     }
-<<<<<<< HEAD
     const handleChangeCountry = (e) => {
         let data = e.target.value
         console.log(data)
         setSelectedCountry(data)
     }
-=======
->>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
 
   
     return (
@@ -83,11 +62,10 @@ import { Totalcountry } from '../../../api';
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-<<<<<<< HEAD
                             {/* <input type="text" className="form-control col-md-4" id='Country_name' placeholder /> */}
                             <select
                               id="inputState"
-                              className="form-control col-md-"
+                              className="form-control col-md-4"
                               onChange={handleChangeCountry}
                             
                             >
@@ -99,9 +77,6 @@ import { Totalcountry } from '../../../api';
                                 
                               }
                             </select>
-=======
-                            <input type="text" className="form-control col-md-4" id='Country_name' placeholder />
->>>>>>> 8af61fe5173744a2b219a2cb55f5ae1964a12cf0
                           </div>
                           {/* form-group end.// */}
                         </div>

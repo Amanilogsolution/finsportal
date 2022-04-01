@@ -22,8 +22,7 @@ export const showstate = async (sno) => {
 }
 
 export const updateState = async (sno, country_name,state_name, state_code, state_short_name, select_type) => {
-    // console.log(sno,sta)
-    console.log(sno,country_name,state_name,state_code,state_short_name,se)
+    console.log(sno,country_name,state_name,state_code,state_short_name,select_type)
     const url = `http://192.168.146.103:3008/api/EditState`
     return axios.post(url, {sno,country_name, state_name, state_code, state_short_name, select_type}).then(response => response.data).catch(error => console.log(error));
 }
