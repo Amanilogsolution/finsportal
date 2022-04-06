@@ -6,6 +6,8 @@ import Customer from './component/Customer/Customer'
 // import Organisation from './organisation/Organisation'
 import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
+import Showvendor from './component/Vendor/Showvendor'
+import Editvendor from './component/Vendor/Editvendor'
 import StateMaster from './component/Master/State/StateMaster';
 import ShowState from './component/Master/State/ShowState';
 import EditState from './component/Master/State/EditState';
@@ -47,6 +49,8 @@ export default class App extends Component {
           {/* <Route path="/Organisation" element={<Organisation/>}/> */}
           <Route path="/org" element={<Org/>}/>
           <Route path="/vendor" element={<Vendor/>}/>
+          <Route path="/Showvendor" element={<Showvendor/>}/>
+          <Route path="/Editvendor" element={<Editvendor/>}/>
           <Route path="/StateMaster" element={<StateMaster/>}/>
           <Route path="/ShowState" element={<ShowState/>}/>
           <Route path="/EditState" element={<EditState/>}/>

@@ -28,7 +28,7 @@ export const updateState = async (sno, country_name,state_name, state_code, stat
 }
 export const showstateCity = async (country) => {
     console.log(country)
-    const url = `${process.env.REACT_APP_APIURL}/api/showstateCity`
+    const url = `http://localhost:3008/api/showstateCity`
     return axios.post(url, {country}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -80,6 +80,8 @@ export const showCurrency = async (sno) => {
     return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
 }
 
+
+
 export const Totalcity = async () => {
     const url = `http://192.168.146.103:3008/api/Totalcity`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
@@ -102,7 +104,7 @@ export const showCity = async (sno) => {
 }
 
 export const updateCity = async (sno, city_id, city_name, state_name,country_name) => {
-    const url = `${process.env.REACT_APP_APIURL}/api/UpdateCity`
+    const url = `http://localhost:3008/api/UpdateCity`
     return axios.post(url, {sno, city_id, city_name, state_name,country_name}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -189,3 +191,50 @@ export const deleteUser = async (sno,status) => {
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
+
+export const InsertVendor = async (mast_id,vend_id,vend_name,
+    company_name,vend_display_name,vend_email,vend_work_phone,vend_phone,skype_detail,designation,department,
+    website,gst_treatment,gstin_uin,pan_no,source_of_supply,currency,
+    opening_balance,payment_terms,tds,enable_portal,portal_language,facebook_url,twitter_url,
+    billing_address_attention,billing_address_country,
+    billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,
+    billing_address_fax,contact_person_name,
+    contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+    contact_person_department,remark,status,add_date_time,add_user_name,add_system_name,add_ip_address) => {
+         
+    const url = `http://localhost:3008/api/InsertVendor`
+    return axios.post(url, {mast_id,vend_id,vend_name,
+        company_name,vend_display_name,vend_email,vend_work_phone,vend_phone,skype_detail,designation,department,
+        website,gst_treatment,gstin_uin,pan_no,source_of_supply,currency,
+        opening_balance,payment_terms,tds,enable_portal,portal_language,facebook_url,twitter_url,
+        billing_address_attention,billing_address_country,
+        billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,
+        billing_address_fax,contact_person_name,
+        contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+        contact_person_department,remark,status,add_date_time,add_user_name,add_system_name,add_ip_address}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ShowVendor = async () => {
+    const url = `http://localhost:3008/api/ShowVendor`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const DeleteVendor = async (sno,status) => {
+    const url = `http://localhost:3008/api/DeleteVendor`
+    return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showvendor = async (sno) => {
+    const url = `http://localhost:3008/api/Vendor`
+    return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateVendor = async (sno,vend_email,vend_work_phone,vend_phone,contact_person_name,
+    contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+    contact_person_department,remark) => {
+    const url = `http://localhost:3008/api/UpdateVendor`
+    return axios.post(url, {sno,vend_email,vend_work_phone,vend_phone,contact_person_name,
+        contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+        contact_person_department,remark}).then(response => response.data).catch(error => console.log(error));
+}

@@ -8,6 +8,7 @@ const cityController = require('../controller/city');
 const unitController = require('../controller/unit');
 const bankController = require('../controller/Bank');
 const userController = require('../controller/user');
+const vendorController = require('../controller/vendor');
 
 router.get('/Totalstate', statesController.TotalStates);
 router.post('/deleteState', statesController.deleteState);
@@ -52,6 +53,12 @@ router.post('/InsertUser',userController.InsertUser)
 router.post('/showuser',userController.showuser)
 router.post('/updateuser',userController.updateuser)
 router.post('/deleteuser',userController.deleteuser)
+
+router.post('/InsertVendor', vendorController.InsertVendor);
+router.post('/DeleteVendor', vendorController.DeleteVendor);
+router.get('/ShowVendor', vendorController.showVendor);
+router.post('/Vendor',vendorController.Vendor)
+router.post('/UpdateVendor',vendorController.UpdateVendor)
 
 
 module.exports = router;

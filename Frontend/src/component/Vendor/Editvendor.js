@@ -1,116 +1,59 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import "./Vendor.css";
-import { InsertVendor } from '../../api'
+import { showvendor,UpdateVendor } from '../../api'
 
 
 const Vendor = () => {
-  // const [show, setShow] = useState(true);
-  // const [address, setAddress] = useState(false);
-  // const [showremark, setShowremark] = useState(false);
-  // const [contactperson, setContactperson] = useState(false);
-  const [showMaster, setShowMaster] = useState(true);
-  const [gsttreatment, setGsttreatment] = useState('');
-  const [showMasterdropdown, setShowMasterdropdown] = useState(false);
-  const [getsn, setGetsn] = useState();
-  const [source, setSource] = useState();
-  const [paymtermval, setPaymtermval] = useState();
-  const [tdsvalue, setTdsvalue] = useState();
-  const [enableportaltoggle, setEnableportaltoggle] = useState(false);
-  const [language, setLanguage] = useState('English');
+  const [data,setData] = useState({})
 
+
+     useEffect(async() => {
+         const result = await showvendor(localStorage.getItem('VendorSno'));
+         setData(result)
+         console.log(result)
+
+        //  const name = result.vend_name
+        //  const Split = name.Split('')
+        //  console.log(Split)
+        //  if(result.vend_name.length>2){
+          
+        //  }
+
+        }, [])
+ 
   const formshow = () => {
     document.getElementById("distoggle").style.display = "block";
     document.getElementById("newlinepid").style.display = "none";
   };
 
-  const selectgst = () => {
-    var a = document.getElementById("gsttreatment").value;
-    setGsttreatment(a)
-    if (a == "Select GST Treatment" || a == "Unregistered Bussiness" || a == "Consumer" || a == "Overseas") {
-      document.getElementById("gstin").style.display = "none";
-    }
-    else {
-      document.getElementById("gstin").style.display = "flex";
-    }
-  };
+  // const selectgst = () => {
+  //   var a = document.getElementById("gsttreatment").value;
+  //   setGsttreatment(a)
+  //   if (a == "Select GST Treatment" || a == "Unregistered Bussiness" || a == "Consumer" || a == "Overseas") {
+  //     document.getElementById("gstin").style.display = "none";
+  //   }
+  //   else {
+  //     document.getElementById("gstin").style.display = "flex";
+  //   }
+  // };
 
-  const setsn = (e) => {
-    const data = e.target.value
-    setGetsn(data)
 
-  }
 
-  const ststate = (e) => {
-    const data = e.target.value;
-    setSource(data);
-  }
-
-  const paytemval = (e) => {
-    const data = e.target.value;
-    setPaymtermval(data)
-  }
-  const tdsval = (e) => {
-    const data = e.target.value;
-    setTdsvalue(data)
-  }
-
-  const portaltoggle = (e) => {
-
-    if (enableportaltoggle == false) {
-      setEnableportaltoggle(true)
-    }
-    else {
-      setEnableportaltoggle(false)
-    }
-  }
-  const portallang = (e) => {
-    const data = e.target.value;
-    setLanguage(data);
-  }
 
   //  ###############   function for get data  #########
   const handleClick = async (e) => {
     e.preventDefault();
-    const mast_id = document.getElementById('mast_id').value;
-    const vend_id = document.getElementById('vend_id').value;
-    const vend_sn = getsn;
-    const vend_fname = document.getElementById('fname').value;
-    const vend_lname = document.getElementById('lname').value;
-    const vend_name = vend_sn + vend_fname + vend_lname;
-    const company_name = document.getElementById('company_name').value;
-    const vend_display_name = document.getElementById('vendis_name').value;
+  
+    const sno = localStorage.getItem('VendorSno');
     const vend_email = document.getElementById('vend_email').value;
     const vend_work_phone = document.getElementById('vend_work_phone').value;
     const vend_phone = document.getElementById('vend_phone').value;
-    const skype_detail = document.getElementById('skype_detail').value;
-    const designation = document.getElementById('designation').value;
-    const department = document.getElementById('department').value;
-    const website = document.getElementById('website').value;
-    const gst_treatment = gsttreatment;
-    const gstin_uin = document.getElementById('gstin_uin').value;
-    const pan_no = document.getElementById('pan_no').value;
-    const source_of_supply = source;
-    const currency = document.getElementById('currency').value;
-    const opening_balance = document.getElementById('opening_balance').value;
-    const payment_terms = paymtermval;
-    const tds = tdsvalue;
-    const enable_portal = enableportaltoggle;
-    const portal_language = language;
-    const facebook_url = document.getElementById('facebook_url').value;
-    const twitter_url = document.getElementById('twitter_url').value;
-    const billing_address_attention = document.getElementById('billing_address_attention').value;
-    const billing_address_country = document.getElementById('billing_address_country').value;
-    const billing_address_city = document.getElementById('billing_address_city').value;
-    const billing_address_state = document.getElementById('billing_address_state').value;
-    const billing_address_pincode = document.getElementById('billing_address_pincode').value;
-    const billing_address_phone = document.getElementById('billing_address_phone').value;
-    const billing_address_fax = document.getElementById('billing_address_fax').value;
-    const contact_person_fname = document.getElementById('contact_person_fname').value;
-    const contact_person_lname = document.getElementById('contact_person_lname').value;
-    const contact_person_name = contact_person_fname + contact_person_lname;
+    // const contact_person_fname = document.getElementById('contact_person_fname').value;
+    // const contact_person_lname = document.getElementById('contact_person_lname').value;
+    const contact_person_name = document.getElementById('contact_person_fname').value;
     const contact_person_email = document.getElementById('contact_person_email').value;
     const contact_person_work_phone = document.getElementById('contact_person_work_phone').value;
     const contact_person_phone = document.getElementById('contact_person_phone').value;
@@ -119,28 +62,53 @@ const Vendor = () => {
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
 
-    // console.log(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
-    //   department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
-    //   portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state,
-    //   billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-    //   contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark);
+    console.log(sno,vend_email,vend_work_phone,vend_phone,contact_person_name,contact_person_email,contact_person_work_phone,
+      contact_person_phone,contact_person_skype,contact_person_designation,contact_person_department,remark)
 
-    // console.log(account_code, bank_name, account_no, address_line1, address_line2, state, city, pincode, ifsc_code, actype, acname, description)
-    // console.log(actype)
 
-    const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
-      department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
-      portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state,
-      billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-      contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark)
-    // console.log(result)
+    
+
+    const result = await UpdateVendor(sno,vend_email,vend_work_phone,vend_phone,contact_person_name,contact_person_email,contact_person_work_phone,
+      contact_person_phone,contact_person_skype,contact_person_designation,contact_person_department,remark)
+    console.log(result)
     if (result) {
       window.location.href = '/Showvendor'
     }
   }
 
-
-
+  const handleChangeVendemail = (e) => {
+    setData({...data,vend_email:e.target.value})  
+  }
+  const handleChangeVendworkphone = (e) => {
+      setData({...data,vend_work_phone:e.target.value})
+  }
+  const handleChangeVendphone = (e) => {
+    setData({...data,vend_phone:e.target.value})
+}
+const handleChangeContactname = (e) => {
+  setData({...data,contact_person_name:e.target.value})
+}
+const handleChangeContactemail = (e) => {
+  setData({...data,contact_person_email:e.target.value})
+}
+const handleChangeContactwokphone = (e) => {
+  setData({...data,contact_person_work_phone:e.target.value})
+}
+const handleChangeContactphone = (e) => {
+  setData({...data,contact_person_phone:e.target.value})
+}
+const handleChangeContactskype = (e) => {
+  setData({...data,contact_person_skype:e.target.value})
+}
+const handleChangeContactdesignation = (e) => {
+  setData({...data,contact_person_designation:e.target.value})
+}
+const handleChangeContactdepartment = (e) => {
+  setData({...data,contact_person_department:e.target.value})
+}
+const handleChangeRemark = (e) => {
+  setData({...data,remark:e.target.value})
+}
 
   //######################------------------------####################
 
@@ -161,7 +129,7 @@ const Vendor = () => {
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">New Vendor</h3>
+              <br /> <h3 className="text-left ml-5">Edit Vendor</h3>
               <div className="row ">
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
@@ -176,9 +144,8 @@ const Vendor = () => {
                               </div>
                             </label>
                             <label className="form-check form-check-inline">
-                              <input className="form-check-input" type="radio" name="masterid"
-                                onClick={(e) => { setShowMaster(true); setShowMasterdropdown(false) }}
-                                checked="checked" />
+                              <input className="form-check-input" type="radio" name="masterid" checked={false}
+                                />
                               <span className="form-check-label font-weight-normal">
                                 Non Existing
                               </span>
@@ -188,8 +155,7 @@ const Vendor = () => {
                                 className="form-check-input"
                                 type="radio"
                                 name="masterid"
-                                onClick={() => { setShowMaster(false); setShowMasterdropdown(true) }}
-
+                                checked="checked" 
                               />
                               <span className="form-check-label font-weight-normal">
                                 Existing Vendor
@@ -197,17 +163,17 @@ const Vendor = () => {
                             </label>
                           </div>
                         </div>
-                        {showMaster ? (
+                       
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
-                              <input type="text" id="mast_id" className="form-control col-md-4" placeholder />
+                              <input type="text" id="mast_id" className="form-control col-md-4" placeholder disabled value={data.mast_id}/>
                             </div>
                             {/* form-group end.// */}
-                          </div>) : null}
+                          </div> 
 
-                        {showMasterdropdown ? (
-                          <div className="form-row" id='masterdropdown'>
+                       
+                          {/* <div className="form-row" id='masterdropdown'>
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
                               <select
@@ -218,8 +184,8 @@ const Vendor = () => {
 
                               </select>
                             </div>
-                            {/* form-group end.// */}
-                          </div>) : null}
+                            {/* form-group end.// 
+                          </div> */}
 
                         <div className="form-row">
                           <label
@@ -234,6 +200,8 @@ const Vendor = () => {
                               className="form-control col-md-4"
                               id="vend_id"
                               placeholder
+                              disabled
+                              value={data.vend_id}
                             />
                           </div>
                           {/* form-group end.// */}
@@ -253,8 +221,8 @@ const Vendor = () => {
                               </span>
                             </div>
                           </label>
-                          <div className=" form-group">
-                            <select id="inputSn" className="form-control" onChange={setsn}>
+                          {/* <div className=" form-group">
+                            <select id="inputSn" className="form-control" disabled>
                               <option selected> Salutation</option>
                               <option>Mr.</option>
                               <option>Mrs.</option>
@@ -262,28 +230,39 @@ const Vendor = () => {
                               <option>Miss.</option>
                               <option>Dr.</option>
                             </select>
-                          </div>
-                          {/* form-group end.// */}
-                          <div className="col form-group">
+                          </div> */}
+                          {/* {/* form-group end.//  */}
+                          {/* <div className="col form-group">
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control col-md-8"
                               placeholder="First name"
                               id="fname"
+                              disabled
                             />
-                          </div>
-                          {/* form-group end.// */}
-                          <div className="col form-group">
+                          </div> */}
+                          {/* <div className="col form-group">
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control col-md-8"
                               placeholder="Last name"
                               id="lname"
+                              disabled
+                            />
+                          </div> */}
+                           <div className="col form-group">
+                            <input
+                              type="text"
+                              id="vend_name"
+                              className="form-control col-md-4"
+                              placeholder
+                              disabled
+                              value={data.vend_name}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         {/* form-row end.// */}
+                        
                         <div className="form-row">
                           <label
                             htmlFor="company_name"
@@ -297,6 +276,8 @@ const Vendor = () => {
                               id="company_name"
                               className="form-control col-md-4"
                               placeholder
+                              disabled
+                              value={data.company_name}
                             />
                           </div>
                           {/* form-group end.// */}
@@ -327,6 +308,8 @@ const Vendor = () => {
                               className="form-control col-md-4"
                               placeholder
                               id="vendis_name"
+                              disabled
+                              value={data.vend_display_name}
                             />
                           </div>
                           {/* form-group end.// */}
@@ -344,6 +327,8 @@ const Vendor = () => {
                               id="vend_email"
                               className="form-control col-md-4"
                               placeholder
+                              value={data.vend_email}
+                              onChange={handleChangeVendemail}
                             />
                           </div>
                           {/* form-group end.// */}
@@ -361,6 +346,8 @@ const Vendor = () => {
                               id="vend_work_phone"
                               className="form-control col-md-8"
                               placeholder="Work Phone"
+                              value={data.vend_work_phone}
+                              onChange={handleChangeVendworkphone}
                             />
                           </div>
                           {/* form-group end.// */}
@@ -370,6 +357,8 @@ const Vendor = () => {
                               id="vend_phone"
                               className="form-control col-md-8"
                               placeholder="Mobile"
+                              value={data.vend_phone}
+                              onChange={handleChangeVendphone}
                               style={{ marginLeft: "-30px" }}
                             />
                           </div>
@@ -393,6 +382,8 @@ const Vendor = () => {
                                 id="skype_detail"
                                 className="form-control col-md-4"
                                 placeholder
+                                disabled
+                                value={data.skype_detail}
                               />
                             </div>
                             {/* form-group end.// */}
@@ -410,6 +401,9 @@ const Vendor = () => {
                                 id="designation"
                                 className="form-control col-md-4"
                                 placeholder
+                                disabled
+                                value={data.designation}
+
                               />
                             </div>
                             {/* form-group end.// */}
@@ -427,6 +421,8 @@ const Vendor = () => {
                                 id="department"
                                 className="form-control col-md-4"
                                 placeholder
+                                disabled
+                                value={data.department}
                               />
                             </div>
                             {/* form-group end.// */}
@@ -445,6 +441,8 @@ const Vendor = () => {
                               id="website"
                               className="form-control col-md-4"
                               placeholder
+                              disabled
+                              value={data.website}
                             />
                           </div>
                           {/* form-group end.// */}
@@ -455,10 +453,7 @@ const Vendor = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setShow(true);
-                                // setAddress(false);
-                                // setShowremark(false);
-                                // setContactperson(false);
+                            
                                 document.getElementById("addressdiv").style.display="none";
                                 document.getElementById("otherdetaildiv").style.display="block";
                                 document.getElementById("contactdiv").style.display="none";
@@ -474,10 +469,7 @@ const Vendor = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setAddress(true);
-                                // setShow(false);
-                                // setShowremark(false);
-                                // setContactperson(false);
+                             
                                 document.getElementById("addressdiv").style.display="block";
                                 document.getElementById("otherdetaildiv").style.display="none";
                                 document.getElementById("contactdiv").style.display="none";
@@ -493,10 +485,7 @@ const Vendor = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setAddress(false);
-                                // setShow(false);
-                                // setShowremark(false);
-                                // setContactperson(true);
+                              
                                    document.getElementById("addressdiv").style.display="none";
                                    document.getElementById("otherdetaildiv").style.display="none";
                                    document.getElementById("contactdiv").style.display="block";
@@ -531,10 +520,7 @@ const Vendor = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setShow(false);
-                                // setAddress(false);
-                                // setShowremark(true);
-                                // setContactperson(false);
+                             
                                    document.getElementById("addressdiv").style.display="none";
                                    document.getElementById("otherdetaildiv").style.display="none";
                                    document.getElementById("contactdiv").style.display="none";
@@ -563,7 +549,9 @@ const Vendor = () => {
                                 <select
                                   id="gsttreatment"
                                   className="form-control col-md-4"
-                                  onClick={selectgst}
+                                  disabled
+                                  // onClick={selectgst}
+                                  value={data.gst_treatment}
                                 >
                                   <option selected>Select GST Treatment</option>
                                   <option>Registered Bussiness -Regular</option>
@@ -601,7 +589,10 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   maxLength="16"
                                   placeholder
+                                  disabled
+                                  value={data.gstin_uin}
                                 />
+
                               </div>
                               {/* form-group end.// */}
                             </div>
@@ -619,6 +610,8 @@ const Vendor = () => {
                                   id="pan_no"
                                   className="form-control col-md-4"
                                   placeholder
+                                  disabled
+                                  value={data.pan_no}
                                 />
                               </div>
                             </div>
@@ -635,7 +628,8 @@ const Vendor = () => {
                                 <select
                                   id="source_of_supply"
                                   className="form-control col-md-4"
-                                  onChange={ststate}
+                                  disabled
+                                  value={data.source_of_supply}
                                 >
                                   <option selected>Select the state</option>
                                   <option>Andhra Pradesh</option>
@@ -663,6 +657,8 @@ const Vendor = () => {
                                 <select
                                   id="currency"
                                   className="form-control col-md-10 "
+                                  value={data.currency}
+                                  disabled
                                 >
                                   <option selected> AED- UAE Dirham</option>
                                   <option>AUD- Australian Dollar</option>
@@ -698,6 +694,8 @@ const Vendor = () => {
                                   type="email"
                                   id="opening_balance"
                                   className="form-control col-md-4"
+                                  value={data.opening_balance}
+                                  disabled
                                 />
                               </div>
                               {/* form-group end.// */}
@@ -713,9 +711,10 @@ const Vendor = () => {
                                 <select
                                   id="payment_terms"
                                   className="form-control col-md-4"
-                                  onChange={paytemval}
+                                  value={data.payment_terms}
+                                  disabled
                                 >
-                                  <option selected hidden>Choose the value...</option>
+                                  <option selected hidden>Select the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -737,10 +736,10 @@ const Vendor = () => {
                                 <select
                                   id="tds"
                                   className="form-control col-md-4"
-                                  onChange={tdsval}
-
+                                  disabled
+                                  value={data.tds}
                                 >
-                                  <option selected hidden>Choose the value...</option>
+                                  <option selected hidden>Select the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -768,7 +767,8 @@ const Vendor = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  onClick={portaltoggle}
+                                  checked={data.enable_portal == 'true'}
+                                  
                                 />
                                 <label
                                   className="form-check-label"
@@ -795,7 +795,8 @@ const Vendor = () => {
                                 <select
                                   id="portal_language"
                                   className="form-control col-md-4"
-                                  onChange={portallang}
+                                  value={data.portal_language}
+                                  disabled
                                 >
                                   <option selected>English</option>
                                   <option>हिंदी</option>
@@ -820,6 +821,8 @@ const Vendor = () => {
                                   placeholder="www.facebook.com"
                                   id="facebook_url"
                                   type="url"
+                                  value={data.facebook_url}
+                                  disabled
                                 />
                               </div>
                             </div>
@@ -836,6 +839,8 @@ const Vendor = () => {
                                   placeholder="www.twitter.com"
                                   id="twitter_url"
                                   type="url"
+                                  value={data.twitter_url}
+                                  disabled
                                 />
                               </div>
                             </div>
@@ -850,7 +855,7 @@ const Vendor = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="billing_address_attention"
-                                  className="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-3  col-form-label font-weight-normal"
                                 >
                                   Attention
                                 </label>
@@ -859,13 +864,15 @@ const Vendor = () => {
                                     type="text"
                                     id="billing_address_attention"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_attention}
+                                    disabled
                                   />
                                 </div>
                               </div>
                               <div className="form-row">
                                 <label
                                   htmlFor="billing_address_country"
-                                  className="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-3 col-form-label font-weight-normal"
                                 >
                                   Country / Region
                                 </label>
@@ -874,6 +881,8 @@ const Vendor = () => {
                                     type="text"
                                     id="billing_address_country"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_country}
+                                    disabled
                                   />
                                 </div>
                                 {/* form-group end.// */}
@@ -882,7 +891,7 @@ const Vendor = () => {
                               <div className="form-row">
                                 <label
                                   htmlFor="billing_address_city"
-                                  className="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-3 col-form-label font-weight-normal"
                                 >
                                   City
                                 </label>
@@ -891,34 +900,40 @@ const Vendor = () => {
                                     type="emaitextl"
                                     id="billing_address_city"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_city}
+                                    disabled
                                   />
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label htmlFor="billing_address_state" className="col-md-2 col-form-label font-weight-normal">State</label>
+                                <label htmlFor="billing_address_state" className="col-md-3 col-form-label font-weight-normal">State</label>
                                 <div className="col form-group">
                                   <input
                                     type="text"
                                     id="billing_address_state"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_state}
+                                    disabled
                                   />
                                 </div>
                                 {/* form-group end.// */}
                               </div>
                               <div className="form-row">
-                                <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal"> Zip Code </label>
+                                <label htmlFor="billing_address_pincode" className="col-md-3 col-form-label font-weight-normal"> Zip Code </label>
                                 <div className="col form-group">
                                   <input
                                     type="number"
                                     id="billing_address_pincode"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_pincode}
+                                    disabled
                                   />
                                 </div>
                               </div>
                               <div className="form-row">
                                 <label
                                   htmlFor="billing_address_phone"
-                                  className="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-3 col-form-label font-weight-normal"
                                 >
                                   Phone
                                 </label>
@@ -927,13 +942,15 @@ const Vendor = () => {
                                     type="tel"
                                     id="billing_address_phone"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_phone}
+                                    disabled
                                   />
                                 </div>
                               </div>
                               <div className="form-row">
                                 <label
                                   htmlFor="billing_address_fax"
-                                  className="col-md-2 col-form-label font-weight-normal"
+                                  className="col-md-3 col-form-label font-weight-normal"
                                 >
                                   Fax
                                 </label>
@@ -942,6 +959,8 @@ const Vendor = () => {
                                     type="text"
                                     id="billing_address_fax"
                                     className="form-control col-md-7"
+                                    value={data.billing_address_fax}
+                                    disabled
                                   />
                                 </div>
                               </div>
@@ -1098,6 +1117,8 @@ const Vendor = () => {
                                 id="remark"
                                 cols="30"
                                 rows="5"
+                                value={data.remark}
+                                onChange={handleChangeRemark}
                               ></textarea>
                             </div>
                             {/* form-group end.// */}
@@ -1113,57 +1134,78 @@ const Vendor = () => {
                                 htmlFor="contact_person_fname"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                                First Name
+                                 Name
                               </label>
                               <div className="col form-group">
                                 <input
                                   type="text"
                                   id="contact_person_fname"
                                   className="form-control col-md-4"
+                                  value={data.contact_person_name}
+                                  onChange={handleChangeContactname}
                                   placeholder
                                 />
                               </div>
                             </div>
-                            <div className="form-row">
+                            {/* <div className="form-row">
                               <label htmlFor="contact_person_lname" className="col-md-2 col-form-label font-weight-normal">Last Name</label>
                               <div className="col form-group">
                                 <input type="name" id="contact_person_lname" className="form-control col-md-4" placeholder />
                               </div>
-                            </div>
+                            </div> */}
                             <div className="form-row">
                               <label htmlFor="contact_person_email" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
                               <div className="col form-group">
-                                <input type="email" id="contact_person_email" className="form-control col-md-4" placeholder />
+                                <input type="email" id="contact_person_email" 
+                                className="form-control col-md-4" 
+                                onChange={handleChangeContactemail}
+                                value={data.contact_person_email} placeholder />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_work_phone" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                               <div className="col form-group">
-                                <input type="number" id="contact_person_work_phone" className="form-control col-md-4" placeholder />
+                                <input type="number" id="contact_person_work_phone" 
+                                className="form-control col-md-4" 
+                                value={data.contact_person_work_phone} 
+                                onChange={handleChangeContactwokphone} />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                               <div className="col form-group">
-                                <input type="number" id="contact_person_phone" className="form-control col-md-4" placeholder />
+                                <input type="number" id="contact_person_phone" 
+                                className="form-control col-md-4" 
+                                value={data.contact_person_phone} 
+                                onChange={handleChangeContactphone} />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_skype" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
                               <div className="col form-group">
-                                <input type="text" id="contact_person_skype" className="form-control col-md-4" placeholder />
+                                <input type="text" 
+                                id="contact_person_skype" 
+                                className="form-control col-md-4" 
+                                value={data.contact_person_skype} 
+                                onChange={handleChangeContactskype}/>
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                               <div className="col form-group">
-                                <input type="text" id="contact_person_designation" className="form-control col-md-4" placeholder />
+                                <input type="text" id="contact_person_designation" 
+                                className="form-control col-md-4" 
+                                value={data.contact_person_designation} 
+                                onChange={handleChangeContactdesignation} />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_department" className="col-md-2 col-form-label font-weight-normal">Department</label>
                               <div className="col form-group">
-                                <input type="text" id="contact_person_department" className="form-control col-md-4" placeholder />
+                                <input type="text" id="contact_person_department" 
+                                className="form-control col-md-4" 
+                                value={data.contact_person_department}
+                                 onChange={handleChangeContactdepartment} />
                               </div>
                             </div>
                           </div>
