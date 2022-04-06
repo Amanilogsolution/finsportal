@@ -51,7 +51,7 @@ export default class Menu extends Component {
             </a>
             <ul className="nav nav-treeview">
               <li className="nav-item">
-                <a href="/Customer" className="nav-link active">
+                <a href="/TotalCustomer" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
                   <p> Customer</p>
                 </a>
@@ -68,7 +68,7 @@ export default class Menu extends Component {
             </a>
             <ul className="nav nav-treeview">
               <li className="nav-item">
-                <a href="/vendor" className="nav-link active">
+                <a href="/Showvendor" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
                   <p> Vendor</p>
                 </a>

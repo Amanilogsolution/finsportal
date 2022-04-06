@@ -15,17 +15,21 @@ function Org() {
     const org_name = document.getElementById("org_name").value;
     const org_country = document.getElementById("org_country").value;
     const org_state = document.getElementById("inputState").value;
-    const org_street1 = document.getElementById("org_stret1").value;
-    const org_street2 = document.getElementById("org_stret2").value;
+    const org_street = document.getElementById("org_street").value;
     const org_city = document.getElementById("org_city").value;
     const org_pin = document.getElementById("org_pin").value;
     const org_currency = document.getElementById("org_currency").value;
     const org_lang = document.getElementById("org_lang").value;
-    const org_timezone = document.getElementById("org_timezone").value;
+    const org_contact_name = document.getElementById("org_contact_name").value;
+    const org_contact_phone = document.getElementById("org_contact_phone").value;
+    const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
+    console.log(org_name, org_country, org_state, org_street, org_city, org_pin, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
     
-   const result = await register(org_name, org_country, org_state, org_street1, org_street2, org_city, org_pin, org_currency, org_lang, org_timezone, org_gst)
+   const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
+   if(result){
     window.location.href='/home'
+   }
   };
 
   const handleClick = () => {
@@ -136,7 +140,7 @@ function Org() {
                         type="text"
                         className="form-control"
                         placeholder="Contact Person Name"
-                        id='org_contactname'
+                        id='org_contact_name'
                       />
                     </div>
                     <div className="form-group col-md-6">
@@ -145,7 +149,7 @@ function Org() {
                         className="form-control"
                         maxLength="12"
                         placeholder="Contact Mobile no."
-                        id='org_contact_mobile'
+                        id='org_contact_phone'
                       />
                     </div>
                     </div>
@@ -162,18 +166,11 @@ function Org() {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Street 1"
-                        id='org_stret1'
+                        placeholder="Street"
+                        id='org_street'
                       />
                     </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Street 2"
-                        id='org_stret2'
-                      />
-                    </div>
+                    
                     <div className="form-row">
                       <div className="col form-group">
                         <input

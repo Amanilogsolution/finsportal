@@ -3,6 +3,17 @@ import './login.css'
 
 
 const Login = () => {
+    const handleClick = (e) => {
+        e.preventDefault()
+        const email = document.getElementById('email').value
+        const password = document.getElementById('password').value
+        console.log(email, password)
+        if (email === 'aman' && password === 'alpha_9090') {
+            window.location.href = '/home'
+        }else{
+            alert('Invalid Credentials')
+        }
+    }
 
     return (
         <div className="logincontainer">
@@ -15,7 +26,7 @@ const Login = () => {
                         <h1 className="login-box-msg">Login</h1>
                         <form action="../../index3.html" method="post">
                             <div className="input-group mb-3">
-                                <input type="email" className="form-control" placeholder="Email" />
+                                <input type="email" className="form-control" placeholder="Email" id="email" required />
                                 <div className="input-group-append">
                                     <div className="input-group-text">
                                         <span className="fas fa-envelope" />
@@ -23,7 +34,7 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="input-group mb-3">
-                                <input type="password" className="form-control" placeholder="Password" />
+                                <input type="password" className="form-control" placeholder="Password" id="password" required/>
                                 <div className="input-group-append">
                                     <div className="input-group-text">
                                         <span className="fas fa-lock" />
@@ -40,7 +51,7 @@ const Login = () => {
                                     </div>
                                 </div>
                                 <div className="col-4">
-                                    <button type="submit" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} className="btn btn-primary btn-block">Sign In</button>
+                                    <button type="submit" onClick={handleClick} className="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             </div>
                         </form>
