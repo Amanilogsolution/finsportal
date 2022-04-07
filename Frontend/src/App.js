@@ -8,6 +8,8 @@ import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
 import Showvendor from './component/Vendor/Showvendor'
 import Editvendor from './component/Vendor/Editvendor'
+
+
 import StateMaster from './component/Master/State/StateMaster';
 import ShowState from './component/Master/State/ShowState';
 import EditState from './component/Master/State/EditState';
@@ -33,6 +35,11 @@ import ShowUser from './component/Master/User/ShowUser';
 import AddUser from './component/Master/User/Adduser';
 import EditUser from './component/Master/User/EditUser';
 import Practice from './component/practice';
+
+import TotalCustomer from './component/Customer/TotalCustomer';
+import EditCustomer from './component/Customer/EditCustomer';
+
+
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -75,6 +82,10 @@ export default class App extends Component {
           <Route path="/ShowUser" element={<ShowUser/>}/>
           <Route path="/AddUser" element={<AddUser/>}/>
           <Route path="/EditUser" element={<EditUser/>}/>
+          <Route path="/Practice" element={<Practice/>}/>
+
+          <Route path="/TotalCustomer" element={<TotalCustomer/>}/>
+          <Route path="/EditCustomer" element={<EditCustomer/>}/>
           <Route path="*" element={<PageNotFound/>}/>
           </Routes>
         

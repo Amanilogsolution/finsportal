@@ -1213,8 +1213,8 @@ const handleChangeRemark = (e) => {
                     </article>
                     {/* card-body end .// */}
                     <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={handleClick}>Save</button>
-                      <button className="btn btn-light ml-3">Cancel</button>
+                      <button className="btn btn-success" onClick={handleClick}>Update</button>
+                      <button className="btn btn-light ml-3"onClick={()=>window.location.href='Showvendor'}>Cancel</button>
                     </div>
                   </div>
                   {/* card.// */}

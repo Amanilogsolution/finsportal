@@ -67,8 +67,6 @@ import { showstateCity } from '../../../api';
           setTimeout(() => {
             setSelectState(statesresult)
           }, 1000);
-        
-        
       }
   
     return (

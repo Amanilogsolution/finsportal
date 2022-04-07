@@ -2,7 +2,6 @@ const sql =require('mssql')
 const sqlConfig = require('../config.js')
 const os = require('os')
 
-
 const InsertVendor = async (req, res) => {
     const mast_id = req.body.mast_id;
     const vend_id = req.body.vend_id;
@@ -44,8 +43,6 @@ const InsertVendor = async (req, res) => {
     const contact_person_department = req.body.contact_person_department;
     const remark = req.body.remark;
 
-    // console.log(req.body)
-
 try{
     await sql.connect(sqlConfig)
     const result = await sql.query
@@ -67,8 +64,8 @@ try{
                     '${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}','${contact_person_name}',
                     '${contact_person_email}','${contact_person_work_phone}','${contact_person_phone}','${contact_person_skype}','${contact_person_designation}',
                     '${contact_person_department}','${remark}','Active',getdate(),'Admin','${os.hostname()}','${req.ip}')`)
-    res.send('Added')
-}
+        res.send('Added')
+   }
 catch(err){
     console.log(err)
     }
@@ -83,8 +80,6 @@ const showVendor = async(req,res) => {
     catch(err){
         console.log(err)
     }
-
-
 }
 
 async function DeleteVendor(req,res){
@@ -99,7 +94,6 @@ async function DeleteVendor(req,res){
             console.log(err)
             }
          }
-
 
 async function Vendor(req,res){
     const sno = req.body.sno
@@ -142,8 +136,6 @@ async function UpdateVendor(req,res){
             console.log(err)
             }
          }
-
-
 
 
 module.exports = {InsertVendor,showVendor,DeleteVendor,Vendor,UpdateVendor}

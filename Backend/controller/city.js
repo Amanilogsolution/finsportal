@@ -62,11 +62,22 @@ async function updateCity(req,res){
     const state_name = req.body.state_name;
     const country_name = req.body.country_name;
     console.log(city_id, city_name, state_name,country_name)
-  
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update tbl_cities set city_id=${city_id},city_name='${city_name}',state_name='${state_name}',country_name='${country_name}',add_date_time=getdate(),add_user_name='admin',add_system_name='${os.hostname()}',add_ip_address='${req.ip}',status='Active' where sno = ${sno}`)
+        const result = await sql.query(`update tbl_cities set city_id=${city_id},city_name='${city_name}',state_name='${state_name}',country_name='${country_name}',update_date_time=getdate(),update_user_name='admin',update_system_name='${os.hostname()}',update_ip_address='${req.ip}',status='Active' where sno = ${sno}`)
         res.send('Updated')
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+const getCity = async (req, res) => {
+    const state_name = req.body.state_name;
+    console.log(state_name)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select city_name from tbl_cities where state_name = '${state_name}'`)
+        res.send(result.recordset)
     }
     catch (err) {
         console.log(err)
@@ -74,4 +85,4 @@ async function updateCity(req,res){
 }
 
 
-module.exports = {city,insertCity,deleteCity,showcity,updateCity}
+module.exports = {city,insertCity,deleteCity,showcity,updateCity,getCity}
