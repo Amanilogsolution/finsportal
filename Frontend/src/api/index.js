@@ -322,7 +322,7 @@ export const DeleteCustAddress = async (sno,status) => {
 }
 
 export const DeleteVendAddress = async (sno,status) => {
-    const url = 'http://localhost:3008/api/DeleteCustAddress'
+    const url = 'http://localhost:3008/api/DeleteVendAddress'
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 export const CustAddress = async (sno) => {
