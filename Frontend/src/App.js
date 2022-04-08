@@ -8,7 +8,13 @@ import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
 import Showvendor from './component/Vendor/Showvendor'
 import Editvendor from './component/Vendor/Editvendor'
+import AddCustAddress from './component/Customer/Addresses/AddAddress';
+import AddVendAddress from './component/Customer/Addresses/AddVendorAddress.';
+import TotalCustAddress from './component/Customer/Addresses/TotalAddress';
+import TotalVendAddress from './component/Customer/Addresses/TotalVendorAddress';
 
+import EditAddress from './component/Customer/Addresses/EditAddress';
+import EditVendorAddress from './component/Customer/Addresses/EditVendorAddress';
 
 import StateMaster from './component/Master/State/StateMaster';
 import ShowState from './component/Master/State/ShowState';
@@ -87,6 +93,13 @@ export default class App extends Component {
 
           <Route path="/TotalCustomer" element={<TotalCustomer/>}/>
           <Route path="/EditCustomer" element={<EditCustomer/>}/>
+          <Route path="/AddCustAddress" element={<AddCustAddress/>}/>
+          <Route path="/TotalCustAddress" element={<TotalCustAddress/>}/>
+          <Route path="/EditAddress" element={<EditAddress/>}/>
+
+          <Route path="/AddVendAddress" element={<AddVendAddress/>}/>
+          <Route path="/TotalVendAddress" element={<TotalVendAddress/>}/>
+          <Route path="/EditVendorAddress" element={<EditVendorAddress/>}/>
           <Route path="*" element={<PageNotFound/>}/>
           </Routes>
         

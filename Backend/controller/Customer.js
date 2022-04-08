@@ -139,4 +139,16 @@ const AllCustomer = async (req, res) => {
         }
     }
 
-    module.exports={AllCustomer,DeleteCustomer,AddCustomer,Customer,UpdateCustomer}
+    const Customer_id = async (req, res) => {
+        try{
+            await sql.connect(sqlConfig)
+            const result = await sql.query(`SELECT cust_id FROM tbl_new_customer tnc `)
+            res.send(result.recordset)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+
+    module.exports={AllCustomer,DeleteCustomer,AddCustomer,Customer,UpdateCustomer,Customer_id}

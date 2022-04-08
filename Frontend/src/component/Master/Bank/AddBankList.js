@@ -57,7 +57,7 @@ function AddBankList() {
                             </div>
                             <div className="imgrow2">
                               <div className="col2">
-                                <img src="http://www.newswireglobal.com/wp-content/uploads/2021/04/icici-bank-ne-logo.jpg" alt="icic bank" data-toggle="modal" data-target="#exampleModalCenter" />
+                                <img src="https://blog.iimjobs.com/wp-content/uploads/2014/02/icici-bank-logo.jpg" alt="icic bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col2">
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREyHOs77XDEzkOr8sumDDxD850uaGsGzt9BHugrv9M_JzMGldbAt2UW77wo6zVEOZsPA&usqp=CAU" alt="canra bank" data-toggle="modal" data-target="#exampleModalCenter"/>
