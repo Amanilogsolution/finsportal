@@ -104,6 +104,7 @@ const columns = [
           const result = await Totalcity()
           setData(result)
         }, [])
+        
         const tableData ={
             columns , data
         }
