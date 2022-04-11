@@ -33,28 +33,28 @@ const columns = [
         selector: 'gst_treatment',
         sortable: true  
     },
-    {
-        name:'Active',
-        selector: 'status',
-        sortable: true,
-        cell: (row) => [
-            <input type='checkbox' checked={row.status == 'Active'} value={row.status} onClick = {async(e) =>
-              {
-                console.log(e.target.value)
-                if(row.status == 'Active'){
-                  const checkvalue ='Deactive'
-                  await DeleteCustomer(row.sno,checkvalue)
-                      window.location.href='TotalCustomer'
+    // {
+    //     name:'Active',
+    //     selector: 'status',
+    //     sortable: true,
+    //     cell: (row) => [
+    //         <input type='checkbox' checked={row.status == 'Active'} value={row.status} onClick = {async(e) =>
+    //           {
+    //             console.log(e.target.value)
+    //             if(row.status == 'Active'){
+    //               const checkvalue ='Deactive'
+    //               await DeleteCustomer(row.sno,checkvalue)
+    //                   window.location.href='TotalCustomer'
     
-                }
-                else{
-                  const checkvalue ='Active'
-                  await DeleteCustomer(row.sno,checkvalue)
-                      window.location.href='TotalCustomer'
-                }
-               }} />
-        ]
-      },
+    //             }
+    //             else{
+    //               const checkvalue ='Active'
+    //               await DeleteCustomer(row.sno,checkvalue)
+    //                   window.location.href='TotalCustomer'
+    //             }
+    //            }} />
+    //     ]
+    //   },
       {
         name: "Actions",
         sortable: false,

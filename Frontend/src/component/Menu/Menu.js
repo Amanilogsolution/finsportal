@@ -51,7 +51,8 @@ export default class Menu extends Component {
             </a>
             <ul className="nav nav-treeview">
               <li className="nav-item">
-                <a href="#" className="nav-link active">   
+                <a href="#" className="nav-link active"> 
+                &nbsp; &nbsp; &nbsp;   
                   <p> Customer</p>
                   <i className="right fas fa-angle-left" />
                 </a>
@@ -83,10 +84,11 @@ export default class Menu extends Component {
             </a>
             <ul className="nav nav-treeview">
               <li className="nav-item">
-                <a href="#" className="nav-link active">
+             <a href="#" className="nav-link active">
                   {/* <i className="far fa-circle nav-icon" /> */}
+                  
                   <p> Vendor</p>
-                  <i className="right fas fa-angle-left" />
+                 <i className="right fas fa-angle-left" />
                 </a>
                 <ul className="nav nav-treeview">
                 <li className="nav-item">

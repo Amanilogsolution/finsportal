@@ -61,26 +61,26 @@ const columns = [
                </div>
             ]
            },
-           {
-            name:'Active',
-            selector: 'null',
-            cell: (row) => [
-                <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-                  {
-                    if(row.status == 'Active'){
-                      const checkvalue ='Deactive'
-                      await deleteCity(row.sno,checkvalue)
-                          window.location.href='Showcity'
+          //  {
+          //   name:'Active',
+          //   selector: 'null',
+          //   cell: (row) => [
+          //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
+          //         {
+          //           if(row.status == 'Active'){
+          //             const checkvalue ='Deactive'
+          //             await deleteCity(row.sno,checkvalue)
+          //                 window.location.href='Showcity'
         
-                    }
-                    else{
-                      const checkvalue ='Active'
-                      await deleteCity(row.sno,checkvalue)
-                          window.location.href='Showcity'
-                    }
-                   }} />
-            ]
-          },
+          //           }
+          //           else{
+          //             const checkvalue ='Active'
+          //             await deleteCity(row.sno,checkvalue)
+          //                 window.location.href='Showcity'
+          //           }
+          //          }} />
+          //   ]
+          // },
 
        {
         name: "Actions",

@@ -65,28 +65,28 @@ const columns = [
       </div>
     ]
   },
-  {
-    name:'Active',
-    selector: 'status',
-    sortable: true,
-    cell: (row) => [
-        <input type='checkbox' checked={row.status == 'Active'} value={row.status} onClick = {async(e) =>
-          {
-            console.log(e.target.value)
-            if(row.status == 'Active'){
-              const checkvalue ='Deactive'
-              await deleteBank(row.sno,checkvalue)
-                  window.location.href='TotalBank'
+  // {
+  //   name:'Active',
+  //   selector: 'status',
+  //   sortable: true,
+  //   cell: (row) => [
+  //       <input type='checkbox' checked={row.status == 'Active'} value={row.status} onClick = {async(e) =>
+  //         {
+  //           console.log(e.target.value)
+  //           if(row.status == 'Active'){
+  //             const checkvalue ='Deactive'
+  //             await deleteBank(row.sno,checkvalue)
+  //                 window.location.href='TotalBank'
 
-            }
-            else{
-              const checkvalue ='Active'
-              await deleteBank(row.sno,checkvalue)
-                  window.location.href='TotalBank'
-            }
-           }} />
-    ]
-  },
+  //           }
+  //           else{
+  //             const checkvalue ='Active'
+  //             await deleteBank(row.sno,checkvalue)
+  //                 window.location.href='TotalBank'
+  //           }
+  //          }} />
+  //   ]
+  // },
   {
     name: 'Account Type',
     selector: 'ac_type',
