@@ -12,9 +12,14 @@ import {Unit} from '../../../api';
         const unit_symbol = document.getElementById('unit_symbol').value;
        
         const result = await Unit(unit_name,unit_symbol);
-        if(result){
-            window.location.href = '/ShowUnit'
+        console.log(result)
+
+        if(result == "Already"){
+          alert('Already')
+        }else{
+          window.location.href = '/ShowUnit'
         }
+      
     }
  
     return (

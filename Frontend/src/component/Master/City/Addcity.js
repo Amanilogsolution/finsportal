@@ -23,9 +23,12 @@ import { showstateCity } from '../../../api';
             const city_name = document.getElementById('city_name').value;
             console.log(city_id,city_name,selectedState,selectedCountry)
             const result = await InsertCity(city_id,city_name,selectedState,selectedCountry);
-            if(result){
-                window.location.href = '/ShowCity'
-            } 
+            if(result == "Already"){
+              alert('Already')
+            }else{
+              window.location.href = '/ShowCity'
+            }
+          
     }
     const handleChangeCountry = async(e) => {
       let data = e.target.value

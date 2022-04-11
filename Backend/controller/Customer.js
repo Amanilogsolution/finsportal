@@ -150,5 +150,16 @@ const AllCustomer = async (req, res) => {
         }
     }
 
+    const Unique_Cust_id = async (req,res) => {
+        try{
+            await sql.connect(sqlConfig)
+            const result = await sql.query(`SELECT cust_id FROM tbl_new_customer  WHERE sno=(SELECT MAX(sno) FROM tbl_new_customer) `)
+            res.send(result.recordset[0])
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
 
-    module.exports={AllCustomer,DeleteCustomer,AddCustomer,Customer,UpdateCustomer,Customer_id}
+
+    module.exports={AllCustomer,DeleteCustomer,AddCustomer,Customer,UpdateCustomer,Customer_id,Unique_Cust_id}

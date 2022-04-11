@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
-import {AddCustomer} from "../../api";
+import {AddCustomer,Unique_Cust_id} from "../../api";
 import { Totalcountry } from '../../api';
 import { showstateCity } from '../../api';
 import {getCity} from '../../api';
@@ -38,6 +38,9 @@ const Customer = () => {
     const result = await Totalcountry()
     console.log(result)
     setSelectedCountry(result)
+
+    const unique_id = await Unique_Cust_id()
+    console.log('Unique ID',unique_id)
   }, []);
 
   const handleClick = async(e) => {

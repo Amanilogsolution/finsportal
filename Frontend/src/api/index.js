@@ -6,7 +6,7 @@ export const register = async (org_name, org_country, org_state, org_street,  or
     return axios.post(url, {org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin}).then(response => response.data).catch(error => console.log(error));
 }
 export const addstates = async (state_name, country_name, state_code, state_short_name, select_type) => {
-    const url = `http://192.168.146.103:3008/api/state`
+    const url = `http://localhost:3008/api/state`
     return axios.post(url, {state_name, country_name, state_code, state_short_name, select_type}).then(response => response.data).catch(error => console.log(error));
 }
 export const getstates = async () => {
@@ -39,7 +39,7 @@ export const Totalcountry = async () => {
 }
 
 export const InsertCountry = async (country_name, country_id, country_code, country_phonecode) => {
-    const url = `http://192.168.146.103:3008/api/InsertCountry`
+    const url = `http://localhost:3008/api/InsertCountry`
     return axios.post(url, {country_name, country_id, country_code, country_phonecode}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -90,7 +90,7 @@ export const Totalcity = async () => {
 
 export const InsertCity = async (city_id, city_name,  state_name, country_name) => {
     console.log(city_id, city_name,  state_name, country_name)
-    const url = `http://192.168.146.103:3008/api/InsertCity`
+    const url = `http://localhost:3008/api/InsertCity`
     return axios.post(url, {city_id, city_name, state_name, country_name}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -120,7 +120,7 @@ export const TotalUnit = async () => {
 }
 
 export const Unit = async (unit_name,unit_symbol) => {
-    const url = `http://192.168.146.103:3008/api/Unit`
+    const url = `http://localhost:3008/api/Unit`
     return axios.post(url, {unit_name, unit_symbol}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -277,6 +277,10 @@ export const DeleteVendor = async (sno,status) => {
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const Unique_Cust_id = async () => {
+    const url = `http://localhost:3008/api/Unique_Cust_id`
+    return axios.post(url).then(response => response.data).catch(error => console.log(error));
+}
 export const showvendor = async (sno) => {
     const url = `http://192.168.146.103:3008/api/Vendor`
     return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));

@@ -19,16 +19,18 @@ import { Totalcountry } from '../../../api';
 
     const handleClick = async(e) => {
         e.preventDefault();
-        
         const state_name = document.getElementById("State_name").value;
         const state_code = document.getElementById("state_code").value;
         const state_short_name = document.getElementById("State_Short_Name").value;
         console.log(selectedCountry,state_name,state_code,state_short_name)
 
        const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type);
-       if(result){
-           window.location.href='./ShowState'
-       }
+       if(result == "Already"){
+        alert('Already')
+      }else{
+        window.location.href = '/ShowState'
+      }
+
     }
     const handleChange = (e) => {
         let data = e.target.value
@@ -91,7 +93,7 @@ import { Totalcountry } from '../../../api';
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Code</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='state_code' placeholder />
+                            <input type="number" className="form-control col-md-4" id='state_code' placeholder />
                           </div>
                           {/* form-group end.// */}
                         </div>
