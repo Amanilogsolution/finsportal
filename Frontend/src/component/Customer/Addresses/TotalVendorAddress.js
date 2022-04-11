@@ -40,7 +40,7 @@ const columns = [
                         {
                               const status=e.target.value;
                             await DeleteVendAddress(row.sno,status)
-                           window.location.href='TotalCustAddress'
+                           window.location.href='TotalVendAddress'
                          }
                              }>
                                <option selected disabled hidden> {row.status}</option>
@@ -61,13 +61,13 @@ const columns = [
                     if(row.status == 'Active'){
                       const checkvalue ='Deactive'
                       await DeleteVendAddress(row.sno,checkvalue)
-                          window.location.href='TotalCustAddress'
+                          window.location.href='TotalVendAddress'
         
                     }
                     else{
                       const checkvalue ='Active'
                       await DeleteVendAddress(row.sno,checkvalue)
-                          window.location.href='TotalCustAddress'
+                          window.location.href='TotalVendAddress'
                     }
                    }} />
             ]
