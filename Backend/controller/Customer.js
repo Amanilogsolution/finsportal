@@ -15,6 +15,7 @@ const AllCustomer = async (req, res) => {
 
     const AddCustomer = async (req, res) => {
         const mast_id = req.body.mast_id;
+        const cust_id = req.body.cust_id;
         const cust_type = req.body.cust_type;
         const cust_name = req.body.cust_name;
         const company_name = req.body.company_name;
@@ -54,28 +55,29 @@ const AllCustomer = async (req, res) => {
         const contact_person_designation = req.body.contact_person_designation;
         const contact_person_department = req.body.contact_person_department;
         const remark = req.body.remark;
-        console.log(mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
-            opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
-            billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
-            contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
-            contact_person_department,remark)
-            console.log(gst_treatment)
-            console.log(place_of_supply)
+        // console.log(mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+        //     opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
+        //     billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
+        //     contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+        //     contact_person_department,remark)
+        //     console.log(gst_treatment)
+        //     console.log(place_of_supply)
+        console.log(cust_id)
         try{
             await sql.connect(sqlConfig)
-            const result = await sql.query(`INSERT into tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
-                company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
-                website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
-                opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
-                billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
-                contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
-                contact_person_department,remark,status,add_date_time,add_user_name,add_system_name,add_ip_address)
-                Values('${mast_id}','CUSTAWL2303','${cust_type}','${cust_name}','${company_name}','${cust_display_name}','${cust_email}',${cust_work_phone},${cust_phone},'${skype_detail}','${designation}',
-                      '${department}','${website}','${gst_treatment}','${gstin_uin}','${pan_no}','${place_of_supply}','${tax_preference}','${exemption_reason}','${currency}','${opening_balance}','${payment_terms}','${enable_portal}','${portal_language}',
-                      '${facebook_url}','${twitter_url}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}',${billing_address_pincode},${billing_address_phone},'${billing_address_fax}','${contact_person_name}',
-                      '${contact_person_email}',${contact_person_work_phone},${contact_person_phone},'${contact_person_skype}','${contact_person_designation}','${contact_person_department}','${remark}','Active',getdate(),'Aman','${os.hostname()}',
-                        '${req.ip}');`)
-            res.send('Added')
+            // const result = await sql.query(`INSERT into tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+            //     company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
+            //     website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+            //     opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
+            //     billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
+            //     contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+            //     contact_person_department,remark,status,add_date_time,add_user_name,add_system_name,add_ip_address)
+            //     Values('${mast_id}','CUSTAWL2303','${cust_type}','${cust_name}','${company_name}','${cust_display_name}','${cust_email}',${cust_work_phone},${cust_phone},'${skype_detail}','${designation}',
+            //           '${department}','${website}','${gst_treatment}','${gstin_uin}','${pan_no}','${place_of_supply}','${tax_preference}','${exemption_reason}','${currency}','${opening_balance}','${payment_terms}','${enable_portal}','${portal_language}',
+            //           '${facebook_url}','${twitter_url}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}',${billing_address_pincode},${billing_address_phone},'${billing_address_fax}','${contact_person_name}',
+            //           '${contact_person_email}',${contact_person_work_phone},${contact_person_phone},'${contact_person_skype}','${contact_person_designation}','${contact_person_department}','${remark}','Active',getdate(),'Aman','${os.hostname()}',
+            //             '${req.ip}');`)
+            // res.send('Added')
         }
         catch(err){
             console.log(err)

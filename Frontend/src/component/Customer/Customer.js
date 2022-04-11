@@ -9,14 +9,10 @@ import { showstateCity } from '../../api';
 import {getCity} from '../../api';
 
 const Customer = () => {
-  // const [show, setShow] = useState(true);
-  // const [address, setAddress] = useState(false);
-  // const [showremark, setShowremark] = useState(false);
-  // const [contactperson, setContactperson] = useState(false);
+  const [ucust_id, setUcust_id] = useState();
   const [texpreferance, setTexprefernace] = useState(false);
   const [showMaster, setShowMaster] = useState(true);
   const [showMasterdropdown, setShowMasterdropdown] = useState(false);
-
   const [cust_type, setCust_type] = useState();
   const [salute, Setsalute] = useState();
   const [gst_treatment, setGst_treatment] = useState();
@@ -36,17 +32,75 @@ const Customer = () => {
 
   useEffect(async() => {
     const result = await Totalcountry()
-    console.log(result)
     setSelectedCountry(result)
 
     const unique_id = await Unique_Cust_id()
-    console.log('Unique ID',unique_id)
+    setUcust_id(unique_id.cust_id)
+    autoIncrementCustomId(unique_id.cust_id)
   }, []);
+
+
+
+
+
+  // ############### AutoIncrement Customer ID Start ################################### 
+  function autoIncrementCustomId(lastRecordId) {
+    const a = new Date();
+    const month = a.getMonth() + 1;
+    const date = a.getDate()
+   
+    if (month === 4 && date === 1) {
+        var currentYear = (new Date()).getFullYear();
+        var twoLastDigits = currentYear % 100;
+        const incretwoLastDigits = twoLastDigits + 1;
+        const autocust_id = 'C' + incretwoLastDigits + '00001';
+
+        if(lastRecordId===autocust_id)
+        {
+            const first3 = lastRecordId.substring(0, 3);
+
+            let increasedNum = Number(lastRecordId.replace(first3, '')) + 1;
+
+            let kmsStr = lastRecordId.substr(0, 3);
+            for (let i = 0; i < 5 - increasedNum.toString().length; i++) 
+            {
+                kmsStr = kmsStr + '0';
+            }
+    
+            kmsStr = kmsStr + increasedNum.toString();
+            setUcust_id(kmsStr)
+    
+        }
+        else{
+          setUcust_id(autocust_id)
+        }
+    }
+
+    else 
+    {
+        const first3 = lastRecordId.substring(0, 3);
+        let increasedNum = Number(lastRecordId.replace(first3, '')) + 1;
+        let kmsStr = lastRecordId.substr(0, 3);
+        for (let i = 0; i < 5 - increasedNum.toString().length; i++) 
+        {
+            kmsStr = kmsStr + '0';
+        }
+
+        kmsStr = kmsStr + increasedNum.toString();
+        setUcust_id(kmsStr)
+
+    }
+}
+
+ // ############### AutoIncrement Customer ID End   ###################################
+
 
   const handleClick = async(e) => {
     e.preventDefault();
+    
     const mast_id = document.getElementById('mast_id').value;
-    const cust_id = document.getElementById('cust_id').value;
+    const cust_id =ucust_id;
+    console.log(cust_id)
     const customer_firstname = document.getElementById('customer_firstname').value;
     const customer_lastname = document.getElementById('customer_lastname').value;
     const cust_name = salute + " " + customer_firstname + " " + customer_lastname;
@@ -67,7 +121,9 @@ const Customer = () => {
     const facebook_url = document.getElementById('facebook_url').value;
     const twitter_url = document.getElementById('twitter_url').value;
     const billing_address_attention = document.getElementById('billing_address_attention').value;
+
     // const billing_address_city = document.getElementById('billing_address_city').value;
+
     const billing_address_pincode = document.getElementById('billing_address_pincode').value;
     const billing_address_phone = document.getElementById('billing_address_phone').value;
     const billing_address_fax = document.getElementById('billing_address_fax').value;
@@ -80,11 +136,13 @@ const Customer = () => {
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
 
-    console.log(mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
-      opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,
-      contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark);
+    // console.log(cust_id);
 
-      const result = await AddCustomer(mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+    // console.log(mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+    //   opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,
+    //   contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark);
+
+      const result = await AddCustomer(mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
         opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
         billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
         contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
@@ -132,7 +190,7 @@ const Customer = () => {
   }
   const handleClickportal = (e) => {
     console.log(enable_portal)
-    if (enable_portal == false) {
+    if (enable_portal === false) {
       setEnable_portal(true);
     }
     else {
@@ -170,7 +228,7 @@ const Customer = () => {
   const selectgst = () => {
     var a = document.getElementById("gsttreatment").value;
     setGst_treatment(a);
-    if (a == "Select GST Treatment" || a == "Unregistered Bussiness" || a == "Consumer" || a == "Overseas") {
+    if (a === "Select GST Treatment" || a === "Unregistered Bussiness" || a === "Consumer" || a === "Overseas") {
       document.getElementById("gstin").style.display = "none";
     }
     else {
@@ -262,6 +320,8 @@ const Customer = () => {
                               type="text"
                               id="cust_id"
                               className="form-control col-md-4"
+                              value={ucust_id}
+                              disabled
                               placeholder
                             />
                           </div>
@@ -406,13 +466,8 @@ const Customer = () => {
                               id="cust_email"
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-                        {/* id="skype_detail" */}
-                        {/* /> */}
-                        {/* </div> */}
-                        {/* form-group end.// */}
-                        {/* </div> */}
+                      
                         <div className="form-row">
                           <label
                             htmlFor="user_name"
@@ -519,10 +574,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setShow(true);
-                                // setAddress(false);
-                                // setShowremark(false);
-                                // setContactperson(false);
+                           
                                 document.getElementById("remarkdiv").style.display = "none";
                                 document.getElementById("addressdiv").style.display = "none";
                                 document.getElementById("contactdiv").style.display = "none";
@@ -538,10 +590,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setAddress(true);
-                                // setShow(false);
-                                // setShowremark(false);
-                                // setContactperson(false);
+                               
                                 document.getElementById("remarkdiv").style.display = "none";
                                 document.getElementById("addressdiv").style.display = "block";
                                 document.getElementById("contactdiv").style.display = "none";
@@ -557,10 +606,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setAddress(false);
-                                // setShow(false);
-                                // setShowremark(false);
-                                // setContactperson(true);
+                               
                                 document.getElementById("remarkdiv").style.display = "none";
                                 document.getElementById("addressdiv").style.display = "none";
                                 document.getElementById("contactdiv").style.display = "block";
@@ -588,10 +634,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                                // setShow(false);
-                                // setAddress(false);
-                                // setShowremark(true);
-                                // setContactperson(false);
+                               
                                 document.getElementById("remarkdiv").style.display = "block";
                                 document.getElementById("addressdiv").style.display = "none";
                                 document.getElementById("contactdiv").style.display = "none";

@@ -207,7 +207,7 @@ export const DeleteCustomer = async (sno,status) => {
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddCustomer = async (mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+export const AddCustomer = async (mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
     opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
     billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
     contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
@@ -217,7 +217,7 @@ export const AddCustomer = async (mast_id,cust_type,cust_name,company_name,cust_
             billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
             contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
             contact_person_department,remark)
-    const url = `http://192.168.146.103:3008/api/AddCustomer`
+    const url = `http://localhost:3008/api/AddCustomer`
     return axios.post(url, {mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
         opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
         billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
