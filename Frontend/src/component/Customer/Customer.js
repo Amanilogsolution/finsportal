@@ -69,13 +69,12 @@ const Customer = () => {
     
             kmsStr = kmsStr + increasedNum.toString();
             setUcust_id(kmsStr)
-    
         }
-        else{
+        else
+        {
           setUcust_id(autocust_id)
         }
     }
-
     else 
     {
         const first3 = lastRecordId.substring(0, 3);
@@ -85,10 +84,8 @@ const Customer = () => {
         {
             kmsStr = kmsStr + '0';
         }
-
         kmsStr = kmsStr + increasedNum.toString();
         setUcust_id(kmsStr)
-
     }
 }
 
