@@ -8,7 +8,7 @@ const Login = () => {
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         console.log(email, password)
-        if (email === 'aman' && password === 'alpha_9090') {
+        if (email === 'aman'|| email ==='rupesh' && password === 'alpha_9090') {
             window.location.href = '/home'
         }else{
             alert('Invalid Credentials')
