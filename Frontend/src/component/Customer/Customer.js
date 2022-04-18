@@ -3,13 +3,19 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
-import {AddCustomer,Unique_Cust_id} from "../../api";
+import { AddCustomer, Unique_Cust_id, Lastcust_id } from "../../api";
 import { Totalcountry } from '../../api';
 import { showstateCity } from '../../api';
-import {getCity} from '../../api';
+import { getCity } from '../../api';
 
 const Customer = () => {
-  const [ucust_id, setUcust_id] = useState();
+  const [ucust_totalid, setUcust_totalid] = useState();
+  const [getnewval, setGetnewval] = useState();
+  const [checkdate, setCheckdate] = useState('false');
+  const [trimtext, setTrimtext] = useState();
+  const [finyear, setFinyear] = useState();
+  const [year1, setYear1] = useState();
+  const [year2, setYear2] = useState();
   const [texpreferance, setTexprefernace] = useState(false);
   const [showMaster, setShowMaster] = useState(true);
   const [showMasterdropdown, setShowMasterdropdown] = useState(false);
@@ -24,84 +30,81 @@ const Customer = () => {
   const [portal_language, setPortal_language] = useState();
   const [billing_address_country, setBilling_address_country] = useState();
   const [billing_address_state, setBilling_address_state] = useState();
-  const [selectedCountry,setSelectedCountry] = useState([]);
-  const [selectState,setSelectState] = useState([]);
-  const [selectCity,setSelectCity] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState([]);
+  const [selectState, setSelectState] = useState([]);
+  const [selectCity, setSelectCity] = useState([]);
   const [billing_address_city, setBilling_address_city] = useState();
 
 
-  useEffect(async() => {
+  useEffect(async () => {
     const result = await Totalcountry()
     setSelectedCountry(result)
-
     const unique_id = await Unique_Cust_id()
-    setUcust_id(unique_id.cust_id)
-    autoIncrementCustomId(unique_id.cust_id)
+    const lastcust_id = await Lastcust_id()
+    setUcust_totalid(unique_id.cust_totalid)
+    autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
+
   }, []);
 
-
-
-
-
   // ############### AutoIncrement Customer ID Start ################################### 
-  function autoIncrementCustomId(lastRecordId) {
+
+  function autoIncrementCustomId(lastRecordId, year, lastcust_id) {
     const a = new Date();
+    // const month = 4
+    // const date = 1
     const month = a.getMonth() + 1;
-    const date = a.getDate()
-   
-    if (month === 4 && date === 1) {
-        var currentYear = (new Date()).getFullYear();
-        var twoLastDigits = currentYear % 100;
-        const incretwoLastDigits = twoLastDigits + 1;
-        const autocust_id = 'C' + incretwoLastDigits + '00001';
-
-        if(lastRecordId===autocust_id)
-        {
-            const first3 = lastRecordId.substring(0, 3);
-
-            let increasedNum = Number(lastRecordId.replace(first3, '')) + 1;
-
-            let kmsStr = lastRecordId.substr(0, 3);
-            for (let i = 0; i < 5 - increasedNum.toString().length; i++) 
-            {
-                kmsStr = kmsStr + '0';
-            }
-    
-            kmsStr = kmsStr + increasedNum.toString();
-            setUcust_id(kmsStr)
-        }
-        else
-        {
-          setUcust_id(autocust_id)
-        }
+    const date = a.getDate();
+    if (month === 4 && date === 1)
+     {
+      const preyear = a.getFullYear()
+      const nextyear = a.getFullYear() + 1
+      const combyear = preyear + '-' + nextyear;
+      setFinyear(combyear);
+      setYear1("31-03-" + preyear)
+      setYear2("01-04-" + nextyear) 
+      const last2 = combyear.substring(7, 9);
+      setTrimtext(last2);
+      setCheckdate('true')
+      const lastcust2 = lastcust_id.substring(1, 3);
+      if(lastcust2==last2)
+      {
+       setCheckdate('false')
+       const lastdigitval =lastcust_id.substring(4, 10);
+       const lastintval=parseInt(lastdigitval)+1;
+       setGetnewval(lastintval);
+       const cust_newid='C'+last2+'-'+lastintval;
+       setUcust_totalid(cust_newid)
+      }
+      else
+      {
+         const intvalue=0;
+         const value=intvalue+1;
+         setGetnewval(value);
+         const cust_newid='C'+last2+'-'+value;
+         setUcust_totalid(cust_newid)
+      }
     }
     else 
     {
-        const first3 = lastRecordId.substring(0, 3);
-        let increasedNum = Number(lastRecordId.replace(first3, '')) + 1;
-        let kmsStr = lastRecordId.substr(0, 3);
-        for (let i = 0; i < 5 - increasedNum.toString().length; i++) 
-        {
-            kmsStr = kmsStr + '0';
-        }
-        kmsStr = kmsStr + increasedNum.toString();
-        setUcust_id(kmsStr)
+      const value = parseInt(lastRecordId) + 1;
+      setGetnewval(value);
+      const cust_newid = 'C' + year + '-' + value;
+      setUcust_totalid(cust_newid)
     }
-}
+  }
 
- // ############### AutoIncrement Customer ID End   ###################################
+  // ############### AutoIncrement Customer ID End   ###################################
 
 
-  const handleClick = async(e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    
+    const dateval = checkdate;
+    const trimyear = trimtext;
     const mast_id = document.getElementById('mast_id').value;
-    const cust_id =ucust_id;
-    console.log(cust_id)
+    const cust_id = ucust_totalid;
     const customer_firstname = document.getElementById('customer_firstname').value;
     const customer_lastname = document.getElementById('customer_lastname').value;
     const cust_name = salute + " " + customer_firstname + " " + customer_lastname;
-
     const company_name = document.getElementById('company_name').value;
     const cust_display_name = document.getElementById('cust_display_name').value;
     const cust_email = document.getElementById('cust_email').value;
@@ -134,20 +137,21 @@ const Customer = () => {
     const remark = document.getElementById('remark').value;
 
     // console.log(cust_id);
+    // console.log(trimyear);
 
     // console.log(mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
     //   opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,
     //   contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark);
 
-      const result = await AddCustomer(mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
-        opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
-        billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
-        contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
-        contact_person_department,remark);
-        console.log(result)
-        if(result){
-          window.location.href = "/TotalCustomer";
-        }
+    const result = await AddCustomer(getnewval, dateval, finyear, trimyear, year1, year2, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+      opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+      billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+      contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+      contact_person_department, remark);
+    // console.log(result)
+      if(result){
+        window.location.href = "/TotalCustomer";
+    }
 
 
     // console.log(mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
@@ -186,7 +190,7 @@ const Customer = () => {
     setPayment_terms(data);
   }
   const handleClickportal = (e) => {
-    console.log(enable_portal)
+    // console.log(enable_portal)
     if (enable_portal === false) {
       setEnable_portal(true);
     }
@@ -198,21 +202,21 @@ const Customer = () => {
     let data = e.target.value;
     setPortal_language(data);
   }
-  const handleAddressCountry = async(e) => {
+  const handleAddressCountry = async (e) => {
     let data = e.target.value;
     setBilling_address_country(data);
     const statesresult = await showstateCity(data)
-    console.log(statesresult)
+    // console.log(statesresult)
     setSelectState(statesresult)
   }
-  const handleChangebillingState = async(e) => {
+  const handleChangebillingState = async (e) => {
     let data = e.target.value;
     setBilling_address_state(data);
     const result = await getCity(data)
     setSelectCity(result)
-    console.log(result)
+    // console.log(result)
   }
-  const handleAddressCity = async(e) => {
+  const handleAddressCity = async (e) => {
     let data = e.target.value;
     setBilling_address_city(data);
   }
@@ -296,8 +300,7 @@ const Customer = () => {
                             <div className="col form-group">
                               <select
                                 id="gsttreatment"
-                                className="form-control col-md-4"
-                              >
+                                className="form-control col-md-4">
                                 <option selected>Select Master ID</option>
 
                               </select>
@@ -308,8 +311,7 @@ const Customer = () => {
                         <div className="form-row">
                           <label
                             htmlFor="cust_id"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
+                            className="col-md-2 col-form-label font-weight-normal" >
                             Customer Id
                           </label>
                           <div className="col form-group">
@@ -317,7 +319,7 @@ const Customer = () => {
                               type="text"
                               id="cust_id"
                               className="form-control col-md-4"
-                              value={ucust_id}
+                              value={ucust_totalid}
                               disabled
                               placeholder
                             />
@@ -340,7 +342,7 @@ const Customer = () => {
                             </label>
 
                             <label className="form-check form-check-inline">
-                              <input className="form-check-input" type="radio" name="Type"  value="Bussiness"/>
+                              <input className="form-check-input" type="radio" name="Type" value="Bussiness" />
                               <span className="form-check-label font-weight-normal">
                                 Bussiness
                               </span>
@@ -395,6 +397,7 @@ const Customer = () => {
                               className="form-control"
                               placeholder="First name"
                               id="customer_firstname"
+                              required
                             />
                           </div>
                           {/* form-group end.// */}
@@ -404,6 +407,7 @@ const Customer = () => {
                               className="form-control"
                               placeholder="Last name"
                               id="customer_lastname"
+                              required
                             />
                           </div>
                           {/* form-group end.// */}
@@ -425,6 +429,7 @@ const Customer = () => {
                               className="form-control col-md-4"
                               placeholder
                               id="company_name"
+                              required
                             />
                           </div>
                           {/* form-group end.// */}
@@ -461,10 +466,11 @@ const Customer = () => {
                               className="form-control col-md-4"
                               placeholder
                               id="cust_email"
+                              required
                             />
                           </div>
                         </div>
-                      
+
                         <div className="form-row">
                           <label
                             htmlFor="user_name"
@@ -478,6 +484,7 @@ const Customer = () => {
                               className="form-control col-md-8"
                               placeholder="Work Phone"
                               id="cust_work_phone"
+                              required
                             />
                           </div>
                           {/* form-group end.// */}
@@ -487,6 +494,7 @@ const Customer = () => {
                               className="form-control col-md-8"
                               placeholder="Mobile"
                               id="cust_phone"
+                              required
                               style={{ marginLeft: "-30px" }}
                             />
                           </div>
@@ -560,7 +568,7 @@ const Customer = () => {
                             Website
                           </label>
                           <div className="col form-group">
-                            <input type="url" className="form-control col-md-4" placeholder  id="website"/>
+                            <input type="url" className="form-control col-md-4" placeholder id="website" />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -571,7 +579,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                           
+
                                 document.getElementById("remarkdiv").style.display = "none";
                                 document.getElementById("addressdiv").style.display = "none";
                                 document.getElementById("contactdiv").style.display = "none";
@@ -587,7 +595,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                               
+
                                 document.getElementById("remarkdiv").style.display = "none";
                                 document.getElementById("addressdiv").style.display = "block";
                                 document.getElementById("contactdiv").style.display = "none";
@@ -603,7 +611,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                               
+
                                 document.getElementById("remarkdiv").style.display = "none";
                                 document.getElementById("addressdiv").style.display = "none";
                                 document.getElementById("contactdiv").style.display = "block";
@@ -615,7 +623,7 @@ const Customer = () => {
                           </div>
                           {/* form-group end.// */}
                           <div className="col-md-2 form-group">
-                            <button className="btn btn-link" onClick={(e) => {e.preventDefault();}}>
+                            <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
                               Custom Fields
                             </button>
                           </div>
@@ -631,7 +639,7 @@ const Customer = () => {
                               className="btn btn-link"
                               onClick={(e) => {
                                 e.preventDefault();
-                               
+
                                 document.getElementById("remarkdiv").style.display = "block";
                                 document.getElementById("addressdiv").style.display = "none";
                                 document.getElementById("contactdiv").style.display = "none";
@@ -828,7 +836,7 @@ const Customer = () => {
                               </select>
                             </div>
 
-                            <div className=" form-group">
+                            {/* <div className=" form-group">
                               <button
                                 type="button"
                                 className="btn btn-primary "
@@ -837,7 +845,7 @@ const Customer = () => {
                               >
                                 Add Currency
                               </button>
-                            </div>
+                            </div> */}
                             {/* form-group end.// */}
                           </div>
 
@@ -1007,11 +1015,11 @@ const Customer = () => {
                                 >
                                   <option selected hidden> Select</option>
                                   {
-                                selectedCountry.map((data) => (
-                                    <option value={data.country_name}>{data.country_name}</option>
-                                ))
-                                
-                              }
+                                    selectedCountry.map((data) => (
+                                      <option value={data.country_name}>{data.country_name}</option>
+                                    ))
+
+                                  }
 
                                 </select>
                               </div>
@@ -1032,18 +1040,18 @@ const Customer = () => {
                                 >
                                   <option selected> Choose</option>
                                   {
-                                selectCity.map((data) => (
-                                    <option value={data.city_name}>{data.city_name}</option>
-                                ))
-                                
-                              }
+                                    selectCity.map((data) => (
+                                      <option value={data.city_name}>{data.city_name}</option>
+                                    ))
+
+                                  }
 
                                 </select>
                               </div>
                               {/* form-group end.// */}
                             </div>
 
-                            <div className="form-row">
+                            {/* <div className="form-row">
                               <label
                                 htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal"
@@ -1058,7 +1066,7 @@ const Customer = () => {
                                   id="billing_address_city"
                                 />
                               </div>
-                            </div>
+                            </div> */}
 
                             <div className="form-row">
                               <label

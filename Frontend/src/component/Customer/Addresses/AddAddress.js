@@ -35,9 +35,16 @@ import {CustInsertAddress} from '../../../api';
         const billing_address_phone = document.getElementById('billing_address_phone').value;
         const billing_address_fax = document.getElementById('billing_address_fax').value;
 
-        console.log(cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
+        // console.log(cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
+        if(!billing_address_country|| !billing_address_city || !billing_address_state || !billing_address_phone || !billing_address_pincode)
+        {
+               alert("Please! enter the data ")
+        }
+        else
+        {
         const result = await CustInsertAddress(cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        console.log(result)
+        // console.log(result)
+        }
     }
 
 

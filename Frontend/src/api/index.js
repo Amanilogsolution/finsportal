@@ -34,7 +34,7 @@ export const showstateCity = async (country) => {
 }
 
 export const Totalcountry = async () => {
-    const url = `http://192.168.146.103:3008/api/Totalcountry`
+    const url = `http://localhost:3008/api/Totalcountry`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -207,18 +207,18 @@ export const DeleteCustomer = async (sno,status) => {
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddCustomer = async (mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+export const AddCustomer = async (getnewval,dateval,finyear,trimyear,year1,year2,mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
     opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
     billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
     contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
     contact_person_department,remark) => {
-        console.log(mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+        console.log(getnewval,dateval,finyear,trimyear,year1,year2,mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
             opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
             billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
             contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
             contact_person_department,remark)
     const url = `http://localhost:3008/api/AddCustomer`
-    return axios.post(url, {mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+    return axios.post(url, {getnewval,dateval,finyear,trimyear,year1,year2,mast_id,cust_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
         opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
         billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
         contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
@@ -240,7 +240,7 @@ export const UpdateCustomer = async (sno,cust_email,cust_work_phone,cust_phone,c
 }
 export const CustomerId = async () => {
     const url = `http://localhost:3008/api/CustomerId`
-    console.log(url)
+    // console.log(url)
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -281,6 +281,12 @@ export const Unique_Cust_id = async () => {
     const url = `http://localhost:3008/api/Unique_Cust_id`
     return axios.post(url).then(response => response.data).catch(error => console.log(error));
 }
+export const Lastcust_id = async () => {
+    const url = `http://localhost:3008/api/Lastcust_id`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+
+}
+
 export const showvendor = async (sno) => {
     const url = `http://192.168.146.103:3008/api/Vendor`
     return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));

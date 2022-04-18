@@ -2,14 +2,11 @@ import React, {useEffect, useState } from "react";
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Totalcountry } from '../../../api';
-import { showstateCity } from '../../../api';
-import {getCity} from '../../../api';
-import {VendorId} from '../../../api';
-import {VendInsertAddress} from '../../../api';
+import { Totalcountry,showstateCity, getCity,VendorId,VendInsertAddress} from '../../../api';
+
 
  const AddVendAddress =() =>  {
-     const[getVendID,setVendId] = useState([]);
+    const[getVendID,setVendId] = useState([]);
     const [billing_address_country, setBilling_address_country] = useState();
     const [selectState,setSelectState] = useState([]);
     const [selectedCountry,setSelectedCountry] = useState([]);
@@ -21,11 +18,11 @@ import {VendInsertAddress} from '../../../api';
     
   useEffect(async() => {
     const result = await Totalcountry()
-    console.log(result)
+    // console.log(result)
     setSelectedCountry(result)
     const dataId = await VendorId()
     setVendId(dataId)
-    console.log(dataId)
+    // console.log(dataId)
   }, []);
 
     const handleClick = async (e) => {
@@ -35,9 +32,16 @@ import {VendInsertAddress} from '../../../api';
         const billing_address_phone = document.getElementById('billing_address_phone').value;
         const billing_address_fax = document.getElementById('billing_address_fax').value;
 
-        console.log(getVendID,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
+       
+        // console.log(getVendID,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
+        if(!billing_address_country || !billing_address_city || !billing_address_state || !billing_address_pincode|| !billing_address_phone)
+        {
+            alert("Please! enter the data.")
+        }
+        else{
         const result = await VendInsertAddress(cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        console.log(result)
+        // console.log(result)
+        }
         
     }
 
@@ -52,7 +56,7 @@ import {VendInsertAddress} from '../../../api';
         let data = e.target.value;
         setBilling_address_country(data);
         const statesresult = await showstateCity(data)
-        console.log(statesresult)
+        // console.log(statesresult)
         setSelectState(statesresult)
       }
       const handleAddressCity = async(e) => {
@@ -64,7 +68,7 @@ import {VendInsertAddress} from '../../../api';
         setBilling_address_state(data);
         const result = await getCity(data)
         setSelectCity(result)
-        console.log(result)
+        // console.log(result)
       }
 
     return (
