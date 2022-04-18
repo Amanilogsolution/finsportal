@@ -31,8 +31,10 @@ import {insertBank}  from '../../../api'
 
     const result = await insertBank( account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
     // console.log(result)
-    if(result){
-        window.location.href='/TotalBank'
+    if(result == "Already"){
+      alert('Already')
+    }else{
+      window.location.href = '/TotalBank'
     }
     }
 

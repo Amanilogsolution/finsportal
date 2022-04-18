@@ -23,13 +23,16 @@ import { Totalcountry } from '../../../api';
         const state_code = document.getElementById("state_code").value;
         const state_short_name = document.getElementById("State_Short_Name").value;
         console.log(selectedCountry,state_name,state_code,state_short_name)
-
+      if(!state_name||!state_code||!state_short_name){
+        alert('Enter data')
+      }else{
        const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type);
        if(result == "Already"){
         alert('Already')
       }else{
         window.location.href = '/ShowState'
       }
+    }
 
     }
     const handleChange = (e) => {

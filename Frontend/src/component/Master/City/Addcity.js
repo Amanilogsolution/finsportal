@@ -22,12 +22,16 @@ import { showstateCity } from '../../../api';
          const city_id = document.getElementById('city_id').value;
             const city_name = document.getElementById('city_name').value;
             console.log(city_id,city_name,selectedState,selectedCountry)
+            if(!city_id||!city_name){
+              alert('Enter data')
+            }else{
             const result = await InsertCity(city_id,city_name,selectedState,selectedCountry);
             if(result == "Already"){
               alert('Already')
             }else{
               window.location.href = '/ShowCity'
             }
+          }
           
     }
     const handleChangeCountry = async(e) => {

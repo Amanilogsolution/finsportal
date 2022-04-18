@@ -11,10 +11,17 @@ import { InsertCurrency } from '../../../api';
             const country_code = document.getElementById('country_code').value;
             const currency_name = document.getElementById('currency_name').value;
             const currency_code = document.getElementById('currency_code').value;
+            if(!country_name||!country_code||!currency_name||!currency_code){
+              alert('Enter data')
+            }else{
             const result = await InsertCurrency(country_name,country_code,currency_name,currency_code);
-            if(result){
-                window.location.href = '/ShowCurrency'
+
+            if(result == "Already"){
+              alert('Already')
+            }else{
+              window.location.href = '/ShowCurrency'
             }
+          }
      }
 
     return (

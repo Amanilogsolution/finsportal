@@ -22,9 +22,15 @@ const InsertBank = async (req, res) => {
     console.log(req.body)
 try{
     await sql.connect(sqlConfig)
-    const result = await sql.query(`insert into tbl_bankmaster (account_code,bank_name,account_no,address_line1,address_line2,state,city,pincode,ifsc_code,description,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address)
+    const duplicate = await sql.query(`select * from tbl_bankmaster where account_no='${account_no}'`)
+    if(!duplicate.recordset.length){
+         const result = await sql.query(`insert into tbl_bankmaster (account_code,bank_name,account_no,address_line1,address_line2,state,city,pincode,ifsc_code,description,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address)
                     values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${state}','${city}','${pincode}','${ifsc_code}','${description}','Active','${actype}','${acname}',getdate(),'Aman','${os.hostname()}','${req.ip}')`)
     res.send('Added')
+ }else{
+     res.send("Already")
+ }
+  
 }
 catch(err){
     console.log(err)

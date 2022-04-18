@@ -8,11 +8,10 @@ import {UpdateUnit} from '../../../api/index.js'
  const EditUnit = () => {
      const [data,setData] = useState({})
      useEffect(async() => {
-         const result = await showunit(localStorage.getItem('unitSno'));
+       const Token = localStorage.getItem('Token')
+       console.log(Token)
+         const result = await showunit(localStorage.getItem('unitSno'),Token);
          setData(result)
-
-
-      
         }, [])
 
         const handleClick = async(e) => {

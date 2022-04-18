@@ -58,6 +58,7 @@ async function TotalUnit(req, res) {
 
    async function showunit(req,res){
                             const sno = req.body.sno
+                            console.log(sno)
                             try{
                                 await sql.connect(sqlConfig)
                                 const result = await sql.query(`select * from tbl_unit where sno = ${sno}`)
