@@ -52,7 +52,7 @@ const InsertVendorAddress = async (req, res) => {
     console.log(cust_id);
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from tbl_cust_addresses where cust_id='${cust_id}'`)
+        const result = await sql.query(`SELECT  * FROM tbl_new_customer WHERE cust_name LIKE '%${cust_id}%';`)
         res.send(result.recordset)
     }
     catch(err){

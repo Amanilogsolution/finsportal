@@ -98,7 +98,7 @@ const columns = [
     //     console.log(result)
     //   }, [])
 
-      const handleClick = async (e) => {
+      const handleChange = async (e) => {
         e.preventDefault();
         const cust_entered_id = document.getElementById('cust_entered_id').value;
         console.log(cust_entered_id)
@@ -131,8 +131,8 @@ const columns = [
               
               <h3 className="text-left ml-5">Customer Address</h3>
                <form className="form-inline" style={{marginLeft:"50px"}}>
-                 <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" />
-                 <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button>
+                 <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} />
+                 {/* <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button> */}
                </form>
               <br/>
               <div className="row ">
