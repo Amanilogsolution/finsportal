@@ -13,7 +13,9 @@ import { Totalcountry } from '../../../api';
      const [selectedCountry,setSelectedCountry] = useState();
      useEffect(async() => {
          const result = await showstate(localStorage.getItem('stateSno'));
-         console.log(result)
+         if(result == 401){
+           console.log('hi')
+         }
          setData(result)
          var name = result.country_name
          console.log(name)

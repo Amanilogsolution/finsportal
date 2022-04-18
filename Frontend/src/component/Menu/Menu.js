@@ -7,9 +7,9 @@ import { UserLogout } from '../../api';
      const result = await UserLogout(localStorage.getItem('username'))
      console.log(result)
      if(result.status == 'Logout'){
-      localStorage.removeItem("username")
-      localStorage.removeItem("Token")
-
+      // localStorage.removeItem("username")
+      // localStorage.removeItem("Token")
+      localStorage.clear()
        window.location.href='/'
      }
    

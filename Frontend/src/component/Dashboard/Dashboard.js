@@ -1,7 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Dashboard extends Component {
-  render() {
+ const Dashboard = () => {
+
+  const Tokentime = localStorage.getItem('ExpiredIn')
+  console.log(Tokentime+'000')
+   
+//   setTimeout(() =>{ 
+//   localStorage.clear()
+//  },9000)
+
     return (
       <div>
         <div className="content-wrapper">
@@ -480,4 +487,5 @@ export default class Dashboard extends Component {
 
     )
   }
-}
+
+export default Dashboard

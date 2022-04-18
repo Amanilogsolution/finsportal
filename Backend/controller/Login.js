@@ -12,11 +12,11 @@ const User_login = async (req,res) => {
         const result = await sql.query(`select * from tbl_Login tl where user_id='${user_id}' and user_password = '${user_password}'`)
         if(result.recordset.length){
             const Login = await sql.query(`update tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`) 
-           const token = jwt.sign({user_id,user_password},process.env.JWT_KEY,{ expiresIn: 5 * 60 * 60 })
+           const token = jwt.sign({user_id,user_password},process.env.JWT_KEY,{ expiresIn: 60 })
             res.status(200).send({
                 status:"Success",
                 token:token,
-                expiresIn: 5 * 60 * 60
+                expiresIn:  60
             })
         }else{
             res.send({

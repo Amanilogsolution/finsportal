@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import {BrowserRouter,Route,Routes} from 'react-router-dom'
+import React from 'react'
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import PrivatRoute from './component/HOC/PrivateRoute';
 import Login from './component/Login/Login';
 import Home from './component/Home/Home'
 import Customer from './component/Customer/Customer'
@@ -45,66 +46,63 @@ import Practice from './component/practice';
 import TotalCustomer from './component/Customer/TotalCustomer';
 import EditCustomer from './component/Customer/EditCustomer';
 
-
-
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
-export default class App extends Component {
-  render() {
+ const App = () => {
+
     return (
       <div>
-      <BrowserRouter>
-      <Routes>
-          <Route path="/" element={<Login/>}/>
-          <Route path="/home" element={<Home/>}/>
-          <Route path="/Customer" element={<Customer/>}/>
-          {/* <Route path="/Organisation" element={<Organisation/>}/> */}
-          <Route path="/org" element={<Org/>}/>
-          <Route path="/vendor" element={<Vendor/>}/>
-          <Route path="/Showvendor" element={<Showvendor/>}/>
-          <Route path="/Editvendor" element={<Editvendor/>}/>
-          <Route path="/StateMaster" element={<StateMaster/>}/>
-          <Route path="/ShowState" element={<ShowState/>}/>
-          <Route path="/EditState" element={<EditState/>}/>
-          <Route path="/ShowCountry" element={<ShowCountry/>}/>
-          <Route path="/AddCountry" element={<AddCountry/>}/>
-          <Route path="/EditCountry" element={<EditCountry/>}/>
-          <Route path="/ShowCurrency" element={<ShowCurrency/>}/>
-          <Route path="/AddCurrency" element={<AddCurrency/>}/>
-          <Route path="/EditCurrency" element={<EditCurrency/>}/>
-          <Route path="/Showcity" element={<Showcity/>}/>
-          <Route path="/Addcity" element={<Addcity/>}/>
-          <Route path='/EditCity' element={<EditCity/>}/>
-          <Route path="/ShowUnit" element={<ShowUnit/>}/>
-          <Route path="/AddUnit" element={<AddUnit/>}/>
-          <Route path="/EditUnit" element={<EditUnit/>}/>
+      <Router>
+          <Route exact path="/" restricted={false} component={Login}/>
+          <Route  exact path="/home" component={Home}/>
+          <Route exact path="/Customer" component={Customer}/>
+          {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
+          <Route exact path="/org" component={Org}/>
+          <Route exact path="/vendor" component={Vendor}/>
+          <Route exact path="/Showvendor" component={Showvendor}/>
+          <Route exact path="/Editvendor" component={Editvendor}/>
+          <Route exact path="/StateMaster" component={StateMaster}/>
+          <Route exact path="/ShowState" component={ShowState}/>
+          <Route exact path="/EditState" component={EditState}/>
+          
+          <Route exact path="/ShowCountry" component={ShowCountry}/>
+          <Route exact path="/AddCountry" component={AddCountry}/>
+          <Route exact path="/EditCountry" component={EditCountry}/>
+          <Route exact path="/ShowCurrency" component={ShowCurrency}/>
+          <Route exact path="/AddCurrency" component={AddCurrency}/>
+          <Route exact path="/EditCurrency" component={EditCurrency}/>
+          <Route exact path="/Showcity" component={Showcity}/>
+          <Route exact path="/Addcity" component={Addcity}/>
+          <Route exact path='/EditCity' component={EditCity}/>
+          <Route exact path="/ShowUnit" component={ShowUnit}/>
+          <Route exact path="/AddUnit" component={AddUnit}/>
+          <PrivatRoute exact path="/EditUnit" component={EditUnit}/>
 
-          <Route path="/AddBank" element={<AddBank/>}/>
-          <Route path="/TotalBank" element={<TotalBank/>}/>
-          <Route path="/EditBank" element={<EditBank/>}/>
-          <Route path="/AddBankList" element={<AddBankList/>}/>
+          <Route exact path="/AddBank" component={AddBank}/>
+          <Route exact path="/TotalBank" component={TotalBank}/>
+          <Route exact path="/EditBank" component={EditBank}/>
+          <Route exact path="/AddBankList" component={AddBankList}/>
 
-          <Route path="/ShowUser" element={<ShowUser/>}/>
-          <Route path="/AddUser" element={<AddUser/>}/>
-          <Route path="/EditUser" element={<EditUser/>}/>
-          <Route path="/Practice" element={<Practice/>}/>
+          <Route exact path="/ShowUser" component={ShowUser}/>
+          <Route exact path="/AddUser" component={AddUser}/>
+          <Route exact path="/EditUser" component={EditUser}/>
+          <Route exact path="/Practice" component={Practice}/>
 
-          <Route path="/TotalCustomer" element={<TotalCustomer/>}/>
-          <Route path="/EditCustomer" element={<EditCustomer/>}/>
-          <Route path="/AddCustAddress" element={<AddCustAddress/>}/>
-          <Route path="/TotalCustAddress" element={<TotalCustAddress/>}/>
-          <Route path="/EditAddress" element={<EditAddress/>}/>
+          <Route exact path="/TotalCustomer" component={TotalCustomer}/>
+          <Route exact path="/EditCustomer" component={EditCustomer}/>
+          <Route exact path="/AddCustAddress" component={AddCustAddress}/>
+          <Route exact path="/TotalCustAddress" component={TotalCustAddress}/>
+          <Route exact path="/EditAddress" component={EditAddress}/>
 
-          <Route path="/AddVendAddress" element={<AddVendAddress/>}/>
-          <Route path="/TotalVendAddress" element={<TotalVendAddress/>}/>
-          <Route path="/EditVendorAddress" element={<EditVendorAddress/>}/>
-          <Route path="*" element={<PageNotFound/>}/>
-          </Routes>
+          <Route exact path="/AddVendAddress" component={AddVendAddress}/>
+          <Route exact path="/TotalVendAddress" component={TotalVendAddress}/>
+          <Route exact path="/EditVendorAddress" component={EditVendorAddress}/>
+          <Route exact path="*" component={PageNotFound}/>
         
-        </BrowserRouter>
+        </Router>
         
       </div>
     )
   }
-}
+export default App
