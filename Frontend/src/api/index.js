@@ -63,7 +63,7 @@ export const currency = async () => {
 }
 
 export const InsertCurrency = async (country_name, country_code, currency_name, currency_code ) => {
-    const url = `http://192.168.146.103:3008/api/InsertCurrecy`
+    const url = `http://localhost:3008/api/InsertCurrecy`
     return axios.post(url, {country_name, country_code, currency_name, currency_code}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -124,9 +124,10 @@ export const Unit = async (unit_name,unit_symbol) => {
     return axios.post(url, {unit_name, unit_symbol}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const showunit = async (sno) => {
-    const url = `http://192.168.146.103:3008/api/showunit`
-    return axios.post(url, {sno}).then(response => response.data).catch(error => console.log(error));
+export const showunit = async (sno,Token) => {
+    console.log('Api',Token)
+    const url = `http://localhost:3008/api/showunit`
+    return axios.post(url, {sno},{ headers: {"Authorization" : Token} }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const UpdateUnit = async (sno, unit_name, unit_symbol) => {
@@ -140,10 +141,9 @@ export const deleteUnit = async (sno,status) => {
 }
 
 
-
 export const insertBank = async (account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description) => {
     console.log(account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
-    const url = `http://192.168.146.103:3008/api/AddBank`
+    const url = `http://localhost:3008/api/AddBank`
     return axios.post(url, {account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description}).then(response => response.data).catch(error => console.log(error));
 }
 export const totalBank = async () => {
@@ -347,4 +347,16 @@ export const VendAddress = async (sno) => {
 export const EditVendAddress = async (sno,vend_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax) => {
     const url = 'http://localhost:3008/api/UpdateVendAddress'
     return axios.post(url, {sno,vend_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UserLogin = async(user_id,user_password) => {
+    const url = 'http://localhost:3008/api/UserLogin'
+    return axios.post(url, {user_id,user_password}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UserLogout = async(user_id) => {
+    console.log(user_id)
+    const url = 'http://localhost:3008/api/UserLogout'
+    return axios.post(url, {user_id}).then(response => response.data).catch(error => console.log(error));
+
 }

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = require('./router/router');
 const os = require('os')
+require('dotenv').config()
 
 const app = express()
 const port = 3008

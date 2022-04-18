@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 import './login.css'
+import {UserLogin} from '../../api'
 
 
 const Login = () => {
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.preventDefault()
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
-        console.log(email, password)
-        if (email === 'aman'|| email ==='rupesh' && password === 'alpha_9090') {
-            window.location.href = '/home'
-        }else{
+        const result = await UserLogin(email,password)
+        console.log(result.token)
+        if(result.status=='Success'){
+            localStorage.setItem('Token',result.token)
+            localStorage.setItem('ExpiredIn',result.expiresIn)
+              window.location.href = '/home'
+          }
+          else{
             alert('Invalid Credentials')
         }
     }
