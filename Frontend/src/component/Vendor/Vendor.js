@@ -774,7 +774,7 @@ const Vendor = () => {
                                   className="form-check-label"
                                   htmlfor="flexCheckDefault"
                                 >
-                                  Allow portal access for this customer
+                                  Allow portal access for this vendor
                                 </label>
                               </div>
                             </div>
