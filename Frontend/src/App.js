@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import {Route,Switch, BrowserRouter as Router } from 'react-router-dom';
 import PrivatRoute from './component/HOC/PrivateRoute';
 import Login from './component/Login/Login';
 import Home from './component/Home/Home'
@@ -54,6 +54,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
     return (
       <div>
       <Router>
+      <Switch>
           <Route exact path="/" restricted={false} component={Login}/>
           <Route  exact path="/home" component={Home}/>
           <Route exact path="/Customer" component={Customer}/>
@@ -99,7 +100,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/TotalVendAddress" component={TotalVendAddress}/>
           <Route exact path="/EditVendorAddress" component={EditVendorAddress}/>
           <Route exact path="*" component={PageNotFound}/>
-        
+          
+                    </Switch>
         </Router>
         
       </div>
