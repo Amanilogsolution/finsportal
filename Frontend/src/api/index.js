@@ -114,9 +114,9 @@ export const getCity = async (state_name) => {
 }
 
 
-export const TotalUnit = async () => {
-    const url = `http://192.168.146.103:3008/api/totalunit`
-    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+export const TotalUnit = async (Token) => {
+    const url = `http://localhost:3008/api/totalunit`
+    return axios.get(url,{ headers: {"Authorization" : Token} }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Unit = async (unit_name,unit_symbol) => {

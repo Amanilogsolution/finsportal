@@ -1,6 +1,8 @@
 const sql = require('mssql');
 const sqlConfig = require('../config.js');
 const os = require('os')
+const uuidv1 = require("uuid/v1");
+
 
 async function TotalUnit(req, res) {
     try{
@@ -33,6 +35,7 @@ async function TotalUnit(req, res) {
           async function Unit(req,res){
                     const unit_name = req.body.unit_name;
                     const unit_symbol = req.body.unit_symbol;
+                    const uuid = uuidv1()
                     console.log(unit_name,unit_symbol)
                     // const system_name = os.hostname()
                     try{
@@ -41,8 +44,8 @@ async function TotalUnit(req, res) {
                         console.log(duplicate)
 
                         if(!duplicate.recordset.length){
-                               const result = await sql.query(`insert into tbl_unit (unit_name,unit_symbol,add_date_time,add_user_name,add_system_name,add_ip_address,status)
-                        values('${unit_name}','${unit_symbol}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
+                               const result = await sql.query(`insert into tbl_unit (unit_name,unit_symbol,unit_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
+                        values('${unit_name}','${unit_symbol}','${uuid}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
                         res.send('Added')
                         }else{
                             res.send("Already")

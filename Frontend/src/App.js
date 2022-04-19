@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route,Switch, BrowserRouter as Router } from 'react-router-dom';
+import {Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import PrivatRoute from './component/HOC/PrivateRoute';
 import Login from './component/Login/Login';
 import Home from './component/Home/Home'
@@ -51,10 +51,14 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
 
  const App = () => {
 
+   setTimeout(() => {
+    localStorage.removeItem('Token')
+   },8000)
+
     return (
       <div>
       <Router>
-      <Switch>
+        <Switch>
           <Route exact path="/" restricted={false} component={Login}/>
           <Route  exact path="/home" component={Home}/>
           <Route exact path="/Customer" component={Customer}/>
@@ -76,7 +80,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/Showcity" component={Showcity}/>
           <Route exact path="/Addcity" component={Addcity}/>
           <Route exact path='/EditCity' component={EditCity}/>
-          <Route exact path="/ShowUnit" component={ShowUnit}/>
+          <PrivatRoute exact path="/ShowUnit" component={ShowUnit}/>
           <Route exact path="/AddUnit" component={AddUnit}/>
           <PrivatRoute exact path="/EditUnit" component={EditUnit}/>
 
@@ -100,8 +104,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/TotalVendAddress" component={TotalVendAddress}/>
           <Route exact path="/EditVendorAddress" component={EditVendorAddress}/>
           <Route exact path="*" component={PageNotFound}/>
-          
-                    </Switch>
+          </Switch>
         </Router>
         
       </div>
