@@ -13,6 +13,7 @@ const vendorController = require('../controller/vendor');
 const AddressController = require('../controller/Addresses');
 const LoginController = require('../controller/Login')
 const checkAuth = require("../Middleware/checkAuth")
+const Token = require('../controller/Token')
 
 router.get('/Totalstate', statesController.TotalStates);
 router.post('/deleteState', statesController.deleteState);
@@ -41,7 +42,7 @@ router.post('/showcity',cityController.showcity)
 router.post('/UpdateCity',cityController.updateCity)
 router.post('/getCity',cityController.getCity)
 
-router.get('/TotalUnit',unitController.TotalUnit)
+router.get('/TotalUnit',checkAuth,unitController.TotalUnit)
 router.post('/Unit',unitController.Unit)
 router.post('/Showunit',checkAuth,unitController.showunit)
 router.post('/UpdateUnit',unitController.UpdateUnit)
@@ -89,5 +90,7 @@ router.post('/UpdateVendAddress', AddressController.UpdateVendAddress);
 
 router.post('/UserLogin',LoginController.User_login)
 router.post('/UserLogout',LoginController.User_logout)
+
+router.post('/Token',Token.token)
 
 module.exports = router;
