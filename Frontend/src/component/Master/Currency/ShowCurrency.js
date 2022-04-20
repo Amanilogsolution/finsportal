@@ -8,6 +8,7 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import {deleteCurrency} from '../../../api';
+import Excelfile from '../../../tbl_countries.xlsx';
 
 const columns = [
     {
@@ -108,8 +109,8 @@ const columns = [
           <div>
             <div className="content-wrapper">
             <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCurrency"}} className="btn btn-primary">Add Currency</button>
-            {/* <button type="button" style={{float:"right",marginRight:'2%',marginTop:'1%'}} onClick={()=>{window.location.href="#"}} className="btn btn-success"  data-toggle="modal"
-                                data-target="#exampleModal">Import excel file</button> */}
+            <button type="button" style={{float:"right",marginRight:'2%',marginTop:'1%'}} onClick={()=>{window.location.href="#"}} className="btn btn-success"  data-toggle="modal"
+                                data-target="#exampleModal">Import excel file</button>
               <div className="container-fluid">
                   <br/>
                 
@@ -156,7 +157,7 @@ const columns = [
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel">
-                      Import data
+                      Import excel file
                     </h5>
                     <button
                       type="button"
@@ -218,8 +219,8 @@ const columns = [
                           className="form-control "
                           accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
                       </div><br/>
-                    <span style={{color:"red"}}>Please! select the excel file only and in this formate otherwise your data is stored in wrong formate.
-                       <a href='#' > Excel file</a>
+                    <span style={{color:"red"}}>
+                       <a href={Excelfile} download> Download formate</a>
                     </span><br/>
 
                     </div>
