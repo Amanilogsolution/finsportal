@@ -7,7 +7,8 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import {ShowCustAddress} from '../../../api';
 import {DeleteCustAddress} from '../../../api';
-
+import {SelectCustAddress} from '../../../api';
+import './TotalAddress.css';
 const columns = [
     {
     name: 'Attention',
@@ -91,20 +92,27 @@ const columns = [
  const TotalCustAddress = ()=> {
 
     const[data,setData] = useState([])
+    const[selectedCust_id,setSelectedCust_id]=useState([])
+    const [cust_name,setCust_Name] = useState()
 
-    // useEffect(async() => {
-    //     const result = await ShowCustAddress()
-    //     setData(result)
-    //     console.log(result)
-    //   }, [])
+    useEffect(async() => {
+        const result = await ShowCustAddress(cust_name)
+        setData(result)
+        setSelectedCust_id([])
+        console.log(result)
+      }, [cust_name])
 
       const handleChange = async (e) => {
         e.preventDefault();
         const cust_entered_id = document.getElementById('cust_entered_id').value;
         console.log(cust_entered_id)
-        const result = await ShowCustAddress(cust_entered_id)
-        setData(result)
+        if(!cust_entered_id){
+          setSelectedCust_id([])
+        }else{
+        const result = await SelectCustAddress(cust_entered_id)
+        setSelectedCust_id(result)
         console.log(result)
+        }
       }
         
       
@@ -126,12 +134,31 @@ const columns = [
 
           <div className="content-wrapper">
           <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCustAddress"}} className="btn btn-primary">Add Address</button>
-            <div className="container-fluid">
+        
+            <div className="container-fluid" style={{position:"relative"}}>
                 <br/>
               
               <h3 className="text-left ml-5">Customer Address</h3>
                <form className="form-inline" style={{marginLeft:"50px"}}>
-                 <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} />
+                 <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autocomplete="off" />
+                 <ul className="ulstyle">
+                 {
+                 selectedCust_id.map((value)=>(
+                  <li className="liststyle"><a onClick={
+                    async(e)=>{e.preventDefault();const result = await ShowCustAddress(value.cust_name);setData(result);if(result){setSelectedCust_id([])}}}>{value.cust_name}</a></li>
+                  // <li className="liststyle"><a onClick={()=>{setCust_Name(value.cust_name)}}>{value.cust_name}</a></li>
+
+                    ))
+                }
+                </ul>
+                      {/* <select id="myselect" class="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
+                        {
+                          data.map((value)=>(
+                            <option>{value.cust_name}</option>
+                          ) )
+                        }
+                       
+</select> */}
                  {/* <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button> */}
                </form>
               <br/>

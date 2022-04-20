@@ -5,7 +5,6 @@ const sqlConfig = require('../config.js')
 require('dotenv').config()
 module.exports = (req, res, next) => {
 
-    console.log(req.headers.authorization)
     const token = req.headers.authorization;
    
     if (!token) {
@@ -23,7 +22,6 @@ module.exports = (req, res, next) => {
                 console.log(jwtauth.user_id)
                 next()
             }
-
         })
     }
     

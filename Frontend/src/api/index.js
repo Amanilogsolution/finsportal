@@ -330,6 +330,11 @@ export const DeleteCustAddress = async (sno,status) => {
     const url = 'http://localhost:3008/api/deletecustaddress'
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
+export const SelectCustAddress = async (cust_name) =>{
+    console.log(cust_name)
+    const url = 'http://localhost:3008/api/SelectCustAddress'
+    return axios.post(url, {cust_name}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const DeleteVendAddress = async (sno,status) => {
     const url = 'http://localhost:3008/api/deletevendaddress'

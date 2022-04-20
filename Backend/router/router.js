@@ -82,6 +82,7 @@ router.post('/showcustaddress', AddressController.TotalCustAddress);
 router.post('/deletecustaddress', AddressController.DeleteCustAddress);
 router.post('/custaddress', AddressController.CustAddress);
 router.post('/updatecustaddress', AddressController.UpdateCustAddress);
+router.post('/SelectCustAddress',AddressController.SelectCustAddress)
 
 router.post('/showvendaddress', AddressController.TotalVendAddress);
 router.post('/deletevendaddress', AddressController.DeleteVendAddress);
