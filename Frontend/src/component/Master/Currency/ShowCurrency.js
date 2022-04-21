@@ -4,11 +4,10 @@ import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { currency } from '../../../api';
 import DataTable from 'react-data-table-component';
-// import Excelfileform '../countires-codes-and-currencies.xlsx'
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import {deleteCurrency} from '../../../api';
-import Excelfile from '../../../tbl_countries.xlsx';
+import Excelfile from '../../../formate.xlsx';
 
 const columns = [
     {
