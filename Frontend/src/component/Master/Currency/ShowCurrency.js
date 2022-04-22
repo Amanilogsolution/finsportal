@@ -118,7 +118,7 @@ const columns = [
                 <div className="row ">
                   <div className="col ml-5">
                     <div className="card" style={{ width: "100%" }}>
-                      <article className="card-body">
+                      <article className="card-body" >
                       <DataTableExtensions
       {...tableData}
     >
@@ -168,43 +168,7 @@ const columns = [
                     </button>
                   </div>
                   <div className="modal-body">
-                    {/* <div className=" ">
-                      <label
-                        htmlFor="user_name"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        <span style={{ color: "red" }}> Currency Code *</span>
-                      </label>
-                      <div className="col form-group ">
-                        <select
-                          id="inputState"
-                          className="form-control col-md-10 "
-                        >
-                          <option selected> AED- UAE Dirham</option>
-                          <option>AUD- Australian Dollar</option>
-                          <option>CAD- Canadian Dollar</option>
-                          <option>CNY- Yuan Renminbi</option>
-                          <option>EUR- Euro</option>
-                          <option>INR- Indian Rupee</option>
-                        </select>
-                      </div>
-                    </div> */}
-                    {/* <div className=" ">
-                      <label
-                        htmlFor="user_name"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        <span style={{ color: "red" }}> Currency Symbol *</span>
-                      </label>
-                      <div className="col form-group ">
-                        <input
-                          id="addsymbol"
-                          type="text"
-                          className="form-control col-md-10"
-                        />
-                      </div>
-                    </div> */}
-                    <div className=" ">
+                    <div className="">
                       <label
                         htmlFor="user_name"
                         className=" col-form-label font-weight-normal"

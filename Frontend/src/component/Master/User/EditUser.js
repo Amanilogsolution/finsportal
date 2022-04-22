@@ -8,6 +8,8 @@ import {UpdateUser} from '../../../api/index.js'
  const EditUser = () => {
      const [data,setData] = useState({})
      const [authentication,setAuthentication] = useState('')
+     const [passwordshow, setPasswordshow] = useState(false);
+
 
      useEffect(async() => {
          const result = await showuser(localStorage.getItem('userSno'));
@@ -47,7 +49,10 @@ import {UpdateUser} from '../../../api/index.js'
             }
         }
 
-
+ const handleClickToogle = (e) => {
+    e.preventDefault()
+    setPasswordshow(!passwordshow)
+  }
         const handleChangeempname = (e) => {
           setData({...data,employee_name:e.target.value})  
         }
@@ -145,11 +150,12 @@ import {UpdateUser} from '../../../api/index.js'
                         </div>
                         <div className="form-row">
                           <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
-                          <div className="col form-group">
-                            <input type="password" className="form-control col-md-4" id='password'  value={data.password} onChange={(e) => handleChangepassword(e)}/>
+                          <input name="password" type={passwordshow ? "text" : "password"} class="form-control col-md-3" id="password" value={data.password} onChange={(e) => handleChangepassword(e)} />
+                          <div className="input-group-append">
+                            <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
                           </div>
-                          {/* form-group end.// */}
-                        </div>
+                        </div><br/>
+                       
                         <div className="form-row">
                           <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email ID</label>
                           <div className="col form-group">
