@@ -109,11 +109,9 @@ const columns = [
           <div>
             <div className="content-wrapper">
             <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCurrency"}} className="btn btn-primary">Add Currency</button>
-            <button type="button" style={{float:"right",marginRight:'2%',marginTop:'1%'}} onClick={()=>{window.location.href="#"}} className="btn btn-success"  data-toggle="modal"
-                                data-target="#exampleModal">Import excel file</button>
+            <button type="button" style={{float:"right",marginRight:'2%',marginTop:'1%'}} onClick={()=>{window.location.href="#"}} className="btn btn-success"  data-toggle="modal" data-target="#exampleModal">Import excel file</button>
               <div className="container-fluid">
                   <br/>
-                
                 <h3 className="text-left ml-5">Currency</h3>
                 <br/>
                 <div className="row ">

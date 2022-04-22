@@ -14,6 +14,7 @@ const AddressController = require('../controller/Addresses');
 const LoginController = require('../controller/Login')
 const checkAuth = require("../Middleware/checkAuth")
 const Token = require('../controller/Token')
+const OrganisationController = require('../controller/Org')
 
 router.get('/totalstate', statesController.TotalStates);
 router.post('/deletestate', statesController.deleteState);
@@ -92,6 +93,9 @@ router.post('/updatevendaddress', AddressController.UpdateVendAddress);
 router.post('/userlogin',LoginController.User_login)
 router.post('/userlogout',LoginController.User_logout)
 
+router.post('/SchemaCreate',OrganisationController.Insertorg)
+
 router.post('/Token',Token.token)
+router.post('/Totaldata',OrganisationController.InsertTotalTable)
 
 module.exports = router;
