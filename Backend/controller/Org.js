@@ -40,12 +40,12 @@ const InsertTotalTable = async(req,res) =>{
     const datas = req.body.data;
     console.log(datas)
     try{
-        datas.forEach(async(item) => {
-        await sql.connect(sqlConfig)
-        const  result = await sql.query(`insert into dbo.import_test (sno,name,roll) values(${item.sno},'${item.name}','${item.roll}')`)
-        console.log(result)
-        }
-        )
+        // datas.forEach(async(item) => {
+        // await sql.connect(sqlConfig)
+        // const  result = await sql.query(`insert into dbo.import_test (sno,name,roll) values(${item.sno},'${item.name}','${item.roll}')`)
+    
+        // }
+        // )
     }
     catch (err){
         console.log(err)

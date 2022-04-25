@@ -377,5 +377,10 @@ export const UserLogout = async(user_id) => {
     console.log(user_id)
     const url = 'http://localhost:3008/api/userlogout'
     return axios.post(url, {user_id}).then(response => response.data).catch(error => console.log(error));
+}
 
+export const ImportCurrency = async (data) => {
+    console.log('Api',{data})
+    const url = `http://localhost:3008/api/ImportCurrency`
+    return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
 }
