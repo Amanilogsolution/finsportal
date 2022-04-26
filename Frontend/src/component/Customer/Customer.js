@@ -40,7 +40,10 @@ const Customer = () => {
     const result = await Totalcountry()
     setSelectedCountry(result)
     const unique_id = await Unique_Cust_id()
+    // console.log(unique_id)
     const lastcust_id = await Lastcust_id()
+    // console.log(lastcust_id)
+
     setUcust_totalid(unique_id.cust_totalid)
     autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
 
@@ -49,6 +52,9 @@ const Customer = () => {
   // ############### AutoIncrement Customer ID Start ################################### 
 
   function autoIncrementCustomId(lastRecordId, year, lastcust_id) {
+    // console.log("lastRecordId"+lastRecordId)
+    // console.log("year"+year)
+    // console.log("lastcust_id"+lastcust_id)
     const a = new Date();
     // const month = 4
     // const date = 1
@@ -74,6 +80,7 @@ const Customer = () => {
        setGetnewval(lastintval);
        const cust_newid='C'+last2+'-'+lastintval;
        setUcust_totalid(cust_newid)
+       localStorage.setItem("cust_id",ucust_totalid);
       }
       else
       {
@@ -82,6 +89,7 @@ const Customer = () => {
          setGetnewval(value);
          const cust_newid='C'+last2+'-'+value;
          setUcust_totalid(cust_newid)
+         localStorage.setItem("cust_id",ucust_totalid);
       }
     }
     else 
@@ -90,6 +98,8 @@ const Customer = () => {
       setGetnewval(value);
       const cust_newid = 'C' + year + '-' + value;
       setUcust_totalid(cust_newid)
+      localStorage.setItem("cust_id",ucust_totalid);
+      console.log(localStorage.getItem("cust_id"));
     }
   }
 
@@ -1380,6 +1390,7 @@ const Customer = () => {
               </div>
               {/* row.//*/}
             </div>
+            
             {/* ------------------ Modal start -----------------------------*/}
             <div
               className="modal fade"

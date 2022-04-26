@@ -1,7 +1,8 @@
 .orgcontainer{
     background: rgb(137, 192, 236);
-    padding-bottom: 30px;
+    padding-bottom: 150px;
     font-size: 15px;
+    /* border: 2px solid red; */
 }
 
 .orgcontainer .newlinep{

@@ -40,7 +40,7 @@ function Org() {
     <>
       <div className="orgcontainer">
         <br />
-        <p className="text-center">
+        <p className="text-center" >
           AWL is your end-to-end online accounting software.
         </p>
         <div className="row justify-content-center">

@@ -16,7 +16,8 @@
     "react-scripts": "5.0.0",
     "react-data-table-component": "^7.4.5",
     "react-data-table-component-extensions": "^1.5.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "0.17.3"
   },
   "scripts": {
     "start": "react-scripts start",

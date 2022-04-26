@@ -78,4 +78,21 @@ async function ShowCurrency(req, res) {
     }
 }
 
-module.exports = {currency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency}
+const ImportCurrency = async(req,res) =>{
+    const datas = req.body.data;
+    console.log(datas)
+    try{
+        datas.forEach(async(item) => {
+        await sql.connect(sqlConfig)
+        var result = await sql.query(`insert into tbl_currency (country_name,country_code,currency_name,currency_code,currency_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
+        values('${item.country_name}','${item.country_code}','${item.currency_name}','${item.currency_code}','${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)     
+        }
+        )
+        res.send("data Imported")
+    }
+    catch (err){
+        console.log(err)
+    }
+}
+
+module.exports = {currency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}

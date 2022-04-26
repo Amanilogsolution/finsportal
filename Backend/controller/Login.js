@@ -22,7 +22,9 @@ const User_login = async (req,res) => {
             })
         }else{
             res.send({
-                status:"Fail"
+                status:"Fail",
+                statusCode:"400",
+                message:"No user with this userID"
               })        
             }
     }catch(err){
