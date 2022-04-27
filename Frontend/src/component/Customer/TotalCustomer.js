@@ -6,7 +6,7 @@ import { TotalCustomers, DeleteCustomer } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import Excelfile from '../../excelformate/tbl_currency.xlsx';
+import Excelfile from '../../excelformate/tbl_customer.xlsx';
 import * as XLSX from "xlsx";
 
 
@@ -93,14 +93,29 @@ const columns = [
 const TotalCustomer = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
+  
+  //##########################  Upload data start  #################################
 
+  const uploaddata = () => {
+    
+      importdata.map((d) => {
+       if(d.cust_type == " "){
+         alert("Please! fill the mandatory field")
+       }
+      })
+    
+  };
+  //##########################   Upload data end  #################################
   //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
+    setImportdata(datas);
     // ImportCurrency(datas)
-    console.log(datas)
+    // console.log(datas)
+    // console.log(datas.cust_name)
+
     // window.location.reload()
   };
   //##########################  for convert array to json end  #################################
@@ -152,6 +167,7 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <Menu />
+      
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
@@ -178,11 +194,8 @@ const TotalCustomer = () => {
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
@@ -213,12 +226,10 @@ const TotalCustomer = () => {
                 </button>
               </div>
               <div className="modal-body">
-
                 <div className=" ">
                   <label
                     htmlFor="user_name"
-                    className=" col-form-label font-weight-normal"
-                  >
+                    className=" col-form-label font-weight-normal">
                     <span >Select the file</span>
                   </label>
                   <div className=" ">
@@ -238,11 +249,13 @@ const TotalCustomer = () => {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" onClick={handleClick} className="btn btn-primary" data-dismiss="modal">
+                  data-dismiss="modal">Close</button>
+                <button type="button"
+                 onClick={handleClick} 
+                 className="btn btn-primary" 
+                 data-dismiss="modal"
+                 data-toggle="modal"
+                 data-target=".bd-example-modal-lg">
                   Upload
                 </button>
               </div>
@@ -250,6 +263,151 @@ const TotalCustomer = () => {
           </div>
         </div>
         {/* ------------------ Modal end -----------------------------*/}
+        {/* ------------------ Data show Modal start -----------------------------*/}
+        <div class="modal fade bd-example-modal-lg " 
+        id="showdataModal"
+        tabindex="-1" 
+        role="dialog" 
+        aria-labelledby="myLargeModalLabel" 
+        aria-hidden="true"
+         >
+
+          <div class="" style={{height:"550px",width:"95%",overflow:"auto",margin:"auto"}}>
+            <div class="modal-content">
+            <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel" style={{color:"red"}}>
+                  Uploaded Excel file
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true" style={{color:"red"}}
+                  onClick={()=>{
+                    document.getElementById("showdataModal").style.display="none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+                </button>
+              </div>
+              {/* <div className="modal-body"> */}
+              <div className="" style={{overflow:"auto"}}>
+              <table >
+              
+               <th style={{border:"1px solid black"}}>Cust Type</th>
+              <th style={{border:"1px solid black"}}>Cust Name</th>
+              <th style={{border:"1px solid black"}}>Company Name</th>
+              <th style={{border:"1px solid black"}}>Cust Display Name</th>
+              <th style={{border:"1px solid black"}}>Cust Email</th>
+              <th style={{border:"1px solid black"}}>Cust Work Phone</th>
+              <th style={{border:"1px solid black"}}>Cust Phone</th>
+              <th style={{border:"1px solid black"}}>Skype Detail</th>
+              <th style={{border:"1px solid black"}}>Designation</th>
+              <th style={{border:"1px solid black"}}>Department</th>
+              <th style={{border:"1px solid black"}}>Website</th>
+              <th style={{border:"1px solid black"}}>GST Treatment</th>
+              <th style={{border:"1px solid black"}}>GST uin</th>
+              <th style={{border:"1px solid black"}}>Pan No</th>
+              <th style={{border:"1px solid black"}}>Place of Supply</th>
+              <th style={{border:"1px solid black"}}>TAX Preference</th>
+              <th style={{border:"1px solid black"}}>Exemption Reason</th>
+              <th style={{border:"1px solid black"}}>Currency</th>
+              <th style={{border:"1px solid black"}}>Opening balance</th>
+              <th style={{border:"1px solid black"}}>Payment terms</th>
+              <th style={{border:"1px solid black"}}>Enable Portal</th>
+              <th style={{border:"1px solid black"}}>Portal Language</th>
+              <th style={{border:"1px solid black"}}>Facebook URL</th>
+              <th style={{border:"1px solid black"}}>Twitter URL</th>
+              <th style={{border:"1px solid black"}}>Billing Address Attention</th>
+              <th style={{border:"1px solid black"}}>Billing Address Country</th>
+              <th style={{border:"1px solid black"}}>Billing Address City</th>
+              <th style={{border:"1px solid black"}}>Billing Address State</th>
+              <th style={{border:"1px solid black"}}>Billing Address Pincode</th>
+              <th style={{border:"1px solid black"}}>Billing Address Phone</th>
+              <th style={{border:"1px solid black"}}>Billing Address Fax</th>
+              <th style={{border:"1px solid black"}}>Contact Person Name</th>
+              <th style={{border:"1px solid black"}}>Contact Person Email</th>
+              <th style={{border:"1px solid black"}}>Contact Person Work Phone</th>
+              <th style={{border:"1px solid black"}}>Contact Person Phone</th>
+              <th style={{border:"1px solid black"}}>Contact Person Skype</th>
+              <th style={{border:"1px solid black"}}>Contact Person Designation</th>
+              <th style={{border:"1px solid black"}}>Contact Person Department</th>
+              <th style={{border:"1px solid black"}}>Remark</th>
+             
+              {
+          importdata.map((d) => (
+            <tr style={{border:"1px solid black"}}>
+            <td style={{border:"1px solid black"}}>{d.cust_type}</td>
+            <td style={{border:"1px solid black"}}>{d.cust_name}</td>
+            <td style={{border:"1px solid black"}}>{d.company_name}</td>
+            <td style={{border:"1px solid black"}}>{d.cust_display_name}</td>
+            <td style={{border:"1px solid black"}}>{d.cust_email}</td>
+            <td style={{border:"1px solid black"}}>{d.cust_work_phone}</td>
+            <td style={{border:"1px solid black"}}>{d.cust_phone}</td>
+            <td style={{border:"1px solid black"}}>{d.skype_detail}</td>
+            <td style={{border:"1px solid black"}}>{d.designation}</td>
+            <td style={{border:"1px solid black"}}>{d.department}</td>
+            <td style={{border:"1px solid black"}}>{d.website}</td>
+            <td style={{border:"1px solid black"}}>{d.gst_treatment}</td>
+            <td style={{border:"1px solid black"}}>{d.gstin_uin}</td>
+            <td style={{border:"1px solid black"}}>{d.pan_no}</td>
+            <td style={{border:"1px solid black"}}>{d.place_of_supply}</td>
+            <td style={{border:"1px solid black"}}>{d.tax_preference}</td>
+            <td style={{border:"1px solid black"}}>{d.exemption_reason}</td>
+            <td style={{border:"1px solid black"}}>{d.currency}</td>
+            <td style={{border:"1px solid black"}}>{d.opening_balance}</td>
+            <td style={{border:"1px solid black"}}>{d.payment_terms}</td>
+            <td style={{border:"1px solid black"}}>{d.enable_portal}</td>
+            <td style={{border:"1px solid black"}}>{d.portal_language}</td>
+            <td style={{border:"1px solid black"}}>{d.facebook_url}</td>
+            <td style={{border:"1px solid black"}}>{d.twitter_url}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_attention}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_country}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_city}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_state}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_pincode}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_phone}</td>
+            <td style={{border:"1px solid black"}}>{d.billing_address_fax}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_name}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_email}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_work_phone}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_phone}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_skype}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_designation}</td>
+            <td style={{border:"1px solid black"}}>{d.contact_person_department}</td>
+            <td style={{border:"1px solid black"}}>{d.remark}</td>
+           
+            </tr>
+          ))
+        }
+         </table>
+              </div>
+            </div>
+            {/* </div> */}
+            <div className="modal-footer" style={{background:"white"}}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={()=>{
+                    document.getElementById("showdataModal").style.display="none";
+                    window.location.reload()
+                  }}
+                >
+                  Cancel
+                </button>
+                <button type="button"
+                //  onClick={uploaddata} 
+                 className="btn btn-primary" 
+                >
+                  Upload
+                </button>
+              </div>
+          </div>
+        </div>
+        {/* ------------------ Modal end -----------------------------*/}
+
       </div>
     </div>
   )
