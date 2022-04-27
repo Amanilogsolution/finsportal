@@ -223,5 +223,32 @@ const AllCustomer = async (req, res) => {
         }
     }
 
+    const ImportCustomer = async(req,res) =>{
+        const datas = req.body.data;
+        console.log(datas)
+        try{
+            datas.forEach(async(item) => {
+            await sql.connect(sqlConfig)
+            var result = await sql.query(`INSERT into tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+                company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
+                website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
+                opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
+                billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
+                contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+                contact_person_department,remark,status,add_date_time,add_user_name,add_system_name,add_ip_address)
+                Values('${item.mast_id}','${item.cust_id}','${item.cust_type}','${item.cust_name}','${item.company_name}','${item.cust_display_name}','${item.cust_email}',${item.cust_work_phone},${item.cust_phone},'${item.skype_detail}','${item.designation}',
+                      '${item.department}','${item.website}','${item.gst_treatment}','${item.gstin_uin}','${item.pan_no}','${item.place_of_supply}','${item.tax_preference}','${item.exemption_reason}','${item.currency}','${item.opening_balance}','${item.payment_terms}','${item.enable_portal}','${item.portal_language}',
+                      '${item.facebook_url}','${item.twitter_url}','${item.billing_address_attention}','${item.billing_address_country}','${item.billing_address_city}','${item.billing_address_state}',${item.billing_address_pincode},'${item.billing_address_phone}','${item.billing_address_fax}','${item.contact_person_name}',
+                      '${item.contact_person_email}',${item.contact_person_work_phone},${item.contact_person_phone},'${item.contact_person_skype}','${item.contact_person_designation}','${item.contact_person_department}','${item.remark}','Active',getdate(),'Aman','${os.hostname()}',
+                        '${req.ip}');`)     
+            }
+            )
+            res.send("data Imported")
+        }
+        catch (err){
+            console.log(err)
+        }
+    }
 
-    module.exports={AllCustomer,DeleteCustomer,AddCustomer,Customer,UpdateCustomer,Customer_id,Unique_Cust_id,Lastcust_id}
+
+    module.exports={AllCustomer,DeleteCustomer,AddCustomer,Customer,UpdateCustomer,Customer_id,Unique_Cust_id,Lastcust_id,ImportCustomer}

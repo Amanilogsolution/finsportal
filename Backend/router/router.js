@@ -70,6 +70,7 @@ router.post('/updatecustomer',customerController.UpdateCustomer)
 router.get('/customerid',customerController.Customer_id)
 router.post('/unique_cust_id',customerController.Unique_Cust_id)
 router.get('/lastcust_id',customerController.Lastcust_id)
+router.post('/ImportCustomer',customerController.ImportCustomer)
 
 router.post('/insertvendor', vendorController.InsertVendor);
 router.post('/deletevendor', vendorController.DeleteVendor);
