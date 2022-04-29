@@ -225,6 +225,7 @@ const AllCustomer = async (req, res) => {
 
     const ImportCustomer = async(req,res) =>{
         const datas = req.body.data;
+     
         console.log(datas)
         try{
             datas.forEach(async(item) => {

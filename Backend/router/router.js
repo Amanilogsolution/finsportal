@@ -29,6 +29,9 @@ router.post('/insertcountry', countryController.InsertCountry);
 router.post('/showcountry', countryController.showcountry);
 router.post('/updatecountry', countryController.updatecountry);
 router.post('/deletecountry', countryController.deletecountry);
+router.post('/importcountry',countryController.ImportCountry)
+router.post('/checkimportcountry',countryController.CheckimportCountry)
+
 
 router.get('/currency', currencyController.currency);
 router.post('/insertcurrecy', currencyController.InsertCurrency);

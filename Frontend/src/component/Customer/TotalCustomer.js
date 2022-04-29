@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer } from '../../api';
+import { TotalCustomers, DeleteCustomer,ImportCustomer } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -93,16 +93,29 @@ const columns = [
 const TotalCustomer = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
+  let [errorno,setErrorno] = useState(0);
   
   //##########################  Upload data start  #################################
 
   const uploaddata = () => {
-    
       importdata.map((d) => {
-       if(d.cust_type == " "){
-         alert("Please! fill the mandatory field")
+        console.log(d.cust_type)
+       if(!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply ||!d.tax_preference ||!d.currency  ){
+         setErrorno(errorno ++);
        }
-      })
+      }) 
+
+      if(errorno > 0){
+        alert("Please! fill the mandatory data");
+        document.getElementById("showdataModal").style.display="none";
+        window.location.reload()
+      }
+      else
+      {
+        ImportCustomer(importdata);
+        document.getElementById("showdataModal").style.display="none";
+        window.location.reload()
+      }
     
   };
   //##########################   Upload data end  #################################
@@ -112,11 +125,6 @@ const TotalCustomer = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
     setImportdata(datas);
-    // ImportCurrency(datas)
-    // console.log(datas)
-    // console.log(datas.cust_name)
-
-    // window.location.reload()
   };
   //##########################  for convert array to json end  #################################
 
@@ -293,9 +301,9 @@ const TotalCustomer = () => {
                 </button>
               </div>
               {/* <div className="modal-body"> */}
-              <div className="" style={{overflow:"auto"}}>
+              <div className="" style={{margin:"0px 8px",overflow:"auto"}}>
               <table >
-              
+              <thead>
                <th style={{border:"1px solid black"}}>Cust Type</th>
               <th style={{border:"1px solid black"}}>Cust Name</th>
               <th style={{border:"1px solid black"}}>Company Name</th>
@@ -335,7 +343,8 @@ const TotalCustomer = () => {
               <th style={{border:"1px solid black"}}>Contact Person Designation</th>
               <th style={{border:"1px solid black"}}>Contact Person Department</th>
               <th style={{border:"1px solid black"}}>Remark</th>
-             
+              </thead>
+              <tbody>
               {
           importdata.map((d) => (
             <tr style={{border:"1px solid black"}}>
@@ -381,7 +390,8 @@ const TotalCustomer = () => {
            
             </tr>
           ))
-        }
+        }</tbody>
+        <tfoot></tfoot>
          </table>
               </div>
             </div>
@@ -398,7 +408,7 @@ const TotalCustomer = () => {
                   Cancel
                 </button>
                 <button type="button"
-                //  onClick={uploaddata} 
+                 onClick={uploaddata} 
                  className="btn btn-primary" 
                 >
                   Upload
