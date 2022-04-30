@@ -100,7 +100,8 @@ const columns = [
     cell: (row) => [
 
       <a title='View Document' href="EditBank">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button></a>
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
+        </a>
 
     ]
   }
@@ -130,6 +131,7 @@ const TotalBank = () => {
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
+            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }}  className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
 

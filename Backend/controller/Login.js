@@ -11,9 +11,9 @@ const User_login = async (req,res) => {
     console.log(user_id,user_password)
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
         if(result.recordset.length){
-            const Login = await sql.query(`update tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`) 
+            const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`) 
            const token = jwt.sign({user_id,user_password},process.env.JWT_KEY,{ expiresIn: 60 })
             res.status(200).send({
                 status:"Success",
@@ -38,7 +38,7 @@ const User_logout = async(req,res)=>{
     console.log(user_id)
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update tbl_Login set logout_time=GETDATE(),status='Logout'  WHERE user_id = '${user_id}'`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout'  WHERE user_id = '${user_id}'`)
         res.status(200).send({
             status:"Logout"
         })

@@ -38,6 +38,7 @@ import {showCurrency} from '../../../api';
                     }
 
     return (
+      
         <div>
         <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
@@ -48,7 +49,7 @@ import {showCurrency} from '../../../api';
           <div>
             <div className="content-wrapper">
               <div className="container-fluid">
-                <br /> <h3 className="text-left ml-5">Update Currency</h3>
+                <br /> <h3 className="text-left ml-5">Edit Currency</h3>
                 <div className="row ">
                   <div className="col ml-5">
                     <div className="card" style={{ width: "100%" }}>
