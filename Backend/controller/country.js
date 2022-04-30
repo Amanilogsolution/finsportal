@@ -6,7 +6,7 @@ const uuidv1 = require("uuid/v1");
 const countries = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from tbl_countries order by sno desc`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         console.log(err)
@@ -83,36 +83,45 @@ async function deletecountry(req, res) {
 // check excel dublicate value 
 const CheckimportCountry = (req, res) => {
     const datas = req.body.data;
-    let dublicatedate = [];
+    let duplicatedata = [];
 
-    sql.connect(sqlConfig).then(() => {
-        datas.forEach(async (item) => {
+    try 
+    {
+        sql.connect(sqlConfig).then(() => {
 
-            await sql.query(`select * from tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
-                .then((resp) => {
-                    if (resp)
-                        dublicatedate.push({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})
-                })
+            datas.forEach(async (item) => {
+
+                await sql.query(`select * from FINSDB.dbo.tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
+                    .then((resp) =>
+                    {
+                        if (resp)
+                        duplicatedata.push({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode, })
+                    })
+            })
+
+            setTimeout(() => {
+                res.send(duplicatedata)
+            }, 1000);
+
+            // if (dublicatedate.length > 0) {
+            //     // console.log("already")
+            //     // res.status(200).json({
+            //     //     data: dublicatedate
+            //     // })
+            // }
+            // else {
+            //     console.log("done")
+
+            //     // res.status(400).json({
+            //     //     data: "test"
+            //     // })
+            // }
         })
-
-        setTimeout(() => {
-            res.send(dublicatedate)
-        }, 1000);
-
-        // if (dublicatedate.length > 0) {
-        //     // console.log("already")
-        //     // res.status(200).json({
-        //     //     data: dublicatedate
-        //     // })
-        // }
-        // else {
-        //     console.log("done")
-
-        //     // res.status(400).json({
-        //     //     data: "test"
-        //     // })
-        // }
-    })
+    }
+    catch (err) {
+        console.log(err);
+    }
+  
 }
 
 
@@ -121,7 +130,7 @@ const CheckimportCountry = (req, res) => {
 const ImportCountry = async (req, res) => {
     const datas = req.body.data;
     console.log(datas)
-    try {
+    try {     
         datas.forEach(async (item) => {
             await sql.connect(sqlConfig)
             var result = await sql.query(`insert into tbl_countries 

@@ -15,6 +15,10 @@ const LoginController = require('../controller/Login')
 const checkAuth = require("../Middleware/checkAuth")
 const Token = require('../controller/Token')
 const OrganisationController = require('../controller/Org')
+const NewdbController = require('../controller/Newdb')
+
+router.post('/newdb', NewdbController.Newdb);
+
 
 router.get('/totalstate', statesController.TotalStates);
 router.post('/deletestate', statesController.deleteState);
