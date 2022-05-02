@@ -315,32 +315,18 @@ const columns = [
               </div>
               {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom:"20px",overflow: "auto" }}>
-              {/* <table >
-                  <thead>
-                    <th style={{ border: "1px solid black" }}>country_code</th>
-                    <th style={{ border: "1px solid black" }}>country_id</th>
-                    <th style={{ border: "1px solid black" }}>country_name</th>
-                    <th style={{ border: "1px solid black" }}>country_phonecode</th>
-                  </thead>
+             
+                 <h3>This data already exist</h3>
+                 <table style={{color:"red"}}>
                    
-                  <tfoot></tfoot>
-                </table> */}
-              {/* {
-                  duplicateData.length== 0 ? console.log("yes"):console.log("no")
-                 } */}
-                <table >
-                  <thead>
-                    <th style={{ border: "1px solid black" }}>country_code</th>
+                   <thead>
+                   <th style={{ border: "1px solid black" }}>country_code</th>
                     <th style={{ border: "1px solid black" }}>country_id</th>
                     <th style={{ border: "1px solid black" }}>country_name</th>
                     <th style={{ border: "1px solid black" }}>country_phonecode</th>
-     
-
-                  </thead>
-                  <tbody>
-                 
-                  
-                  {
+                   </thead>
+                   <tbody>
+                   {
                       duplicateData.map((d) => (
 
                         <tr style={{ border: "1px solid black" }}>
@@ -351,13 +337,23 @@ const columns = [
                         </tr>
                       ))
                     }
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
 
-                    </tr>
+                   </tbody>
+                  <tfoot></tfoot>
+                       <br/><br/>
+                </table>
+
+                <table >
+                  <thead>
+                    <th style={{ border: "1px solid black" }}>country_code</th>
+                    <th style={{ border: "1px solid black" }}>country_id</th>
+                    <th style={{ border: "1px solid black" }}>country_name</th>
+                    <th style={{ border: "1px solid black" }}>country_phonecode</th>
+     
+
+                  </thead>
+                  <tbody>
+                
                     {
                       importdata.map((d) => (
                         <tr style={{ border: "1px solid black" }}>

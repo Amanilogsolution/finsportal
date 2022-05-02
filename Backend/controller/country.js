@@ -79,49 +79,64 @@ async function deletecountry(req, res) {
     }
 }
 
+// const CheckimportCountry = (req,res) =>{
+//     const datas = req.body.data;
+//     let duplicatedate = [];
+//     try{
+//         sql.connect(sqlConfig)
+
+//     }
+// }
 
 // check excel dublicate value 
 const CheckimportCountry = (req, res) => {
     const datas = req.body.data;
-    let duplicatedata = [];
+    let duplicatedate = [];
 
-    try 
-    {
-        sql.connect(sqlConfig).then(() => {
+    // console.log(datas.map(data => data.country_name).join(', '))
+    // console.log(datas.map(data => data.country_id).join(', '))
+    // console.log(datas.map(data => data.country_code).join(', '))
+    // console.log(datas.map(data => data.country_phonecode).join(', '))
+    // console.log(`select * from tbl_countries where country_name in ("${datas.map(data => data.country_name).join('", "')}") OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ("${datas.map(data => data.country_code).join('", "')}") OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
 
-            datas.forEach(async (item) => {
 
-                await sql.query(`select * from FINSDB.dbo.tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
-                    .then((resp) =>
-                    {
-                        if (resp)
-                        duplicatedata.push({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode, })
-                    })
-            })
+    sql.connect(sqlConfig).then(() => {
+        // datas.forEach(async (item) => {
 
-            setTimeout(() => {
-                res.send(duplicatedata)
-            }, 1000);
+            // await sql.query(`select * from tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
+         sql.query(`select * from FINSDB.dbo.tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
+                .then((resp) => {
+                    console.log(resp.recordset)
+                    if (resp)
+                    res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})))  
+                else{
 
-            // if (dublicatedate.length > 0) {
-            //     // console.log("already")
-            //     // res.status(200).json({
-            //     //     data: dublicatedate
-            //     // })
-            // }
-            // else {
-            //     console.log("done")
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
+                } 
+                res.send([])
+                          })
+        // })
 
-            //     // res.status(400).json({
-            //     //     data: "test"
-            //     // })
-            // }
-        })
-    }
-    catch (err) {
-        console.log(err);
-    }
-  
+        console.log(duplicatedate)
+
+        // setTimeout(() => {
+        //     res.send(duplicatedate)
+        // }, 1000);
+
+        // if (dublicatedate.length > 0) {
+        //     // console.log("already")
+        //     // res.status(200).json({
+        //     //     data: dublicatedate
+        //     // })
+        // }
+        // else {
+        //     console.log("done")
+
+        //     // res.status(400).json({
+        //     //     data: "test"
+        //     // })
+        // }
+    })
 }
 
 
