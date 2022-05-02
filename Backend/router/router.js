@@ -103,4 +103,5 @@ router.post('/SchemaCreate',OrganisationController.Insertorg)
 router.post('/Token',Token.token)
 router.post('/Totaldata',OrganisationController.InsertTotalTable)
 
+
 module.exports = router;

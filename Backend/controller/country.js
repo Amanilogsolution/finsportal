@@ -79,25 +79,49 @@ async function deletecountry(req, res) {
     }
 }
 
+// const CheckimportCountry = (req,res) =>{
+//     const datas = req.body.data;
+//     let duplicatedate = [];
+//     try{
+//         sql.connect(sqlConfig)
+
+//     }
+// }
 
 // check excel dublicate value 
 const CheckimportCountry = (req, res) => {
     const datas = req.body.data;
-    let dublicatedate = [];
+    let duplicatedate = [];
+
+    console.log(datas.map(data => data.country_name).join(', '))
+    console.log(datas.map(data => data.country_id).join(', '))
+    console.log(datas.map(data => data.country_code).join(', '))
+    console.log(datas.map(data => data.country_phonecode).join(', '))
+    console.log(`select * from tbl_countries where country_name in ("${datas.map(data => data.country_name).join('", "')}") OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ("${datas.map(data => data.country_code).join('", "')}") OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
+
 
     sql.connect(sqlConfig).then(() => {
-        datas.forEach(async (item) => {
+        // datas.forEach(async (item) => {
 
-            await sql.query(`select * from tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
+            // await sql.query(`select * from tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
+         sql.query(`select * from tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
                 .then((resp) => {
+                    console.log(resp.recordset)
                     if (resp)
-                        dublicatedate.push({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})
-                })
-        })
+                    res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})))  
+                else{
 
-        setTimeout(() => {
-            res.send(dublicatedate)
-        }, 1000);
+                    sql.query(`INSERT INTO tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
+                } 
+                res.send([])
+                          })
+        // })
+
+        console.log(duplicatedate)
+
+        // setTimeout(() => {
+        //     res.send(duplicatedate)
+        // }, 1000);
 
         // if (dublicatedate.length > 0) {
         //     // console.log("already")
