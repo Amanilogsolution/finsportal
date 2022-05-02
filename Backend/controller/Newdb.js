@@ -7,16 +7,23 @@ const Newdb = async (req, res) => {
     const dbname= req.body.dbname;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`create database ${dbname} `)
+        const result = await sql.query(`CREATE DATABASE ${dbname}`)
         if(result)
         {
-            const result = await sql.query(`CREATE TABLE ${dbname}.dbo.tbl_test (
-                sno varchar(100) NULL);
-             `)
+            const result = await sql.query(`CREATE TABLE ${dbname}.dbo.tbl_test (sno varchar(100) NULL);`)
+             res.send(
+                {
+                    "status":"true",
+                    "message":"Table and Database created",
+                    "statusCode":200
+                }
+            )
         }
-        // res.send("Created")
+       
 
-    } catch (err) {
+    } 
+    catch (err) 
+    {
         console.log(err)
     }
 }
