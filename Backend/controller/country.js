@@ -112,8 +112,9 @@ const CheckimportCountry = (req, res) => {
                 else{
 
                     sql.query(`INSERT INTO tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
+                    res.send([])
+
                 } 
-                res.send([])
                           })
         // })
 
