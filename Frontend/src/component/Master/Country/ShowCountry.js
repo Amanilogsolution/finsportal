@@ -171,7 +171,7 @@ const ShowCountry = () => {
   };
   //##########################  for convert excel to array end #################################
   useEffect(async () => {
-    const result = await Totalcountry()
+    const result = await Totalcountry(localStorage.getItem('Organisation'))
     setData(result)
   }, [])
 

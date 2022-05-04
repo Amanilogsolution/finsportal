@@ -4,10 +4,20 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const currency = async (req, res) => {
+    const org = req.body.org
+    console.log(org)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_currency order by sno desc`)
+        const Organisation = await sql.query(`SELECT * from FINSDB.dbo.org_name where org_name='${org}'`)
+        console.log(Organisation.rowsAffected[0])
+        if(Organisation.rowsAffected[0] == 0)
+        {
+            res.send('UnAuthorized')
+        }else{
+
+        const result = await sql.query(`select * from ${org}.dbo.tbl_currency order by sno desc`)
         res.send(result.recordset)
+        }
     } catch (err) {
         console.log(err)
     }

@@ -4,9 +4,11 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const countries = async (req, res) => {
+    const org = req.body.org
+    console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries order by sno desc`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_countries order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         console.log(err)

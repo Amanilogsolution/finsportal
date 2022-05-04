@@ -28,7 +28,7 @@ router.post('/editstate', statesController.EditState);
 router.post('/showstatecity', statesController.showstateCity);
 
 
-router.get('/totalcountry', countryController.countries);
+router.post('/totalcountry', countryController.countries);
 router.post('/insertcountry', countryController.InsertCountry);
 router.post('/showcountry', countryController.showcountry);
 router.post('/updatecountry', countryController.updatecountry);
@@ -37,7 +37,7 @@ router.post('/importcountry',countryController.ImportCountry)
 router.post('/checkimportcountry',countryController.CheckimportCountry)
 
 
-router.get('/currency', currencyController.currency);
+router.post('/currency', currencyController.currency);
 router.post('/insertcurrecy', currencyController.InsertCurrency);
 router.post('/deletecurrency', currencyController.deleteCurrency);
 router.post('/updatecurrency', currencyController.UpdateCurrency);

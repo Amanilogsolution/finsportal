@@ -15,10 +15,13 @@ const Login = () => {
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const result = await UserLogin(email,password)
-        console.log(result.token)
+        console.log(result)
         if(result.status=='Success'){
             localStorage.setItem('Token',result.token)
             localStorage.setItem('ExpiredIn',result.expiresIn)
+            localStorage.setItem('Organisation',result.result)
+
+
               window.location.href = '/home'
           }
           else{

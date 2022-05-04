@@ -46,9 +46,10 @@ export const showstateCity = async (country) => {
     return axios.post(url, {country}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Totalcountry = async () => {
+export const Totalcountry = async (org) => {
+    console.log(org)
     const url = `http://localhost:3008/api/totalcountry`
-    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertCountry = async (country_name, country_id, country_code, country_phonecode) => {
@@ -70,9 +71,9 @@ export const deletecountry = async (sno,status) => {
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const currency = async () => {
-    const url = `http://192.168.146.103:3008/api/currency`
-    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+export const currency = async (org) => {
+    const url = `http://localhost:3008/api/currency`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertCurrency = async (country_name, country_code, currency_name, currency_code ) => {

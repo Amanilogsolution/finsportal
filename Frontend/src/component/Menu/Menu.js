@@ -52,7 +52,6 @@ import { UserLogout } from '../../api';
                 Dashboard
               </p>
             </a>
-         
           </li>
           <li className="nav-item">
             <a href="/Customer" className="nav-link active">
@@ -188,10 +187,11 @@ import { UserLogout } from '../../api';
               </li>
             </ul>
           </li>
+       
         
           <li className="nav-header"></li>
           <li className="nav-item">
-            <a onClick={handleClick} className="nav-link">
+            <a onClick={handleClick} style={{cursor:"pointer"}}className="nav-link active">
               <p>
                 Logout
               </p>

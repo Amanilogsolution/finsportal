@@ -138,9 +138,15 @@ const ShowCurrency = () => {
 
 
   useEffect(async () => {
-    const result = await currency()
-    setData(result)
-  }, [])
+    const result = await currency(localStorage.getItem('Organisation'))
+    console.log(result)
+    if(result == 'UnAuthorized'){
+      alert('Un Authorized')
+      window.location.href = '/home'
+    }else{
+         setData(result)
+    }
+  }, [data])
 
   const tableData = {
     columns, data

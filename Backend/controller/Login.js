@@ -18,6 +18,7 @@ const User_login = async (req,res) => {
             res.status(200).send({
                 status:"Success",
                 token:token,
+                result:result.recordset[0].org_name,
                 expiresIn:  60
             })
         }else{
