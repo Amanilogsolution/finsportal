@@ -93,17 +93,8 @@ const CheckimportCountry = (req, res) => {
     const datas = req.body.data;
     let duplicatedate = [];
 
-    console.log(datas.map(data => data.country_name).join(', '))
-    console.log(datas.map(data => data.country_id).join(', '))
-    console.log(datas.map(data => data.country_code).join(', '))
-    console.log(datas.map(data => data.country_phonecode).join(', '))
-    console.log(`select * from tbl_countries where country_name in ("${datas.map(data => data.country_name).join('", "')}") OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ("${datas.map(data => data.country_code).join('", "')}") OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
-
-
     sql.connect(sqlConfig).then(() => {
-        // datas.forEach(async (item) => {
 
-            // await sql.query(`select * from tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
          sql.query(`select * from tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
                 .then((resp) => {
                     console.log(resp.recordset)
@@ -113,34 +104,13 @@ const CheckimportCountry = (req, res) => {
 
                     sql.query(`INSERT INTO tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
                     res.send([])
-
                 } 
-                          })
-        // })
-
+              })
+    
         console.log(duplicatedate)
 
-        // setTimeout(() => {
-        //     res.send(duplicatedate)
-        // }, 1000);
-
-        // if (dublicatedate.length > 0) {
-        //     // console.log("already")
-        //     // res.status(200).json({
-        //     //     data: dublicatedate
-        //     // })
-        // }
-        // else {
-        //     console.log("done")
-
-        //     // res.status(400).json({
-        //     //     data: "test"
-        //     // })
-        // }
     })
 }
-
-
 
 
 const ImportCountry = async (req, res) => {
@@ -161,22 +131,4 @@ const ImportCountry = async (req, res) => {
     }
 }
 
-
 module.exports = { countries, InsertCountry, showcountry, updatecountry, deletecountry, CheckimportCountry, ImportCountry }
-
-     // if(duplicate) { 
-            //        dublicatedate.push(duplicate)
-            //     //    res.send(duplicate)
-            // }
-            // else
-            // {
-            //     var result = await sql.query(`insert into tbl_countries
-            //     (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
-            //      values('${item.country_name}','${item.country_id}','${item.country_code}','${item.country_phonecode}','${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
-            //      dublicatedate.push()
-            //      // res.send('Inserted')
-            //     // if(result)
-            //     //        {
-            //     //           res.send("result")
-            //     //        }
-            // }
