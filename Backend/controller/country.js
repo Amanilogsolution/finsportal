@@ -22,10 +22,10 @@ const InsertCountry = async (req, res) => {
     // console.log(country_name, country_id, country_code, country_phonecode)
     try {
         await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select * from tbl_countries where country_name='${country_name}' OR country_id='${country_id}' OR country_code='${country_code}' OR country_phonecode='${country_phonecode}'`)
+        const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_countries where country_name='${country_name}' OR country_id='${country_id}' OR country_code='${country_code}' OR country_phonecode='${country_phonecode}'`)
         // console.log(duplicate.recordset[0])
         if (!duplicate.recordset.length) {
-            const result = await sql.query(`insert into tbl_countries (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
+            const result = await sql.query(`insert into FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
         values('${country_name}','${country_id}','${country_code}','${country_phonecode}','${uuid}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
             res.send('Added')
         } else {
@@ -40,7 +40,7 @@ async function showcountry(req, res) {
     const sno = req.body.sno
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from tbl_countries where sno = ${sno}`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries where sno = ${sno}`)
         res.send(result.recordset[0])
     }
     catch (err) {
@@ -57,7 +57,7 @@ async function updatecountry(req, res) {
     const status = req.body.status;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update tbl_countries set country_name='${country_name}',country_id='${country_id}',country_code='${country_code}',country_phonecode='${country_phonecode}',update_date_time=getdate(),update_user_name='aman',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno = ${sno}`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_countries set country_name='${country_name}',country_id='${country_id}',country_code='${country_code}',country_phonecode='${country_phonecode}',update_date_time=getdate(),update_user_name='aman',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno = ${sno}`)
         res.send('done')
     }
     catch (err) {
@@ -71,7 +71,7 @@ async function deletecountry(req, res) {
     console.log(sno, status)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update tbl_countries set status='${status}' where sno = ${sno}`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_countries set status='${status}' where sno = ${sno}`)
         res.send('done')
     }
     catch (err) {
@@ -86,14 +86,14 @@ const CheckimportCountry = (req, res) => {
 
     sql.connect(sqlConfig).then(() => {
 
-         sql.query(`select * from tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
+         sql.query(`select * from FINSDB.dbo.tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
                 .then((resp) => {
                     console.log(resp.rowsAffected[0])
                     if (resp.rowsAffected[0]>0)
                     res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})))  
                 else{
 
-                    sql.query(`INSERT INTO tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
                     res.send([])
                 } 
               })
@@ -110,7 +110,7 @@ const ImportCountry = async (req, res) => {
     try {     
         datas.forEach(async (item) => {
             await sql.connect(sqlConfig)
-            var result = await sql.query(`insert into tbl_countries 
+            var result = await sql.query(`insert into FINSDB.dbo.tbl_countries 
             (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
         values('${item.country_name}','${item.country_id}','${item.country_code}','${item.country_phonecode}','${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
         }

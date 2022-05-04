@@ -8,7 +8,7 @@ const uuidv1 = require("uuid/v1");
 const AllCustomer = async (req, res) => {
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from tbl_new_customer order by sno desc`)
+        const result = await sql.query(`SELECT * from FINSDB.dbo.tbl_new_customer order by sno desc`)
         res.send(result.recordset)
     }
     catch(err){
@@ -85,7 +85,7 @@ const AllCustomer = async (req, res) => {
             //   res.send('Fins row Added')
 
                await sql.connect(sqlConfig)
-            const result = await sql.query(`INSERT into tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+            const result = await sql.query(`INSERT into FINSDB.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                 company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
                 website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
                 opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
@@ -104,7 +104,7 @@ const AllCustomer = async (req, res) => {
             }
             else
             {
-             const result = await sql.query(`INSERT into tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+             const result = await sql.query(`INSERT into FINSDB.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                 company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
                 website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
                 opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
@@ -116,7 +116,7 @@ const AllCustomer = async (req, res) => {
                       '${facebook_url}','${twitter_url}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}',${billing_address_pincode},'${billing_address_phone}','${billing_address_fax}','${contact_person_name}',
                       '${contact_person_email}',${contact_person_work_phone},${contact_person_phone},'${contact_person_skype}','${contact_person_designation}','${contact_person_department}','${remark}','Active',getdate(),'Aman','${os.hostname()}',
                         '${req.ip}');`)
-            const result2 = await sql.query(`update tbl_fin_year set cust_totalid='${getnewval}' where sno=(SELECT MAX(sno) FROM tbl_fin_year)`)
+            const result2 = await sql.query(`update FINSDB.dbo.tbl_fin_year set cust_totalid='${getnewval}' where sno=(SELECT MAX(sno) FROM tbl_fin_year)`)
             res.send('Updated')
             
             res.send('Added')
@@ -136,7 +136,7 @@ const AllCustomer = async (req, res) => {
         console.log(sno, status)
         try {
             await sql.connect(sqlConfig)
-            const result = await sql.query(`update tbl_new_customer set status='${status}' where sno = ${sno}`)
+            const result = await sql.query(`update FINSDB.dbo.tbl_new_customer set status='${status}' where sno = ${sno}`)
             res.send('done')
         }
         catch (err) {
@@ -149,7 +149,7 @@ const AllCustomer = async (req, res) => {
                 console.log(sno)
                 try {
                     await sql.connect(sqlConfig)
-                    const result = await sql.query(`select * from tbl_new_customer where sno = ${sno}`)
+                    const result = await sql.query(`select * from FINSDB.dbo.tbl_new_customer where sno = ${sno}`)
                     res.send(result.recordset[0])
                 }
                 catch (err) {
@@ -175,7 +175,7 @@ const AllCustomer = async (req, res) => {
                     contact_person_department,remark)
         try{
             await sql.connect(sqlConfig)
-            const result = await sql.query(` UPDATE tbl_new_customer SET cust_email='${cust_email}',cust_work_phone=${cust_work_phone},cust_phone=${cust_phone},
+            const result = await sql.query(` UPDATE FINSDB.dbo.tbl_new_customer SET cust_email='${cust_email}',cust_work_phone=${cust_work_phone},cust_phone=${cust_phone},
             contact_person_name='${contact_person_name}',contact_person_email='${contact_person_email}',contact_person_work_phone=${contact_person_work_phone},
             contact_person_phone=${contact_person_phone},contact_person_skype='${contact_person_skype}',contact_person_designation='${contact_person_designation}',
             contact_person_department='${contact_person_department}',remark='${remark}',update_date_time=getdate(),update_user_name='Aman',
@@ -190,7 +190,7 @@ const AllCustomer = async (req, res) => {
     const Customer_id = async (req, res) => {
         try{
             await sql.connect(sqlConfig)
-            const result = await sql.query(`SELECT cust_id FROM tbl_new_customer tnc `)
+            const result = await sql.query(`SELECT cust_id FROM FINSDB.dbo.tbl_new_customer tnc `)
             res.send(result.recordset)
         }
         catch(err){
@@ -201,7 +201,7 @@ const AllCustomer = async (req, res) => {
     const Unique_Cust_id = async (req,res) => {
         try{
             await sql.connect(sqlConfig)
-            const result = await sql.query(`SELECT cust_totalid,year FROM tbl_fin_year  WHERE sno=(SELECT MAX(sno) FROM tbl_fin_year)`)
+            const result = await sql.query(`SELECT cust_totalid,year FROM FINSDB.dbo.tbl_fin_year  WHERE sno=(SELECT MAX(sno) FROM tbl_fin_year)`)
             res.send(result.recordset[0])
            
         }
@@ -213,7 +213,7 @@ const AllCustomer = async (req, res) => {
     const Lastcust_id = async (req,res) => {
         try{
             await sql.connect(sqlConfig)
-            const result = await sql.query(`SELECT cust_id FROM tbl_new_customer  WHERE sno=(SELECT MAX(sno) FROM tbl_new_customer)`)
+            const result = await sql.query(`SELECT cust_id FROM FINSDB.dbo.tbl_new_customer  WHERE sno=(SELECT MAX(sno) FROM tbl_new_customer)`)
             
             res.send(result.recordset[0])
             
@@ -229,14 +229,14 @@ const AllCustomer = async (req, res) => {
     
         sql.connect(sqlConfig).then(() => {
     
-             sql.query(`select * from tbl_new_customer where cust_email in ('${datas.map(data => data.cust_email).join("', '")}') OR cust_work_phone in (${datas.map(data => data.cust_work_phone).join(', ')}) OR cust_phone in ('${datas.map(data => data.cust_phone).join("', '")}') OR pan_no IN (${datas.map(data => data.pan_no).join(', ')})`)
+             sql.query(`select * from FINSDB.dbo.tbl_new_customer where cust_email in ('${datas.map(data => data.cust_email).join("', '")}') OR cust_work_phone in (${datas.map(data => data.cust_work_phone).join(', ')}) OR cust_phone in ('${datas.map(data => data.cust_phone).join("', '")}') OR pan_no IN (${datas.map(data => data.pan_no).join(', ')})`)
                     .then((resp) => {
                         console.log(resp.recordset)
                         if (resp)
                         res.send(resp.recordset.map(item => ({ "cust_email": item.cust_email, "cust_work_phone": item.cust_work_phone, "cust_phone": item.cust_phone, "pan_no": item.pan_no,})))  
                     else{
     
-                        sql.query(`INSERT INTO  tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+                        sql.query(`INSERT INTO  FINSDB.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                             company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
                             website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
                             opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
