@@ -146,7 +146,7 @@ const ShowCurrency = () => {
     }else{
          setData(result)
     }
-  }, [data])
+  }, [])
 
   const tableData = {
     columns, data
