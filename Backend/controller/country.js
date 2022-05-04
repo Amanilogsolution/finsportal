@@ -84,33 +84,24 @@ const CheckimportCountry = (req, res) => {
     const datas = req.body.data;
     let duplicatedate = [];
 
-    // console.log(datas.map(data => data.country_name).join(', '))
-    // console.log(datas.map(data => data.country_id).join(', '))
-    // console.log(datas.map(data => data.country_code).join(', '))
-    // console.log(datas.map(data => data.country_phonecode).join(', '))
-    // console.log(`select * from tbl_countries where country_name in ("${datas.map(data => data.country_name).join('", "')}") OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ("${datas.map(data => data.country_code).join('", "')}") OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
-
-
     sql.connect(sqlConfig).then(() => {
-        // datas.forEach(async (item) => {
 
-            // await sql.query(`select * from tbl_countries where country_name='${item.country_name}' OR country_id='${item.country_id}' OR country_code='${item.country_code}' OR country_phonecode='${item.country_phonecode}'`)
-         sql.query(`select * from FINSDB.dbo.tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
+         sql.query(`select * from tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
                 .then((resp) => {
                     console.log(resp.rowsAffected[0])
                     if (resp.rowsAffected[0]>0)
                     res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})))  
                 else{
 
-                    sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status) VALUES ${datas.map(item => `('${item.country_name}',${item.country_id},'${item.country_code}',${item.country_phonecode},'${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`).join(', ')}`)
-                    res.status(200).send('True')
+                    sql.query(`INSERT INTO tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
+                    res.send([])
                 } 
-                          })
+              })
+    
+        console.log(duplicatedate)
 
     })
 }
-
-
 
 
 const ImportCountry = async (req, res) => {
@@ -131,7 +122,4 @@ const ImportCountry = async (req, res) => {
     }
 }
 
-
 module.exports = { countries, InsertCountry, showcountry, updatecountry, deletecountry, CheckimportCountry, ImportCountry }
-
- 
