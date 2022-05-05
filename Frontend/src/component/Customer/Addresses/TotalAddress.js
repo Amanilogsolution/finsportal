@@ -129,15 +129,10 @@ const columns = [
         <Header />
         <Menu />
         <div>
-    
-
-
           <div className="content-wrapper">
-          <button type="button" style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCustAddress"}} className="btn btn-primary">Add Address</button>
-        
             <div className="container-fluid" style={{position:"relative"}}>
+            <button type="button"style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCustAddress"}} className="btn btn-primary">Add Address</button>
                 <br/>
-              
               <h3 className="text-left ml-5">Customer Address</h3>
                <form className="form-inline" style={{marginLeft:"50px"}}>
                  <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autocomplete="off" />
