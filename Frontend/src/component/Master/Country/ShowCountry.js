@@ -76,7 +76,6 @@ const columns = [
   {
     name: "Actions",
     sortable: false,
-
     selector: "null",
     cell: (row) => [
 
@@ -112,19 +111,17 @@ const ShowCountry = () => {
     }
     else {
       const result = await CheckimportCountry(importdata);
-      console.log(result.length)
-      if (!( result == "True")) 
-      {
+      // console.log(result.length)
+      if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
 
       }
-      else if (result == "True") 
-      {
+      else if (result == "Data Added") {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
-        window.location.href = 'ShowCountry'
+        window.location.reload()
       }
 
     }
@@ -171,7 +168,7 @@ const ShowCountry = () => {
   };
   //##########################  for convert excel to array end #################################
   useEffect(async () => {
-    const result = await Totalcountry(localStorage.getItem('Organisation'))
+    const result = await Totalcountry()
     setData(result)
   }, [])
 
@@ -180,7 +177,7 @@ const ShowCountry = () => {
   };
 
   return (
-    
+
     <div>
 
       <div className="wrapper">

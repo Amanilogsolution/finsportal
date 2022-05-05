@@ -88,21 +88,31 @@ async function ShowCurrency(req, res) {
     }
 }
 
-const ImportCurrency = async(req,res) =>{
+const ImportCurrency = (req,res) =>{
     const datas = req.body.data;
-    console.log(datas)
-    try{
-        datas.forEach(async(item) => {
-        await sql.connect(sqlConfig)
-        var result = await sql.query(`insert into FINSDB.dbo.tbl_currency (country_name,country_code,currency_name,currency_code,currency_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
-        values('${item.country_name}','${item.country_code}','${item.currency_name}','${item.currency_code}','${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)     
-        }
-        )
-        res.send("data Imported")
-    }
-    catch (err){
-        console.log(err)
-    }
+    // console.log(datas)
+    // let duplicatedate = [];
+
+    sql.connect(sqlConfig).then(() => {
+
+         sql.query(`select * from FINSDB.dbo.tbl_currency where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR currency_name in ('${datas.map(data => data.currency_name).join("', '")}') OR currency_code IN ('${datas.map(data => data.currency_code).join("', '")}')`)
+                .then((resp) => {
+                    console.log(resp.rowsAffected[0])
+                    if (resp.rowsAffected[0]>0)
+                    res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_code": item.country_code, "currency_name": item.currency_name, "currency_code": item.currency_code,})))  
+                else{
+
+                    sql.query(`insert into FINSDB.dbo.tbl_currency (country_name,country_code,currency_name,currency_code,currency_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
+                    values('${item.country_name}','${item.country_code}','${item.currency_name}','${item.currency_code}','${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
+                    res.send("Data Added")
+                } 
+              })
+    
+        // console.log(duplicatedate)
+
+    })
+
+
 }
 
 module.exports = {currency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}

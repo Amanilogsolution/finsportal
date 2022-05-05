@@ -105,4 +105,29 @@ async function EditState(req, res) {
 }
 
 
-module.exports = { TotalStates, deleteState, state, showstate, EditState ,showstateCity}
+const ImportState = (req, res) => {
+    const datas = req.body.data;
+    // let duplicatedate = [];
+
+    sql.connect(sqlConfig).then(() => {
+
+        sql.query(`select * from FINSDB.dbo.tbl_states where state_name in ('${datas.map(data => data.state_name).join("', '")}') OR state_code in ('${datas.map(data => data.state_code).join(', ')}') OR state_short_name in ('${datas.map(data => data.state_short_name).join("', '")}')`)
+            .then((resp) => {
+                // console.log(resp.rowsAffected[0])
+                if (resp.rowsAffected[0] > 0)
+                    res.send(resp.recordset.map(item => ({ "state_name": item.state_name, "state_code": item.state_code, "state_short_name": item.state_short_name})))
+                else {
+
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_states (state_name,state_code,state_short_name,state_type,country_name,status,add_date_time,add_user_name,add_system_name,add_ip_address,state_uuid) VALUES ${datas.map(item => `('${item.state_name}','${item.state_code}','${item.state_short_name}','${item.state_type}','${item.country_name}','Active',getdate(),'Admin','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
+                    res.send("Data Added")
+                }
+            })
+
+        // console.log(duplicatedate)
+
+    })
+}
+
+
+
+module.exports = { TotalStates, deleteState, state, showstate, EditState ,showstateCity,ImportState}

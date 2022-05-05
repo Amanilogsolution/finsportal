@@ -99,7 +99,7 @@ const Customer = () => {
       const cust_newid = 'C' + year + '-' + value;
       setUcust_totalid(cust_newid)
       localStorage.setItem("cust_id",ucust_totalid);
-      console.log(localStorage.getItem("cust_id"));
+      // console.log(localStorage.getItem("cust_id"));
     }
   }
 
