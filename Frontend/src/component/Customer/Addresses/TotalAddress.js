@@ -14,104 +14,6 @@ const columns = [
     name: 'Attention',
     selector: 'billing_address_attention',
     sortable: true
-<<<<<<< HEAD
-    },
-    {
-        name: 'Country',
-        selector: 'billing_address_country',
-        sortable: true
-     },
-   
-     {
-            name: 'State',
-            selector: 'billing_address_state',
-            sortable: true
-        },
-        {
-                name: 'City',
-                selector: 'billing_address_city',
-                sortable: true
-         },
-         {
-            name: 'Status',
-           sortable: true,
-           selector: 'null',
-            cell: (row) => [
-                <div className='droplist'>
-                <select onChange={async(e) =>
-                        {
-                              const status=e.target.value;
-                            await DeleteCustAddress(row.sno,status)
-                           window.location.href='TotalCustAddress'
-                         }
-                          }>
-                           <option selected disabled hidden> {row.status}</option>
-                  <option value='Active'>Active</option>
-                  <option value='DeActive' >DeActive</option>
-                </select>
-               </div>
-            ]
-           },
-          //  {
-          //   name:'Active',
-          //   selector: 'null',
-          //   cell: (row) => [
-          //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-          //         {
-          //           if(row.status == 'Active'){
-          //             const checkvalue ='Deactive'
-          //             await DeleteCustAddress(row.sno,checkvalue)
-          //                 window.location.href='TotalCustAddress'
-        
-          //           }
-          //           else{
-          //             const checkvalue ='Active'
-          //             await DeleteCustAddress(row.sno,checkvalue)
-          //                 window.location.href='TotalCustAddress'
-          //           }
-          //          }} />
-          //   ]
-          // },
-
-       {
-        name: "Actions",
-        sortable: false,
-    
-        selector: "null",
-        cell: (row) => [
-
-          <a title='View Document' href="EditAddress">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('EditAddress',`${row.sno}`)} >Edit</button></a>
-
-        ]
-      }
-      
-         
-]
- const TotalCustAddress = ()=> {
-
-    const[data,setData] = useState([])
-    const[selectedCust_id,setSelectedCust_id]=useState([])
-    const [cust_name,setCust_Name] = useState()
-
-    useEffect(async() => {
-        const result = await ShowCustAddress(cust_name)
-        setData(result)
-        setSelectedCust_id([])
-        console.log(result)
-      }, [cust_name])
-
-      const handleChange = async (e) => {
-        e.preventDefault();
-        const cust_entered_id = document.getElementById('cust_entered_id').value;
-        console.log(cust_entered_id)
-        if(!cust_entered_id){
-          setSelectedCust_id([])
-        }else{
-        const result = await SelectCustAddress(cust_entered_id)
-        setSelectedCust_id(result)
-        console.log(result)
-=======
   },
   {
     name: 'Country',
@@ -139,7 +41,6 @@ const columns = [
           const status = e.target.value;
           await DeleteCustAddress(row.sno, status)
           window.location.href = 'TotalCustAddress'
->>>>>>> 4366a599ab9b09fcaa5793ff64fb5dc096461ac5
         }
         }>
           <option selected disabled hidden> {row.status}</option>
