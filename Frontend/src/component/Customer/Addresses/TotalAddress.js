@@ -43,10 +43,8 @@ const columns = [
                             await DeleteCustAddress(row.sno,status)
                            window.location.href='TotalCustAddress'
                          }
-                             }>
-                               <option selected disabled hidden> {row.status}</option>
-         
-                 
+                          }>
+                           <option selected disabled hidden> {row.status}</option>
                   <option value='Active'>Active</option>
                   <option value='DeActive' >DeActive</option>
                 </select>
