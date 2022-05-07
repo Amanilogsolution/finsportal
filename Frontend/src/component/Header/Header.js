@@ -1,8 +1,15 @@
 import './header.css';
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import {TotalOrganistion} from '../../api'
 
 const Header = () => {
   const [show, setShow] = useState(false);
+  const [data,setData] = useState([])
+  useEffect(async() => {
+    const organisation = await TotalOrganistion()
+    setData(organisation)
+    console.log(organisation)
+  },[])
 
   return (
     <div>
@@ -127,6 +134,11 @@ const Header = () => {
             <a href="/org" className="card-link">
               Orgaisation Profile
             </a>
+            {
+              data.map(item =>(
+                <li>{item.org_name}</li>
+              ))
+            }
             
           </div>
         ) : null}

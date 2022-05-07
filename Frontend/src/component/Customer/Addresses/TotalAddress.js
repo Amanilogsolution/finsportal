@@ -114,10 +114,8 @@ const columns = [
         console.log(result)
         }
       }
-        
-      
       const tableData ={
-          columns , data
+          columns,data
       }
   
     return (
@@ -146,14 +144,16 @@ const columns = [
                     ))
                 }
                 </ul>
-                      {/* <select id="myselect" class="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
+                      {
+                      /* <select id="myselect" class="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
                         {
                           data.map((value)=>(
                             <option>{value.cust_name}</option>
                           ) )
                         }
                        
-</select> */}
+                      </select> */
+                      }
                  {/* <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button> */}
                </form>
               <br/>

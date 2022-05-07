@@ -8,6 +8,8 @@
         border-radius: 10px;
         background: white;
         overflow: hidden;
+        height: 20vh;
+        z-index:auto
       }
    
  .orgcard .cardtitle{

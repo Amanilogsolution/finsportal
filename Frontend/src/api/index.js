@@ -408,3 +408,18 @@ export const CheckimportCountry = async (data) => {
     return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const CreatenewDb = async (dbname) => {
+    console.log(dbname)
+    const url = `http://localhost:3008/api/newdb`
+    return axios.post(url, {dbname}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const CreateOrgTable = async (dbname) => {
+    console.log(dbname)
+    const url = `http://localhost:3008/api/Org_table`
+    return axios.post(url, {dbname}).then(response => response.data).catch(error => console.log(error));
+}
+export const TotalOrganistion = async () => {
+    const url = `http://localhost:3008/api/TotalOrganistion`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
