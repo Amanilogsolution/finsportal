@@ -6,6 +6,7 @@ import OrgLogo from "../../images/bg1.jpg";
 const Header = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([])
+  const currentdb= localStorage.getItem('Organisation');
   useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
@@ -46,7 +47,18 @@ const Header = () => {
         </ul>
 
         <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
+        <li className="nav-item" >
+            <a
+              className="nav-link"
+              role="button"
+              onClick={() => {
+                setShow(!show);
+              }}
+            >
+             <b>{currentdb} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
+            </a>
+          </li>
+          <li className="nav-item" >
             <a
               className="nav-link"
               role="button"
@@ -58,7 +70,7 @@ const Header = () => {
             </a>
           </li>
 
-          <li className="nav-item">
+          <li className="nav-item" >
             <a
               className="nav-link"
               data-widget="navbar-search"
@@ -76,7 +88,7 @@ const Header = () => {
                     placeholder="Search"
                     aria-label="Search"
                   />
-                  <div className="input-group-append">
+                  <div className="input-group-append" >
                     <button className="btn btn-navbar" type="submit">
                       <i className="fas fa-search"></i>
                     </button>
@@ -121,19 +133,18 @@ const Header = () => {
               </a>
             </div>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" >
             <a className="nav-link" data-widget="fullscreen" href="#" role="button">
               <i className="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" >
             <a
               className="nav-link"
               data-widget="control-sidebar"
               data-controlsidebar-slide="true"
               href="#"
-              role="button"
-            >
+              role="button" >
               <i className="fas fa-th-large"></i>
             </a>
           </li>
@@ -161,37 +172,25 @@ const Header = () => {
 
             <div className="card-body">
               <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => {setShow(!show);}}></i>
-              <img className="card-img-top" src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+              <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
             </div>
-            
-            {/* <img className="card-img-top" src="..." alt="Card image cap" /> */}
-            <div className="card-body" style={{ }}>
+            <div className="card-body" >
               <a href="#">My Account</a> &nbsp; | &nbsp; 
               <a  href='/org' style={{color:"green"}}> Create Organisation</a><br/>
               <a  onClick={handleClick} style={{color:"red",cursor:"pointer",margin:"30%"}}> Sign Out</a>
-              {/* <h5 className="card-title">Card title</h5> */}
-              {/* <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
             </div>
             <ul className="list-group list-group-flush">
-
               {
                 data.map(item => (
 
-                  <li className="list-group-item">
-                    <i className="fa fa-building" ></i> &nbsp;
-                    <a href="#">{item.org_name}</a></li>
+                  <a href="#"><li className="list-group-item">
+                    <i className="fa fa-building" style={{color:"#333"}}></i> &nbsp;
+                    {item.org_name}</li></a>
                 ))
               }
             </ul>
-            {/* <div className="card-body">
-    <a href="#" className="card-link">Card link</a>
-    <a href="#" className="card-link">Another link</a>
-  </div> */}
+         
           </div>
-
-
-
-
         ) : null
         }
       </nav>
@@ -202,19 +201,3 @@ const Header = () => {
 
 export default Header;
 
-{/* <div className="card" style={{width: '18rem'}}>
-  <img className="card-img-top" src="..." alt="Card image cap" />
-  <div className="card-body">
-    <h5 className="card-title">Card title</h5>
-    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul className="list-group list-group-flush">
-    <li className="list-group-item">Cras justo odio</li>
-    <li className="list-group-item">Dapibus ac facilisis in</li>
-    <li className="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div className="card-body">
-    <a href="#" className="card-link">Card link</a>
-    <a href="#" className="card-link">Another link</a>
-  </div>
-</div> */}
