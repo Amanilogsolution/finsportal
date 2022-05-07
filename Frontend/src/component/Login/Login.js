@@ -25,7 +25,7 @@ const Login = () => {
               window.location.href = '/home'
           }
           else{
-            alert(<span style={{color:'red'}}>{`Invalid Email & Password`}</span>)
+            alert("Invalid Email & Password")
         }
     }
 

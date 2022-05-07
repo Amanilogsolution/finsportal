@@ -16,9 +16,9 @@ const checkAuth = require("../Middleware/checkAuth")
 const Token = require('../controller/Token')
 const OrganisationController = require('../controller/Org')
 const NewdbController = require('../controller/Newdb')
+const OrgTableController = require('../controller/Org_table')
 
 router.post('/newdb', NewdbController.Newdb);
-
 
 router.get('/totalstate', statesController.TotalStates);
 router.post('/deletestate', statesController.deleteState);
@@ -107,6 +107,8 @@ router.post('/SchemaCreate',OrganisationController.Insertorg)
 
 router.post('/Token',Token.token)
 router.post('/Totaldata',OrganisationController.InsertTotalTable)
+router.post('/Org_table',OrgTableController.Org_table)
+router.get('/TotalOrganistion',OrgTableController.TotalOrganisation)
 
 
 module.exports = router;

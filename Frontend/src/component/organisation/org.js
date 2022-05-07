@@ -1,6 +1,6 @@
 import "./org.css";
 import { useState } from "react";
-import {register} from "../../api/index";
+import {register,CreatenewDb,CreateOrgTable} from "../../api/index";
 function Org() {
 
   const [gstbox, setgstbox] = useState(false);
@@ -10,26 +10,42 @@ function Org() {
     document.getElementById("newlinepid").style.display = "none";
   };
 
-  const handleSubmit = async(e) => {
+  const Orgdetails = async(e) => {
     e.preventDefault();
     const org_name = document.getElementById("org_name").value;
-    const org_country = document.getElementById("org_country").value;
-    const org_state = document.getElementById("inputState").value;
-    const org_street = document.getElementById("org_street").value;
-    const org_city = document.getElementById("org_city").value;
-    const org_pin = document.getElementById("org_pin").value;
-    const org_currency = document.getElementById("org_currency").value;
-    const org_lang = document.getElementById("org_lang").value;
-    const org_contact_name = document.getElementById("org_contact_name").value;
-    const org_contact_phone = document.getElementById("org_contact_phone").value;
-    const org_contact_email = document.getElementById("org_contact_email").value;
-    const org_gst = document.getElementById("org_gst").value;
-    console.log(org_name, org_country, org_state, org_street, org_city, org_pin, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
+    // const org_country = document.getElementById("org_country").value;
+    // const org_state = document.getElementById("inputState").value;
+    // const org_street = document.getElementById("org_street").value;
+    // const org_city = document.getElementById("org_city").value;
+    // const org_pin = document.getElementById("org_pin").value;
+    // const org_currency = document.getElementById("org_currency").value;
+    // const org_lang = document.getElementById("org_lang").value;
+    // const org_contact_name = document.getElementById("org_contact_name").value;
+    // const org_contact_phone = document.getElementById("org_contact_phone").value;
+    // const org_contact_email = document.getElementById("org_contact_email").value;
+    // const org_gst = document.getElementById("org_gst").value;
+
+    // console.log(org_name, org_country, org_state, org_street, org_city, org_pin, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
+    if(!org_name){
+      alert("Enter Org name")
+    }else{
     
-   const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
-   if(result){
-    window.location.href='/home'
-   }
+    const OrgTable = await CreateOrgTable(org_name)
+    console.log(OrgTable)
+    if (OrgTable == 'Added' ){
+      const database = await CreatenewDb(org_name)
+      console.log(database)
+    }else{
+      alert(OrgTable)
+    }
+  }
+
+    // const database = await CreatenewDb(org_name)
+    // console.log(database)
+  //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
+  //  if(result){
+  //   window.location.href='/home'
+  //  }
   };
 
   const handleClick = () => {
@@ -55,13 +71,13 @@ function Org() {
                 </h3>
                 <br />
 
-                <form onSubmit={handleSubmit}>
+                <form >
 
                   <div className="form-group">
                     <label>
                       Organization Name <span style={{ color: "red" }}>*</span>
                     </label>
-                    <input type="text" className="form-control" placeholder id="org_name" />
+                    <input type="text" className="form-control"  id="org_name" required="true"/>
                   </div>
                   <div className="form-row">
                     <div className="col form-group">
@@ -141,6 +157,7 @@ function Org() {
                         className="form-control"
                         placeholder="Contact Person Name"
                         id='org_contact_name'
+                        
                       />
                     </div>
                     <div className="form-group col-md-6">
@@ -220,8 +237,7 @@ function Org() {
                
                   <p>
                     Is this business registered for GST?
-                    <input
-                      type="checkbox"
+                    <input type="checkbox"
                       id="checkboxgst"
                       placeholder
                       onClick={handleClick}
@@ -249,18 +265,23 @@ function Org() {
                   <div classNmae="form-group">
                     <label className="col-md-4 control-label" htmlfor="save"></label>
                     <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="save" name="save" className="btn btn-success">
+                      <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
                         Get start
                       </button>
-                      <button id="clear" name="clear" className="btn ml-2">
+                      <button id="clear" onClick={(e)=>{ e.preventDefault(); window.location.href ='/home'
+                      }} name="clear" className="btn ml-2">
                         Cancel
                       </button>
                       <a href="#" style={{ float: "right" }}>
                         Privacy Policy
                       </a>
+                     
+                    
                     </div>
                   </div>
                 </form>
+                
+                     
               </article>
             </div>
           </div>

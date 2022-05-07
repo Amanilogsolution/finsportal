@@ -128,16 +128,10 @@ const TotalCustAddress = () => {
         <Header />
         <Menu />
         <div>
-
-
-
           <div className="content-wrapper">
-
-            <div className="container-fluid" style={{ position: "relative" }}>
-              <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddCustAddress" }} className="btn btn-primary">Add Address</button>
-
-              <br />
-
+            <div className="container-fluid" style={{position:"relative"}}>
+            <button type="button"style={{float:"right",marginRight:'10%',marginTop:'1%'}} onClick={()=>{window.location.href="./AddCustAddress"}} className="btn btn-primary">Add Address</button>
+                <br/>
               <h3 className="text-left ml-5">Customer Address</h3>
               <form className="form-inline" style={{ marginLeft: "50px" }}>
                 <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autocomplete="off" />
@@ -151,17 +145,19 @@ const TotalCustAddress = () => {
                     ))
                   }
                 </ul>
-                {/* <select id="myselect" class="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
+                      {
+                      /* <select id="myselect" class="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
                         {
                           data.map((value)=>(
                             <option>{value.cust_name}</option>
                           ) )
                         }
                        
-</select> */}
-                {/* <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button> */}
-              </form>
-              <br />
+                      </select> */
+                      }
+                 {/* <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button> */}
+               </form>
+              <br/>
               <div className="row ">
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
