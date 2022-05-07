@@ -26,6 +26,7 @@ router.post('/state', statesController.state);
 router.post('/showstate', statesController.showstate);
 router.post('/editstate', statesController.EditState);
 router.post('/showstatecity', statesController.showstateCity);
+router.post('/importState', statesController.ImportState);
 
 
 router.post('/totalcountry', countryController.countries);
@@ -33,7 +34,6 @@ router.post('/insertcountry', countryController.InsertCountry);
 router.post('/showcountry', countryController.showcountry);
 router.post('/updatecountry', countryController.updatecountry);
 router.post('/deletecountry', countryController.deletecountry);
-router.post('/importcountry',countryController.ImportCountry)
 router.post('/checkimportcountry',countryController.CheckimportCountry)
 
 
@@ -50,6 +50,7 @@ router.post('/deletecity',cityController.deleteCity)
 router.post('/showcity',cityController.showcity)
 router.post('/updatecity',cityController.updateCity)
 router.post('/getcity',cityController.getCity)
+router.post('/importcity',cityController.ImportCity)
 
 router.get('/totalunit',checkAuth,unitController.TotalUnit)
 router.post('/unit',unitController.Unit)

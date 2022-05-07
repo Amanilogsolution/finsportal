@@ -45,7 +45,7 @@ const columns = [
           window.location.href = 'ShowCurrency'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option selected disabled hidden defaultValue={row.status}> {row.status}</option>
 
 
           <option>Active</option>
@@ -55,7 +55,7 @@ const columns = [
     ]
   },
   {
-    name: "Actions",
+    name: "Action",
     sortable: false,
     selector: "null",
     cell: (row) => [
@@ -70,11 +70,13 @@ const ShowCurrency = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno,setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
 
 
   //##########################  Upload data start  #################################
 
-  const uploaddata = () => {
+  const uploaddata = async () => {
     importdata.map((d) => {
       console.log(d.cust_type)
      if(!d.country_code || !d.country_name || !d.currency_code || !d.currency_name ){
@@ -89,9 +91,18 @@ const ShowCurrency = () => {
     }
     else
     {
-      ImportCurrency(importdata);
-      document.getElementById("showdataModal").style.display="none";
-      window.location.reload()
+      const result = await ImportCurrency(importdata);
+      console.log(result.length)
+      if (!(result == "Data Added")) {
+        setBackenddata(true);
+        setDuplicateDate(result)
+      }
+      else if (result == "Data Added") {
+        setBackenddata(false);
+        document.getElementById("showdataModal").style.display = "none";
+        alert("Data Added")
+        window.location.href = 'ShowCountry'
+      }
     }
   
 };
@@ -102,7 +113,7 @@ const ShowCurrency = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    console.log(datas)
+    // console.log(datas)
     setImportdata(datas);
     
   };
@@ -181,6 +192,7 @@ const ShowCurrency = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          dense
                         />
                       </DataTableExtensions>
 
@@ -293,6 +305,37 @@ const ShowCurrency = () => {
               </div>
               {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom:"20px",overflow: "auto" }}>
+              {
+
+backenddata ?
+  <>
+    <h5>This data already exist</h5>
+    <table style={{ color: "red" }}>
+      <thead>
+        <th style={{ border: "1px solid black" }}>country_code</th>
+        <th style={{ border: "1px solid black" }}>country_id</th>
+        <th style={{ border: "1px solid black" }}>country_name</th>
+        <th style={{ border: "1px solid black" }}>country_phonecode</th>
+      </thead>
+      <tbody>
+        {
+          duplicateData.map((d) => (
+
+            <tr style={{ border: "1px solid black" }}>
+              <td style={{ border: "1px solid black" }}>{d.country_code}</td>
+              <td style={{ border: "1px solid black" }}>{d.country_id}</td>
+              <td style={{ border: "1px solid black" }}>{d.country_name}</td>
+              <td style={{ border: "1px solid black" }}>{d.country_phonecode}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+      <tfoot></tfoot>
+      <br /><br />
+    </table>
+  </>
+  : null
+}
                 <table >
                   <thead>
                     <th style={{ border: "1px solid black" }}>country_code</th>

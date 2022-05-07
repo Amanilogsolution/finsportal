@@ -397,11 +397,18 @@ export const ImportCustomer = async (data) => {
     return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ImportCountry = async (data) => {
+export const ImportState = async (data) => {
     console.log('Api',{data})
-    const url = `http://localhost:3008/api/importcountry`
+    const url = `http://localhost:3008/api/importState`
     return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ImportCity = async (data) => {
+    console.log('Api',{data})
+    const url = `http://localhost:3008/api/importcity`
+    return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const CheckimportCountry = async (data) => {
     const url = `http://localhost:3008/api/checkimportcountry`

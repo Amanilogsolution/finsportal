@@ -19,13 +19,13 @@ const Login = () => {
         if(result.status=='Success'){
             localStorage.setItem('Token',result.token)
             localStorage.setItem('ExpiredIn',result.expiresIn)
+            console.log(result.result)
             localStorage.setItem('Organisation',result.result)
-
 
               window.location.href = '/home'
           }
           else{
-            alert(<span style={{color:'red'}}>{`Invalid Email & Password`}</span>)
+            alert("Invalid Email & Password")
         }
     }
 

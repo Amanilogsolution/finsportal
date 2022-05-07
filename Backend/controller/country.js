@@ -5,10 +5,10 @@ const uuidv1 = require("uuid/v1");
 
 const countries = async (req, res) => {
     const org = req.body.org
-    console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
+    // console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_countries order by sno desc`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         console.log(err)
@@ -84,44 +84,28 @@ async function deletecountry(req, res) {
 
 const CheckimportCountry = (req, res) => {
     const datas = req.body.data;
-    let duplicatedate = [];
+    // let duplicatedate = [];
 
     sql.connect(sqlConfig).then(() => {
 
-         sql.query(`select * from FINSDB.dbo.tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
-                .then((resp) => {
-                    console.log(resp.rowsAffected[0])
-                    if (resp.rowsAffected[0]>0)
-                    res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode,})))  
-                else{
+        sql.query(`select * from FINSDB.dbo.tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in (${datas.map(data => data.country_id).join(', ')}) OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode IN (${datas.map(data => data.country_phonecode).join(', ')})`)
+            .then((resp) => {
+                // console.log(resp.rowsAffected[0])
+                if (resp.rowsAffected[0] > 0)
+                    res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode, })))
+                else {
 
-                    sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode) VALUES ${datas.map(item => `(${item.country_name},${item.country_id},${item.country_code},${item.country_phonecode})`).join(', ')}`)
-                    res.send([])
-                } 
-              })
-    
-        console.log(duplicatedate)
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode,status,add_date_time,add_user_name,add_system_name,add_ip_address,country_uuid) VALUES ${datas.map(item => `('${item.country_name}','${item.country_id}','${item.country_code}','${item.country_phonecode}','Active',getdate(),'Adim','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
+                    res.send("Data Added")
+                }
+            })
+
+        // console.log(duplicatedate)
 
     })
 }
 
 
-const ImportCountry = async (req, res) => {
-    const datas = req.body.data;
-    console.log(datas)
-    try {     
-        datas.forEach(async (item) => {
-            await sql.connect(sqlConfig)
-            var result = await sql.query(`insert into FINSDB.dbo.tbl_countries 
-            (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
-        values('${item.country_name}','${item.country_id}','${item.country_code}','${item.country_phonecode}','${uuidv1()}',getdate(),'admin','${os.hostname()}','${req.ip}','Active')`)
-        }
-        )
-        res.send("data Imported")
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
 
-module.exports = { countries, InsertCountry, showcountry, updatecountry, deletecountry, CheckimportCountry, ImportCountry }
+
+module.exports = { countries, InsertCountry, showcountry, updatecountry, deletecountry, CheckimportCountry }

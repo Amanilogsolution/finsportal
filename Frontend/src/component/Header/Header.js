@@ -1,15 +1,28 @@
 import './header.css';
-import React, { useState,useEffect } from "react";
-import {TotalOrganistion} from '../../api'
+import React, { useState, useEffect } from "react";
+import { TotalOrganistion,UserLogout } from '../../api'
+import OrgLogo from "../../images/bg1.jpg";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-  const [data,setData] = useState([])
-  useEffect(async() => {
+  const [data, setData] = useState([])
+  useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
     console.log(organisation)
-  },[])
+  }, [])
+
+  const handleClick = async()=>{
+    const result = await UserLogout(localStorage.getItem('username'))
+    console.log(result)
+    if(result.status == 'Logout'){
+     // localStorage.removeItem("username")
+     // localStorage.removeItem("Token")
+     localStorage.clear()
+      window.location.href='/'
+    }
+  
+  }
 
   return (
     <div>
@@ -126,26 +139,82 @@ const Header = () => {
           </li>
         </ul>
         {show ? (
-          <div className="orgcard">
+          {/* <div className="orgcard">
+           
+            <h5 className="cardtitle" >Organisation Profile &nbsp;
+            <i class="fa fa-times" aria-hidden="true" ></i></h5>
+            
+          
 
-            <h5 className="cardtitle">Organisation Profile</h5>
-            &nbsp;
             <i className="fa fa-building" ></i> &nbsp;
             <a href="/org" className="card-link">
               Orgaisation Profile
             </a>
             {
               data.map(item =>(
-                <li>{item.org_name}</li>
+                <li><a href="#">{item.org_name}</a></li>
               ))
             }
             
+          </div> */},
+          <div className="orgcard card" style={{ width: '20rem' }}>
+
+            <div className="card-body">
+              <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => {setShow(!show);}}></i>
+              <img className="card-img-top" src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+            </div>
+            
+            {/* <img className="card-img-top" src="..." alt="Card image cap" /> */}
+            <div className="card-body" style={{ }}>
+              <a href="#">My Account</a> &nbsp; | &nbsp; 
+              <a  href='/org' style={{color:"green"}}> Create Organisation</a><br/>
+              <a  onClick={handleClick} style={{color:"red",cursor:"pointer",margin:"30%"}}> Sign Out</a>
+              {/* <h5 className="card-title">Card title</h5> */}
+              {/* <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+            </div>
+            <ul className="list-group list-group-flush">
+
+              {
+                data.map(item => (
+
+                  <li className="list-group-item">
+                    <i className="fa fa-building" ></i> &nbsp;
+                    <a href="#">{item.org_name}</a></li>
+                ))
+              }
+            </ul>
+            {/* <div className="card-body">
+    <a href="#" className="card-link">Card link</a>
+    <a href="#" className="card-link">Another link</a>
+  </div> */}
           </div>
-        ) : null}
+
+
+
+
+        ) : null
+        }
       </nav>
-     
+
     </div>
   );
 };
 
 export default Header;
+
+{/* <div className="card" style={{width: '18rem'}}>
+  <img className="card-img-top" src="..." alt="Card image cap" />
+  <div className="card-body">
+    <h5 className="card-title">Card title</h5>
+    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul className="list-group list-group-flush">
+    <li className="list-group-item">Cras justo odio</li>
+    <li className="list-group-item">Dapibus ac facilisis in</li>
+    <li className="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div className="card-body">
+    <a href="#" className="card-link">Card link</a>
+    <a href="#" className="card-link">Another link</a>
+  </div>
+</div> */}
