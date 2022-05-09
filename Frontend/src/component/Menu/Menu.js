@@ -1,14 +1,11 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { UserLogout } from '../../api';
 
  const Menu = () =>  {
-
    const handleClick = async()=>{
-     const result = await UserLogout(localStorage.getItem('username'))
-     console.log(result)
+     const result = await UserLogout(localStorage.getItem('username'));
+    //  console.log(result)
      if(result.status == 'Logout'){
-      // localStorage.removeItem("username")
-      // localStorage.removeItem("Token")
       localStorage.clear()
        window.location.href='/'
      }
@@ -124,7 +121,7 @@ import { UserLogout } from '../../api';
           </li>
           <li className="nav-item">
             <a href="/Customer" className="nav-link active">
-              <i className="fa fa-shopping-bag" aria-hidden="true"></i>
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
               <p >
               &nbsp;  Master 
                 <i className="right fas fa-angle-left" />

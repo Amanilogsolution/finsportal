@@ -1,6 +1,6 @@
 import "./org.css";
 import { useState } from "react";
-import {register,CreatenewDb,CreateOrgTable} from "../../api/index";
+import { register, CreatenewDb, CreateOrgTable } from "../../api/index";
 function Org() {
 
   const [gstbox, setgstbox] = useState(false);
@@ -10,7 +10,7 @@ function Org() {
     document.getElementById("newlinepid").style.display = "none";
   };
 
-  const Orgdetails = async(e) => {
+  const Orgdetails = async (e) => {
     e.preventDefault();
     const org_name = document.getElementById("org_name").value;
     // const org_country = document.getElementById("org_country").value;
@@ -26,26 +26,26 @@ function Org() {
     // const org_gst = document.getElementById("org_gst").value;
 
     // console.log(org_name, org_country, org_state, org_street, org_city, org_pin, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
-    if(!org_name){
+    if (!org_name) {
       alert("Enter Org name")
-    }else{
-    
-    const OrgTable = await CreateOrgTable(org_name)
-    console.log(OrgTable)
-    if (OrgTable == 'Added' ){
-      const database = await CreatenewDb(org_name)
-      console.log(database)
-    }else{
-      alert(OrgTable)
+    } else {
+
+      const OrgTable = await CreateOrgTable(org_name)
+      console.log(OrgTable)
+      if (OrgTable == 'Added') {
+        const database = await CreatenewDb(org_name)
+        console.log(database)
+      } else {
+        alert(OrgTable)
+      }
     }
-  }
 
     // const database = await CreatenewDb(org_name)
     // console.log(database)
-  //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
-  //  if(result){
-  //   window.location.href='/home'
-  //  }
+    //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
+    //  if(result){
+    //   window.location.href='/home'
+    //  }
   };
 
   const handleClick = () => {
@@ -59,7 +59,7 @@ function Org() {
         <p className="text-center" >
           AWL is your end-to-end online accounting software.
         </p>
-        <div className="row justify-content-center">
+        <div className="row justify-content-center " style={{ width: "100%" }}>
           <div className="col-md-6">
             <div className="card">
               <article
@@ -71,13 +71,11 @@ function Org() {
                 </h3>
                 <br />
 
-                <form >
-
+                <form autoComplete="off">
                   <div className="form-group">
-                    <label>
-                      Organization Name <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <input type="text" className="form-control"  id="org_name" required="true"/>
+                    <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
+
+                    <input type="text" className="form-control" id="org_name" required="true" />
                   </div>
                   <div className="form-row">
                     <div className="col form-group">
@@ -101,9 +99,7 @@ function Org() {
                         <span style={{ color: "red" }}>*</span>
                       </label>
                       <select id="inputState" className="form-control">
-                        <option selected="">
-                          Selecte State/Union Territory
-                        </option>
+                        <option selected="" hidden>Selecte State/Union Territory</option>
                         <option>Andhra Pradesh</option>
                         <option>Arunachal Pradesh</option>
                         <option>Assam</option>
@@ -147,28 +143,28 @@ function Org() {
                     >
                       <path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" />
                     </svg>
-                    Add Organization Address
+                    Add Organization Details
                   </p>
                   <div id="formallbox" style={{ display: "none" }}>
-                  <div className="form-row">
-                  <div className="col form-group">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Contact Person Name"
-                        id='org_contact_name'
-                        
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <input
-                        type="tel"
-                        className="form-control"
-                        maxLength="12"
-                        placeholder="Contact Mobile no."
-                        id='org_contact_phone'
-                      />
-                    </div>
+                    <div className="form-row">
+                      <div className="col form-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Contact Person Name"
+                          id='org_contact_name'
+
+                        />
+                      </div>
+                      <div className="form-group col-md-6">
+                        <input
+                          className="form-control"
+                          type="text" oninput="numberOnly(this.id);"
+                          maxlength="12"
+                          placeholder="Contact Mobile no."
+                          id='org_contact_phone'
+                        />
+                      </div>
                     </div>
                     <div className="form-group">
                       <input
@@ -178,7 +174,7 @@ function Org() {
                         id='org_contact_email'
                       />
                     </div>
-                   
+
                     <div className="form-group">
                       <input
                         type="text"
@@ -187,7 +183,7 @@ function Org() {
                         id='org_street'
                       />
                     </div>
-                    
+
                     <div className="form-row">
                       <div className="col form-group">
                         <input
@@ -200,9 +196,22 @@ function Org() {
                       <div className="form-group col-md-6">
                         <input
                           type="text"
+                          oninput="numberOnly(this.id);"
+                          maxlength="6"
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
+                        />
+                      </div>
+                      <div className="form-group row">
+                        <label className="col-sm-5 col-form-label">
+                          Orgaisation logo (optional) :-
+                        </label>
+                        <input
+                          type="file"
+                          className="form-control col-md"
+                          placeholder=""
+                          accept=".jpg, .jpeg, .png"
                         />
                       </div>
                     </div>
@@ -234,7 +243,7 @@ function Org() {
                       />
                     </div>
                   </div>
-               
+
                   <p>
                     Is this business registered for GST?
                     <input type="checkbox"
@@ -268,20 +277,21 @@ function Org() {
                       <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
                         Get start
                       </button>
-                      <button id="clear" onClick={(e)=>{ e.preventDefault(); window.location.href ='/home'
+                      <button id="clear" onClick={(e) => {
+                        e.preventDefault(); window.location.href = '/home'
                       }} name="clear" className="btn ml-2">
                         Cancel
                       </button>
                       <a href="#" style={{ float: "right" }}>
                         Privacy Policy
                       </a>
-                     
-                    
+
+
                     </div>
                   </div>
                 </form>
-                
-                     
+
+
               </article>
             </div>
           </div>

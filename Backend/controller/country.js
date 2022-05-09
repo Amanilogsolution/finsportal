@@ -8,7 +8,7 @@ const countries = async (req, res) => {
     // console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries order by sno desc`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_countries order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         console.log(err)

@@ -52,7 +52,8 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                setShow(!show);
+                if(currentdb=="FINSDB"){
+                setShow(!show);}
               }}
             >
              <b>{currentdb} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
@@ -63,7 +64,8 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                setShow(!show);
+                if(!currentdb=="FinsDB"){
+                setShow(!show);}
               }}
             >
               <i className="fas fa-cog"></i>
@@ -149,25 +151,11 @@ const Header = () => {
             </a>
           </li>
         </ul>
+        
         {show ? (
-          {/* <div className="orgcard">
-           
-            <h5 className="cardtitle" >Organisation Profile &nbsp;
-            <i class="fa fa-times" aria-hidden="true" ></i></h5>
-            
+          <>
           
 
-            <i className="fa fa-building" ></i> &nbsp;
-            <a href="/org" className="card-link">
-              Orgaisation Profile
-            </a>
-            {
-              data.map(item =>(
-                <li><a href="#">{item.org_name}</a></li>
-              ))
-            }
-            
-          </div> */},
           <div className="orgcard card" style={{ width: '20rem' }}>
 
             <div className="card-body">
@@ -175,11 +163,14 @@ const Header = () => {
               <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
             </div>
             <div className="card-body" >
-              <a href="#">My Account</a> &nbsp; | &nbsp; 
-              <a  href='/org' style={{color:"green"}}> Create Organisation</a><br/>
+              <a href="#" style={{marginLeft:"20px"}}>My Account</a> &nbsp; | &nbsp; 
+              <a  href='/org' style={{color:"green"}}> Add Organisation</a><br/>
               <a  onClick={handleClick} style={{color:"red",cursor:"pointer",margin:"30%"}}> Sign Out</a>
             </div>
             <ul className="list-group list-group-flush">
+            <li className="list-group-item"><b>My Orgaisation</b> 
+            <a style={{color:"blue",float:"right"}}>
+            <i className="fas fa-cog" ></i> Manage</a></li>
               {
                 data.map(item => (
 
@@ -191,7 +182,7 @@ const Header = () => {
             </ul>
          
           </div>
-        ) : null
+          </>) : null
         }
       </nav>
 
