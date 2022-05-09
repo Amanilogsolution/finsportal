@@ -22,6 +22,7 @@ const Login = () => {
             localStorage.setItem('ExpiredIn',result.expiresIn)
             console.log(result.result)
             localStorage.setItem('Organisation',result.result)
+            localStorage.setItem('User_name',result.result2)
 
               window.location.href = '/home'
           }

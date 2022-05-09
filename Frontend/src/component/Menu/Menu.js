@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import { UserLogout } from '../../api';
 
  const Menu = () =>  {
+
+  const username= localStorage.getItem("User_name")
    const handleClick = async()=>{
      const result = await UserLogout(localStorage.getItem('username'));
     //  console.log(result)
@@ -26,7 +28,7 @@ import { UserLogout } from '../../api';
           <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
         </div>
         <div className="info">
-          <a href="#" className="d-block">Aman Lohan</a>
+          <a href="#" className="d-block">{username}</a>
         </div>
       </div>
       <div className="form-inline">

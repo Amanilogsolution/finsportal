@@ -8,8 +8,9 @@
         border-radius: 10px;
         background: rgb(206, 228, 248);
         overflow: hidden;
-     
-        z-index:auto
+        width: 23rem;
+        border:1px solid rgb(172, 170, 170);
+        box-shadow: 7px 7px 15px rgb(147, 146, 146);
       }
    
  .orgcard .cardtitle{

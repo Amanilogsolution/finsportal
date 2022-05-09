@@ -5,6 +5,7 @@ const uuidv1 = require("uuid/v1");
 
 const countries = async (req, res) => {
     const org = req.body.org
+    console.log(org)
     // console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
     try {
         await sql.connect(sqlConfig)

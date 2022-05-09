@@ -1,29 +1,19 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { TotalOrganistion,UserLogout } from '../../api'
+import { TotalOrganistion, UserLogout } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 
 const Header = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([])
-  const currentdb= localStorage.getItem('Organisation');
+  const currentdb = localStorage.getItem('Organisation');
   useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
     console.log(organisation)
   }, [])
 
-  const handleClick = async()=>{
-    const result = await UserLogout(localStorage.getItem('username'))
-    console.log(result)
-    if(result.status == 'Logout'){
-     // localStorage.removeItem("username")
-     // localStorage.removeItem("Token")
-     localStorage.clear()
-      window.location.href='/'
-    }
-  
-  }
+
 
   return (
     <div>
@@ -46,17 +36,19 @@ const Header = () => {
           </li>
         </ul>
 
-        <ul className="navbar-nav ml-auto">
-        <li className="nav-item" >
+
+        <ul className="navbar-nav ml-auto" style={{position:"relative"}}>
+          <li className="nav-item" >
             <a
               className="nav-link"
               role="button"
               onClick={() => {
-                if(currentdb=="FINSDB"){
-                setShow(!show);}
+                if (currentdb == "FINSDB") {
+                  setShow(!show);
+                }
               }}
             >
-             <b>{currentdb} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
+              <b>{currentdb} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
           </li>
           <li className="nav-item" >
@@ -64,8 +56,9 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                if(!currentdb=="FinsDB"){
-                setShow(!show);}
+                if (!currentdb == "FinsDB") {
+                  setShow(!show);
+                }
               }}
             >
               <i className="fas fa-cog"></i>
@@ -150,38 +143,48 @@ const Header = () => {
               <i className="fas fa-th-large"></i>
             </a>
           </li>
+
+          {/* Profile start */}
+          <li className="nav-item profilediv"  >
+            <div className="user-panel mr-7">
+              <div className="image" >
+                <img src="dist/img/user2-160x160.jpg" className="img-circle mr-4" alt="User Image" style={{ border: "1px solid black" }} />
+              </div>
+            </div>
+          </li>
+          {/* Profile end*/}
+
         </ul>
-        
+
         {show ? (
           <>
-          
 
-          <div className="orgcard card" style={{ width: '20rem' }}>
 
-            <div className="card-body">
-              <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => {setShow(!show);}}></i>
-              <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+            <div className="orgcard card" style={{}}>
+
+              <div className="card-body">
+                <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShow(!show); }}></i>
+                <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+              </div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item"><b>My Orgaisation</b>
+                  <a href='/org' style={{ color: "green", float: "right", textDecoration: "underline" }}> Add Organisation</a>
+                </li>
+                {
+                  data.map(item => (
+
+                    <li className="list-group-item">
+                      <a href="#" style={{ color: "blue", }}>
+                        <i className="fa fa-building" style={{ color: "#333" }}></i> &nbsp;
+                        {item.org_name}</a>
+                      <a href="#" style={{ float: "right" }}>
+                        <i className="fas fa-cog" ></i> Manage</a>
+                    </li>
+                  ))
+                }
+              </ul>
+
             </div>
-            <div className="card-body" >
-              <a href="#" style={{marginLeft:"20px"}}>My Account</a> &nbsp; | &nbsp; 
-              <a  href='/org' style={{color:"green"}}> Add Organisation</a><br/>
-              <a  onClick={handleClick} style={{color:"red",cursor:"pointer",margin:"30%"}}> Sign Out</a>
-            </div>
-            <ul className="list-group list-group-flush">
-            <li className="list-group-item"><b>My Orgaisation</b> 
-            <a style={{color:"blue",float:"right"}}>
-            <i className="fas fa-cog" ></i> Manage</a></li>
-              {
-                data.map(item => (
-
-                  <a href="#"><li className="list-group-item">
-                    <i className="fa fa-building" style={{color:"#333"}}></i> &nbsp;
-                    {item.org_name}</li></a>
-                ))
-              }
-            </ul>
-         
-          </div>
           </>) : null
         }
       </nav>
