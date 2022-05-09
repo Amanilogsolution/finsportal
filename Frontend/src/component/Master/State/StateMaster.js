@@ -12,8 +12,8 @@ import { Totalcountry } from '../../../api';
      const [selectedCountry,setSelectedCountry] = useState('india');
 
      useEffect(async() => {
-       const result = await Totalcountry()
-       console.log(result)
+       const result = await Totalcountry(localStorage.getItem('Organisation'))
+       console.log('Result',result)
        setSelectCountry(result)
     }, [])
 

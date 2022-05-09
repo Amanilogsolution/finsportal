@@ -429,3 +429,13 @@ export const TotalOrganistion = async () => {
     const url = `http://localhost:3008/api/TotalOrganistion`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
+
+export const totalLocation = async (org) => {
+    const url = `http://localhost:3008/api/TotalLocation`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+export const addLocation = async (org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2) => {
+    console.log('api',org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2)
+    const url = `http://localhost:3008/api/AddLocation`
+    return axios.post(url,{org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2}).then(response => response.data).catch(error => console.log(error));
+}

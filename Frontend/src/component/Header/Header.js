@@ -52,7 +52,8 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                setShow(!show);
+                if(currentdb=="FINSDB"){
+                setShow(!show);}
               }}
             >
              <b>{currentdb} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
@@ -63,7 +64,8 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                setShow(!show);
+                if(!currentdb=="FinsDB"){
+                setShow(!show);}
               }}
             >
               <i className="fas fa-cog"></i>
@@ -149,25 +151,11 @@ const Header = () => {
             </a>
           </li>
         </ul>
+        
         {show ? (
-          {/* <div className="orgcard">
-           
-            <h5 className="cardtitle" >Organisation Profile &nbsp;
-            <i class="fa fa-times" aria-hidden="true" ></i></h5>
-            
+          <>
           
 
-            <i className="fa fa-building" ></i> &nbsp;
-            <a href="/org" className="card-link">
-              Orgaisation Profile
-            </a>
-            {
-              data.map(item =>(
-                <li><a href="#">{item.org_name}</a></li>
-              ))
-            }
-            
-          </div> */},
           <div className="orgcard card" style={{ width: '20rem' }}>
 
             <div className="card-body">
@@ -185,7 +173,6 @@ const Header = () => {
             <i className="fas fa-cog" ></i> Manage</a></li>
               {
                 data.map(item => (
-
                   <a href="#"><li className="list-group-item">
                     <i className="fa fa-building" style={{color:"#333"}}></i> &nbsp;
                     {item.org_name}</li></a>
@@ -194,7 +181,7 @@ const Header = () => {
             </ul>
          
           </div>
-        ) : null
+          </>) : null
         }
       </nav>
 

@@ -17,6 +17,7 @@ const Token = require('../controller/Token')
 const OrganisationController = require('../controller/Org')
 const NewdbController = require('../controller/Newdb')
 const OrgTableController = require('../controller/Org_table')
+const LocationController = require('../controller/Location')
 
 router.post('/newdb', NewdbController.Newdb);
 
@@ -109,6 +110,10 @@ router.post('/Token',Token.token)
 router.post('/Totaldata',OrganisationController.InsertTotalTable)
 router.post('/Org_table',OrgTableController.Org_table)
 router.get('/TotalOrganistion',OrgTableController.TotalOrganisation)
+
+router.post('/TotalLocation',LocationController.TotalLocation)
+router.post('/AddLocation',LocationController.AddLocation)
+
 
 
 module.exports = router;

@@ -8,7 +8,7 @@ const os = require('os')
 const User_login = async (req,res) => {
     const user_id = req.body.user_id;
     const user_password = req.body.user_password;
-    console.log(user_id,user_password)
+    // console.log(user_id,user_password)
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
@@ -19,6 +19,7 @@ const User_login = async (req,res) => {
                 status:"Success",
                 token:token,
                 result:result.recordset[0].org_name,
+                result2:result.recordset[0].user_name,
                 expiresIn:  60
             })
         }else{

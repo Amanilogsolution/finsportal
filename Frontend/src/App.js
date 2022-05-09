@@ -45,6 +45,10 @@ import Practice from './component/practice';
 
 import TotalCustomer from './component/Customer/TotalCustomer';
 import EditCustomer from './component/Customer/EditCustomer';
+import TotalLocation from './component/Master/Location/TotalLocation';
+import AddLocation from './component/Master/Location/AddLocation';
+import AddOrgAddress from './component/Master/Location/Address/AddOrgAddress';
+import EditOrgAddress from './component/Master/Location/Address/EditOrgAddress';
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -103,6 +107,12 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/AddVendAddress" component={AddVendAddress}/>
           <Route exact path="/TotalVendAddress" component={TotalVendAddress}/>
           <Route exact path="/EditVendorAddress" component={EditVendorAddress}/>
+          
+          <Route exact path="/TotalLocation" component={TotalLocation}/>
+          <Route exact path="/AddLocation" component={AddLocation}/>
+          <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
+          <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>
+          
           <Route exact path="*" component={PageNotFound}/>
           </Switch>
         </Router>
