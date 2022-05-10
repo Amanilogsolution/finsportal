@@ -113,6 +113,15 @@ router.get('/TotalOrganistion',OrgTableController.TotalOrganisation)
 
 router.post('/TotalLocation',LocationController.TotalLocation)
 router.post('/AddLocation',LocationController.AddLocation)
+router.post('/ShowLocation',LocationController.ShowLocation)
+
+
+router.post('/LocationAddress',LocationController.LocationAddress)
+router.post('/LocationAddress',LocationController.LocationAddress)
+router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
+router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
+
+
 
 
 

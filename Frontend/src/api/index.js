@@ -439,3 +439,21 @@ export const addLocation = async (org,location_name,gstin_no,contact_name1,conta
     const url = `http://localhost:3008/api/AddLocation`
     return axios.post(url,{org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2}).then(response => response.data).catch(error => console.log(error));
 }
+export const showLocation = async (org,location_id) => {
+    const url = `http://localhost:3008/api/ShowLocation`
+    return axios.post(url,{org,location_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const locationAddress = async (org,location_id) => {
+    const url = `http://localhost:3008/api/LocationAddress`
+    return axios.post(url,{org,location_id}).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdateLocationAddress = async (org,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin) => {
+    const url = `http://localhost:3008/api/UpdateLocationAddress`
+    return axios.post(url,{org,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin}).then(response => response.data).catch(error => console.log(error));
+}
+export const InsertLocationAddress = async (org,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin,to_date) => {
+    console.log(org,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin,to_date)
+    const url = `http://localhost:3008/api/InsertLocationAddress`
+    return axios.post(url,{org,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin,to_date}).then(response => response.data).catch(error => console.log(error));
+}

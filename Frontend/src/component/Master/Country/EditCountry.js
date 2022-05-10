@@ -7,6 +7,7 @@ import {updatecountry} from '../../../api'
 
  const EditCountry = () => {
      const[data,setData] = useState([])
+     
      useEffect(async() => {
         const result = await showcountry(localStorage.getItem('countrySno'))
         setData(result)
