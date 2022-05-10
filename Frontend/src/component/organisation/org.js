@@ -17,7 +17,7 @@ function Org() {
     // const org_state = document.getElementById("inputState").value;
     // const org_street = document.getElementById("org_street").value;
     // const org_city = document.getElementById("org_city").value;
-    // const org_pin = document.getElementById("org_pin").value;
+    // const org_pincode = document.getElementById("org_pin").value;
     // const org_currency = document.getElementById("org_currency").value;
     // const org_lang = document.getElementById("org_lang").value;
     // const org_contact_name = document.getElementById("org_contact_name").value;
@@ -25,7 +25,7 @@ function Org() {
     // const org_contact_email = document.getElementById("org_contact_email").value;
     // const org_gst = document.getElementById("org_gst").value;
 
-    // console.log(org_name, org_country, org_state, org_street, org_city, org_pin, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
+    // console.log(org_name, org_country, org_state, org_street, org_city, org_pincode, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
     if (!org_name) {
       alert("Enter Org name")
     } else {
@@ -42,7 +42,7 @@ function Org() {
 
     // const database = await CreatenewDb(org_name)
     // console.log(database)
-    //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
+    //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
     //  if(result){
     //   window.location.href='/home'
     //  }

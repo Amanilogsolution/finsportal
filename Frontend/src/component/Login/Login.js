@@ -23,6 +23,7 @@ const Login = () => {
             console.log(result.result)
             localStorage.setItem('Organisation',result.result)
             localStorage.setItem('User_name',result.result2)
+            localStorage.setItem('Organisation Name',result.result3)
 
               window.location.href = '/home'
           }
