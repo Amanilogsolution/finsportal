@@ -36,6 +36,37 @@ const User_login = async (req,res) => {
     }
 }
 
+
+const InsertUserLogin = async (req, res) => {
+    const employee_name = req.body.employee_name;
+    const role = req.body.role;
+    const warehouse = req.body.warehouse;
+    const username = req.body.username;
+    const password = req.body.password;
+    const email_id = req.body.email_id;
+    const phone = req.body.phone;
+    const operatemode = req.body.operatemode;
+    const customer = req.body.customer;
+    const reporting_to = req.body.reporting_to;
+    const designation = req.body.designation;
+    const user_profile_url = 'https://thispersondoesnotexist.com/image'
+    const two_factor_authentication = req.body.two_factor_authentication;
+    console.log(user_profile_url)
+     
+    const uuid = uuidv1()
+
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`insert into FINSDB.dbo.tbl_Login(user_id,user_name,location,comp_name,comp_ip,
+            status,user_password,login_uuid,org_name ,org_db_name,user_profile_url)
+            values ()`)
+        res.send('Added')
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
 const User_logout = async(req,res)=>{
     const user_id = req.body.user_id;
     console.log(user_id)

@@ -99,6 +99,7 @@ async function deleteuser(req,res){
             }
          }
 
+         
 
     
 module.exports={user,InsertUser,showuser,updateuser,deleteuser}
