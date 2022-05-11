@@ -385,6 +385,12 @@ export const UserLogout = async(user_id) => {
     return axios.post(url, {user_id}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const insertUserLogin = async(user_id,user_name,location,comp_name,user_password,org_db_name) => {
+    console.log(user_id,user_name,location,comp_name,user_password,org_db_name)
+    const url = 'http://localhost:3008/api/InsertUserLogin'
+    return axios.post(url, {user_id,user_name,location,comp_name,user_password,org_db_name}).then(response => response.data).catch(error => console.log(error));
+}
+
 export const ImportCurrency = async (data) => {
     // console.log('Api',{data})
     const url = `http://localhost:3008/api/ImportCurrency`

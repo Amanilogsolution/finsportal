@@ -103,6 +103,7 @@ router.post('/updatevendaddress', AddressController.UpdateVendAddress);
 
 router.post('/userlogin',LoginController.User_login)
 router.post('/userlogout',LoginController.User_logout)
+router.post('/InsertUserLogin',LoginController.InsertUserLogin)
 
 router.post('/SchemaCreate',OrganisationController.Insertorg)
 
