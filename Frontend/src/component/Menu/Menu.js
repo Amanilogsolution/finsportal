@@ -5,15 +5,15 @@ import { UserLogout } from '../../api';
   const currentorg = localStorage.getItem('Organisation Name');
   const username= localStorage.getItem("User_name")
 
-   const handleClick = async()=>{
-     const result = await UserLogout(localStorage.getItem('username'));
-    //  console.log(result)
-     if(result.status == 'Logout'){
-      localStorage.clear()
-       window.location.href='/'
-     }
+  //  const handleClick = async()=>{
+  //    const result = await UserLogout(localStorage.getItem('username'));
+  //   //  console.log(result)
+  //    if(result.status == 'Logout'){
+  //     localStorage.clear()
+  //      window.location.href='/'
+  //    }
    
-   }
+  //  }
 
     return (
    <div>

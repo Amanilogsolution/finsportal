@@ -1,36 +1,41 @@
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import './login.css'
-import {UserLogin} from '../../api'
+import { UserLogin } from '../../api'
 
 
 const Login = () => {
-  const [passwordshow, setPasswordshow] = useState(false);
-  
-  const handleClickToogle = (e) => {
-    e.preventDefault()
-    setPasswordshow(!passwordshow)
-  }
+    const [passwordshow, setPasswordshow] = useState(false);
+    const [errormsg, setErrormsg] = useState(false);
+
+    const handleClickToogle = (e) => {
+        e.preventDefault()
+        setPasswordshow(!passwordshow)
+    }
+    const hidetext = () => {
+        setErrormsg(false)
+    }
 
     const handleClick = async (e) => {
         e.preventDefault()
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
-        console.log(email,password)
-        const result = await UserLogin(email,password)
+        console.log(email, password)
+        const result = await UserLogin(email, password)
         console.log(result)
-        if(result.status=='Success'){
-            localStorage.setItem('Token',result.token)
-            localStorage.setItem('ExpiredIn',result.expiresIn)
+        if (result.status == 'Success') {
+            localStorage.setItem('Token', result.token)
+            localStorage.setItem('ExpiredIn', result.expiresIn)
             console.log(result.result)
-            localStorage.setItem('Organisation',result.result)
-            localStorage.setItem('User_name',result.result2)
-            localStorage.setItem('Organisation Name',result.result3)
-            localStorage.setItem('User_id',result.result4)
+            localStorage.setItem('Organisation', result.result)
+            localStorage.setItem('User_name', result.result2)
+            localStorage.setItem('Organisation Name', result.result3)
+            localStorage.setItem('User Profile', result.result4)
 
-              window.location.href = '/home'
-          }
-          else{
-            alert("Invalid Email & Password")
+            window.location.href = '/home'
+        }
+        else {
+            setErrormsg(true);
+            // alert("Invalid Email & Password")
         }
     }
 
@@ -42,10 +47,16 @@ const Login = () => {
                         <a href="../../index2.html" className="h1"><b>FINS</b></a>
                     </div>
                     <div className="card-body">
+
                         <h1 className="login-box-msg">Login</h1>
+                        {
+                            errormsg ? (
+                                <h5 style={{ color: "red", textAlign: "center" }}>Please! enter valid Id & Password.</h5>
+                            ) : null
+                        }
                         <form action="../../index3.html" method="post">
                             <div className="input-group mb-3">
-                                <input type="email" className="form-control" placeholder="Email" id="email" required />
+                                <input type="email" className="form-control" placeholder="Email" id="email" onChange={hidetext} required />
                                 <div className="input-group-append">
                                     <div className="input-group-text">
                                         <span className="fas fa-envelope" />
@@ -53,10 +64,10 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="input-group mb-3">
-                                <input type={passwordshow ? "text" : "password"}  className="form-control" placeholder="Password" id="password" required/>
+                                <input type={passwordshow ? "text" : "password"} className="form-control" placeholder="Password" onChange={hidetext} id="password" required />
                                 <div className="input-group-append">
-                            <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ?  <i className="fa fa-eye" aria-hidden="true"></i>:<i className="fa fa-eye-slash" aria-hidden="true"></i> }</span>
-                          </div>
+                                    <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+                                </div>
                                 {/* <div className="input-group-append">
                                     <div className="input-group-text">
                                         <span className="fas fa-lock" />
@@ -72,15 +83,17 @@ const Login = () => {
                                         </label>
                                     </div>
                                 </div> */}
-                                <div className="col-4" style={{marginLeft:"50%",transform:"translate(-50%)"}}>
+
+
+                                <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
                                     <button type="submit" onClick={handleClick} className="btn btn-primary btn-block">Sign In</button>
-                                    
+
                                 </div>
                             </div>
                         </form>
-                        {/* <p className="mb-1">
+                        <p className="mb-1">
                             <a href="forgot-password.html">I forgot my password</a>
-                        </p> */}
+                        </p>
                     </div>
                 </div>
             </div>

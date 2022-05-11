@@ -68,7 +68,7 @@ const User_logout = async(req,res)=>{
     console.log(user_id)
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout'  WHERE user_id = '${user_id}'`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout'  WHERE user_name = '${user_id}'`)
         res.status(200).send({
             status:"Logout"
         })
