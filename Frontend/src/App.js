@@ -55,9 +55,9 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
 
  const App = () => {
 
-   setTimeout(() => {
-    localStorage.removeItem('Token')
-   },8000)
+  //  setTimeout(() => {
+  //   localStorage.removeItem('Token')
+  //  },8000)
 
     return (
       <div>
