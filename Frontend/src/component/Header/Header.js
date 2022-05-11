@@ -17,7 +17,9 @@ const Header = () => {
   }, [])
 
   const handleClick = async()=>{
-    const result = await UserLogout(localStorage.getItem('username'));
+    const result = await UserLogout(localStorage.getItem('User_name'));
+    console.log(result)
+
     if(result.status == 'Logout'){
      localStorage.clear()
       window.location.href='/'
