@@ -14,15 +14,14 @@ const User_login = async (req,res) => {
         const result = await sql.query(`select * from FINSDB.dbo.tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
         if(result.recordset.length){
             const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`) 
-           const token = jwt.sign({user_id,user_password},process.env.JWT_KEY,{ expiresIn: 60*60 })
+           const token = jwt.sign({user_id,user_password},process.env.JWT_KEY,{ expiresIn: 5 * 24 * 60 * 60})
             res.status(200).send({
                 status:"Success",
                 token:token,
                 result:result.recordset[0].org_db_name,
                 result2:result.recordset[0].user_name,
                 result3:result.recordset[0].org_name,
-                result4:result.recordset[0].user_profile_url,
-                expiresIn:  60
+                expiresIn: 5 * 24 * 60 * 60
             })
         }else{
             res.send({
