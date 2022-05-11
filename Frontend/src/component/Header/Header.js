@@ -87,7 +87,7 @@ const Header = () => {
             </a>
           </li>
 
-          <li className="nav-item" >
+          {/* <li className="nav-item" >
             <a
               className="nav-link"
               data-widget="navbar-search"
@@ -118,7 +118,7 @@ const Header = () => {
                 </div>
               </form>
             </div>
-          </li>
+          </li> */}
 
           <li className="nav-item dropdown">
             <a className="nav-link" data-toggle="dropdown" href="#">
@@ -155,7 +155,7 @@ const Header = () => {
               <i className="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
-          <li className="nav-item" >
+          {/* <li className="nav-item" >
             <a
               className="nav-link"
               data-widget="control-sidebar"
@@ -164,7 +164,7 @@ const Header = () => {
               role="button" >
               <i className="fas fa-th-large"></i>
             </a>
-          </li>
+          </li> */}
 
           {/*--------- Profile start ---------------*/}
           <li className="nav-item profilediv"  >
