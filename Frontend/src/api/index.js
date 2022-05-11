@@ -378,6 +378,11 @@ export const UserLogin = async(user_id,user_password) => {
     const url = 'http://localhost:3008/api/userlogin'
     return axios.post(url, {user_id,user_password}).then(response => response.data).catch(error => console.log(error));
 }
+export const showUserLogin = async(user_id) => {
+    console.log(user_id)
+    const url = 'http://localhost:3008/api/ShowUserLogin'
+    return axios.post(url, {user_id}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const UserLogout = async(user_id) => {
     console.log(user_id)

@@ -21,6 +21,8 @@ const User_login = async (req,res) => {
                 result:result.recordset[0].org_db_name,
                 result2:result.recordset[0].user_name,
                 result3:result.recordset[0].org_name,
+                result4:result.recordset[0].user_id,
+
                 expiresIn: 5 * 24 * 60 * 60
             })
         }else{
@@ -76,4 +78,17 @@ const User_logout = async(req,res)=>{
     }
 }
 
-module.exports = {User_login,User_logout,InsertUserLogin}
+async function showLoginuser(req,res){
+    const user_id = req.body.user_id
+    console.log(user_id)
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_usermaster where user_name = '${user_id}'`)
+        res.send(result.recordset[0])
+        }
+        catch(err){
+            console.log(err)
+            }
+          }
+
+module.exports = {User_login,User_logout,InsertUserLogin,showLoginuser}
