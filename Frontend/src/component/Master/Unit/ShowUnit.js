@@ -89,6 +89,8 @@ const ShowUnit = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
+   
+    document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
       // console.log(d.unit_name)
      if(!d.unit_name || !d.unit_symbol  ){
@@ -103,9 +105,8 @@ const ShowUnit = () => {
     }
     else
     {
-      // const result = await ImportUnit(importdata,localStorage.getItem('Organisation'));
-      // console.log(result.length)
-      const result=3;
+      const result = await ImportUnit(importdata,localStorage.getItem('Organisation'));
+      console.log('result',result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -114,7 +115,7 @@ const ShowUnit = () => {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
-        window.location.href = 'ShowCountry'
+        window.location.href = 'ShowUnit'
       }
     }
   
@@ -124,11 +125,16 @@ const ShowUnit = () => {
 //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
+    console.log(importdata.length)
+    if(importdata.length==0){
+      alert("please select the file")
+      window.location.reload();
+    }
+    else{
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    // console.log(datas)
     setImportdata(datas);
-    
+    }
   };
   //##########################  for convert array to json end  #################################
 
@@ -159,14 +165,6 @@ const ShowUnit = () => {
     reader.readAsBinaryString(file);
   };
   //##########################  for convert excel to array end #################################
-
-  // useEffect(async () => {
-  //   const Token = localStorage.getItem('Token')
-  //   // console.log('Token',Token)
-  //   // console.log('ORg',localStorage.getItem('Organisation'))
-  //   const result = await TotalUnit(Token,localStorage.getItem('Organisation'))
-  //   setData(result)
-  // }, [])
 
  
     useEffect(async() => {
@@ -328,8 +326,8 @@ const ShowUnit = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
-                          <th style={{ border: "1px solid black" }}>unit_name</th>
-                          <th style={{ border: "1px solid black" }}>unit_symbol</th>
+                          <th style={{ border: "1px solid black",padding:"5px" }}>unit_name</th>
+                          <th style={{ border: "1px solid black",padding:"5px"  }}>unit_symbol</th>
                           
                         </thead>
                         <tbody>
@@ -352,8 +350,8 @@ const ShowUnit = () => {
                 }
                 <table >
                   <thead>
-                    <th style={{ border: "1px solid black" }}>unit_name</th>
-                    <th style={{ border: "1px solid black" }}>unit_symbol</th>
+                    <th style={{ border: "1px solid black" ,padding:"5px" }}>unit_name</th>
+                    <th style={{ border: "1px solid black" ,padding:"5px" }}>unit_symbol</th>
                     
 
 
@@ -385,6 +383,7 @@ const ShowUnit = () => {
                 Cancel
               </button>
               <button type="button"
+               id="uploadbtn"
                 onClick={uploaddata}
                 className="btn btn-primary"
               >

@@ -58,6 +58,8 @@ router.post('/unit',unitController.Unit)
 router.post('/showunit',checkAuth,unitController.showunit)
 router.post('/updateunit',unitController.UpdateUnit)
 router.post('/deleteunit',unitController.deleteUnit)
+router.post('/importunit',unitController.ImportUnit)
+
 
 router.get('/totalbank',bankController.TotalBanks)
 router.post('/addbank',bankController.InsertBank)

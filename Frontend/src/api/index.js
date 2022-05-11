@@ -408,6 +408,12 @@ export const ImportCity = async (data) => {
     return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const ImportUnit = async (data,org) => {
+    // console.log('Api',{data})
+    console.log('ORG',org)
+    const url = `http://localhost:3008/api/importunit`
+    return axios.post(url, {data,org}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const CheckimportCountry = async (data) => {
     const url = `http://localhost:3008/api/checkimportcountry`
