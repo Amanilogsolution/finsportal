@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { User } from '../../../api';
+import { User ,insertUserLogin} from '../../../api';
 
 const AddUser = () => {
   const [authentication, setAuthentication] = useState('with otp')
@@ -31,6 +31,8 @@ const AddUser = () => {
     {
     const result = await User(employee_name, role, warehouse, user_name,
       password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication);
+
+     const loginInsert = await insertUserLogin(user_name,employee_name,warehouse,localStorage.getItem('Organisation Name'),password,localStorage.getItem('Organisation'))
     if (result) {
       window.location.href = '/ShowUser'
     }

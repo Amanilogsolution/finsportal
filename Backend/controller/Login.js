@@ -2,7 +2,7 @@ const sql =require('mssql')
 const sqlConfig = require('../config.js')
 const jwt = require("jsonwebtoken")
 const os = require('os')
-// const uuidv1 = require("uuid/v1");
+const uuidv1 = require("uuid/v1");
 
 
 const User_login = async (req,res) => {
@@ -36,6 +36,31 @@ const User_login = async (req,res) => {
     }
 }
 
+
+const InsertUserLogin = async (req, res) => {
+    const user_id = req.body.user_id;
+    const user_name = req.body.user_name;
+    const location = req.body.location;
+    const comp_name = req.body.comp_name;
+    const user_password = req.body.user_password;
+    const org_db_name = req.body.org_db_name;
+    const user_profile_url = 'https://thispersondoesnotexist.com/image'
+    console.log(user_profile_url)
+     
+    const uuid = uuidv1()
+
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`insert into FINSDB.dbo.tbl_Login(user_id,user_name,location,comp_name,comp_ip,
+            user_password,login_uuid,org_name ,org_db_name,user_profile_url)
+            values ('${user_id}','${user_name}','${location}','${comp_name}','${req.ip}','${user_password}','${uuid}','${comp_name}','${org_db_name}','${user_profile_url}')`)
+        res.send('Added')
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
 const User_logout = async(req,res)=>{
     const user_id = req.body.user_id;
     console.log(user_id)
@@ -51,4 +76,4 @@ const User_logout = async(req,res)=>{
     }
 }
 
-module.exports = {User_login,User_logout}
+module.exports = {User_login,User_logout,InsertUserLogin}
