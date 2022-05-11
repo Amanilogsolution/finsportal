@@ -18,17 +18,11 @@ const Header = () => {
 
   const handleClick = async()=>{
     const result = await UserLogout(localStorage.getItem('username'));
-   //  console.log(result)
     if(result.status == 'Logout'){
      localStorage.clear()
       window.location.href='/'
     }
   
-  }
-
-  const switchtodb = (a) => {
-
-    console.log(a)
   }
 
 
@@ -68,8 +62,7 @@ const Header = () => {
                   setShow(!show);
                 }
 
-                // if (currentdb == "PEPSI") {
-                // }
+                
               }}
             >
               <b>{localStorage.getItem('Organisation Name')} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
@@ -88,10 +81,6 @@ const Header = () => {
                   setShow(!show);
                 }
 
-
-                // if (!currentdb == "FinsDB") {
-                //   setShow(!show);
-                // }
               }}
             >
               <i className="fas fa-cog"></i>
@@ -177,7 +166,7 @@ const Header = () => {
             </a>
           </li>
 
-          {/* Profile start */}
+          {/*--------- Profile start ---------------*/}
           <li className="nav-item profilediv"  >
             <div className="user-panel mr-7">
               <div className="image" onClick={() => {
@@ -191,20 +180,17 @@ const Header = () => {
                   setShowprofile(!showprofile);
                 }
 
-
-
               }}>
                 <img src="dist/img/user2-160x160.jpg" className="img-circle mr-4" alt="User Image" style={{ border: "1px solid black" }} />
               </div>
             </div>
           </li>
-          {/* Profile end*/}
+          {/*------ Profile end ---------------*/}
 
         </ul>
 
         {show ? (
           <>
-
 
             <div className="orgcard card" >
 
@@ -239,7 +225,7 @@ const Header = () => {
             </div>
           </>) : null
         }
-
+        
         {
           showprofile ? (
             <>
