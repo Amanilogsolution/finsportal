@@ -160,27 +160,34 @@ const ShowUnit = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(async () => {
-    const Token = localStorage.getItem('Token')
-    // console.log('Token',Token)
-    // console.log('ORg',localStorage.getItem('Organisation'))
-    const result = await TotalUnit(Token,localStorage.getItem('Organisation'))
-    setData(result)
-  }, [])
+  // useEffect(async () => {
+  //   const Token = localStorage.getItem('Token')
+  //   // console.log('Token',Token)
+  //   // console.log('ORg',localStorage.getItem('Organisation'))
+  //   const result = await TotalUnit(Token,localStorage.getItem('Organisation'))
+  //   setData(result)
+  // }, [])
 
-  const tableData = {
-    columns, data
-  };
+ 
+    useEffect(async() => {
+      const Token = localStorage.getItem('Token')
+      const result = await TotalUnit(Token,localStorage.getItem('Organisation'))
+      setData(result)
+    }, [])
 
-  return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <Menu />
-        <div>
+    const tableData= {
+        columns, data
+      }; 
+ 
+    return (
+      <div>
+         <div className="wrapper">
+         <div className="preloader flex-column justify-content-center align-items-center">
+         <div className="spinner-border" role="status"> </div>
+         </div>
+         <Header />
+          <Menu />
+          <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary">Add Unit</button>
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>

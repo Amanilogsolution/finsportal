@@ -60,14 +60,18 @@ const columns = [
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' href="EditOrgAddress">
+      <a title='View Document' href="EditLocation">
         <button className="editbtn btn-success "
          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
           >Edit</button></a>,
         <a title='View Document' href="AddOrgAddress">
-        <button className="editbtn btn-success ml-4"
+        <button className="editbtn btn-success ml-2"
         onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
-         >Add Address</button></a>
+         >Add Address</button></a>,
+         <a title='View Document' href="EditOrgAddress">
+         <button className="editbtn btn-success ml-2"
+          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
+           >Edit Address</button></a>,
     ]
   }
 ]

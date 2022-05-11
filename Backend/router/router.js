@@ -53,7 +53,7 @@ router.post('/updatecity',cityController.updateCity)
 router.post('/getcity',cityController.getCity)
 router.post('/importcity',cityController.ImportCity)
 
-router.get('/totalunit',checkAuth,unitController.TotalUnit)
+router.post('/totalunit',checkAuth,unitController.TotalUnit)
 router.post('/unit',unitController.Unit)
 router.post('/showunit',checkAuth,unitController.showunit)
 router.post('/updateunit',unitController.UpdateUnit)
@@ -114,6 +114,7 @@ router.get('/TotalOrganistion',OrgTableController.TotalOrganisation)
 router.post('/TotalLocation',LocationController.TotalLocation)
 router.post('/AddLocation',LocationController.AddLocation)
 router.post('/ShowLocation',LocationController.ShowLocation)
+router.post('/UpdateLocation',LocationController.UpdateLocation)
 
 
 router.post('/LocationAddress',LocationController.LocationAddress)
