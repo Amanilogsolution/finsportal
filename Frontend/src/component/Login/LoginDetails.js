@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {showuser} from '../../../api/index.js'
-import {UpdateUser} from '../../../api/index.js'
+import {showuser} from '../../api'
 
  const EditUser = () => {
      const [data,setData] = useState({})
@@ -27,79 +26,9 @@ import {UpdateUser} from '../../../api/index.js'
 
         }, [])
 
-        const handleClick = async(e) => {
-            e.preventDefault();
-            const employee_name = document.getElementById('employee_name').value;
-            const role = document.getElementById('role').value;
-            const warehouse = document.getElementById('warehouse').value;
-            const user_name = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const email_id = document.getElementById('email_id').value;
-            const phone = document.getElementById('phone').value;
-            const operate_mode = document.getElementById('operatemode').value;
-            const customer = document.getElementById('customer').value;
-            const reporting_to = document.getElementById('reporting_to').value;
-            const designation = document.getElementById('designation').value;
-          
-            const result = await UpdateUser(localStorage.getItem('userSno'),employee_name,
-            role,warehouse,user_name,password,email_id,phone,operate_mode,
-            customer,reporting_to,designation,authentication);
-            if(result){
-                window.location.href = '/ShowUser'
-            }
-        }
+       
 
- const handleClickToogle = (e) => {
-    e.preventDefault()
-    setPasswordshow(!passwordshow)
-  }
-        const handleChangeempname = (e) => {
-          setData({...data,employee_name:e.target.value})  
-        }
-        const handleChangerole = (e) => {
-            setData({...data,role:e.target.value})
-        }
-
-        const handleChangeware = (e) => {
-          setData({...data,warehouse:e.target.value})  
-        }
-        const handleChangeusername = (e) => {
-            setData({...data,user_name:e.target.value})
-        }
-
-        const handleChangepassword = (e) => {
-          setData({...data,password:e.target.value})  
-        }
-        const handleChangeemail = (e) => {
-            setData({...data,email_id:e.target.value})
-        }
-
-        const handleChangephone = (e) => {
-          setData({...data,phone:e.target.value})  
-        }
-        const handleChangeoperatemode = (e) => {
-            setData({...data,operate_mode:e.target.value})
-        }
-        const handleChangecustomer= (e) => {
-          setData({...data,customer:e.target.value})  
-        }
-        const handleChangereporting_to = (e) => {
-            setData({...data,reporting_to:e.target.value})
-        }
-
-        const handleChangedesignation = (e) => {
-          setData({...data,designation:e.target.value})  
-        }
-        const handleChangetwo_factor_authentication = (e) => {
-            setData({...data,two_factor_authentication:e.target.value})
-        }
-        const handleChange = (e) => {
-          let state = e.target.value;
-          setAuthentication(state)
-       }
-        
-   
-
+ 
     return (
         <div>
       <div className="wrapper">
@@ -142,7 +71,7 @@ import {UpdateUser} from '../../../api/index.js'
                           {/* form-group end.// */}
                         </div>
                         <div className="form-row">
-                          <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">User Id</label>
+                          <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">Username</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='username'  value={data.user_name} onChange={(e) => handleChangeusername(e)}/>
                           </div>
@@ -235,7 +164,7 @@ import {UpdateUser} from '../../../api/index.js'
                     </article>
                     {/* card-body end .// */}
                     <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={handleClick}>Update</button>
+                      <button className="btn btn-success">Update</button>
                       <button className="btn btn-light ml-3" onClick={()=>window.location.href='./ShowUser'}>Cancel</button>
                     </div>
                   </div>
