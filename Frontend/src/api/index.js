@@ -126,9 +126,9 @@ export const getCity = async (state_name) => {
 }
 
 
-export const TotalUnit = async (Token) => {
+export const TotalUnit = async (Token,org) => {
     const url = `http://localhost:3008/api/totalunit`
-    return axios.get(url,{ headers: {"Authorization" : Token} }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org},{ headers: {"Authorization" : Token} }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Unit = async (unit_name,unit_symbol) => {
@@ -186,7 +186,7 @@ export const User = async (employee_name, role,warehouse,username,password,
     email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication) => {
         console.log(employee_name, role,warehouse,username,password,
             email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication)
-    const url = `http://192.168.146.103:3008/api/insertuser`
+    const url = `http://localhost:3008/api/insertuser`
 return axios.post(url, {employee_name, role,warehouse,username,password,email_id,phone,
     operatemode,customer,reporting_to,designation,two_factor_authentication}).then(response => response.data).catch(error => console.log(error));
 }
@@ -439,7 +439,14 @@ export const addLocation = async (org,location_name,gstin_no,contact_name1,conta
     const url = `http://localhost:3008/api/AddLocation`
     return axios.post(url,{org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const updateLocation = async (org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2,location_id) => {
+    console.log('api',org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2,location_id)
+    const url = `http://localhost:3008/api/UpdateLocation`
+    return axios.post(url,{org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2,location_id}).then(response => response.data).catch(error => console.log(error));
+}
 export const showLocation = async (org,location_id) => {
+    console.log('api',org,location_id)
     const url = `http://localhost:3008/api/ShowLocation`
     return axios.post(url,{org,location_id}).then(response => response.data).catch(error => console.log(error));
 }

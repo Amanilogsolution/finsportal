@@ -53,11 +53,12 @@ const AddLocation = async (req, res) => {
 const ShowLocation = async (req, res) => {
     const org = req.body.org
     const location_id = req.body.location_id
-    console.log(org,location_id)
-    // console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
+    console.log('hi',org,location_id)
+    console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT location_name,gstin_no from ${org}.dbo.tbl_location_master where location_id='${location_id}' and status='Active'`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master where location_id='${location_id}' and status='Active'`)
+        console.log(result.recordset[0])
         res.send(result.recordset[0])
     } catch (err) {
         console.log(err)
@@ -75,6 +76,28 @@ const LocationAddress = async (req, res) => {
         const result = await sql.query(`SELECT location_name,gstin_no,location_add1,location_add2,location_city,location_pin,from_date ,location_state,location_country from ${org}.dbo.tbl_location_address where location_id='${location_id}' and status='Active'`)
         res.send(result.recordset[0])
     } catch (err) {
+        console.log(err)
+    }
+}
+
+const UpdateLocation = async(req, res)=> {
+    const org = req.body.org
+    const location_name = req.body.location_name;
+    const gstin_no = req.body.gstin_no;
+    const contact_name1 = req.body.contact_name1; 
+    const contact_name2 = req.body.contact_name2;
+    const contact_phone_no1 = req.body.contact_phone_no1;
+    const contact_phone_no2 = req.body.contact_phone_no2;
+    const location_id = req.body.location_id
+    console.log(org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2,location_id)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_location_master set location_name='${location_name}',
+        gstin_no='${gstin_no}',contact_name1 ='${contact_name1}',contact_name2 ='${contact_name2}',contact_phone_no1='${contact_phone_no1}',contact_phone_no2 ='${contact_phone_no2}',
+        update_date_time=GETDATE(),update_user_name='Aman',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' WHERE location_id ='${location_id}';`)
+        res.send('done')
+    }
+    catch (err) {
         console.log(err)
     }
 }
@@ -102,6 +125,7 @@ const InsertLocationAddress = async(req, res)=> {
         const update = await sql.query(`update ${org}.dbo.tbl_location_address set status='Deactive',to_date='${to_date}' where status='Active' and location_id='${location_id}'`)
         const insert = await sql.query(`insert into  ${org}.dbo.tbl_location_address (location_id,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_pin,location_country,from_date,add_date_time,add_user_name,add_system_name,add_ip_address,status)
                                                                              values('${location_id}','${location_name}','${gstin_no}','${location_add1}','${location_add2}','${location_city}','${location_state}','${location_pin}','${location_country}','${from_date}',getdate(),'Admin','${os.hostname()}','${req.ip}','Active')`) 
+        res.send(insert)
         }
         else{
             const insert = await sql.query(`insert into  ${org}.dbo.tbl_location_address (location_id,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_pin,location_country,from_date,add_date_time,add_user_name,add_system_name,add_ip_address,status)
@@ -136,4 +160,4 @@ const UpdateLocationAddress = async(req, res)=> {
     }
 }
 
-module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress}
+module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation}

@@ -149,6 +149,11 @@ const AddUser = () => {
                           </div>
                         </div>
 
+                        <div className="form-row mt-3">
+                          <label className="col-md-2 col-form-label font-weight-normal">Upload Image</label>
+                          <input name="Upload" type="file" class="col-md-3" id="Upload" />
+                          </div>
+                       
 
                         <div className="form-row"
                           onChange={handleChange}

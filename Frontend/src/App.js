@@ -47,17 +47,19 @@ import TotalCustomer from './component/Customer/TotalCustomer';
 import EditCustomer from './component/Customer/EditCustomer';
 import TotalLocation from './component/Master/Location/TotalLocation';
 import AddLocation from './component/Master/Location/AddLocation';
+import EditLocation from './component/Master/Location/EditLocation'
 import AddOrgAddress from './component/Master/Location/Address/AddOrgAddress';
 import EditOrgAddress from './component/Master/Location/Address/EditOrgAddress';
+
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
  const App = () => {
 
-   setTimeout(() => {
-    localStorage.removeItem('Token')
-   },8000)
+  //  setTimeout(() => {
+  //   localStorage.removeItem('Token')
+  //  },8000)
 
     return (
       <div>
@@ -110,6 +112,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           
           <Route exact path="/TotalLocation" component={TotalLocation}/>
           <Route exact path="/AddLocation" component={AddLocation}/>
+          <Route exact path="/EditLocation" component={EditLocation}/>
+
           <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
           <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>
           

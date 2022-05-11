@@ -84,7 +84,7 @@ const columns = [
 
     useEffect(async() => {
       const Token = localStorage.getItem('Token')
-      const result = await TotalUnit(Token)
+      const result = await TotalUnit(Token,localStorage.getItem('Organisation'))
       setData(result)
     }, [])
 

@@ -10,7 +10,7 @@ function EditOrgAddress() {
 
   useEffect(async() => {
     const result = await locationAddress(localStorage.getItem('Organisation'),localStorage.getItem('location_id'))
-    console.log(result)
+    console.log('Result',result)
     setData(result)
      }, [])
 
