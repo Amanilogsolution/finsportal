@@ -18,15 +18,16 @@ const User_login = async (req,res) => {
             res.status(200).send({
                 status:"Success",
                 token:token,
-                result:result.recordset[0].org_name,
+                result:result.recordset[0].org_db_name,
                 result2:result.recordset[0].user_name,
+                result3:result.recordset[0].org_name,
                 expiresIn:  60
             })
         }else{
             res.send({
                 status:"Fail",
                 statusCode:"400",
-                message:"No user with this userID"
+                message:"Invalid ID and Password"
               })        
             }
     }catch(err){
