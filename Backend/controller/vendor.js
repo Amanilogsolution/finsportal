@@ -1,4 +1,4 @@
-const sql =require('mssql')
+const sql = require('mssql')
 const sqlConfig = require('../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
@@ -45,10 +45,10 @@ const InsertVendor = async (req, res) => {
     const remark = req.body.remark;
     const uuid = uuidv1()
 
-try{
-    await sql.connect(sqlConfig)
-    const result = await sql.query
-    (`insert into FINSDB.dbo.tbl_new_vendor(mast_id,vend_id,vend_name,
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query
+            (`insert into FINSDB.dbo.tbl_new_vendor(mast_id,vend_id,vend_name,
         company_name,vend_display_name,vend_email,vend_work_phone,vend_phone,skype_detail,designation,department,
         website,gst_treatment,gstin_uin,pan_no,source_of_supply,currency,
         opening_balance,payment_terms,tds,enable_portal,portal_language,facebook_url,twitter_url,
@@ -67,50 +67,50 @@ try{
                     '${contact_person_email}','${contact_person_work_phone}','${contact_person_phone}','${contact_person_skype}','${contact_person_designation}',
                     '${contact_person_department}','${remark}','${uuid}','Active',getdate(),'Admin','${os.hostname()}','${req.ip}')`)
         res.send('Added')
-   }
-catch(err){
-    console.log(err)
+    }
+    catch (err) {
+        console.log(err)
     }
 }
 
-const showVendor = async(req,res) => {
-    try{
+const showVendor = async (req, res) => {
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_new_vendor order by sno desc`)
         res.send(result.recordset)
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 }
 
-async function DeleteVendor(req,res){
+async function DeleteVendor(req, res) {
     const sno = req.body.sno
     const status = req.body.status
-    try{
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.tbl_new_vendor set status='${status}' where sno = ${sno}`)
         res.send('done')
-        }
-        catch(err){
-            console.log(err)
-            }
-         }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 
-async function Vendor(req,res){
+async function Vendor(req, res) {
     const sno = req.body.sno
     console.log(sno)
-    try{
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`Select * from FINSDB.dbo.tbl_new_vendor where sno = ${sno}`)
         res.send(result.recordset[0])
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 }
 
 
-async function UpdateVendor(req,res){
+async function UpdateVendor(req, res) {
     const sno = req.body.sno
     const vend_email = req.body.vend_email
     const vend_work_phone = req.body.vend_work_phone
@@ -123,7 +123,7 @@ async function UpdateVendor(req,res){
     const contact_person_designation = req.body.contact_person_designation
     const contact_person_department = req.body.contact_person_department
     const remark = req.body.remark
-    try{
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`
           update FINSDB.dbo.tbl_new_vendor set vend_email='${vend_email}',vend_work_phone='${vend_work_phone}',vend_phone='${vend_phone}',
@@ -133,23 +133,45 @@ async function UpdateVendor(req,res){
           update_system_name='${os.hostname()}',update_ip_address='${req.ip}'
            where sno=${sno};`)
         res.send('done')
-        }
-        catch(err){
-            console.log(err)
-            }
-         }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 
-         const Vendor_id = async (req, res) => {
-            try{
-                await sql.connect(sqlConfig)
-                const result = await sql.query(`SELECT vend_id from FINSDB.dbo.tbl_new_vendor`)
-                res.send(result.recordset)
-            }
-            catch(err){
-                console.log(err)
-            }
-        }
+const Vendor_id = async (req, res) => {
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT vend_id from FINSDB.dbo.tbl_new_vendor`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 
 
-module.exports = {InsertVendor,showVendor,DeleteVendor,Vendor,UpdateVendor,Vendor_id}
+const ImportVendor = (req, res) => {
+    const datas = req.body.data;
+    // let duplicatedate = [];
+
+    sql.connect(sqlConfig).then(() => {
+
+        sql.query(`select * from FINSDB.dbo.tbl_new_vendor where vend_email in ('${datas.map(data => data.vend_email).join("', '")}') OR vend_phone in ('${datas.map(data => data.vend_phone).join(', ')}') OR gstin_uin in ('${datas.map(data => data.gstin_uin).join("', '")}') OR pan_no in ('${datas.map(data => data.pan_no).join("','")}')`)
+            .then((resp) => {
+                if (resp.rowsAffected[0] > 0)
+                    res.send(resp.recordset.map(item => ({ "vend_email": item.vend_email, "vend_phone": item.vend_phone, "gstin_uin": item.gstin_uin, "pan_no" : item.pan_no })))
+                else {
+
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_new_vendor (state_name,state_code,state_short_name,state_type,country_name,status,add_date_time,add_user_name,add_system_name,add_ip_address,state_uuid) VALUES ${datas.map(item => `('${item.state_name}','${item.state_code}','${item.state_short_name}','${item.state_type}','${item.country_name}','Active',getdate(),'Admin','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
+                    res.send("Data Added")
+                }
+            })
+
+        // console.log(duplicatedate)
+
+    })
+}
+
+module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,ImportVendor }
 
