@@ -158,9 +158,10 @@ export const insertBank = async (account_code,bank_name, account_no, address_lin
     const url = `http://localhost:3008/api/addbank`
     return axios.post(url, {account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description}).then(response => response.data).catch(error => console.log(error));
 }
-export const totalBank = async () => {
-    const url = `http://192.168.146.103:3008/api/totalbank`
-    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+export const totalBank = async (org) => {
+    console.log('API',org)
+    const url = `http://localhost:3008/api/totalbank`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
 export const deleteBank = async (sno,status) => {
     const url = `http://192.168.146.103:3008/api/deletebank`
@@ -426,6 +427,17 @@ export const ImportUnit = async (data,org) => {
     return axios.post(url, {data,org}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const ImportBank = async (data,org) => {
+    // console.log('Api',{data})
+    const url = `http://localhost:3008/api/importbank`
+    return axios.post(url, {data,org}).then(response => response.data).catch(error => console.log(error));
+}
+export const ImportUser = async (data,org,org_name) => {
+    // console.log('Api',{data})
+    console.log('ORG',org)
+    const url = `http://localhost:3008/api/importuser`
+    return axios.post(url, {data,org,org_name}).then(response => response.data).catch(error => console.log(error));
+}
 export const CheckimportCountry = async (data) => {
     const url = `http://localhost:3008/api/checkimportcountry`
     return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));

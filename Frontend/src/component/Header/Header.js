@@ -231,8 +231,6 @@ const Header = () => {
         {
           showprofile ? (
             <>
-
-
               <div className="profilcard card" >
 
                 <div className="card-body">

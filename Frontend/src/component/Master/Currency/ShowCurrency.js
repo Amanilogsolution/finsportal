@@ -77,6 +77,7 @@ const ShowCurrency = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
+    document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
       console.log(d.cust_type)
      if(!d.country_code || !d.country_name || !d.currency_code || !d.currency_name ){
@@ -172,7 +173,7 @@ const ShowCurrency = () => {
         </div>
         <Header />
         <Menu />
-        <div>
+        <div> 
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddCurrency" }} className="btn btn-primary">Add Currency</button>
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
@@ -375,6 +376,7 @@ backenddata ?
                 Cancel
               </button>
               <button type="button"
+                id="uploadbtn"
                 onClick={uploaddata}
                 className="btn btn-primary"
               >

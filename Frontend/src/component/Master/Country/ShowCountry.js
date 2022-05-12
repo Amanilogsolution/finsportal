@@ -6,7 +6,7 @@ import { Totalcountry } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import Excelfile from '../../../excelformate/tbl_currency.xlsx';
+import Excelfile from '../../../excelformate/tbl_countries.xlsx';
 import { deletecountry, ImportCountry, CheckimportCountry } from '../../../api';
 import * as XLSX from "xlsx";
 

@@ -61,17 +61,19 @@ router.post('/deleteunit',unitController.deleteUnit)
 router.post('/importunit',unitController.ImportUnit)
 
 
-router.get('/totalbank',bankController.TotalBanks)
+router.post('/totalbank',bankController.TotalBanks)
 router.post('/addbank',bankController.InsertBank)
 router.post('/deletebank',bankController.DeleteBank)
 router.post('/showbank',bankController.ShowBank)
 router.post('/updatebank',bankController.UpdateBank)
+router.post('/importbank',bankController.ImportBank)
 
 router.get('/totaluser',userController.user)
 router.post('/insertuser',userController.InsertUser)
 router.post('/showuser',userController.showuser)
 router.post('/updateuser',userController.updateuser)
 router.post('/deleteuser',userController.deleteuser)
+router.post('/importuser',userController.ImportUser)
 
 router.get('/totalcustomer',customerController.AllCustomer)
 router.post('/deletecustomer',customerController.DeleteCustomer)

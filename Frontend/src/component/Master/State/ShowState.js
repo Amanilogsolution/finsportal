@@ -8,7 +8,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import { deletestate, ImportState } from '../../../api';
 import * as XLSX from "xlsx";
-import Excelfile from '../../../excelformate/tbl_currency.xlsx';
+import Excelfile from '../../../excelformate/tbl_states.xlsx';
 
 
 
