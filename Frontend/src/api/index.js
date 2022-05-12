@@ -459,6 +459,16 @@ export const TotalOrganistion = async () => {
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
+export const showOrganisation = async (org_name) => {
+    const url = `http://localhost:3008/api/ShowOrganisation`
+    return axios.post(url,{org_name}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const updateOrganisation = async (org_name,org_contact_name,org_contact_phone,org_contact_email,org_street,org_city,org_pincode,org_gst) => {
+    const url = `http://localhost:3008/api/UpdateOrganisation`
+    return axios.post(url,{org_name,org_contact_name,org_contact_phone,org_contact_email,org_street,org_city,org_pincode,org_gst}).then(response => response.data).catch(error => console.log(error));
+}
+
 export const totalLocation = async (org) => {
     const url = `http://localhost:3008/api/TotalLocation`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));

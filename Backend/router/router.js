@@ -111,6 +111,9 @@ router.post('/InsertUserLogin',LoginController.InsertUserLogin)
 router.post('/ShowUserLogin',LoginController.showLoginuser)
 
 router.post('/SchemaCreate',OrganisationController.Insertorg)
+router.post('/ShowOrganisation',OrganisationController.ShowOrganisation)
+router.post('/UpdateOrganisation',OrganisationController.UpdateOrganisation)
+
 
 router.post('/Token',Token.token)
 router.post('/Totaldata',OrganisationController.InsertTotalTable)

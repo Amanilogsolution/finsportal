@@ -6,6 +6,8 @@ import OrgLogo from "../../images/bg1.jpg";
 const Header = () => {
   const [show, setShow] = useState(false);
   const [showprofile, setShowprofile] = useState(false);
+  const [orgdetails, setOrgDeatils] = useState(false);
+
   const [data, setData] = useState([])
 
 
@@ -77,10 +79,10 @@ const Header = () => {
               onClick={() => {
                 if (showprofile == true) {
                   setShowprofile(!showprofile);
-                  setShow(!show);
+                  setOrgDeatils(!orgdetails);
                 }
                 else {
-                  setShow(!show);
+                  setOrgDeatils(!orgdetails);
                 }
 
               }}
@@ -217,7 +219,7 @@ const Header = () => {
                         }
                         }>{item.org_name}</span>
                       </a>
-                      <a href="#" style={{ float: "right" }}>
+                      <a onClick={()=>{localStorage.setItem('Organisation_details', item.org_name);window.location.href='./ShowOrganisation'}} style={{ float: "right" }}>
                         <i className="fas fa-cog" ></i> Manage</a>
                     </li>
                   ))
@@ -227,12 +229,30 @@ const Header = () => {
             </div>
           </>) : null
         }
+
+{orgdetails ? (
+          <>
+
+            <div className="orgcard card" >
+
+              <div className="card-body">
+                <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
+                <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+              </div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item"><b>Orgaisation profile</b>
+                </li>
+                </ul>
+             
+
+            </div>
+          </>) : null
+        }
         
         {
           showprofile ? (
             <>
               <div className="profilcard card" >
-
                 <div className="card-body">
                   <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
                   <img className="card-img-top " src="dist/img/user2-160x160.jpg" alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
@@ -243,8 +263,6 @@ const Header = () => {
                     <a href="#" onClick={handleClick} style={{color:"red"}}> Logout</a>
                   </div>
                 </div>
-
-
               </div>
             </>) : null
         }
