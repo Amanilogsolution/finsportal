@@ -1,10 +1,9 @@
 import "./org.css";
 import { useState } from "react";
 import { register, CreatenewDb, CreateOrgTable } from "../../api/index";
+
 function Org() {
-
   const [gstbox, setgstbox] = useState(false);
-
   const formshow = () => {
     document.getElementById("formallbox").style.display = "block";
     document.getElementById("newlinepid").style.display = "none";
@@ -13,39 +12,39 @@ function Org() {
   const Orgdetails = async (e) => {
     e.preventDefault();
     const org_name = document.getElementById("org_name").value;
-    // const org_country = document.getElementById("org_country").value;
-    // const org_state = document.getElementById("inputState").value;
-    // const org_street = document.getElementById("org_street").value;
-    // const org_city = document.getElementById("org_city").value;
-    // const org_pincode = document.getElementById("org_pin").value;
-    // const org_currency = document.getElementById("org_currency").value;
-    // const org_lang = document.getElementById("org_lang").value;
-    // const org_contact_name = document.getElementById("org_contact_name").value;
-    // const org_contact_phone = document.getElementById("org_contact_phone").value;
-    // const org_contact_email = document.getElementById("org_contact_email").value;
-    // const org_gst = document.getElementById("org_gst").value;
+    const org_country = document.getElementById("org_country").value;
+    const org_state = document.getElementById("inputState").value;
+    const org_street = document.getElementById("org_street").value;
+    const org_city = document.getElementById("org_city").value;
+    const org_pincode = document.getElementById("org_pin").value;
+    const org_currency = document.getElementById("org_currency").value;
+    const org_lang = document.getElementById("org_lang").value;
+    const org_contact_name = document.getElementById("org_contact_name").value;
+    const org_contact_phone = document.getElementById("org_contact_phone").value;
+    const org_contact_email = document.getElementById("org_contact_email").value;
+    const org_gst = document.getElementById("org_gst").value;
 
     // console.log(org_name, org_country, org_state, org_street, org_city, org_pincode, org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email)
-    if (!org_name) {
-      alert("Enter Org name")
-    } else {
+    // if (!org_name) {
+    //   alert("Enter Org name")
+    // } else {
 
-      const OrgTable = await CreateOrgTable(org_name)
-      console.log(OrgTable)
-      if (OrgTable == 'Added') {
-        const database = await CreatenewDb(org_name)
-        console.log(database)
-      } else {
-        alert(OrgTable)
-      }
-    }
+    //   const OrgTable = await CreateOrgTable(org_name)
+    //   console.log(OrgTable)
+    //   if (OrgTable == 'Added') {
+    //     const database = await CreatenewDb(org_name)
+    //     console.log(database)
+    //   } else {
+    //     alert(OrgTable)
+    //   }
+    // }
 
-    // const database = await CreatenewDb(org_name)
-    // console.log(database)
-    //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
-    //  if(result){
-    //   window.location.href='/home'
-    //  }
+    const database = await CreatenewDb(org_name)
+    console.log(database)
+     const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
+     if(result){
+      window.location.href='/home'
+     }
   };
 
   const handleClick = () => {
