@@ -184,12 +184,11 @@ export const TotalUser = async () => {
 
 
 export const User = async (employee_name, role,warehouse,username,password,
-    email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication) => {
-        console.log(employee_name, role,warehouse,username,password,
-            email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication)
+    email_id,phone,operatemode,customer,reporting_to,designation,two_factor_authentication,user_profile_url) => {
+      
     const url = `http://localhost:3008/api/insertuser`
 return axios.post(url, {employee_name, role,warehouse,username,password,email_id,phone,
-    operatemode,customer,reporting_to,designation,two_factor_authentication}).then(response => response.data).catch(error => console.log(error));
+    operatemode,customer,reporting_to,designation,two_factor_authentication,user_profile_url}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showuser = async (sno) => {
@@ -502,4 +501,10 @@ export const InsertLocationAddress = async (org,location_name,gstin_no,location_
     console.log(org,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin,to_date)
     const url = `http://localhost:3008/api/InsertLocationAddress`
     return axios.post(url,{org,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin,to_date}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UploadData = async (data) => {
+    console.log(data, 'abcd')
+    const url = `http://localhost:3008/api/FileUpload`
+    return axios.post(url, data).then(res => res.data).catch(err => console.log(err))
 }

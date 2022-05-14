@@ -24,8 +24,8 @@ const InsertUser = async (req, res) => {
     const operatemode = req.body.operatemode;
     const customer = req.body.customer;
     const reporting_to = req.body.reporting_to;
-    const designation = req.body.designation;
-    const user_profile_url = 'https://thispersondoesnotexist.com/image'
+    const user_profile_url = req.body.user_profile_url;
+    // const user_profile_url = 'https://thispersondoesnotexist.com/image'
     const two_factor_authentication = req.body.two_factor_authentication;
     console.log(user_profile_url)
 

@@ -18,6 +18,10 @@ const OrganisationController = require('../controller/Org')
 const NewdbController = require('../controller/Newdb')
 const OrgTableController = require('../controller/Org_table')
 const LocationController = require('../controller/Location')
+const FileUpload = require('../controller/FileUpload')
+const Multer = require('../Middleware/multer')
+
+
 
 router.post('/newdb', NewdbController.Newdb);
 
@@ -131,6 +135,7 @@ router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 
+router.post('/FileUpload',Multer,FileUpload)
 
 
 

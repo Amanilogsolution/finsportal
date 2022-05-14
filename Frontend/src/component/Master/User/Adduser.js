@@ -2,11 +2,21 @@ import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { User ,insertUserLogin} from '../../../api';
+import { User,insertUserLogin,UploadData} from '../../../api';
 
 const AddUser = () => {
   const [authentication, setAuthentication] = useState('with otp')
   const [passwordshow, setPasswordshow] = useState(false);
+  const [file,setFile] = useState('')
+  const [user_profile_url,setUserProfile] = useState('')
+
+  const handleSendFile =async(e)=>{
+    e.preventDefault()
+    const data = new FormData();
+    data.append("images",file)
+   const UploadLink = await UploadData(data)
+   setUserProfile(UploadLink)
+}
   
   const Toogle = async (e) => {
     e.preventDefault();
@@ -30,7 +40,7 @@ const AddUser = () => {
     else
     {
     const result = await User(employee_name, role, warehouse, user_name,
-      password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication);
+      password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication,user_profile_url);
 
      const loginInsert = await insertUserLogin(user_name,employee_name,warehouse,localStorage.getItem('Organisation Name'),password,localStorage.getItem('Organisation'))
     if (result) {
@@ -153,8 +163,12 @@ const AddUser = () => {
 
                         <div className="form-row mt-3">
                           <label className="col-md-2 col-form-label font-weight-normal">Upload Image</label>
-                          <input name="Upload" type="file" class="col-md-3" id="Upload" />
-                          </div>
+                          <input type="file" id="exampleInputPassword1" class="col-md-3" onChange={event=>{ const document = event.target.files[0];
+                                                                                                            setFile(document)}} />                       
+                          <div class="input-group-append">
+                                  <button class="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
+                                    </div>
+                            </div>
                        
 
                         <div className="form-row"
