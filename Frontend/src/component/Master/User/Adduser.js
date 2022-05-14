@@ -15,6 +15,7 @@ const AddUser = () => {
     const data = new FormData();
     data.append("images",file)
    const UploadLink = await UploadData(data)
+   console.log(UploadLink)
    setUserProfile(UploadLink)
 }
   

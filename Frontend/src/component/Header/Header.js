@@ -69,7 +69,7 @@ const Header = () => {
                 
               }}
             >
-              <b>{localStorage.getItem('Organisation Name')} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
+              <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
           </li>
           <li className="nav-item" >
@@ -199,7 +199,7 @@ const Header = () => {
             <div className="orgcard card" >
 
               <div className="card-body">
-                <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShow(!show); }}></i>
+                <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShow(!show); }}></i>
                 <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
               </div>
               <ul className="list-group list-group-flush">
@@ -236,7 +236,7 @@ const Header = () => {
             <div className="orgcard card" >
 
               <div className="card-body">
-                <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
+                <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
                 <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
               </div>
               <ul className="list-group list-group-flush">
@@ -254,7 +254,7 @@ const Header = () => {
             <>
               <div className="profilcard card" >
                 <div className="card-body">
-                  <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
+                  <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
                   <img className="card-img-top " src="dist/img/user2-160x160.jpg" alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name') } </h6>
                   <div className='text-center  font-weight-bold'>
