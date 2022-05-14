@@ -406,7 +406,11 @@ export const ImportCustomer = async (data) => {
     const url = `http://localhost:3008/api/ImportCustomer`
     return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
 }
-
+export const ImportVendor = async (data) => {
+    console.log('Api',{data})
+    const url = `http://localhost:3008/api/importvendor`
+    return axios.post(url, {data}).then(response => response.data).catch(error => console.log(error));
+}
 export const ImportState = async (data) => {
     console.log('Api',{data})
     const url = `http://localhost:3008/api/importState`

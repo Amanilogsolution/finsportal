@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { ShowVendor, DeleteVendor } from '../../api';
+import { ShowVendor, DeleteVendor,ImportVendor } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -111,7 +111,6 @@ const Showvendor = () => {
     const uploaddata = async () => {
         document.getElementById("uploadbtn").disabled = true;
         importdata.map((d) => {
-            console.log(d.cust_type)
             if (!d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
                 setErrorno(errorno++);
             }
@@ -123,18 +122,19 @@ const Showvendor = () => {
             window.location.reload()
         }
         else {
-            //   const result = await ImportCurrency(importdata);
-            var result;
-            console.log(result.length)
+              const result = await ImportVendor(importdata);
+            console.log("result.length",result)
             if (!(result == "Data Added")) {
                 setBackenddata(true);
+                console.log("backenddata",backenddata)
                 setDuplicateDate(result)
+                console.log("duplicatedata",duplicateData)
             }
             else if (result == "Data Added") {
                 setBackenddata(false);
                 document.getElementById("showdataModal").style.display = "none";
                 alert("Data Added")
-                window.location.href = 'ShowCountry'
+                window.location.href = 'Showvendor'
             }
         }
 
@@ -333,13 +333,15 @@ const Showvendor = () => {
 
                                     backenddata ?
                                         <>
-                                            <h5>This data already exist</h5>
-                                            <table style={{ color: "red" }}>
+                                            <h5 style={{margin:"auto"}}>This data already exist</h5>
+                                            <table style={{ color: "red",margin:"auto" }}>
                                                 <thead>
+                                                <tr>
                                                     <th style={{ border: "1px solid black" }}>vend_email</th>
                                                     <th style={{ border: "1px solid black" }}>vend_phone</th>
                                                     <th style={{ border: "1px solid black" }}>gstin_uin</th>
                                                     <th style={{ border: "1px solid black" }}>pan_no</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
                                                     {

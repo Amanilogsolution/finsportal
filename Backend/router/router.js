@@ -95,6 +95,7 @@ router.get('/showvendor', vendorController.showVendor);
 router.post('/vendor',vendorController.Vendor)
 router.post('/updatevendor',vendorController.UpdateVendor)
 router.get('/vendorid',vendorController.Vendor_id)
+router.post('/importvendor',vendorController.ImportVendor)
 
 router.post('/insertcustaddress', AddressController.InsertCustomerAddress);
 router.post('/insertvendaddress', AddressController.InsertVendorAddress);
