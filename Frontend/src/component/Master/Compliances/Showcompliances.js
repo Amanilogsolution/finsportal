@@ -12,38 +12,38 @@ import 'react-data-table-component-extensions/dist/index.css';
 const columns = [
     {
       name: 'Compliance Type',
-      selector: 'compliance_type',
+      selector: row=>row.compliance_type,
       sortable: true
     },
     {
         name: 'Due Date',
-        selector: 'due_date',
+        selector: row=>row.due_date,
         sortable: true
         },
     {
       name: 'Nature',
-      selector: 'nature',
+      selector: row=>row.nature,
       sortable: true
     },
      {
         name: 'Period',
-        selector: 'period',
+        selector: row=>row.period,
         sortable: true
      },
     {
       name: 'Period name ',
-      selector: 'period_name',
+      selector: row=>row.period_name,
       sortable: true
     },
     {
       name: 'Extended Date',
-      selector: 'extended_date',
+      selector: row=>row.extended_date,
       sortable: true
     },
     {
       name: 'Status',
       sortable: true,
-      selector: 'null',
+      selector: row=>row.null,
       cell: (row) => [
         <div className='droplist'>
           <select onChange={async (e) => {
@@ -52,7 +52,7 @@ const columns = [
             window.location.href = 'ShowCity'
           }
           }>
-            <option selected disabled hidden> {row.status}</option>
+            <option defaultValue disabled hidden> {row.status}</option>
   
   
             <option value='Active'>Active</option>
@@ -86,11 +86,13 @@ const columns = [
       name: "Actions",
       sortable: false,
   
-      selector: "null",
+      selector: row=>row.null,
       cell: (row) => [
   
-        <a title='View Document' href="EditCity">
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
+        <a title='View Document' href="Editcompliances">
+          <button className="editbtn btn-success "
+        //    onClick={() => localStorage.setItem('citySno', `${row.sno}`)} 
+           >Edit</button></a>
   
       ]
     }
@@ -101,10 +103,6 @@ const columns = [
 function Showcompliances() {
 
     const [data, setData] = useState([])
-  
-    
-
-  
   
     useEffect(async () => {
       const result = await showcompliances(localStorage.getItem('Organisation'))

@@ -3,9 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 
-
-const Addcompliances = () => {
-
+function Editcompliances() {
     const senddata = async(e)=>{
         e.preventDefault();
 
@@ -33,7 +31,7 @@ const Addcompliances = () => {
                 <div>
                     <div className="content-wrapper">
                         <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Add Compliances</h3>
+                            <br /> <h3 className="text-left ml-5">Edit Compliances</h3>
                             <div className="row ">
                                 <div className="col ml-5">
                                     <div className="card" style={{ width: "100%" }}>
@@ -120,7 +118,7 @@ const Addcompliances = () => {
                                         </article>
                                         {/* card-body end .// */}
                                         <div className="border-top card-body">
-                                            <button className="btn btn-success" onClick={senddata} >Save</button>
+                                            <button className="btn btn-success" onClick={senddata} >Update</button>
                                             <button className="btn btn-light ml-3" onClick={() => { window.location.href = "/Showcompliances" }}>Cancel</button>
                                         </div>
                                     </div>
@@ -138,5 +136,4 @@ const Addcompliances = () => {
     )
 }
 
-
-export default Addcompliances
+export default Editcompliances
