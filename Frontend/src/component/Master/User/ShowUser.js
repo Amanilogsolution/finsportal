@@ -14,23 +14,23 @@ import * as XLSX from "xlsx";
 const columns = [
   {
     name: 'Employee Name',
-    selector: 'employee_name',
+    selector: row=>row.employee_name,
     sortable: true
   },
   {
     name: 'Role',
-    selector: 'role',
+    selector: row=>row.role,
     sortable: true
   },
 
   {
     name: 'Warehouse',
-    selector: 'warehouse',
+    selector: row=>row.warehouse,
     sortable: true
   },
   {
     name: 'username',
-    selector: 'user_name',
+    selector: row=>row.user_name,
     sortable: true
   },
   // {
@@ -40,17 +40,17 @@ const columns = [
   // },
   {
     name: 'Email Id',
-    selector: 'email_id',
+    selector: row=>row.email_id,
     sortable: true
   },
   {
     name: 'Phone',
-    selector: 'phone',
+    selector: row=>row.phone,
     sortable: true
   },
   {
     name: 'Status',
-    selector: 'null',
+    selector: row=>row.null,
     cell: (row) => [
 
       <div className='droplist'>
@@ -60,7 +60,7 @@ const columns = [
           window.location.href = 'ShowUser'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>
@@ -91,27 +91,27 @@ const columns = [
   // },
   {
     name: 'Operate Mode',
-    selector: 'operate_mode',
+    selector: row=>row.operate_mode,
     sortable: true
   },
   {
     name: 'Customer',
-    selector: 'customer',
+    selector: row=>row.customer,
     sortable: true
   },
   {
     name: 'Reporting to',
-    selector: 'reporting_to',
+    selector: row=>row.reporting_to,
     sortable: true
   },
   {
     name: 'Designation',
-    selector: 'designation',
+    selector: row=>row.designation,
     sortable: true
   },
   {
     name: 'Two factor authentication',
-    selector: 'two_factor_authentication',
+    selector: row=>row.two_factor_authentication,
     sortable: true
   },
 
@@ -119,7 +119,7 @@ const columns = [
     name: "Actions",
     sortable: false,
 
-    selector: "null",
+    selector: row=>row.null,
     cell: (row) => [
 
       <a title='View Document' href="EditUser">
@@ -268,7 +268,7 @@ const ShowUser = () => {
         <div
           className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -330,16 +330,16 @@ const ShowUser = () => {
         </div>
         {/* ------------------ Modal end -----------------------------*/}
         {/* ------------------ Data show Modal start -----------------------------*/}
-        <div class="modal fade bd-example-modal-lg "
+        <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
         >
 
-          <div class="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div class="modal-content">
+          <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+            <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -367,11 +367,11 @@ const ShowUser = () => {
                       <h5 style={{margin:"auto"}}>This data already exist</h5>
                       <table style={{ color: "red",textAlign:"center",margin:"auto" }}>
                         <thead>
-                          
+                          <tr>
                           <th style={{ border: "1px solid black" }}>user_name</th>
                           <th style={{ border: "1px solid black" }}>email_id</th>
                           <th style={{ border: "1px solid black" }}>phone</th>
-                        
+                        </tr>
                         </thead>
                         <tbody>
                           {
@@ -395,6 +395,7 @@ const ShowUser = () => {
                 }
                 <table >
                   <thead>
+                    <tr>
                     <th style={{ border: "1px solid black" }}>employee_name</th>
                     <th style={{ border: "1px solid black" }}>role</th>
                     <th style={{ border: "1px solid black" }}>warehouse</th>
@@ -407,6 +408,7 @@ const ShowUser = () => {
                     <th style={{ border: "1px solid black" }}>reporting_to</th>
                     <th style={{ border: "1px solid black" }}>designation</th>
                     <th style={{ border: "1px solid black" }}>user_profile_url</th>
+                    </tr>
 
                   </thead>
                   <tbody>

@@ -72,7 +72,7 @@ const LocationAddress = async (req, res) => {
     // console.log(`select * from ${org}.dbo.tbl_countries order by sno desc`)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT location_name,gstin_no,location_add1,location_add2,location_city,location_pin,from_date ,location_state,location_country from ${org}.dbo.tbl_location_address where location_id='${location_id}' and status='Active'`)
+        const result = await sql.query(`SELECT location_name,gstin_no,location_add1,location_add2,location_city,location_pin,convert(varchar(15),from_date,121) as from_date ,location_state,location_country from ${org}.dbo.tbl_location_address where location_id='${location_id}' and status='Active'`)
         res.send(result.recordset[0])
     } catch (err) {
         console.log(err)

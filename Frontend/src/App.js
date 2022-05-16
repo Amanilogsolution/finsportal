@@ -53,6 +53,9 @@ import AddOrgAddress from './component/Master/Location/Address/AddOrgAddress';
 import EditOrgAddress from './component/Master/Location/Address/EditOrgAddress';
 
 import Addcompliances from './component/Master/Compliances/Addcompliances';
+import Showcompliances from './component/Master/Compliances/Showcompliances';
+
+
 
 
 
@@ -123,7 +126,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/EditLocation" component={EditLocation}/>
 
           <Route exact path="/Addcompliances" component={Addcompliances}/>
-
+          <Route exact path="/Showcompliances" component={Showcompliances}/>
 
           <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
           <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>

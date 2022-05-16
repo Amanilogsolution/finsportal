@@ -512,3 +512,8 @@ export const UploadData = async (data) => {
     const url = `http://localhost:3008/api/FileUpload`
     return axios.post(url, data).then(res => res.data).catch(err => console.log(err))
 }
+
+export const showcompliances = async (org_name) => {
+    const url = `http://localhost:3008/api/Showcompliances`
+    return axios.post(url,{org_name}).then(response => response.data).catch(error => console.log(error));
+}
