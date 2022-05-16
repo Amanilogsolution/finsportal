@@ -5,6 +5,23 @@ import Footer from "../../Footer/Footer";
 
 
 const Addcompliances = () => {
+
+    const senddata = async(e)=>{
+        e.preventDefault();
+
+        const compliancetype =document.getElementById("compliancetype").value;
+        const nature = document.getElementById("nature").value;
+        const period = document.getElementById('period').value;
+        const period_name = document.getElementById('period_name').value;
+        const from_month = document.getElementById('from_month').value;
+        const to_month = document.getElementById('to_month').value;
+        const from_applicable = document.getElementById('from_applicable').value;
+        const due_date = document.getElementById('due_date').value;
+        const extended_date = document.getElementById('extended_date').value;
+
+        console.log(compliancetype,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date);
+        
+    }
     return (
         <div>
             <div className="wrapper">
@@ -26,7 +43,7 @@ const Addcompliances = () => {
                                                     <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Compliances type</label>
                                                     <div className="col form-group">
                                                         <select
-                                                            id="inputState"
+                                                            id="compliancetype"
                                                             className="form-control col-md-4"
                                                         >
                                                             <option selected default hidden value="India">Select Compliances</option>
@@ -39,7 +56,7 @@ const Addcompliances = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="nature" className="col-md-2 col-form-label font-weight-normal">Nature</label>
                                                     <div className="col form-group">
-                                                        <input type="number" className="form-control col-md-4" id='nature' placeholder />
+                                                        <input type="text" className="form-control col-md-4" id='nature' placeholder />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
@@ -55,7 +72,7 @@ const Addcompliances = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="period_name" className="col-md-2 col-form-label font-weight-normal">Period Name</label>
                                                     <div className="col form-group">
-                                                        <input type="number" className="form-control col-md-4" id='period_name' placeholder />
+                                                        <input type="text" className="form-control col-md-4" id='period_name' placeholder />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
@@ -103,7 +120,7 @@ const Addcompliances = () => {
                                         </article>
                                         {/* card-body end .// */}
                                         <div className="border-top card-body">
-                                            <button className="btn btn-success" >Save</button>
+                                            <button className="btn btn-success" onClick={senddata} >Save</button>
                                             <button className="btn btn-light ml-3" onClick={() => { window.location.href = "/" }}>Cancel</button>
                                         </div>
                                     </div>
