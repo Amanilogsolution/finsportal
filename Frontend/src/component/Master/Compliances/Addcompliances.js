@@ -123,17 +123,3 @@ const Addcompliances = () => {
 
 
 export default Addcompliances
-
-
-
-
-// function Addcompliances (){
-//     return(
-//         <>
-
-//         </>
-//     )
-// }
-
-
-// export default Addcompliances;
