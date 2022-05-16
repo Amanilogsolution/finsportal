@@ -30,7 +30,10 @@ const Addcompliances = () => {
         else {
             console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date);
             const result= await Insertcompliance(org,compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date)
-            console.log(result)
+            if(result){
+                window.location.href='/Showcompliances'
+            }
+ 
         }
 
     }
