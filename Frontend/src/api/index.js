@@ -517,3 +517,9 @@ export const showcompliances = async (org) => {
     const url = `http://localhost:3008/api/Showcompliances`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const Insertcompliance = async (org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date) => {
+    console.log(org)
+    const url = `http://localhost:3008/api/insertcompliances`
+    return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date}).then(response => response.data).catch(error => console.log(error));
+}
