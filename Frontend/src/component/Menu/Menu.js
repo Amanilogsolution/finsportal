@@ -194,6 +194,14 @@ import { UserLogout } from '../../api';
                 </a>
               </li>
             </ul>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+                <a href="/Showcompliances" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Compliences</p>
+                </a>
+              </li>
+            </ul>
           </li>
        
         
