@@ -11,22 +11,22 @@ const Header = () => {
   const [data, setData] = useState([])
 
 
-  
+
   useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
     console.log(organisation)
   }, [])
 
-  const handleClick = async()=>{
+  const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
     console.log(result)
 
-    if(result.status == 'Logout'){
-     localStorage.clear()
-      window.location.href='/'
+    if (result.status == 'Logout') {
+      localStorage.clear()
+      window.location.href = '/'
     }
-  
+
   }
 
 
@@ -66,7 +66,7 @@ const Header = () => {
                   setShow(!show);
                 }
 
-                
+
               }}
             >
               <b>{localStorage.getItem('Organisation Name')} <i class="fa fa-angle-down" aria-hidden="true"></i></b>
@@ -219,7 +219,7 @@ const Header = () => {
                         }
                         }>{item.org_name}</span>
                       </a>
-                      <a onClick={()=>{localStorage.setItem('Organisation_details', item.org_name);window.location.href='./ShowOrganisation'}} style={{ float: "right" }}>
+                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './ShowOrganisation' }} style={{ float: "right" }}>
                         <i className="fas fa-cog" ></i> Manage</a>
                     </li>
                   ))
@@ -230,25 +230,27 @@ const Header = () => {
           </>) : null
         }
 
-{orgdetails ? (
+        {orgdetails ? (
           <>
 
-            <div className="orgcard card" >
+            <div className="orgcard card"  >
 
-              <div className="card-body">
-                <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
-                <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+              <div className="card-body" style={{ display: "flex" }}>
+                <span style={{ fontSize: "20px" }}>Setting</span>
+                <i class="fa fa-times position-absolute" aria-hidden="true" style={{ right: "25px" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item"><b>Orgaisation profile</b>
-                </li>
-                </ul>
-             
+                <li className="list-group-item"><i className="fa fa-building"></i> &nbsp;
+                  <b><a href="#">Orgaisation profile</a></b> </li>
+                <li className="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b><a href="#">Fincial Year</a></b> </li>
+              </ul>
+
 
             </div>
           </>) : null
         }
-        
+
         {
           showprofile ? (
             <>
@@ -256,11 +258,11 @@ const Header = () => {
                 <div className="card-body">
                   <i class="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
                   <img className="card-img-top " src="dist/img/user2-160x160.jpg" alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
-                  <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name') } </h6>
+                  <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
-                    <a href="/LoginDetails">Profile</a> | 
-                    <a href="#" style={{color:"green"}}> Change Password</a><br/>
-                    <a href="#" onClick={handleClick} style={{color:"red"}}> Logout</a>
+                    <a href="/LoginDetails">Profile</a> |
+                    <a href="#" style={{ color: "green" }}> Change Password</a><br />
+                    <a href="#" onClick={handleClick} style={{ color: "red" }}> Logout</a>
                   </div>
                 </div>
               </div>
