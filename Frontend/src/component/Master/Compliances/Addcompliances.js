@@ -45,42 +45,59 @@ const Addcompliances = () => {
                                                 </div>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Name</label>
+                                                    <label htmlFor="period" className="col-md-2 col-form-label font-weight-normal">Period</label>
                                                     <div className="col form-group">
-                                                        <select
-                                                            id="inputState"
-                                                            className="form-control col-md-4">
-
-                                                            <option selected default hidden >Choose State</option>
-
-                                                        </select>
+                                                        <input id="period" type="text" className="form-control col-md-4" />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Id</label>
+                                                    <label htmlFor="period_name" className="col-md-2 col-form-label font-weight-normal">Period Name</label>
                                                     <div className="col form-group">
-                                                        <input type="number" className="form-control col-md-4" id='state_id' placeholder />
+                                                        <input type="number" className="form-control col-md-4" id='period_name' placeholder />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City Id</label>
+                                                    <label htmlFor="from_month" className="col-md-2 col-form-label font-weight-normal">From Month</label>
                                                     <div className="col form-group">
-                                                        <input type="number" className="form-control col-md-4" id='city_id' placeholder />
+                                                        <input type="date" className="form-control col-md-4" id='from_month' placeholder />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City Name</label>
+                                                    <label htmlFor="to_month" className="col-md-2 col-form-label font-weight-normal">To Month</label>
                                                     <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='city_name' placeholder />
+                                                        <input type="date" className="form-control col-md-4" id='to_month' placeholder />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
+                                                <div className="form-row">
+                                                    <label htmlFor="from_applicable" className="col-md-2 col-form-label font-weight-normal">From Applicable</label>
+                                                    <div className="col form-group">
+                                                        <input type="text" className="form-control col-md-4" id='from_applicable' placeholder />
+                                                    </div>
+                                                </div>
+                                                {/* form-group end.// */}
+                                                <div className="form-row">
+                                                    <label htmlFor="due_date" className="col-md-2 col-form-label font-weight-normal"> Due Date</label>
+                                                    <div className="col form-group">
+                                                        <input type="date" className="form-control col-md-4" id='due_date' placeholder />
+                                                    </div>
+                                                </div>
+                                                {/* form-group end.// */}
+
+                                                <div className="form-row">
+                                                    <label htmlFor="extended_date" className="col-md-2 col-form-label font-weight-normal"> Extended Date</label>
+                                                    <div className="col form-group">
+                                                        <input type="date" className="form-control col-md-4" id='extended_date' placeholder />
+                                                    </div>
+                                                </div>
+                                                {/* form-group end.// */}
+                                               
 
                                             </form>
                                         </article>
