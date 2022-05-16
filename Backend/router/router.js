@@ -138,6 +138,7 @@ router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)
+router.post('/insertcompliances',ComplianceController.Insertcompliance)
 
 
 router.post('/FileUpload',Multer,FileUpload)

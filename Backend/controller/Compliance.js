@@ -14,4 +14,33 @@ const Showcompliances = async (req, res) => {
     }
 }
 
-module.exports = { Showcompliances}
+const Insertcompliance = async (req, res) =>{
+    const org = req.body.org_name;
+    const compliance_type=req.body.compliance_type;
+    const nature=req.body.nature;
+    const period=req.body.period;
+    const period_name=req.body.period_name;
+    const from_month=req.body.from_month;
+    const to_month=req.body.to_month;
+    const from_applicable=req.body.from_applicable;
+    const due_date=req.body.due_date;
+    const extended_date=req.body.extended_date;
+    console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date)
+    try{
+        await sql.connect(sqlConfig)
+        const result =await sql.query(`insert into ${org}.dbo.tbl_compliance (compliance_type ,nature,period ,period_name ,from_month,to_month ,
+            from_applicable ,due_date ,extended_date ,add_date_time ,add_user_name ,add_system_name ,
+            add_ip_address ,status )
+            values('${compliance_type}','${nature}','${period}','${period_name}','${from_month}','${to_month}',
+             '${from_applicable}','${due_date}}','${extended_date}',getDate(),'Rupesh','${os.hostname()}','${req.ip}','Active')`);
+        res.send(result)
+    }
+    catch(err)
+    {
+        res.send(err)
+
+    }
+    
+}
+
+module.exports = { Showcompliances,Insertcompliance}

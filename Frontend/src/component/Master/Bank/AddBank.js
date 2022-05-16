@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {insertBank}  from '../../../api'
+import {insertBank}  from '../../../api';
 
  const AddBank = () =>  {
      const[actype,setActype] = useState('')

@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
+import { Insertcompliance } from '../../../api'
+
 
 
 const Addcompliances = () => {
+    const [mandatory, setMandatory] = useState(false);
 
-    const senddata = async(e)=>{
+    const senddata = async (e) => {
         e.preventDefault();
 
-        const compliancetype =document.getElementById("compliancetype").value;
+        const org = localStorage.getItem("Organisation Name")
+        const compliance_type = document.getElementById("compliancetype").value;
         const nature = document.getElementById("nature").value;
         const period = document.getElementById('period').value;
         const period_name = document.getElementById('period_name').value;
@@ -19,8 +23,16 @@ const Addcompliances = () => {
         const due_date = document.getElementById('due_date').value;
         const extended_date = document.getElementById('extended_date').value;
 
-        console.log(compliancetype,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date);
-        
+        if (!nature || !period || !period_name || !from_month || !to_month || !from_applicable || !due_date || !extended_date) {
+            setMandatory(true);
+        }
+
+        else {
+            console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date);
+            const result= await Insertcompliance(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date)
+            console.log(result)
+        }
+
     }
     return (
         <div>
@@ -39,6 +51,11 @@ const Addcompliances = () => {
                                     <div className="card" style={{ width: "100%" }}>
                                         <article className="card-body">
                                             <form>
+                                                {
+                                                    mandatory
+                                                        ? <> <h6 style={{ color: "red" }}>Please!, Insert the Mandatory field ...</h6></>
+                                                        : null
+                                                }
                                                 <div className="form-row">
                                                     <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Compliances type</label>
                                                     <div className="col form-group">
@@ -46,7 +63,7 @@ const Addcompliances = () => {
                                                             id="compliancetype"
                                                             className="form-control col-md-4"
                                                         >
-                                                            <option selected default hidden value="India">Select Compliances</option>
+                                                            <option selected default hidden >Select Compliances</option>
 
                                                         </select>
                                                     </div>
@@ -114,12 +131,13 @@ const Addcompliances = () => {
                                                     </div>
                                                 </div>
                                                 {/* form-group end.// */}
-                                               
+
 
                                             </form>
                                         </article>
                                         {/* card-body end .// */}
                                         <div className="border-top card-body">
+
                                             <button className="btn btn-success" onClick={senddata} >Save</button>
                                             <button className="btn btn-light ml-3" onClick={() => { window.location.href = "/" }}>Cancel</button>
                                         </div>
