@@ -199,7 +199,7 @@ const Header = () => {
                 }
 
               }}>
-                <img src="dist/img/user2-160x160.jpg" className="img-circle mr-4" alt="User Image" style={{ border: "1px solid black" }} />
+                <img src={localStorage.getItem("User_img")} className="img-circle mr-4" alt="User Image" style={{ border: "1px solid black" }} />
               </div>
             </div>
           </li>
@@ -271,7 +271,7 @@ const Header = () => {
               <div className="profilcard card" >
                 <div className="card-body">
                   <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
-                  <img className="card-img-top " src="dist/img/user2-160x160.jpg" alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+                  <img className="card-img-top " src={localStorage.getItem("User_img")}  alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
                     <a href="/LoginDetails">Profile</a> |
