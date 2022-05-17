@@ -514,6 +514,7 @@ export const UploadData = async (data) => {
 }
 
 export const showcompliances = async (org) => {
+    console.log(org)
     const url = `http://localhost:3008/api/Showcompliances`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
