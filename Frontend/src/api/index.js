@@ -507,6 +507,12 @@ export const InsertLocationAddress = async (org,location_name,gstin_no,location_
     return axios.post(url,{org,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,location_id,location_pin,to_date}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const Locationstatus = async (org,location_id,status) =>{
+    const url = `http://localhost:3008/api/locationstatus`
+    return axios.post(url,{org,location_id,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+
 export const UploadData = async (data) => {
     console.log(data, 'abcd')
     const url = `http://localhost:3008/api/FileUpload`
@@ -514,6 +520,7 @@ export const UploadData = async (data) => {
 }
 
 export const showcompliances = async (org) => {
+    console.log(org)
     const url = `http://localhost:3008/api/Showcompliances`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
@@ -540,4 +547,9 @@ export const showcompliancesType = async (org) => {
     console.log(org)
     const url = `http://localhost:3008/api/ShowcompliancesType`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+export const Compliancestatus = async (org,sno,status) => {
+    // console.log(org)
+    const url = `http://localhost:3008/api/compliancestatus`
+    return axios.post(url,{org,sno,status}).then(response => response.data).catch(error => console.log(error));
 }

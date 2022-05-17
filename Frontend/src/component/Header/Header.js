@@ -15,12 +15,12 @@ const Header = () => {
   useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
-    console.log(organisation)
+    // console.log(organisation)
   }, [])
 
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
-    console.log(result)
+    // console.log(result)
 
     if (result.status == 'Logout') {
       localStorage.clear()
@@ -62,6 +62,11 @@ const Header = () => {
                   setShowprofile(!showprofile);
                   setShow(!show);
                 }
+                else if(orgdetails == true){
+                  setOrgDeatils(!orgdetails);
+                  setShow(!show);
+
+                }
                 else {
                   setShow(!show);
                 }
@@ -80,6 +85,11 @@ const Header = () => {
                 if (showprofile == true) {
                   setShowprofile(!showprofile);
                   setOrgDeatils(!orgdetails);
+                }
+                else if(show == true){
+                  setShow(!show);
+                  setOrgDeatils(!orgdetails);
+
                 }
                 else {
                   setOrgDeatils(!orgdetails);
@@ -176,9 +186,13 @@ const Header = () => {
               <div className="image" onClick={() => {
 
                 if (show == true) {
-
                   setShow(!show);
                   setShowprofile(!showprofile);
+                }
+                else if(orgdetails == true){
+                  setOrgDeatils(!orgdetails);
+                  setShowprofile(!showprofile);
+
                 }
                 else {
                   setShowprofile(!showprofile);
@@ -219,7 +233,7 @@ const Header = () => {
                         }
                         }>{item.org_name}</span>
                       </a>
-                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './ShowOrganisation' }} style={{ float: "right" }}>
+                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './ShowOrganisation' }} style={{ float: "right",cursor:"pointer" }}>
                         <i className="fas fa-cog" ></i> Manage</a>
                     </li>
                   ))

@@ -17,7 +17,7 @@ const Showcompliances = async (req, res) => {
 }
 
 const Insertcompliance = async (req, res) =>{
-    const org = req.body.org;
+    const org = req.body.org_name;
     const compliance_type=req.body.compliance_type;
     const nature=req.body.nature;
     const period=req.body.period;
@@ -86,5 +86,22 @@ const Updatecompliance = async (req, res) =>{
     }
     
 }
+const Compliancestatus = async (req, res) => {
+    const org = req.body.org;
+    const sno = req.body.sno;
+    const status = req.body.status;
+    // console.log(sno, status)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_compliance set status='${status}' where sno = ${sno}`)
+        res.status(200).send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 
-module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance}
+    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus}
+
+
+
