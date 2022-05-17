@@ -43,7 +43,7 @@ const AddUser = () => {
     const result = await User(employee_name, role, warehouse, user_name,
       password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication,user_profile_url);
 
-     const loginInsert = await insertUserLogin(user_name,employee_name,warehouse,localStorage.getItem('Organisation Name'),password,localStorage.getItem('Organisation'))
+     const loginInsert = await insertUserLogin(user_name,employee_name,warehouse,localStorage.getItem('Organisation Name'),password,localStorage.getItem('Organisation'),user_profile_url)
     if (result) {
       window.location.href = '/ShowUser'
     }

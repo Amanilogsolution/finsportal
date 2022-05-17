@@ -91,7 +91,7 @@ const columns = [
   
         <a title='View Document' href="Editcompliances">
           <button className="editbtn btn-success "
-        //    onClick={() => localStorage.setItem('citySno', `${row.sno}`)} 
+           onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)} 
            >Edit</button></a>
   
       ]

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Insertcompliance } from '../../../api'
+import { Insertcompliance ,showcompliancesType} from '../../../api'
 
 
 
 const Addcompliances = () => {
     const [mandatory, setMandatory] = useState(false);
+    const [data,setData]=useState([])
 
     const senddata = async (e) => {
         e.preventDefault();
@@ -37,6 +38,12 @@ const Addcompliances = () => {
         }
 
     }
+    useEffect(async()=>{
+        const result= await showcompliancesType(localStorage.getItem('Organisation'))
+        setData(result)
+        console.log(result)
+
+    },[])
     return (
         <div>
             <div className="wrapper">
@@ -67,6 +74,10 @@ const Addcompliances = () => {
                                                             className="form-control col-md-4"
                                                         >
                                                             <option selected default hidden >Select Compliances</option>
+                                                            {data.map((res)=>(
+                                                            <option value={res.compliance_type} >{res.compliance_type}</option>
+
+                                                            ))}
 
                                                         </select>
                                                     </div>

@@ -390,10 +390,10 @@ export const UserLogout = async(user_id) => {
     return axios.post(url, {user_id}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const insertUserLogin = async(user_id,user_name,location,comp_name,user_password,org_db_name) => {
+export const insertUserLogin = async(user_id,user_name,location,comp_name,user_password,org_db_name,user_profile_url) => {
     console.log(user_id,user_name,location,comp_name,user_password,org_db_name)
     const url = 'http://localhost:3008/api/InsertUserLogin'
-    return axios.post(url, {user_id,user_name,location,comp_name,user_password,org_db_name}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {user_id,user_name,location,comp_name,user_password,org_db_name,user_profile_url}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportCurrency = async (data) => {
@@ -522,4 +522,22 @@ export const Insertcompliance = async (org,compliance_type,nature,period,period_
     console.log(org)
     const url = `http://localhost:3008/api/insertcompliances`
     return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showcompliancesData = async (org,sno) => {
+    console.log(org,sno)
+    const url = `http://localhost:3008/api/ShowcompliancesData`
+    return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const updatecompliance = async (org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,sno) => {
+    console.log(org)
+    const url = `http://localhost:3008/api/Updatecompliance`
+    return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showcompliancesType = async (org) => {
+    console.log(org)
+    const url = `http://localhost:3008/api/ShowcompliancesType`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }

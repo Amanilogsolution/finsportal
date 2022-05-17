@@ -21,6 +21,8 @@ const LocationController = require('../controller/Location')
 const FileUpload = require('../controller/FileUpload')
 const Multer = require('../Middleware/multer')
 const ComplianceController = require('../controller/Compliance')
+const ComplianceTypeController = require('../controller/ComplianceType')
+
 
 
 
@@ -139,6 +141,13 @@ router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)
+router.post('/ShowcompliancesData',ComplianceController.ShowcompliancesData)
+router.post('/Updatecompliance',ComplianceController.Updatecompliance)
+router.post('/ShowcompliancesType',ComplianceTypeController.ShowcompliancesType)
+
+
+
+
 
 
 router.post('/FileUpload',Multer,FileUpload)

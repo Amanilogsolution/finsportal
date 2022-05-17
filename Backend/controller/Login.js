@@ -22,6 +22,7 @@ const User_login = async (req,res) => {
                 result2:result.recordset[0].user_name,
                 result3:result.recordset[0].org_name,
                 result4:result.recordset[0].user_id,
+                result5:result.recordset[0].user_profile_url,
 
                 expiresIn: 5 * 24 * 60 * 60
             })
@@ -46,7 +47,7 @@ const InsertUserLogin = async (req, res) => {
     const comp_name = req.body.comp_name;
     const user_password = req.body.user_password;
     const org_db_name = req.body.org_db_name;
-    const user_profile_url = 'https://thispersondoesnotexist.com/image'
+    const user_profile_url = req.body.user_profile_url
     console.log(user_profile_url)
      
     const uuid = uuidv1()
