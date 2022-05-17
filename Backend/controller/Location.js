@@ -159,4 +159,19 @@ const UpdateLocationAddress = async(req, res)=> {
     }
 }
 
-module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation}
+
+const Locationstatus = async (req, res) => {
+    const org = req.body.org;
+    const location_id = req.body.location_id;
+    const status = req.body.status;
+    console.log(org,location_id, status)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_location_master set status='${status}' where location_id='${location_id}'`)
+        res.status(200).send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus}

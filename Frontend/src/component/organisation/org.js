@@ -202,18 +202,21 @@ function Org() {
                           id="org_pin"
                         />
                       </div>
-                      <div className="form-group row">
-                        <label className="col-sm-5 col-form-label">
+                     
+                    </div>
+                    <div className="form-row">
+                        <label className="col-sm-4 col-form-label">
                           Orgaisation logo (optional) :-
                         </label>
-                        <input
+                        {/* <input
                           type="file"
-                          className="form-control col-md"
+                          className=""
                           placeholder=""
                           accept=".jpg, .jpeg, .png"
-                        />
+                        /> */}
+                        <button className=" form-control col-md-3 btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Select</button>
+
                       </div>
-                    </div>
                   </div>
                   <p className="regtext">REGIONAL SETTINGS</p>
                   <div className="form-row">
@@ -295,6 +298,38 @@ function Org() {
             </div>
           </div>
         </div>
+        {/* Modal */}
+<div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog" role="document">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel">Upload Orgaisation logo</h5>
+        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div className="modal-body">
+      <div className="form-row">
+                        <label className="col-sm-4 col-form-label">
+                          Orgaisation logo 
+                        </label>
+                        <input
+                          type="file"
+                          className=""
+                          placeholder=""
+                          accept=".jpg, .jpeg, .png,.svg"
+                        />
+
+                      </div>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </>
   );

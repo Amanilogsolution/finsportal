@@ -136,9 +136,11 @@ router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
+router.post('/locationstatus',LocationController.Locationstatus)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)
+router.post('/compliancestatus',ComplianceController.Compliancestatus)
 
 
 router.post('/FileUpload',Multer,FileUpload)
