@@ -17,7 +17,7 @@ const Showcompliances = async (req, res) => {
 }
 
 const Insertcompliance = async (req, res) =>{
-    const org = req.body.org_name;
+    const org = req.body.org;
     const compliance_type=req.body.compliance_type;
     const nature=req.body.nature;
     const period=req.body.period;

@@ -2,29 +2,29 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { showUserLogin } from '../../api'
+import { showUserLogin ,UploadData} from '../../api'
 import './login.css'
 
 const LoginDetails = () => {
     const [data, setData] = useState({})
     const User_img = localStorage.getItem("User_img");
+    const [file,setFile] = useState('')
+
 
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
         console.log(result)
         setData(result)
-        // if (result.two_factor_authentication == 'With OTP') {
-        //     document.getElementById('otp').checked = true
-        //     setAuthentication('With OTP')
-        // }
-        // else {
-        //     document.getElementById('noOTP').checked = true
-        //     setAuthentication('Without OTP')
-        // }
-
     }, [])
 
-
+    const handleSendFile =async(e)=>{
+        e.preventDefault()
+        const data = new FormData();
+        data.append("images",file)
+       const UploadLink = await UploadData(data)
+       console.log(UploadLink)
+      //  setUserProfile(UploadLink)
+    }
 
 
     return (
@@ -199,7 +199,8 @@ const LoginDetails = () => {
                                     <input
                                         type="file"
                                         className=""
-                                        placeholder=""
+                                        onChange={event=>{ const document = event.target.files[0];
+                                            setFile(document)}}   
                                         accept=".jpg, .jpeg, .png,.svg"
                                     />
 
@@ -207,7 +208,7 @@ const LoginDetails = () => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Upload</button>
+                                <button type="button" className="btn btn-primary" onClick={handleSendFile}>Upload</button>
                             </div>
                         </div>
                     </div>
