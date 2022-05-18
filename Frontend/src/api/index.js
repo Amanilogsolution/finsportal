@@ -525,10 +525,10 @@ export const showcompliances = async (org) => {
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Insertcompliance = async (org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date) => {
+export const Insertcompliance = async (org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,user_name) => {
     console.log(org)
     const url = `http://localhost:3008/api/insertcompliances`
-    return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,user_name}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showcompliancesData = async (org,sno) => {
@@ -537,10 +537,10 @@ export const showcompliancesData = async (org,sno) => {
     return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updatecompliance = async (org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,sno) => {
+export const updatecompliance = async (org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,sno,user_name) => {
     console.log(org)
     const url = `http://localhost:3008/api/Updatecompliance`
-    return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,sno}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,compliance_type,nature,period,period_name,from_month,to_month,from_applicable,due_date,extended_date,sno,user_name}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showcompliancesType = async (org) => {

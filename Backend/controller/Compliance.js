@@ -27,6 +27,7 @@ const Insertcompliance = async (req, res) =>{
     const from_applicable=req.body.from_applicable;
     const due_date=req.body.due_date;
     const extended_date=req.body.extended_date;
+    const user_name = req.body.user_name
     console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date)
     try{
         await sql.connect(sqlConfig)
@@ -34,7 +35,7 @@ const Insertcompliance = async (req, res) =>{
             from_applicable ,due_date ,extended_date ,add_date_time ,add_user_name ,add_system_name ,
             add_ip_address ,status )
             values('${compliance_type}','${nature}','${period}','${period_name}','${from_month}','${to_month}',
-             '${from_applicable}','${due_date}','${extended_date}',getDate(),'Rupesh','${os.hostname()}','${req.ip}','Active')`);
+             '${from_applicable}','${due_date}','${extended_date}',getDate(),'${user_name}','${os.hostname()}','${req.ip}','Active')`);
         res.send(result)
     }
     catch(err)
@@ -71,11 +72,13 @@ const Updatecompliance = async (req, res) =>{
     const due_date=req.body.due_date;
     const extended_date=req.body.extended_date;
     const sno = req.body.sno;
+    const user_name = req.body.user_name
+
     console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date,sno)
     try{
         await sql.connect(sqlConfig)
         const result =await sql.query(` update ${org}.dbo.tbl_compliance set compliance_type='${compliance_type}',nature='${nature}',period='${period}',period_name='${period_name}',from_month='${from_month}',
-        to_month='${to_month}',from_applicable='${from_applicable}',due_date='${due_date}',extended_date='${extended_date}',update_date_time =GETDATE(),update_user_name ='Aman',
+        to_month='${to_month}',from_applicable='${from_applicable}',due_date='${due_date}',extended_date='${extended_date}',update_date_time =GETDATE(),update_user_name ='${user_name}',
         update_system_name ='${os.hostname()}',update_ip_address='${req.ip}' WHERE sno=${sno};`);
         res.send(result)
     }
