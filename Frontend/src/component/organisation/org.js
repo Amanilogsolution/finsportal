@@ -1,9 +1,12 @@
 import "./org.css";
 import { useState } from "react";
-import { register, CreatenewDb, CreateOrgTable } from "../../api/index";
+import { register, CreatenewDb, CreateOrgTable,UploadData } from "../../api/index";
 
 function Org() {
   const [gstbox, setgstbox] = useState(false);
+  const [file,setFile] = useState('')
+
+
   const formshow = () => {
     document.getElementById("formallbox").style.display = "block";
     document.getElementById("newlinepid").style.display = "none";
@@ -51,6 +54,15 @@ function Org() {
     setgstbox(!gstbox);
   };
 
+  const handleSendFile =async(e)=>{
+    e.preventDefault()
+    const data = new FormData();
+    data.append("images",file)
+   const UploadLink = await UploadData(data)
+   console.log(UploadLink)
+  //  setUserProfile(UploadLink)
+}
+
   return (
     <>
       <div className="orgcontainer">
@@ -84,7 +96,6 @@ function Org() {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder
                         value="India"
                         id="org_country"
                         required
@@ -98,7 +109,7 @@ function Org() {
                         <span style={{ color: "red" }}>*</span>
                       </label>
                       <select id="inputState" className="form-control">
-                        <option selected="" hidden>Selecte State/Union Territory</option>
+                        <option defaultValue hidden>Selecte State/Union Territory</option>
                         <option>Andhra Pradesh</option>
                         <option>Arunachal Pradesh</option>
                         <option>Assam</option>
@@ -158,8 +169,8 @@ function Org() {
                       <div className="form-group col-md-6">
                         <input
                           className="form-control"
-                          type="text" oninput="numberOnly(this.id);"
-                          maxlength="12"
+                          type="text" onInput="numberOnly(this.id);"
+                          maxLength="12"
                           placeholder="Contact Mobile no."
                           id='org_contact_phone'
                         />
@@ -195,8 +206,8 @@ function Org() {
                       <div className="form-group col-md-6">
                         <input
                           type="text"
-                          oninput="numberOnly(this.id);"
-                          maxlength="6"
+                          onInput="numberOnly(this.id);"
+                          maxLength="6"
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
@@ -273,8 +284,8 @@ function Org() {
                     Settings, if needed.
                   </small>
                   <hr />
-                  <div classNmae="form-group">
-                    <label className="col-md-4 control-label" htmlfor="save"></label>
+                  <div className="form-group">
+                    <label className="col-md-4 control-label" htmlFor="save"></label>
                     <div className="col-md-20" style={{ width: "100%" }}>
                       <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
                         Get start
@@ -313,18 +324,14 @@ function Org() {
                         <label className="col-sm-4 col-form-label">
                           Orgaisation logo 
                         </label>
-                        <input
-                          type="file"
-                          className=""
-                          placeholder=""
-                          accept=".jpg, .jpeg, .png,.svg"
-                        />
+                        <input type="file" className="" placeholder=""onChange={event=>{ const document = event.target.files[0];
+                                                                                                            setFile(document)}}   accept=".jpg, .jpeg, .png,.svg"/>
 
                       </div>
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Upload</button>
+        <button type="button" onClick={handleSendFile} className="btn btn-primary">Upload</button>
       </div>
     </div>
   </div>
