@@ -13,10 +13,10 @@ const Addcompliances = () => {
     const [fromdate,setFromDate] = useState([])
     const [todate,setToDate] = useState([])
     const [periodname,setPeriodName] = useState([])
-    const [fromapplicable,setFromApplicable] = useState([])
     const [duedate,setdueDate] = useState([])
     const [extenddate,setExtendDate] = useState([])
     const [period,setPeriod] = useState()
+  
 
     const handleChangedate = (e) => {
         const date = e.target.value
@@ -40,16 +40,18 @@ const Addcompliances = () => {
         }
      
         
-     
-        
      const handleSelect = (e) =>{
        const values = e.target.value
        setPeriod(values)
        if(values === 'Quaterly'){
          setTotal(4)
-       }else if(values === 'Semi_Annual'){
+       }
+       else if(values === 'Semi_Annual'){
          setTotal(2)
        }
+       else if(values === 'Annual'){
+        setTotal(1)
+      }
        console.log(values)
      }
 
@@ -57,12 +59,13 @@ const Addcompliances = () => {
         const org = localStorage.getItem('Organisation')
         const ComplianceType = document.getElementById('compliancetype').value
         const nature =document.getElementById('nature').value
+        const fromapplicable = document.getElementById('fromapplicable').value
         console.log(periodname,fromdate,todate,duedate,fromapplicable,extenddate)
         if(!nature||!period||!periodname||!fromdate||!todate||!fromapplicable||!duedate||!extenddate){
             setMandatory(true)
         }else{
         periodname.map(async(name,index)=>{
-          const result = await Insertcompliance(org,ComplianceType,nature,period,name,fromdate[index],todate[index],fromapplicable[index],duedate[index],extenddate[index],localStorage.getItem('User_name'))
+          const result = await Insertcompliance(org,ComplianceType,nature,period,name,fromdate[index],todate[index],fromapplicable,duedate[index],extenddate[index],localStorage.getItem('User_name'))
           if(result){
               window.location.href='Showcompliances'
           }
@@ -76,12 +79,6 @@ const Addcompliances = () => {
         const data2 = e.target.value;
         setPeriodName([...periodname,data2])
      }
-   
-     const handleFromApplicable =(e)=>{
-   
-       const data2 = e.target.value;
-       setFromApplicable([...fromapplicable,data2])
-    }
     
     useEffect(async()=>{
         const result= await showcompliancesType(localStorage.getItem('Organisation'))
@@ -135,6 +132,14 @@ const Addcompliances = () => {
                       {/* form-group end.// */}
                     </div>
 
+                    <div className="form-row">
+                      <label htmlFor="nature" className="col-md-2 col-form-label font-weight-normal">From Applicable</label>
+                      <div className="col form-group">
+                        <input type="text" className="form-control col-md-4" id='fromapplicable' />
+                      </div>
+                      {/* form-group end.// */}
+                    </div>
+
                    
                     <div className="form-row">    
 
@@ -164,7 +169,6 @@ const Addcompliances = () => {
                           <th scope="col">Period Name</th>
                           <th scope="col">From Month</th>
                           <th scope="col">To Month</th>
-                          <th scope="col">From Applicable</th>
                           <th scope="col">Due Date</th>
                           <th scope="col">Extended Date</th>
                         </tr>
@@ -177,7 +181,6 @@ const Addcompliances = () => {
                                 <th ><input type="text" className="form-control " id="period_name" onBlur={handlePeriodname}  /></th>
                                 <td><input type="date" className="form-control" id='from_date' onChange={handleChangedate}  /></td>
                                 <td><input type="date" className="form-control " id='to_date' onChange={handleChangeTodate}  /></td>
-                                <td><input type="text" className="form-control " id='From_Applicable' onBlur={handleFromApplicable}  /></td>
                                 <td><input type="date" className="form-control " id='due_date' onChange={handleChangeduedate} /></td>
                                 <td><input type="date" className="form-control " id='extended_date' onChange={handleChangeextenddate}  /></td>
                               </tr>
