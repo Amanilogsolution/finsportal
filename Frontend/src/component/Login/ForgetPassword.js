@@ -4,16 +4,29 @@ import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 
 function ForgetPassword() {
-    const handleClick = (e) => {
-       e.preventDefault()
-       const userId =  document.getElementById('userId').value;
-       const password = document.getElementById('password').value;
-       const Resendpassword = document.getElementById('Resendpassword').value
-       if(password===Resendpassword){
+    const [showalert, setShowalert] = useState(false);
+    const [passwordshow, setPasswordshow] = useState(false);
+    const [confpasswordshow, setConfpasswordshow] = useState(false);
 
-       }else{
-           
-       }
+    const handleClickToogle = (e) => {
+        e.preventDefault()
+        setPasswordshow(!passwordshow)
+    }
+    const handleClickToogle2 = (e) => {
+        e.preventDefault()
+        setConfpasswordshow(!confpasswordshow)
+    }
+
+    const handleClick = (e) => {
+        e.preventDefault()
+        const userId = document.getElementById('userId').value;
+        const password = document.getElementById('password').value;
+        const confirmpassword = document.getElementById('confirmpassword').value
+        if (password === confirmpassword) {
+
+        } else {
+            setShowalert(true);
+        }
     }
     return (
         <div>
@@ -37,9 +50,9 @@ function ForgetPassword() {
                                         <article className="card-body">
                                             <div>
                                                 <div className="form-gap" />
-                                                <div className="container"  style={{width:"50%" }}>
+                                                <div className="container" style={{ width: "50%" }}>
                                                     <div className="row">
-                                                        <div className="col-md-7 col-md-offset-5" style={{margin:'auto', boxShadow:"5px 5px 10px gray" }}>
+                                                        <div className="col-md-7 col-md-offset-5" style={{ margin: 'auto', boxShadow: "5px 5px 10px gray" }}>
                                                             <div className="panel panel-default">
                                                                 <div className="panel-body">
                                                                     <div className="text-center">
@@ -57,17 +70,29 @@ function ForgetPassword() {
                                                                                 <div className="form-group">
                                                                                     <div className="input-group">
                                                                                         <span className="input-group-addon"><i className="glyphicon glyphicon-envelope color-blue" /></span>
-                                                                                        <input id="password" name="email" placeholder="Enter Password" className="form-control" type="email" />
+                                                                                        <input id="password" name="password" placeholder="New Password" className="form-control" type={passwordshow ? "text" : "password"} />
+                                                                                        <div className="input-group-append">
+                                                                                            <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="form-group">
                                                                                     <div className="input-group">
                                                                                         <span className="input-group-addon"><i className="glyphicon glyphicon-envelope color-blue" /></span>
-                                                                                        <input id="Resendpassword" name="email" placeholder="ReEnter password" className="form-control" type="email" />
+                                                                                        <input id="confirmpassword" name="confirmpassword" placeholder="Confirm password" className="form-control" type={confpasswordshow ? "text" : "password"} />
+                                                                                        <div className="input-group-append">
+                                                                                            <span className="input-group-text" onClick={handleClickToogle2}>{confpasswordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                {
+                                                                                    showalert ?
+                                                                                        <p style={{ color: "red" }}>Password and Confirm Password Field do not match </p>
+                                                                                        : null
+                                                                                }
+
                                                                                 <div className="form-group">
-                                                                                    <input name="recover-submit" className="btn btn-lg btn-primary btn-block" onClick={handleClick} type="submit" />
+                                                                                    <input name="recover-submit" className="btn btn-lg btn-primary btn-block" onClick={handleClick} type="submit" value="Change" />
                                                                                 </div>
                                                                                 <input type="hidden" className="hide" name="token" id="token" defaultValue />
                                                                             </form>
