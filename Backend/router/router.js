@@ -145,6 +145,11 @@ router.post('/insertcompliances',ComplianceController.Insertcompliance)
 router.post('/ShowcompliancesData',ComplianceController.ShowcompliancesData)
 router.post('/Updatecompliance',ComplianceController.Updatecompliance)
 router.post('/ShowcompliancesType',ComplianceTypeController.ShowcompliancesType)
+router.post('/InsertcomplianceType',ComplianceTypeController.InsertcomplianceType)
+router.post('/ShowcompliancesTypeselect',ComplianceTypeController.ShowcompliancesTypeselect)
+router.post('/UpdatecomplianceType',ComplianceTypeController.UpdatecomplianceType)
+
+
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 

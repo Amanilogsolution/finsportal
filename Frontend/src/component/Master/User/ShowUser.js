@@ -29,8 +29,8 @@ const columns = [
     sortable: true
   },
   {
-    name: 'username',
-    selector: row=>row.user_name,
+    name: 'UserId',
+    selector: row=>row.user_id,
     sortable: true
   },
   // {

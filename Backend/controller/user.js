@@ -32,7 +32,7 @@ const InsertUser = async (req, res) => {
     const uuid = uuidv1()
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into FINSDB.dbo.tbl_usermaster (employee_name,role,warehouse,user_name,password,email_id,phone,operate_mode,status,customer,reporting_to,designation,two_factor_authentication,user_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,user_profile_url)
+        const result = await sql.query(`insert into FINSDB.dbo.tbl_usermaster (employee_name,role,warehouse,user_id,password,email_id,phone,operate_mode,status,customer,reporting_to,designation,two_factor_authentication,user_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,user_profile_url)
         values('${employee_name}','${role}','${warehouse}','${username}','${password}','${email_id}','${phone}','${operatemode}','Active','${customer}','${reporting_to}','${designation}','${two_factor_authentication}','${uuid}',getdate(),'admin','rupesh','${req.ip}','${user_profile_url}')`)
         res.send('Added')
     }
@@ -66,12 +66,13 @@ async function updateuser(req, res) {
     const reporting_to = req.body.reporting_to;
     const designation = req.body.designation;
     const two_factor_authentication = req.body.two_factor_authentication;
+    console.log(user_name)
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.tbl_usermaster set 
         employee_name='${employee_name}',role='${role}',
-        warehouse='${warehouse}',user_name='${user_name}',
+        warehouse='${warehouse}',user_id='${user_name}',
         password='${password}',email_id='${email_id}',phone='${phone}',
         operate_mode='${operate_mode}',customer='${customer}',reporting_to='${reporting_to}',
         designation='${designation}',two_factor_authentication='${two_factor_authentication}',
@@ -107,14 +108,14 @@ const ImportUser = (req, res) => {
      console.log(datas)
     sql.connect(sqlConfig).then(() => {
 
-        sql.query(`select * from FINSDB.dbo.tbl_usermaster where user_name in ('${datas.map(data => data.user_name).join("', '")}') OR email_id in ('${datas.map(data => data.email_id).join("', '")}') OR phone in ('${datas.map(data => data.phone).join(', ')}')`)
+        sql.query(`select * from FINSDB.dbo.tbl_usermaster where user_id in ('${datas.map(data => data.user_name).join("', '")}') OR email_id in ('${datas.map(data => data.email_id).join("', '")}') OR phone in ('${datas.map(data => data.phone).join(', ')}')`)
             .then((resp) => {
                 console.log(resp.rowsAffected[0])
                 if (resp.rowsAffected[0] > 0)
-                    res.send(resp.recordset.map(item => ({ "user_name": item.user_name, "email_id": item.email_id, "phone": item.phone })))
+                    res.send(resp.recordset.map(item => ({ "user_id": item.user_name, "email_id": item.email_id, "phone": item.phone })))
                 else {
 
-                    sql.query(`INSERT into FINSDB.dbo.tbl_usermaster(employee_name,role,warehouse,user_name,password,
+                    sql.query(`INSERT into FINSDB.dbo.tbl_usermaster(employee_name,role,warehouse,user_id,password,
                     email_id,phone,operate_mode,customer,reporting_to,designation,
                     user_profile_url,two_factor_authentication,status,add_date_time,add_user_name,add_system_name,add_ip_address,user_uuid)
                     values ${datas.map(item => `('${item.employee_name}','${item.role}','${item.warehouse}','${item.user_name}','${item.password}','${item.email_id}',${item.phone},'${item.operate_mode}','${item.customer}',
