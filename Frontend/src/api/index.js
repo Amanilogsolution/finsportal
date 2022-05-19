@@ -5,7 +5,6 @@ export const Newdb = async (dbname) => {
     return axios.get(url,{dbname}).then(response => response.data).catch(error => console.log(error));
 }
 
-
 export const register = async (org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin) => {
     console.log(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
     const url = `http://192.168.146.103:3008/org`
@@ -377,6 +376,12 @@ export const UserLogin = async(user_id,user_password) => {
     console.log(user_id,user_password)
     const url = 'http://localhost:3008/api/userlogin'
     return axios.post(url, {user_id,user_password}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UserChangePassword = async(user_id,password) => {
+    console.log(user_id,password)
+    const url = 'http://localhost:3008/api/ChangePassword'
+    return axios.post(url, {user_id,password}).then(response => response.data).catch(error => console.log(error));
 }
 export const showUserLogin = async(user_id) => {
     console.log(user_id)

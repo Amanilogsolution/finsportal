@@ -117,6 +117,7 @@ router.post('/userlogin',LoginController.User_login)
 router.post('/userlogout',LoginController.User_logout)
 router.post('/InsertUserLogin',LoginController.InsertUserLogin)
 router.post('/ShowUserLogin',LoginController.showLoginuser)
+router.post('/ChangePassword',LoginController.ChangePassword)
 
 router.post('/SchemaCreate',OrganisationController.Insertorg)
 router.post('/ShowOrganisation',OrganisationController.ShowOrganisation)
