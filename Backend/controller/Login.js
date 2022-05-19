@@ -97,12 +97,15 @@ async function showLoginuser(req,res){
  async function ChangePassword(req,res){
             const user_id = req.body.user_id;
             const password = req.body.password;
-            console.log(user_id)
+            const CurrentPassword = req.body.CurrentPassword;
+            
+            console.log(user_id,CurrentPassword)
             try{
                 await sql.connect(sqlConfig)
 
-                const UserChange = await sql.query(`update FINSDB.dbo.tbl_usermaster set password='${password}' where user_id ='${user_id}'`)
-                const LoginChange = await sql.query(`update FINSDB.dbo.tbl_Login set user_password ='${password}' where user_id ='${user_id}'`)
+                const UserChange = await sql.query(`update FINSDB.dbo.tbl_usermaster set password='${password}' where user_id ='${user_id}' and password='${CurrentPassword}'`)
+                const LoginChange = await sql.query(`update FINSDB.dbo.tbl_Login set user_password ='${password}' where user_id ='${user_id}' and user_password='${CurrentPassword}'`)
+                console.log(UserChange,LoginChange)
                 res.send(UserChange)
                 }
                 catch(err){

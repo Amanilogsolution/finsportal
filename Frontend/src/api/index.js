@@ -374,10 +374,10 @@ export const UserLogin = async(user_id,user_password) => {
     return axios.post(url, {user_id,user_password}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UserChangePassword = async(user_id,password) => {
+export const UserChangePassword = async(user_id,password,CurrentPassword) => {
     console.log(user_id,password)
     const url = 'http://localhost:3008/api/ChangePassword'
-    return axios.post(url, {user_id,password}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {user_id,password,CurrentPassword}).then(response => response.data).catch(error => console.log(error));
 }
 export const showUserLogin = async(user_id) => {
     console.log(user_id)

@@ -24,7 +24,7 @@ function ChangePassword() {
         const password = document.getElementById('password').value;
         const confirmpassword = document.getElementById('confirmpassword').value
         if (password === confirmpassword) {
-            const result = await UserChangePassword(localStorage.getItem('User_id'),password)
+            const result = await UserChangePassword(localStorage.getItem('User_id'),password,CurrentPassword)
             console.log(result)
         } else {
             setShowalert(true);
