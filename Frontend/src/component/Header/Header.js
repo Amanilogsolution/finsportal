@@ -169,18 +169,7 @@ const Header = () => {
               <i className="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
-          {/* <li className="nav-item" >
-            <a
-              className="nav-link"
-              data-widget="control-sidebar"
-              data-controlsidebar-slide="true"
-              href="#"
-              role="button" >
-              <i className="fas fa-th-large"></i>
-            </a>
-          </li> */}
-
-          {/*--------- Profile start ---------------*/}
+    
           <li className="nav-item profilediv"  >
             <div className="user-panel mr-7">
               <div className="image" onClick={() => {
@@ -275,7 +264,7 @@ const Header = () => {
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
                     <a href="/LoginDetails">Profile</a> |
-                    <a href="#" style={{ color: "green" }}> Change Password</a><br />
+                    <a href="/ForgetPassword" style={{ color: "green" }}> Change Password</a><br/>
                     <a href="#" onClick={handleClick} style={{ color: "red" }}> Logout</a>
                   </div>
                 </div>

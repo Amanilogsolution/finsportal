@@ -3,6 +3,8 @@ import {Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import PrivatRoute from './component/HOC/PrivateRoute';
 import Login from './component/Login/Login';
 import LoginDetails from './component/Login/LoginDetails'
+import ForgetPassword from './component/Login/ForgetPassword';
+
 import Home from './component/Home/Home'
 import Customer from './component/Customer/Customer'
 import ShowOrganisation from './component/organisation/ShowOrganisation'
@@ -55,12 +57,9 @@ import EditOrgAddress from './component/Master/Location/Address/EditOrgAddress';
 import Addcompliances from './component/Master/Compliances/Addcompliances';
 import Showcompliances from './component/Master/Compliances/Showcompliances';
 import Editcompliances from './component/Master/Compliances/Editcompliances';
-
-
-
-
-
-
+import ShowcompliancesType from './component/Master/Compliances/ComplienceType/ShowcomplianceType'
+import AddcomplianceType from './component/Master/Compliances/ComplienceType/AddcomplianceType'
+import EditComplianceType from './component/Master/Compliances/ComplienceType/EditComplianceType'
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -77,6 +76,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
         <Switch>
           <Route exact path="/" restricted={false} component={Login}/>
           <Route exact path="/LoginDetails" component={LoginDetails}/>
+          <Route exact path="/ForgetPassword" component={ForgetPassword}/>
 
           <Route  exact path="/home" component={Home}/>
           <Route exact path="/Customer" component={Customer}/>
@@ -132,6 +132,11 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/Showcompliances" component={Showcompliances}/>
           <Route exact path="/Editcompliances" component={Editcompliances}/>
 
+          <Route exact path="/ShowcompliancesType" component={ShowcompliancesType}/>
+          <Route exact path="/AddcomplianceType" component={AddcomplianceType}/>
+          <Route exact path="/EditComplianceType" component={EditComplianceType}/>
+
+          
 
           <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
           <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>

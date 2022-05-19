@@ -198,7 +198,7 @@ export const showuser = async (sno) => {
 
 export const UpdateUser = async (sno, employee_name, role,warehouse,user_name,password,
     email_id,phone,operate_mode,customer,reporting_to,designation,two_factor_authentication) => {
-    const url = `http://192.168.146.103:3008/api/updateuser`
+    const url = `http://localhost:3008/api/updateuser`
     return axios.post(url, {sno, employee_name, role,warehouse,user_name,password,email_id,phone,
         operate_mode,customer,reporting_to,designation,two_factor_authentication}).then(response => response.data).catch(error => console.log(error));
 }
@@ -552,4 +552,22 @@ export const Compliancestatus = async (org,sno,status) => {
     // console.log(org)
     const url = `http://localhost:3008/api/compliancestatus`
     return axios.post(url,{org,sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertcomplianceType = async (org,compliance_type,user_name) => {
+    // console.log(org)
+    const url = `http://localhost:3008/api/InsertcomplianceType`
+    return axios.post(url,{org,compliance_type,user_name}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ShowcompliancesTypeselect = async (org,sno) => {
+    // console.log(org)
+    const url = `http://localhost:3008/api/ShowcompliancesTypeselect`
+    return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdatecomplianceType = async (org,compliance_type,user_name,sno) => {
+    // console.log(org)
+    const url = `http://localhost:3008/api/UpdatecomplianceType`
+    return axios.post(url,{org,compliance_type,user_name,sno}).then(response => response.data).catch(error => console.log(error));
 }
