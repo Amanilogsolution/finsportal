@@ -146,6 +146,8 @@ router.post('/ShowcompliancesData',ComplianceController.ShowcompliancesData)
 router.post('/Updatecompliance',ComplianceController.Updatecompliance)
 router.post('/ShowcompliancesType',ComplianceTypeController.ShowcompliancesType)
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
+router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
+
 
 
 router.post('/FileUpload',Multer,FileUpload)

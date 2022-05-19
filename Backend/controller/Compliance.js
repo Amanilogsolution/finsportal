@@ -104,7 +104,22 @@ const Compliancestatus = async (req, res) => {
     }
 }
 
-    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus}
+
+  const Compliancesduedate =async(req,res) =>{
+    const org = req.body.org;
+    // console.log("org",org)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select convert(varchar(15),due_date,121) as due_date  from ${org}.dbo.tbl_compliance`)
+        res.status(200).send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate}
 
 
 

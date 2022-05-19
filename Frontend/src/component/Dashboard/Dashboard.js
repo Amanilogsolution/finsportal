@@ -13,49 +13,40 @@ const Dashboard = () => {
 
   useEffect(async () => {
     const due_date = await Compliancesduedate(localStorage.getItem("Organisation"))
-    // const due_date= ["kjk","ujhuj"]
-    due_date.map(checkdue_date)
-    function checkdue_date(date) {
-      const breakdate = date.due_date
-      // console.log(date.due_date)
 
-   
- var regex =/\s|,/g;
- fullDate = "1st December,2016";
- var dateParts =fullDate.split(/[\s|,]/g);
- alert("date : "+ dateParts[0] + " Month : " +dateParts[01] + " Year : " + dateParts[02]);
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    const datedi = due_date[1].due_date.split("-");
+    let num = 0;
+
+    //   if(datedi[1] == mm){
+    //    console.log("done")
+    //     if((datedi[2]-dd) == 4 || (datedi[2]-dd) == 3 || (datedi[2]-dd) == 2 || (datedi[2]-dd) == 1 || (datedi[2]-dd) == 0){
+    //       alert("done")
+    //     }
+    //  }
+
+
+    due_date.map((n) => {
+      const datedi = due_date[num].due_date.split("-");
+      console.log(datedi)
+      num = num + 1;
+      if (datedi[1] == mm) {
+        if ((datedi[2] - dd) == 4 || (datedi[2] - dd) == 3 || (datedi[2] - dd) == 2 || (datedi[2] - dd) == 1 || (datedi[2] - dd) == 0) {
+          console.log("alert")
+        }
+      }
+
+
     }
+
+    );
 
   }, [])
 
 
-  // #############dnkdnkdn
-
-//   const Compliancesduedate =async(req,res) =>{
-//     const org = req.body.org;
-//     console.log("org",org)
-//     try {
-//         await sql.connect(sqlConfig)
-//         const result = await sql.query(`select due_date from ${org}.dbo.tbl_compliance`)
-//         res.status(200).send(result.recordset)
-//     }
-//     catch (err) {
-//         console.log(err)
-//     }
-
-// }
-
-// Compliancesduedate
-
-// router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
-
-// export const Compliancesduedate = async (org) => {
-//   console.log(org)
-//   const url = `http://localhost:3008/api/compliancesduedate`
-//   return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
-// }
-
-  // ##############nnknk
 
 
   return (
