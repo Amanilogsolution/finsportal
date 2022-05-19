@@ -78,7 +78,7 @@ const LoginDetails = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">Username</label>
                                                     <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='username' value={data.user_name} disabled readonly />
+                                                        <input type="text" className="form-control col-md-4" id='username' value={data.user_id} disabled readonly />
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>

@@ -3,7 +3,7 @@ import {Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import PrivatRoute from './component/HOC/PrivateRoute';
 import Login from './component/Login/Login';
 import LoginDetails from './component/Login/LoginDetails'
-import ForgetPassword from './component/Login/ForgetPassword';
+import ChangePassword from './component/Login/ChangePassword';
 
 import Home from './component/Home/Home'
 import Customer from './component/Customer/Customer'
@@ -76,7 +76,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
         <Switch>
           <Route exact path="/" restricted={false} component={Login}/>
           <Route exact path="/LoginDetails" component={LoginDetails}/>
-          <Route exact path="/ForgetPassword" component={ForgetPassword}/>
+          <Route exact path="/ChangePassword" component={ChangePassword}/>
 
           <Route  exact path="/home" component={Home}/>
           <Route exact path="/Customer" component={Customer}/>

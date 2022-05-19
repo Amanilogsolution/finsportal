@@ -264,7 +264,7 @@ const Header = () => {
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
                     <a href="/LoginDetails">Profile</a> |
-                    <a href="/ForgetPassword" style={{ color: "green" }}> Change Password</a><br/>
+                    <a href="/ChangePassword" style={{ color: "green" }}> Change Password</a><br/>
                     <a href="#" onClick={handleClick} style={{ color: "red" }}> Logout</a>
                   </div>
                 </div>
