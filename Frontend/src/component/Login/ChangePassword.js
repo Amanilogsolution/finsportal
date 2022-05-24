@@ -7,6 +7,7 @@ import {UserChangePassword} from '../../api'
 function ChangePassword() {
     const [showalert, setShowalert] = useState(false);
     const [passwordshow, setPasswordshow] = useState(false);
+    const [checkpass, setCheckpass] = useState(false);
     const [confpasswordshow, setConfpasswordshow] = useState(false);
 
     const handleClickToogle = (e) => {
@@ -26,7 +27,15 @@ function ChangePassword() {
         if (password === confirmpassword) {
             const result = await UserChangePassword(localStorage.getItem('User_id'),password,CurrentPassword)
             console.log(result)
-        } else {
+            if(result== 'Incorrect Current Password'){
+                setCheckpass(!checkpass)
+            }
+            else{
+                alert ("Password changed successfully ...");
+                window.location.href='/home'
+            }
+        } 
+        else {
             setShowalert(true);
         }
     }
@@ -66,7 +75,7 @@ function ChangePassword() {
                                                                                 <div className="form-group">
                                                                                     <div className="input-group">
                                                                                         <span className="input-group-addon"><i className="glyphicon glyphicon-envelope color-blue" /></span>
-                                                                                        <input id="CurrentPassword" name="email" placeholder="Enter Current Password" className="form-control" type="text" />
+                                                                                        <input id="CurrentPassword" name="email" placeholder="Enter Current Password" className="form-control" type="text" onChange={()=>{setCheckpass(false)}}/>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="form-group">
@@ -90,6 +99,11 @@ function ChangePassword() {
                                                                                 {
                                                                                     showalert ?
                                                                                         <p style={{ color: "red" }}>Password and Confirm Password Field do not match </p>
+                                                                                        : null
+                                                                                }
+                                                                                {
+                                                                                    checkpass ?
+                                                                                        <p style={{ color: "red" }}>Please! fill the correct current Password</p>
                                                                                         : null
                                                                                 }
 

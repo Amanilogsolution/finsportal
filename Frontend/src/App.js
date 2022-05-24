@@ -61,6 +61,10 @@ import ShowcompliancesType from './component/Master/Compliances/ComplienceType/S
 import AddcomplianceType from './component/Master/Compliances/ComplienceType/AddcomplianceType'
 import EditComplianceType from './component/Master/Compliances/ComplienceType/EditComplianceType'
 
+import Fincialyear from './component/Master/fincialyear/fincialyear'
+import ShowFincialyear from './component/Master/fincialyear/Showfincialyear'
+
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -140,6 +144,10 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
 
           <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
           <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>
+
+          <Route exact path="/Fincialyear" component={Fincialyear}/>
+          <Route exact path="/ShowFincialyear" component={ShowFincialyear}/>
+          
           
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

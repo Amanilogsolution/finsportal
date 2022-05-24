@@ -577,3 +577,8 @@ export const UpdatecomplianceType = async (org,compliance_type,user_name,sno) =>
     const url = `http://localhost:3008/api/UpdatecomplianceType`
     return axios.post(url,{org,compliance_type,user_name,sno}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const Showfincialyear = async (org) => {
+    const url = `http://localhost:3008/api/showfincialyear`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}

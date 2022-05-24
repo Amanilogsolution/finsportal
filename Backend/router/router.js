@@ -22,6 +22,7 @@ const FileUpload = require('../controller/FileUpload')
 const Multer = require('../Middleware/multer')
 const ComplianceController = require('../controller/Compliance')
 const ComplianceTypeController = require('../controller/ComplianceType')
+const FincialyearController = require('../controller/Fincialyear')
 
 
 
@@ -154,6 +155,7 @@ router.post('/UpdatecomplianceType',ComplianceTypeController.UpdatecomplianceTyp
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 
+router.post('/showfincialyear',FincialyearController.Showfincialyear)
 
 
 router.post('/FileUpload',Multer,FileUpload)

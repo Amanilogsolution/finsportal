@@ -246,7 +246,7 @@ const Header = () => {
                 <li className="list-group-item"><i className="fa fa-building"></i> &nbsp;
                   <b><a href="#">Orgaisation profile</a></b> </li>
                 <li className="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                  <b><a href="#">Fincial Year</a></b> </li>
+                  <b><a href="ShowFincialyear">Fincial Year</a></b> </li>
               </ul>
 
 

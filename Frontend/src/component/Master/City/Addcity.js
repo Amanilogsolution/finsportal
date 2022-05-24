@@ -86,7 +86,7 @@ import { showstateCity } from '../../../api';
                             {/* form-group end.// */}
                           </div>
 
-                          < div className="form-row">
+                          <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Id</label>
                             <div className="col form-group">
                               <input type="number" className="form-control col-md-4" id='country_id' placeholder />
