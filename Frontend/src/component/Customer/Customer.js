@@ -490,10 +490,11 @@ const Customer = () => {
                           </label>
                           <div className="col form-group">
                             <input
-                              type="number"
+                              type="tel"
                               className="form-control col-md-8"
                               placeholder="Work Phone"
                               id="cust_work_phone"
+                              maxLength={10}
                               required
                             />
                           </div>
@@ -1126,10 +1127,11 @@ const Customer = () => {
                               </label>
                               <div className="col form-group">
                                 <input
-                                  type="number"
+                                  type="tel"
                                   className="form-control col-md-7"
                                   placeholder
                                   id="billing_address_phone"
+                                  maxLength={10}
                                 />
                               </div>
                             </div>
@@ -1353,7 +1355,7 @@ const Customer = () => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" placeholder id="contact_person_phone" />
+                              <input type="tel" className="form-control col-md-4" placeholder id="contact_person_phone" maxLength={10} />
                             </div>
                           </div>
                           <div className="form-row">
