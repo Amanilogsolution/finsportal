@@ -89,6 +89,7 @@ async function updateuser(req, res) {
 async function deleteuser(req, res) {
     const sno = req.body.sno
     const status = req.body.status
+    console.log(sno,status)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.tbl_usermaster set status='${status}' where sno = ${sno}`)

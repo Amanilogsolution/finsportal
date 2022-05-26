@@ -199,7 +199,7 @@ export const UpdateUser = async (sno, employee_name, role,warehouse,user_name,pa
 }
 
 export const deleteUser = async (sno,status) => {
-    const url = `http://192.168.146.103:3008/api/deleteuser`
+    const url = `http://localhost:3008/api/deleteuser`
     return axios.post(url, {sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 

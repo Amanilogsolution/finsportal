@@ -24,7 +24,7 @@ const columns = [
           const org = localStorage.getItem("Organisation")
           const status = e.target.value;
           // await Compliancestatus(org, row.sno, status)
-          window.location.href = 'Showcompliances'
+          window.location.href = 'ShowcompliancesType'
         }
         }>
           <option hidden defaultValue={row.status}> {row.status}</option>
