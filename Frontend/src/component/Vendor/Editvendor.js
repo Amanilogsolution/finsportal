@@ -165,7 +165,7 @@ const handleChangeRemark = (e) => {
                         </div>
                        
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
+                            <label htmlFor="mast_id" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
                               <input type="text" id="mast_id" className="form-control col-md-4" placeholder disabled value={data.mast_id}/>
                             </div>
@@ -189,7 +189,7 @@ const handleChangeRemark = (e) => {
 
                         <div className="form-row">
                           <label
-                            htmlFor="user_name"
+                            htmlFor="vend_id"
                             className="col-md-2 col-form-label font-weight-normal"
                           >
                             Vendor Id
@@ -209,7 +209,7 @@ const handleChangeRemark = (e) => {
 
                         <div className="form-row">
                           <label
-                            htmlFor="user_name"
+                            htmlFor="vend_name"
                             className="col-md-2 col-form-label font-weight-normal"
                           >
                             <div className="tooltip1">
@@ -353,11 +353,12 @@ const handleChangeRemark = (e) => {
                           {/* form-group end.// */}
                           <div className="col form-group">
                             <input
-                              type="number"
+                              type="tel"
                               id="vend_phone"
                               className="form-control col-md-8"
                               placeholder="Mobile"
                               value={data.vend_phone}
+                              maxLength={10}
                               onChange={handleChangeVendphone}
                               style={{ marginLeft: "-30px" }}
                             />
@@ -584,11 +585,10 @@ const handleChangeRemark = (e) => {
                               </label>
                               <div className="col form-group">
                                 <input
-                                  type="email"
+                                  type="text"
                                   id="gstin_uin"
                                   className="form-control col-md-4"
-                                  maxLength="16"
-                                  placeholder
+                                  maxLength={16}
                                   disabled
                                   value={data.gstin_uin}
                                 />
@@ -606,7 +606,7 @@ const handleChangeRemark = (e) => {
                               </label>
                               <div className="col form-group">
                                 <input
-                                  type="email"
+                                  type="number"
                                   id="pan_no"
                                   className="form-control col-md-4"
                                   placeholder
@@ -691,7 +691,7 @@ const handleChangeRemark = (e) => {
                               </label>
                               <div className="col form-group">
                                 <input
-                                  type="email"
+                                  type="text"
                                   id="opening_balance"
                                   className="form-control col-md-4"
                                   value={data.opening_balance}
@@ -897,7 +897,7 @@ const handleChangeRemark = (e) => {
                                 </label>
                                 <div className="col form-group">
                                   <input
-                                    type="emaitextl"
+                                    type="text"
                                     id="billing_address_city"
                                     className="form-control col-md-7"
                                     value={data.billing_address_city}
@@ -943,6 +943,7 @@ const handleChangeRemark = (e) => {
                                     id="billing_address_phone"
                                     className="form-control col-md-7"
                                     value={data.billing_address_phone}
+                                    maxLength={10}
                                     disabled
                                   />
                                 </div>

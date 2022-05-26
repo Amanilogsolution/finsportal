@@ -68,7 +68,7 @@ console.log(Location_name,gst_no,contact_Person1,contact_phone2,contact_phone1,c
                         <form>
                       
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
+                            <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='Location_name' value={data.location_name}   onChange={(e) => handleChangeLocationName(e)} />
                             </div>
@@ -76,7 +76,7 @@ console.log(Location_name,gst_no,contact_Person1,contact_phone2,contact_phone1,c
                           </div>
   
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
+                            <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='gst_no'  value={data.gstin_no}    onChange={(e) => handleChangeGstno(e)}/>
                             </div>
@@ -84,14 +84,14 @@ console.log(Location_name,gst_no,contact_Person1,contact_phone2,contact_phone1,c
                           </div>
   
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Contact Person 1</label>
+                            <label htmlFor="contact_Person1" className="col-md-2 col-form-label font-weight-normal">Contact Person 1</label>
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='contact_Person1' value={data.contact_name1}    onChange={(e) => handleChangeContactperson1(e)}/>
                             </div>
                             {/* form-group end.// */}
                           </div>
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
+                            <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='contact_person2' value={data.contact_name2}  onChange={(e) => handleChangeContactperson2(e)} />
                             </div>
@@ -99,17 +99,17 @@ console.log(Location_name,gst_no,contact_Person1,contact_phone2,contact_phone1,c
                           </div>
   
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
+                            <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='contact_phone1' value={data.contact_phone_no1} onChange={(e) => handleChangeContactphone1(e)} />
+                              <input type="tel" className="form-control col-md-4" id='contact_phone1' value={data.contact_phone_no1} onChange={(e) => handleChangeContactphone1(e)} maxLength={10}/>
                             </div>
                             {/* form-group end.// */}
                           </div>
 
                           <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
+                            <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='contact_phone2' value={data.contact_phone_no2} onChange={(e) => handleChangeContactphone2(e)}/>
+                              <input type="tel" className="form-control col-md-4" id='contact_phone2' value={data.contact_phone_no2} onChange={(e) => handleChangeContactphone2(e)} maxLength={10}/>
                             </div>
                             {/* form-group end.// */}
                           </div>

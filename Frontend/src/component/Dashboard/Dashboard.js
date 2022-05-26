@@ -13,26 +13,18 @@ const Dashboard = () => {
 
   useEffect(async () => {
     const due_date = await Compliancesduedate(localStorage.getItem("Organisation"))
-
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
-    const datedi = due_date[1].due_date.split("-");
+    // const datedi = due_date[1].due_date.split("-");
     let num = 0;
-
-    //   if(datedi[1] == mm){
-    //    console.log("done")
-    //     if((datedi[2]-dd) == 4 || (datedi[2]-dd) == 3 || (datedi[2]-dd) == 2 || (datedi[2]-dd) == 1 || (datedi[2]-dd) == 0){
-    //       alert("done")
-    //     }
-    //  }
-
 
     due_date.map((n) => {
       const datedi = due_date[num].due_date.split("-");
-      console.log(datedi)
+      console.log('datedi',datedi)
       num = num + 1;
+      console.log('num',num)
       if (datedi[1] == mm) {
         if ((datedi[2] - dd) == 4 || (datedi[2] - dd) == 3 || (datedi[2] - dd) == 2 || (datedi[2] - dd) == 1 || (datedi[2] - dd) == 0) {
           console.log("alert")

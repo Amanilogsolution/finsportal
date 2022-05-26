@@ -166,7 +166,7 @@ import {UpdateUser} from '../../../api/index.js'
                         <div className="form-row">
                           <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone</label>
                           <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='phone'  value={data.phone} onChange={(e) => handleChangephone(e)}/>
+                            <input type="tel" className="form-control col-md-4" id='phone'  value={data.phone} onChange={(e) => handleChangephone(e)} maxLength={10}/>
                           </div>
                           {/* form-group end.// */}
                         </div>

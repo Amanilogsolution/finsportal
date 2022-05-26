@@ -112,7 +112,7 @@ const AddUser = () => {
                         <div className="form-row">
                           <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone no.</label>
                           <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='phone' placeholder="phone" />
+                            <input type="tel" className="form-control col-md-4" id='phone' placeholder="phone" maxLength={10}/>
                           </div>
                           {/* form-group end.// */}
                         </div>

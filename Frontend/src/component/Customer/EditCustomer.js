@@ -397,12 +397,13 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                             {/* form-group end.// */}
                             <div className="col form-group">
                               <input
-                                type="text"
+                                type="tel"
                                 className="form-control col-md-8"
                                 placeholder="Mobile"
                                 style={{ marginLeft: "-30px" }}
                                 id="cust_phone"
                                 value={data.cust_phone}
+                                maxLength={10}
                                 onChange={handleChangeCustPhone}
                               />
                             </div>
@@ -1027,14 +1028,14 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 </div>
                                 <div className="form-row">
                                   <label
-                                    htmlFor="user_name"
+                                    htmlFor="billing_address_pincode"
                                     className="col-md-2 col-form-label font-weight-normal"
                                   >
                                     Zip Code
                                   </label>
                                   <div className="col form-group">
                                     <input
-                                      type="email"
+                                      type="number"
                                       className="form-control col-md-7"
                                       placeholder
                                       id="billing_address_pincode"
@@ -1045,17 +1046,18 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 </div>
                                 <div className="form-row">
                                   <label
-                                    htmlFor="user_name"
+                                    htmlFor="billing_address_phone"
                                     className="col-md-2 col-form-label font-weight-normal"
                                   >
                                     Phone
                                   </label>
                                   <div className="col form-group">
                                     <input
-                                      type="email"
+                                      type="tel"
                                       className="form-control col-md-7"
                                       placeholder
                                       id="billing_address_phone"
+                                      maxLength={10}
                                       value={data.billing_address_phone}
                                       disabled
                                     />
@@ -1063,14 +1065,14 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 </div>
                                 <div className="form-row">
                                   <label
-                                    htmlFor="user_name"
+                                    htmlFor="billing_address_fax"
                                     className="col-md-2 col-form-label font-weight-normal"
                                   >
                                     Fax
                                   </label>
                                   <div className="col form-group">
                                     <input
-                                      type="email"
+                                      type="text"
                                       className="form-control col-md-7"
                                       placeholder
                                       id="billing_address_fax"
@@ -1086,7 +1088,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                         
                             <div className="form-column" id="remarkdiv" style={{display:"none"}}>
                               <label
-                                htmlFor="user_name"
+                                htmlFor="remark"
                                 className=" col-form-label font-weight-normal"
                               >
                                 Remarks
@@ -1114,14 +1116,14 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                               <label>Contact Person</label>
                               <div className="form-row">
                                 <label
-                                  htmlFor="user_name"
+                                  htmlFor="contact_person_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   First Name
                                 </label>
                                 <div className="col form-group">
                                   <input
-                                    type="email"
+                                    type="text"
                                     className="form-control col-md-4"
                                     placeholder
                                     id="contact_person_name"
@@ -1143,31 +1145,31 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
+                                <label htmlFor="contact_person_work_phone" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                                 <div className="col form-group">
                                   <input type="number" className="form-control col-md-4" placeholder id="contact_person_work_phone" value={data.contact_person_work_phone} onChange={handleChangeContactPersonWP}/>
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
+                                <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                                 <div className="col form-group">
-                                  <input type="number" className="form-control col-md-4" placeholder id="contact_person_phone" value={data.contact_person_phone} onChange={handleChangeContactPersonPhone}/>
+                                  <input type="tel" className="form-control col-md-4" placeholder id="contact_person_phone" maxlength={10} value={data.contact_person_phone} onChange={handleChangeContactPersonPhone}/>
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
+                                <label htmlFor="contact_person_skype" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
                                 <div className="col form-group">
                                   <input type="text" className="form-control col-md-4" placeholder id="contact_person_skype" value={data.contact_person_skype} onChange={handleChangeContactPersonSkype}/>
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Designation</label>
+                                <label htmlFor="contact_person_designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                                 <div className="col form-group">
                                   <input type="text" className="form-control col-md-4" placeholder id="contact_person_designation" value={data.contact_person_designation} onChange={handleChangeContactPersonDesignation}/>
                                 </div>
                               </div>
                               <div className="form-row">
-                                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Department</label>
+                                <label htmlFor="contact_person_department" className="col-md-2 col-form-label font-weight-normal">Department</label>
                                 <div className="col form-group">
                                   <input type="text" className="form-control col-md-4" placeholder id="contact_person_department" value={data.contact_person_department} onChange={handleChangeContactPersonDepartment}/>
                                 </div>
@@ -1216,7 +1218,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                     <div className="modal-body">
                       <div className=" ">
                         <label
-                          htmlFor="user_name"
+                          htmlFor="inputState"
                           className=" col-form-label font-weight-normal"
                         >
                           <span style={{ color: "red" }}> Currency Code *</span>
@@ -1237,7 +1239,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                       </div>
                       <div className=" ">
                         <label
-                          htmlFor="user_name"
+                          htmlFor="addsymbol"
                           className=" col-form-label font-weight-normal"
                         >
                           <span style={{ color: "red" }}> Currency Symbol *</span>
@@ -1252,7 +1254,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                       </div>
                       <div className=" ">
                         <label
-                          htmlFor="user_name"
+                          htmlFor="addcurrencyname"
                           className=" col-form-label font-weight-normal"
                         >
                           <span style={{ color: "red" }}> Currency Name *</span>

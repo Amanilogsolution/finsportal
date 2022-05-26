@@ -168,10 +168,27 @@ const Locationstatus = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_location_master set status='${status}' where location_id='${location_id}'`)
-        res.status(200).send(result.recordset)
+        res.status(200).send("Successfully Updated")
     }
     catch (err) {
+        req.status(400).send(err)
         console.log(err)
     }
 }
-module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus}
+
+const LastLocationid = async (req, res) => {
+    const org = req.body.org;
+  
+    console.log(org)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT TOP 1 location_id FROM  ${org}.dbo.tbl_location_master  ORDER BY sno DESC`)
+         console.log(result)
+        res.status(200).send(result.recordset[0])
+    }
+    catch (err) {
+        res.status(400).send(err)
+        console.log(err)
+    }
+}
+module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus,LastLocationid}

@@ -130,10 +130,10 @@ router.post('/Totaldata',OrganisationController.InsertTotalTable)
 router.post('/Org_table',OrgTableController.Org_table)
 router.get('/TotalOrganistion',OrgTableController.TotalOrganisation)
 
-router.post('/TotalLocation',LocationController.TotalLocation)
-router.post('/AddLocation',LocationController.AddLocation)
+router.post('/totallocation',LocationController.TotalLocation)
+router.post('/addlocation',LocationController.AddLocation)
 router.post('/ShowLocation',LocationController.ShowLocation)
-router.post('/UpdateLocation',LocationController.UpdateLocation)
+router.post('/updatelocation',LocationController.UpdateLocation)
 
 
 router.post('/LocationAddress',LocationController.LocationAddress)
@@ -141,6 +141,7 @@ router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 router.post('/locationstatus',LocationController.Locationstatus)
+router.post('/lastlocationid',LocationController.LastLocationid)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)

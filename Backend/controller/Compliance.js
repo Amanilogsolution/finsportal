@@ -109,7 +109,8 @@ const Compliancestatus = async (req, res) => {
     // console.log("org",org)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select convert(varchar(15),due_date,121) as due_date  from ${org}.dbo.tbl_compliance`)
+        const result = await sql.query(`select convert(varchar(15),due_date,121) as due_date  from ${org}.dbo.tbl_compliance where status='Active'`)
+         console.log(result.recordset)
         res.status(200).send(result.recordset)
     }
     catch (err) {
