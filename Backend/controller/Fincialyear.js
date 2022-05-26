@@ -9,11 +9,11 @@ const Showfincialyear = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from FINSDB.dbo.tbl_fin_year;`)
-        res.send(result.recordsets)
+        res.send(result.recordset)
     }
     catch (err) {
         res.send(err)
-        // console.log(err)
+     
     }
 }
 

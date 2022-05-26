@@ -62,13 +62,13 @@ const columns = [
 ]
 
 const ShowFincialyear = () => {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([{}])
 
 
 
   useEffect(async () => {
     const result = await Showfincialyear()
-    console.log('result',result)
+    console.log(result)
     setData(result)
   }, [])
 
