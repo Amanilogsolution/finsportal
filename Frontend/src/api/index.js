@@ -536,6 +536,13 @@ export const showcompliancesType = async (org) => {
     const url = `http://localhost:3008/api/ShowcompliancesType`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const Showactivecompliancestype = async (org) => {
+    console.log(org)
+    const url = `http://localhost:3008/api/showactivecompliancestype`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+
 export const Compliancestatus = async (org,sno,status) => {
     // console.log(org)
     const url = `http://localhost:3008/api/compliancestatus`
@@ -558,6 +565,11 @@ export const UpdatecomplianceType = async (org,compliance_type,user_name,sno) =>
     // console.log(org)
     const url = `http://localhost:3008/api/UpdatecomplianceType`
     return axios.post(url,{org,compliance_type,user_name,sno}).then(response => response.data).catch(error => console.log(error));
+}
+export const Compliancesstatus = async (org,sno,status) => {
+    // console.log(org)
+    const url = `http://localhost:3008/api/compliancesstatus`
+    return axios.post(url,{org,sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Showfincialyear = async (org) => {
