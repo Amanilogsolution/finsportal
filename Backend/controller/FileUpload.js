@@ -45,7 +45,6 @@ const fileUpload =  async (req, res,next) => {
         { blobHTTPHeaders: { blobContentType: reqfile.mimetype } },
       );
     });
-        // console.log(`https://anyspaze.blob.core.windows.net/awlvendorportal/`+images[0])
         const Upload = `https://anyspaze.blob.core.windows.net/awlvendorportal/`+images[0];
 
     res.status(200).send(Upload)

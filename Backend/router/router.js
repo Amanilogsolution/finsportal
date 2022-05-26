@@ -82,6 +82,8 @@ router.post('/showuser',userController.showuser)
 router.post('/updateuser',userController.updateuser)
 router.post('/deleteuser',userController.deleteuser)
 router.post('/importuser',userController.ImportUser)
+router.post('/updateimage',userController.UpdateImage)
+
 
 router.get('/totalcustomer',customerController.AllCustomer)
 router.post('/deletecustomer',customerController.DeleteCustomer)

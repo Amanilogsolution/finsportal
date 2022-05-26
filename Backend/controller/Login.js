@@ -107,9 +107,7 @@ async function ChangePassword(req, res) {
         else {
             const UserChange = await sql.query(`update FINSDB.dbo.tbl_usermaster set password='${password}' where user_id ='${user_id}' and password='${CurrentPassword}'`)
             const LoginChange = await sql.query(`update FINSDB.dbo.tbl_Login set user_password ='${password}' where user_id ='${user_id}' and user_password='${CurrentPassword}'`)
-            res.send(UserChange)
-           
-           
+            res.send(UserChange) 
         }
 
 

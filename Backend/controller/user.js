@@ -123,17 +123,28 @@ const ImportUser = (req, res) => {
 
                     insert into FINSDB.dbo.tbl_Login(user_id,user_name,location,comp_name,comp_ip,
                         user_password,login_uuid,org_name ,org_db_name,user_profile_url)
-                        values ${datas.map(item => `('${item.user_name}','${item.employee_name}','','${org_name}','${req.ip}','${item.password}','${ uuidv1()}','${org_name}','${org}','${item.user_profile_url}')`).join(',')}
-                    
-                    `)
+                        values ${datas.map(item => `('${item.user_name}','${item.employee_name}','','${org_name}','${req.ip}','${item.password}','${ uuidv1()}','${org_name}','${org}','${item.user_profile_url}')`).join(',')}`)
                     res.send("Data Added")
                 }
             })
-
     })
+}
 
-
+async function UpdateImage(req, res) {
+    const user_id = req.body.user_id;
+    const user_profile_url = req.body.user_profile_url
+    console.log(user_id,user_profile_url)
+    try {
+        await sql.connect(sqlConfig)
+        const Login = await sql.query(`update FINSDB.dbo.tbl_Login set user_profile_url='${user_profile_url}' where user_id ='${user_id}'`)
+        const User = await sql.query(`update FINSDB.dbo.tbl_usermaster set user_profile_url='${user_profile_url}' where user_id ='${user_id}';`)
+     res.send(Login)
+        
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 
 
-module.exports = { user, InsertUser, showuser, updateuser, deleteuser,ImportUser }
+module.exports = { user, InsertUser, showuser, updateuser, deleteuser,ImportUser ,UpdateImage}

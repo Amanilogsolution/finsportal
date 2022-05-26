@@ -564,3 +564,8 @@ export const Showfincialyear = async (org) => {
     const url = `http://localhost:3008/api/showfincialyear`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const updateImage = async (user_id,user_profile_url) => {
+    const url = `http://localhost:3008/api/updateimage`
+    return axios.post(url,{user_id,user_profile_url}).then(response => response.data).catch(error => console.log(error));
+}

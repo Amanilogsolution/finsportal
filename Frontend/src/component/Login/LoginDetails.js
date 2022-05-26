@@ -2,20 +2,32 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { showUserLogin ,UploadData} from '../../api'
+import { showUserLogin ,UploadData,updateImage} from '../../api'
 import './login.css'
 
 const LoginDetails = () => {
     const [data, setData] = useState({})
-    const User_img = localStorage.getItem("User_img");
     const [file,setFile] = useState('')
+    const [imagelink,setImageLink] = useState('')
+    const [user_img,setUser_img] = useState('')
 
 
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
         console.log(result)
         setData(result)
+        setUser_img(localStorage.getItem('User_img'))
     }, [])
+
+    const handleUpdate = async (e) =>{
+        e.preventDefault()
+        const result = await updateImage(localStorage.getItem('User_id'),imagelink)
+        if(result){
+            window.location.href = './home'
+        localStorage.setItem('User_img',imagelink)
+        }
+
+    }
 
     const handleSendFile =async(e)=>{
         e.preventDefault()
@@ -23,7 +35,8 @@ const LoginDetails = () => {
         data.append("images",file)
        const UploadLink = await UploadData(data)
        console.log(UploadLink)
-      //  setUserProfile(UploadLink)
+       setImageLink(UploadLink)
+       setUser_img(UploadLink)
     }
 
 
@@ -48,7 +61,7 @@ const LoginDetails = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="profil_img" className="col-md-2 col-form-label font-weight-normal">Profil Image</label>
                                                     <div className="col form-group userimgdiv"   >
-                                                        <img src={localStorage.getItem("User_img")} id="userimg" />
+                                                        <img src={user_img} id="userimg" />
                                                         <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i>
                                                         {/* <button>Change Image</button> */}
                                                     </div>
@@ -82,12 +95,6 @@ const LoginDetails = () => {
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
-                                                {/* <div className="form-row">
-                                                    <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
-                                                    <input name="password" type="password" class="form-control col-md-3" id="password" value={data.password} />
-                                                    <div className="input-group-append">
-                                                    </div>
-                                                </div><br /> */}
 
                                                 <div className="form-row">
                                                     <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email ID</label>
@@ -133,42 +140,11 @@ const LoginDetails = () => {
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
-
-                                                {/* <div className="form-row">
-                                                    <div className="col form-group">
-                                                        <label
-                                                            htmlfor="user_name"
-                                                            className="col-md-2 col-form-label font-weight-normal"
-                                                        >
-                                                            Select Type
-                                                        </label>
-
-                                                        <label className="form-check form-check-inline">
-
-                                                            <input
-                                                                className="form-check-input" type="radio"
-                                                                name="taxpreference"
-                                                                value="With OTP"
-                                                                id="otp"
-                                                            />With OTP
-                                                        </label>
-                                                        <label className="form-check form-check-inline">
-
-                                                            <input
-                                                                className="form-check-input"
-                                                                type="radio"
-                                                                name="taxpreference"
-                                                                value="Without OTP"
-                                                                id="noOTP"
-                                                            />Without OTP
-                                                        </label>
-                                                    </div>
-                                                </div> */}
                                             </form>
                                         </article>
                                         {/* card-body end .// */}
                                         <div className="border-top card-body">
-                                            {/* <button className="btn btn-success">Update</button> */}
+                                            <button className="btn btn-success" onClick={handleUpdate} >Update</button>
                                             <button className="btn btn-light ml-3" onClick={() => window.location.href = './home'}>Cancel</button>
                                         </div>
                                     </div>
@@ -208,7 +184,7 @@ const LoginDetails = () => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" onClick={handleSendFile}>Upload</button>
+                                <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal">Upload</button>
                             </div>
                         </div>
                     </div>

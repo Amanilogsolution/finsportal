@@ -4,21 +4,17 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const InsertBank = async (req, res) => {
-    // const bank_id = req.body.bank_id;
     const account_code = req.body.account_code;
     const bank_name = req.body.bank_name;
     const account_no = req.body.account_no;
     const address_line1 = req.body.address_line1;
     const address_line2 = req.body.address_line2;
-    // const branch = req.body.branch;
     const state = req.body.state;
     const city = req.body.city;
     const pincode = req.body.pincode;
     const ifsc_code = req.body.ifsc_code;
-    // const glcode = req.body.glcode;
     const actype = req.body.actype;
     const acname = req.body.acname;
-    // const company_id = req.body.company_id;
     const description = req.body.description;
     const uuid = uuidv1()
     console.log(req.body)
