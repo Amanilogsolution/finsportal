@@ -9,14 +9,14 @@ const LoginDetails = () => {
     const [data, setData] = useState({})
     const [file,setFile] = useState('')
     const [imagelink,setImageLink] = useState('')
-    const [user_img,setUser_img] = useState('')
+    // const [user_img,setUser_img] = useState('')
 
 
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
         console.log(result)
         setData(result)
-        setUser_img(localStorage.getItem('User_img'))
+        // setUser_img(localStorage.getItem('User_img'))
     }, [])
 
     const handleUpdate = async (e) =>{
@@ -36,7 +36,7 @@ const LoginDetails = () => {
        const UploadLink = await UploadData(data)
        console.log(UploadLink)
        setImageLink(UploadLink)
-       setUser_img(UploadLink)
+    //    setUser_img(UploadLink)
     }
 
 
@@ -61,7 +61,7 @@ const LoginDetails = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="profil_img" className="col-md-2 col-form-label font-weight-normal">Profil Image</label>
                                                     <div className="col form-group userimgdiv"   >
-                                                        <img src={user_img} id="userimg" />
+                                                        <img src={localStorage.getItem('User_img')} id="userimg" />
                                                         <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i>
                                                         {/* <button>Change Image</button> */}
                                                     </div>

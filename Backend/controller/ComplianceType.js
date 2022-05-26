@@ -7,11 +7,22 @@ const ShowcompliancesType = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type `)
+        res.send(result.recordset)
+    } catch (err) {
+        console.log(err)
+
+    }
+}
+
+const ShowActivecompliancesType = async (req, res) => {
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type  where status='Active'`)
         res.send(result.recordset)
     } catch (err) {
         console.log(err)
-        // res.send(err)
 
     }
 }
@@ -70,4 +81,20 @@ const UpdatecomplianceType = async (req, res) =>{
     
 }
 
-module.exports = { ShowcompliancesType,InsertcomplianceType,ShowcompliancesTypeselect,UpdatecomplianceType}
+const Compliancesstatus = async(req,res) =>{
+    const org =req.body.org;
+    const sno = req.body.sno;
+    const status =req.body.status;
+    console.log(sno,status)
+    try{
+      await sql.connect(sqlConfig)
+      const result =await sql.query(`update ${org}.dbo.tbl_compliances_type set status='${status}' where sno=${sno}`)
+      res.status(200).send({status:200,message:"updated"})
+    }
+    catch(err){
+        console.log(err)
+        res.status(400).send({status:200,message:err})
+    }
+}
+
+module.exports = { ShowcompliancesType,InsertcomplianceType,ShowcompliancesTypeselect,UpdatecomplianceType,Compliancesstatus ,ShowActivecompliancesType}

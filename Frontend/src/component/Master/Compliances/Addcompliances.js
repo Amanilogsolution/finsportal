@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Insertcompliance ,showcompliancesType} from '../../../api'
+import { Insertcompliance ,Showactivecompliancestype} from '../../../api'
 
 
 
@@ -81,7 +81,7 @@ const Addcompliances = () => {
      }
     
     useEffect(async()=>{
-        const result= await showcompliancesType(localStorage.getItem('Organisation'))
+        const result= await Showactivecompliancestype(localStorage.getItem('Organisation'))
         setData(result)
         console.log(result)
     },[])
