@@ -222,7 +222,7 @@ const Header = () => {
                         }
                         }>{item.org_name}</span>
                       </a>
-                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './ShowOrganisation' }} style={{ float: "right",cursor:"pointer" }}>
+                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right",cursor:"pointer" }}>
                         <i className="fas fa-cog" ></i> Manage</a>
                     </li>
                   ))
@@ -244,7 +244,7 @@ const Header = () => {
               </div>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item"><i className="fa fa-building"></i> &nbsp;
-                  <b><a href="#">Orgaisation profile</a></b> </li>
+                  <b><a href="/EditOrganisation">Orgaisation profile</a></b> </li>
                 <li className="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b><a href="ShowFincialyear">Fincial Year</a></b> </li>
               </ul>

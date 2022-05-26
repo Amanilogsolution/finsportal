@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { showOrganisation, updateOrganisation } from "../../api/index";
+import { showOrganisation, updateOrganisation,UploadData } from "../../api/index";
 
 
-function ShowOrganisation() {
+function EditOrganisation() {
   const [data, setData] = useState({})
+  const [file,setFile] = useState('')
+
 
   const Orgdetails = async (e) => {
     e.preventDefault();
-    // const org_country = document.getElementById("org_country").value;
     const org_street = document.getElementById("org_street").value;
     const org_city = document.getElementById("org_city").value;
     const org_pincode = document.getElementById("org_pin").value;
@@ -16,7 +17,6 @@ function ShowOrganisation() {
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
 
-    console.log(org_street, org_city, org_pincode, org_contact_name, org_contact_phone, org_contact_email, org_gst)
 
     const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst)
     if (result) {
@@ -25,6 +25,15 @@ function ShowOrganisation() {
       localStorage.removeItem('Organisation_details')
     }
   };
+
+  const handleSendFile =async(e)=>{
+    e.preventDefault()
+    const data = new FormData();
+    data.append("images",file)
+   const UploadLink = await UploadData(data)
+   console.log(UploadLink)
+
+}
 
   const handleChangeContactname = (e) => {
     setData({ ...data, org_contact_name: e.target.value })
@@ -194,17 +203,7 @@ function ShowOrganisation() {
                           onChange={(e) => handleChangePin(e)}
                         />
                       </div>
-                      {/* <div className="form-group row">
-                        <label className="col-sm-5 col-form-label">
-                          Orgaisation logo (optional) :-
-                        </label>
-                        <input
-                          type="file"
-                          className="form-control col-md"
-                          placeholder=""
-                          accept=".jpg, .jpeg, .png"
-                        />
-                      </div> */}
+                
                     </div>
                   </div>
                   <p className="regtext">REGIONAL SETTINGS</p>
@@ -295,7 +294,9 @@ function ShowOrganisation() {
                                     </label>
                                     <input
                                         type="file"
-                                        className="" 
+                                     
+                                        onChange={event=>{ const document = event.target.files[0];
+                                          setFile(document)}}   
                                         accept=".jpg, .jpeg, .png,.svg"
                                     />
 
@@ -303,7 +304,7 @@ function ShowOrganisation() {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" >Upload</button>
+                                <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal">Upload</button>
                             </div>
                         </div>
                     </div>
@@ -312,4 +313,4 @@ function ShowOrganisation() {
   )
 }
 
-export default ShowOrganisation
+export default EditOrganisation

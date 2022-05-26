@@ -7,7 +7,7 @@ import ChangePassword from './component/Login/ChangePassword';
 
 import Home from './component/Home/Home'
 import Customer from './component/Customer/Customer'
-import ShowOrganisation from './component/organisation/ShowOrganisation'
+import EditOrganisation from './component/organisation/EditOrganisation'
 import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
 import Showvendor from './component/Vendor/Showvendor'
@@ -86,7 +86,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/Customer" component={Customer}/>
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
           <Route exact path="/org" component={Org}/>
-          <Route exact path="/ShowOrganisation" component={ShowOrganisation}/>
+          <Route exact path="/EditOrganisation" component={EditOrganisation}/>
 
           <Route exact path="/vendor" component={Vendor}/>
           <Route exact path="/Showvendor" component={Showvendor}/>

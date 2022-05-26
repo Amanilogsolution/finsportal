@@ -36,7 +36,6 @@ const LoginDetails = () => {
        const UploadLink = await UploadData(data)
        console.log(UploadLink)
        setImageLink(UploadLink)
-       setUser_img(UploadLink)
     }
 
 
