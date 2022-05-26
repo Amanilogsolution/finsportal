@@ -2,7 +2,7 @@ import React, {useEffect, useState } from "react";
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Totalcountry,showstateCity, getCity,VendorId,VendInsertAddress} from '../../../api';
+import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} from '../../../api';
 
 
  const AddVendAddress =() =>  {
@@ -17,7 +17,7 @@ import { Totalcountry,showstateCity, getCity,VendorId,VendInsertAddress} from '.
 
     
   useEffect(async() => {
-    const result = await Totalcountry()
+    const result = await Activecountries()
     // console.log(result)
     setSelectedCountry(result)
     const dataId = await VendorId()
@@ -55,7 +55,7 @@ import { Totalcountry,showstateCity, getCity,VendorId,VendInsertAddress} from '.
     const handleAddressCountry = async(e) => {
         let data = e.target.value;
         setBilling_address_country(data);
-        const statesresult = await showstateCity(data)
+        const statesresult = await showactivestate(data)
         // console.log(statesresult)
         setSelectState(statesresult)
       }
@@ -172,7 +172,7 @@ import { Totalcountry,showstateCity, getCity,VendorId,VendInsertAddress} from '.
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected> Choose</option>
+                                  <option selected hidden> Choose</option>
                                   {
                                     selectState.map((data) => (
                                       <option value={data.state_name}>{data.state_name}</option>
@@ -194,7 +194,7 @@ import { Totalcountry,showstateCity, getCity,VendorId,VendInsertAddress} from '.
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected> Choose</option>
+                                  <option selected hidden> Choose</option>
                                   {
                                 selectCity.map((data) => (
                                     <option value={data.city_name}>{data.city_name}</option>

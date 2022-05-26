@@ -2,9 +2,8 @@ import React,{useState,useEffect} from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {InsertCity} from '../../../api';
-import { Totalcountry } from '../../../api';
-import { showstateCity } from '../../../api';
+import {InsertCity,Activecountries} from '../../../api';
+import { showactivestate } from '../../../api';
 
  const Addcity =() => {
   const [selectCountry,setSelectCountry] = useState([]);
@@ -14,7 +13,7 @@ import { showstateCity } from '../../../api';
 
   useEffect(async() => {
 
-    const result = await Totalcountry()
+    const result = await Activecountries()
     console.log(result)
     setSelectCountry(result)
  }, [])
@@ -39,7 +38,7 @@ import { showstateCity } from '../../../api';
       console.log(data)
       setSelectedCountry(data)
 
-      const statesresult = await showstateCity(data)
+      const statesresult = await showactivestate(data)
       console.log(statesresult)
       setSelectState(statesresult)
   }

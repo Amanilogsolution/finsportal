@@ -3,10 +3,10 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Totalcountry } from '../../../api';
-import { showstateCity } from '../../../api';
+import { showactivestate } from '../../../api';
 import {getCity} from '../../../api';
 import {CustomerId} from '../../../api';
-import {CustInsertAddress} from '../../../api';
+import {CustInsertAddress,Activecountries} from '../../../api';
 
  const AddCustAddress =() =>  {
      const[getCustID,setGetCustId] = useState([]);
@@ -20,8 +20,8 @@ import {CustInsertAddress} from '../../../api';
 
     
   useEffect(async() => {
-    const result = await Totalcountry()
-    console.log(result)
+    const result = await Activecountries()
+    // console.log('Totalcountry',result)
     setSelectedCountry(result)
     const customerId = await CustomerId()
     setGetCustId(customerId)
@@ -57,7 +57,7 @@ import {CustInsertAddress} from '../../../api';
     const handleAddressCountry = async(e) => {
         let data = e.target.value;
         setBilling_address_country(data);
-        const statesresult = await showstateCity(data)
+        const statesresult = await showactivestate(data)
         console.log(statesresult)
         setSelectState(statesresult)
       }

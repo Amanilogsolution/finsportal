@@ -4,8 +4,8 @@ import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {showCity} from '../../../api';
 import {updateCity} from '../../../api';
-import { Totalcountry } from '../../../api';
-import { showstateCity } from '../../../api';
+import { Activecountries } from '../../../api';
+import { showactivestate } from '../../../api';
 
  const EditCity = () => {
      const [data,setData] = useState({})
@@ -21,12 +21,12 @@ import { showstateCity } from '../../../api';
             setCountry(result.country_name)
             if(result.country_name){
           
-            const statesresult = await showstateCity(result.country_name)
+            const statesresult = await showactivestate(result.country_name)
             console.log(statesresult)
             setSelectState(statesresult)
             }
 
-            const country= await Totalcountry()
+            const country= await Activecountries()
          console.log(country)
          setSelectCountry(country)
         }, [] )
@@ -61,7 +61,7 @@ import { showstateCity } from '../../../api';
         const handleChangeCountry = async(e) => {
           let country = e.target.value; 
           setCountry(country)
-          const statesresult = await showstateCity(country)
+          const statesresult = await showactivestate(country)
           console.log(statesresult)
           console.log(country)
           setTimeout(() => {

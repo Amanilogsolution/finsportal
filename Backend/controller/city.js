@@ -87,7 +87,7 @@ const getCity = async (req, res) => {
     console.log(state_name)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select city_name from FINSDB.dbo.tbl_cities where state_name = '${state_name}'`)
+        const result = await sql.query(`select city_name from FINSDB.dbo.tbl_cities where state_name = '${state_name}' and status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {addstates} from "../../../api";
-import { Totalcountry } from '../../../api';
+import {addstates,Activecountries} from "../../../api";
 
 
  const  StateMaster = () =>  {
@@ -12,9 +11,9 @@ import { Totalcountry } from '../../../api';
      const [selectedCountry,setSelectedCountry] = useState('india');
 
      useEffect(async() => {
-       const result = await Totalcountry(localStorage.getItem('Organisation'))
+       const result = await Activecountries()
        console.log('Result',result)
-       setSelectCountry(result)
+       setSelectCountry(result) 
     }, [])
 
     const handleClick = async(e) => {

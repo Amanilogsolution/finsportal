@@ -90,8 +90,7 @@ async function ShowCurrency(req, res) {
 
 const ImportCurrency = (req,res) =>{
     const datas = req.body.data;
-    // console.log(datas)
-    // let duplicatedate = [];
+   
 
     sql.connect(sqlConfig).then(() => {
 

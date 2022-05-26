@@ -3,8 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {showstate} from '../../../api/index.js'
-import {updateState} from '../../../api/index.js'
-import { Totalcountry } from '../../../api';
+import {updateState,Activecountries} from '../../../api/index.js'
 
  const EditState = () => {
      const [data,setData] = useState({})
@@ -12,6 +11,7 @@ import { Totalcountry } from '../../../api';
      const [selectCountry,setSelectCountry] = useState([]);
      const [selectedCountry,setSelectedCountry] = useState();
      useEffect(async() => {
+       
          const result = await showstate(localStorage.getItem('stateSno'));
          if(result == 401){
            console.log('hi')
@@ -21,7 +21,7 @@ import { Totalcountry } from '../../../api';
          console.log(name)
         //  setSelectCountry(result.country_name)
 
-         const country= await Totalcountry()
+         const country= await Activecountries()
          console.log(country)
          setSelectCountry(country)
          

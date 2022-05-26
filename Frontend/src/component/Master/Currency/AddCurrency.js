@@ -1,10 +1,13 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { InsertCurrency } from '../../../api';
+import { InsertCurrency,Activecountries } from '../../../api';
 
  const  AddCurrency = () => {
+  const [selectCountry,setSelectCountry] = useState([]);
+  const [selectedCountry,setSelectedCountry] = useState('india');
+
      const handleClick = async(e) => {
             e.preventDefault();
             const country_name = document.getElementById('country_name').value;
@@ -23,6 +26,18 @@ import { InsertCurrency } from '../../../api';
             }
           }
      }
+
+     useEffect(async() => {
+      const result = await Activecountries()
+      console.log('Result',result)
+      setSelectCountry(result) 
+   }, [])
+
+   const handleChangeCountry = (e) => {
+    let data = e.target.value
+    console.log(data)
+    setSelectedCountry(data)
+}
 
     return (
         <div>
@@ -53,7 +68,22 @@ import { InsertCurrency } from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_name'  placeholder />
+                              {/* <input type="text" className="form-control col-md-4" id='country_name'  placeholder />
+                               */}
+                               <select
+                              id="country_name"
+                              className="form-control col-md-4"
+                              onChange={handleChangeCountry}
+                            
+                            >
+                              <option selected default hidden value="India">India</option>
+                              {
+                                selectCountry.map((data) => (
+                                    <option value={data.country_name}>{data.country_name}</option>
+                                ))
+                                
+                              }
+                            </select>
                             </div>
                             {/* form-group end.// */}
                           </div>

@@ -34,11 +34,12 @@ router.post('/deletestate', statesController.deleteState);
 router.post('/state', statesController.state);
 router.post('/showstate', statesController.showstate);
 router.post('/editstate', statesController.EditState);
-router.post('/showstatecity', statesController.showstateCity);
+router.post('/showactivestate', statesController.showactivestate);
 router.post('/importState', statesController.ImportState);
 
 
 router.post('/totalcountry', countryController.countries);
+router.get('/activecountries', countryController.Activecountries);
 router.post('/insertcountry', countryController.InsertCountry);
 router.post('/showcountry', countryController.showcountry);
 router.post('/updatecountry', countryController.updatecountry);

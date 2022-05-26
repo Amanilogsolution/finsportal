@@ -4,7 +4,7 @@ import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {CustAddress,EditCustAddress} from '../../../api';
 import { Totalcountry } from '../../../api';
-import { showstateCity } from '../../../api';
+import { showactivestate } from '../../../api';
 import {getCity} from '../../../api';
 
  const EditAddress = ()=> {
@@ -49,7 +49,7 @@ import {getCity} from '../../../api';
     const handleAddressCountry = async(e) => {
         let data = e.target.value;
         setBilling_address_country(data);
-        const statesresult = await showstateCity(data)
+        const statesresult = await showactivestate(data)
         console.log(statesresult)
         setSelectState(statesresult)
       }

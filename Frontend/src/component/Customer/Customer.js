@@ -4,8 +4,8 @@ import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
 import { AddCustomer, Unique_Cust_id, Lastcust_id } from "../../api";
-import { Totalcountry } from '../../api';
-import { showstateCity } from '../../api';
+import { Activecountries } from '../../api';
+import { showactivestate } from '../../api';
 import { getCity } from '../../api';
 
 const Customer = () => {
@@ -37,7 +37,7 @@ const Customer = () => {
 
 
   useEffect(async () => {
-    const result = await Totalcountry()
+    const result = await Activecountries()
     setSelectedCountry(result)
     const unique_id = await Unique_Cust_id()
     // console.log(unique_id)
@@ -215,7 +215,7 @@ const Customer = () => {
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
     setBilling_address_country(data);
-    const statesresult = await showstateCity(data)
+    const statesresult = await showactivestate(data)
     // console.log(statesresult)
     setSelectState(statesresult)
   }
@@ -1038,6 +1038,29 @@ const Customer = () => {
                             </div>
                             <div className="form-row">
                               <label
+                                htmlFor="user_name"
+                                className="col-md-2 col-form-label font-weight-normal"
+                              >
+                                State
+                              </label>
+                              <div className="col-md-6 form-group">
+                                <select
+                                  id="inputState"
+                                  className="form-control"
+                                  onChange={handleChangebillingState}
+                                >
+                                  <option selected hidden> Choose</option>
+                                  {
+                                    selectState.map((data) => (
+                                      <option value={data.state_name}>{data.state_name}</option>
+                                    ))
+                                  }
+                                </select>
+                              </div>
+                              {/* form-group end.// */}
+                            </div>
+                            <div className="form-row">
+                              <label
                                 htmlFor="inputState"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
@@ -1049,7 +1072,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected> Choose</option>
+                                  <option selected hidden> Choose</option>
                                   {
                                     selectCity.map((data) => (
                                       <option value={data.city_name}>{data.city_name}</option>
@@ -1079,29 +1102,7 @@ const Customer = () => {
                               </div>
                             </div> */}
 
-                            <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                State
-                              </label>
-                              <div className="col-md-6 form-group">
-                                <select
-                                  id="inputState"
-                                  className="form-control"
-                                  onChange={handleChangebillingState}
-                                >
-                                  <option selected> Choose</option>
-                                  {
-                                    selectState.map((data) => (
-                                      <option value={data.state_name}>{data.state_name}</option>
-                                    ))
-                                  }
-                                </select>
-                              </div>
-                              {/* form-group end.// */}
-                            </div>
+                           
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
