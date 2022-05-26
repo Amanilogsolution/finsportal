@@ -50,17 +50,17 @@ const columns = [
   },
   {
     name: 'Status',
-    selector: row=>row.null,
+    selector: 'null',
     cell: (row) => [
 
-      <div className='droplist'>
+      <div className='droplist'> 
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUser(row.sno, status)
           window.location.href = 'ShowUser'
         }
         }>
-          <option defaultValue disabled hidden> {row.status}</option>
+          <option selected disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>

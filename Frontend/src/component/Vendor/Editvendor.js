@@ -618,8 +618,7 @@ const handleChangeRemark = (e) => {
                             <div className="form-row">
                               <label
                                 htmlFor="source_of_supply"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
+                                className="col-md-2 col-form-label font-weight-normal">
                                 <span style={{ color: "red" }}>
                                   Source Of Supply *
                                 </span>
@@ -658,8 +657,8 @@ const handleChangeRemark = (e) => {
                                   id="currency"
                                   className="form-control col-md-10 "
                                   value={data.currency}
-                                  disabled
-                                >
+                                  disabled>
+
                                   <option selected> AED- UAE Dirham</option>
                                   <option>AUD- Australian Dollar</option>
                                   <option>CAD- Canadian Dollar</option>
@@ -675,7 +674,7 @@ const handleChangeRemark = (e) => {
                                   className="btn btn-primary "
                                   data-toggle="modal"
                                   data-target="#exampleModal"
-                                >
+                                  >
                                   Add Currency
                                 </button>
                               </div>
@@ -723,7 +722,6 @@ const handleChangeRemark = (e) => {
                                   <option>INR- Indian Rupee</option>
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
                             <div className="form-row">
                               <label
@@ -748,7 +746,6 @@ const handleChangeRemark = (e) => {
                                   <option>INR- Indian Rupee</option>
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
                             <div className="form-row">
                               <label
@@ -885,15 +882,12 @@ const handleChangeRemark = (e) => {
                                     disabled
                                   />
                                 </div>
-                                {/* form-group end.// */}
                               </div>
 
                               <div className="form-row">
                                 <label
                                   htmlFor="billing_address_city"
-                                  className="col-md-3 col-form-label font-weight-normal"
-                                >
-                                  City
+                                  className="col-md-3 col-form-label font-weight-normal"> City
                                 </label>
                                 <div className="col form-group">
                                   <input
@@ -916,7 +910,6 @@ const handleChangeRemark = (e) => {
                                     disabled
                                   />
                                 </div>
-                                {/* form-group end.// */}
                               </div>
                               <div className="form-row">
                                 <label htmlFor="billing_address_pincode" className="col-md-3 col-form-label font-weight-normal"> Zip Code </label>
@@ -1218,11 +1211,8 @@ const handleChangeRemark = (e) => {
                       <button className="btn btn-light ml-3"onClick={()=>window.location.href='Showvendor'}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
             {/* ------------------ Modal start -----------------------------*/}
             <div
