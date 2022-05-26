@@ -107,7 +107,6 @@ async function EditState(req, res) {
 
 const ImportState = (req, res) => {
     const datas = req.body.data;
-    // let duplicatedate = [];
 
     sql.connect(sqlConfig).then(() => {
 
