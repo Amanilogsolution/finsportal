@@ -470,11 +470,11 @@ export const showLocation = async (org,location_id) => {
     return axios.post(url,{org,location_id}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const LastLocationid = async (org) => {
-    console.log('api',org)
-    const url = `http://localhost:3008/api/lastlocationid`
-    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
-}
+// export const LastLocationid = async (org) => {
+//     console.log('api',org)
+//     const url = `http://localhost:3008/api/lastlocationid`
+//     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+// }
 
 export const locationAddress = async (org,location_id) => {
     const url = `http://localhost:3008/api/LocationAddress`

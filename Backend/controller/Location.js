@@ -176,19 +176,19 @@ const Locationstatus = async (req, res) => {
     }
 }
 
-const LastLocationid = async (req, res) => {
-    const org = req.body.org;
+// const LastLocationid = async (req, res) => {
+//     const org = req.body.org;
   
-    console.log(org)
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT TOP 1 location_id FROM  ${org}.dbo.tbl_location_master  ORDER BY sno DESC`)
-         console.log(result)
-        res.status(200).send(result.recordset[0])
-    }
-    catch (err) {
-        res.status(400).send(err)
-        console.log(err)
-    }
-}
-module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus,LastLocationid}
+//     console.log(org)
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT TOP 1 location_id FROM  ${org}.dbo.tbl_location_master  ORDER BY sno DESC`)
+//          console.log(result)
+//         res.status(200).send(result.recordset[0])
+//     }
+//     catch (err) {
+//         res.status(400).send(err)
+//         console.log(err)
+//     }
+// }
+module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus}

@@ -143,7 +143,7 @@ router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 router.post('/locationstatus',LocationController.Locationstatus)
-router.post('/lastlocationid',LocationController.LastLocationid)
+// router.post('/lastlocationid',LocationController.LastLocationid)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)
