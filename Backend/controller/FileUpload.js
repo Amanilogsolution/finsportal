@@ -30,7 +30,7 @@ const fileUpload =  async (req, res,next) => {
       const getStream = require("into-stream");
       const contanierName = "awlvendorportal";
 
-      const blobName =  uuidv1() + "-" + reqfile.originalname;
+      const blobName =  uuidv1() +  "-" + reqfile.originalname;
       images.push(blobName)
       const stream = getStream(reqfile.buffer);
       const containerClient = blobServiceClient.getContainerClient(
@@ -45,6 +45,7 @@ const fileUpload =  async (req, res,next) => {
         { blobHTTPHeaders: { blobContentType: reqfile.mimetype } },
       );
     });
+
         const Upload = `https://anyspaze.blob.core.windows.net/awlvendorportal/`+images[0];
 
     res.status(200).send(Upload)

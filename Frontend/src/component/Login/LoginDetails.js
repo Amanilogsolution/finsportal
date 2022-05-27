@@ -10,7 +10,6 @@ const LoginDetails = () => {
     const [file,setFile] = useState('')
     const [imagelink,setImageLink] = useState('')
 
-
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
         console.log(result)
@@ -36,7 +35,6 @@ const LoginDetails = () => {
        setImageLink(UploadLink)
     }
 
-
     return (
         <div>
             <div className="wrapper">
@@ -54,13 +52,11 @@ const LoginDetails = () => {
                                     <div className="card" style={{ width: "100%" }}>
                                         <article className="card-body">
                                             <form>
-                                                {/* form-group start.// */}
                                                 <div className="form-row">
                                                     <label htmlFor="profil_img" className="col-md-2 col-form-label font-weight-normal">Profil Image</label>
                                                     <div className="col form-group userimgdiv"   >
                                                         <img src={localStorage.getItem('User_img')} id="userimg" />
                                                         <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i>
-                                                        {/* <button>Change Image</button> */}
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
@@ -69,7 +65,7 @@ const LoginDetails = () => {
                                                         <input type="text" className="form-control col-md-4" id='employee_name' value={data.employee_name} disabled readonly />
                                                     </div>
                                                 </div>
-                                                {/* form-group start.// */}
+                                               
                                                 <div className="form-row">
                                                     <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
                                                     <div className="col form-group">
@@ -77,20 +73,20 @@ const LoginDetails = () => {
                                                     </div>
 
                                                 </div>
-                                                {/* form-group start.// */}
+                                               
                                                 <div className="form-row">
                                                     <label htmlFor="warehouse" className="col-md-2 col-form-label font-weight-normal">Warehouse</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='warehouse' value={data.warehouse} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                  
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">Username</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='username' value={data.user_id} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
 
                                                 <div className="form-row">
@@ -98,58 +94,57 @@ const LoginDetails = () => {
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='email_id' value={data.email_id} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone</label>
                                                     <div className="col form-group">
                                                         <input type="number" className="form-control col-md-4" id='phone' value={data.phone} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
-                                                {/* asjnasjnaas */}
 
                                                 <div className="form-row">
                                                     <label htmlFor="operatemode" className="col-md-2 col-form-label font-weight-normal">Operate mode</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='operatemode' value={data.operate_mode} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='customer' value={data.customer} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting To</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='reporting_to' value={data.reporting_to} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='designation' value={data.designation} disabled readonly />
                                                     </div>
-                                                    {/* form-group end.// */}
+                                                   
                                                 </div>
                                             </form>
                                         </article>
-                                        {/* card-body end .// */}
+                                       
                                         <div className="border-top card-body">
                                             <button className="btn btn-success" onClick={handleUpdate} >Update</button>
                                             <button className="btn btn-light ml-3" onClick={() => window.location.href = './home'}>Cancel</button>
                                         </div>
                                     </div>
-                                    {/* card.// */}
+                                  
                                 </div>
-                                {/* col.//*/}
+                              
                             </div>
-                            {/* row.//*/}
+                           
                         </div>
                     </div>
                 </div>
