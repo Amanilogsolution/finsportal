@@ -80,8 +80,7 @@ async function UpdateUnit(req, res) {
     // console.log(sno,unit_name,unit_symbol)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update FINSDB.dbo.tbl_unit set unit_name = '${unit_name}',unit_symbol = '${unit_symbol}'
-                                                                      ,update_date_time=getdate(),update_user_name='Admin',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno = '${sno}'`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_unit set unit_name = '${unit_name}',unit_symbol = '${unit_symbol}',update_date_time=getdate(),update_user_name='Admin',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno = '${sno}'`)
         res.send('Updated')
     }
     catch (err) {

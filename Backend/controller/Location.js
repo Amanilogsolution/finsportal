@@ -18,6 +18,7 @@ const TotalLocation = async (req, res) => {
 
 const AddLocation = async (req, res) => {
     const org = req.body.org
+    const Location_id =req.body.Location_id;
     const location_name = req.body.location_name;
     const gstin_no = req.body.gstin_no;
     const contact_name1 = req.body.contact_name1; 
@@ -38,7 +39,7 @@ const AddLocation = async (req, res) => {
             (location_name,gstin_no,location_id,contact_name1,
                 contact_name2,contact_phone_no1,contact_phone_no2,
                 add_date_time,add_user_name,add_system_name,add_ip_address,status)
-                values('${location_name}','${gstin_no}','${uuid}','${contact_name1}','${contact_name2}',${contact_phone_no1},${contact_phone_no2},
+                values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}',${contact_phone_no1},${contact_phone_no2},
                 getdate(),'Rupesh','${os.hostname()}','${req.ip}','Active')`)
             res.send('Added')
         } else {
@@ -176,19 +177,21 @@ const Locationstatus = async (req, res) => {
     }
 }
 
-const LastLocationid = async (req, res) => {
-    const org = req.body.org;
+// const LastLocationid = async (req, res) => {
+//     const org = req.body.org;
   
-    console.log(org)
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT TOP 1 location_id FROM  ${org}.dbo.tbl_location_master  ORDER BY sno DESC`)
-         console.log(result)
-        res.status(200).send(result.recordset[0])
-    }
-    catch (err) {
-        res.status(400).send(err)
-        console.log(err)
-    }
+//     console.log(org)
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT TOP 1 location_id FROM  ${org}.dbo.tbl_location_master  ORDER BY sno DESC`)
+//          console.log(result)
+//         res.status(200).send(result.recordset[0])
+//     }
+//     catch (err) {
+//         res.status(400).send(err)
+//         console.log(err)
+//     }
+// }
+module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus,
+    // LastLocationid
 }
-module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus,LastLocationid}

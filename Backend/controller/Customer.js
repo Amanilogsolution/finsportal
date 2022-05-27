@@ -188,7 +188,7 @@ const UpdateCustomer = async (req, res) => {
 const Customer_id = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT cust_id FROM FINSDB.dbo.tbl_new_customer tnc `)
+        const result = await sql.query(`SELECT cust_id FROM FINSDB.dbo.tbl_new_customer  `)
         res.send(result.recordset)
     }
     catch (err) {

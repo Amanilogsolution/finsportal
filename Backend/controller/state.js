@@ -95,8 +95,7 @@ async function EditState(req, res) {
     console.log(sno, state_name, country_name, state_code, state_short_name, select_type)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update FINSDB.dbo.tbl_states set state_name = '${state_name}',state_code = '${state_code}',state_short_name = '${state_short_name}',state_type = '${select_type}',country_name = '${country_name}'
-                                                                      ,update_date_time=getdate(),update_user_name='Admin',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno = '${sno}'`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_states set state_name = '${state_name}',state_code = '${state_code}',state_short_name = '${state_short_name}',state_type = '${select_type}',country_name = '${country_name}',update_date_time=getdate(),update_user_name='Admin',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno = '${sno}'`)
         res.send('Updated')
     }
     catch (err) {

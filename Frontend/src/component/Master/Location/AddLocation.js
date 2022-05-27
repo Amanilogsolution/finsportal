@@ -1,23 +1,24 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { addLocation, LastLocationid } from '../../../api';
 
 function AddLocation() {
-  const [locationid,setLocationid] =useState();
+  // const [locationid,setLocationid] =useState();
 
   const handleClick = async (e) => {
     e.preventDefault();
-    
+    const randomno = Math.floor((Math.random() * 9999) + 1000);
     const Location_name = document.getElementById('Location_name').value;
+    const Location_id = Location_name.slice(0,3)+randomno;
     const gst_no = document.getElementById('gst_no').value;
     const contact_Person1 = document.getElementById('contact_Person1').value;
     const contact_person2 = document.getElementById('contact_person2').value;
     const contact_phone1 = document.getElementById('contact_phone1').value;
     const contact_phone2 = document.getElementById('contact_phone2').value;
-    console.log(Location_name, gst_no, contact_Person1, contact_phone2, contact_phone1, contact_phone2)
-    const result = await addLocation(localStorage.getItem('Organisation'), Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2);
+    console.log(Location_id,Location_name, gst_no, contact_Person1, contact_phone2, contact_phone1, contact_phone2)
+    const result = await addLocation(localStorage.getItem('Organisation'),Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2);
     console.log(result)
     if (!Location_name || !gst_no) {
       alert('Enter data')
@@ -32,10 +33,10 @@ function AddLocation() {
 
   useEffect(() => {
     async function fetchMyAPI() {
-      const result = await LastLocationid(localStorage.getItem("Organisation"));
-      console.log(result.location_id)
-      setLocationid(result.location_id);
-      localStorage.setItem("lastlocationid",result.location_id)
+      // const result = await LastLocationid(localStorage.getItem("Organisation"));
+      // console.log(result.location_id)
+      // setLocationid(result.location_id);
+      // localStorage.setItem("lastlocationid",result.location_id)
 
     }
 
@@ -64,7 +65,7 @@ function AddLocation() {
                         <div className="form-row">
                           <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='Location_name'  />
+                            <input type="text" className="form-control col-md-4" id='Location_name' />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -72,7 +73,7 @@ function AddLocation() {
                         <div className="form-row">
                           <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='gst_no'  />
+                            <input type="text" className="form-control col-md-4" id='gst_no' />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -80,18 +81,10 @@ function AddLocation() {
                         <div className="form-row">
                           <label htmlFor="contact_Person1" className="col-md-2 col-form-label font-weight-normal">Contact Person 1</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='contact_Person1'  />
+                            <input type="text" className="form-control col-md-4" id='contact_Person1' />
                           </div>
                           {/* form-group end.// */}
                         </div>
-                        <div className="form-row">
-                          <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='contact_person2'  />
-                          </div>
-                          {/* form-group end.// */}
-                        </div>
-
                         <div className="form-row">
                           <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
                           <div className="col form-group">
@@ -99,11 +92,20 @@ function AddLocation() {
                           </div>
                           {/* form-group end.// */}
                         </div>
+                        <div className="form-row">
+                          <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='contact_person2' />
+                          </div>
+                          {/* form-group end.// */}
+                        </div>
+
+                      
 
                         <div className="form-row">
                           <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='contact_phone2' maxLength={10}  />
+                            <input type="tel" className="form-control col-md-4" id='contact_phone2' maxLength={10} />
                           </div>
                           {/* form-group end.// */}
                         </div>
