@@ -7,10 +7,10 @@ import axios from 'axios';
 //     return axios.get(url,{dbname}).then(response => response.data).catch(error => console.log(error));
 // }
 
-export const register = async (org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin) => {
-    console.log(org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin)
-    const url = `http://192.168.146.103:3008/org`
-    return axios.post(url, { org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin }).then(response => response.data).catch(error => console.log(error));
+export const register = async (org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin) => {
+    console.log(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
+    const url = `http://localhost:3008/api/insertorg`
+    return axios.post(url, {org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin}).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -24,7 +24,9 @@ export const CreateOrgTable = async (dbname) => {
     console.log(dbname)
     const url = `http://localhost:3008/api/Org_table`
     return axios.post(url, { dbname }).then(response => response.data).catch(error => console.log(error));
+
 }
+
 
 export const TotalOrganistion = async () => {
     const url = `http://localhost:3008/api/TotalOrganistion`

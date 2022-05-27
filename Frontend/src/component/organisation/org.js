@@ -53,6 +53,11 @@ function Org() {
     //  if(result){
     //   window.location.href='/home'
     //  }
+    // console.log(database)
+     const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
+     if(result){
+      window.location.href='/home'
+     }
   };
 
   const handleClick = () => {

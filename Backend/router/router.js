@@ -123,13 +123,13 @@ router.post('/InsertUserLogin',LoginController.InsertUserLogin)
 router.post('/ShowUserLogin',LoginController.showLoginuser)
 router.post('/ChangePassword',LoginController.ChangePassword)
 
-router.post('/SchemaCreate',OrganisationController.Insertorg)
+router.post('/insertorg',OrganisationController.Insertorg)
 router.post('/ShowOrganisation',OrganisationController.ShowOrganisation)
 router.post('/UpdateOrganisation',OrganisationController.UpdateOrganisation)
 
 
 router.post('/Token',Token.token)
-router.post('/Totaldata',OrganisationController.InsertTotalTable)
+// router.post('/Totaldata',OrganisationController.InsertTotalTable)
 router.post('/Org_table',OrgTableController.Org_table)
 router.get('/TotalOrganistion',OrgTableController.TotalOrganisation)
 
