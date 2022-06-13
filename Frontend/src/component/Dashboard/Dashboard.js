@@ -22,12 +22,14 @@ const Dashboard = () => {
 
     due_date.map((n) => {
       const datedi = due_date[num].due_date.split("-");
-      console.log('datedi',datedi)
+      // console.log('datedi',datedi)
       num = num + 1;
-      console.log('num',num)
+      // console.log('num',num)
       if (datedi[1] == mm) {
         if ((datedi[2] - dd) == 4 || (datedi[2] - dd) == 3 || (datedi[2] - dd) == 2 || (datedi[2] - dd) == 1 || (datedi[2] - dd) == 0) {
-          console.log("alert")
+          // console.log("alert")
+          // alert("alert")
+          
         }
       }
 

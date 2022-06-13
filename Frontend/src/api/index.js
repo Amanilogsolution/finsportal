@@ -559,7 +559,7 @@ export const showcompliancesType = async (org) => {
 }
 
 export const Showactivecompliancestype = async (org) => {
-    console.log(org)
+    console.log("Api",org)
     const url = `http://localhost:3008/api/showactivecompliancestype`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }

@@ -17,6 +17,7 @@ const ShowcompliancesType = async (req, res) => {
 
 const ShowActivecompliancesType = async (req, res) => {
     const org = req.body.org
+    console.log("org",org)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type  where status='Active'`)

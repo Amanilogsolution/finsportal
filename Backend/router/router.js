@@ -157,7 +157,7 @@ router.post('/InsertcomplianceType',ComplianceTypeController.InsertcomplianceTyp
 router.post('/ShowcompliancesTypeselect',ComplianceTypeController.ShowcompliancesTypeselect)
 router.post('/UpdatecomplianceType',ComplianceTypeController.UpdatecomplianceType)
 router.post('/compliancesstatus',ComplianceTypeController.Compliancesstatus)
-router.post('/showactivecompliancesype',ComplianceTypeController.ShowActivecompliancesType)
+router.post('/showactivecompliancestype',ComplianceTypeController.ShowActivecompliancesType)
 
 
 
