@@ -72,18 +72,7 @@ function ChartOfAccount() {
 
                   <div className="form-group">
                     <label>Description  </label>
-
-                    <textarea
-                              name="text"
-                              className="form-control"                              id="remark"
-                              cols="10"
-                              rows="3"
-                            >
-                                </textarea>                
-                              </div>
-
-                  
-                  
+                    <textarea name="text" className="form-control" id="remark" cols="10" rows="3"></textarea>  </div>
                   <div className="form-group">
                     <label className="col-md-4 control-label" htmlFor="save"></label>
                     <div className="col-md-20" style={{ width: "100%" }}>
