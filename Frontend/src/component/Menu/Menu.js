@@ -115,6 +115,38 @@ import { UserLogout } from '../../api';
                   <p>Address</p>
                 </a>
               </li>
+                </ul>
+
+              </li>
+             
+            </ul>
+          </li>
+          <li className="nav-item">
+            <a href="/Customer" className="nav-link active">
+              <i className="fa fa-shopping-bag" aria-hidden="true"></i>
+              <p >
+              &nbsp;  Accountant 
+                <i className="right fas fa-angle-left" />
+              </p>
+            </a>
+            <ul className="nav nav-treeview">
+              <li className="nav-item">
+             <a href="#" className="nav-link active">
+                  {/* <i className="far fa-circle nav-icon" /> */}
+                  
+                  <p> Chart Of Accounts</p>
+                 <i className="right fas fa-angle-left" />
+                </a>
+                
+                <ul className="nav nav-treeview">
+
+                <li className="nav-item">
+                <a href="/ChartOfAccount" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p> Chart OF Account </p>
+                </a>
+                    </li>
+              
 
                 </ul>
 
@@ -198,7 +230,7 @@ import { UserLogout } from '../../api';
               <li className="nav-item">
                 <a href="/Showcompliances" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
-                  <p>Compliences</p>
+                  <p>Compliances</p>
                 </a>
               </li>
             </ul>
@@ -206,7 +238,7 @@ import { UserLogout } from '../../api';
               <li className="nav-item">
                 <a href="/ShowcompliancesType" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
-                  <p>Complience Type</p>
+                  <p>Compliance Type</p>
                 </a>
               </li>
             </ul>
