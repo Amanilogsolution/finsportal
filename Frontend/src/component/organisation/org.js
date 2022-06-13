@@ -27,33 +27,10 @@ function Org() {
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
 
-    // console.log(org_name, org_country, org_state, org_street, org_city, org_pincode, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email)
 
-    if (!org_name) {
-      alert("Enter Org name")
-    } 
-    else {
-
-      const OrgTable = await CreateOrgTable(org_name)
-      // console.log(OrgTable)
-
-      if (OrgTable == 'Added') {
-        const database = await CreatenewDb(org_name)
-        console.log(database)
-      } else {
-        alert(OrgTable)
-      }
-    }
-
-    // const database = await CreatenewDb(org_name)
-    //   const OrgTable = await CreateOrgTable(org_name)
-
-    // console.log(database)
-    //  const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
-    //  if(result){
-    //   window.location.href='/home'
-    //  }
-    // console.log(database)
+    const database = await CreatenewDb(org_name)
+    const OrgTable = await CreateOrgTable(org_name)
+    console.log(database)
      const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
      if(result){
       window.location.href='/home'

@@ -138,11 +138,6 @@ import { showactivestate } from '../../../api';
                             {/* form-group end.// */}
                           </div>
   
-                          
-  
-                          
-                       
-  
                        
                         </form>
                       </article>

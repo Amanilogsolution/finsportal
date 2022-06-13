@@ -192,6 +192,4 @@ const Locationstatus = async (req, res) => {
 //         console.log(err)
 //     }
 // }
-module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus,
-    // LastLocationid
-}
+module.exports={AddLocation,TotalLocation,LocationAddress,UpdateLocationAddress,ShowLocation,InsertLocationAddress,UpdateLocation,Locationstatus}

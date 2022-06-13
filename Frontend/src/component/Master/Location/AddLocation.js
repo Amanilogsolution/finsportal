@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { addLocation, LastLocationid } from '../../../api';
+import { addLocation } from '../../../api';
 
 function AddLocation() {
   // const [locationid,setLocationid] =useState();
@@ -31,18 +31,18 @@ function AddLocation() {
     }
   }
 
-  useEffect(() => {
-    async function fetchMyAPI() {
-      // const result = await LastLocationid(localStorage.getItem("Organisation"));
-      // console.log(result.location_id)
-      // setLocationid(result.location_id);
-      // localStorage.setItem("lastlocationid",result.location_id)
+  // useEffect(() => {
+  //   async function fetchMyAPI() {
+  //     const result = await LastLocationid(localStorage.getItem("Organisation"));
+  //     console.log(result.location_id)
+  //     setLocationid(result.location_id);
+  //     localStorage.setItem("lastlocationid",result.location_id)
 
-    }
+  //   }
 
-    fetchMyAPI()
+  //   fetchMyAPI()
 
-  }, [])
+  // }, [])
 
   return (
     <div>
