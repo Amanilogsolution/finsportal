@@ -156,7 +156,7 @@ import { UserLogout } from '../../api';
           </li>
           <li className="nav-item">
             <a href="/Customer" className="nav-link active">
-            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            <i className="fa fa-user-plus" aria-hidden="true"></i>
               <p >
               &nbsp;  Master 
                 <i className="right fas fa-angle-left" />

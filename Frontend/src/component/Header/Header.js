@@ -240,12 +240,12 @@ const Header = () => {
 
               <div className="card-body" style={{ display: "flex" }}>
                 <span style={{ fontSize: "20px" }}>Setting</span>
-                <i class="fa fa-times position-absolute" aria-hidden="true" style={{ right: "25px" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
+                <i className="fa fa-times position-absolute" aria-hidden="true" style={{ right: "25px" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
               </div>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item"><i className="fa fa-building"></i> &nbsp;
                   <b><a href="/EditOrganisation">Orgaisation profile</a></b> </li>
-                <li className="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
+                <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b><a href="ShowFincialyear">Fincial Year</a></b> </li>
               </ul>
 

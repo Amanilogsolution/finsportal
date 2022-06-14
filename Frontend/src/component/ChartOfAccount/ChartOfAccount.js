@@ -1,16 +1,126 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
+import {ShowChartOfAccount,ChartOfAccountParentAccount,ParentAccountNumber,AddAccountName,AddSubAccountName,UpdateSubAccountName,AddNewSubAccountName} from '../../api'
 
 
 function ChartOfAccount() {
-    const [gstbox, setgstbox] = useState(false);
+    
+    const [chartofaccount, setchartofaccount] = useState([]);
+    const [account_type, setaccount_type] = useState('');
+    const [account_name, setaccount_name] = useState([]);
+    const [accountno,setAccountno] = useState('');
+    const [accountsubno,setAccountsubno] = useState('');
+    const [check,setCheck] = useState(false);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await ShowChartOfAccount();
+            setchartofaccount(result)
+  
+        }
+        fetchData();
+    },[] )
+
+   const handleSubmit = async (e) => {
+        e.preventDefault();
+        const AccountType = document.getElementById('AccountType').value;
+        const Accountname = document.getElementById('Accountname').value;
+        const Accountnamecode = document.getElementById('Accountnamecode').value;
+        const description = document.getElementById('description').value;
+        const parentaccount = document.getElementById('parentaccount').value;
+        
+        console.log(AccountType,Accountname,Accountnamecode,description)
+        console.log(Accountnamecode.length)
+        if(Accountnamecode.length ===3){
+        const result = await AddAccountName(AccountType,Accountname,Accountnamecode,description);
+        const data = await AddSubAccountName(AccountType,Accountnamecode)
+        console.log(data)
+        }
+        else if(Accountnamecode.length === 6){
+          if(check === true){
+            console.log(check)
+            console.log('Hello')
+            
+                    const Update = await UpdateSubAccountName(Accountname,Accountnamecode,description,AccountType,parentaccount)
+            console.log(Update)
+          }
+          else{
+            const result = await AddNewSubAccountName(Accountname,Accountnamecode,description,AccountType,parentaccount)
+         
+          }
+        }
+   }
+
+
+    const handleAccountType = async(e) => {
+        const account_type = e.target.value;
+        console.log(account_type)
+        setaccount_type(account_type)
+        const result = await ChartOfAccountParentAccount(account_type);
+        setaccount_name(result)
+
+        const number=await ParentAccountNumber(account_type,account_name);
+        console.log(number)
+        const accountnamenum=parseInt(number.result.account_name_code)+1;
+        const accountnamenum1=String(accountnamenum).padStart(2,'0');
+        console.log(accountnamenum1)
+        setAccountno(accountnamenum1)
+        const accountsubnum=parseInt(number.result1.account_sub_name_code)+1;
+        const accountsubnum1=String(accountsubnum).padStart(3,'0');
+        setAccountsubno(accountsubnum1)
+        console.log(accountsubnum1)
+
+    }
+
+    const handleParentAccount = async(e) => {
+        const account_name = e.target.value;
+        console.log(account_name)
+        setaccount_type(account_name)
+      
+        const number=await ParentAccountNumber(account_type,account_name);
+        console.log('Hello',number)
+        const accountnamenum=parseInt(number.result.account_name_code)+1;
+        const accountnamenum1=String(accountnamenum).padStart(2,'0');
+        console.log(accountnamenum1)
+        setAccountno(accountnamenum1)
+
+        if(!number.result1){
+          console.log(number.result.account_name_code)
+          setAccountsubno(number.result.account_name_code+'001')
+          setCheck(true)
+
+        }else{
+          const accountsubnum=parseInt(number.result1.account_sub_name_code)+1;
+          const accountsubnum1=String(accountsubnum).padStart(3,'0');
+          setAccountsubno(accountsubnum1)
+          console.log(accountsubnum1)
+            
+        }
+
+    }
 
 
     const handleClick = () => {
-        setgstbox(!gstbox);
+     document.getElementById('parent').style.display = 'block';
+
       };
+
+      const handleChange = (e) => {
+          e.preventDefault();
+     if(account_type.length === 1){
+       console.log(accountno)
+          setaccount_type(accountno)
+    }
+    if(account_type.length === 3){
+      console.log(accountsubno)
+        setaccount_type(accountsubno)
+  }
+     
+        
+      }
+
   return (
     <div>
     <div className="wrapper">
@@ -36,47 +146,81 @@ function ChartOfAccount() {
                 <form autoComplete="off">
                   <div className="form-group">
                     <label>Account Type <span style={{ color: "red" }}>*</span> </label>
+                    <div className="d-flex">
+                    <select
+                              id="AccountType"
+                              className="form-control"                            
+                                 onChange={handleAccountType}
+                            >
+                              <option  defaultValue hidden>Choose</option>
+                              {
+                                chartofaccount.map((item, index) => {
+                                    return (
+                                        <option key={index} value={item.account_type_code}>{item.account_type}</option>
+                                    )
 
-                    <input type="text" className="form-control" id="org_name" required="true" />
+                              })
+                                }
+                            
+                            </select>
+                            <button className="ml-2 bg-white" style={{borderRadius:"50%",border:"1px solid blue",height:"25px",width:"25px",display:"flex",justifyContent:"center",alignItems:"center"}}><span style={{color:"blue"}}>+</span></button>
+                            </div>
                   </div>
 
                   <div className="form-group">
                     <label>Account Name <span style={{ color: "red" }}>*</span> </label>
 
-                    <input type="text" className="form-control" id="org_name" required="true" />
+                    <input type="text" className="form-control" id="Accountname" onFocus={handleChange} required={true} />
                   </div>
                 
                   <p>
                     Make this a sub-account 
                     <input type="checkbox"
                       id="checkboxgst"
-                      placeholder
+                      
                       onClick={handleClick}
                       style={{ float: "right" }}
                     />
                   </p>
-                  {gstbox ? (
+              
                   
-                  <div className="form-group">
+                  <div className="form-group" id="parent" style={{display:'none'}}>
                     <label>Parent Account <span style={{ color: "red" }}>*</span> </label>
 
-                    <input type="text" className="form-control" id="org_name" required="true" />
+                  
+                    <select
+                              id="parentaccount"
+                              className="form-control"                            
+                                 onChange={handleParentAccount}
+                            >
+                              <option defaultValue default hidden >Choose</option>
+                            {
+                                account_name.map((item, index) => {
+                                    return (
+                                        <option key={index} value={item.account_name_code}>{item.account_name}</option>
+                                    )
+                                }
+                            )
+                            }
+                            </select>
                   </div>
-                  ) : null}
+             
 
                 <div className="form-group">
                     <label>Account Code  </label>
 
-                    <input type="text" className="form-control" id="org_name" required="true" />
+                    <input type="text" defaultValue={account_type} className="form-control" id="Accountnamecode"  />
                   </div>
 
                   <div className="form-group">
                     <label>Description  </label>
-                    <textarea name="text" className="form-control" id="remark" cols="10" rows="3"></textarea>  </div>
+                    <textarea name="text" className="form-control" id="description" cols="10" rows="3"></textarea>  
+                    </div>
+                    <hr/>
                   <div className="form-group">
                     <label className="col-md-4 control-label" htmlFor="save"></label>
                     <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="save" name="save" className="btn btn-danger">
+                      <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>
                         Save
                       </button>
                       <button id="clear" onClick={(e) => {
@@ -84,23 +228,14 @@ function ChartOfAccount() {
                       }} name="clear" className="btn ml-2">
                         Cancel
                       </button>
-                    
-
-
                     </div>
                   </div>
                 </form>
-
-
               </article>
             </div>
           </div>
         </div>
-        {/* Modal */}
-
-
       </div>
-   
       <Footer />
     </div>
   </div>

@@ -602,3 +602,44 @@ export const updateImage = async (user_id, user_profile_url) => {
     const url = `http://localhost:3008/api/updateimage`
     return axios.post(url, { user_id, user_profile_url }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ShowChartOfAccount = async () => {
+    const url = `http://localhost:3008/api/showcoa`
+    return axios.get(url).then(response => response.data).catch(error => console.log(error));
+}
+export const ChartOfAccountParentAccount = async (account_type_code) => {
+    const url = `http://localhost:3008/api/parentaccount`
+    return axios.post(url,{account_type_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const Insertaccounttype = async (account_type,account_type_code) => {
+    const url = `http://localhost:3008/api/insertaccounttype`
+    return axios.post(url,{account_type,account_type_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ParentAccountNumber = async (account_type_code,account_name_code) => {
+    const url = `http://localhost:3008/api/parentaccountNumber`
+    return axios.post(url,{account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const AddAccountName = async (account_type_code,account_name,account_name_code,description) => {
+    console.log(account_type_code,account_name,account_name_code,description)
+    const url = `http://localhost:3008/api/addaccountname`
+    return axios.post(url,{account_type_code,account_name,account_name_code,description}).then(response => response.data).catch(error => console.log(error));
+}
+export const AddSubAccountName = async (account_type_code,account_name_code) => {
+    console.log(account_type_code,account_name_code)
+    const url = `http://localhost:3008/api/addsubaccountname`
+    return axios.post(url,{account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdateSubAccountName = async (account_sub_name,account_sub_name_code,description,account_type_code,account_name_code) => {
+    console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
+    const url = `http://localhost:3008/api/updatesubaccountname`
+    return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const AddNewSubAccountName = async (account_sub_name,account_sub_name_code,description,account_type_code,account_name_code) => {
+    console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
+    const url = `http://localhost:3008/api/addnewsubaccountname`
+    return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+}

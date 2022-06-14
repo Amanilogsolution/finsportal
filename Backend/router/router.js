@@ -23,6 +23,7 @@ const Multer = require('../Middleware/multer')
 const ComplianceController = require('../controller/Compliance')
 const ComplianceTypeController = require('../controller/ComplianceType')
 const FincialyearController = require('../controller/Fincialyear')
+const ChartOfAccountController = require('../controller/ChartOfAccount')
 
 
 
@@ -160,7 +161,6 @@ router.post('/compliancesstatus',ComplianceTypeController.Compliancesstatus)
 router.post('/showactivecompliancestype',ComplianceTypeController.ShowActivecompliancesType)
 
 
-
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 
@@ -169,6 +169,14 @@ router.post('/showfincialyear',FincialyearController.Showfincialyear)
 
 router.post('/FileUpload',Multer,FileUpload)
 
+router.get('/showcoa',ChartOfAccountController.Accounttype)
+router.post('/parentaccount',ChartOfAccountController.ParentAccount)
+router.post('/insertaccounttype',ChartOfAccountController.InsertAccountType)
+router.post('/parentaccountNumber',ChartOfAccountController.ParentAccountNumber)
+router.post('/addaccountname',ChartOfAccountController.AddAccountName)
+router.post('/addsubaccountname',ChartOfAccountController.AddSubAccountName)
+router.post('/updatesubaccountname',ChartOfAccountController.UpdateSubAccountName)
+router.post('/addnewsubaccountname',ChartOfAccountController.AddNewSubAccountName)
 
 
 
