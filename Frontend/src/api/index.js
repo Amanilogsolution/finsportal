@@ -161,6 +161,10 @@ export const TotalUnit = async (Token, org) => {
     const url = `http://localhost:3008/api/totalunit`
     return axios.post(url, { org }, { headers: { "Authorization": Token } }).then(response => response.data).catch(error => console.log(error));
 }
+export const TotalActiveUnit = async (org) => {
+    const url = `http://localhost:3008/api/totalactiveunit`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
 
 export const Unit = async (unit_name, unit_symbol) => {
     const url = `http://localhost:3008/api/unit`
@@ -492,9 +496,9 @@ export const showLocation = async (org, location_id) => {
 }
 
 // export const LastLocationid = async (org) => {
-//     console.log('api',org)
+//     console.log('api', org)
 //     const url = `http://localhost:3008/api/lastlocationid`
-//     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 // }
 
 export const locationAddress = async (org, location_id) => {
@@ -596,6 +600,11 @@ export const Compliancesstatus = async (org, sno, status) => {
 export const Showfincialyear = async (org) => {
     const url = `http://localhost:3008/api/showfincialyear`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertItems = async (org,item_type,item_name,item_unit,item_selling_price,sales_account,sales_description,item_cost_price,purchase_account,purchases_description,add_user_name) => {
+    const url = `http://localhost:3008/api/insertitems`
+    return axios.post(url, { org,item_type,item_name,item_unit,item_selling_price,sales_account,sales_description,item_cost_price,purchase_account,purchases_description,add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const updateImage = async (user_id, user_profile_url) => {

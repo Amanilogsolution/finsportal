@@ -279,6 +279,78 @@ const Newdb = async (req, res) => {
                 status varchar(20) NULL
             );
             
+            CREATE TABLE  ${dbname}.dbo.tbl_items_account (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                item_type varchar(100) NULL,
+                item_name varchar(100) NULL,
+                item_unit varchar(30) NULL,
+                item_selling_price float NULL,
+                sales_account varchar(100) NULL,
+                sales_description varchar(300) NULL,
+                item_cost_price float NULL,
+                purchase_account varchar(100) NULL,
+                purchases_description varchar(300) NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(100) NULL,
+                add_ip_address varchar(30) NULL,
+                add_date_time datetime NULL,
+                update_user_name varchar(30) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                status varchar(30) NULL
+            );
+            
+            CREATE TABLE ${dbname}.dbo.tbl_account_type (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                account_type varchar(50) NULL,
+                account_type_code varchar(30) NULL,
+                account_description varchar(300) NULL,
+                add_user_name varchar(30) NULL,
+                add_system_name varchar(30) NULL,
+                add_ip_address varchar(30) NULL,
+                add_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(50) NULL,
+                update_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                status varchar(10) NULL
+            );
+
+            CREATE TABLE ${dbname}.dbo.tbl_account_name (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                account_type_code varchar(30) NULL,
+                account_name varchar(50) NULL,
+                account_name_code varchar(30) NULL,
+                account_description varchar(300) NULL,
+                add_user_name varchar(30) NULL,
+                add_system_name varchar(30) NULL,
+                add_ip_address varchar(30) NULL,
+                add_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(50) NULL,
+                update_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                status varchar(10) NULL
+            );
+
+            CREATE TABLE ${dbname}.dbo.tbl_sub_account(
+                sno bigint IDENTITY(1,1) NOT NULL,
+                account_type_code varchar(30) NULL,
+                account_name_code varchar(30) NULL,
+                account_sub_name varchar(50) NULL,
+                account_sub_name_code varchar(30) NULL,
+                account_description varchar(300) NULL,
+                add_user_name varchar(30) NULL,
+                add_system_name varchar(30) NULL,
+                add_ip_address varchar(30) NULL,
+                add_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(50) NULL,
+                update_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                status varchar(10) NULL
+            );
             
             `)
             res.send(
