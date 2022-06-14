@@ -66,6 +66,8 @@ import ShowFincialyear from './component/Master/fincialyear/Showfincialyear'
 
 import ChartOfAccount from './component/ChartOfAccount/ChartOfAccount';
 
+import Items from './component/Items/Items';
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -150,6 +152,9 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/ShowFincialyear" component={ShowFincialyear}/>
 
           <Route exact path="/ChartOfAccount" component={ChartOfAccount}/>
+
+          <Route exact path="/Items" component={Items}/>
+
           
           
           <Route exact path="*" component={PageNotFound}/>

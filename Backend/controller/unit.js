@@ -17,6 +17,19 @@ async function TotalUnit(req, res) {
         res.send(err)
     }
 }
+async function TotalActiveUnit(req, res) {
+    // console.log('Fins',req.body.org)
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_unit where status='Active' order by sno asc`)
+        res.send(result.recordset)
+        // console.log(result);
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 
 async function deleteUnit(req, res) {
     const sno = req.body.sno;
@@ -111,4 +124,4 @@ const ImportUnit = (req, res) => {
     })
 }
 
-module.exports = { TotalUnit, deleteUnit, Unit, showunit, UpdateUnit,ImportUnit }
+module.exports = { TotalUnit,TotalActiveUnit, deleteUnit, Unit, showunit, UpdateUnit,ImportUnit }

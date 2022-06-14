@@ -23,6 +23,7 @@ const Multer = require('../Middleware/multer')
 const ComplianceController = require('../controller/Compliance')
 const ComplianceTypeController = require('../controller/ComplianceType')
 const FincialyearController = require('../controller/Fincialyear')
+const ItemsController = require('../controller/Items')
 
 
 
@@ -63,6 +64,8 @@ router.post('/getcity',cityController.getCity)
 router.post('/importcity',cityController.ImportCity)
 
 router.post('/totalunit',checkAuth,unitController.TotalUnit)
+router.post('/totalactiveunit',unitController.TotalActiveUnit)
+
 router.post('/unit',unitController.Unit)
 router.post('/showunit',checkAuth,unitController.showunit)
 router.post('/updateunit',unitController.UpdateUnit)
@@ -165,6 +168,9 @@ router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 
 router.post('/showfincialyear',FincialyearController.Showfincialyear)
+
+router.post('/insertitems',ItemsController.InsertItems)
+
 
 
 router.post('/FileUpload',Multer,FileUpload)
