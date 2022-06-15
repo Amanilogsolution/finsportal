@@ -2,10 +2,11 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
-import { TotalActiveUnit,InsertItems } from '../../api/index'
+import { TotalActiveUnit,InsertItems,AllAccountsalesInfo } from '../../api/index'
 function Items() {
     const [unitdata, setUnitdata] = useState([]);
     const [sales,setSales] = useState(true);
+    const [salestype,setSalestype] = useState();
     const [purchas,setPurchas] = useState(true);
     const [type,setType]= useState();
     const [mandatory,setMandatory] =useState(false);
@@ -15,6 +16,10 @@ function Items() {
     
         const result = await TotalActiveUnit(localStorage.getItem("Organisation"));
         setUnitdata(result)
+
+        const result2 = await AllAccountsalesInfo(localStorage.getItem("Organisation"));
+        console.log(result2)
+        setSalestype(result2)
         }
         fetch();
 
@@ -118,8 +123,11 @@ function Items() {
                                                                 <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="sales_account"  disabled={!sales} >
-                                                                        <option value=''>Select</option>
-                                                                        <option>Account</option>
+                                                                    {
+                                                                        salestype.map((item)=>(
+                                                                            <option>{item.account_info_name}</option>
+                                                                        ))
+                                                                    }
                                                                     </select>
                                                                 </div>
                                                             </div>

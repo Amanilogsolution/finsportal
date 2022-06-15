@@ -672,3 +672,9 @@ export const AllAccountInfo = async (org)=>{
     const url = `http://localhost:3008/api/allaccountinfo`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const AllAccountsalesInfo = async (org)=>{
+    const url = `http://localhost:3008/api/allaccountsalesinfo`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+

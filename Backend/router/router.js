@@ -191,6 +191,7 @@ router.post('/totalaccountname',AccountnameController.TotalAccountName)
 router.post('/accountnamestatus',AccountnameController.AccountnameStatus)
 
 router.post('/allaccountinfo',AccountinfoController.AllAccountInfo)
+router.post('/allaccountsalesinfo',AccountinfoController.AllAccountsalesInfo)
 
 
 
