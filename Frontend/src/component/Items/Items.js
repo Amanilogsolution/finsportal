@@ -10,10 +10,13 @@ function Items() {
     const [type,setType]= useState();
     const [mandatory,setMandatory] =useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
+        const fetch = async () => {
+    
         const result = await TotalActiveUnit(localStorage.getItem("Organisation"));
-        //    console.log(result);
         setUnitdata(result)
+        }
+        fetch();
 
 
     }, [])
@@ -72,7 +75,7 @@ function Items() {
                                                     <div className="form-row" >
                                                         <label htmlFor="type" className="col-md-2 col-form-label font-weight-bold" >Type</label>
                                                         <div className="col-md-2 col-form-label " onChange={handletype}  >
-                                                            <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods'/>  Goods  &nbsp; &nbsp;
+                                                            <input className="col-mt-2"  type="radio" id="type" name="itemtype" value='Goods'/>  Goods  &nbsp; &nbsp;
                                                             <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Service'/>  Service
                                                         </div>
                                                     </div>
@@ -83,9 +86,9 @@ function Items() {
                                                         </div>
                                                     </div>
                                                     <div className="form-row" >
-                                                        <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold" >Unit</label>
+                                                        <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " >Unit</label>
                                                         <div className="col col-form-label "  >
-                                                            <select className="col-md-3 p-1" type="text" id="unit" >
+                                                            <select className="col p-1" style={{width:"30.5%"}}  id="unit" >
                                                                 {
                                                                     unitdata.map((item) => (
                                                                         <option value={item.unit_symbol} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
@@ -96,7 +99,7 @@ function Items() {
                                                         </div>
                                                     </div>
                                                     <div style={{ display: "flex",marginTop:"20px" }}>
-                                                        <div style={{ width: "40%" }}>
+                                                        <div style={{ width: "50%" }}>
                                                             <div className="form-row" >
                                                                 <div className="colcol-form-label " style={{marginTop:"10px"}}>
                                                                     <input className="col-mt-3" type="checkbox" id="item_name" style={{height:"16px",width:"16px"}} defaultChecked onClick={handlesales}/>
@@ -126,7 +129,7 @@ function Items() {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div style={{ width: "40%" }}>
+                                                        <div style={{ width: "50%" }}>
                                                             <div className="form-row" >
                                                                 <div className="colcol-form-label "  style={{marginTop:"10px"}} >
                                                                     <input className="col-mt-2" type="checkbox" id="item_name" style={{height:"16px",width:"16px"}} onClick={handlepurchases} />
