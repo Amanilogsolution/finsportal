@@ -161,7 +161,7 @@ import {insertBank}  from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Description</label>
                             <div className="col form-group">
-                            <textarea class="form-control col-md-4" id="description" rows="3"></textarea>
+                            <textarea className="form-control col-md-4" id="description" rows="3"></textarea>
                             </div>
                             {/* form-group end.// */}
                           </div>

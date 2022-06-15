@@ -124,9 +124,9 @@ function Items() {
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="sales_account"  disabled={!sales} >
                                                                     {
-                                                                        salestype.map((item)=>(
-                                                                            <option>{item.account_info_name}</option>
-                                                                        ))
+                                                                        
+                                                                            console.log(salestype)
+                                                                     
                                                                     }
                                                                     </select>
                                                                 </div>

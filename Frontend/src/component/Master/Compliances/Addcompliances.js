@@ -163,7 +163,7 @@ const Addcompliances = () => {
                       </div>
                       {/* form-group end.// */}
                     </div>
-                    <table class="table">
+                    <table className="table">
                       <thead>
                         <tr>
                           <th scope="col">Period Name</th>

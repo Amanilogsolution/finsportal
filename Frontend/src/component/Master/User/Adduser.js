@@ -156,7 +156,7 @@ const AddUser = () => {
 
                         <div className="form-row">
                           <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
-                          <input name="password" type={passwordshow ? "text" : "password"} class="col-md-3" id="password" placeholder="password" />
+                          <input name="password" type={passwordshow ? "text" : "password"} className="col-md-3" id="password" placeholder="password" />
                           <div className="input-group-append">
                             <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
                           </div>
@@ -164,10 +164,10 @@ const AddUser = () => {
 
                         <div className="form-row mt-3">
                           <label className="col-md-2 col-form-label font-weight-normal">Upload Image</label>
-                          <input type="file" id="exampleInputPassword1" class="col-md-3" onChange={event=>{ const document = event.target.files[0];
+                          <input type="file" id="exampleInputPassword1" className="col-md-3" onChange={event=>{ const document = event.target.files[0];
                                                                                                             setFile(document)}} />                       
-                          <div class="input-group-append">
-                                  <button class="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
+                          <div className="input-group-append">
+                                  <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
                                     </div>
                             </div>
                        

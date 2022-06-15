@@ -55,7 +55,7 @@ const Menu = () => {
               </li>
               <li className="nav-item ">
                 <a href="/Items" className="nav-link active">
-                  <i class="fa fa-briefcase" aria-hidden="true"></i> &nbsp;
+                  <i className="fa fa-briefcase" aria-hidden="true"></i> &nbsp;
                   <p>
                     Items
                   </p>

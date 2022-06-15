@@ -146,7 +146,7 @@ const TotalCustAddress = () => {
                   }
                 </ul>
                       {
-                      /* <select id="myselect" class="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
+                      /* <select id="myselect" className="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
                         {
                           data.map((value)=>(
                             <option>{value.cust_name}</option>

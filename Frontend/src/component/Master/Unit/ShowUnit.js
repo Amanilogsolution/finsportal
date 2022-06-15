@@ -289,7 +289,7 @@ const ShowUnit = () => {
         </div>
         {/* ------------------ Modal end -----------------------------*/}
         {/* ------------------ Data show Modal start -----------------------------*/}
-        <div class="modal fade bd-example-modal-lg "
+        <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
           tabindex="-1"
           role="dialog"
@@ -297,8 +297,8 @@ const ShowUnit = () => {
           aria-hidden="true"
         >
 
-          <div class="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div class="modal-content">
+          <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
+            <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
