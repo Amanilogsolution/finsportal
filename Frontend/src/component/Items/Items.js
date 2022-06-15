@@ -27,9 +27,10 @@ function Items() {
     const handlesales =()=>{
         setSales(!sales)
     }
+
     const handletype =(e)=>{
      const type= e.target.value;
-    setType(type);
+       setType(type);
     }
 
     const handlesubmit = async()=>{

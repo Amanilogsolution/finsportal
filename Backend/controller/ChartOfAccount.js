@@ -17,8 +17,6 @@ const Accounttype = async (req, res) => {
 const InsertAccountType = async (req, res) => {
     const account_type = req.body.account_type;
     const account_type_code = req.body.account_type_code;
-
-
     try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_account_type where account_type_code='${account_type_code}' OR account_type='${account_type}'`)

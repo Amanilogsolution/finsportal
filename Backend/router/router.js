@@ -24,6 +24,7 @@ const ComplianceController = require('../controller/Compliance')
 const ComplianceTypeController = require('../controller/ComplianceType')
 const FincialyearController = require('../controller/Fincialyear')
 const ChartOfAccountController = require('../controller/ChartOfAccount')
+const AccountnameController = require('../controller/AccountName')
 const ItemsController = require('../controller/Items')
 
 
@@ -177,12 +178,16 @@ router.post('/FileUpload',Multer,FileUpload)
 
 router.get('/showcoa',ChartOfAccountController.Accounttype)
 router.post('/parentaccount',ChartOfAccountController.ParentAccount)
-router.post('/insertaccounttype',ChartOfAccountController.InsertAccountType)
 router.post('/parentaccountNumber',ChartOfAccountController.ParentAccountNumber)
 router.post('/addaccountname',ChartOfAccountController.AddAccountName)
 router.post('/addsubaccountname',ChartOfAccountController.AddSubAccountName)
 router.post('/updatesubaccountname',ChartOfAccountController.UpdateSubAccountName)
 router.post('/addnewsubaccountname',ChartOfAccountController.AddNewSubAccountName)
+
+router.post('/updateaccountname',AccountnameController.UpdateAccountName)
+router.post('/insertaccounttype',AccountnameController.InsertAccountType)
+router.post('/totalaccountname',AccountnameController.TotalAccountName)
+router.post('/accountnamestatus',AccountnameController.AccountnameStatus)
 
 
 
