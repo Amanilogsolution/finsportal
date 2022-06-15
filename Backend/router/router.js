@@ -25,6 +25,7 @@ const ComplianceTypeController = require('../controller/ComplianceType')
 const FincialyearController = require('../controller/Fincialyear')
 const ChartOfAccountController = require('../controller/ChartOfAccount')
 const ItemsController = require('../controller/Items')
+const AccountinfoController = require('../controller/Account-Info')
 
 
 
@@ -183,6 +184,9 @@ router.post('/addaccountname',ChartOfAccountController.AddAccountName)
 router.post('/addsubaccountname',ChartOfAccountController.AddSubAccountName)
 router.post('/updatesubaccountname',ChartOfAccountController.UpdateSubAccountName)
 router.post('/addnewsubaccountname',ChartOfAccountController.AddNewSubAccountName)
+
+router.post('/allaccountinfo',AccountinfoController.AllAccountInfo)
+
 
 
 

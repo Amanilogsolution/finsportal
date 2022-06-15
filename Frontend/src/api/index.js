@@ -652,3 +652,8 @@ export const AddNewSubAccountName = async (account_sub_name,account_sub_name_cod
     const url = `http://localhost:3008/api/addnewsubaccountname`
     return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const AllAccountInfo = async (org)=>{
+    const url = `http://localhost:3008/api/allaccountinfo`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}

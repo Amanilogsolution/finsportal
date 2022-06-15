@@ -69,6 +69,9 @@ import InsertAccountType from './component/ChartOfAccount/InsertAccountType';
 
 import Items from './component/Items/Items';
 
+import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
+
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -157,7 +160,10 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
 
           <Route exact path="/Items" component={Items}/>
 
+          <Route exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
           
+
+         
           
           <Route exact path="*" component={PageNotFound}/>
           </Switch>
