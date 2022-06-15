@@ -252,12 +252,24 @@ const Menu = () => {
                 </ul>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="/ShowAccountname" className="nav-link active">
+                    <a href="/ShowAccountInfo" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
-                      <p>Account name Type</p>
+                      <p>Account Info</p>
                     </a>
                   </li>
                 </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                  <a href="/ShowAccountname" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Account name Type</p>
+                    </a>
+                  </li>
+                </ul>
+
+                {/* <a href="/ShowAccountname" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Account name Type</p> */}
               </li>
 
 
