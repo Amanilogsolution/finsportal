@@ -21,27 +21,27 @@ const columns = [
         sortable: true
     },
 
-    // {
-    //   name: 'Status',
-    //   sortable: true,
-    //   selector: 'null',
-    //   cell: (row) => [
-    //     <div className='droplist'>
-    //       <select onChange={async (e) => {
-    //         const status = e.target.value;
-    //         // await (row.sno, status)
-    //         window.location.href = 'ShowCity'
-    //       }
-    //       }>
-    //         <option selected disabled hidden> {row.status}</option>
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => [
+        <div className='droplist'>
+          <select onChange={async (e) => {
+            const status = e.target.value;
+            // await (row.sno, status)
+            window.location.href = 'ShowCity'
+          }
+          }>
+            <option selected disabled hidden> {row.status}</option>
 
 
-    //         <option value='Active'>Active</option>
-    //         <option value='DeActive' >DeActive</option>
-    //       </select>
-    //     </div>
-    //   ]
-    // },
+            <option value='Active'>Active</option>
+            <option value='DeActive' >DeActive</option>
+          </select>
+        </div>
+      ]
+    },
 
     {
         name: "Actions",
@@ -64,10 +64,9 @@ function ShowAccountInfo() {
     useEffect(() => {
 
         const fetch = async () => {
-
             const result = await AllAccountInfo(localStorage.getItem("Organisation"));
-            setData(result)
             console.log(result)
+            setData(result)
         }
         fetch();
 
@@ -88,7 +87,7 @@ function ShowAccountInfo() {
                     <Menu />
                     <div>
                         <div className="content-wrapper">
-                            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className="btn btn-primary">Add City</button>
+                            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className="btn btn-primary">Add Account Info</button>
 
                             <div className="container-fluid">
                                 <br />

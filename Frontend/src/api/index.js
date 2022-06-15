@@ -667,6 +667,10 @@ export const AccountnameStatus = async (org,status,account_type_code) => {
     const url = `http://localhost:3008/api/accountnamestatus`
     return axios.post(url,{org,status,account_type_code}).then(response => response.data).catch(error => console.log(error));
 }
+export const SelectAccountName = async (org,account_type_code) => {
+    const url = `http://localhost:3008/api/selectaccountname`
+    return axios.post(url,{org,account_type_code}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const AllAccountInfo = async (org)=>{
     const url = `http://localhost:3008/api/allaccountinfo`

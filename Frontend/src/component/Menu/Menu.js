@@ -267,9 +267,6 @@ const Menu = () => {
                   </li>
                 </ul>
 
-                {/* <a href="/ShowAccountname" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Account name Type</p> */}
               </li>
 
 

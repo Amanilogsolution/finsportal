@@ -189,6 +189,8 @@ router.post('/updateaccountname',AccountnameController.UpdateAccountName)
 router.post('/insertaccounttype',AccountnameController.InsertAccountType)
 router.post('/totalaccountname',AccountnameController.TotalAccountName)
 router.post('/accountnamestatus',AccountnameController.AccountnameStatus)
+router.post('/selectaccountname',AccountnameController.SelectAccountName)
+
 
 router.post('/allaccountinfo',AccountinfoController.AllAccountInfo)
 

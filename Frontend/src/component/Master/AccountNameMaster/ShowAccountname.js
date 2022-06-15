@@ -29,7 +29,7 @@ const columns = [
                 <select onChange={async (e) => {
                     const org = localStorage.getItem("Organisation")
                     const status = e.target.value;
-                    await AccountnameStatus(org,status, row.account_type_code )
+                    await AccountnameStatus(org, status, row.account_type_code)
                     window.location.href = 'ShowAccountname'
                 }
                 }>
@@ -48,10 +48,10 @@ const columns = [
         selector: row => row.null,
         cell: (row) => [
 
-            <a title='View Document' href="Editcompliances">
+            <a title='View Document' href="EditAccountname">
                 <button className="editbtn btn-success "
                     onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
-                >Edit</button></a>
+                >Edit</button> </a>
 
         ]
     }
