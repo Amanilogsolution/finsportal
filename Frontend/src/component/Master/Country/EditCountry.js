@@ -67,7 +67,7 @@ import {updatecountry} from '../../../api'
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country ID</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='country_id' value={data.country_id} onChange={(e) => handleChangeCid(e)} placeholder />
+                              <input type="number" className="form-control col-md-4" id='country_id' value={data.country_id} onChange={(e) => handleChangeCid(e)}  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -75,7 +75,7 @@ import {updatecountry} from '../../../api'
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Code</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_code' value={data.country_code} onChange={(e) => handleChangeCcode(e)} placeholder />
+                              <input type="text" className="form-control col-md-4" id='country_code' value={data.country_code} onChange={(e) => handleChangeCcode(e)}  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -83,7 +83,7 @@ import {updatecountry} from '../../../api'
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Phone Code</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='country_phonecode' value={data.country_phonecode} onChange={(e)=> handleChangeCp(e)} placeholder />
+                              <input type="number" className="form-control col-md-4" id='country_phonecode' value={data.country_phonecode} onChange={(e)=> handleChangeCp(e)}  />
                             </div>
                             {/* form-group end.// */}
                           </div>

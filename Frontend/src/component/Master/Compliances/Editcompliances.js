@@ -28,7 +28,6 @@ function Editcompliances() {
         const from_applicable = document.getElementById('from_applicable').value;
         const due_date = document.getElementById('due_date').value;
         const extended_date = document.getElementById('extended_date').value;
-        console.log(compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date)
 
         const result= await updatecompliance(localStorage.getItem('Organisation'),compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date,localStorage.getItem('ComplianceSno'),localStorage.getItem('User_name'))
         if (result){

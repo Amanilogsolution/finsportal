@@ -31,20 +31,15 @@ function ChartOfAccount() {
         const description = document.getElementById('description').value;
         const parentaccount = document.getElementById('parentaccount').value;
         
-        console.log(AccountType,Accountname,Accountnamecode,description)
-        console.log(Accountnamecode.length)
+        
         if(Accountnamecode.length ===3){
         const result = await AddAccountName(AccountType,Accountname,Accountnamecode,description);
         const data = await AddSubAccountName(AccountType,Accountnamecode)
-        console.log(data)
         }
         else if(Accountnamecode.length === 6){
           if(check === true){
-            console.log(check)
-            console.log('Hello')
             
                     const Update = await UpdateSubAccountName(Accountname,Accountnamecode,description,AccountType,parentaccount)
-            console.log(Update)
           }
           else{
             const result = await AddNewSubAccountName(Accountname,Accountnamecode,description,AccountType,parentaccount)
@@ -56,38 +51,30 @@ function ChartOfAccount() {
 
     const handleAccountType = async(e) => {
         const account_type = e.target.value;
-        console.log(account_type)
         setaccount_type(account_type)
         const result = await ChartOfAccountParentAccount(account_type);
         setaccount_name(result)
 
         const number=await ParentAccountNumber(account_type,account_name);
-        console.log(number)
         const accountnamenum=parseInt(number.result.account_name_code)+1;
         const accountnamenum1=String(accountnamenum).padStart(2,'0');
-        console.log(accountnamenum1)
         setAccountno(accountnamenum1)
         const accountsubnum=parseInt(number.result1.account_sub_name_code)+1;
         const accountsubnum1=String(accountsubnum).padStart(3,'0');
         setAccountsubno(accountsubnum1)
-        console.log(accountsubnum1)
 
     }
 
     const handleParentAccount = async(e) => {
         const account_name = e.target.value;
-        console.log(account_name)
         setaccount_type(account_name)
       
         const number=await ParentAccountNumber(account_type,account_name);
-        console.log('Hello',number)
         const accountnamenum=parseInt(number.result.account_name_code)+1;
         const accountnamenum1=String(accountnamenum).padStart(2,'0');
-        console.log(accountnamenum1)
         setAccountno(accountnamenum1)
 
         if(!number.result1){
-          console.log(number.result.account_name_code)
           setAccountsubno(number.result.account_name_code+'001')
           setCheck(true)
 
@@ -95,7 +82,6 @@ function ChartOfAccount() {
           const accountsubnum=parseInt(number.result1.account_sub_name_code)+1;
           const accountsubnum1=String(accountsubnum).padStart(3,'0');
           setAccountsubno(accountsubnum1)
-          console.log(accountsubnum1)
             
         }
 
@@ -110,11 +96,9 @@ function ChartOfAccount() {
       const handleChange = (e) => {
           e.preventDefault();
      if(account_type.length === 1){
-       console.log(accountno)
           setaccount_type(accountno)
     }
     if(account_type.length === 3){
-      console.log(accountsubno)
         setaccount_type(accountsubno)
   }
      

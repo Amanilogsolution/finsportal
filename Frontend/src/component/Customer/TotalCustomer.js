@@ -48,7 +48,7 @@ const columns = [
           window.location.href = 'TotalCustomer'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='DeActive' >DeActive</option>
         </select>
@@ -101,7 +101,7 @@ const TotalCustomer = () => {
 
   const uploaddata = async () => {
     importdata.map((d) => {
-      console.log(d.cust_type)
+
       if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
         setErrorno(errorno++);
       }
@@ -114,7 +114,6 @@ const TotalCustomer = () => {
     }
     else {
       const result = await ImportCustomer(importdata);
-      console.log("Length", result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -190,7 +189,7 @@ const TotalCustomer = () => {
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
-            
+
 
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
@@ -226,7 +225,7 @@ const TotalCustomer = () => {
         <div
           className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -287,7 +286,7 @@ const TotalCustomer = () => {
         {/* ------------------ Data show Modal start -----------------------------*/}
         <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
@@ -323,16 +322,18 @@ const TotalCustomer = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
+                        <tr>
                           <th style={{ border: "1px solid black" }}>cust_email</th>
                           <th style={{ border: "1px solid black" }}>cust_work_phone</th>
                           <th style={{ border: "1px solid black" }}>cust_phone</th>
                           <th style={{ border: "1px solid black" }}>pan_no</th>
+                          </tr>
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d) => (
+                            duplicateData.map((d,index) => (
 
-                              <tr style={{ border: "1px solid black" }}>
+                              <tr key={index} style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.cust_email}</td>
                                 <td style={{ border: "1px solid black" }}>{d.cust_work_phone}</td>
                                 <td style={{ border: "1px solid black" }}>{d.cust_phone}</td>
@@ -350,6 +351,7 @@ const TotalCustomer = () => {
 
                 <table >
                   <thead>
+                  <tr>
                     <th style={{ border: "1px solid black" }}>Cust Type</th>
                     <th style={{ border: "1px solid black" }}>Cust Name</th>
                     <th style={{ border: "1px solid black" }}>Company Name</th>
@@ -389,11 +391,12 @@ const TotalCustomer = () => {
                     <th style={{ border: "1px solid black" }}>Contact Person Designation</th>
                     <th style={{ border: "1px solid black" }}>Contact Person Department</th>
                     <th style={{ border: "1px solid black" }}>Remark</th>
+                    </tr>
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
+                      importdata.map((d,index) => (
+                        <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.company_name}</td>

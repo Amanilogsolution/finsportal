@@ -86,7 +86,6 @@ function Showcompliances() {
 
   useEffect(async () => {
     const result = await showcompliances(localStorage.getItem('Organisation'))
-    // console.log('showcompliances ',result)
     setData(result)
   }, [])
 
@@ -139,10 +138,7 @@ function Showcompliances() {
             </div>
           </div>
         </div>
-        {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
-
-        {/* ------------------ Modal end -----------------------------*/}
+    
 
         <Footer />
       </div>

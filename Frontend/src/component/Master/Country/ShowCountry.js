@@ -44,7 +44,7 @@ const columns = [
           window.location.href = 'ShowCountry'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>
@@ -228,7 +228,7 @@ const ShowCountry = () => {
         <div
           className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -294,7 +294,7 @@ const ShowCountry = () => {
         {/* ------------------ Data show Modal start -----------------------------*/}
         <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
@@ -329,10 +329,12 @@ const ShowCountry = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
+                        <tr>
                           <th style={{ border: "1px solid black" }}>country_code</th>
                           <th style={{ border: "1px solid black" }}>country_id</th>
                           <th style={{ border: "1px solid black" }}>country_name</th>
                           <th style={{ border: "1px solid black" }}>country_phonecode</th>
+                          </tr>
                         </thead>
                         <tbody>
                           {
@@ -355,11 +357,12 @@ const ShowCountry = () => {
                 }
 
                 <table >
-                  <thead>
+                  <thead><tr>
                     <th style={{ border: "1px solid black" }}>country_code</th>
                     <th style={{ border: "1px solid black" }}>country_id</th>
                     <th style={{ border: "1px solid black" }}>country_name</th>
                     <th style={{ border: "1px solid black" }}>country_phonecode</th>
+                    </tr>
                   </thead>
                   <tbody>
                     {

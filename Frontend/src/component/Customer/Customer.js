@@ -268,7 +268,7 @@ const Customer = () => {
                         <div className="form-row">
                           <div className="col form-group" id="valexisting" >
                             <label
-                              htmlfor="user_name"
+                              htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal">
                               <div className="tooltip1">
                               </div>
@@ -300,7 +300,7 @@ const Customer = () => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='mast_id' placeholder />
+                              <input type="text" className="form-control col-md-4" id='mast_id'  />
                             </div>
                             {/* form-group end.// */}
                           </div>) : null}
@@ -311,7 +311,7 @@ const Customer = () => {
                               <select
                                 id="gsttreatment"
                                 className="form-control col-md-4">
-                                <option selected>Select Master ID</option>
+                                <option defaultValue>Select Master ID</option>
 
                               </select>
                             </div>
@@ -331,7 +331,6 @@ const Customer = () => {
                               className="form-control col-md-4"
                               value={ucust_totalid}
                               disabled
-                              placeholder
                             />
                           </div>
                           {/* form-group end.// */}
@@ -339,7 +338,7 @@ const Customer = () => {
                         <div className="form-row" onChange={handleChange}>
                           <div className="col form-group">
                             <label
-                              htmlfor="user_name"
+                              htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal">
                               <div className="tooltip1">
                                 Customer Type
@@ -392,7 +391,7 @@ const Customer = () => {
                               id="inputSalute"
                               className="form-control col-md-"
                             >
-                              <option selected> Salutation</option>
+                              <option defaultValue> Salutation</option>
                               <option value="Mr.">Mr.</option>
                               <option value="Mrs.">Mrs.</option>
                               <option value="Ms.">Ms.</option>
@@ -437,7 +436,6 @@ const Customer = () => {
                             <input
                               type="text"
                               className="form-control col-md-4"
-                              placeholder
                               id="company_name"
                               required
                             />
@@ -458,7 +456,7 @@ const Customer = () => {
                             </div>
                           </label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" placeholder id="cust_display_name" />
+                            <input type="text" className="form-control col-md-4"  id="cust_display_name" />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -474,7 +472,6 @@ const Customer = () => {
                             <input
                               type="email"
                               className="form-control col-md-4"
-                              placeholder
                               id="cust_email"
                               required
                             />
@@ -528,7 +525,6 @@ const Customer = () => {
                               <input
                                 type="text"
                                 className="form-control col-md-4"
-                                placeholder
                                 id="skype_detail"
                               />
                             </div>
@@ -545,7 +541,6 @@ const Customer = () => {
                               <input
                                 type="text"
                                 className="form-control col-md-4"
-                                placeholder
                                 id="designation"
                               />
                             </div>
@@ -562,7 +557,6 @@ const Customer = () => {
                               <input
                                 type="text"
                                 className="form-control col-md-4"
-                                placeholder
                                 id="department"
                               />
                             </div>
@@ -579,7 +573,7 @@ const Customer = () => {
                             Website
                           </label>
                           <div className="col form-group">
-                            <input type="url" className="form-control col-md-4" placeholder id="website" />
+                            <input type="url" className="form-control col-md-4"  id="website" />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -682,7 +676,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onClick={selectgst}
                               >
-                                <option selected>Select GST Treatment</option>
+                                <option defaultValue>Select GST Treatment</option>
                                 <option>Registered Bussiness -Regular</option>
                                 <option>
                                   Registered Bussiness - Composition
@@ -710,7 +704,6 @@ const Customer = () => {
                                 type="email"
                                 className="form-control col-md-4"
                                 maxLength="16"
-                                placeholder
                                 id="gstin_uin"
                               />
                             </div>
@@ -719,7 +712,7 @@ const Customer = () => {
 
                           <div className="form-row">
                             <label
-                              htmlfor="user_name"
+                              htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal"
                             >
                               PAN
@@ -728,7 +721,6 @@ const Customer = () => {
                               <input
                                 type="email"
                                 className="form-control col-md-4"
-                                placeholder
                                 id="pan_no"
                               />
                             </div>
@@ -749,7 +741,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangeSupply}
                               >
-                                <option selected>Select the state</option>
+                                <option defaultValue>Select the state</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                 <option value="Assam">Assam</option>
@@ -767,7 +759,7 @@ const Customer = () => {
                           <div className="form-row" onChange={handleChangetextPreferance}>
                             <div className="col form-group">
                               <label
-                                htmlfor="user_name"
+                                htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 <span style={{ color: "red" }}>
@@ -817,7 +809,6 @@ const Customer = () => {
                                 <input
                                   id="exemption_reason"
                                   className="form-control col-md-4"
-                                  placeholder=""
                                 />
                               </div>
                               {/* form-group end.// */}
@@ -838,7 +829,7 @@ const Customer = () => {
                                 data-live-search="true"
                                 onChange={handleChangeCurrency}
                               >
-                                <option selected> AED- UAE Dirham</option>
+                                <option defaultValue> AED- UAE Dirham</option>
                                 <option value="AUD- Australian Dollar">AUD- Australian Dollar</option>
                                 <option value="CAD- Canadian Dollar">CAD- Canadian Dollar</option>
                                 <option value="CNY- Yuan Renminbi">CNY- Yuan Renminbi</option>
@@ -871,7 +862,6 @@ const Customer = () => {
                               <input
                                 type="email"
                                 className="form-control col-md-4"
-                                placeholder
                                 id="opening_balance"
                               />
                             </div>
@@ -891,7 +881,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangePaymentTerms}
                               >
-                                <option selected>Net 15</option>
+                                <option defaultValue>Net 15</option>
                                 <option>Net 30</option>
                                 <option>Net 45</option>
                                 <option>Net 60</option>
@@ -924,7 +914,7 @@ const Customer = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlfor="flexCheckDefault"
+                                htmlFor="flexCheckDefault"
                               >
                                 Allow portal access for this customer
                               </label>
@@ -950,7 +940,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangePortalLanguage}
                               >
-                                <option selected>English</option>
+                                <option defaultValue>English</option>
                                 <option value="हिंदी">हिंदी</option>
                                 <option value="عربي">عربي</option>
                                 <option value="বাংলা">বাংলা</option>
@@ -1006,7 +996,6 @@ const Customer = () => {
                               <div className="col form-group">
                                 <input type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_attention"
                                 />
                               </div>
@@ -1024,10 +1013,10 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option defaultValue hidden> Select</option>
                                   {
-                                    selectedCountry.map((data) => (
-                                      <option value={data.country_name}>{data.country_name}</option>
+                                    selectedCountry.map((data,index) => (
+                                      <option key={index} value={data.country_name}>{data.country_name}</option>
                                     ))
 
                                   }
@@ -1049,10 +1038,10 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option defaultValue hidden> Choose</option>
                                   {
-                                    selectState.map((data) => (
-                                      <option value={data.state_name}>{data.state_name}</option>
+                                    selectState.map((data,index) => (
+                                      <option key={index} value={data.state_name}>{data.state_name}</option>
                                     ))
                                   }
                                 </select>
@@ -1072,10 +1061,10 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option defaultValue hidden> Choose</option>
                                   {
-                                    selectCity.map((data) => (
-                                      <option value={data.city_name}>{data.city_name}</option>
+                                    selectCity.map((data,index) => (
+                                      <option key={index} value={data.city_name}>{data.city_name}</option>
                                     ))
 
                                   }
@@ -1096,7 +1085,6 @@ const Customer = () => {
                                 <input
                                   type="email"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_city"
                                 />
                               </div>
@@ -1114,7 +1102,6 @@ const Customer = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_pincode"
                                 />
                               </div>
@@ -1130,7 +1117,6 @@ const Customer = () => {
                                 <input
                                   type="tel"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_phone"
                                   maxLength={10}
                                 />
@@ -1147,7 +1133,6 @@ const Customer = () => {
                                 <input
                                   type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_fax"
                                 />
                               </div>
@@ -1169,7 +1154,6 @@ const Customer = () => {
                                 <input
                                   type="email"
                                   className="form-control col-md-7"
-                                  placeholder
                                 />
                               </div>
                             </div> */}
@@ -1185,7 +1169,7 @@ const Customer = () => {
                                   id="inputState"
                                   className="form-control"
                                 >
-                                  <option selected> Select</option>
+                                  <option defa> Select</option>
                                 </select>
                               </div>
                               {/* form-group end.// 
@@ -1222,7 +1206,6 @@ const Customer = () => {
                                 <input
                                   type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                 />
                               </div>
                             </div> */}
@@ -1238,7 +1221,7 @@ const Customer = () => {
                                   id="inputState"
                                   className="form-control"
                                 >
-                                  <option selected>Select</option>
+                                  <option defaultValue>Select</option>
                                 </select>
                               </div>
                               {/* form-group end.// 
@@ -1254,7 +1237,6 @@ const Customer = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                 />
                               </div>
                             </div> */}
@@ -1269,7 +1251,6 @@ const Customer = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                 />
                               </div>
                             </div> */}
@@ -1284,7 +1265,6 @@ const Customer = () => {
                                 <input
                                   type="email"
                                   className="form-control col-md-7"
-                                  placeholder
                                 />
                               </div>
                             </div> */}
@@ -1330,7 +1310,6 @@ const Customer = () => {
                               <input
                                 type="email"
                                 className="form-control col-md-4"
-                                placeholder
                                 id="contact_person_name"
                               />
                             </div>
@@ -1338,43 +1317,43 @@ const Customer = () => {
                           {/* <div className="form-row">
                               <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Last Name</label>
                               <div className="col form-group">
-                                <input type="name" className="form-control col-md-4" placeholder />
+                                <input type="name" className="form-control col-md-4"  />
                               </div>
                             </div> */}
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
                             <div className="col form-group">
-                              <input type="email" className="form-control col-md-4" placeholder id="contact_person_email" />
+                              <input type="email" className="form-control col-md-4"  id="contact_person_email" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" placeholder id="contact_person_work_phone" />
+                              <input type="number" className="form-control col-md-4"  id="contact_person_work_phone" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
-                              <input type="tel" className="form-control col-md-4" placeholder id="contact_person_phone" maxLength={10} />
+                              <input type="tel" className="form-control col-md-4"  id="contact_person_phone" maxLength={10} />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" placeholder id="contact_person_skype" />
+                              <input type="text" className="form-control col-md-4"  id="contact_person_skype" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" placeholder id="contact_person_designation" />
+                              <input type="text" className="form-control col-md-4"  id="contact_person_designation" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Department</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" placeholder id="contact_person_department" />
+                              <input type="text" className="form-control col-md-4"  id="contact_person_department" />
                             </div>
                           </div>
                         </div>
@@ -1398,7 +1377,7 @@ const Customer = () => {
             <div
               className="modal fade"
               id="exampleModal"
-              tabindex="-1"
+              tabIndex="-1"
               role="dialog"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
@@ -1431,7 +1410,7 @@ const Customer = () => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option selected> AED- UAE Dirham</option>
+                          <option defaultValue> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

@@ -9,7 +9,6 @@ function EditLocation() {
 
   useEffect(async() => {
     const result = await showLocation(localStorage.getItem('Organisation'),localStorage.getItem('location_id'))
-    console.log(result)
     setData(result)
      }, [])
  
@@ -21,9 +20,7 @@ function EditLocation() {
         const contact_person2 = document.getElementById('contact_person2').value;
         const contact_phone1 = document.getElementById('contact_phone1').value;
         const contact_phone2 = document.getElementById('contact_phone2').value;
-console.log(Location_name,gst_no,contact_Person1,contact_phone2,contact_phone1,contact_phone2)
         const result = await updateLocation(localStorage.getItem('Organisation'),Location_name,gst_no,contact_Person1,contact_person2,contact_phone1,contact_phone2,localStorage.getItem('location_id'));
-        console.log(result)
         if(result){
             window.location.href='./TotalLocation'
         }

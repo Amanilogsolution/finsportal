@@ -13,7 +13,6 @@ const Vendor = () => {
      useEffect(async() => {
          const result = await showvendor(localStorage.getItem('VendorSno'));
          setData(result)
-         console.log(result)
 
         //  const name = result.vend_name
         //  const Split = name.Split('')
@@ -62,15 +61,9 @@ const Vendor = () => {
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
 
-    console.log(sno,vend_email,vend_work_phone,vend_phone,contact_person_name,contact_person_email,contact_person_work_phone,
-      contact_person_phone,contact_person_skype,contact_person_designation,contact_person_department,remark)
-
-
-    
 
     const result = await UpdateVendor(sno,vend_email,vend_work_phone,vend_phone,contact_person_name,contact_person_email,contact_person_work_phone,
       contact_person_phone,contact_person_skype,contact_person_designation,contact_person_department,remark)
-    console.log(result)
     if (result) {
       window.location.href = '/Showvendor'
     }
@@ -138,7 +131,7 @@ const handleChangeRemark = (e) => {
                         <div className="form-row">
                           <div className="col form-group" id="valexisting" >
                             <label
-                              htmlfor="user_name"
+                              htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal">
                               <div className="tooltip1">
                               </div>
@@ -167,7 +160,7 @@ const handleChangeRemark = (e) => {
                           <div className="form-row">
                             <label htmlFor="mast_id" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
-                              <input type="text" id="mast_id" className="form-control col-md-4" placeholder disabled value={data.mast_id}/>
+                              <input type="text" id="mast_id" className="form-control col-md-4" disabled value={data.mast_id}/>
                             </div>
                             {/* form-group end.// */}
                           </div> 
@@ -180,7 +173,7 @@ const handleChangeRemark = (e) => {
                                 id="mast_id"
                                 className="form-control col-md-4"
                               >
-                                <option selected>Select Master ID</option>
+                                <option defaultValue>Select Master ID</option>
 
                               </select>
                             </div>
@@ -199,7 +192,6 @@ const handleChangeRemark = (e) => {
                               type="text"
                               className="form-control col-md-4"
                               id="vend_id"
-                              placeholder
                               disabled
                               value={data.vend_id}
                             />
@@ -223,7 +215,7 @@ const handleChangeRemark = (e) => {
                           </label>
                           {/* <div className=" form-group">
                             <select id="inputSn" className="form-control" disabled>
-                              <option selected> Salutation</option>
+                              <option defaultValue> Salutation</option>
                               <option>Mr.</option>
                               <option>Mrs.</option>
                               <option>Ms.</option>
@@ -255,7 +247,6 @@ const handleChangeRemark = (e) => {
                               type="text"
                               id="vend_name"
                               className="form-control col-md-4"
-                              placeholder
                               disabled
                               value={data.vend_name}
                             />
@@ -275,7 +266,6 @@ const handleChangeRemark = (e) => {
                               type="text"
                               id="company_name"
                               className="form-control col-md-4"
-                              placeholder
                               disabled
                               value={data.company_name}
                             />
@@ -306,7 +296,6 @@ const handleChangeRemark = (e) => {
                             <input
                               type="text"
                               className="form-control col-md-4"
-                              placeholder
                               id="vendis_name"
                               disabled
                               value={data.vend_display_name}
@@ -326,7 +315,6 @@ const handleChangeRemark = (e) => {
                               type="email"
                               id="vend_email"
                               className="form-control col-md-4"
-                              placeholder
                               value={data.vend_email}
                               onChange={handleChangeVendemail}
                             />
@@ -382,7 +370,6 @@ const handleChangeRemark = (e) => {
                                 type="text"
                                 id="skype_detail"
                                 className="form-control col-md-4"
-                                placeholder
                                 disabled
                                 value={data.skype_detail}
                               />
@@ -401,7 +388,6 @@ const handleChangeRemark = (e) => {
                                 type="text"
                                 id="designation"
                                 className="form-control col-md-4"
-                                placeholder
                                 disabled
                                 value={data.designation}
 
@@ -421,7 +407,6 @@ const handleChangeRemark = (e) => {
                                 type="text"
                                 id="department"
                                 className="form-control col-md-4"
-                                placeholder
                                 disabled
                                 value={data.department}
                               />
@@ -441,7 +426,6 @@ const handleChangeRemark = (e) => {
                               type="url"
                               id="website"
                               className="form-control col-md-4"
-                              placeholder
                               disabled
                               value={data.website}
                             />
@@ -554,7 +538,7 @@ const handleChangeRemark = (e) => {
                                   // onClick={selectgst}
                                   value={data.gst_treatment}
                                 >
-                                  <option selected>Select GST Treatment</option>
+                                  <option defaultValue>Select GST Treatment</option>
                                   <option>Registered Bussiness -Regular</option>
                                   <option>
                                     Registered Bussiness - Composition
@@ -599,7 +583,7 @@ const handleChangeRemark = (e) => {
 
                             <div className="form-row">
                               <label
-                                htmlfor="pan_no"
+                                htmlFor="pan_no"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 PAN
@@ -609,7 +593,6 @@ const handleChangeRemark = (e) => {
                                   type="number"
                                   id="pan_no"
                                   className="form-control col-md-4"
-                                  placeholder
                                   disabled
                                   value={data.pan_no}
                                 />
@@ -630,7 +613,7 @@ const handleChangeRemark = (e) => {
                                   disabled
                                   value={data.source_of_supply}
                                 >
-                                  <option selected>Select the state</option>
+                                  <option defaultValue>Select the state</option>
                                   <option>Andhra Pradesh</option>
                                   <option>Arunachal Pradesh</option>
                                   <option>Assam</option>
@@ -659,7 +642,7 @@ const handleChangeRemark = (e) => {
                                   value={data.currency}
                                   disabled>
 
-                                  <option selected> AED- UAE Dirham</option>
+                                  <option defaultValue> AED- UAE Dirham</option>
                                   <option>AUD- Australian Dollar</option>
                                   <option>CAD- Canadian Dollar</option>
                                   <option>CNY- Yuan Renminbi</option>
@@ -713,7 +696,7 @@ const handleChangeRemark = (e) => {
                                   value={data.payment_terms}
                                   disabled
                                 >
-                                  <option selected hidden>Select the value...</option>
+                                  <option defaultValue hidden>Select the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -737,7 +720,7 @@ const handleChangeRemark = (e) => {
                                   disabled
                                   value={data.tds}
                                 >
-                                  <option selected hidden>Select the value...</option>
+                                  <option defaultValue hidden>Select the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -769,7 +752,7 @@ const handleChangeRemark = (e) => {
                                 />
                                 <label
                                   className="form-check-label"
-                                  htmlfor="flexCheckDefault"
+                                  htmlFor="flexCheckDefault"
                                 >
                                   Allow portal access for this customer
                                 </label>
@@ -795,7 +778,7 @@ const handleChangeRemark = (e) => {
                                   value={data.portal_language}
                                   disabled
                                 >
-                                  <option selected>English</option>
+                                  <option defaultValue>English</option>
                                   <option>हिंदी</option>
                                   <option>عربي</option>
                                   <option>বাংলা</option>
@@ -975,7 +958,6 @@ const handleChangeRemark = (e) => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -991,7 +973,7 @@ const handleChangeRemark = (e) => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option selected> Select</option>
+                                    <option > Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1028,7 +1010,6 @@ const handleChangeRemark = (e) => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1044,7 +1025,7 @@ const handleChangeRemark = (e) => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option selected> Select</option>
+                                    <option defaultValue> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1060,7 +1041,6 @@ const handleChangeRemark = (e) => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1075,7 +1055,6 @@ const handleChangeRemark = (e) => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1090,7 +1069,6 @@ const handleChangeRemark = (e) => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1137,14 +1115,13 @@ const handleChangeRemark = (e) => {
                                   className="form-control col-md-4"
                                   value={data.contact_person_name}
                                   onChange={handleChangeContactname}
-                                  placeholder
                                 />
                               </div>
                             </div>
                             {/* <div className="form-row">
                               <label htmlFor="contact_person_lname" className="col-md-2 col-form-label font-weight-normal">Last Name</label>
                               <div className="col form-group">
-                                <input type="name" id="contact_person_lname" className="form-control col-md-4" placeholder />
+                                <input type="name" id="contact_person_lname" className="form-control col-md-4" />
                               </div>
                             </div> */}
                             <div className="form-row">
@@ -1153,7 +1130,7 @@ const handleChangeRemark = (e) => {
                                 <input type="email" id="contact_person_email" 
                                 className="form-control col-md-4" 
                                 onChange={handleChangeContactemail}
-                                value={data.contact_person_email} placeholder />
+                                value={data.contact_person_email}  />
                               </div>
                             </div>
                             <div className="form-row">
@@ -1251,7 +1228,7 @@ const handleChangeRemark = (e) => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option selected> AED- UAE Dirham</option>
+                          <option defaultValue> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

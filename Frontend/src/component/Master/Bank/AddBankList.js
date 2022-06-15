@@ -39,7 +39,7 @@ function AddBankList() {
                               <select
                                 id="gsttreatment"
                                 className="form-control col-md-6 pr-2">
-                                <option selected disabled>Find your Bank</option>
+                                <option defaultValue disabled>Find your Bank</option>
                                 <option>Allahabad Bank</option>
                                 <option>Andhra Bank</option>
                                 <option>Bank of Baroda</option>
@@ -122,7 +122,7 @@ function AddBankList() {
           <Footer />
         </div>
                 {/*########################### Modal Start ################################*/}
-                <div className="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal fade " id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">

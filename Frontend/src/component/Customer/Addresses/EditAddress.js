@@ -24,9 +24,7 @@ import {getCity} from '../../../api';
         setBilling_address_state(data.billing_address_state)
         setBilling_address_city(data.billing_address_city)
         setCust_id(data.cust_id)
-        console.log(data)
         const result = await Totalcountry()
-        console.log(result)
         setSelectedCountry(result)
       }, []);
 
@@ -37,9 +35,7 @@ import {getCity} from '../../../api';
         const billing_address_phone = document.getElementById('billing_address_phone').value;
         const billing_address_fax = document.getElementById('billing_address_fax').value;
 
-        console.log(billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
         const result = await EditCustAddress(localStorage.getItem('EditAddress'),cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        console.log(result)
         if(result){
             window.location.href='/TotalCustAddress'
         }
@@ -50,7 +46,6 @@ import {getCity} from '../../../api';
         let data = e.target.value;
         setBilling_address_country(data);
         const statesresult = await showactivestate(data)
-        console.log(statesresult)
         setSelectState(statesresult)
       }
       const handleAddressCity = async(e) => {
@@ -62,7 +57,6 @@ import {getCity} from '../../../api';
         setBilling_address_state(data);
         const result = await getCity(data)
         setSelectCity(result)
-        console.log(result)
       }
       const handleChangeAttention = async(e) => {
           setData({...data,billing_address_attention:e.target.value})
@@ -115,10 +109,10 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleChangeCID}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option defaultValue hidden> Select</option>
                                   {
-                                getCustID.map((data) => (
-                                    <option value={data.cust_id}>{data.cust_id}</option>
+                                getCustID.map((data,index) => (
+                                    <option   key={index} value={data.cust_id}>{data.cust_id}</option>
                                 ))
                                 
                               }
@@ -136,7 +130,6 @@ import {getCity} from '../../../api';
                               <div className="col form-group">
                                 <input type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_attention"
                                   value={data.billing_address_attention}
                                   onChange={handleChangeAttention}
@@ -156,10 +149,10 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> {data.billing_address_country}</option>
+                                  <option defaultValue hidden> {data.billing_address_country}</option>
                                   {
-                                selectedCountry.map((data) => (
-                                    <option value={data.country_name}>{data.country_name}</option>
+                                selectedCountry.map((data,index) => (
+                                    <option  key={index} value={data.country_name}>{data.country_name}</option>
                                 ))
                                 
                               }
@@ -181,10 +174,10 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected>{data.billing_address_state}</option>
+                                  <option defaultValue>{data.billing_address_state}</option>
                                   {
-                                    selectState.map((data) => (
-                                      <option value={data.state_name}>{data.state_name}</option>
+                                    selectState.map((data,index) => (
+                                      <option  key={index} value={data.state_name}>{data.state_name}</option>
                                     ))
                                   }
                                 </select>
@@ -203,10 +196,10 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected>{data.billing_address_city}</option>
+                                  <option defaultValue>{data.billing_address_city}</option>
                                   {
-                                selectCity.map((data) => (
-                                    <option value={data.city_name}>{data.city_name}</option>
+                                selectCity.map((data,index) => (
+                                    <option  key={index} value={data.city_name}>{data.city_name}</option>
                                 ))  
                               }
 
@@ -227,7 +220,6 @@ import {getCity} from '../../../api';
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_pincode"
                                   value={data.billing_address_pincode}
                                   onChange={handleChangePincode}
@@ -245,7 +237,6 @@ import {getCity} from '../../../api';
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_phone"
                                   value={data.billing_address_phone}
                                   onChange={handleChangePhone}
@@ -263,7 +254,6 @@ import {getCity} from '../../../api';
                                 <input
                                   type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_fax"
                                   value={data.billing_address_fax}
                                   onChange={handleChangeFax}

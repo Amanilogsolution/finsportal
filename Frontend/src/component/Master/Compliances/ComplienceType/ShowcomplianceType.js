@@ -58,7 +58,6 @@ function ShowcomplianceType() {
 
   useEffect(async () => {
     const result = await showcompliancesType(localStorage.getItem('Organisation'))
-    console.log(result)
     setData(result)
   }, [])
 

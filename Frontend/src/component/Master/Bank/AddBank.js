@@ -84,35 +84,35 @@ import {insertBank}  from '../../../api';
                             <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name </label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='acname'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='acname'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Code</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='account_code' placeholder />
+                              <input type="text" className="form-control col-md-4" id='account_code'  />
                             </div>
                             {/* form-group end.// */}
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='account_no'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='account_no'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='bank_name'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='bank_name'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='ifsc_code'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='ifsc_code'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -122,7 +122,7 @@ import {insertBank}  from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line1 </label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='address_line1'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='address_line1'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -130,7 +130,7 @@ import {insertBank}  from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line2 </label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='address_line2'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='address_line2'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -138,7 +138,7 @@ import {insertBank}  from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State </label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='state'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='state'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -146,7 +146,7 @@ import {insertBank}  from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='city'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='city'   />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -154,7 +154,7 @@ import {insertBank}  from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='pincode'  placeholder />
+                              <input type="number" className="form-control col-md-4" id='pincode'   />
                             </div>
                             {/* form-group end.// */}
                           </div>

@@ -177,7 +177,7 @@ const AddUser = () => {
                         >
                           <div className="col form-group" id='otpradiobtn'>
                             <label
-                              htmlfor="user_name"
+                              htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal"
                             >
                               Two Factor Authentication

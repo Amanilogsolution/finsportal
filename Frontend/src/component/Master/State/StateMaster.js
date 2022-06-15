@@ -12,7 +12,6 @@ import {addstates,Activecountries} from "../../../api";
 
      useEffect(async() => {
        const result = await Activecountries()
-       console.log('Result',result)
        setSelectCountry(result) 
     }, [])
 
@@ -21,7 +20,6 @@ import {addstates,Activecountries} from "../../../api";
         const state_name = document.getElementById("State_name").value;
         const state_code = document.getElementById("state_code").value;
         const state_short_name = document.getElementById("State_Short_Name").value;
-        console.log(selectedCountry,state_name,state_code,state_short_name)
       if(!state_name||!state_code||!state_short_name){
         alert('Enter data')
       }else{
@@ -40,7 +38,6 @@ import {addstates,Activecountries} from "../../../api";
     }
     const handleChangeCountry = (e) => {
         let data = e.target.value
-        console.log(data)
         setSelectedCountry(data)
     }
 
@@ -72,10 +69,10 @@ import {addstates,Activecountries} from "../../../api";
                               onChange={handleChangeCountry}
                             
                             >
-                              <option selected default hidden value="India">India</option>
+                              <option defaultValue default hidden value="India">India</option>
                               {
-                                selectCountry.map((data) => (
-                                    <option value={data.country_name}>{data.country_name}</option>
+                                selectCountry.map((data,index) => (
+                                    <option  key={index} value={data.country_name}>{data.country_name}</option>
                                 ))
                                 
                               }
@@ -87,7 +84,7 @@ import {addstates,Activecountries} from "../../../api";
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='State_name'  placeholder />
+                            <input type="text" className="form-control col-md-4" id='State_name'   />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -95,7 +92,7 @@ import {addstates,Activecountries} from "../../../api";
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Code</label>
                           <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='state_code' placeholder />
+                            <input type="number" className="form-control col-md-4" id='state_code' />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -103,7 +100,7 @@ import {addstates,Activecountries} from "../../../api";
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Short Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='State_Short_Name' placeholder />
+                            <input type="text" className="form-control col-md-4" id='State_Short_Name' />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -111,7 +108,7 @@ import {addstates,Activecountries} from "../../../api";
                         <div className="form-row" onChange={handleChange}>
                               <div className="col form-group">
                                 <label
-                                  htmlfor="user_name"
+                                  htmlFor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                     Select Type 

@@ -96,8 +96,8 @@ function Items() {
                                                         <div className="col col-form-label "  >
                                                             <select className="col p-1" style={{width:"30.5%"}}  id="unit" >
                                                                 {
-                                                                    unitdata.map((item) => (
-                                                                        <option value={item.unit_symbol} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
+                                                                    unitdata.map((item,index) => (
+                                                                        <option key={index} value={item.unit_symbol} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
 
                                                                     ))
                                                                 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalUnit,deleteUnit,ImportUnit } from '../../../api';
+import { TotalUnit, deleteUnit, ImportUnit } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -33,7 +33,7 @@ const columns = [
           window.location.href = 'ShowUnit'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>
@@ -81,7 +81,7 @@ const columns = [
 const ShowUnit = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
-  let [errorno,setErrorno] = useState(0);
+  let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
 
@@ -89,24 +89,23 @@ const ShowUnit = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-   
+
     document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
       // console.log(d.unit_name)
-     if(!d.unit_name || !d.unit_symbol  ){
-       setErrorno(errorno ++);
-     }
-    }) 
+      if (!d.unit_name || !d.unit_symbol) {
+        setErrorno(errorno++);
+      }
+    })
 
-    if(errorno > 0){
+    if (errorno > 0) {
       alert("Please! fill the mandatory data");
-      document.getElementById("showdataModal").style.display="none";
+      document.getElementById("showdataModal").style.display = "none";
       window.location.reload()
     }
-    else
-    {
-      const result = await ImportUnit(importdata,localStorage.getItem('Organisation'));
-      console.log('result',result.length)
+    else {
+      const result = await ImportUnit(importdata, localStorage.getItem('Organisation'));
+      console.log('result', result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -118,22 +117,22 @@ const ShowUnit = () => {
         window.location.href = 'ShowUnit'
       }
     }
-  
-};
-//##########################   Upload data end  #################################
 
-//##########################  for convert array to json start  #################################
+  };
+  //##########################   Upload data end  #################################
+
+  //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
     console.log(importdata.length)
-    if(importdata.length==0){
+    if (importdata.length == 0) {
       alert("please select the file")
       window.location.reload();
     }
-    else{
-    const array = JSON.stringify(importdata)
-    const datas = JSON.parse(array)
-    setImportdata(datas);
+    else {
+      const array = JSON.stringify(importdata)
+      const datas = JSON.parse(array)
+      setImportdata(datas);
     }
   };
   //##########################  for convert array to json end  #################################
@@ -166,26 +165,26 @@ const ShowUnit = () => {
   };
   //##########################  for convert excel to array end #################################
 
- 
-    useEffect(async() => {
-      const Token = localStorage.getItem('Token')
-      const result = await TotalUnit(Token,localStorage.getItem('Organisation'))
-      setData(result)
-    }, [])
 
-    const tableData= {
-        columns, data
-      }; 
- 
-    return (
-      <div>
-         <div className="wrapper">
-         <div className="preloader flex-column justify-content-center align-items-center">
-         <div className="spinner-border" role="status"> </div>
-         </div>
-         <Header />
-          <Menu />
-          <div>
+  useEffect(async () => {
+    const Token = localStorage.getItem('Token')
+    const result = await TotalUnit(Token, localStorage.getItem('Organisation'))
+    setData(result)
+  }, [])
+
+  const tableData = {
+    columns, data
+  };
+
+  return (
+    <div>
+      <div className="wrapper">
+        <div className="preloader flex-column justify-content-center align-items-center">
+          <div className="spinner-border" role="status"> </div>
+        </div>
+        <Header />
+        <Menu />
+        <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary">Add Unit</button>
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
@@ -227,7 +226,7 @@ const ShowUnit = () => {
         <div
           className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -291,7 +290,7 @@ const ShowUnit = () => {
         {/* ------------------ Data show Modal start -----------------------------*/}
         <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
@@ -326,9 +325,10 @@ const ShowUnit = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
-                          <th style={{ border: "1px solid black",padding:"5px" }}>unit_name</th>
-                          <th style={{ border: "1px solid black",padding:"5px"  }}>unit_symbol</th>
-                          
+                          <tr>
+                            <th style={{ border: "1px solid black", padding: "5px" }}>unit_name</th>
+                            <th style={{ border: "1px solid black", padding: "5px" }}>unit_symbol</th>
+                          </tr>
                         </thead>
                         <tbody>
                           {
@@ -337,7 +337,7 @@ const ShowUnit = () => {
                               <tr style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.unit_name}</td>
                                 <td style={{ border: "1px solid black" }}>{d.unit_symbol}</td>
-                                
+
                               </tr>
                             ))
                           }
@@ -350,11 +350,10 @@ const ShowUnit = () => {
                 }
                 <table >
                   <thead>
-                    <th style={{ border: "1px solid black" ,padding:"5px" }}>unit_name</th>
-                    <th style={{ border: "1px solid black" ,padding:"5px" }}>unit_symbol</th>
-                    
-
-
+                    <tr>
+                      <th style={{ border: "1px solid black", padding: "5px" }}>unit_name</th>
+                      <th style={{ border: "1px solid black", padding: "5px" }}>unit_symbol</th>
+                    </tr>
                   </thead>
                   <tbody>
                     {
@@ -362,7 +361,7 @@ const ShowUnit = () => {
                         <tr style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.unit_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.unit_symbol}</td>
-                  
+
                         </tr>
                       ))
                     }</tbody>
@@ -383,7 +382,7 @@ const ShowUnit = () => {
                 Cancel
               </button>
               <button type="button"
-               id="uploadbtn"
+                id="uploadbtn"
                 onClick={uploaddata}
                 className="btn btn-primary"
               >

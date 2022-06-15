@@ -60,7 +60,7 @@ const columns = [
           window.location.href = 'ShowUser'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>

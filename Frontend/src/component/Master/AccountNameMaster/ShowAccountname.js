@@ -29,7 +29,7 @@ const columns = [
                 <select onChange={async (e) => {
                     const org = localStorage.getItem("Organisation")
                     const status = e.target.value;
-                    await AccountnameStatus(org,status, row.account_type_code )
+                    await AccountnameStatus(org, status, row.account_type_code)
                     window.location.href = 'ShowAccountname'
                 }
                 }>
@@ -66,7 +66,6 @@ function ShowAccountname() {
 
     useEffect(async () => {
         const result = await TotalAccountName(localStorage.getItem('Organisation'))
-        console.log(result)
         setData(result)
     }, [])
 
@@ -119,11 +118,7 @@ function ShowAccountname() {
                         </div>
                     </div>
                 </div>
-                {/* ------------------ Modal start -----------------------------*/}\
-                {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
-
-                {/* ------------------ Modal end -----------------------------*/}
-
+               
                 <Footer />
             </div>
         </div>

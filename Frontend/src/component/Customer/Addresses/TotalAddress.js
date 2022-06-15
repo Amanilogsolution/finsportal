@@ -43,7 +43,7 @@ const columns = [
           window.location.href = 'TotalCustAddress'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>
@@ -98,19 +98,16 @@ const TotalCustAddress = () => {
     const result = await ShowCustAddress(cust_name)
     setData(result)
     setSelectedCust_id([])
-    console.log(result)
   }, [cust_name])
 
   const handleChange = async (e) => {
     e.preventDefault();
     const cust_entered_id = document.getElementById('cust_entered_id').value;
-    console.log(cust_entered_id)
     if (!cust_entered_id) {
       setSelectedCust_id([])
     } else {
       const result = await SelectCustAddress(cust_entered_id)
       setSelectedCust_id(result)
-      console.log(result)
     }
   }
 
@@ -134,7 +131,7 @@ const TotalCustAddress = () => {
                 <br/>
               <h3 className="text-left ml-5">Customer Address</h3>
               <form className="form-inline" style={{ marginLeft: "50px" }}>
-                <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autocomplete="off" />
+                <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
                 <ul className="ulstyle">
                   {
                     selectedCust_id.map((value) => (

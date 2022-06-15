@@ -12,9 +12,7 @@ function InsertAccountType() {
         e.preventDefault();
         const account_type = document.getElementById('AccountType').value;
         const account_type_code = document.getElementById('AccountTypeCode').value;
-        console.log(account_type,account_type_code)
         const result = await Insertaccounttype(account_type,account_type_code);
-        console.log(result)
         if(result == 'Already'){
             alert("Already")
         }else{
@@ -42,7 +40,7 @@ function InsertAccountType() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='AccountType'  placeholder />
+                          <input type="text" className="form-control col-md-4" id='AccountType'   />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -50,7 +48,7 @@ function InsertAccountType() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
                         <div className="col form-group">
-                          <input type="number" className="form-control col-md-4" id='AccountTypeCode' placeholder />
+                          <input type="number" className="form-control col-md-4" id='AccountTypeCode'  />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -63,11 +61,8 @@ function InsertAccountType() {
                     <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./ChartOfAccount"}}>Cancel</button>
                   </div>
                 </div>
-                {/* card.// */}
               </div>
-              {/* col.//*/}
             </div>
-            {/* row.//*/}
           </div>   
         </div>
       </div>

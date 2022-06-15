@@ -14,15 +14,12 @@ import {updateState,Activecountries} from '../../../api/index.js'
        
          const result = await showstate(localStorage.getItem('stateSno'));
          if(result == 401){
-           console.log('hi')
          }
          setData(result)
          var name = result.country_name
-         console.log(name)
         //  setSelectCountry(result.country_name)
 
          const country= await Activecountries()
-         console.log(country)
          setSelectCountry(country)
          
 
@@ -46,7 +43,6 @@ import {updateState,Activecountries} from '../../../api/index.js'
             const state_short_name = document.getElementById('State_short').value;
            
              if(selectedCountry == undefined){
-               console.log(data.country_name)
             const result = await updateState(localStorage.getItem('stateSno'),data.country_name,state_name,state_code,state_short_name,statetype);
             if(result){
                 window.location.href = '/ShowState'
@@ -105,7 +101,7 @@ import {updateState,Activecountries} from '../../../api/index.js'
                               onChange={handleChangeCountry}
                               
                             >
-                              <option selected default hidden>{data.country_name}</option>
+                              <option defaultValue default hidden>{data.country_name}</option>
                               {
                                 selectCountry.map((data) => (
                                     <option value={data.country_name}>{data.country_name}</option>
@@ -146,7 +142,7 @@ import {updateState,Activecountries} from '../../../api/index.js'
                         <div className="form-row" onChange={handleChange}>
                               <div className="col form-group">
                                 <label
-                                  htmlfor="user_name"
+                                  htmlFor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                     Select Type 

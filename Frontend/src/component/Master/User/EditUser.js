@@ -13,7 +13,6 @@ import {UpdateUser} from '../../../api/index.js'
 
      useEffect(async() => {
          const result = await showuser(localStorage.getItem('userSno'));
-         console.log(result)
          setData(result)
 
          if(result.two_factor_authentication == 'With OTP'){
@@ -204,7 +203,7 @@ import {UpdateUser} from '../../../api/index.js'
                         <div className="form-row" onChange={handleChange}>
                               <div className="col form-group">
                                 <label
-                                  htmlfor="user_name"
+                                  htmlFor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                     Select Type 
