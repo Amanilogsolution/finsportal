@@ -10,10 +10,13 @@ function Items() {
     const [type,setType]= useState();
     const [mandatory,setMandatory] =useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
+        const fetch = async () => {
+    
         const result = await TotalActiveUnit(localStorage.getItem("Organisation"));
-        //    console.log(result);
         setUnitdata(result)
+        }
+        fetch();
 
 
     }, [])
