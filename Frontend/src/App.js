@@ -67,10 +67,13 @@ import ShowFincialyear from './component/Master/fincialyear/Showfincialyear'
 import ChartOfAccount from './component/ChartOfAccount/ChartOfAccount';
 import InsertAccountType from './component/ChartOfAccount/InsertAccountType';
 import ShowAccountname from './component/Master/AccountNameMaster/ShowAccountname';
+import EditAccountname from './component/Master/AccountNameMaster/EditAccountname';
 
 import Items from './component/Items/Items';
 
 import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
+import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
+import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
 
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
@@ -159,10 +162,12 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/ChartOfAccount" component={ChartOfAccount}/>
           <Route exact path="/InsertAccountType" component={InsertAccountType}/>
           <Route exact path="/ShowAccountname" component={ShowAccountname}/>
+          <Route exact path="/EditAccountname" component={EditAccountname}/>
           <Route exact path="/Items" component={Items}/>
 
           <Route exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
-          
+          <Route exact path="/AddAccountInfo" component={AddAccountInfo}/>
+          <Route exact path="/EditAccountInfo" component={EditAccountInfo}/>
 
          
           

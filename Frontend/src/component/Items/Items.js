@@ -2,61 +2,65 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
-import { TotalActiveUnit,InsertItems,AllAccountsalesInfo } from '../../api/index'
+import { TotalActiveUnit, InsertItems, AllAccountsalesInfo, AllAccountpurchaseInfo } from '../../api/index'
 function Items() {
     const [unitdata, setUnitdata] = useState([]);
-    const [sales,setSales] = useState(true);
-    const [salestype,setSalestype] = useState();
-    const [purchas,setPurchas] = useState(true);
-    const [type,setType]= useState();
-    const [mandatory,setMandatory] =useState(false);
+    const [sales, setSales] = useState(true);
+    const [salestype, setSalestype] = useState([]);
+    const [purchas, setPurchas] = useState(true);
+    const [type, setType] = useState();
+    const [mandatory, setMandatory] = useState(false);
+    const [purchase, setPurchase] = useState([]);
 
-    useEffect( () => {
+    useEffect(() => {
         const fetch = async () => {
-    
-        const result = await TotalActiveUnit(localStorage.getItem("Organisation"));
-        setUnitdata(result)
 
-        const result2 = await AllAccountsalesInfo(localStorage.getItem("Organisation"));
-        console.log(result2)
-        setSalestype(result2)
+            const result = await TotalActiveUnit(localStorage.getItem("Organisation"));
+            setUnitdata(result)
+
+            const result2 = await AllAccountsalesInfo(localStorage.getItem("Organisation"));
+            setSalestype(result2)
+            const purchaseinfo = await AllAccountpurchaseInfo(localStorage.getItem("Organisation"));
+          
+            setPurchase(purchaseinfo)
         }
         fetch();
 
 
     }, [])
 
-    const handlepurchases =()=>{
+    const handlepurchases = () => {
         setPurchas(!purchas)
     }
-    const handlesales =()=>{
+    const handlesales = () => {
         setSales(!sales)
     }
 
-    const handletype =(e)=>{
-     const type= e.target.value;
-       setType(type);
+    const handletype = (e) => {
+        const type = e.target.value;
+        setType(type);
     }
 
-    const handlesubmit = async()=>{
-        const item_type= type;
-        const item_name= document.getElementById("item_name").value;
-        const item_unit= document.getElementById("unit").value;
-        const item_selling_price= document.getElementById("Selling_price").value?document.getElementById("Selling_price").value:'';
-        const sales_account= document.getElementById("sales_account").value? document.getElementById("sales_account").value:'';
-        const sales_description= document.getElementById("sales_description").value?document.getElementById("sales_description").value:'';
-        const item_cost_price= document.getElementById("cost_price").value? document.getElementById("cost_price").value:'';
-        const purchase_account= document.getElementById("purchases_account").value?document.getElementById("purchases_account").value:'';
-        const purchases_description= document.getElementById("purchases_description").value? document.getElementById("purchases_description").value:'';
-        const add_user_name= localStorage.getItem("User_id");
+    const handlesubmit = async () => {
+        const item_type = type;
+        const item_name = document.getElementById("item_name").value;
+        const item_unit = document.getElementById("unit").value;
+        const item_selling_price = document.getElementById("Selling_price").value ? document.getElementById("Selling_price").value : '';
+        const sales_account = document.getElementById("sales_account").value ? document.getElementById("sales_account").value : '';
+        const sales_description = document.getElementById("sales_description").value ? document.getElementById("sales_description").value : '';
+        const item_cost_price = document.getElementById("cost_price").value ? document.getElementById("cost_price").value : '';
+        const purchase_account = document.getElementById("purchases_account").value ? document.getElementById("purchases_account").value : '';
+        const purchases_description = document.getElementById("purchases_description").value ? document.getElementById("purchases_description").value : '';
+        const add_user_name = localStorage.getItem("User_id");
 
-        if(!item_name || !item_unit){
+        if (!item_name || !item_unit) {
             setMandatory(true);
         }
-        else{
-            const result=await InsertItems(localStorage.getItem("Organisation"),item_type,item_name,item_unit,item_selling_price,sales_account,sales_description,item_cost_price,purchase_account,purchases_description,add_user_name);
-            console.log(result);
-            window.location.href='./home';
+        else {
+            const result = await InsertItems(localStorage.getItem("Organisation"), item_type, item_name, item_unit, item_selling_price, sales_account, sales_description, item_cost_price, purchase_account, purchases_description, add_user_name);
+            if(result){
+            window.location.href = './home';
+            }
         }
     }
 
@@ -81,8 +85,8 @@ function Items() {
                                                     <div className="form-row" >
                                                         <label htmlFor="type" className="col-md-2 col-form-label font-weight-bold" >Type</label>
                                                         <div className="col-md-2 col-form-label " onChange={handletype}  >
-                                                            <input className="col-mt-2"  type="radio" id="type" name="itemtype" value='Goods'/>  Goods  &nbsp; &nbsp;
-                                                            <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Service'/>  Service
+                                                            <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' />  Goods  &nbsp; &nbsp;
+                                                            <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Service' />  Service
                                                         </div>
                                                     </div>
                                                     <div className="form-row" >
@@ -94,21 +98,22 @@ function Items() {
                                                     <div className="form-row" >
                                                         <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " >Unit</label>
                                                         <div className="col col-form-label "  >
-                                                            <select className="col p-1" style={{width:"30.5%"}}  id="unit" >
+                                                            <select className="col p-1" style={{ width: "30.5%" }} id="unit" >
+                                                                <option  defaultValue hidden>Select Unit</option>
                                                                 {
-                                                                    unitdata.map((item,index) => (
-                                                                        <option key={index} value={item.unit_symbol} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
+                                                                    unitdata.map((item ,index) => (
+                                                                        <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
 
                                                                     ))
                                                                 }
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div style={{ display: "flex",marginTop:"20px" }}>
+                                                    <div style={{ display: "flex", marginTop: "20px" }}>
                                                         <div style={{ width: "50%" }}>
                                                             <div className="form-row" >
-                                                                <div className="colcol-form-label " style={{marginTop:"10px"}}>
-                                                                    <input className="col-mt-3" type="checkbox" id="item_name" style={{height:"16px",width:"16px"}} defaultChecked onClick={handlesales}/>
+                                                                <div className="colcol-form-label " style={{ marginTop: "10px" }}>
+                                                                    <input className="col-mt-3" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} defaultChecked onClick={handlesales} />
                                                                 </div>
                                                                 <label htmlFor="" className="col col-form-label font-weight-bold" >Sales Information</label>
 
@@ -116,18 +121,19 @@ function Items() {
                                                             <div className="form-row" >
                                                                 <label htmlFor="Selling_price" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Selling Price *</span></label>
                                                                 <div className="col-md-2 col-form-label "  >
-                                                                    <input className="col-mt-2" type="text" id="Selling_price"  disabled={!sales}/>
+                                                                    <input className="col-mt-2" type="text" id="Selling_price" disabled={!sales} />
                                                                 </div>
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
-                                                                    <select className="col-md-8 p-1" type="text" id="sales_account"  disabled={!sales} >
-                                                                    {
-                                                                        
-                                                                            console.log(salestype)
-                                                                     
-                                                                    }
+                                                                    <select className="col-md-8 p-1" type="text" id="sales_account" disabled={!sales} >
+                                                                    <option  defaultValue hidden>Select</option>
+                                                                        {
+                                                                            salestype.map((item,index) => {
+                                                                                return <option key={index} value={item.account_info_name}>{item.account_info_name}</option>
+                                                                            })
+                                                                        }
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -140,8 +146,8 @@ function Items() {
                                                         </div>
                                                         <div style={{ width: "50%" }}>
                                                             <div className="form-row" >
-                                                                <div className="colcol-form-label "  style={{marginTop:"10px"}} >
-                                                                    <input className="col-mt-2" type="checkbox" id="item_name" style={{height:"16px",width:"16px"}} onClick={handlepurchases} />
+                                                                <div className="colcol-form-label " style={{ marginTop: "10px" }} >
+                                                                    <input className="col-mt-2" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} onClick={handlepurchases} />
                                                                 </div>
                                                                 <label htmlFor="item_name" className="col col-form-label font-weight-bold">Purchase Information</label>
 
@@ -149,15 +155,20 @@ function Items() {
                                                             <div className="form-row" >
                                                                 <label htmlFor="cost_price" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Cost Price *</span></label>
                                                                 <div className="col-md-2 col-form-label "  >
-                                                                    <input className="col-mt-2" type="text" id="cost_price" disabled={purchas}/>
+                                                                    <input className="col-mt-2" type="text" id="cost_price" disabled={purchas} />
                                                                 </div>
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="purchases_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="purchases_account" disabled={purchas}>
-                                                                        <option value=''>Select</option>
-                                                                        <option>Account </option>
+                                                                        <option  defaultValue hidden>Select</option>
+                                                                        {
+                                                                            purchase.map((item,index) => {
+                                                                                return <option key={index} value={item.account_info_name}>{item.account_info_name}</option>
+                                                                            })
+                                                                        }
+                                                                       
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -172,12 +183,12 @@ function Items() {
 
                                                 </form>
                                             </article>
-                                           
+
                                             <div className="border-top card-body">
-                                            {
-                                                mandatory
-                                                ?<p style={{color:'red'}}>Please! fill the mandatory field...</p>:null
-                                            }
+                                                {
+                                                    mandatory
+                                                        ? <p style={{ color: 'red' }}>Please! fill the mandatory field...</p> : null
+                                                }
                                                 <button className="btn btn-success" onClick={handlesubmit} >Save</button>
                                                 <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                                             </div>

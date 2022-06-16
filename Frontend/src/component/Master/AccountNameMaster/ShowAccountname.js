@@ -48,10 +48,10 @@ const columns = [
         selector: row => row.null,
         cell: (row) => [
 
-            <a title='View Document' href="Editcompliances">
+            <a title='View Document' href="EditAccountname">
                 <button className="editbtn btn-success "
                     onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
-                >Edit</button></a>
+                >Edit</button> </a>
 
         ]
     }

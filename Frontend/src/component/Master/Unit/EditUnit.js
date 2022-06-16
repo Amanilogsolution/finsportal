@@ -5,25 +5,28 @@ import Footer from "../../Footer/Footer";
 import { showunit } from '../../../api/index.js'
 import { UpdateUnit } from '../../../api/index.js'
 
-const EditUnit = () => {
-  const [data, setData] = useState({})
-  useEffect(async () => {
-    const Token = localStorage.getItem('Token')
-    const result = await showunit(localStorage.getItem('unitSno'), Token);
-    setData(result)
-  }, [])
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    const unit_name = document.getElementById('unit_name').value;
-    const unit_symbol = document.getElementById('unit_symbol').value;
+ const EditUnit = () => {
+     const [data,setData] = useState({})
+     useEffect(async() => {
+       const Token = localStorage.getItem('Token')
+       console.log(Token)
+         const result = await showunit(localStorage.getItem('unitSno'),Token,localStorage.getItem('Organisation'));
+         setData(result)
+        }, [])
 
 
-    const result = await UpdateUnit(localStorage.getItem('unitSno'), unit_name, unit_symbol);
-    if (result) {
-      window.location.href = '/ShowUnit'
-    }
-  }
+        const handleClick = async(e) => {
+            e.preventDefault();
+            const unit_name = document.getElementById('unit_name').value;
+            const unit_symbol = document.getElementById('unit_symbol').value;
+            
+            
+            const result = await UpdateUnit(localStorage.getItem('unitSno'),unit_name,unit_symbol,localStorage.getItem('Organisation'));
+            if(result){
+                window.location.href = '/ShowUnit'
+            }
+        }
+
 
 
   const handleChangeCname = (e) => {

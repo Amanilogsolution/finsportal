@@ -25,15 +25,14 @@ const InsertAccountType = async (req, res) => {
 const UpdateAccountName = async (req, res) => {
     const account_type = req.body.account_type;
     const account_type_code = req.body.account_type_code;
-  
     const org = req.body.org;
     const uniqueID = req.body.uniqueID
-    console.log(account_type_code,account_name,account_name_code,description)
+    console.log(account_type,account_type_code,org,uniqueID)
 
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_account_type set account_type='${account_type}',account_type_code ='${account_type_code}',update_user_name='rupesh',
-        update_system_name='',update_ip_address='',update_date_time=GETDATE(),account_description='${description}'
+        update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=GETDATE()
         WHERE account_type_code='${uniqueID}'`)
         res.send('Updated')
     }
@@ -67,6 +66,17 @@ const AccountnameStatus = async (req, res) => {
         res.send(err)
     }
 }
+const SelectAccountName = async (req, res) => {
+    const org = req.body.org;
+    const account_type_code = req.body.account_type_code;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_account_type tat with (nolock) WHERE account_type_code='${account_type_code}'`)
+        res.send(result.recordset[0])
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 
-
-module.exports = {InsertAccountType,UpdateAccountName,TotalAccountName,AccountnameStatus}
+module.exports = {InsertAccountType,UpdateAccountName,TotalAccountName,AccountnameStatus,SelectAccountName}

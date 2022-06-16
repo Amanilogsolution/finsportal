@@ -166,25 +166,25 @@ export const TotalActiveUnit = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Unit = async (unit_name, unit_symbol) => {
+export const Unit = async (unit_name, unit_symbol,org) => {
     const url = `http://localhost:3008/api/unit`
-    return axios.post(url, { unit_name, unit_symbol }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { unit_name, unit_symbol,org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const showunit = async (sno, Token) => {
+export const showunit = async (sno, Token,org) => {
     console.log('Api', Token)
     const url = `http://localhost:3008/api/showunit`
-    return axios.post(url, { sno }, { headers: { "Authorization": Token } }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno ,org}, { headers: { "Authorization": Token } }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateUnit = async (sno, unit_name, unit_symbol) => {
-    const url = `http://192.168.146.103:3008/api/updateunit`
-    return axios.post(url, { sno, unit_name, unit_symbol }).then(response => response.data).catch(error => console.log(error));
+export const UpdateUnit = async (sno, unit_name, unit_symbol,org) => {
+    const url = `http://localhost:3008/api/updateunit`
+    return axios.post(url, { sno, unit_name, unit_symbol,org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const deleteUnit = async (sno, status) => {
-    const url = `http://192.168.146.103:3008/api/deleteunit`
-    return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
+export const deleteUnit = async (sno, status,org) => {
+    const url = `http://localhost:3008/api/deleteunit`
+    return axios.post(url, { sno, status,org }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -667,6 +667,10 @@ export const AccountnameStatus = async (org,status,account_type_code) => {
     const url = `http://localhost:3008/api/accountnamestatus`
     return axios.post(url,{org,status,account_type_code}).then(response => response.data).catch(error => console.log(error));
 }
+export const SelectAccountName = async (org,account_type_code) => {
+    const url = `http://localhost:3008/api/selectaccountname`
+    return axios.post(url,{org,account_type_code}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const AllAccountInfo = async (org)=>{
     const url = `http://localhost:3008/api/allaccountinfo`
@@ -677,4 +681,26 @@ export const AllAccountsalesInfo = async (org)=>{
     const url = `http://localhost:3008/api/allaccountsalesinfo`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const AllAccountpurchaseInfo = async (org)=>{
+    const url = `http://localhost:3008/api/allaccountpurchaseinfo`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+export const AccountInfoStatus = async (org,status,sno)=>{
+    const url = `http://localhost:3008/api/accountinfostatus`
+    return axios.post(url,{org,status,sno}).then(response => response.data).catch(error => console.log(error));
+}
+export const InsertAccountInfo = async (org,account_info_name,account_info_type)=>{
+    const url = `http://localhost:3008/api/insertaccountinfo`
+    return axios.post(url,{org,account_info_name,account_info_type}).then(response => response.data).catch(error => console.log(error));
+}
+export const SelectAccountInfo = async (org,sno)=>{
+    const url = `http://localhost:3008/api/selectaccountinfo`
+    return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdateAccountInfo = async (org,sno,account_info_name,account_info_type)=>{
+    const url = `http://localhost:3008/api/updateaccountinfo`
+    return axios.post(url,{org,sno,account_info_name,account_info_type}).then(response => response.data).catch(error => console.log(error));
+}
+
 
