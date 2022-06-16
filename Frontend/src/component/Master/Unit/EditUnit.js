@@ -28,12 +28,6 @@ import { UpdateUnit } from '../../../api/index.js'
         }
 
 
-    const result = await UpdateUnit(localStorage.getItem('unitSno'), unit_name, unit_symbol);
-    if (result) {
-      window.location.href = '/ShowUnit'
-    }
-  
-
 
   const handleChangeCname = (e) => {
     setData({ ...data, unit_name: e.target.value })
