@@ -35,10 +35,12 @@ async function deleteUnit(req, res) {
     const sno = req.body.sno;
     const status = req.body.status;
     const org = req.body.org
+    console.log(sno,status,org)
+    console.log(`update ${org}.dbo.tbl_unit set status='${status}' where sno = ${sno}`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_unit set status='${status}' where sno = ${sno}`)
-        res.send('done')
+        res.send(result)
     }
     catch (err) {
         res.send(err)

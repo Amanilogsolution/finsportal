@@ -12,62 +12,43 @@ import * as XLSX from "xlsx";
 const columns = [
   {
     name: 'Unit Name',
-    selector: 'unit_name',
+    selector: row=>row.unit_name,
     sortable: true
   },
   {
     name: 'Unit Symbol',
-    selector: 'unit_symbol',
+    selector: row=>row.unit_symbol,
     sortable: true
   },
 
   {
     name: 'Status',
-    selector: 'null',
+    selector: row=>row.null,
     cell: (row) => [
 
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUnit(row.sno, status,localStorage.getItem('Organisation'))
+          console.log(row.status)
           window.location.href = 'ShowUnit'
+          
         }
         }>
-          <option defaultValue disabled hidden> {row.status}</option>
-
-
+          <option selected value={row.status} disabled hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='DeActive' >DeActive</option>
         </select>
       </div>
     ]
   },
-  // {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await deleteUnit(row.sno,checkvalue)
-  //                 window.location.href='ShowUnit'
 
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await deleteUnit(row.sno,checkvalue)
-  //                 window.location.href='ShowUnit'
-  //           }
-  //          }} />
-  //   ]
-  // },
 
   {
     name: "Actions",
     sortable: false,
 
-    selector: "null",
+    selector: row=>row.null,
     cell: (row) => [
 
       <a title='View Document' href="EditUnit">
@@ -169,6 +150,7 @@ const ShowUnit = () => {
   useEffect(async () => {
     const Token = localStorage.getItem('Token')
     const result = await TotalUnit(Token, localStorage.getItem('Organisation'))
+    console.log(result)
     setData(result)
   }, [])
 
