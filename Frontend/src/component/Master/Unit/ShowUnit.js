@@ -29,7 +29,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await deleteUnit(row.sno, status)
+          await deleteUnit(row.sno, status,localStorage.getItem('Organisation'))
           window.location.href = 'ShowUnit'
         }
         }>

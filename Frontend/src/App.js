@@ -72,6 +72,8 @@ import EditAccountname from './component/Master/AccountNameMaster/EditAccountnam
 import Items from './component/Items/Items';
 
 import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
+import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
+import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
 
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
@@ -164,7 +166,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/Items" component={Items}/>
 
           <Route exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
-          
+          <Route exact path="/AddAccountInfo" component={AddAccountInfo}/>
+          <Route exact path="/EditAccountInfo" component={EditAccountInfo}/>
 
          
           

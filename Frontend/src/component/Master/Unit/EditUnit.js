@@ -10,7 +10,7 @@ import {UpdateUnit} from '../../../api/index.js'
      useEffect(async() => {
        const Token = localStorage.getItem('Token')
        console.log(Token)
-         const result = await showunit(localStorage.getItem('unitSno'),Token);
+         const result = await showunit(localStorage.getItem('unitSno'),Token,localStorage.getItem('Organisation'));
          setData(result)
         }, [])
 
@@ -20,7 +20,7 @@ import {UpdateUnit} from '../../../api/index.js'
             const unit_symbol = document.getElementById('unit_symbol').value;
             
             
-            const result = await UpdateUnit(localStorage.getItem('unitSno'),unit_name,unit_symbol);
+            const result = await UpdateUnit(localStorage.getItem('unitSno'),unit_name,unit_symbol,localStorage.getItem('Organisation'));
             if(result){
                 window.location.href = '/ShowUnit'
             }

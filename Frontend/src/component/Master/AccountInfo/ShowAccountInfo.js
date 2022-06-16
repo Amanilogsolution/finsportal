@@ -5,35 +5,35 @@ import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { AllAccountInfo } from '../../../api';
+import { AllAccountInfo ,AccountInfoStatus} from '../../../api';
 
 
 const columns = [
     {
         name: 'Account Info Name',
-        selector: 'account_info_name',
+        selector: row=>row.account_info_name,
         sortable: true
     },
 
     {
         name: 'Account Info Type',
-        selector: 'account_info_type',
+        selector: row=>row.account_info_type,
         sortable: true
     },
 
     {
       name: 'Status',
       sortable: true,
-      selector: 'null',
+      selector: row=>row.null,
       cell: (row) => [
         <div className='droplist'>
           <select onChange={async (e) => {
             const status = e.target.value;
-            // await (row.sno, status)
-            window.location.href = 'ShowCity'
+            await AccountInfoStatus(localStorage.getItem('Organisation'),status ,row.sno)
+            window.location.href = 'ShowAccountInfo'
           }
           }>
-            <option selected disabled hidden> {row.status}</option>
+            <option defaultValue disabled hidden> {row.status}</option>
 
 
             <option value='Active'>Active</option>
@@ -47,11 +47,11 @@ const columns = [
         name: "Actions",
         sortable: false,
 
-        selector: "null",
+        selector: row=>row.null,
         cell: (row) => [
 
-            <a title='View Document' href="">
-                <button className="editbtn btn-success " >Edit</button></a>
+            <a title='View Document' href="EditAccountInfo">
+                <button className="editbtn btn-success "  onClick={()=>{localStorage.setItem('AccountInfosno',`${row.sno}`)}}>Edit</button></a>
 
         ]
     }
@@ -87,7 +87,7 @@ function ShowAccountInfo() {
                     <Menu />
                     <div>
                         <div className="content-wrapper">
-                            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className="btn btn-primary">Add Account Info</button>
+                            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={()=>{window.location.href='AddAccountInfo'}} className="btn btn-primary">Add Account Info</button>
 
                             <div className="container-fluid">
                                 <br />

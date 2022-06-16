@@ -24,9 +24,9 @@ function EditAccountname() {
         const account_type_code = document.getElementById('AccountTypeCode').value;
         console.log(account_type,account_type_code)
         const result = await UpdateAccountName(account_type,account_type_code,localStorage.getItem('Organisation'),localStorage.getItem('AccountTypeCode'));
-        console.log(result)
-        if(result){
-            window.location.href = '/ShowAccountname'
+        if (result){
+            alert('Account Name Updated Successfully')
+            window.location.href = 'ShowAccountname'
         }
       
     }
@@ -74,7 +74,7 @@ function EditAccountname() {
                   </article>
                   {/* card-body end .// */}
                   <div className="border-top card-body">
-                    <button className="btn btn-success" onClick={handleClick} >Save</button>
+                    <button className="btn btn-success" onClick={handleClick} >Update</button>
                     <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./ChartOfAccount"}}>Cancel</button>
                   </div>
                 </div>
