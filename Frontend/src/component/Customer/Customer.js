@@ -311,7 +311,7 @@ const Customer = () => {
                               <select
                                 id="gsttreatment"
                                 className="form-control col-md-4">
-                                <option defaultValue>Select Master ID</option>
+                                <option selected>Select Master ID</option>
 
                               </select>
                             </div>
@@ -391,7 +391,7 @@ const Customer = () => {
                               id="inputSalute"
                               className="form-control col-md-"
                             >
-                              <option defaultValue> Salutation</option>
+                              <option selected> Salutation</option>
                               <option value="Mr.">Mr.</option>
                               <option value="Mrs.">Mrs.</option>
                               <option value="Ms.">Ms.</option>
@@ -676,7 +676,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onClick={selectgst}
                               >
-                                <option defaultValue>Select GST Treatment</option>
+                                <option selected>Select GST Treatment</option>
                                 <option>Registered Bussiness -Regular</option>
                                 <option>
                                   Registered Bussiness - Composition
@@ -741,7 +741,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangeSupply}
                               >
-                                <option defaultValue>Select the state</option>
+                                <option selected>Select the state</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                 <option value="Assam">Assam</option>
@@ -829,7 +829,7 @@ const Customer = () => {
                                 data-live-search="true"
                                 onChange={handleChangeCurrency}
                               >
-                                <option defaultValue> AED- UAE Dirham</option>
+                                <option selected> AED- UAE Dirham</option>
                                 <option value="AUD- Australian Dollar">AUD- Australian Dollar</option>
                                 <option value="CAD- Canadian Dollar">CAD- Canadian Dollar</option>
                                 <option value="CNY- Yuan Renminbi">CNY- Yuan Renminbi</option>
@@ -881,7 +881,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangePaymentTerms}
                               >
-                                <option defaultValue>Net 15</option>
+                                <option selected>Net 15</option>
                                 <option>Net 30</option>
                                 <option>Net 45</option>
                                 <option>Net 60</option>
@@ -940,7 +940,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangePortalLanguage}
                               >
-                                <option defaultValue>English</option>
+                                <option selected>English</option>
                                 <option value="हिंदी">हिंदी</option>
                                 <option value="عربي">عربي</option>
                                 <option value="বাংলা">বাংলা</option>
@@ -1013,7 +1013,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option defaultValue hidden> Select</option>
+                                  <option selected hidden> Select</option>
                                   {
                                     selectedCountry.map((data,index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
@@ -1038,7 +1038,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option defaultValue hidden> Choose</option>
+                                  <option selected hidden> Choose</option>
                                   {
                                     selectState.map((data,index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -1061,7 +1061,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option defaultValue hidden> Choose</option>
+                                  <option selected hidden> Choose</option>
                                   {
                                     selectCity.map((data,index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>
@@ -1221,7 +1221,7 @@ const Customer = () => {
                                   id="inputState"
                                   className="form-control"
                                 >
-                                  <option defaultValue>Select</option>
+                                  <option selected>Select</option>
                                 </select>
                               </div>
                               {/* form-group end.// 
@@ -1410,7 +1410,7 @@ const Customer = () => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option defaultValue> AED- UAE Dirham</option>
+                          <option selected> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

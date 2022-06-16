@@ -111,7 +111,7 @@ const Addcompliances = () => {
                               id="compliancetype"
                               className="form-control col-md-4"
                             >
-                              <option defaultValue hidden >Select Compliances</option>
+                              <option selected hidden >Select Compliances</option>
                               {data.map((res) => (
                                 <option value={res.compliance_type}>{res.compliance_type}</option>
                               ))}
@@ -148,7 +148,7 @@ const Addcompliances = () => {
                               onChange={handleSelect}
 
                             >
-                              <option defaultValue hidden >Select Compliances</option>
+                              <option selected hidden >Select Compliances</option>
                               <option value='Quaterly'>Quaterly</option>
                               <option value='Annual'>Annual</option>
                               <option value='Monthly'>Monthly</option>

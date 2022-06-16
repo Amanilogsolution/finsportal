@@ -74,7 +74,7 @@ import { InsertCurrency,Activecountries } from '../../../api';
                               onChange={handleChangeCountry}
                             
                             >
-                              <option  defaultValue hidden value="India">India</option>
+                              <option  selected hidden value="India">India</option>
                               {
                                 selectCountry.map((data,index) => (
                                     <option  key={index} value={data.country_name}>{data.country_name}</option>

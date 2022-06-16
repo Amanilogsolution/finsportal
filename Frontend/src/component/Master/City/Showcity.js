@@ -53,7 +53,7 @@ const columns = [
           window.location.href = 'ShowCity'
         }
         }>
-          <option defaultValue disabled hidden> {row.status}</option>
+          <option selected disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>

@@ -136,7 +136,7 @@ function ChartOfAccount() {
                               className="form-control"                            
                                  onChange={handleAccountType}
                             >
-                              <option  defaultValue hidden>Choose</option>
+                              <option  selected hidden>Choose</option>
                               {
                                 chartofaccount.map((item, index) => {
                                     return (
@@ -177,7 +177,7 @@ function ChartOfAccount() {
                               className="form-control"                            
                                  onChange={handleParentAccount}
                             >
-                              <option defaultValue default hidden >Choose</option>
+                              <option selected default hidden >Choose</option>
                             {
                                 account_name.map((item, index) => {
                                     return (

@@ -39,7 +39,7 @@ function AddBankList() {
                               <select
                                 id="gsttreatment"
                                 className="form-control col-md-6 pr-2">
-                                <option defaultValue disabled>Find your Bank</option>
+                                <option selected disabled>Find your Bank</option>
                                 <option>Allahabad Bank</option>
                                 <option>Andhra Bank</option>
                                 <option>Bank of Baroda</option>

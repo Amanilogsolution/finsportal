@@ -101,7 +101,7 @@ import {updateState,Activecountries} from '../../../api/index.js'
                               onChange={handleChangeCountry}
                               
                             >
-                              <option defaultValue default hidden>{data.country_name}</option>
+                              <option selected default hidden>{data.country_name}</option>
                               {
                                 selectCountry.map((data) => (
                                     <option value={data.country_name}>{data.country_name}</option>

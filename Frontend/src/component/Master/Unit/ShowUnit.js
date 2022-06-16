@@ -35,7 +35,9 @@ const columns = [
           
         }
         }>
-          <option selected value={row.status} disabled hidden> {row.status}</option>
+          <option selected disabled hidden> {row.status}</option>
+
+
           <option value='Active'>Active</option>
           <option value='DeActive' >DeActive</option>
         </select>

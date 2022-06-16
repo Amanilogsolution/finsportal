@@ -89,7 +89,7 @@ function Editcompliances() {
                                                             id="compliancetype"
                                                             className="form-control col-md-4"
                                                         >
-                                                            <option defaultValue default hidden >{data.compliance_type}</option>
+                                                            <option selected default hidden >{data.compliance_type}</option>
                                                             {compliancetype.map((res)=>(
                                                             <option value={res.compliance_type} >{res.compliance_type}</option>
 

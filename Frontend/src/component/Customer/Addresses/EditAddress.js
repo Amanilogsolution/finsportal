@@ -109,7 +109,7 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleChangeCID}
                                 >
-                                  <option defaultValue hidden> Select</option>
+                                  <option selected hidden> Select</option>
                                   {
                                 getCustID.map((data,index) => (
                                     <option   key={index} value={data.cust_id}>{data.cust_id}</option>
@@ -149,7 +149,7 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option defaultValue hidden> {data.billing_address_country}</option>
+                                  <option selected hidden> {data.billing_address_country}</option>
                                   {
                                 selectedCountry.map((data,index) => (
                                     <option  key={index} value={data.country_name}>{data.country_name}</option>
@@ -174,7 +174,7 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option defaultValue>{data.billing_address_state}</option>
+                                  <option selected>{data.billing_address_state}</option>
                                   {
                                     selectState.map((data,index) => (
                                       <option  key={index} value={data.state_name}>{data.state_name}</option>
@@ -196,7 +196,7 @@ import {getCity} from '../../../api';
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option defaultValue>{data.billing_address_city}</option>
+                                  <option selected>{data.billing_address_city}</option>
                                   {
                                 selectCity.map((data,index) => (
                                     <option  key={index} value={data.city_name}>{data.city_name}</option>

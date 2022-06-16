@@ -109,7 +109,6 @@ async function UpdateUnit(req, res) {
 const ImportUnit = (req, res) => {
     const datas = req.body.data;
     const org = req.body.org;
-    console.log("Back org-",org)
 
     sql.connect(sqlConfig).then(() => {
 

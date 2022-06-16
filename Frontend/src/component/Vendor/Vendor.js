@@ -214,7 +214,7 @@ const Vendor = () => {
                                 id="mast_id"
                                 className="form-control col-md-4"
                               >
-                                <option defaultValue>Select Master ID</option>
+                                <option selected>Select Master ID</option>
 
                               </select>
                             </div>
@@ -255,7 +255,7 @@ const Vendor = () => {
                           <div className=" form-group">
                             <select id="inputSn" className="form-control" onChange={setsn}>
                             
-                              <option defaultValue>Mr.</option>
+                              <option selected>Mr.</option>
                               <option>Mrs.</option>
                               <option>Ms.</option>
                               <option>Miss.</option>
@@ -557,7 +557,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onClick={selectgst}
                                 >
-                                  <option defaultValue>Select GST Treatment</option>
+                                  <option selected>Select GST Treatment</option>
                                   <option>Registered Bussiness -Regular</option>
                                   <option>
                                     Registered Bussiness - Composition
@@ -627,7 +627,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={ststate}
                                 >
-                                  <option defaultValue>Select the state</option>
+                                  <option selected>Select the state</option>
                                   <option>Andhra Pradesh</option>
                                   <option>Arunachal Pradesh</option>
                                   <option>Assam</option>
@@ -654,7 +654,7 @@ const Vendor = () => {
                                   id="currency"
                                   className="form-control col-md-10 "
                                 >
-                                  <option defaultValue> AED- UAE Dirham</option>
+                                  <option selected> AED- UAE Dirham</option>
                                   <option>AUD- Australian Dollar</option>
                                   <option>CAD- Canadian Dollar</option>
                                   <option>CNY- Yuan Renminbi</option>
@@ -705,7 +705,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={paytemval}
                                 >
-                                  <option defaultValue hidden>Choose the value...</option>
+                                  <option selected hidden>Choose the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -730,7 +730,7 @@ const Vendor = () => {
                                   onChange={tdsval}
 
                                 >
-                                  <option defaultValue hidden>Choose the value...</option>
+                                  <option selected hidden>Choose the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -787,7 +787,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={portallang}
                                 >
-                                  <option defaultValue>English</option>
+                                  <option selected>English</option>
                                   <option>हिंदी</option>
                                   <option>عربي</option>
                                   <option>বাংলা</option>
@@ -967,7 +967,7 @@ const Vendor = () => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option defaultValue> Select</option>
+                                    <option selected> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1019,7 +1019,7 @@ const Vendor = () => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option defaultValue> Select</option>
+                                    <option selected> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1202,7 +1202,7 @@ const Vendor = () => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option defaultValue> AED- UAE Dirham</option>
+                          <option selected> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

@@ -45,7 +45,7 @@ const columns = [
           window.location.href = 'ShowCurrency'
         }
         }>
-          <option  disabled hidden defaultValue={row.status}> {row.status}</option>
+          <option  disabled hidden selected value={row.status}> {row.status}</option>
 
 
           <option>Active</option>

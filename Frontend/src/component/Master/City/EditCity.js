@@ -89,7 +89,7 @@ const EditCity = () => {
                               onChange={handleChangeCountry}
 
                             >
-                              <option defaultValue hidden>{country}</option>
+                              <option selected hidden>{country}</option>
                               {
                                 selectCountry.map((data) => (
                                   <option value={data.country_name}>{data.country_name}</option>
@@ -109,7 +109,7 @@ const EditCity = () => {
                               onChange={handleChangeState}
 
                             >
-                              <option defaultValue hidden >{data.state_name}</option>
+                              <option selected hidden >{data.state_name}</option>
                               {
                                 selectState.map((data) => (
                                   <option value={data.state_name}>{data.state_name}</option>
