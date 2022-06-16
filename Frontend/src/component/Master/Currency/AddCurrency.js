@@ -29,13 +29,11 @@ import { InsertCurrency,Activecountries } from '../../../api';
 
      useEffect(async() => {
       const result = await Activecountries()
-      console.log('Result',result)
       setSelectCountry(result) 
    }, [])
 
    const handleChangeCountry = (e) => {
     let data = e.target.value
-    console.log(data)
     setSelectedCountry(data)
 }
 
@@ -60,7 +58,7 @@ import { InsertCurrency,Activecountries } from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Code</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_code' placeholder />
+                              <input type="text" className="form-control col-md-4" id='country_code'  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -68,7 +66,7 @@ import { InsertCurrency,Activecountries } from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                             <div className="col form-group">
-                              {/* <input type="text" className="form-control col-md-4" id='country_name'  placeholder />
+                              {/* <input type="text" className="form-control col-md-4" id='country_name'  />
                                */}
                                <select
                               id="country_name"
@@ -76,10 +74,10 @@ import { InsertCurrency,Activecountries } from '../../../api';
                               onChange={handleChangeCountry}
                             
                             >
-                              <option selected default hidden value="India">India</option>
+                              <option  defaultValue hidden value="India">India</option>
                               {
-                                selectCountry.map((data) => (
-                                    <option value={data.country_name}>{data.country_name}</option>
+                                selectCountry.map((data,index) => (
+                                    <option  key={index} value={data.country_name}>{data.country_name}</option>
                                 ))
                                 
                               }
@@ -91,7 +89,7 @@ import { InsertCurrency,Activecountries } from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Currency Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='currency_name' placeholder />
+                              <input type="text" className="form-control col-md-4" id='currency_name'  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -99,7 +97,7 @@ import { InsertCurrency,Activecountries } from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Currency Code</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='currency_code' placeholder />
+                              <input type="text" className="form-control col-md-4" id='currency_code' />
                             </div>
                             {/* form-group end.// */}
                           </div>

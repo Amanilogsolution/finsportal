@@ -9,7 +9,10 @@ const Newdb = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`CREATE DATABASE ${dbname}`)
         if (result) {
-            const result = await sql.query(`CREATE TABLE ${dbname}.dbo.tbl_bankmaster (sno bigint IDENTITY(1,1) NOT NULL,account_code nvarchar(50) NULL,bank_name varchar(50) NULL,
+            const result = await sql.query(`CREATE TABLE ${dbname}.dbo.tbl_bankmaster 
+                (sno bigint IDENTITY(1,1) NOT NULL,
+                account_code nvarchar(50) NULL,
+                bank_name varchar(50) NULL,
                 account_no nvarchar(50) NULL,
                 address_line1 varchar(255) NULL,
                 address_line2 varchar(255) NULL,
@@ -25,7 +28,12 @@ const Newdb = async (req, res) => {
                 add_user_name varchar(50) NULL,
                 add_system_name varchar(50) NULL,
                 add_ip_address varchar(30) NULL,
-                update_date_time datetime NULL, update_user_name varchar(50) NULL,update_system_name varchar(100) NULL,update_ip_address varchar(50) NULL,description varchar(255) NULL,bank_uuid varchar(100) NULL
+                update_date_time datetime NULL, 
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                description varchar(255) NULL,
+                bank_uuid varchar(100) NULL
             );
 
             CREATE TABLE ${dbname}.dbo.tbl_currency (
@@ -241,6 +249,31 @@ const Newdb = async (req, res) => {
                 update_user_name varchar(50) NULL,
                 update_system_name varchar(100) NULL,
                 status varchar(20) NOT NULL
+            );
+
+            CREATE TABLE ${dbname}.dbo.tbl_location_address  (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                location_id varchar(100) NULL,
+                location_name varchar(50) NULL,
+                gstin_no varchar(15) NULL,
+                location_add1 varchar(100) NULL,
+                location_add2 varchar(100) NULL,
+                location_city varchar(50) NULL,
+                location_state varchar(50) NULL,
+                location_pin varchar(6) NULL,
+                location_country varchar(50) NULL,
+                from_date date NULL,
+                to_date date NULL,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(30) NULL
+                
             );
             
             CREATE TABLE ${dbname}.dbo.tbl_compliance (

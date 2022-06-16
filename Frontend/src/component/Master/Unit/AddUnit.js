@@ -48,7 +48,7 @@ import {Unit} from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Unit Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='unit_name' placeholder />
+                              <input type="text" className="form-control col-md-4" id='unit_name'  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -56,7 +56,7 @@ import {Unit} from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Unit Symbol</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='unit_symbol'  placeholder />
+                              <input type="text" className="form-control col-md-4" id='unit_symbol'   />
                             </div>
                             {/* form-group end.// */}
                           </div>

@@ -53,7 +53,7 @@ const columns = [
           window.location.href = 'ShowCity'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
 
 
           <option value='Active'>Active</option>
@@ -122,7 +122,6 @@ const Showcity = () => {
     }
     else {
       const result = await ImportCity(importdata);
-      console.log(result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -147,7 +146,6 @@ const Showcity = () => {
   const datatojson = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    console.log(datas)
     setImportdata(datas);
 
   };
@@ -175,7 +173,6 @@ const Showcity = () => {
         }
         result.push(obj);
       }
-      console.log("excel", result)
       setImportdata(result);
     };
     reader.readAsBinaryString(file);
@@ -241,7 +238,7 @@ const Showcity = () => {
         <div
           className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true">
@@ -275,9 +272,9 @@ const Showcity = () => {
                       type="file"
                       onChange={onChange}
                       className="form-control"
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                       required="required"
-                      />
+                    />
                   </div><br />
                   <span style={{ color: "red" }}>
                     <a href={Excelfile} download> Download formate</a>
@@ -306,16 +303,16 @@ const Showcity = () => {
         </div>
         {/* ------------------ Modal end -----------------------------*/}
         {/* ------------------ Data show Modal start -----------------------------*/}
-        <div class="modal fade bd-example-modal-lg "
+        <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
         >
 
-          <div class="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div class="modal-content">
+          <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
+            <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -343,10 +340,12 @@ const Showcity = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red", margin: "auto" }}>
                         <thead>
-                          <th style={{ border: "1px solid black" }}>state_name</th>
-                          <th style={{ border: "1px solid black" }}>state_code</th>
-                          <th style={{ border: "1px solid black" }}>city_id</th>
-                          <th style={{ border: "1px solid black" }}>city_name</th>
+                          <tr>
+                            <th style={{ border: "1px solid black" }}>state_name</th>
+                            <th style={{ border: "1px solid black" }}>state_code</th>
+                            <th style={{ border: "1px solid black" }}>city_id</th>
+                            <th style={{ border: "1px solid black" }}>city_name</th>
+                          </tr>
                         </thead>
                         <tbody>
                           {
@@ -369,11 +368,12 @@ const Showcity = () => {
 
                 <table >
                   <thead>
-                    <th style={{ border: "1px solid black" }}>country_name</th>
-                    <th style={{ border: "1px solid black" }}>state_name</th>
-                    <th style={{ border: "1px solid black" }}>city_id</th>
-                    <th style={{ border: "1px solid black" }}>city_name</th>
-
+                    <tr>
+                      <th style={{ border: "1px solid black" }}>country_name</th>
+                      <th style={{ border: "1px solid black" }}>state_name</th>
+                      <th style={{ border: "1px solid black" }}>city_id</th>
+                      <th style={{ border: "1px solid black" }}>city_name</th>
+                    </tr>
 
                   </thead>
                   <tbody>

@@ -13,7 +13,6 @@ import {UpdateUser} from '../../../api/index.js'
 
      useEffect(async() => {
          const result = await showuser(localStorage.getItem('userSno'));
-         console.log(result)
          setData(result)
 
          if(result.two_factor_authentication == 'With OTP'){
@@ -150,7 +149,7 @@ import {UpdateUser} from '../../../api/index.js'
                         </div>
                         <div className="form-row">
                           <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
-                          <input name="password" type={passwordshow ? "text" : "password"} class="form-control col-md-3" id="password" value={data.password} onChange={(e) => handleChangepassword(e)} />
+                          <input name="password" type={passwordshow ? "text" : "password"} className="form-control col-md-3" id="password" value={data.password} onChange={(e) => handleChangepassword(e)} />
                           <div className="input-group-append">
                             <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
                           </div>
@@ -204,7 +203,7 @@ import {UpdateUser} from '../../../api/index.js'
                         <div className="form-row" onChange={handleChange}>
                               <div className="col form-group">
                                 <label
-                                  htmlfor="user_name"
+                                  htmlFor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                     Select Type 

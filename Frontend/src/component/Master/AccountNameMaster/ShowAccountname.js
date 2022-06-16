@@ -66,7 +66,6 @@ function ShowAccountname() {
 
     useEffect(async () => {
         const result = await TotalAccountName(localStorage.getItem('Organisation'))
-        console.log(result)
         setData(result)
     }, [])
 
@@ -119,11 +118,7 @@ function ShowAccountname() {
                         </div>
                     </div>
                 </div>
-                {/* ------------------ Modal start -----------------------------*/}\
-                {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
-
-                {/* ------------------ Modal end -----------------------------*/}
-
+               
                 <Footer />
             </div>
         </div>

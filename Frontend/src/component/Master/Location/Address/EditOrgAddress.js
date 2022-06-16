@@ -10,7 +10,6 @@ function EditOrgAddress() {
 
   useEffect(async() => {
     const result = await locationAddress(localStorage.getItem('Organisation'),localStorage.getItem('location_id'))
-    console.log('Result',result)
     setData(result)
      }, [])
 
@@ -24,7 +23,6 @@ function EditOrgAddress() {
       const from_date = document.getElementById('from_date').value;
       const location_pin = document.getElementById('location_pin').value;
 
-      console.log(location_add1,location_add2,location_city,location_state,location_country,from_date,location_pin)
       const result = await UpdateLocationAddress(localStorage.getItem('Organisation'),location_add1,location_add2,location_city,location_state,location_country,from_date,localStorage.getItem('location_id'),location_pin)
       if(result){
         window.location.href = '/TotalLocation'
@@ -79,7 +77,7 @@ const handleChangeDate = (e) => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_name' value={data.location_name} disabled readonly/>
+                              <input type="text" className="form-control col-md-4" id='country_name' value={data.location_name} disabled />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -87,7 +85,7 @@ const handleChangeDate = (e) => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_id' value={data.gstin_no} disabled readonly />
+                              <input type="text" className="form-control col-md-4" id='country_id' value={data.gstin_no} disabled  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -98,7 +96,7 @@ const handleChangeDate = (e) => {
                               <input type="text" className="form-control col-md-4" id='location_country' 
                               value={data.location_country} 
                               onChange={(e) => handleChangeCountry(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -108,7 +106,7 @@ const handleChangeDate = (e) => {
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='location_state' value={data.location_state} 
                               onChange={(e)=> handleChangeState(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -118,7 +116,7 @@ const handleChangeDate = (e) => {
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='location_city' value={data.location_city} 
                               onChange={(e)=> handleChangeCity(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -128,7 +126,7 @@ const handleChangeDate = (e) => {
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='location_add1' value={data.location_add1} 
                               onChange={(e)=> handleChangeaddr1(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -138,7 +136,7 @@ const handleChangeDate = (e) => {
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='location_add2' value={data.location_add2} 
                               onChange={(e)=> handleChangeAddr2(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -148,7 +146,7 @@ const handleChangeDate = (e) => {
                             <div className="col form-group">
                               <input type="text" className="form-control col-md-4" id='location_pin' value={data.location_pin} 
                               onChange={(e)=> handleChangePin(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -158,7 +156,7 @@ const handleChangeDate = (e) => {
                             <div className="col form-group">
                               <input type="Date" className="form-control col-md-4" id='from_date' value={data.from_date} 
                                      onChange={(e)=> handleChangeDate(e)} 
-                              placeholder />
+                               />
                             </div>
                             {/* form-group end.// */}
                           </div>

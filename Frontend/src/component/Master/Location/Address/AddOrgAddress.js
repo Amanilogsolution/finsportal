@@ -10,7 +10,6 @@ function AddOrgAddress() {
 
   useEffect(async() => {
     const result = await showLocation(localStorage.getItem('Organisation'),localStorage.getItem('location_id'))
-    console.log(result)
     setData(result)
      }, [])
 
@@ -55,7 +54,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='country_name' value={data.location_name} disabled readonly/>
+                          <input type="text" className="form-control col-md-4" id='country_name' value={data.location_name} disabled />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -63,7 +62,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='country_id' value={data.gstin_no} disabled readonly />
+                          <input type="text" className="form-control col-md-4" id='country_id' value={data.gstin_no} disabled  />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -71,7 +70,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_country' placeholder />
+                          <input type="text" className="form-control col-md-4" id='location_country'  />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -79,7 +78,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_state'  placeholder />
+                          <input type="text" className="form-control col-md-4" id='location_state'   />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -87,7 +86,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_city' placeholder />
+                          <input type="text" className="form-control col-md-4" id='location_city'  />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -95,7 +94,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address 1</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_add1' placeholder />
+                          <input type="text" className="form-control col-md-4" id='location_add1'  />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -103,7 +102,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address 2</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_add2' placeholder />
+                          <input type="text" className="form-control col-md-4" id='location_add2'  />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -111,8 +110,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
                         <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_pin'
-                          placeholder />
+                          <input type="text" className="form-control col-md-4" id='location_pin' />
                         </div>
                         {/* form-group end.// */}
                       </div>
@@ -120,7 +118,7 @@ function AddOrgAddress() {
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">From Date</label>
                         <div className="col form-group">
-                          <input type="Date" className="form-control col-md-4" id='from_date' placeholder />
+                          <input type="Date" className="form-control col-md-4" id='from_date'  />
                         </div>
                         {/* form-group end.// */}
                       </div>

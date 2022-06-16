@@ -45,7 +45,7 @@ import {InsertCountry} from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='Country_name' placeholder />
+                              <input type="text" className="form-control col-md-4" id='Country_name' />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -53,7 +53,7 @@ import {InsertCountry} from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country ID</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='country_id'  placeholder />
+                              <input type="number" className="form-control col-md-4" id='country_id' />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -61,7 +61,7 @@ import {InsertCountry} from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Code</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='country_code' placeholder />
+                              <input type="text" className="form-control col-md-4" id='country_code'  />
                             </div>
                             {/* form-group end.// */}
                           </div>
@@ -69,7 +69,7 @@ import {InsertCountry} from '../../../api';
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Phone Code</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id='Country_phonecode' placeholder />
+                              <input type="number" className="form-control col-md-4" id='Country_phonecode'  />
                             </div>
                             {/* form-group end.// */}
                           </div>

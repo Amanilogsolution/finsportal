@@ -170,7 +170,7 @@ const Vendor = () => {
                         <div className="form-row">
                           <div className="col form-group" id="valexisting" >
                             <label
-                              htmlfor="user_name"
+                              htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal">
                               <div className="tooltip1">
                               </div>
@@ -201,7 +201,7 @@ const Vendor = () => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
-                              <input type="text" id="mast_id" className="form-control col-md-4" placeholder />
+                              <input type="text" id="mast_id" className="form-control col-md-4"  />
                             </div>
                             {/* form-group end.// */}
                           </div>) : null}
@@ -214,7 +214,7 @@ const Vendor = () => {
                                 id="mast_id"
                                 className="form-control col-md-4"
                               >
-                                <option selected>Select Master ID</option>
+                                <option defaultValue>Select Master ID</option>
 
                               </select>
                             </div>
@@ -233,7 +233,6 @@ const Vendor = () => {
                               type="text"
                               className="form-control col-md-4"
                               id="vend_id"
-                              placeholder
                             />
                           </div>
                           {/* form-group end.// */}
@@ -255,7 +254,7 @@ const Vendor = () => {
                           </label>
                           <div className=" form-group">
                             <select id="inputSn" className="form-control" onChange={setsn}>
-                              <option selected hidden defaultValue> Salutation</option>
+                            
                               <option defaultValue>Mr.</option>
                               <option>Mrs.</option>
                               <option>Ms.</option>
@@ -296,7 +295,6 @@ const Vendor = () => {
                               type="text"
                               id="company_name"
                               className="form-control col-md-4"
-                              placeholder
                             />
                           </div>
                           {/* form-group end.// */}
@@ -325,7 +323,6 @@ const Vendor = () => {
                             <input
                               type="text"
                               className="form-control col-md-4"
-                              placeholder
                               id="vendis_name"
                             />
                           </div>
@@ -343,7 +340,6 @@ const Vendor = () => {
                               type="email"
                               id="vend_email"
                               className="form-control col-md-4"
-                              placeholder
                             />
                           </div>
                           {/* form-group end.// */}
@@ -392,7 +388,6 @@ const Vendor = () => {
                                 type="text"
                                 id="skype_detail"
                                 className="form-control col-md-4"
-                                placeholder
                               />
                             </div>
                             {/* form-group end.// */}
@@ -409,7 +404,6 @@ const Vendor = () => {
                                 type="text"
                                 id="designation"
                                 className="form-control col-md-4"
-                                placeholder
                               />
                             </div>
                             {/* form-group end.// */}
@@ -426,7 +420,6 @@ const Vendor = () => {
                                 type="text"
                                 id="department"
                                 className="form-control col-md-4"
-                                placeholder
                               />
                             </div>
                             {/* form-group end.// */}
@@ -444,7 +437,6 @@ const Vendor = () => {
                               type="url"
                               id="website"
                               className="form-control col-md-4"
-                              placeholder
                             />
                           </div>
                           {/* form-group end.// */}
@@ -565,7 +557,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onClick={selectgst}
                                 >
-                                  <option selected>Select GST Treatment</option>
+                                  <option defaultValue>Select GST Treatment</option>
                                   <option>Registered Bussiness -Regular</option>
                                   <option>
                                     Registered Bussiness - Composition
@@ -600,7 +592,6 @@ const Vendor = () => {
                                   id="gstin_uin"
                                   className="form-control col-md-4"
                                   maxLength="16"
-                                  placeholder
                                 />
                               </div>
                               {/* form-group end.// */}
@@ -608,7 +599,7 @@ const Vendor = () => {
 
                             <div className="form-row">
                               <label
-                                htmlfor="pan_no"
+                                htmlFor="pan_no"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 PAN
@@ -618,7 +609,6 @@ const Vendor = () => {
                                   type="email"
                                   id="pan_no"
                                   className="form-control col-md-4"
-                                  placeholder
                                 />
                               </div>
                             </div>
@@ -637,7 +627,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={ststate}
                                 >
-                                  <option selected>Select the state</option>
+                                  <option defaultValue>Select the state</option>
                                   <option>Andhra Pradesh</option>
                                   <option>Arunachal Pradesh</option>
                                   <option>Assam</option>
@@ -664,7 +654,7 @@ const Vendor = () => {
                                   id="currency"
                                   className="form-control col-md-10 "
                                 >
-                                  <option selected> AED- UAE Dirham</option>
+                                  <option defaultValue> AED- UAE Dirham</option>
                                   <option>AUD- Australian Dollar</option>
                                   <option>CAD- Canadian Dollar</option>
                                   <option>CNY- Yuan Renminbi</option>
@@ -715,7 +705,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={paytemval}
                                 >
-                                  <option selected hidden>Choose the value...</option>
+                                  <option defaultValue hidden>Choose the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -740,7 +730,7 @@ const Vendor = () => {
                                   onChange={tdsval}
 
                                 >
-                                  <option selected hidden>Choose the value...</option>
+                                  <option defaultValue hidden>Choose the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -772,7 +762,7 @@ const Vendor = () => {
                                 />
                                 <label
                                   className="form-check-label"
-                                  htmlfor="flexCheckDefault"
+                                  htmlFor="flexCheckDefault"
                                 >
                                   Allow portal access for this vendor
                                 </label>
@@ -797,7 +787,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={portallang}
                                 >
-                                  <option selected>English</option>
+                                  <option defaultValue>English</option>
                                   <option>हिंदी</option>
                                   <option>عربي</option>
                                   <option>বাংলা</option>
@@ -962,7 +952,6 @@ const Vendor = () => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -978,7 +967,7 @@ const Vendor = () => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option selected> Select</option>
+                                    <option defaultValue> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1015,7 +1004,6 @@ const Vendor = () => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1031,7 +1019,7 @@ const Vendor = () => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option selected> Select</option>
+                                    <option defaultValue> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1047,7 +1035,6 @@ const Vendor = () => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1062,7 +1049,6 @@ const Vendor = () => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1077,7 +1063,6 @@ const Vendor = () => {
                                   <input
                                     type="email"
                                     className="form-control col-md-7"
-                                    placeholder
                                   />
                                 </div>
                               </div> */}
@@ -1120,50 +1105,49 @@ const Vendor = () => {
                                   type="text"
                                   id="contact_person_fname"
                                   className="form-control col-md-4"
-                                  placeholder
                                 />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_lname" className="col-md-2 col-form-label font-weight-normal">Last Name</label>
                               <div className="col form-group">
-                                <input type="name" id="contact_person_lname" className="form-control col-md-4" placeholder />
+                                <input type="name" id="contact_person_lname" className="form-control col-md-4"  />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_email" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
                               <div className="col form-group">
-                                <input type="email" id="contact_person_email" className="form-control col-md-4" placeholder />
+                                <input type="email" id="contact_person_email" className="form-control col-md-4" />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_work_phone" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                               <div className="col form-group">
-                                <input type="number" id="contact_person_work_phone" className="form-control col-md-4" placeholder />
+                                <input type="number" id="contact_person_work_phone" className="form-control col-md-4" />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                               <div className="col form-group">
-                                <input type="number" id="contact_person_phone" className="form-control col-md-4" placeholder />
+                                <input type="number" id="contact_person_phone" className="form-control col-md-4"  />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_skype" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
                               <div className="col form-group">
-                                <input type="text" id="contact_person_skype" className="form-control col-md-4" placeholder />
+                                <input type="text" id="contact_person_skype" className="form-control col-md-4"  />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                               <div className="col form-group">
-                                <input type="text" id="contact_person_designation" className="form-control col-md-4" placeholder />
+                                <input type="text" id="contact_person_designation" className="form-control col-md-4" />
                               </div>
                             </div>
                             <div className="form-row">
                               <label htmlFor="contact_person_department" className="col-md-2 col-form-label font-weight-normal">Department</label>
                               <div className="col form-group">
-                                <input type="text" id="contact_person_department" className="form-control col-md-4" placeholder />
+                                <input type="text" id="contact_person_department" className="form-control col-md-4" />
                               </div>
                             </div>
                           </div>
@@ -1185,7 +1169,7 @@ const Vendor = () => {
             <div
               className="modal fade"
               id="exampleModal"
-              tabindex="-1"
+              tabIndex="-1"
               role="dialog"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
@@ -1218,7 +1202,7 @@ const Vendor = () => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option selected> AED- UAE Dirham</option>
+                          <option defaultValue> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

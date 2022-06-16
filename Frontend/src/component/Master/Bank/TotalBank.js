@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { totalBank, deleteBank,ImportBank } from '../../../api';
+import { totalBank, deleteBank, ImportBank } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -59,7 +59,7 @@ const columns = [
           window.location.href = 'TotalBank'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option defaultValue disabled hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='DeActive' >DeActive</option>
         </select>
@@ -111,7 +111,7 @@ const columns = [
 const TotalBank = () => {
   const [data, setData] = useState([]);
   const [importdata, setImportdata] = useState([]);
-  let   [errorno, setErrorno] = useState(0);
+  let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
 
@@ -131,7 +131,7 @@ const TotalBank = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportBank(importdata,localStorage.getItem('Organisation'));
+      const result = await ImportBank(importdata, localStorage.getItem('Organisation'));
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -247,7 +247,7 @@ const TotalBank = () => {
         <div
           className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -309,16 +309,16 @@ const TotalBank = () => {
         </div>
         {/* ------------------ Modal end -----------------------------*/}
         {/* ------------------ Data show Modal start -----------------------------*/}
-        <div class="modal fade bd-example-modal-lg "
+        <div className="modal fade bd-example-modal-lg "
           id="showdataModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
         >
 
-          <div class="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div class="modal-content">
+          <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+            <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -346,10 +346,10 @@ const TotalBank = () => {
                       <h5 style={{ margin: "auto" }}>This data already exist</h5>
                       <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
                         <thead>
-
-                          <th style={{ border: "1px solid black" }}>account_no</th>
-                          <th style={{ border: "1px solid black" }}>ifsc_code</th>
-
+                          <tr>
+                            <th style={{ border: "1px solid black" }}>account_no</th>
+                            <th style={{ border: "1px solid black" }}>ifsc_code</th>
+                          </tr>
                         </thead>
                         <tbody>
                           {
@@ -372,20 +372,21 @@ const TotalBank = () => {
                 }
                 <table >
                   <thead>
-                    <th style={{ border: "1px solid black" }}>ac_type</th>
-                    <th style={{ border: "1px solid black" }}>account_code</th>
-                    <th style={{ border: "1px solid black" }}>bank_name</th>
-                    <th style={{ border: "1px solid black" }}>account_no</th>
-                    <th style={{ border: "1px solid black" }}>address_line1</th>
-                    <th style={{ border: "1px solid black" }}>address_line2</th>
-                    <th style={{ border: "1px solid black" }}>branch</th>
-                    <th style={{ border: "1px solid black" }}>state</th>
-                    <th style={{ border: "1px solid black" }}>city</th>
-                    <th style={{ border: "1px solid black" }}>pincode</th>
-                    <th style={{ border: "1px solid black" }}>ifsc_code</th>
-                    <th style={{ border: "1px solid black" }}>acname</th>
-                    <th style={{ border: "1px solid black" }}>description</th>
-
+                    <tr>
+                      <th style={{ border: "1px solid black" }}>ac_type</th>
+                      <th style={{ border: "1px solid black" }}>account_code</th>
+                      <th style={{ border: "1px solid black" }}>bank_name</th>
+                      <th style={{ border: "1px solid black" }}>account_no</th>
+                      <th style={{ border: "1px solid black" }}>address_line1</th>
+                      <th style={{ border: "1px solid black" }}>address_line2</th>
+                      <th style={{ border: "1px solid black" }}>branch</th>
+                      <th style={{ border: "1px solid black" }}>state</th>
+                      <th style={{ border: "1px solid black" }}>city</th>
+                      <th style={{ border: "1px solid black" }}>pincode</th>
+                      <th style={{ border: "1px solid black" }}>ifsc_code</th>
+                      <th style={{ border: "1px solid black" }}>acname</th>
+                      <th style={{ border: "1px solid black" }}>description</th>
+                    </tr>
                   </thead>
                   <tbody>
                     {
@@ -434,6 +435,7 @@ const TotalBank = () => {
               </button>
             </div>
           </div>
+
         </div>
         {/* ------------------ Modal end -----------------------------*/}
       </div>
