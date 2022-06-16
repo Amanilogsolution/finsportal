@@ -48,7 +48,7 @@ const columns = [
           window.location.href = 'TotalCustomer'
         }
         }>
-          <option defaultValue disabled hidden> {row.status}</option>
+          <option selected disabled hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='DeActive' >DeActive</option>
         </select>

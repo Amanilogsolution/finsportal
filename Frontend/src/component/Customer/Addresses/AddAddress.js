@@ -104,7 +104,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleChangeCID}
                                 >
-                                  <option defaultValue hidden> Select</option>
+                                  <option selected hidden> Select</option>
                                   {
                                     getCustID.map((data, index) => (
                                       <option key={index} value={data.cust_id}>{data.cust_id}</option>
@@ -143,7 +143,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option defaultValue hidden> Select</option>
+                                  <option selected hidden> Select</option>
                                   {
                                     selectedCountry.map((data, index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
@@ -168,7 +168,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option defaultValue> Choose</option>
+                                  <option selected> Choose</option>
                                   {
                                     selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -190,7 +190,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option defaultValue> Select the value</option>
+                                  <option selected> Select the value</option>
                                   {
                                     selectCity.map((data, index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>

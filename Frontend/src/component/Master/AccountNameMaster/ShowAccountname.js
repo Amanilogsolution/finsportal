@@ -33,7 +33,7 @@ const columns = [
                     window.location.href = 'ShowAccountname'
                 }
                 }>
-                    <option hidden defaultValue={row.status}> {row.status}</option>
+                    <option hidden selected={row.status}> {row.status}</option>
                     <option >Active</option>
                     <option >DeActive</option>
                 </select>

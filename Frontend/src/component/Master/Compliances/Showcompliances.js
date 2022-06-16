@@ -53,7 +53,7 @@ const columns = [
             window.location.href = 'Showcompliances'
           }
           }>
-            <option hidden defaultValue={row.status}> {row.status}</option>
+            <option hidden selected value={row.status}> {row.status}</option>
             <option >Active</option>
             <option >DeActive</option>
           </select>

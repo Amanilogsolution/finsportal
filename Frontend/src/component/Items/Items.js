@@ -99,7 +99,7 @@ function Items() {
                                                         <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " >Unit</label>
                                                         <div className="col col-form-label "  >
                                                             <select className="col p-1" style={{ width: "30.5%" }} id="unit" >
-                                                                <option  defaultValue hidden>Select Unit</option>
+                                                                <option  selected hidden>Select Unit</option>
                                                                 {
                                                                     unitdata.map((item ,index) => (
                                                                         <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
@@ -128,7 +128,7 @@ function Items() {
                                                                 <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="sales_account" disabled={!sales} >
-                                                                    <option  defaultValue hidden>Select</option>
+                                                                    <option  selected hidden>Select</option>
                                                                         {
                                                                             salestype.map((item,index) => {
                                                                                 return <option key={index} value={item.account_info_name}>{item.account_info_name}</option>
@@ -162,7 +162,7 @@ function Items() {
                                                                 <label htmlFor="purchases_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="purchases_account" disabled={purchas}>
-                                                                        <option  defaultValue hidden>Select</option>
+                                                                        <option  selected hidden>Select</option>
                                                                         {
                                                                             purchase.map((item,index) => {
                                                                                 return <option key={index} value={item.account_info_name}>{item.account_info_name}</option>

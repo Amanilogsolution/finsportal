@@ -173,7 +173,7 @@ const handleChangeRemark = (e) => {
                                 id="mast_id"
                                 className="form-control col-md-4"
                               >
-                                <option defaultValue>Select Master ID</option>
+                                <option selected>Select Master ID</option>
 
                               </select>
                             </div>
@@ -215,7 +215,7 @@ const handleChangeRemark = (e) => {
                           </label>
                           {/* <div className=" form-group">
                             <select id="inputSn" className="form-control" disabled>
-                              <option defaultValue> Salutation</option>
+                              <option selected> Salutation</option>
                               <option>Mr.</option>
                               <option>Mrs.</option>
                               <option>Ms.</option>
@@ -538,7 +538,7 @@ const handleChangeRemark = (e) => {
                                   // onClick={selectgst}
                                   value={data.gst_treatment}
                                 >
-                                  <option defaultValue>Select GST Treatment</option>
+                                  <option selected>Select GST Treatment</option>
                                   <option>Registered Bussiness -Regular</option>
                                   <option>
                                     Registered Bussiness - Composition
@@ -613,7 +613,7 @@ const handleChangeRemark = (e) => {
                                   disabled
                                   value={data.source_of_supply}
                                 >
-                                  <option defaultValue>Select the state</option>
+                                  <option selected>Select the state</option>
                                   <option>Andhra Pradesh</option>
                                   <option>Arunachal Pradesh</option>
                                   <option>Assam</option>
@@ -642,7 +642,7 @@ const handleChangeRemark = (e) => {
                                   value={data.currency}
                                   disabled>
 
-                                  <option defaultValue> AED- UAE Dirham</option>
+                                  <option selected> AED- UAE Dirham</option>
                                   <option>AUD- Australian Dollar</option>
                                   <option>CAD- Canadian Dollar</option>
                                   <option>CNY- Yuan Renminbi</option>
@@ -696,7 +696,7 @@ const handleChangeRemark = (e) => {
                                   value={data.payment_terms}
                                   disabled
                                 >
-                                  <option defaultValue hidden>Select the value...</option>
+                                  <option selected hidden>Select the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -720,7 +720,7 @@ const handleChangeRemark = (e) => {
                                   disabled
                                   value={data.tds}
                                 >
-                                  <option defaultValue hidden>Select the value...</option>
+                                  <option selected hidden>Select the value...</option>
                                   <option>Net 15</option>
                                   <option>Net 30</option>
                                   <option>Net 45</option>
@@ -778,7 +778,7 @@ const handleChangeRemark = (e) => {
                                   value={data.portal_language}
                                   disabled
                                 >
-                                  <option defaultValue>English</option>
+                                  <option selected>English</option>
                                   <option>हिंदी</option>
                                   <option>عربي</option>
                                   <option>বাংলা</option>
@@ -1025,7 +1025,7 @@ const handleChangeRemark = (e) => {
                                     id="inputState"
                                     className="form-control"
                                   >
-                                    <option defaultValue> Select</option>
+                                    <option selected> Select</option>
                                   </select>
                                 </div>
                                 {/* form-group end.// 
@@ -1228,7 +1228,7 @@ const handleChangeRemark = (e) => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option defaultValue> AED- UAE Dirham</option>
+                          <option selected> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

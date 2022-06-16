@@ -68,7 +68,7 @@ import { showactivestate } from '../../../api';
                               className="form-control col-md-4"
                               onChange={handleChangeCountry}
                             >
-                              <option defaultValue hidden value="India">Choose Country</option>
+                              <option selected hidden value="India">Choose Country</option>
                               {
                                 selectCountry.map((data,index) => (
                                     <option  key={index} value={data.country_name}>{data.country_name}</option>
@@ -97,7 +97,7 @@ import { showactivestate } from '../../../api';
                               onChange={handleChangeState}
                             
                             >
-                              <option defaultValue hidden >Choose State</option>
+                              <option selected hidden >Choose State</option>
                               {
                                 selectState.map((data,index) => (
                                     <option  key={index} value={data.state_name}>{data.state_name}</option>
