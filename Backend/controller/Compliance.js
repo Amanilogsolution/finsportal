@@ -132,7 +132,21 @@ const PendingCompliances =async(req,res) =>{
 
 }
 
-    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate,PendingCompliances}
+const UpdatePendingCompliances =async(req,res) =>{
+    const org = req.body.org;
+    // console.log("org",org)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_compliance set due_date='${due_date}',remark='${remark}'`)
+        res.status(200).send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate,PendingCompliances,UpdatePendingCompliances}
 
 
 
