@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Totalcountry } from '../../../api';
-import { showactivestate } from '../../../api';
-import { getCity } from '../../../api';
-import { CustomerId } from '../../../api';
-import { CustInsertAddress, Activecountries } from '../../../api';
+import { Totalcountry,showactivestate,getCity,CustomerId,CustInsertAddress,Activecountries,Customername} from '../../../api';
+
 
 const AddCustAddress = () => {
   const [getCustID, setGetCustId] = useState([]);
@@ -21,26 +18,26 @@ const AddCustAddress = () => {
 
   useEffect(async () => {
     const result = await Activecountries()
-    // console.log('Totalcountry',result)
     setSelectedCountry(result)
-    const customerId = await CustomerId()
+    const customerId = await CustomerId(localStorage.getItem('Organisation'))
     setGetCustId(customerId)
   }, []);
 
   const handleClick = async (e) => {
     e.preventDefault();
+    const custname= await Customername(localStorage.getItem('Organisation'),cust_id);
+    const customer_name = custname.cust_name;
+    const gst_no = document.getElementById('gst_no').value;
     const billing_address_attention = document.getElementById('billing_address_attention').value;
     const billing_address_pincode = document.getElementById('billing_address_pincode').value;
     const billing_address_phone = document.getElementById('billing_address_phone').value;
     const billing_address_fax = document.getElementById('billing_address_fax').value;
 
-    // console.log(cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-    if (!billing_address_country || !billing_address_city || !billing_address_state || !billing_address_phone || !billing_address_pincode) {
+    if (!billing_address_country  || !billing_address_state || !billing_address_phone || !billing_address_pincode) {
       alert("Please! enter the data ")
     }
     else {
-      const result = await CustInsertAddress(cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax)
-      // console.log(result)
+      const result = await CustInsertAddress(localStorage.getItem('Organisation'),localStorage.getItem('User_id'),cust_id,customer_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax)
     }
   }
 
@@ -107,7 +104,7 @@ const AddCustAddress = () => {
                                   <option selected hidden> Select</option>
                                   {
                                     getCustID.map((data, index) => (
-                                      <option key={index} value={data.cust_id}>{data.cust_id}</option>
+                                      <option key={index} value={data.cust_id} >{data.cust_id}</option>
                                     ))
 
                                   }
@@ -115,6 +112,20 @@ const AddCustAddress = () => {
                                 </select>
                               </div>
                               {/* form-group end.// */}
+                            </div>
+                            <div className="form-row">
+                              <label
+                                htmlFor="gst_no"
+                                className="col-md-2 col-form-label font-weight-normal"
+                              >
+                                GST No
+                              </label>
+                              <div className="col form-group">
+                                <input type="text"
+                                  className="form-control col-md-7"
+                                  id="gst_no"
+                                />
+                              </div>
                             </div>
                             <div className="form-row">
                               <label

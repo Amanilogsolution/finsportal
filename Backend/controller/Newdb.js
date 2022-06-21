@@ -86,13 +86,13 @@ const Newdb = async (req, res) => {
 	           cust_id varchar(50) NULL,
 	           cust_name varchar(100) NULL,
                gst_no  varchar(30) NULL,
-	           billing_address_attention varchar(100) NULL,
-	           billing_address_country nvarchar(50) NULL,
-	           billing_address_city varchar(50) NULL,
-	           billing_address_state varchar(50) NULL,
-	           billing_address_pincode bigint NULL,
-	           billing_address_phone bigint NULL,
-	           billing_address_fax varchar(50) NULL,
+	           billing_address_attention varchar(300) NULL,
+	           billing_address_country nvarchar(100) NULL,
+	           billing_address_city varchar(100) NULL,
+	           billing_address_state varchar(100) NULL,
+	           billing_address_pincode varchar(100) NULL,
+	           billing_address_phone varchar(100) NULL,
+	           billing_address_fax varchar(100) NULL,
 	           add_date_time datetime NULL,
 	           add_user_name varchar(50) NULL,
 	           add_system_name varchar(50) NULL,
@@ -190,8 +190,8 @@ const Newdb = async (req, res) => {
                 company_name varchar(100) NULL,
                 cust_display_name varchar(100) NULL,
                 cust_email varchar(30) NULL,
-                cust_work_phone bigint NULL,
-                cust_phone bigint NULL,
+                cust_work_phone varchar(100) NULL,
+                cust_phone varchar(100) NULL,
                 skype_detail varchar(100) NULL,
                 designation varchar(30) NULL,
                 department varchar(30) NULL,
@@ -213,13 +213,13 @@ const Newdb = async (req, res) => {
                 billing_address_country varchar(50) NULL,
                 billing_address_city varchar(50) NULL,
                 billing_address_state varchar(50) NULL,
-                billing_address_pincode bigint NULL,
-                billing_address_phone bigint NULL,
+                billing_address_pincode varchar(100) NULL,
+                billing_address_phone varchar(100) NULL,
                 billing_address_fax varchar(50) NULL,	
                 contact_person_name varchar(100) NULL,
                 contact_person_email varchar(100) NULL,
-                contact_person_work_phone bigint NULL,
-                contact_person_phone bigint NULL,
+                contact_person_work_phone varchar(100) NULL,
+                contact_person_phone varchar(100) NULL,
                 contact_person_skype varchar(100) NULL,
                 contact_person_designation varchar(100) NULL,
                 contact_person_department varchar(100) NULL,
@@ -295,7 +295,10 @@ const Newdb = async (req, res) => {
                 update_user_name varchar(50) NULL,
                 update_system_name varchar(100) NULL,
                 update_ip_address varchar(50) NULL,
-                status varchar(30) NULL
+                status varchar(30) NULL,
+                document_url varchar(300) NULL,
+                document_status varchar(100) NULL,
+                remark varchar(300) NULL
             );
             
             CREATE TABLE ${dbname}.dbo.tbl_compliances_type (
@@ -399,6 +402,24 @@ const Newdb = async (req, res) => {
                 update_date_time datetime NULL,
                 status varchar(20) NULL
             );
+
+            CREATE TABLE ${dbname}.dbo.tbl_gl_sub (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                charge_code varchar(200) NULL,
+                sub_code varchar(200) NULL,
+                gl_code varchar(200) NULL,
+                company_id varchar(200) NULL,
+                add_user_name varchar(100) NULL,
+                add_system_name varchar(100) NULL,
+                add_ip_address varchar(100) NULL,
+                add_date_time datetime NULL,
+                update_user_name varchar(100) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(100) NULL,
+                update_date_time datetime NULL,
+                status varchar(30) NULL
+            );
+            
             
             
             `)

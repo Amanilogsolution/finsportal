@@ -18,7 +18,7 @@ import {getCity} from '../../../api';
     const [cust_id,setCust_id] = useState()
 
     useEffect(async() => {
-        const data = await CustAddress(localStorage.getItem('EditAddress'))
+        const data = await CustAddress(localStorage.getItem('EditAddress'),localStorage.getItem("Organisation"))
         setData(data)
         setBilling_address_country(data.billing_address_country)
         setBilling_address_state(data.billing_address_state)
@@ -35,7 +35,7 @@ import {getCity} from '../../../api';
         const billing_address_phone = document.getElementById('billing_address_phone').value;
         const billing_address_fax = document.getElementById('billing_address_fax').value;
 
-        const result = await EditCustAddress(localStorage.getItem('EditAddress'),cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
+        const result = await EditCustAddress(localStorage.getItem("Organisation"),localStorage.getItem('EditAddress'),cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
         if(result){
             window.location.href='/TotalCustAddress'
         }

@@ -92,15 +92,17 @@ router.post('/importuser',userController.ImportUser)
 router.post('/updateimage',userController.UpdateImage)
 
 
-router.get('/totalcustomer',customerController.AllCustomer)
+router.post('/totalcustomer',customerController.AllCustomer)
 router.post('/deletecustomer',customerController.DeleteCustomer)
 router.post('/addcustomer',customerController.AddCustomer)
 router.post('/showcustomer',customerController.Customer)
 router.post('/updatecustomer',customerController.UpdateCustomer)
-router.get('/customerid',customerController.Customer_id)
+router.post('/customerid',customerController.Customer_id) 
 router.post('/unique_cust_id',customerController.Unique_Cust_id)
-router.get('/lastcust_id',customerController.Lastcust_id)
+router.post('/lastcust_id',customerController.Lastcust_id)
 router.post('/ImportCustomer',customerController.ImportCustomer)
+router.post('/customername',customerController.Customername)
+
 
 router.post('/insertvendor', vendorController.InsertVendor);
 router.post('/deletevendor', vendorController.DeleteVendor);
@@ -116,7 +118,10 @@ router.post('/showcustaddress', AddressController.TotalCustAddress);
 router.post('/deletecustaddress', AddressController.DeleteCustAddress);
 router.post('/custaddress', AddressController.CustAddress);
 router.post('/updatecustaddress', AddressController.UpdateCustAddress);
-router.post('/SelectCustAddress',AddressController.SelectCustAddress)
+router.post('/selectcustaddress',AddressController.SelectCustAddress)
+router.post('/importcustaddress',AddressController.Importcustaddress)
+
+
 
 router.post('/showvendaddress', AddressController.TotalVendAddress);
 router.post('/deletevendaddress', AddressController.DeleteVendAddress);
@@ -156,7 +161,8 @@ router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)
 router.post('/ShowcompliancesData',ComplianceController.ShowcompliancesData)
 router.post('/Updatecompliance',ComplianceController.Updatecompliance)
-router.post('/uploaddocumentcompliance',ComplianceController.UploadDocumentCompliance)
+router.post('/pendingcompliances',ComplianceController.PendingCompliances)
+router.post('/updatependingcompliances',ComplianceController.UpdatePendingCompliances)
 
 
 router.post('/ShowcompliancesType',ComplianceTypeController.ShowcompliancesType)

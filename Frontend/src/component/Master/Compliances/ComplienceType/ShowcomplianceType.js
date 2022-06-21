@@ -76,6 +76,8 @@ function ShowcomplianceType() {
       <div>
         <div className="content-wrapper">
           <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddcomplianceType" }} className="btn btn-primary">Add Compliances Type</button>
+          <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+
 
 
           <div className="container-fluid">
