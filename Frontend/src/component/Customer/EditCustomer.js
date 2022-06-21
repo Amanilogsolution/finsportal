@@ -17,15 +17,11 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
     const [lastname, setLastname] = useState('');
 
     useEffect (async()=>{
-      const result = await ShowCustomer(localStorage.getItem('CustSno'))
+      const result = await ShowCustomer(localStorage.getItem('CustSno'),localStorage.getItem('Organisation'))
       setData(result)
-      console.log(result)
       const fullname = result.cust_name
-      console.log(fullname)
       const Split = fullname.split(' ')
       if(Split.length>2){Split.shift()}
-      console.log(Split)
-      console.log(Split)
       setFirstname(Split[0])
       setLastname(Split[1])
 
@@ -66,10 +62,8 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
       const contact_person_designation = document.getElementById('contact_person_designation').value
       const contact_person_department = document.getElementById('contact_person_department').value
       const remark = document.getElementById('remark').value
-      console.log(cust_email,cust_work_phone,cust_phone,contact_person_name,contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
-        contact_person_department,remark)
 
-      const result = await UpdateCustomer(localStorage.getItem('CustSno'),cust_email,cust_work_phone,cust_phone,contact_person_name,contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
+      const result = await UpdateCustomer(localStorage.getItem('Organisation'),localStorage.getItem('CustSno'),localStorage.getItem("User_id"),cust_email,cust_work_phone,cust_phone,contact_person_name,contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
       contact_person_department,remark)
       if(result){
         window.location.href="/TotalCustomer"
@@ -146,7 +140,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                           <div className="form-row">
                             <div className="col form-group" id="valexisting" >
                               <label
-                                htmlfor="user_name"
+                                htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal">
                                 <div className="tooltip1">   
                                 </div>
@@ -223,7 +217,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                           <div className="form-row">
                             <div className="col form-group">
                               <label
-                                htmlfor="user_name"
+                                htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal">
                                 <div className="tooltip1">
                                   Customer Type
@@ -654,7 +648,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
   
                               <div className="form-row">
                                 <label
-                                  htmlfor="user_name"
+                                  htmlFor="user_name"
                                   className="col-md-2 col-form-label font-weight-normal"
                                 >
                                   PAN
@@ -704,7 +698,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                               <div className="form-row">
                                 <div className="col form-group">
                                   <label
-                                    htmlfor="user_name"
+                                    htmlFor="user_name"
                                     className="col-md-2 col-form-label font-weight-normal"
                                   >
                                     <span style={{ color: "red" }}>
@@ -868,7 +862,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                   />
                                   <label
                                     className="form-check-label"
-                                    htmlfor="flexCheckDefault"
+                                    htmlFor="flexCheckDefault"
                                   >
                                     Allow portal access for this customer
                                   </label>
@@ -1153,7 +1147,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                               <div className="form-row">
                                 <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                                 <div className="col form-group">
-                                  <input type="tel" className="form-control col-md-4" placeholder id="contact_person_phone" maxlength={10} value={data.contact_person_phone} onChange={handleChangeContactPersonPhone}/>
+                                  <input type="tel" className="form-control col-md-4" placeholder id="contact_person_phone" maxLength={10} value={data.contact_person_phone} onChange={handleChangeContactPersonPhone}/>
                                 </div>
                               </div>
                               <div className="form-row">
@@ -1195,7 +1189,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
               <div
                 className="modal fade"
                 id="exampleModal"
-                tabindex="-1"
+                tabIndex="-1"
                 role="dialog"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"

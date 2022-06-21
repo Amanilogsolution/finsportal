@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Compliancesduedate } from '../../api/index'
 
 const Dashboard = () => {
+  const [alertdiv, setAlertdiv] = useState(false);
 
   // const Tokentime = localStorage.getItem('ExpiredIn')
   // console.log(Tokentime+'000')
@@ -17,22 +18,22 @@ const Dashboard = () => {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
-    // const datedi = due_date[1].due_date.split("-");
     let num = 0;
 
     due_date.map((n) => {
       const datedi = due_date[num].due_date.split("-");
-      // console.log('datedi',datedi)
       num = num + 1;
-      // console.log('num',num)
+      if(datedi[0]==yyyy){
       if (datedi[1] == mm) {
         if ((datedi[2] - dd) == 4 || (datedi[2] - dd) == 3 || (datedi[2] - dd) == 2 || (datedi[2] - dd) == 1 || (datedi[2] - dd) == 0) {
-          // console.log("alert")
+          setAlertdiv(true);
+          console.log("year",datedi[0])
+         
           // alert("alert")
-          
+
         }
       }
-
+    }
 
     }
 
@@ -516,6 +517,26 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
+        {/*############################# compliances alert  ######################################*/}
+        {alertdiv ?
+          <div className="alert alert-dismissible fade show bg-dark" style={{maxHeight:"400px", zIndex: "1000", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
+            <small>Pending Compliances</small>
+            <button type="button" className="close text-white " data-dismiss="alert" aria-label="Close" >
+              <span aria-hidden="true" >&times;</span>
+            </button>
+            {/* <marquee direction="up"> */}
+              <div className="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Some Compliances are pending... </strong> 
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {/* </marquee> */}
+            <button className='btn btn-primary float-right' onClick={()=>{window.location.href="./Panding-Compliances"}}>Compliances done</button>
+          </div>
+          : null}
+        {/*############################# compliances alert  ################################*/}
+
       </div>
     </div>
 

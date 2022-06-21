@@ -44,13 +44,13 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeleteCustomer(row.sno, status)
+          await DeleteCustomer(row.sno, status,localStorage.getItem("Organisation"))
           window.location.href = 'TotalCustomer'
         }
         }>
           <option selected disabled hidden> {row.status}</option>
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
@@ -113,7 +113,9 @@ const TotalCustomer = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportCustomer(importdata);
+     
+      const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
+      console.log(importdata)
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -135,6 +137,7 @@ const TotalCustomer = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
     setImportdata(datas);
+    console.log(datas);
   };
   //##########################  for convert array to json end  #################################
 
@@ -167,9 +170,8 @@ const TotalCustomer = () => {
   //##########################  for convert excel to array end #################################
 
   useEffect(async () => {
-    const result = await TotalCustomers()
+    const result = await TotalCustomers(localStorage.getItem("Organisation"))
     setData(result)
-    // console.log(result)
   }, [])
 
   const tableData = {
@@ -322,16 +324,16 @@ const TotalCustomer = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
-                        <tr>
-                          <th style={{ border: "1px solid black" }}>cust_email</th>
-                          <th style={{ border: "1px solid black" }}>cust_work_phone</th>
-                          <th style={{ border: "1px solid black" }}>cust_phone</th>
-                          <th style={{ border: "1px solid black" }}>pan_no</th>
+                          <tr>
+                            <th style={{ border: "1px solid black" }}>cust_email</th>
+                            <th style={{ border: "1px solid black" }}>cust_work_phone</th>
+                            <th style={{ border: "1px solid black" }}>cust_phone</th>
+                            <th style={{ border: "1px solid black" }}>pan_no</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d,index) => (
+                            duplicateData.map((d, index) => (
 
                               <tr key={index} style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.cust_email}</td>
@@ -351,52 +353,56 @@ const TotalCustomer = () => {
 
                 <table >
                   <thead>
-                  <tr>
-                    <th style={{ border: "1px solid black" }}>Cust Type</th>
-                    <th style={{ border: "1px solid black" }}>Cust Name</th>
-                    <th style={{ border: "1px solid black" }}>Company Name</th>
-                    <th style={{ border: "1px solid black" }}>Cust Display Name</th>
-                    <th style={{ border: "1px solid black" }}>Cust Email</th>
-                    <th style={{ border: "1px solid black" }}>Cust Work Phone</th>
-                    <th style={{ border: "1px solid black" }}>Cust Phone</th>
-                    <th style={{ border: "1px solid black" }}>Skype Detail</th>
-                    <th style={{ border: "1px solid black" }}>Designation</th>
-                    <th style={{ border: "1px solid black" }}>Department</th>
-                    <th style={{ border: "1px solid black" }}>Website</th>
-                    <th style={{ border: "1px solid black" }}>GST Treatment</th>
-                    <th style={{ border: "1px solid black" }}>GST uin</th>
-                    <th style={{ border: "1px solid black" }}>Pan No</th>
-                    <th style={{ border: "1px solid black" }}>Place of Supply</th>
-                    <th style={{ border: "1px solid black" }}>TAX Preference</th>
-                    <th style={{ border: "1px solid black" }}>Exemption Reason</th>
-                    <th style={{ border: "1px solid black" }}>Currency</th>
-                    <th style={{ border: "1px solid black" }}>Opening balance</th>
-                    <th style={{ border: "1px solid black" }}>Payment terms</th>
-                    <th style={{ border: "1px solid black" }}>Enable Portal</th>
-                    <th style={{ border: "1px solid black" }}>Portal Language</th>
-                    <th style={{ border: "1px solid black" }}>Facebook URL</th>
-                    <th style={{ border: "1px solid black" }}>Twitter URL</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address Attention</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address Country</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address City</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address State</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address Pincode</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address Phone</th>
-                    <th style={{ border: "1px solid black" }}>Billing Address Fax</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Name</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Email</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Work Phone</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Phone</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Skype</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Designation</th>
-                    <th style={{ border: "1px solid black" }}>Contact Person Department</th>
-                    <th style={{ border: "1px solid black" }}>Remark</th>
+                    <tr>
+                      <th style={{ border: "1px solid black" }}>Master Id</th>
+                      <th style={{ border: "1px solid black" }}>Customer Id</th>
+                      <th style={{ border: "1px solid black" }}>Cust Type</th>
+                      <th style={{ border: "1px solid black" }}>Cust Name</th>
+                      <th style={{ border: "1px solid black" }}>Company Name</th>
+                      <th style={{ border: "1px solid black" }}>Cust Display Name</th>
+                      <th style={{ border: "1px solid black" }}>Cust Email</th>
+                      <th style={{ border: "1px solid black" }}>Cust Work Phone</th>
+                      <th style={{ border: "1px solid black" }}>Cust Phone</th>
+                      <th style={{ border: "1px solid black" }}>Skype Detail</th>
+                      <th style={{ border: "1px solid black" }}>Designation</th>
+                      <th style={{ border: "1px solid black" }}>Department</th>
+                      <th style={{ border: "1px solid black" }}>Website</th>
+                      <th style={{ border: "1px solid black" }}>GST Treatment</th>
+                      <th style={{ border: "1px solid black" }}>GST uin</th>
+                      <th style={{ border: "1px solid black" }}>Pan No</th>
+                      <th style={{ border: "1px solid black" }}>Place of Supply</th>
+                      <th style={{ border: "1px solid black" }}>TAX Preference</th>
+                      <th style={{ border: "1px solid black" }}>Exemption Reason</th>
+                      <th style={{ border: "1px solid black" }}>Currency</th>
+                      <th style={{ border: "1px solid black" }}>Opening balance</th>
+                      <th style={{ border: "1px solid black" }}>Payment terms</th>
+                      <th style={{ border: "1px solid black" }}>Enable Portal</th>
+                      <th style={{ border: "1px solid black" }}>Portal Language</th>
+                      <th style={{ border: "1px solid black" }}>Facebook URL</th>
+                      <th style={{ border: "1px solid black" }}>Twitter URL</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address Attention</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address Country</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address City</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address State</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address Pincode</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address Phone</th>
+                      <th style={{ border: "1px solid black" }}>Billing Address Fax</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Name</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Email</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Work Phone</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Phone</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Skype</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Designation</th>
+                      <th style={{ border: "1px solid black" }}>Contact Person Department</th>
+                      <th style={{ border: "1px solid black" }}>Remark</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d,index) => (
+                      importdata.map((d, index) => (
                         <tr key={index} style={{ border: "1px solid black" }}>
+                          <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
+                          <td style={{ border: "1px solid black" }}>{d.cust_id}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.company_name}</td>

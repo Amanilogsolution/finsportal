@@ -1,8 +1,8 @@
 .ulstyle{
     /* border:2px solid green; */
     position: absolute;
-    top: 25%;
-
+    top: 30%;
+    left: 10%;
     z-index:1000;
     /* background:white; */
 
@@ -11,7 +11,7 @@
 .liststyle{
     /* border:2px solid red; */
     list-style:none;
-    background:#eee;
+    background:rgb(250, 248, 248);
     padding:10px;
     cursor:pointer;
     border: 1px solid blue;

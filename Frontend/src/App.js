@@ -60,6 +60,9 @@ import Editcompliances from './component/Master/Compliances/Editcompliances';
 import ShowcompliancesType from './component/Master/Compliances/ComplienceType/ShowcomplianceType'
 import AddcomplianceType from './component/Master/Compliances/ComplienceType/AddcomplianceType'
 import EditComplianceType from './component/Master/Compliances/ComplienceType/EditComplianceType'
+import PandingCompliances from './component/Master/Compliances/Pendingcompliances'
+
+
 
 import Fincialyear from './component/Master/fincialyear/fincialyear'
 import ShowFincialyear from './component/Master/fincialyear/Showfincialyear'
@@ -150,6 +153,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/ShowcompliancesType" component={ShowcompliancesType}/>
           <Route exact path="/AddcomplianceType" component={AddcomplianceType}/>
           <Route exact path="/EditComplianceType" component={EditComplianceType}/>
+          <Route exact path="/Panding-Compliances" component={PandingCompliances}/>
 
           
 

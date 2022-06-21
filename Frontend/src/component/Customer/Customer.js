@@ -39,9 +39,9 @@ const Customer = () => {
   useEffect(async () => {
     const result = await Activecountries()
     setSelectedCountry(result)
-    const unique_id = await Unique_Cust_id()
+    const unique_id = await Unique_Cust_id(localStorage.getItem('Organisation'))
     // console.log(unique_id)
-    const lastcust_id = await Lastcust_id()
+    const lastcust_id = await Lastcust_id(localStorage.getItem('Organisation'))
     // console.log(lastcust_id)
 
     setUcust_totalid(unique_id.cust_totalid)
@@ -60,45 +60,41 @@ const Customer = () => {
     // const date = 1
     const month = a.getMonth() + 1;
     const date = a.getDate();
-    if (month === 4 && date === 1)
-     {
+    if (month === 4 && date === 1) {
       const preyear = a.getFullYear()
       const nextyear = a.getFullYear() + 1
       const combyear = preyear + '-' + nextyear;
       setFinyear(combyear);
       setYear1("31-03-" + preyear)
-      setYear2("01-04-" + nextyear) 
+      setYear2("01-04-" + nextyear)
       const last2 = combyear.substring(7, 9);
       setTrimtext(last2);
       setCheckdate('true')
       const lastcust2 = lastcust_id.substring(1, 3);
-      if(lastcust2==last2)
-      {
-       setCheckdate('false')
-       const lastdigitval =lastcust_id.substring(4, 10);
-       const lastintval=parseInt(lastdigitval)+1;
-       setGetnewval(lastintval);
-       const cust_newid='C'+last2+'-'+lastintval;
-       setUcust_totalid(cust_newid)
-       localStorage.setItem("cust_id",ucust_totalid);
+      if (lastcust2 == last2) {
+        setCheckdate('false')
+        const lastdigitval = lastcust_id.substring(4, 10);
+        const lastintval = parseInt(lastdigitval) + 1;
+        setGetnewval(lastintval);
+        const cust_newid = 'C' + last2 + '-' + lastintval;
+        setUcust_totalid(cust_newid)
+        localStorage.setItem("cust_id", ucust_totalid);
       }
-      else
-      {
-         const intvalue=0;
-         const value=intvalue+1;
-         setGetnewval(value);
-         const cust_newid='C'+last2+'-'+value;
-         setUcust_totalid(cust_newid)
-         localStorage.setItem("cust_id",ucust_totalid);
+      else {
+        const intvalue = 0;
+        const value = intvalue + 1;
+        setGetnewval(value);
+        const cust_newid = 'C' + last2 + '-' + value;
+        setUcust_totalid(cust_newid)
+        localStorage.setItem("cust_id", ucust_totalid);
       }
     }
-    else 
-    {
+    else {
       const value = parseInt(lastRecordId) + 1;
       setGetnewval(value);
       const cust_newid = 'C' + year + '-' + value;
       setUcust_totalid(cust_newid)
-      localStorage.setItem("cust_id",ucust_totalid);
+      localStorage.setItem("cust_id", ucust_totalid);
       // console.log(localStorage.getItem("cust_id"));
     }
   }
@@ -153,14 +149,14 @@ const Customer = () => {
     //   opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,
     //   contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark);
 
-    const result = await AddCustomer(getnewval, dateval, finyear, trimyear, year1, year2, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+    const result = await AddCustomer(localStorage.getItem('Organisation'),localStorage.getItem("User_id"), getnewval, dateval, finyear, trimyear, year1, year2, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
       opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
       billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
       contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
       contact_person_department, remark);
     // console.log(result)
-      if(result){
-        window.location.href = "/TotalCustomer";
+    if (result) {
+      window.location.href = "/TotalCustomer";
     }
 
 
@@ -300,7 +296,7 @@ const Customer = () => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='mast_id'  />
+                              <input type="text" className="form-control col-md-4" id='mast_id' />
                             </div>
                             {/* form-group end.// */}
                           </div>) : null}
@@ -456,7 +452,7 @@ const Customer = () => {
                             </div>
                           </label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4"  id="cust_display_name" />
+                            <input type="text" className="form-control col-md-4" id="cust_display_name" />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -573,7 +569,7 @@ const Customer = () => {
                             Website
                           </label>
                           <div className="col form-group">
-                            <input type="url" className="form-control col-md-4"  id="website" />
+                            <input type="url" className="form-control col-md-4" id="website" />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -1015,7 +1011,7 @@ const Customer = () => {
                                 >
                                   <option selected hidden> Select</option>
                                   {
-                                    selectedCountry.map((data,index) => (
+                                    selectedCountry.map((data, index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
                                     ))
 
@@ -1040,7 +1036,7 @@ const Customer = () => {
                                 >
                                   <option selected hidden> Choose</option>
                                   {
-                                    selectState.map((data,index) => (
+                                    selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
                                     ))
                                   }
@@ -1063,7 +1059,7 @@ const Customer = () => {
                                 >
                                   <option selected hidden> Choose</option>
                                   {
-                                    selectCity.map((data,index) => (
+                                    selectCity.map((data, index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>
                                     ))
 
@@ -1090,7 +1086,7 @@ const Customer = () => {
                               </div>
                             </div> */}
 
-                           
+
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
@@ -1323,37 +1319,37 @@ const Customer = () => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
                             <div className="col form-group">
-                              <input type="email" className="form-control col-md-4"  id="contact_person_email" />
+                              <input type="email" className="form-control col-md-4" id="contact_person_email" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4"  id="contact_person_work_phone" />
+                              <input type="number" className="form-control col-md-4" id="contact_person_work_phone" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
-                              <input type="tel" className="form-control col-md-4"  id="contact_person_phone" maxLength={10} />
+                              <input type="tel" className="form-control col-md-4" id="contact_person_phone" maxLength={10} />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4"  id="contact_person_skype" />
+                              <input type="text" className="form-control col-md-4" id="contact_person_skype" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4"  id="contact_person_designation" />
+                              <input type="text" className="form-control col-md-4" id="contact_person_designation" />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Department</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4"  id="contact_person_department" />
+                              <input type="text" className="form-control col-md-4" id="contact_person_department" />
                             </div>
                           </div>
                         </div>
@@ -1372,7 +1368,7 @@ const Customer = () => {
               </div>
               {/* row.//*/}
             </div>
-            
+
             {/* ------------------ Modal start -----------------------------*/}
             <div
               className="modal fade"

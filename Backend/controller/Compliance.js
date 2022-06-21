@@ -99,7 +99,7 @@ const Compliancestatus = async (req, res) => {
         res.status(200).send(result.recordset)
     }
     catch (err) {
-        console.log(err)
+        res.status(err)
     }
 }
 
@@ -118,8 +118,21 @@ const Compliancestatus = async (req, res) => {
     }
 
 }
+const PendingCompliances =async(req,res) =>{
+    const org = req.body.org;
+    // console.log("org",org)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select sno,compliance_type,period,remark,convert(varchar(15),due_date,121) as due_date  from ${org}.dbo.tbl_compliance where status='Active'`)
+        res.status(200).send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
 
-    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate}
+}
+
+    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate,PendingCompliances}
 
 
 

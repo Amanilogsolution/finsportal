@@ -58,7 +58,6 @@ const Addcompliances = () => {
     const ComplianceType = document.getElementById('compliancetype').value
     const nature = document.getElementById('nature').value
     const fromapplicable = document.getElementById('fromapplicable').value
-    console.log(periodname, fromdate, todate, duedate, fromapplicable, extenddate)
     if (!nature || !period || !periodname || !fromdate || !todate || !fromapplicable || !duedate || !extenddate) {
       setMandatory(true)
     } else {
@@ -112,8 +111,8 @@ const Addcompliances = () => {
                               className="form-control col-md-4"
                             >
                               <option selected hidden >Select Compliances</option>
-                              {data.map((res) => (
-                                <option value={res.compliance_type}>{res.compliance_type}</option>
+                              {data.map((res,index) => (
+                                <option key={index} value={res.compliance_type}>{res.compliance_type}</option>
                               ))}
 
                             </select>
@@ -174,7 +173,7 @@ const Addcompliances = () => {
                             {
                               Array.from(Array(total).keys()).map((index) => (
                                 <>
-                                  <tr>
+                                  <tr key={index}>
                                     <th ><input type="text" className="form-control " id="period_name" onBlur={handlePeriodname} /></th>
                                     <td><input type="date" className="form-control" id='from_date' onChange={handleChangedate} /></td>
                                     <td><input type="date" className="form-control " id='to_date' onChange={handleChangeTodate} /></td>
