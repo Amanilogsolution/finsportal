@@ -27,7 +27,7 @@ const ChartOfAccountController = require('../controller/ChartOfAccount')
 const AccountnameController = require('../controller/AccountName')
 const ItemsController = require('../controller/Items')
 const AccountinfoController = require('../controller/Account-Info')
-
+const SubCodeController = require('../controller/SubCode')
 
 
 
@@ -156,6 +156,7 @@ router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)
 router.post('/ShowcompliancesData',ComplianceController.ShowcompliancesData)
 router.post('/Updatecompliance',ComplianceController.Updatecompliance)
+router.post('/uploaddocumentcompliance',ComplianceController.UploadDocumentCompliance)
 
 
 router.post('/ShowcompliancesType',ComplianceTypeController.ShowcompliancesType)
@@ -200,6 +201,13 @@ router.post('/insertaccountinfo',AccountinfoController.InsertAccountInfo)
 router.post('/selectaccountinfo',AccountinfoController.SelectAccountInfo)
 router.post('/updateaccountinfo',AccountinfoController.UpdateAccountInfo)
 
+router .post('/showglcode',SubCodeController.GlCode)
+router.post('/glsubcode',SubCodeController.GlSubCode)
+router.post('/insertglsubcode',SubCodeController.InsertGlSubCode)
+router.post('/showtotalsubcode',SubCodeController.ShowTotalSubCode)
+router.post('/subcodestatus',SubCodeController.SubCodeStatus)
+router.post('/getsubcodedetails',SubCodeController.GetSubCodeDetails)
+router.post('/updatesubcodedetails',SubCodeController.UpdateSubCodeDetails)
 
 
 

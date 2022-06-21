@@ -57,6 +57,8 @@ import EditOrgAddress from './component/Master/Location/Address/EditOrgAddress';
 import Addcompliances from './component/Master/Compliances/Addcompliances';
 import Showcompliances from './component/Master/Compliances/Showcompliances';
 import Editcompliances from './component/Master/Compliances/Editcompliances';
+import UploadComplianceDocument from './component/Master/Compliances/UploadComplianceDocumnet/UploadComplianceDocument'
+
 import ShowcompliancesType from './component/Master/Compliances/ComplienceType/ShowcomplianceType'
 import AddcomplianceType from './component/Master/Compliances/ComplienceType/AddcomplianceType'
 import EditComplianceType from './component/Master/Compliances/ComplienceType/EditComplianceType'
@@ -75,6 +77,11 @@ import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
 import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
 import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
 
+import RecursionExpenses from './component/Vendor/RecursionExpenses/RecursionExpenses';
+
+import AddSubCode from './component/Master/SubCode/AddSubCode';
+import TotalSubCode from './component/Master/SubCode/TotalSubCode';
+import EditSubCode from './component/Master/SubCode/EditSubCode';
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -146,6 +153,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/Addcompliances" component={Addcompliances}/>
           <Route exact path="/Showcompliances" component={Showcompliances}/>
           <Route exact path="/Editcompliances" component={Editcompliances}/>
+          <Route exact path="/UploadComplianceDocument" component={UploadComplianceDocument}/>
+
 
           <Route exact path="/ShowcompliancesType" component={ShowcompliancesType}/>
           <Route exact path="/AddcomplianceType" component={AddcomplianceType}/>
@@ -169,7 +178,10 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/AddAccountInfo" component={AddAccountInfo}/>
           <Route exact path="/EditAccountInfo" component={EditAccountInfo}/>
 
-         
+          <Route exact path="/RecursionExpenses" component={RecursionExpenses}/>
+          <Route exact path="/AddSubCode" component={AddSubCode}/>
+          <Route exact path="/TotalSubCode" component={TotalSubCode}/>
+          <Route exact path="/EditSubCode" component={EditSubCode}/>
           
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

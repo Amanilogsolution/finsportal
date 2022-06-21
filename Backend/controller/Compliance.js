@@ -118,8 +118,23 @@ const Compliancestatus = async (req, res) => {
     }
 
 }
+const UploadDocumentCompliance = async (req, res) => {
+    const org = req.body.org;
+    const sno = req.body.sno;
+    const document = req.body.document;
+    console.log(org, sno, document)
 
-    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate}
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_compliance set document_url='${document}', document_status='true' where sno = ${sno}`)
+        res.status(200).send(result.recordset)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+    module.exports = { Showcompliances,Insertcompliance,ShowcompliancesData,Updatecompliance,Compliancestatus,Compliancesduedate,UploadDocumentCompliance}
 
 
 
