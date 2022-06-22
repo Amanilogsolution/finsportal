@@ -148,7 +148,7 @@ function ChartOfAccount() {
                           }
 
                         </select>
-                        <button className="ml-2 bg-white" onclick={() => { window.location.href = "InsertAccountType" }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
+                        <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType";localStorage.setItem('Chart','Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
                       </div>
                     </div>
 

@@ -7,7 +7,7 @@ const GlCode = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT account_sub_name_code from ${org}.dbo.tbl_sub_account with (nolock) where status='Active' `)
+        const result = await sql.query(`SELECT account_sub_name_code,account_sub_name from ${org}.dbo.tbl_sub_account with (nolock) where status='Active' `)
         res.send(result.recordset)
     }
     catch (err) {
