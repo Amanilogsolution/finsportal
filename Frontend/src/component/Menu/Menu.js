@@ -48,17 +48,13 @@ const Menu = () => {
               <li className="nav-item ">
                 <a href="/home" className="nav-link active">
                   <i className="nav-icon fas fa-tachometer-alt" />
-                  <p>
-                    Dashboard
-                  </p>
+                  <p> Dashboard </p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="/Items" className="nav-link active">
                   <i className="fa fa-briefcase" aria-hidden="true"></i> &nbsp;
-                  <p>
-                    Items
-                  </p>
+                  <p> Items </p>
                 </a>
               </li>
               <li className="nav-item">
@@ -88,6 +84,12 @@ const Menu = () => {
                         <a href="/TotalCustAddress" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
                           <p>Addresses</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/Estimates" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Estimates</p>
                         </a>
                       </li>
                     </ul>

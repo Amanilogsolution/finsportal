@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer";
 
 function Estimates() {
     const [totalValues, setTotalValues] = useState([1])
+    const [amount,setAmount]= useState()
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -13,9 +14,23 @@ function Estimates() {
         }
     }
 
+    const handleChangeQuantity =(e)=>{
+        e.preventDefault()
+        console.log(e.target.value)
+    }
+
+    const handleBlur = ()=> {
+        const quality = document.getElementById('Quality').value
+        const rate = document.getElementById('Rate').value
+        console.log(quality,rate)
+        console.log(quality*rate)
+        setAmount(quality*rate)
+    }
+
     const handleAdd = (e) => {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
+        // setAmount(0)
     }
 
     const handleRemove = (e) => {
@@ -61,7 +76,7 @@ function Estimates() {
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option selected hidden>Choose</option>
+                                                        <option defaultValue hidden>Choose</option>
 
                                                     </select>
                                                     <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
@@ -101,7 +116,7 @@ function Estimates() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Sales Person </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="AccountType" className="form-control">
-                                                        <option selected hidden>Choose</option>
+                                                        <option defaultValue hidden>Choose</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -110,7 +125,7 @@ function Estimates() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Project Name </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="AccountType" className="form-control">
-                                                        <option selected hidden>Choose</option>
+                                                        <option defaultValue hidden>Choose</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -140,12 +155,11 @@ function Estimates() {
                                                 <tbody>
                                                     {
                                                         totalValues.map((element, index) => (
-                                                            <tr>
-                                                                <th><input style={{ border: "none" }} type="text" placeholder="Type Items" /></th>
-                                                                <th><input style={{ border: "none" }} type="number" placeholder="0" /></th>
-                                                                <th><input style={{ border: "none" }} type="number" placeholder="0.00" /></th>
-                                                                <th>0.00</th>
-
+                                                            <tr key={index}>
+                                                                <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
+                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td>{amount}</td>
                                                             </tr>
 
                                                         ))
@@ -222,7 +236,7 @@ function Estimates() {
                                                     <div style={{ marginLeft: "10px" }}>
                                                         <buttton onClick={(e) => { e.preventDefault(); document.getElementById("Upload").click() }}>Upload</buttton>
                                                         <select onChange={handleChange}>
-                                                            <option hidden selected>Upload File</option>
+                                                            <option hidden defaultValue>Upload File</option>
                                                             <option value="Desktop">Attach from Desktop</option>
                                                             <option>Attach from Cloud</option>
                                                         </select>
