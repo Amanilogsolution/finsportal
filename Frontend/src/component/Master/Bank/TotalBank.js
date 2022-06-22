@@ -166,10 +166,12 @@ const TotalBank = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(async () => {
+  useEffect( () => {
+    const fetchdata=async()=>{
     const result = await totalBank(localStorage.getItem('Organisation'));
     console.log(result)
-    setData(result)
+    setData(result)}
+    fetchdata();
   }, [])
 
   const tableData = {
