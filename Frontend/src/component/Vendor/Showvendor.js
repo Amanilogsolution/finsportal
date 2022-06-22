@@ -110,11 +110,11 @@ const Showvendor = () => {
 
     const uploaddata = async () => {
         document.getElementById("uploadbtn").disabled = true;
-        importdata.map((d) => {
-            if (!d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
-                setErrorno(errorno++);
-            }
-        })
+        // importdata.map((d) => {
+        //     if (!d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
+        //         setErrorno(errorno++);
+        //     }
+        // })
 
         if (errorno > 0) {
             alert("Please! fill the mandatory data");
@@ -122,7 +122,8 @@ const Showvendor = () => {
             window.location.reload()
         }
         else {
-              const result = await ImportVendor(importdata);
+            console.log(importdata)
+              const result = await ImportVendor(importdata,localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
             console.log("result.length",result)
             if (!(result == "Data Added")) {
                 setBackenddata(true);

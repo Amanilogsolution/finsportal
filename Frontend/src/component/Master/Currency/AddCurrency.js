@@ -17,7 +17,7 @@ import { InsertCurrency,Activecountries } from '../../../api';
             if(!country_name||!country_code||!currency_name||!currency_code){
               alert('Enter data')
             }else{
-            const result = await InsertCurrency(country_name,country_code,currency_name,currency_code);
+            const result = await InsertCurrency(localStorage.getItem("Organisation"),localStorage.getItem("User_id"),country_name,country_code,currency_name,currency_code);
 
             if(result == "Already"){
               alert('Already')

@@ -41,7 +41,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await deleteCurrency(row.sno, status)
+          await deleteCurrency(row.sno, status,localStorage.getItem("Organisation"))
           window.location.href = 'ShowCurrency'
         }
         }>
@@ -49,7 +49,7 @@ const columns = [
 
 
           <option>Active</option>
-          <option>DeActive</option>
+          <option>Deactive</option>
         </select>
       </div>
     ]
@@ -79,7 +79,7 @@ const ShowCurrency = () => {
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
-      if (!d.country_code || !d.country_name || !d.currency_code || !d.currency_name) {
+      if (!d.country_name || !d.currency_code || !d.currency_name) {
         setErrorno(errorno++);
       }
     })
@@ -90,7 +90,7 @@ const ShowCurrency = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportCurrency(importdata);
+      const result = await ImportCurrency(importdata,localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -99,7 +99,7 @@ const ShowCurrency = () => {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
-        window.location.href = 'ShowCountry'
+        window.location.href = 'ShowCurrency'
       }
     }
 
@@ -146,15 +146,14 @@ const ShowCurrency = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(async () => {
-    const result = await currency(localStorage.getItem('Organisation'))
+  useEffect( () => {
+    const  fetchdata=async()=>{
+      const result = await currency(localStorage.getItem('Organisation'))
     setData(result)
-    // if(result == 'UnAuthorized'){
-    //   alert('Un Authorized')
-    //   window.location.href = '/home'
-    // }else{
-    //      setData(result)
-    // }
+    }
+    fetchdata();
+    
+
   }, [])
 
   const tableData = {

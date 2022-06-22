@@ -55,39 +55,18 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await deleteBank(row.sno, status)
+          await deleteBank(row.sno, status,localStorage.getItem("Organisation"))
           window.location.href = 'TotalBank'
         }
         }>
           <option selected disabled hidden> {row.status}</option>
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
   },
-  // {
-  //   name:'Active',
-  //   selector: 'status',
-  //   sortable: true,
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status == 'Active'} value={row.status} onClick = {async(e) =>
-  //         {
-  //           console.log(e.target.value)
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await deleteBank(row.sno,checkvalue)
-  //                 window.location.href='TotalBank'
 
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await deleteBank(row.sno,checkvalue)
-  //                 window.location.href='TotalBank'
-  //           }
-  //          }} />
-  //   ]
-  // },
   {
     name: 'Account Type',
     selector: 'ac_type',
@@ -120,7 +99,7 @@ const TotalBank = () => {
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
-      if (!d.bank_name || !d.account_no || !d.branch || !d.state || !d.city || !d.pincode || !d.ifsc_code || !d.ac_type || !d.acname) {
+      if (!d.bank_name  || !d.branch || !d.state || !d.city || !d.pincode || !d.ifsc_code || !d.ac_type || !d.acname) {
         setErrorno(errorno++);
       }
     })
@@ -131,7 +110,8 @@ const TotalBank = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportBank(importdata, localStorage.getItem('Organisation'));
+      // console.log("importdata",importdata)
+      const result = await ImportBank(importdata, localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -152,7 +132,7 @@ const TotalBank = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    console.log('dates', datas)
+    // console.log('dates', datas)
     setImportdata(datas);
 
   };
@@ -186,10 +166,12 @@ const TotalBank = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(async () => {
+  useEffect( () => {
+    const fetchdata=async()=>{
     const result = await totalBank(localStorage.getItem('Organisation'));
-    // console.log(result)
-    setData(result)
+    console.log(result)
+    setData(result)}
+    fetchdata();
   }, [])
 
   const tableData = {
