@@ -107,23 +107,23 @@ export const currency = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertCurrency = async (country_name, country_code, currency_name, currency_code) => {
+export const InsertCurrency = async (org,User_id,country_name, country_code, currency_name, currency_code) => {
     const url = `http://localhost:3008/api/insertcurrecy`
-    return axios.post(url, { country_name, country_code, currency_name, currency_code }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {org,User_id, country_name, country_code, currency_name, currency_code }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const deleteCurrency = async (sno, status) => {
-    const url = `http://192.168.146.103:3008/api/deletecurrency`
-    return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
+export const deleteCurrency = async (org,sno, status) => {
+    const url = `http://localhost:3008/api/deletecurrency`
+    return axios.post(url, {org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateCurrency = async (sno, country_name, country_code, currency_name, currency_code) => {
-    const url = `http://192.168.146.103:3008/api/updatecurrency`
-    return axios.post(url, { sno, country_name, country_code, currency_name, currency_code }).then(response => response.data).catch(error => console.log(error));
+export const UpdateCurrency = async (org,User_id,sno, country_name, country_code, currency_name, currency_code) => {
+    const url = `http://localhost:3008/api/updatecurrency`
+    return axios.post(url, {org,User_id, sno, country_name, country_code, currency_name, currency_code }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const showCurrency = async (sno) => {
-    const url = `http://192.168.146.103:3008/api/showcurrency`
-    return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
+export const showCurrency = async (sno,org) => {
+    const url = `http://localhost:3008/api/showcurrency`
+    return axios.post(url, { sno,org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Totalcity = async () => {
@@ -194,13 +194,12 @@ export const insertBank = async (account_code, bank_name, account_no, address_li
     return axios.post(url, { account_code, bank_name, account_no, address_line1, address_line2, state, city, pincode, ifsc_code, actype, acname, description }).then(response => response.data).catch(error => console.log(error));
 }
 export const totalBank = async (org) => {
-    console.log('API', org)
     const url = `http://localhost:3008/api/totalbank`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-export const deleteBank = async (sno, status) => {
-    const url = `http://192.168.146.103:3008/api/deletebank`
-    return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
+export const deleteBank = async (sno, status,org) => {
+    const url = `http://localhost:3008/api/deletebank`
+    return axios.post(url, { sno, status ,org}).then(response => response.data).catch(error => console.log(error));
 }
 export const showBank = async (sno) => {
     const url = `http://192.168.146.103:3008/api/showbank`
@@ -442,9 +441,9 @@ export const insertUserLogin = async (user_id, user_name, location, comp_name, u
     return axios.post(url, { user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ImportCurrency = async (data) => {
+export const ImportCurrency = async (data,org,user_id) => {
     const url = `http://localhost:3008/api/ImportCurrency`
-    return axios.post(url, { data }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data,org,user_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ImportCustomer = async (data,org,User_id) => {
     const url = `http://localhost:3008/api/ImportCustomer`
@@ -469,9 +468,9 @@ export const ImportUnit = async (data, org) => {
     return axios.post(url, { data, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ImportBank = async (data, org) => {
+export const ImportBank = async (data, org,User_id) => {
     const url = `http://localhost:3008/api/importbank`
-    return axios.post(url, { data, org }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data, org ,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 export const ImportUser = async (data, org, org_name) => {
     const url = `http://localhost:3008/api/importuser`

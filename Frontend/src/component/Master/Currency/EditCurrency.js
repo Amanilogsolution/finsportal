@@ -8,7 +8,7 @@ import {showCurrency} from '../../../api';
  const EditCurrency = () => {
     const[data,setData] = useState([])
     useEffect(async() => {
-        const result = await showCurrency(localStorage.getItem('CurrencySno'));
+        const result = await showCurrency(localStorage.getItem('CurrencySno'),localStorage.getItem("Organisation"));
         setData(result)
     }, [])
     
@@ -18,7 +18,7 @@ import {showCurrency} from '../../../api';
         const country_code = document.getElementById('country_code').value;
         const currency_name = document.getElementById('currency_name').value;
         const currency_code = document.getElementById('currency_code').value;
-        const result = await UpdateCurrency(localStorage.getItem('CurrencySno'),country_name,country_code,currency_name,currency_code);
+        const result = await UpdateCurrency(localStorage.getItem('CurrencySno'),localStorage.getItem("Organisation"),localStorage.getItem("User_id"),country_name,country_code,currency_name,currency_code);
         if(result){
             window.location.href = '/ShowCurrency'
         }
