@@ -116,11 +116,17 @@ const Menu = () => {
                           <i className="far fa-circle nav-icon" />
                           <p> Vendor</p>
                         </a>
-                      </li>
+                      </li>  
                       <li className="nav-item">
                         <a href="/TotalVendAddress" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
                           <p>Address</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/RecursionExpenses" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Recursion Expenses</p>
                         </a>
                       </li>
                     </ul>
@@ -263,6 +269,14 @@ const Menu = () => {
                   <a href="/ShowAccountname" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
                   <p>Account name Type</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                  <a href="/TotalSubCode" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Sub Code</p>
                     </a>
                   </li>
                 </ul>

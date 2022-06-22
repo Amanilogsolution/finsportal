@@ -5,68 +5,126 @@ import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { PendingCompliances } from '../../../api'
+import { PendingCompliances,UpdatePendingCompliances,UploadData } from '../../../api'
 
 
-
-const columns = [
-    {
-        name: 'compliance_type',
-        selector: 'compliance_type',
-        sortable: true
-    },
-    {
-        name: 'period',
-        selector: 'period',
-        sortable: true
-    },
-    {
-        name: 'remark',
-        selector: 'remark',
-        sortable: true,
-        cell: (row) => [
-
-            <textarea type="text" value={row.remark} id="remarkdata"/>
-
-        ]
-
-    },
-
-    {
-        name: 'due_date',
-        selector: 'due_date',
-        sortable: true,
-        cell: (row) => [
-
-            <input type="date" value={row.due_date} />
-        ]
-    },
-    {
-        name: "Actions",
-        sortable: false,
-        selector: "null",
-        cell: (row) => [
-
-            <a title='View Document' href="#">
-                <button className="editbtn btn-success " onClick={()=>{
-                    const valueremark= document.getElementById("remarkdata");
-                    console.log(valueremark)
-                }}>Update</button>
-                <button className="editbtn btn-primary ml-3" onClick={() => localStorage.setItem('Pendingcompsno', `${row.sno}`)} data-toggle="modal" data-target="#exampleModal">Upload document</button>
-            </a>
-
-        ]
-    }
-]
 
 
 function PandingCompliances() {
     const [data, setData] = useState([]);
-    const [dataremark, setDataremark] = useState();
+    const [remark,setRemark] = useState('')
+    const [date,setDate] = useState()
+    const [file,setFile] = useState()
+    const [sno,setSno] = useState()
 
-    const updatedata=(sno)=>{
-           console.log(sno)
+
+    const columns = [
+        {
+            name: 'compliance_type',
+            selector: 'compliance_type',
+            sortable: true
+        },
+        {
+            name: 'period',
+            selector: 'period',
+            sortable: true
+        },
+        {
+            name: 'Document Uploaded',
+            selector: 'document_status',
+            sortable: true,
+            cell: (row) => [
+                <input type="checkbox" checked={(row.document_status=='true') ? true : false}   />,
+              
+            ]
+        },
+        {
+            name: 'remark',
+            selector: 'remark',
+            sortable: true,
+            // cell: (row) => [
+    
+            //     <textarea type="text" value={row.remark} id="remarkdata" />
+    
+            // ]
+    
+        },
+    
+        {
+            name: 'due_date',
+            selector: 'due_date',
+            sortable: true,
+            // cell: (row) => [
+    
+            //     <input type="date" value={row.due_date} id="due_date" defaultValue
+            //     onChange={(e)=>{setDate(e.target.value)}}
+            //     />
+            // ]
+        },
+        {
+            name: "Actions",
+            sortable: false,
+            selector: "null",
+            cell: (row) => [
+    
+                // <a title='View Document' href="#">
+                //     <button className="editbtn btn-success " onClick={async() => {
+                //         const valueremark = document.getElementById("remarkdata").value
+                //         const result = await UpdatePendingCompliances(date,localStorage.getItem('Organisation'),valueremark,row.sno)
+                //         console.log(result)
+                //         if(result){
+                //             window.location.reload();
+                //         }
+                //     }}>Update</button>
+                // </a>,
+                  <button className="editbtn btn-primary ml-3" onClick={()=>{
+                    console.log(row.remark)
+                    if(row.remark == null){
+                        setRemark('')
+                        setDate(row.due_date)
+                        setSno(row.sno)
+
+                    }else{
+                        setRemark(row.remark)
+                        setDate(row.due_date)
+                        setSno(row.sno)
+
+                    }
+                  }}  data-toggle="modal" data-target="#exampleModal">Upload document</button>
+    
+            ]
+        }
+    ]
+
+    const handleClickUpload = async(e) =>{
+        e.preventDefault()
+        const Remark = document.getElementById('Remarkes').value
+        const NewDate = document.getElementById('NewDate').value
+       console.log(Remark,NewDate,sno)
+        const data = new FormData();
+        data.append("images",file)
+       const UploadLink = await UploadData(data)
+       console.log(UploadLink)
+       if(UploadLink){
+        const result = await UpdatePendingCompliances(date,localStorage.getItem('Organisation'),remark,sno,UploadLink)
+        if(result){
+            window.location.reload()
+        }
+
+       }
+
+
     }
+
+    const handleChangeRemark =(e) =>{
+        setRemark(e.target.value)
+    }
+    const handleChangeDate = (e)=>{
+        setDate(e.target.value)
+
+    }
+    
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -99,11 +157,7 @@ function PandingCompliances() {
                                 <div className="row ">
                                     <div className="col ml-5">
                                         <div className="card" style={{ width: "100%" }}>
-                                            {
-                                                data.map((item) => {
-                                                    console.log(item.compliance_type)
-                                                })
-                                            }
+                                           
                                             <article className="card-body">
                                                 <DataTableExtensions
                                                     {...tableData}
@@ -154,34 +208,32 @@ function PandingCompliances() {
                                 <div className="modal-body">
 
                                     <div className=" ">
-                                        <label
-                                            htmlFor="user_name"
-                                            className=" col-form-label font-weight-normal"
-                                        >
+                                        <label htmlFor="user_name" className=" col-form-label font-weight-normal" >
                                             <span >Select the file</span>
                                         </label>
                                         <div className=" ">
-                                            <input
-                                                id="filedoc"
-                                                type="file"
-                                                className="form-control "
-                                            />
+                                            <input id="filedoc" type="file" className="form-control" onChange={event=>{ const document = event.target.files[0];
+                                                                                                            setFile(document)}} />
                                         </div><br />
-
                                     </div>
                                     <div className=" ">
-                                        <label
-                                            htmlFor="user_name"
-                                            className=" col-form-label font-weight-normal"
-                                        >
+                                        <label htmlFor="user_name" className=" col-form-label font-weight-normal">
                                             <span>Remark:-</span>
                                         </label>
                                         <div className=" ">
-                                            <textarea
-                                                id="remark"
-                                                className="form-control "
-                                            />
-                                        </div><br />
+                                            <textarea id="Remarkes" className="form-control" value={remark} onChange={handleChangeRemark}/>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div className=" ">
+                                        <label  htmlFor="user_name"  className=" col-form-label font-weight-normal">
+                                            <span>Date:-</span>
+                                        </label>
+                                        <div className=" ">
+                                            <input id="NewDate" className="form-control " type="date" value={date} onChange={handleChangeDate}/>
+                                        </div>
+                                      
+                                        <br />
 
                                     </div>
                                 </div>
@@ -196,6 +248,7 @@ function PandingCompliances() {
                                     <button type="button"
                                         className="btn btn-primary"
                                         data-dismiss="modal"
+                                        onClick={handleClickUpload}
                                     >
                                         Upload
                                     </button>

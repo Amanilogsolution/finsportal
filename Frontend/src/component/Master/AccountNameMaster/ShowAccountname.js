@@ -89,7 +89,7 @@ function ShowAccountname() {
                         <div className="container-fluid">
                             <br />
 
-                            <h3 className="text-left ml-5">Account Name</h3>
+                            <h3 className="text-left ml-5">Account Major Code </h3>
                             <br />
                             <div className="row ">
                                 <div className="col ml-5">

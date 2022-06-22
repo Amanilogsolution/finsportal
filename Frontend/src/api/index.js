@@ -564,12 +564,23 @@ export const updatecompliance = async (org, compliance_type, nature, period, per
     const url = `http://localhost:3008/api/Updatecompliance`
     return axios.post(url, { org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, sno, user_name }).then(response => response.data).catch(error => console.log(error));
 }
+export const UploadDocumentCompliance = async (org,sno,document) => {
+    console.log(org,sno,document)
+    const url = `http://localhost:3008/api/uploaddocumentcompliance`
+    return axios.post(url, { org,sno,document }).then(response => response.data).catch(error => console.log(error));
+}
 
 
 export const PendingCompliances = async (org) => {
     const url = `http://localhost:3008/api/pendingcompliances`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const UpdatePendingCompliances = async (due_date,org,remark,sno,UploadLink) => {
+    const url = `http://localhost:3008/api/updatependingcompliances`
+    return axios.post(url, {due_date,org,remark,sno,UploadLink}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const showcompliancesType = async (org) => {
     console.log(org)
@@ -716,6 +727,45 @@ export const SelectAccountInfo = async (org,sno)=>{
 export const UpdateAccountInfo = async (org,sno,account_info_name,account_info_type)=>{
     const url = `http://localhost:3008/api/updateaccountinfo`
     return axios.post(url,{org,sno,account_info_name,account_info_type}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ShowGlCode = async (org)=>{
+    const url = `http://localhost:3008/api/showglcode`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+export const GlSubCode = async (org,glCode)=>{
+    const url = `http://localhost:3008/api/glsubcode`
+    return axios.post(url,{org,glCode}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertGlSubCode = async (org,glCode,SubCode,charge_code,company_id)=>{
+    console.log(org,glCode,SubCode,charge_code,company_id)
+    const url = `http://localhost:3008/api/insertglsubcode`
+    return axios.post(url,{org,glCode,SubCode,charge_code,company_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ShowTotalSubCode = async (org)=>{
+    console.log(org)
+    const url = `http://localhost:3008/api/showtotalsubcode`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const SubCodeStatus = async (org,status,sno)=>{
+    console.log(org,status,sno)
+    const url = `http://localhost:3008/api/subcodestatus`
+    return axios.post(url,{org,status,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const GetSubCodeDetails = async (org,sno)=>{
+    console.log(org,sno)
+    const url = `http://localhost:3008/api/getsubcodedetails`
+    return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateSubCodeDetails = async (org,charge_code,sub_code,gl_code,sno)=>{
+    console.log(org,charge_code,sub_code,gl_code,sno)
+    const url = `http://localhost:3008/api/updatesubcodedetails`
+    return axios.post(url,{org,charge_code,sub_code,gl_code,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
 
