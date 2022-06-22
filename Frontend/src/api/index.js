@@ -449,9 +449,9 @@ export const ImportCustomer = async (data,org,User_id) => {
     const url = `http://localhost:3008/api/ImportCustomer`
     return axios.post(url, { data,org,User_id }).then(response => response.data).catch(error => console.log(error));
 }
-export const ImportVendor = async (data) => {
+export const ImportVendor = async (data,org,User_id) => {
     const url = `http://localhost:3008/api/importvendor`
-    return axios.post(url, { data }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data,org,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ImportState = async (data) => {
     const url = `http://localhost:3008/api/importState`
