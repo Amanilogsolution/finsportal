@@ -74,7 +74,6 @@ export const showactivestate = async (country) => {
 }
 
 export const Totalcountry = async () => {
-    console.log()
     const url = `http://localhost:3008/api/totalcountry`
     return axios.post(url).then(response => response.data).catch(error => console.log(error));
 }
@@ -83,9 +82,9 @@ export const Activecountries = async () => {
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertCountry = async (country_name, country_id, country_code, country_phonecode) => {
+export const InsertCountry = async (User_id,country_name, country_id, country_code, country_phonecode) => {
     const url = `http://localhost:3008/api/insertcountry`
-    return axios.post(url, { country_name, country_id, country_code, country_phonecode }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { User_id,country_name, country_id, country_code, country_phonecode }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showcountry = async (sno) => {
@@ -93,9 +92,9 @@ export const showcountry = async (sno) => {
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updatecountry = async (sno, country_name, country_id, country_code, country_phonecode) => {
-    const url = `http://192.168.146.103:3008/api/updatecountry`
-    return axios.post(url, { sno, country_name, country_id, country_code, country_phonecode }).then(response => response.data).catch(error => console.log(error));
+export const updatecountry = async (sno,User_id, country_name, country_id, country_code, country_phonecode) => {
+    const url = `http://localhost:3008/api/updatecountry`
+    return axios.post(url, { sno, User_id,country_name, country_id, country_code, country_phonecode }).then(response => response.data).catch(error => console.log(error));
 }
 export const deletecountry = async (sno, status) => {
     const url = `http://192.168.146.103:3008/api/deletecountry`
@@ -476,9 +475,9 @@ export const ImportUser = async (data, org, org_name) => {
     const url = `http://localhost:3008/api/importuser`
     return axios.post(url, { data, org, org_name }).then(response => response.data).catch(error => console.log(error));
 }
-export const CheckimportCountry = async (data) => {
+export const CheckimportCountry = async (data,User_id) => {
     const url = `http://localhost:3008/api/checkimportcountry`
-    return axios.post(url, { data }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -595,10 +594,14 @@ export const Showactivecompliancestype = async (org) => {
 }
 
 export const Compliancestatus = async (org, sno, status) => {
-    // console.log(org)
     const url = `http://localhost:3008/api/compliancestatus`
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
+export const ImportCompliances = async ( datas,User_id,org) => {
+    const url = `http://localhost:3008/api/importcompliances`
+    return axios.post(url, {datas,User_id,org }).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const InsertcomplianceType = async (org, compliance_type, user_name) => {
     // console.log(org)

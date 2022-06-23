@@ -174,6 +174,8 @@ router.post('/showactivecompliancestype',ComplianceTypeController.ShowActivecomp
 
 
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
+router.post('/importcompliances',ComplianceController.ImportCompliances)
+
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 
 router.post('/showfincialyear',FincialyearController.Showfincialyear)

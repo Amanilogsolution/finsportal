@@ -158,7 +158,7 @@ const Newdb = async (req, res) => {
                 billing_address_country varchar(50) NULL,
                 billing_address_city varchar(50) NULL,
                 billing_address_state varchar(50) NULL,
-                billing_address_pincode bigint NULL,
+                billing_address_pincode varchar(30) NULL,
                 billing_address_phone varchar(100) NULL,
                 billing_address_fax varchar(50) NULL,	
                 contact_person_name varchar(100) NULL,

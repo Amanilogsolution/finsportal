@@ -99,7 +99,7 @@ const ShowCountry = () => {
 
   const uploaddata = async () => {
     importdata.map((d) => {
-      if (!d.country_code || !d.country_id || !d.country_name || !d.country_phonecode) {
+      if (!d.country_code ||  !d.country_name ) {
         setErrorno(errorno++);
       }
     })
@@ -110,7 +110,8 @@ const ShowCountry = () => {
       window.location.reload()
     }
     else {
-      const result = await CheckimportCountry(importdata);
+      console.log(importdata);
+      const result = await CheckimportCountry(importdata,localStorage.getItem("User_id"));
       // console.log(result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);
@@ -134,7 +135,6 @@ const ShowCountry = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    //  console.log(datas)
     setImportdata(datas);
 
   };
@@ -167,11 +167,13 @@ const ShowCountry = () => {
     reader.readAsBinaryString(file);
   };
   //##########################  for convert excel to array end #################################
-  useEffect(async () => {
-    const result = await Totalcountry(localStorage.getItem('Organisation'))
-    setData(result)
+  useEffect( () => {
+    const fetchdata=async()=>{
+    const result = await Totalcountry()
+    setData(result)}
+    fetchdata();
   }, [])
-
+ 
   const tableData = {
     columns, data
   };

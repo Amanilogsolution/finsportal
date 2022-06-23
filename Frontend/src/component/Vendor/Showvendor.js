@@ -147,8 +147,8 @@ const Showvendor = () => {
     const handleClick = () => {
         const array = JSON.stringify(importdata)
         const datas = JSON.parse(array)
-        // console.log(datas)
-        setImportdata(datas);
+        console.log(datas)
+        // setImportdata(datas);
 
     };
     //##########################  for convert array to json end  #################################

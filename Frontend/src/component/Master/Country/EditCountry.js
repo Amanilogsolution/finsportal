@@ -19,7 +19,7 @@ import {updatecountry} from '../../../api'
                 const country_id = document.getElementById('country_id').value;
                 const country_code = document.getElementById('country_code').value;
                 const country_phonecode = document.getElementById('country_phonecode').value;
-                const result = await updatecountry(localStorage.getItem('countrySno'),country_name,country_id,country_code,country_phonecode)
+                const result = await updatecountry(localStorage.getItem('countrySno'),localStorage.getItem("User_id"),country_name,country_id,country_code,country_phonecode)
                 if(result){
                     window.location.href = '/ShowCountry'
                 }

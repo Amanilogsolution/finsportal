@@ -110,7 +110,7 @@ function Editcompliances() {
                                                 <div className="form-row">
                                                     <label htmlFor="period" className="col-md-2 col-form-label font-weight-normal">Period</label>
                                                     <div className="col form-group">
-                                                        <input id="period" type="text" className="form-control col-md-4" value={data.period} onChange={(e) => handleChangePeriod(e)}/>
+                                                        <input id="period" type="text" className="form-control col-md-4" disabled value={data.period} onChange={(e) => handleChangePeriod(e)}/>
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
@@ -118,7 +118,7 @@ function Editcompliances() {
                                                 <div className="form-row">
                                                     <label htmlFor="period_name" className="col-md-2 col-form-label font-weight-normal">Period Name</label>
                                                     <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='period_name' value={data.period_name} onChange={(e) => handleChangePeriodName(e)}/>
+                                                        <input type="text" className="form-control col-md-4" id='period_name' disabled value={data.period_name} onChange={(e) => handleChangePeriodName(e)}/>
                                                     </div>
                                                     {/* form-group end.// */}
                                                 </div>
