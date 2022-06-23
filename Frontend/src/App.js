@@ -85,6 +85,7 @@ import RecursionExpenses from './component/Vendor/RecursionExpenses/RecursionExp
 import AddSubCode from './component/Master/SubCode/AddSubCode';
 import TotalSubCode from './component/Master/SubCode/TotalSubCode';
 import EditSubCode from './component/Master/SubCode/EditSubCode';
+import Estimates from './component/Estimates/Estimates';
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -186,6 +187,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/AddSubCode" component={AddSubCode}/>
           <Route exact path="/TotalSubCode" component={TotalSubCode}/>
           <Route exact path="/EditSubCode" component={EditSubCode}/>
+
+          <Route exact path="/Estimates" component={Estimates}/>
           
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

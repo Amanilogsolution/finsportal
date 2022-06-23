@@ -16,8 +16,28 @@ function InsertAccountType() {
         if(result == 'Already'){
             alert("Already")
         }else{
-            window.location.href('ChartOfAccount')
+          var landingpage = localStorage.getItem('Chart')
+          if(landingpage == 'Chart'){
+            window.location.href='/ChartOfAccount'
+            localStorage.removeItem('Chart')
+          }
+          else{
+            window.location.href = '/ShowAccountname'
+          }
         }
+    }
+
+    const handleClickCancel  = (e) =>{
+          e.preventDefault();
+          var landingpage = localStorage.getItem('Chart')
+          console.log(landingpage)
+          if(landingpage == 'Chart'){
+            window.location.href='/ChartOfAccount'
+            localStorage.removeItem('Chart')
+          }
+          else{
+            window.location.href = '/ShowAccountname'
+          }
     }
 
   return (
@@ -58,7 +78,7 @@ function InsertAccountType() {
                   {/* card-body end .// */}
                   <div className="border-top card-body">
                     <button className="btn btn-success" onClick={handleClick} >Save</button>
-                    <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./ChartOfAccount"}}>Cancel</button>
+                    <button className="btn btn-light ml-3" onClick={handleClickCancel}>Cancel</button>
                   </div>
                 </div>
               </div>

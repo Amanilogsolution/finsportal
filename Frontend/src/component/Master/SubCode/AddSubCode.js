@@ -62,7 +62,7 @@ function AddSubCode() {
                             <option defaultValue  hidden >gl code</option>
                             {
                                 glcode.map((data,index) => (
-                                    <option  key={index} value={data.account_sub_name_code}>{data.account_sub_name_code}</option>
+                                    <option  key={index} value={data.account_sub_name_code}>{data.account_sub_name_code} , {data.account_sub_name}</option>
                                 ))
                             }
                          
