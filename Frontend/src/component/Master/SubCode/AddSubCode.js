@@ -28,7 +28,7 @@ function AddSubCode() {
         e.preventDefault();
         const glcode = document.getElementById('glcode').value;
         const chargeCode = document.getElementById('chargeCode').value;
-        const result = await InsertGlSubCode(localStorage.getItem("Organisation"),glcode,glsubcode,chargeCode,localStorage.getItem("Organisation"));
+        const result = await InsertGlSubCode(localStorage.getItem("Organisation"),glcode,glsubcode,chargeCode,localStorage.getItem("Organisation Name"),localStorage.getItem("User_id"));
         if(result){
             window.location.href = '/TotalSubCode'
         }

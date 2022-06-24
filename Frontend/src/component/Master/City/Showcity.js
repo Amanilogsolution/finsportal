@@ -9,7 +9,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { deleteCity, ImportCity } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
-
+ 
 const columns = [
   {
     name: 'Country Name',
@@ -233,6 +233,7 @@ const Showcity = () => {
             </div>
           </div>
         </div>
+        <Footer />
         {/* ------------------ Modal start -----------------------------*/}\
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
@@ -414,7 +415,6 @@ const Showcity = () => {
           </div>
         </div>
         {/* ------------------ Modal end -----------------------------*/}
-        <Footer />
       </div>
     </div>
   )

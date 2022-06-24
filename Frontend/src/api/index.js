@@ -741,10 +741,9 @@ export const GlSubCode = async (org,glCode)=>{
     return axios.post(url,{org,glCode}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertGlSubCode = async (org,glCode,SubCode,charge_code,company_id)=>{
-    console.log(org,glCode,SubCode,charge_code,company_id)
+export const InsertGlSubCode = async (org,glCode,SubCode,charge_code,company_id,User_id)=>{
     const url = `http://localhost:3008/api/insertglsubcode`
-    return axios.post(url,{org,glCode,SubCode,charge_code,company_id}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,glCode,SubCode,charge_code,company_id,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ShowTotalSubCode = async (org)=>{
@@ -765,10 +764,13 @@ export const GetSubCodeDetails = async (org,sno)=>{
     return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateSubCodeDetails = async (org,charge_code,sub_code,gl_code,sno)=>{
-    console.log(org,charge_code,sub_code,gl_code,sno)
+export const UpdateSubCodeDetails = async (org,charge_code,sub_code,gl_code,sno,company_id,User_id)=>{
     const url = `http://localhost:3008/api/updatesubcodedetails`
-    return axios.post(url,{org,charge_code,sub_code,gl_code,sno}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,charge_code,sub_code,gl_code,sno,company_id,User_id}).then(response => response.data).catch(error => console.log(error));
 }
-
+export const ImportSubcode = async (data,org,User_id)=>{
+    console.log("Api",data)
+    const url = `http://localhost:3008/api/importsubcode`
+    return axios.post(url,{data,org,User_id}).then(response => response.data).catch(error => console.log(error));
+}
 

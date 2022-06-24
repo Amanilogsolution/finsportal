@@ -216,6 +216,7 @@ router.post('/showtotalsubcode',SubCodeController.ShowTotalSubCode)
 router.post('/subcodestatus',SubCodeController.SubCodeStatus)
 router.post('/getsubcodedetails',SubCodeController.GetSubCodeDetails)
 router.post('/updatesubcodedetails',SubCodeController.UpdateSubCodeDetails)
+router.post('/importsubcode',SubCodeController.ImportSubcode)
 
 
 
