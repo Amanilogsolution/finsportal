@@ -33,11 +33,8 @@ const EditCity = () => {
     e.preventDefault();
     const city_id = document.getElementById('city_id').value;
     const city_name = document.getElementById('city_name').value;
-    // const state_id = document.getElementById('state_id').value;
-    // const state_code = document.getElementById('state_code').value;
-    // const country_id = document.getElementById('country_id').value;
-    // const country_code = document.getElementById('country_code').value;
-    const result = await updateCity(localStorage.getItem('citySno'), city_id, city_name, state, country);
+    const User_id =localStorage.getItem("User_id");
+    const result = await updateCity(localStorage.getItem('citySno'), city_id, city_name, state, country,User_id);
     if (result) {
       window.location.href = '/ShowCity'
     }

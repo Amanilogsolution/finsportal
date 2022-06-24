@@ -130,10 +130,10 @@ export const Totalcity = async () => {
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertCity = async (city_id, city_name, state_name, country_name) => {
+export const InsertCity = async (city_id, city_name, state_name, country_name,User_id) => {
     console.log(city_id, city_name, state_name, country_name)
     const url = `http://localhost:3008/api/insertcity`
-    return axios.post(url, { city_id, city_name, state_name, country_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { city_id, city_name, state_name, country_name,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const deleteCity = async (sno, status) => {
@@ -146,9 +146,9 @@ export const showCity = async (sno) => {
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateCity = async (sno, city_id, city_name, state_name, country_name) => {
-    const url = `http://192.168.146.103:3008/api/updatecity`
-    return axios.post(url, { sno, city_id, city_name, state_name, country_name }).then(response => response.data).catch(error => console.log(error));
+export const updateCity = async (sno, city_id, city_name, state_name, country_name,User_id) => {
+    const url = `http://localhost:3008/api/updatecity`
+    return axios.post(url, { sno, city_id, city_name, state_name, country_name,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const getCity = async (state_name) => {
     const url = `http://localhost:3008/api/getcity`
@@ -457,9 +457,9 @@ export const ImportState = async (data) => {
     return axios.post(url, { data }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ImportCity = async (data) => {
+export const ImportCity = async (data,User_id) => {
     const url = `http://localhost:3008/api/importcity`
-    return axios.post(url, { data }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportUnit = async (data, org) => {
@@ -726,17 +726,22 @@ export const AccountInfoStatus = async (org,status,sno)=>{
     const url = `http://localhost:3008/api/accountinfostatus`
     return axios.post(url,{org,status,sno}).then(response => response.data).catch(error => console.log(error));
 }
-export const InsertAccountInfo = async (org,account_info_name,account_info_type)=>{
+export const InsertAccountInfo = async (org,account_info_name,account_info_type,User_id)=>{
     const url = `http://localhost:3008/api/insertaccountinfo`
-    return axios.post(url,{org,account_info_name,account_info_type}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,account_info_name,account_info_type,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 export const SelectAccountInfo = async (org,sno)=>{
     const url = `http://localhost:3008/api/selectaccountinfo`
     return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateAccountInfo = async (org,sno,account_info_name,account_info_type)=>{
+export const UpdateAccountInfo = async (org,sno,account_info_name,account_info_type,User_id)=>{
     const url = `http://localhost:3008/api/updateaccountinfo`
-    return axios.post(url,{org,sno,account_info_name,account_info_type}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,sno,account_info_name,account_info_type,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const Importaccountinfo = async (datas,org,User_id)=>{
+    const url = `http://localhost:3008/api/importaccountinfo`
+    return axios.post(url,{datas,org,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ShowGlCode = async (org)=>{

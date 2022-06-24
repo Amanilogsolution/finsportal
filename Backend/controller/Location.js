@@ -26,25 +26,31 @@ const AddLocation = async (req, res) => {
     const contact_phone_no1 = req.body.contact_phone_no1;
     const contact_phone_no2 = req.body.contact_phone_no2;
 
-    const uuid = uuidv1()
-    console.log(org,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2)
+    // console.log(org,Location_id,location_name,gstin_no,contact_name1,contact_name2,contact_phone_no1,contact_phone_no2)
+
+    console.log(`insert into ${org}.dbo.tbl_location_master
+    (location_name,gstin_no,location_id,contact_name1,
+        contact_name2,contact_phone_no1,contact_phone_no2,
+        add_date_time,add_user_name,add_system_name,add_ip_address,status)
+        values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
+        getdate(),'Rupesh','${os.hostname()}','${req.ip}','Active')`)
     try {
-        await sql.connect(sqlConfig)
+        // await sql.connect(sqlConfig)
   
     
-        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_location_master where location_name='${location_name}'`)
-        // console.log(duplicate.recordset[0])
-        if (!duplicate.recordset.length) {
-            const result = await sql.query(`insert into ${org}.dbo.tbl_location_master
-            (location_name,gstin_no,location_id,contact_name1,
-                contact_name2,contact_phone_no1,contact_phone_no2,
-                add_date_time,add_user_name,add_system_name,add_ip_address,status)
-                values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}',${contact_phone_no1},${contact_phone_no2},
-                getdate(),'Rupesh','${os.hostname()}','${req.ip}','Active')`)
-            res.send('Added')
-        } else {
-            res.send("Already")
-        }
+        // const duplicate = await sql.query(`select * from ${org}.dbo.tbl_location_master where location_name='${location_name}'`)
+        // // console.log(duplicate.recordset[0])
+        // if (!duplicate.recordset.length) {
+        //     const result = await sql.query(`insert into ${org}.dbo.tbl_location_master
+        //     (location_name,gstin_no,location_id,contact_name1,
+        //         contact_name2,contact_phone_no1,contact_phone_no2,
+        //         add_date_time,add_user_name,add_system_name,add_ip_address,status)
+        //         values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
+        //         getdate(),'Rupesh','${os.hostname()}','${req.ip}','Active')`)
+        //     res.send('Added')
+        // } else {
+        //     res.send("Already")
+        // }
     }
     catch (err) {
         console.log(err)

@@ -11,14 +11,14 @@ function AddLocation() {
     e.preventDefault();
     const randomno = Math.floor((Math.random() * 9999) + 1000);
     const Location_name = document.getElementById('Location_name').value;
-    const Location_id = Location_name.slice(0,3)+randomno;
+    const Location_id = Location_name.slice(0, 3) + randomno;
     const gst_no = document.getElementById('gst_no').value;
     const contact_Person1 = document.getElementById('contact_Person1').value;
     const contact_person2 = document.getElementById('contact_person2').value;
     const contact_phone1 = document.getElementById('contact_phone1').value;
     const contact_phone2 = document.getElementById('contact_phone2').value;
-    console.log(Location_id,Location_name, gst_no, contact_Person1, contact_phone2, contact_phone1, contact_phone2)
-    const result = await addLocation(localStorage.getItem('Organisation'),Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2);
+    console.log(Location_id, Location_name, gst_no, contact_Person1, contact_phone2, contact_phone1, contact_phone2)
+    const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2);
     console.log(result)
     if (!Location_name || !gst_no) {
       alert('Enter data')
@@ -67,7 +67,6 @@ function AddLocation() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='Location_name' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -75,7 +74,6 @@ function AddLocation() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='gst_no' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -83,45 +81,35 @@ function AddLocation() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='contact_Person1' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
                           <div className="col form-group">
                             <input type="tel" className="form-control col-md-4" id='contact_phone1' maxLength={10} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='contact_person2' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-
-                      
 
                         <div className="form-row">
                           <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
                           <div className="col form-group">
                             <input type="tel" className="form-control col-md-4" id='contact_phone2' maxLength={10} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                       </form>
                     </article>
-                    {/* card-body end .// */}
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

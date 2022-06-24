@@ -9,7 +9,7 @@ async function TotalUnit(req, res) {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_unit order by sno desc`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_unit with (nolock) order by sno desc`)
         res.send(result.recordset)
         // console.log(res.send(result.recordset))
     }
@@ -22,7 +22,7 @@ async function TotalActiveUnit(req, res) {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_unit where status='Active' order by sno asc`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_unit with (nolock) where status='Active' order by sno asc`)
         res.send(result.recordset)
         // console.log(result);
     }
@@ -81,7 +81,7 @@ async function showunit(req, res) {
     // console.log(sno)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_unit where sno = ${sno}`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_unit with (nolock) where sno = ${sno}`)
         res.send(result.recordset[0])
     }
     catch (err) {

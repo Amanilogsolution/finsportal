@@ -16,21 +16,13 @@ const columns = [
     selector: 'country_name',
     sortable: true
   },
-  // {
-  //     name: 'Country id',
-  //     selector: 'country_id',
-  //     sortable: true
-  //     },
+  
   {
     name: 'State Code',
     selector: 'state_name',
     sortable: true
   },
-  //  {
-  //     name: 'State Id',
-  //     selector: 'state_id',
-  //     sortable: true
-  //  },
+ 
   {
     name: 'City Name',
     selector: 'city_name',
@@ -54,10 +46,8 @@ const columns = [
         }
         }>
           <option selected disabled hidden> {row.status}</option>
-
-
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
@@ -110,7 +100,7 @@ const Showcity = () => {
 
   const uploaddata = async () => {
     importdata.map((d) => {
-      if (!d.country_name || !d.state_name || !d.city_code || !d.city_name) {
+      if (!d.country_name || !d.state_name || !d.city_id || !d.city_name) {
         setErrorno(errorno++);
       }
     })
@@ -121,21 +111,20 @@ const Showcity = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportCity(importdata);
+      const result = await ImportCity(importdata,localStorage.getItem('User_id'));
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
       else if (result == "Data Added") {
+        console.log(result)
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
-        window.location.href = './ShowState'
+        window.location.href = './Showcity'
       }
 
-      // ImportState(importdata);
-      // document.getElementById("showdataModal").style.display="none";
-      // window.location.reload()
+   
     }
 
   };
@@ -342,8 +331,7 @@ const Showcity = () => {
                       <table style={{ color: "red", margin: "auto" }}>
                         <thead>
                           <tr>
-                            <th style={{ border: "1px solid black" }}>state_name</th>
-                            <th style={{ border: "1px solid black" }}>state_code</th>
+                           
                             <th style={{ border: "1px solid black" }}>city_id</th>
                             <th style={{ border: "1px solid black" }}>city_name</th>
                           </tr>
@@ -352,8 +340,7 @@ const Showcity = () => {
                           {
                             duplicateData.map((d) => (
                               <tr style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.state_name}</td>
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.state_code}</td>
+                               
                                 <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_id}</td>
                                 <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_name}</td>
                               </tr>

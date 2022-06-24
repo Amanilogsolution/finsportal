@@ -21,7 +21,7 @@ function EditAccountInfo() {
     const account_info_name = document.getElementById('account_info_name').value;
     const account_info_type = document.getElementById('AccountInfoType').value;
     console.log(account_info_name,account_info_type)
-    const result = await UpdateAccountInfo(localStorage.getItem('Organisation'),localStorage.getItem('AccountInfosno'),account_info_name,account_info_type);
+    const result = await UpdateAccountInfo(localStorage.getItem('Organisation'),localStorage.getItem('AccountInfosno'),account_info_name,account_info_type,localStorage.getItem("User_id"));
     if(result){
       alert('Account Info Updated Successfully')
       window.location.href = 'ShowAccountInfo'

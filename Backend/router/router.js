@@ -210,6 +210,9 @@ router.post('/accountinfostatus',AccountinfoController.AccountInfoStatus)
 router.post('/insertaccountinfo',AccountinfoController.InsertAccountInfo)
 router.post('/selectaccountinfo',AccountinfoController.SelectAccountInfo)
 router.post('/updateaccountinfo',AccountinfoController.UpdateAccountInfo)
+router.post('/importaccountinfo',AccountinfoController.ImportAccountInfo)
+
+
 
 router .post('/showglcode',SubCodeController.GlCode)
 router.post('/glsubcode',SubCodeController.GlSubCode)

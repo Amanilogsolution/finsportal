@@ -7,7 +7,7 @@ const countries = async (req, res) => {
  
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries order by sno desc`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries with (nolock) order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -17,7 +17,7 @@ const Activecountries = async (req, res) => {
  
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select country_name from FINSDB.dbo.tbl_countries where status='Active' `)
+        const result = await sql.query(`select country_name from FINSDB.dbo.tbl_countries with (nolock) where status='Active' `)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -50,7 +50,7 @@ async function showcountry(req, res) {
     const sno = req.body.sno
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries where sno = ${sno}`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_countries with (nolock) where sno = ${sno}`)
         res.send(result.recordset[0])
     }
     catch (err) {

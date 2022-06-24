@@ -77,11 +77,13 @@ function ShowAccountname() {
     //##########################  Upload data start  #################################
 
     const uploaddata = async () => {
-        //   importdata.map((d) => {
-        //     if (!d.country_name || !d.state_name || !d.city_code || !d.city_name) {
-        //       setErrorno(errorno++);
-        //     }
-        //   })
+
+        document.getElementById("uploadbtn").disabled = true;
+          importdata.map((d) => {
+            if (!d.account_type_code || !d.account_type ) {
+              setErrorno(errorno++);
+            }
+          })
 
         if (errorno > 0) {
             alert("Please! fill the mandatory data");
@@ -371,6 +373,7 @@ function ShowAccountname() {
                             </button>
                             <button type="button"
                                 onClick={uploaddata}
+                                id="uploadbtn"
                                 className="btn btn-primary">
                                 Upload
                             </button>

@@ -8,10 +8,13 @@ function AddAccountInfo() {
 
     const handleClick = async(e) => {
         e.preventDefault();
+        const org = localStorage.getItem('Organisation');
         const AccountinfoName = document.getElementById('AccountinfoName').value;
         const AccountInfoType = document.getElementById('AccountInfoType').value;
+        const User_id = localStorage.getItem('User_id');
+
         console.log(AccountinfoName,AccountInfoType)
-        const result = await InsertAccountInfo(localStorage.getItem('Organisation'),AccountinfoName,AccountInfoType)
+        const result = await InsertAccountInfo(org,AccountinfoName,AccountInfoType,User_id)
       if(result){
         alert('Account Info Added Successfully')
         window.location.href = '/ShowAccountInfo'
@@ -32,7 +35,7 @@ function AddAccountInfo() {
       <div>
         <div className="content-wrapper">
           <div className="container-fluid">
-            <br /> <h3 className="text-left ml-5">Add Account Info</h3>
+            <br /> <h3 className="text-left ml-5">Add Item Account Info</h3>
             <div className="row ">
               <div className="col ml-5">
                 <div className="card" style={{ width: "100%" }}>
