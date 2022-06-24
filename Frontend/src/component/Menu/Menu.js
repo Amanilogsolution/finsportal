@@ -92,6 +92,42 @@ const Menu = () => {
                           <p>Estimates</p>
                         </a>
                       </li>
+                      <li className="nav-item">
+                        <a href="/SalesOrder" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Sales Order</p>
+                        </a>
+                      </li>     
+                      <li className="nav-item">
+                        <a href="/DeliveryChallans" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Delivery Challans</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/Invoices" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Invoices</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/PaymentsReceived" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Payments Received</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/RecurringInvoices" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Recurring Invoices</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/CreditNotes" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>CreditNotes</p>
+                        </a>
+                      </li>
                     </ul>
                   </li>
                 </ul>

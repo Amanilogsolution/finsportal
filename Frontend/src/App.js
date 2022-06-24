@@ -85,7 +85,14 @@ import RecursionExpenses from './component/Vendor/RecursionExpenses/RecursionExp
 import AddSubCode from './component/Master/SubCode/AddSubCode';
 import TotalSubCode from './component/Master/SubCode/TotalSubCode';
 import EditSubCode from './component/Master/SubCode/EditSubCode';
-import Estimates from './component/Estimates/Estimates';
+
+import Estimates from './component/Customer/Estimates/Estimates';
+import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
+import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChallans';
+import Invoices from './component/Customer/Invoices/Invoices';
+import RecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
+import CreditNotes from './component/Customer/CreditNotes/CreditNotes';
+import PaymentsReceived from './component/Customer/PaymentReceived/PaymentReceived';
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -189,6 +196,12 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/EditSubCode" component={EditSubCode}/>
 
           <Route exact path="/Estimates" component={Estimates}/>
+          <Route exact path="/SalesOrder" component={SalesOrder}/>
+          <Route exact path="/DeliveryChallans" component={DeliveryChallans}/>
+          <Route exact path="/Invoices" component={Invoices}/>
+          <Route exact path="/RecurringInvoices" component={RecurringInvoices}/>
+          <Route exact path="/CreditNotes" component={CreditNotes}/>
+          <Route exact path="/PaymentsReceived" component={PaymentsReceived}/>
           
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

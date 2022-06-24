@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
-import Footer from "../Footer/Footer";
+import Header from "../../Header/Header";
+import Menu from "../../Menu/Menu";
+import Footer from "../../Footer/Footer";
 
-function Estimates() {
+function PaymentsReceived() {
     const [totalValues, setTotalValues] = useState([1])
     const [amount,setAmount]= useState()
     const handleChange = (e) => {
@@ -64,7 +64,7 @@ function Estimates() {
                                     <article
                                         className="card-body"
                                     >
-                                        <h3 className="text-left"> New Estimate</h3>
+                                        <h3 className="text-left"> Record Payment</h3>
                                         <br />
 
                                         <form autoComplete="off">
@@ -82,69 +82,58 @@ function Estimates() {
                                                     <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
                                                 </div>
                                             </div>
+                                            <hr/>
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Estimate#<span style={{ color: "red" }}>*</span> </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Credit Note#<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="EST-00001" />
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="CN-00001" />
 
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Reference# </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Reference#</label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="EST-00001" />
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" />
                                                 </div>
                                             </div>
 
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Estimate Date<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Credit Note Date<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md-7">
                                                     <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
                                                 </div>
-
-                                                <label className="col-md-1 col-form-label font-weight-normal" >Expiry Date</label>
-
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-7" id="Accountname" placeholder="EST-00001" />
-                                                </div>
                                             </div>
-
-                                            <hr />
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Sales Person </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Choose</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Project Name </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Choose</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 " > </label>
                                                 <div className="d-flex col-md-4">
-                                                    <small>Select a customer to associate a project.</small>
+                                                    <small>To create transaction dated before 01/07/2017</small>
+                                                </div>
+                                            </div>
+                                          
+
+                                            <hr />
+
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select id="AccountType" className="form-control">
+                                                        <option defaultValue hidden>Select or Add Salesperson</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <hr />
 
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Subject</label>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                    <textarea type="text" className="form-control col-md-5" id="Accountname" placeholder="Let your customer know what this estimate is for"></textarea>
+                                                <textarea  className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
+
                                                 </div>
                                             </div>
                                             <hr />
+
+                                         
                                             <table class="table">
                                                 <thead>
                                                     <th scope="col">Iteam Details</th>
@@ -225,7 +214,7 @@ function Estimates() {
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder=" "></textarea>
+                                                            <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder="Enter the terms "></textarea>
                                                         </div>
 
                                                     </div>
@@ -271,4 +260,4 @@ function Estimates() {
     )
 }
 
-export default Estimates
+export default PaymentsReceived
