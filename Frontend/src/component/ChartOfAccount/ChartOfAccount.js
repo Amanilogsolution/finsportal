@@ -16,7 +16,7 @@ function ChartOfAccount() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await ShowChartOfAccount();
+      const result = await ShowChartOfAccount(localStorage.getItem("Organisation"));
       setchartofaccount(result)
 
     }

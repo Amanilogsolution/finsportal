@@ -186,7 +186,7 @@ router.post('/insertitems',ItemsController.InsertItems)
 
 router.post('/FileUpload',Multer,FileUpload)
 
-router.get('/showcoa',ChartOfAccountController.Accounttype)
+router.post('/showcoa',ChartOfAccountController.Accounttype)
 router.post('/parentaccount',ChartOfAccountController.ParentAccount)
 router.post('/parentaccountNumber',ChartOfAccountController.ParentAccountNumber)
 router.post('/addaccountname',ChartOfAccountController.AddAccountName)
@@ -199,6 +199,8 @@ router.post('/insertaccounttype',AccountnameController.InsertAccountType)
 router.post('/totalaccountname',AccountnameController.TotalAccountName)
 router.post('/accountnamestatus',AccountnameController.AccountnameStatus)
 router.post('/selectaccountname',AccountnameController.SelectAccountName)
+router.post('/importaccountname',AccountnameController.ImportAccountName)
+
 
 
 router.post('/allaccountinfo',AccountinfoController.AllAccountInfo)

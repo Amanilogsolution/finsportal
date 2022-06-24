@@ -37,7 +37,7 @@ const columns = [
 
 
             <option value='Active'>Active</option>
-            <option value='DeActive' >DeActive</option>
+            <option value='Deactive' >Deactive</option>
           </select>
         </div>
       ]
@@ -93,7 +93,7 @@ function ShowAccountInfo() {
                             <div className="container-fluid">
                                 <br />
 
-                                <h3 className="text-left ml-5">Account Major Minor</h3>
+                                <h3 className="text-left ml-5">Items Account info</h3>
                                 <br />
                                 <div className="row ">
                                     <div className="col ml-5">

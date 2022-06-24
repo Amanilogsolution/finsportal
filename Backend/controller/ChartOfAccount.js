@@ -5,13 +5,13 @@ const uuidv1 = require("uuid/v1");
 
 
 const Accounttype = async (req, res) => {
+    const org =req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT account_type,account_type_code from FINSDB.dbo.tbl_account_type tat WHERE status='Active'`)
-        console.log(result.recordset)
+        const result = await sql.query(`SELECT account_type,account_type_code from ${org}.dbo.tbl_account_type tat WHERE status='Active'`)
         res.send(result.recordset)
     } catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 const InsertAccountType = async (req, res) => {

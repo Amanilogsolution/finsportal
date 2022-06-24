@@ -11,7 +11,6 @@ function EditAccountname() {
     useEffect(() => {
         const fetchData = async () => {
             const result = await SelectAccountName(localStorage.getItem('Organisation'),localStorage.getItem('AccountTypeCode'));
-            console.log(result)
             setData(result)
         }
         fetchData();
@@ -20,12 +19,13 @@ function EditAccountname() {
 
     const handleClick = async(e) => {
         e.preventDefault();
+        const org= localStorage.getItem('Organisation');
         const account_type = document.getElementById('AccountType').value;
         const account_type_code = document.getElementById('AccountTypeCode').value;
-        console.log(account_type,account_type_code)
-        const result = await UpdateAccountName(account_type,account_type_code,localStorage.getItem('Organisation'),localStorage.getItem('AccountTypeCode'));
+        const accountTypedesc = document.getElementById('AccountTypedesc').value;
+        const User_id = localStorage.getItem("User_id");
+        const result = await UpdateAccountName(account_type,account_type_code,accountTypedesc,org,localStorage.getItem('AccountTypeCode'),User_id);
         if (result){
-            alert('Account Name Updated Successfully')
             window.location.href = 'ShowAccountname'
         }
       
@@ -36,6 +36,11 @@ function EditAccountname() {
     const handleChangeAccountTypeCode = (e) => {
         setData({...data,account_type_code:e.target.value})
     }
+
+    const handleChangeAccountDesc = (e) => {
+      setData({...data,account_description:e.target.value})
+  }
+    
 
   return (
     <div> 
@@ -48,7 +53,7 @@ function EditAccountname() {
       <div>
         <div className="content-wrapper">
           <div className="container-fluid">
-            <br /> <h3 className="text-left ml-5">Add Account Type</h3>
+            <br /> <h3 className="text-left ml-5">Edit Account Type</h3>
             <div className="row ">
               <div className="col ml-5">
                 <div className="card" style={{ width: "100%" }}>
@@ -66,6 +71,13 @@ function EditAccountname() {
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
                         <div className="col form-group">
                           <input type="number" className="form-control col-md-4" id='AccountTypeCode' value={data.account_type_code} onChange={(e) => handleChangeAccountTypeCode(e)} />
+                        </div>
+                        {/* form-group end.// */}
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >Account Type Description</label>
+                        <div className="col form-group">
+                          <textarea  className="form-control col-md-4" id='AccountTypedesc' value={data.account_description} onChange={(e) => handleChangeAccountDesc(e)} ></textarea>
                         </div>
                         {/* form-group end.// */}
                       </div>

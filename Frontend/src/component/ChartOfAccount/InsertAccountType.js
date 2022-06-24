@@ -10,9 +10,12 @@ function InsertAccountType() {
 
     const handleClick = async(e) => {
         e.preventDefault();
+        const org = localStorage.getItem("Organisation");
         const account_type = document.getElementById('AccountType').value;
         const account_type_code = document.getElementById('AccountTypeCode').value;
-        const result = await Insertaccounttype(account_type,account_type_code);
+        const accountTypedesc  = document.getElementById('AccountTypedesc').value;
+        const User_id= localStorage.getItem("User_id");
+        const result = await Insertaccounttype(org,account_type,account_type_code,accountTypedesc,User_id);
         if(result == 'Already'){
             alert("Already")
         }else{
@@ -58,7 +61,7 @@ function InsertAccountType() {
                   <article className="card-body">
                     <form>
                       <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type</label>
+                        <label htmlFor="AccountType" className="col-md-2 col-form-label font-weight-normal">Account Type</label>
                         <div className="col form-group">
                           <input type="text" className="form-control col-md-4" id='AccountType'   />
                         </div>
@@ -66,9 +69,17 @@ function InsertAccountType() {
                       </div>
 
                       <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
+                        <label htmlFor="AccountTypeCode" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
                         <div className="col form-group">
                           <input type="number" className="form-control col-md-4" id='AccountTypeCode'  />
+                        </div>
+                        {/* form-group end.// */}
+                      </div>
+
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Description</label>
+                        <div className="col form-group">
+                          <textarea  className="form-control col-md-4" id='AccountTypedesc'  ></textarea>
                         </div>
                         {/* form-group end.// */}
                       </div>

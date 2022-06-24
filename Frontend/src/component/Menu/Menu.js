@@ -298,7 +298,7 @@ const Menu = () => {
                   <li className="nav-item">
                     <a href="/ShowAccountInfo" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
-                      <p>Account Info</p>
+                      <p>Item Account Info</p>
                     </a>
                   </li>
                 </ul>
@@ -306,7 +306,7 @@ const Menu = () => {
                   <li className="nav-item">
                   <a href="/ShowAccountname" className="nav-link active">
                   <i className="far fa-circle nav-icon" />
-                  <p>Account name Type</p>
+                  <p>Account Major code</p>
                     </a>
                   </li>
                 </ul>
