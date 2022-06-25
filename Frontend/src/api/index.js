@@ -15,13 +15,11 @@ export const register = async (org_name, org_country, org_state, org_street,  or
 
 
 export const CreatenewDb = async (dbname) => {
-    console.log(dbname)
     const url = `http://localhost:3008/api/newdb`
     return axios.post(url, { dbname }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const CreateOrgTable = async (dbname) => {
-    console.log(dbname)
     const url = `http://localhost:3008/api/Org_table`
     return axios.post(url, { dbname }).then(response => response.data).catch(error => console.log(error));
 
@@ -63,12 +61,10 @@ export const showstate = async (sno) => {
 }
 
 export const updateState = async (sno, country_name, state_name, state_code, state_short_name, select_type) => {
-    console.log(sno, country_name, state_name, state_code, state_short_name, select_type)
     const url = `http://192.168.146.103:3008/api/editstate`
     return axios.post(url, { sno, country_name, state_name, state_code, state_short_name, select_type }).then(response => response.data).catch(error => console.log(error));
 }
 export const showactivestate = async (country) => {
-    console.log(country)
     const url = `http://localhost:3008/api/showactivestate`
     return axios.post(url, { country }).then(response => response.data).catch(error => console.log(error));
 }
@@ -131,7 +127,6 @@ export const Totalcity = async () => {
 }
 
 export const InsertCity = async (city_id, city_name, state_name, country_name,User_id) => {
-    console.log(city_id, city_name, state_name, country_name)
     const url = `http://localhost:3008/api/insertcity`
     return axios.post(url, { city_id, city_name, state_name, country_name,User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -154,8 +149,6 @@ export const getCity = async (state_name) => {
     const url = `http://localhost:3008/api/getcity`
     return axios.post(url, { state_name }).then(response => response.data).catch(error => console.log(error));
 }
-
-
 export const TotalUnit = async (Token, org) => {
     const url = `http://localhost:3008/api/totalunit`
     return axios.post(url, { org }, { headers: { "Authorization": Token } }).then(response => response.data).catch(error => console.log(error));
@@ -171,7 +164,6 @@ export const Unit = async (unit_name, unit_symbol,org) => {
 }
 
 export const showunit = async (sno, Token,org) => {
-    console.log('Api', Token)
     const url = `http://localhost:3008/api/showunit`
     return axios.post(url, { sno ,org}, { headers: { "Authorization": Token } }).then(response => response.data).catch(error => console.log(error));
 }
@@ -785,4 +777,49 @@ export const ImportSubcode = async (data,org,User_id)=>{
     const url = `http://localhost:3008/api/importsubcode`
     return axios.post(url,{data,org,User_id}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const TotalAccountMinorCode = async (org)=>{
+    console.log(org)
+    const url = `http://localhost:3008/api/totalaccountminorcode`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const AccountMinorCodeStatus = async (org,status,sno)=>{
+    console.log(org,status,sno)
+    const url = `http://localhost:3008/api/accountminorcodestatus`
+    return axios.post(url,{org,status,sno}).then(response => response.data).catch(error => console.log(error));
+}
+export const GetAccountMinorCode = async (org,sno)=>{
+    console.log(org,sno)
+    const url = `http://localhost:3008/api/getaccountminorcode`
+    return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateAccountMinorCode = async (org,sno,account_name)=>{
+    console.log(org,sno)
+    const url = `http://localhost:3008/api/updateaccountminorcode`
+    return axios.post(url,{org,sno,account_name}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const TotalChartOfAccount = async (org)=>{
+    console.log(org)
+    const url = `http://localhost:3008/api/totalchartofaccount`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ChartOfAccountStatus = async (org,status,sno)=>{
+    const url = `http://localhost:3008/api/chartofaccountstatus`
+    return axios.post(url,{org,status,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const GetChartOfAccount = async (org,sno)=>{
+    const url = `http://localhost:3008/api/getchartofaccount`
+    return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateChartOfAccount = async (org,sno,account_sub_name)=>{
+    const url = `http://localhost:3008/api/updatechartofaccount`
+    return axios.post(url,{org,sno,account_sub_name}).then(response => response.data).catch(error => console.log(error));
+}
+
 

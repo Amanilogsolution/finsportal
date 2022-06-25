@@ -3,28 +3,28 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 
-function PaymentsReceived() {
+function PurchaseOrder() {
     const [totalValues, setTotalValues] = useState([1])
-    const [amount,setAmount]= useState()
+    const [amount, setAmount] = useState()
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
-        if (desktop == 'Desktop') {
+        if (desktop === 'Desktop') {
             document.getElementById("Upload").click()
         }
     }
 
-    const handleChangeQuantity =(e)=>{
-        e.preventDefault()
-        console.log(e.target.value)
-    }
+    // const handleChangeQuantity =(e)=>{
+    //     e.preventDefault()
+    //     console.log(e.target.value)
+    // }
 
-    const handleBlur = ()=> {
+    const handleBlur = () => {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
-        console.log(quality,rate)
-        console.log(quality*rate)
-        setAmount(quality*rate)
+        console.log(quality, rate)
+        console.log(quality * rate)
+        setAmount(quality * rate)
     }
 
     const handleAdd = (e) => {
@@ -54,22 +54,19 @@ function PaymentsReceived() {
                 </div>
                 <Header />
                 <Menu />
-
                 <div className="content-wrapper">
                     <div className="container-fluid">
-
                         <div className="row pt-3" >
                             <div className="col">
                                 <div className="card">
                                     <article
-                                        className="card-body"
-                                    >
-                                        <h3 className="text-left"> Record Payment</h3>
+                                        className="card-body" >
+                                        <h3 className="text-left"> New Purchase Order</h3>
                                         <br />
 
                                         <form autoComplete="off">
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
+                                        <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
                                                         id="AccountType"
@@ -83,95 +80,75 @@ function PaymentsReceived() {
                                                 </div>
                                             </div>
                                             <hr/>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Amount Received<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-5">
-                                                    <input type="text" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
-                                                </div>
-
-                                                <label className="col-md-1 col-form-label font-weight-normal" >Bank Charges</label>
-
-                                                <div className="d-flex col-md-4">
-                                                <input type="text" className="form-control " id="Accountname" placeholder="" />
-                                                 </div>
-                                            </div>
-
                                             <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Payment Date<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-7">
-                                                    <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Deliver To<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="SO-00001" />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Payment#<span style={{ color: "red" }}>*</span> </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Purchase Order#<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="CN-00001" />
-
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="SO-00001" />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Payment Mode </label>
-                                                <div className="d-flex col-md">
-                                                <select
-                                                        id="AccountType"
-                                                        className="form-control"
-                                                    // onChange={handleAccountType}
-                                                    >
-                                                        <option defaultValue hidden>Choose</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Deposit To<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                <select
-                                                        id="AccountType"
-                                                        className="form-control"
-                                                    // onChange={handleAccountType}
-                                                    >
-                                                        <option defaultValue hidden>Select Account</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Reference#</label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Reference# </label>
                                                 <div className="d-flex col-md">
                                                     <input type="text" className="form-control col-md-5" id="Accountname" />
                                                 </div>
                                             </div>
 
-                                      
-                                          
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal">Date<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="date" className="form-control col-md-5" id="Accountname" placeholder="EST-00001" />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 " > </label>
+                                                <div className="d-flex col-md-4">
+                                                    <small>To create transaction dated before 01/07/2017</small>
+                                                </div>
+                                            </div>
 
-                                            <hr />
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Expected Delivery Date<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
+                                                </div>
+
+                                                <label className="col-md-1 col-form-label font-weight-normal" >Payment Terms</label>
+
+                                                <div className="d-flex col-md-3">
+                                                    <select
+                                                        id="AccountType"
+                                                        className="form-control"
+                                                    // onChange={handleAccountType}
+                                                    >
+                                                        <option defaultValue hidden>Date on Receipt</option>
+                                                        <option >Net 15</option>
+                                                        <option >Net 30</option>
+                                                        <option >Net 45</option>
+                                                        <option >Due end of the Month</option>
+                                                        <option >Due end of next Month</option>
+                                                        <option >Due of Receipt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
 
                                             <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Shipment Preference</label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Select or Add Salesperson</option>
+                                                        <option defaultValue hidden>Salect a delivery method or type to add</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <hr />
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
-                                                <div className="d-flex col-md">
-                                                <textarea  className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
-
-                                                </div>
-                                            </div>
-                                            <hr />
-
-                                         
                                             <table class="table">
                                                 <thead>
                                                     <th scope="col">Iteam Details</th>
@@ -185,7 +162,7 @@ function PaymentsReceived() {
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td>{amount}</td>
                                                             </tr>
 
@@ -252,7 +229,7 @@ function PaymentsReceived() {
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder="Enter the terms "></textarea>
+                                                            <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder=" "></textarea>
                                                         </div>
 
                                                     </div>
@@ -298,4 +275,4 @@ function PaymentsReceived() {
     )
 }
 
-export default PaymentsReceived
+export default PurchaseOrder

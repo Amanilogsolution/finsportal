@@ -162,9 +162,33 @@ const Menu = () => {
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a href="/RecursionExpenses" className="nav-link active">
+                        <a href="/RecurringExpenses" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
-                          <p>Recursion Expenses</p>
+                          <p>Recurring Expenses</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/PurchaseOrder" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Purchase Order</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/Bills" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Bills</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/RecurringBills" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Recurring Bills</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a href="/VendorCredits" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Vendor Credits</p>
                         </a>
                       </li>
                     </ul>
@@ -310,6 +334,24 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                  <a href="/ShowAccountMinorCode" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Account Minor Code</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                  <a href="/ShowChartAccount" className="nav-link active">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Show Chart Account</p>
+                    </a>
+                  </li>
+                </ul>
+
+                
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                   <a href="/TotalSubCode" className="nav-link active">

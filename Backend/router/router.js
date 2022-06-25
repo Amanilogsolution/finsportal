@@ -28,8 +28,8 @@ const AccountnameController = require('../controller/AccountName')
 const ItemsController = require('../controller/Items')
 const AccountinfoController = require('../controller/Account-Info')
 const SubCodeController = require('../controller/SubCode')
-
-
+const AccountMinorCodeController = require('../controller/AccountMinorCode')
+ const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
 
 router.post('/newdb', NewdbController.Newdb);
 
@@ -224,6 +224,15 @@ router.post('/updatesubcodedetails',SubCodeController.UpdateSubCodeDetails)
 router.post('/importsubcode',SubCodeController.ImportSubcode)
 
 
+router.post('/totalaccountminorcode',AccountMinorCodeController.TotalAccountMinorCode)
+router.post('/accountminorcodestatus',AccountMinorCodeController.AccountMinorCodeStatus)
+router.post('/getaccountminorcode',AccountMinorCodeController.GetAccountMinorCode)
+router.post('/updateaccountminorcode',AccountMinorCodeController.UpdateAccountMinorCode)
+
+router.post('/totalchartofaccount',ChartOfAccountMasterController.TotalChartOfAccount)
+router.post('/chartofaccountstatus',ChartOfAccountMasterController.ChartOfAccountStatus)
+router.post('/getchartofaccount',ChartOfAccountMasterController.GetChartOfAccount)
+router.post('/updatechartofaccount',ChartOfAccountMasterController.UpdateChartOfAccount)
 
 
 module.exports = router;
