@@ -168,9 +168,11 @@ const Showcity = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(async () => {
+  useEffect( () => {
+    async function fetchdata (){
     const result = await Totalcity()
-    setData(result)
+    setData(result)}
+    fetchdata()
   }, [])
 
   const tableData = {
