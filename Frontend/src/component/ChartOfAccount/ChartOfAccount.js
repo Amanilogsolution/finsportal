@@ -57,17 +57,26 @@ function ChartOfAccount() {
     setaccount_name(result)
 
     const number = await ParentAccountNumber(account_type, account_name);
+    console.log('Result',number)
+    if(!number.result){
+      setAccountno(account_type+'01')
+    }
+    else{
+
     const accountnamenum = parseInt(number.result.account_name_code) + 1;
     const accountnamenum1 = String(accountnamenum).padStart(2, '0');
     setAccountno(accountnamenum1)
+
     const accountsubnum = parseInt(number.result1.account_sub_name_code) + 1;
     const accountsubnum1 = String(accountsubnum).padStart(3, '0');
     setAccountsubno(accountsubnum1)
+    }
 
   }
 
   const handleParentAccount = async (e) => {
     const account_name = e.target.value;
+    console.log('Account',account_name)
     setaccount_type(account_name)
 
     const number = await ParentAccountNumber(account_type, account_name);

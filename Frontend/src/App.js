@@ -80,7 +80,7 @@ import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
 import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
 import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
 
-import RecursionExpenses from './component/Vendor/RecursionExpenses/RecursionExpenses';
+import RecurringExpenses from './component/Vendor/RecurringExpenses/RecurringExpenses';
 
 import AddSubCode from './component/Master/SubCode/AddSubCode';
 import TotalSubCode from './component/Master/SubCode/TotalSubCode';
@@ -93,6 +93,17 @@ import Invoices from './component/Customer/Invoices/Invoices';
 import RecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
 import CreditNotes from './component/Customer/CreditNotes/CreditNotes';
 import PaymentsReceived from './component/Customer/PaymentReceived/PaymentReceived';
+
+import PurchaseOrder from './component/Vendor/PurchaseOrders/PurchaseOrder'
+import Bills from './component/Vendor/Bills/Bills'
+import RecurringBills from './component/Vendor/RecurringBills/RecurringBills'
+import VendorCredits from './component/Vendor/VendorCredits/VendorCredits'
+
+import ShowAccountMinorCode from './component/Master/ShowAccountMinorCode/ShowAccountMinorCode';
+import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAccountMinorCode';
+
+import ShowChartAccount from './component/Master/ChartOfAccountMaster/ShowChartAccount'
+import EditChartAccount from'./component/Master/ChartOfAccountMaster/EditChartAccount'
 
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
@@ -172,8 +183,6 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/EditComplianceType" component={EditComplianceType}/>
           <Route exact path="/Panding-Compliances" component={PandingCompliances}/>
 
-          
-
           <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
           <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>
 
@@ -181,6 +190,9 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/ShowFincialyear" component={ShowFincialyear}/>
 
           <Route exact path="/ChartOfAccount" component={ChartOfAccount}/>
+          <Route exact path="/ShowChartAccount" component={ShowChartAccount}/>
+          <Route exact path="/EditChartAccount" component={EditChartAccount}/>
+
           <Route exact path="/InsertAccountType" component={InsertAccountType}/>
           <Route exact path="/ShowAccountname" component={ShowAccountname}/>
           <Route exact path="/EditAccountname" component={EditAccountname}/>
@@ -190,7 +202,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/AddAccountInfo" component={AddAccountInfo}/>
           <Route exact path="/EditAccountInfo" component={EditAccountInfo}/>
 
-          <Route exact path="/RecursionExpenses" component={RecursionExpenses}/>
+          <Route exact path="/RecurringExpenses" component={RecurringExpenses}/>
           <Route exact path="/AddSubCode" component={AddSubCode}/>
           <Route exact path="/TotalSubCode" component={TotalSubCode}/>
           <Route exact path="/EditSubCode" component={EditSubCode}/>
@@ -202,6 +214,16 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/RecurringInvoices" component={RecurringInvoices}/>
           <Route exact path="/CreditNotes" component={CreditNotes}/>
           <Route exact path="/PaymentsReceived" component={PaymentsReceived}/>
+
+          <Route exact path="/PurchaseOrder" component={PurchaseOrder}/>
+          <Route exact path="/Bills" component={Bills}/>
+          <Route exact path="/RecurringBills" component={RecurringBills}/>
+          <Route exact path="/VendorCredits" component={VendorCredits}/>
+          
+          <Route exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode}/>
+          <Route exact path="/EditAccountMinorCode" component={EditAccountMinorCode}/>
+
+      
           
           <Route exact path="*" component={PageNotFound}/>
           </Switch>
