@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { ShowVendor, DeleteVendor,ImportVendor } from '../../api';
+import { Vendor, DeleteVendor,ImportVendor } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -45,15 +45,13 @@ const columns = [
             <div className='droplist'>
                 <select onChange={async (e) => {
                     const status = e.target.value;
-                    await DeleteVendor(row.sno, status)
+                    await DeleteVendor(row.sno, status,localStorage.getItem('Organisation'))
                     window.location.href = 'ShowVendor'
                 }
                 }>
                     <option selected disabled hidden> {row.status}</option>
-
-
                     <option value='Active'>Active</option>
-                    <option value='DeActive' >DeActive</option>
+                    <option value='Deactive' >Deactive</option>
                 </select>
             </div>
         ]
@@ -184,7 +182,7 @@ const Showvendor = () => {
 
 
     useEffect(async () => {
-        const result = await ShowVendor()
+        const result = await Vendor(localStorage.getItem('Organisation'))
         setData(result)
     }, [])
 

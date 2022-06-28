@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import "./Vendor.css";
-import { InsertVendor } from '../../api'
+import { InsertVendor,Activecountries,showactivestate,getCity,TotalVendor } from '../../api'
 
 
 const Vendor = () => {
@@ -20,6 +20,17 @@ const Vendor = () => {
   const [tdsvalue, setTdsvalue] = useState();
   const [enableportaltoggle, setEnableportaltoggle] = useState(false);
   const [language, setLanguage] = useState('English');
+  const [countrylist,setCountrylist]= useState([]);
+  const [billing_address_country,setBilling_address_country] =useState()
+  const [selectState,setSelectState] =useState([])
+  const [billing_address_state,setBilling_address_state]=useState();
+  const [selectCity,setSelectCity] =useState([]);
+  const [billing_address_city,setBilling_address_city] =useState();
+  const [totalvendorno,setTotalvendorno]= useState();
+  const [generateMast_id,setGenerateMast_id]=useState();
+  const [generateVend_id,setGenerateVend_id]=useState();
+  
+
 
   const formshow = () => {
     document.getElementById("distoggle").style.display = "block";
@@ -73,9 +84,12 @@ const Vendor = () => {
 
   //  ###############   function for get data  #########
   const handleClick = async (e) => {
-    e.preventDefault();
-    const mast_id = document.getElementById('mast_id').value;
-    const vend_id = document.getElementById('vend_id').value;
+    e.preventDefault(); 
+
+    // console.log(mast_id_last)
+
+    const mast_id =generateMast_id;
+    const vend_id = generateVend_id;
     const vend_sn = getsn;
     const vend_fname = document.getElementById('fname').value;
     const vend_lname = document.getElementById('lname').value;
@@ -102,9 +116,9 @@ const Vendor = () => {
     const facebook_url = document.getElementById('facebook_url').value;
     const twitter_url = document.getElementById('twitter_url').value;
     const billing_address_attention = document.getElementById('billing_address_attention').value;
-    const billing_address_country = document.getElementById('billing_address_country').value;
-    const billing_address_city = document.getElementById('billing_address_city').value;
-    const billing_address_state = document.getElementById('billing_address_state').value;
+    const billing_address_country_val =billing_address_country;
+    const billing_address_city_val = billing_address_city;
+    const billing_address_state_val = billing_address_state;
     const billing_address_pincode = document.getElementById('billing_address_pincode').value;
     const billing_address_phone = document.getElementById('billing_address_phone').value;
     const billing_address_fax = document.getElementById('billing_address_fax').value;
@@ -130,24 +144,54 @@ const Vendor = () => {
 
     const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
       department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
-      portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state,
+      portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
       billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-      contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark)
+      contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark,localStorage.getItem('Organisation'),localStorage.getItem('User_id'))
     // console.log(result)
     if (result) {
       window.location.href = '/Showvendor'
     }
   }
 
-
-
-
   //######################------------------------####################
 
+useEffect(()=>{
+  async function fetchdata(){
+     const result= await Activecountries();
+     console.log("country",result)
+     setCountrylist(result)
+     const totalvendor= await TotalVendor(localStorage.getItem('Organisation'))
+     console.log(totalvendor.count);
+    //  setTotalvendorno(totalvendor.count);
+    
+     const tostr= ''+totalvendor.count;
+     const mast_id_last= tostr.padStart(4,"0");
+     const cust_id_last= tostr.padStart(4,"0");
+     setGenerateMast_id(mast_id_last)
+     setGenerateVend_id(cust_id_last)
+     console.log("setGenerateMast_id",generateMast_id)
+  }
+  fetchdata();
+},[])
 
-
-
-
+const handleAddressCountry = async (e) => {
+  let data = e.target.value;
+  setBilling_address_country(data);
+  const statesresult = await showactivestate(data)
+  console.log(statesresult)
+  setSelectState(statesresult)
+}
+const handleChangebillingState = async (e) => {
+  let data = e.target.value;
+  setBilling_address_state(data);
+  const result = await getCity(data)
+  setSelectCity(result)
+  // console.log(result)
+}
+const handleAddressCity = async (e) => {
+  let data = e.target.value;
+  setBilling_address_city(data);
+}
 
   return (
     <div>
@@ -233,6 +277,8 @@ const Vendor = () => {
                               type="text"
                               className="form-control col-md-4"
                               id="vend_id"
+                              value={generateVend_id}
+                              disabled
                             />
                           </div>
                           {/* form-group end.// */}
@@ -860,13 +906,23 @@ const Vendor = () => {
                                   Country / Region
                                 </label>
                                 <div className="col form-group">
-                                  <input
-                                    type="text"
-                                    id="billing_address_country"
-                                    className="form-control col-md-7"
-                                  />
-                                </div>
-                                {/* form-group end.// */}
+                                <select
+                                  id="billing_address_country"
+                                  className="form-control col-md-7"
+                                  onChange={handleAddressCountry}
+                                >
+                                  <option selected hidden> Select</option>
+                                  {
+                                    countrylist.map((data, index) => (
+                                      <option key={index} value={data.country_name}>{data.country_name}</option>
+                                    ))
+
+                                  }
+
+                                </select>
+                              </div>
+
+                               
                               </div>
 
                               <div className="form-row">
@@ -876,23 +932,55 @@ const Vendor = () => {
                                 >
                                   City
                                 </label>
-                                <div className="col form-group">
+                                <div className="col-md-6 form-group">
+                                <select
+                                  id="billing_address_city"
+                                  className="form-control"
+                                  onChange={handleAddressCity}
+                                >
+                                  <option selected hidden> Choose</option>
+                                  {
+                                    selectCity.map((data, index) => (
+                                      <option key={index} value={data.city_name}>{data.city_name}</option>
+                                    ))
+
+                                  }
+
+                                </select>
+                              </div>
+                                {/* <div className="col form-group">
                                   <input
                                     type="emaitextl"
-                                    id="billing_address_city"
+                                    id=""
                                     className="form-control col-md-7"
                                   />
-                                </div>
+                                </div> */}
                               </div>
                               <div className="form-row">
                                 <label htmlFor="billing_address_state" className="col-md-2 col-form-label font-weight-normal">State</label>
+                                
                                 <div className="col form-group">
+                                <select
+                                  id="billing_address_state"
+                                  className="form-control col-md-7"
+                                  onChange={handleChangebillingState}
+                                >
+                                  <option selected hidden> Choose</option>
+                                  {
+                                    selectState.map((data, index) => (
+                                      <option key={index} value={data.state_name}>{data.state_name}</option>
+                                    ))
+                                  }
+                                </select>
+                              </div>
+                               
+                                {/* <div className="col form-group">
                                   <input
                                     type="text"
-                                    id="billing_address_state"
+                                    id=""
                                     className="form-control col-md-7"
                                   />
-                                </div>
+                                </div> */}
                                 {/* form-group end.// */}
                               </div>
                               <div className="form-row">

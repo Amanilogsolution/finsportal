@@ -106,10 +106,11 @@ router.post('/customername',customerController.Customername)
 
 router.post('/insertvendor', vendorController.InsertVendor);
 router.post('/deletevendor', vendorController.DeleteVendor);
-router.get('/showvendor', vendorController.showVendor);
+router.post('/showvendor', vendorController.showVendor);
 router.post('/vendor',vendorController.Vendor)
 router.post('/updatevendor',vendorController.UpdateVendor)
 router.get('/vendorid',vendorController.Vendor_id)
+router.post('/totalvendor',vendorController.TotalVendor)
 router.post('/importvendor',vendorController.ImportVendor)
 
 router.post('/insertcustaddress', AddressController.InsertCustomerAddress);

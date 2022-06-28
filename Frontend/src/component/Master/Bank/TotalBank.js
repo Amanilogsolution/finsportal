@@ -110,7 +110,6 @@ const TotalBank = () => {
       window.location.reload()
     }
     else {
-      // console.log("importdata",importdata)
       const result = await ImportBank(importdata, localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);
@@ -132,7 +131,6 @@ const TotalBank = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    // console.log('dates', datas)
     setImportdata(datas);
 
   };
@@ -169,7 +167,6 @@ const TotalBank = () => {
   useEffect( () => {
     const fetchdata=async()=>{
     const result = await totalBank(localStorage.getItem('Organisation'));
-    console.log(result)
     setData(result)}
     fetchdata();
   }, [])

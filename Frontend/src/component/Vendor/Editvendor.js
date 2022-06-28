@@ -11,7 +11,7 @@ const Vendor = () => {
 
 
      useEffect(async() => {
-         const result = await showvendor(localStorage.getItem('VendorSno'));
+         const result = await showvendor(localStorage.getItem('Organisation'),localStorage.getItem('VendorSno'));
          setData(result)
 
         //  const name = result.vend_name
@@ -60,10 +60,12 @@ const Vendor = () => {
     const contact_person_designation = document.getElementById('contact_person_designation').value;
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
+    const org=localStorage.getItem('Organisation');
+    const User_id= localStorage.getItem('User_id');
 
 
     const result = await UpdateVendor(sno,vend_email,vend_work_phone,vend_phone,contact_person_name,contact_person_email,contact_person_work_phone,
-      contact_person_phone,contact_person_skype,contact_person_designation,contact_person_department,remark)
+      contact_person_phone,contact_person_skype,contact_person_designation,contact_person_department,remark,org,User_id)
     if (result) {
       window.location.href = '/Showvendor'
     }

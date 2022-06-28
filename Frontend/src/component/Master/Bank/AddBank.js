@@ -25,11 +25,13 @@ import {insertBank}  from '../../../api';
     const acname = document.getElementById('acname').value;
     // const company_id = document.getElementById('company_id').value;
     const description = document.getElementById('description').value;
+    const org=localStorage.getItem('Organisation');
+    const User_id=localStorage.getItem('User_id');
 
     console.log(account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
     console.log(actype)
 
-    const result = await insertBank( account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description)
+    const result = await insertBank( account_code,bank_name, account_no, address_line1, address_line2, state,city,pincode,ifsc_code,actype,acname,description,org,User_id)
     // console.log(result)
     if(result == "Already"){
       alert('Already')

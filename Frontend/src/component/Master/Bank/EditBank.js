@@ -9,7 +9,7 @@ const EditBank = () => {
     const[type,setType] = useState()
 
     useEffect( async()=>{
-        const result = await showBank(localStorage.getItem('BankSno'));
+        const result = await showBank(localStorage.getItem('BankSno'),localStorage.getItem('Organisation'));
         setData(result)
         if(result.ac_type == 'Saving'){
             document.getElementById('Saving').checked = true
@@ -39,8 +39,10 @@ const EditBank = () => {
         const acname = document.getElementById('acname').value;
         // const company_id = document.getElementById('company_id').value;
         const description = document.getElementById('description').value;
+        const org=localStorage.getItem('Organisation');
+        const User_id=localStorage.getItem('User_id');
 
-        const result = await updateBank(localStorage.getItem('BankSno'),account_code,account_no,type,bank_name,address_line1,address_line2,state,city,pincode,ifsc_code,acname,description);
+        const result = await updateBank(localStorage.getItem('BankSno'),account_code,account_no,type,bank_name,address_line1,address_line2,state,city,pincode,ifsc_code,acname,description,org,User_id);
         if(result){
             window.location.href = '/TotalBank'
         }
