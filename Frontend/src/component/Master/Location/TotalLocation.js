@@ -77,12 +77,17 @@ const columns = [
         <button className="editbtn btn-success "
           onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
         >Edit</button></a>,
-      <a title='View Document' href="AddOrgAddress"><button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address">
+      <a title='View Document' href="AddOrgAddress">
+      <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
+      onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
         <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
       </button></a>,
-      <a title='View Document' href="EditOrgAddress"> <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address">
+      <a title='View Document' href="EditOrgAddress">
+       <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
+       onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
         <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
       </button></a>
+
       // <a title='View Document' href="EditLocation">
       //   <button className="editbtn btn-success "
       //    onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
@@ -349,11 +354,11 @@ const TotalLocation = () => {
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true">
 
-          <div className="" style={{ height: "550px", width: "80%", overflow: "auto", margin: "auto" }}>
+          <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel address file
+                  Uploaded Excel file
                 </h5>
                 <button
                   type="button"

@@ -21,8 +21,10 @@ function EditAccountMinorCode() {
     const account_name = document.getElementById('account_name').value;
     // const account_name_code = document.getElementById('account_name_code').value;
     // const account_type_code = document.getElementById('account_type_code').value
+    const org= localStorage.getItem('Organisation');
+    const User_id= localStorage.getItem('User_id');
 
-    const result = await UpdateAccountMinorCode(localStorage.getItem('Organisation'),localStorage.getItem('AccountMinorCode'),account_name);
+    const result = await UpdateAccountMinorCode(org,localStorage.getItem('AccountMinorCode'),account_name,User_id);
     if(result){
       alert('Account Minor Code Updated Successfully')
       window.location.href = 'ShowAccountMinorCode'

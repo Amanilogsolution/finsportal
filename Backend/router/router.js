@@ -151,7 +151,6 @@ router.post('/updatelocation',LocationController.UpdateLocation)
 
 
 router.post('/LocationAddress',LocationController.LocationAddress)
-router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 router.post('/importlocationaddress',LocationController.ImportLocationAddress)
@@ -232,6 +231,8 @@ router.post('/totalaccountminorcode',AccountMinorCodeController.TotalAccountMino
 router.post('/accountminorcodestatus',AccountMinorCodeController.AccountMinorCodeStatus)
 router.post('/getaccountminorcode',AccountMinorCodeController.GetAccountMinorCode)
 router.post('/updateaccountminorcode',AccountMinorCodeController.UpdateAccountMinorCode)
+router.post('/importaccountminorcode',AccountMinorCodeController.ImportAccountMinorCode)
+
 
 router.post('/totalchartofaccount',ChartOfAccountMasterController.TotalChartOfAccount)
 router.post('/chartofaccountstatus',ChartOfAccountMasterController.ChartOfAccountStatus)

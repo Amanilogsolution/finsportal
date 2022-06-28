@@ -802,10 +802,14 @@ export const GetAccountMinorCode = async (org,sno)=>{
     return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateAccountMinorCode = async (org,sno,account_name)=>{
+export const UpdateAccountMinorCode = async (org,sno,account_name,User_id)=>{
     console.log(org,sno)
     const url = `http://localhost:3008/api/updateaccountminorcode`
-    return axios.post(url,{org,sno,account_name}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,sno,account_name,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+export const ImportAccountMinorCode = async (org,datas,User_id)=>{
+    const url = `http://localhost:3008/api/importaccountminorcode`
+    return axios.post(url,{org,datas,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const TotalChartOfAccount = async (org)=>{
