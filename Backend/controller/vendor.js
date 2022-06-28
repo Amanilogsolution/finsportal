@@ -69,7 +69,7 @@ const InsertVendor = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -80,7 +80,7 @@ const showVendor = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -93,7 +93,7 @@ async function DeleteVendor(req, res) {
         res.send('done')
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -105,7 +105,7 @@ async function Vendor(req, res) {
         const result = await sql.query(`Select * from FINSDB.dbo.tbl_new_vendor where sno = ${sno}`)
         res.send(result.recordset[0])
     } catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -146,7 +146,7 @@ const Vendor_id = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
