@@ -11,7 +11,7 @@ const city = async (req, res) => {
         const result = await sql.query(`select * from FINSDB.dbo.tbl_cities with (nolock) order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 const insertCity = async (req, res) => {

@@ -52,11 +52,11 @@ function ChartOfAccount() {
   const handleAccountType = async (e) => {
     const account_type = e.target.value;
     setaccount_type(account_type)
-    const result = await ChartOfAccountParentAccount(account_type);
+    const result = await ChartOfAccountParentAccount(account_type,localStorage.getItem('Organisation'));
     console.log(result)
     setaccount_name(result)
 
-    const number = await ParentAccountNumber(account_type, account_name);
+    const number = await ParentAccountNumber(account_type, account_name,localStorage.getItem('Organisation'));
     console.log('Result',number)
     if(!number.result){
       setAccountno(account_type+'01')

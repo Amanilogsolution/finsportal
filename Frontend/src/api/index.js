@@ -644,16 +644,16 @@ export const ShowChartOfAccount = async (org) => {
     const url = `http://localhost:3008/api/showcoa`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
-export const ChartOfAccountParentAccount = async (account_type_code) => {
+export const ChartOfAccountParentAccount = async (account_type_code,org) => {
     const url = `http://localhost:3008/api/parentaccount`
-    return axios.post(url,{account_type_code}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{account_type_code,org}).then(response => response.data).catch(error => console.log(error));
 }
 
 
 
-export const ParentAccountNumber = async (account_type_code,account_name_code) => {
+export const ParentAccountNumber = async (account_type_code,account_name_code,org) => {
     const url = `http://localhost:3008/api/parentaccountNumber`
-    return axios.post(url,{account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{account_type_code,account_name_code,org}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const AddAccountName = async (account_type_code,account_name,account_name_code,description) => {

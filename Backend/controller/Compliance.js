@@ -110,7 +110,7 @@ const Compliancesduedate = async (req, res) => {
         res.status(200).send(result.recordset)
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 
 }
@@ -122,7 +122,7 @@ const PendingCompliances = async (req, res) => {
         res.status(200).send(result.recordset)
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 
 }
@@ -140,7 +140,7 @@ const UpdatePendingCompliances = async (req, res) => {
         res.status(200).send(result)
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 
 }

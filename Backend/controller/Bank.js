@@ -89,7 +89,6 @@ const UpdateBank = async (req, res) => {
     const type = req.body.type;
     const acname = req.body.acname;
     const description = req.body.description;
-    console.log(req.body)
 
     try {
         await sql.connect(sqlConfig)
@@ -97,7 +96,7 @@ const UpdateBank = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 

@@ -14,46 +14,45 @@ const Accounttype = async (req, res) => {
         res.send(err)
     }
 }
-const InsertAccountType = async (req, res) => {
-    const account_type = req.body.account_type;
-    const account_type_code = req.body.account_type_code;
-    try {
-        await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_account_type where account_type_code='${account_type_code}' OR account_type='${account_type}'`)
-        if (!duplicate.recordset.length) {
-        const result = await sql.query(`INSERT into FINSDB.dbo.tbl_account_type (account_type,account_type_code,add_user_name,add_system_name,
-            add_ip_address ,add_date_time ,status ) values('${account_type}','${account_type_code}','Rupesh','${os.hostname()}','${req.ip}',getDate(),'Active');`)
-        res.send('Added')
-        } else {
-            res.send("Already")
-        }
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
+// const InsertAccountType = async (req, res) => {
+//     const account_type = req.body.account_type;
+//     const account_type_code = req.body.account_type_code;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_account_type where account_type_code='${account_type_code}' OR account_type='${account_type}'`)
+//         if (!duplicate.recordset.length) {
+//         const result = await sql.query(`INSERT into FINSDB.dbo.tbl_account_type (account_type,account_type_code,add_user_name,add_system_name,
+//             add_ip_address ,add_date_time ,status ) values('${account_type}','${account_type_code}','Rupesh','${os.hostname()}','${req.ip}',getDate(),'Active');`)
+//         res.send('Added')
+//         } else {
+//             res.send("Already")
+//         }
+//     }
+//     catch (err) {
+//         console.log(err)
+//     }
+// }
 
 const ParentAccount = async (req, res) => {
+    const org =req.body.org;
     const account_type_code = req.body.account_type_code;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT account_name,account_name_code from FINSDB.dbo.tbl_account_name tan2 WHERE status='Active' and 
+        const result = await sql.query(`SELECT account_name,account_name_code from ${org}.dbo.tbl_account_name tan2 WHERE status='Active' and 
         account_type_code='${account_type_code}'`)
-        console.log(result.recordset)
         res.send(result.recordset)
     } catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 const ParentAccountNumber = async (req, res) => {
+    const org = req.body.org;
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
-    console.log(account_type_code,account_name_code)
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT top 1 account_name_code from FINSDB.dbo.tbl_account_name WHERE status='Active'  and account_type_code='${account_type_code}' order by sno desc;`)
-        const result1 = await sql.query(`SELECT top 1  account_sub_name_code,account_sub_name from FINSDB.dbo.tbl_sub_account WHERE status='Active' and account_name_code='${account_name_code}' and account_type_code='${account_type_code}' order by sno desc;`)
-            console.log(result1)
+        const result = await sql.query(`SELECT top 1 account_name_code from ${org}.dbo.tbl_account_name WHERE status='Active'  and account_type_code='${account_type_code}' order by sno desc;`)
+        const result1 = await sql.query(`SELECT top 1  account_sub_name_code,account_sub_name from ${org}.dbo.tbl_sub_account WHERE status='Active' and account_name_code='${account_name_code}' and account_type_code='${account_type_code}' order by sno desc;`)
         res.send({
             "result":result.recordset[0],
             "result1": result1.recordset[0],
@@ -61,7 +60,7 @@ const ParentAccountNumber = async (req, res) => {
         })
     }
     catch(err){
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -81,7 +80,7 @@ const AddAccountName = async (req, res) => {
         res.send('Added')
     }
     catch(err){
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -97,7 +96,7 @@ const AddSubAccountName = async (req, res) => {
             res.send('Added')
     }
     catch(err){
-        console.log(err)
+        res.send(err)
     }
 }
 const UpdateSubAccountName = async (req, res) => {
@@ -116,7 +115,7 @@ const UpdateSubAccountName = async (req, res) => {
         account_name_code='${account_name_code}' ;`)
     }
     catch(err){
-        console.log(err)
+        res.send(err)
     }
 }
 const AddNewSubAccountName = async (req, res) => {
@@ -134,11 +133,11 @@ console.log('Hello',account_sub_name,account_sub_name_code,description,account_t
             values('${account_type_code}','${account_name_code}','${account_sub_name}','${account_sub_name_code}','${description}','Rupesh','${os.hostname()}','${req.ip}',
              getDate(),'Active');
             `)
-            console.log(result)
+            res.send(result)
     }
     catch(err){
-        console.log(err)
+        res.send(err)
     }
 }
 
-module.exports = {Accounttype,ParentAccount,InsertAccountType,ParentAccountNumber,AddAccountName,AddSubAccountName,UpdateSubAccountName,AddNewSubAccountName}
+module.exports = {Accounttype,ParentAccount,ParentAccountNumber,AddAccountName,AddSubAccountName,UpdateSubAccountName,AddNewSubAccountName}

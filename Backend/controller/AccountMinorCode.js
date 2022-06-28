@@ -61,13 +61,7 @@ const ImportAccountMinorCode = (req, res) => {
     const org = req.body.org;
     const datas = req.body.datas;
     const User_id = req.body.User_id;
-    // console.log(datas)
-
-    // console.log(`Insert into ${org}.dbo.tbl_account_name (account_type_code,account_name,account_name_code,account_description,
-    //     add_user_name,add_system_name,add_ip_address,add_date_time,status) 
-    //     VALUES ${datas.map(item => `('${item.account_type_code}','${item.account_name}','${item.account_name_code}','${item.account_description}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active')`).join(', ')}`)
-
-
+  
     sql.connect(sqlConfig).then(() => {
           sql.query(`Insert into ${org}.dbo.tbl_account_name (account_type_code,account_name,account_name_code,account_description,
                     add_user_name,add_system_name,add_ip_address,add_date_time,status) 
