@@ -15,6 +15,7 @@ function AddOrgAddress() {
 
      const handleClick = async (e) =>{
       e.preventDefault();
+      const User_id= localStorage.getItem('User_id');
       const location_add1 = document.getElementById('location_add1').value;
       const location_add2 = document.getElementById('location_add2').value;
       const location_city = document.getElementById('location_city').value;
@@ -27,7 +28,7 @@ function AddOrgAddress() {
       to_date.setDate(to_date.getDate() - 1);
       let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" +  to_date.getDate()
 
-      const result = await InsertLocationAddress(localStorage.getItem('Organisation'),data.location_name,data.gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,localStorage.getItem('location_id'),location_pin,formatted_date)
+      const result = await InsertLocationAddress(localStorage.getItem('Organisation'),data.location_name,data.gstin_no,location_add1,location_add2,location_city,location_state,location_country,from_date,localStorage.getItem('location_id'),location_pin,formatted_date,User_id)
       if(result){
         window.location.href = '/TotalLocation'
     }

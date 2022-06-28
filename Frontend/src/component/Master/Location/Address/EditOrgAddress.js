@@ -22,8 +22,9 @@ function EditOrgAddress() {
       const location_country = document.getElementById('location_country').value;
       const from_date = document.getElementById('from_date').value;
       const location_pin = document.getElementById('location_pin').value;
+      const User_id=localStorage.getItem('User_id');
 
-      const result = await UpdateLocationAddress(localStorage.getItem('Organisation'),location_add1,location_add2,location_city,location_state,location_country,from_date,localStorage.getItem('location_id'),location_pin)
+      const result = await UpdateLocationAddress(localStorage.getItem('Organisation'),location_add1,location_add2,location_city,location_state,location_country,from_date,localStorage.getItem('location_id'),location_pin,User_id)
       if(result){
         window.location.href = '/TotalLocation'
     }

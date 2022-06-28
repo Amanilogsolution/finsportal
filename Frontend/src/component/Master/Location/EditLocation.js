@@ -20,7 +20,8 @@ function EditLocation() {
         const contact_person2 = document.getElementById('contact_person2').value;
         const contact_phone1 = document.getElementById('contact_phone1').value;
         const contact_phone2 = document.getElementById('contact_phone2').value;
-        const result = await updateLocation(localStorage.getItem('Organisation'),Location_name,gst_no,contact_Person1,contact_person2,contact_phone1,contact_phone2,localStorage.getItem('location_id'));
+        const User_id = localStorage.getItem('User_id');
+        const result = await updateLocation(localStorage.getItem('Organisation'),Location_name,gst_no,contact_Person1,contact_person2,contact_phone1,contact_phone2,localStorage.getItem('location_id'),User_id);
         if(result){
             window.location.href='./TotalLocation'
         }
@@ -67,7 +68,7 @@ function EditLocation() {
                           <div className="form-row">
                             <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                             <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='Location_name' value={data.location_name}   onChange={(e) => handleChangeLocationName(e)} />
+                              <input type="text" className="form-control col-md-4" id='Location_name' value={data.location_name} disabled  onChange={(e) => handleChangeLocationName(e)} />
                             </div>
                             {/* form-group end.// */}
                           </div>

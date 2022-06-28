@@ -2,27 +2,31 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { addLocation } from '../../../api';
+import { addLocation,LastLocationid } from '../../../api';
 
 function AddLocation() {
-  // const [locationid,setLocationid] =useState();
+  const [locationid,setLocationid] =useState();
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const randomno = Math.floor((Math.random() * 9999) + 1000);
+    const randomno = locationid+1;
+    const lastnum=''+randomno
     const Location_name = document.getElementById('Location_name').value;
-    const Location_id = Location_name.slice(0, 3) + randomno;
+    const first3=Location_name.slice(0, 3)
+    const lastno=''+lastnum.padStart(4,'0');
+    const Location_id = first3.toUpperCase() + lastno ; 
     const gst_no = document.getElementById('gst_no').value;
     const contact_Person1 = document.getElementById('contact_Person1').value;
     const contact_person2 = document.getElementById('contact_person2').value;
     const contact_phone1 = document.getElementById('contact_phone1').value;
     const contact_phone2 = document.getElementById('contact_phone2').value;
-    console.log(Location_id, Location_name, gst_no, contact_Person1, contact_phone2, contact_phone1, contact_phone2)
-    const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2);
-    console.log(result)
+    const User_id = localStorage.getItem('User_id');
+    console.log(Location_id)
+    const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2,User_id);
     if (!Location_name || !gst_no) {
       alert('Enter data')
-    } else {
+    } 
+    else {
       if (result == "Already") {
         alert('Already')
       } else {
@@ -31,18 +35,18 @@ function AddLocation() {
     }
   }
 
-  // useEffect(() => {
-  //   async function fetchMyAPI() {
-  //     const result = await LastLocationid(localStorage.getItem("Organisation"));
-  //     console.log(result.location_id)
-  //     setLocationid(result.location_id);
-  //     localStorage.setItem("lastlocationid",result.location_id)
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const result = await LastLocationid(localStorage.getItem("Organisation"));
+      console.log(result.count)
+      setLocationid(result.count);
+      // localStorage.setItem("lastlocationid",result.location_id)
 
-  //   }
+    }
 
-  //   fetchMyAPI()
+    fetchMyAPI()
 
-  // }, [])
+  }, [])
 
   return (
     <div>
