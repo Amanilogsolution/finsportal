@@ -239,6 +239,8 @@ router.post('/totalchartofaccount',ChartOfAccountMasterController.TotalChartOfAc
 router.post('/chartofaccountstatus',ChartOfAccountMasterController.ChartOfAccountStatus)
 router.post('/getchartofaccount',ChartOfAccountMasterController.GetChartOfAccount)
 router.post('/updatechartofaccount',ChartOfAccountMasterController.UpdateChartOfAccount)
+router.post('/importchartofaccount',ChartOfAccountMasterController.ImportChartofAccount)
+
 
 
 module.exports = router;

@@ -8,7 +8,7 @@ function AddcomplianceType() {
   const handleClick = async (e) => {
     e.preventDefault();
     const compliance_Type = document.getElementById('compliance_Type').value;
-    const result = await InsertcomplianceType(localStorage.getItem('Organisation'), compliance_Type, localStorage.getItem('User_name'));
+    const result = await InsertcomplianceType(localStorage.getItem('Organisation'), compliance_Type, localStorage.getItem('User_id'));
     if (!compliance_Type) {
       alert('Enter data')
     } else {

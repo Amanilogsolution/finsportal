@@ -660,26 +660,23 @@ export const ParentAccountNumber = async (account_type_code,account_name_code,or
     return axios.post(url,{account_type_code,account_name_code,org}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddAccountName = async (account_type_code,account_name,account_name_code,description) => {
-    console.log(account_type_code,account_name,account_name_code,description)
+export const AddAccountName = async (account_type_code,account_name,account_name_code,description,org,User_id) => {
     const url = `http://localhost:3008/api/addaccountname`
-    return axios.post(url,{account_type_code,account_name,account_name_code,description}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{account_type_code,account_name,account_name_code,description,org,User_id}).then(response => response.data).catch(error => console.log(error));
 }
-export const AddSubAccountName = async (account_type_code,account_name_code) => {
-    console.log(account_type_code,account_name_code)
+export const AddSubAccountName = async (account_type_code,account_name_code,org) => {
     const url = `http://localhost:3008/api/addsubaccountname`
-    return axios.post(url,{account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{account_type_code,account_name_code,org}).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateSubAccountName = async (account_sub_name,account_sub_name_code,description,account_type_code,account_name_code) => {
-    console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
+export const UpdateSubAccountName = async (account_sub_name,account_sub_name_code,description,account_type_code,account_name_code,org,User_id) => {
     const url = `http://localhost:3008/api/updatesubaccountname`
-    return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code,org,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddNewSubAccountName = async (account_sub_name,account_sub_name_code,description,account_type_code,account_name_code) => {
+export const AddNewSubAccountName = async (account_sub_name,account_sub_name_code,description,account_type_code,account_name_code,org,User_id) => {
     console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
     const url = `http://localhost:3008/api/addnewsubaccountname`
-    return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{account_sub_name,account_sub_name_code,description,account_type_code,account_name_code,org,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Insertaccounttype = async (org,account_type,account_type_code,accountTypedesc,User_id) => {
@@ -832,9 +829,14 @@ export const GetChartOfAccount = async (org,sno)=>{
     return axios.post(url,{org,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateChartOfAccount = async (org,sno,account_sub_name)=>{
+export const UpdateChartOfAccount = async (org,sno,account_sub_name,User_id)=>{
     const url = `http://localhost:3008/api/updatechartofaccount`
-    return axios.post(url,{org,sno,account_sub_name}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,sno,account_sub_name,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+export const ImportChartofAccount = async (datas,org,User_id)=>{
+    console.log("API",datas)
+    const url = `http://localhost:3008/api/importchartofaccount`
+    return axios.post(url,{datas,org,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 

@@ -45,9 +45,11 @@ const UpdateChartOfAccount = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
     const account_sub_name = req.body.account_sub_name
+    const User_id = req.body.User_id;
+
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sub_account  set account_sub_name='${account_sub_name}' ,update_user_name='Aman',update_system_name ='${os.hostname()}',
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sub_account  set account_sub_name='${account_sub_name}' ,update_user_name='${User_id}',update_system_name ='${os.hostname()}',
         update_ip_address ='${req.ip}',update_date_time=GETDATE() WHERE sno='${sno}';`)
         res.send(result.recordset[0])
     }   catch (err) {       
@@ -55,4 +57,22 @@ const UpdateChartOfAccount = async (req, res) => {
     }
 }
 
-module.exports={TotalChartOfAccount,ChartOfAccountStatus,GetChartOfAccount,UpdateChartOfAccount}
+const ImportChartofAccount = (req, res) => {
+    const datas = req.body.datas;
+    const org = req.body.org;
+    const User_id = req.body.User_id;
+
+
+    sql.connect(sqlConfig).then(() => {
+
+        sql.query(`insert into ${org}.dbo.tbl_sub_account (account_type_code,account_name_code,account_sub_name,
+            account_sub_name_code,account_description,add_user_name ,add_system_name ,add_ip_address ,add_date_time ,
+            status) 
+                    VALUES ${datas.map(item => `('${item.account_type_code}','${item.account_name_code}','${item.account_sub_name}','${item.account_sub_name_code}',
+                    '${item.account_description}','${User_id}','${os.hostname()}','${req.ip}',getDate(),'Active')`).join(', ')}`)
+
+        res.send("Data Added")
+    }
+    )
+}
+module.exports={TotalChartOfAccount,ChartOfAccountStatus,GetChartOfAccount,UpdateChartOfAccount,ImportChartofAccount}

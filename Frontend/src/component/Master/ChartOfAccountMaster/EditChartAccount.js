@@ -23,7 +23,7 @@ function EditChartAccount() {
         const account_sub_name = document.getElementById('account_sub_name').value;
         console.log(account_sub_name)
         
-        const result = await UpdateChartOfAccount(localStorage.getItem('Organisation'),localStorage.getItem('ChartAccountsno'),account_sub_name);
+        const result = await UpdateChartOfAccount(localStorage.getItem('Organisation'),localStorage.getItem('ChartAccountsno'),account_sub_name,localStorage.getItem('User_id'));
         if (result){
             alert('Chart Of Account Updated Successfully')
             window.location.href = 'ShowChartAccount'

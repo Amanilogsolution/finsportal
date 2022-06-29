@@ -11,7 +11,7 @@ function EditComplianceType() {
     e.preventDefault();
     const compliance_Type = document.getElementById('compliance_Type').value;
 
-    const result = await UpdatecomplianceType(localStorage.getItem('Organisation'), compliance_Type, localStorage.getItem('User_name'), localStorage.getItem('ComplianceSnoType'))
+    const result = await UpdatecomplianceType(localStorage.getItem('Organisation'), compliance_Type, localStorage.getItem('User_id'), localStorage.getItem('ComplianceSnoType'))
     if (result) {
       window.location.href = '/ShowcompliancesType'
     }

@@ -70,12 +70,14 @@ const AddAccountName = async (req, res) => {
     const account_name = req.body.account_name;
     const account_name_code = req.body.account_name_code;
     const description = req.body.description;
+    const org =req.body.org;
+    const User_id= req.body.User_id;
     console.log(account_type_code,account_name,account_name_code,description)
 
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`INSERT into FINSDB.dbo.tbl_account_name (account_type_code,account_name,account_name_code,account_description,add_user_name,
-            add_system_name,add_ip_address ,add_date_time ,status ) values('${account_type_code}','${account_name}','${account_name_code}','${description}','Rupesh','${os.hostname()}','${req.ip}',
+        const result = await sql.query(`INSERT into ${org}.dbo.tbl_account_name (account_type_code,account_name,account_name_code,account_description,add_user_name,
+            add_system_name,add_ip_address ,add_date_time ,status ) values('${account_type_code}','${account_name}','${account_name_code}','${description}','${User_id}','${os.hostname()}','${req.ip}',
              getDate(),'Active');`)
         res.send('Added')
     }
@@ -87,11 +89,12 @@ const AddAccountName = async (req, res) => {
 const AddSubAccountName = async (req, res) => {
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
+    const org=req.body.org;
     console.log('Hello',account_name_code,account_name_code)
- 
+
     try{
           await sql.connect(sqlConfig) 
-          const result = await sql.query(`INSERT into FINSDB.dbo.tbl_sub_account (account_type_code,account_name_code) 
+          const result = await sql.query(`INSERT into ${org}.dbo.tbl_sub_account (account_type_code,account_name_code) 
             values('${account_type_code}','${account_name_code}');`)
             res.send('Added')
     }
@@ -105,11 +108,13 @@ const UpdateSubAccountName = async (req, res) => {
     const description = req.body.description;
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
+    const org =req.body.org;
+    const User_id= req.body.User_id;
     console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
 
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE FINSDB.dbo.tbl_sub_account set account_sub_name='${account_sub_name}',account_sub_name_code='${account_sub_name_code}',add_user_name='Aman',
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sub_account set account_sub_name='${account_sub_name}',account_sub_name_code='${account_sub_name_code}',add_user_name='${User_id}',
         add_system_name='${os.hostname()}',add_ip_address='${req.ip}' ,add_date_time=GETDATE(),status='Active',account_description='${description}' 
         WHERE account_type_code='${account_type_code}' and 
         account_name_code='${account_name_code}' ;`)
@@ -124,13 +129,14 @@ const AddNewSubAccountName = async (req, res) => {
     const description = req.body.description;
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
-console.log('Hello',account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
+    const org =req.body.org;
+    const User_id= req.body.User_id;
 
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`INSERT into FINSDB.dbo.tbl_sub_account (account_type_code,account_name_code,account_sub_name,
+        const result = await sql.query(`INSERT into ${org}.dbo.tbl_sub_account (account_type_code,account_name_code,account_sub_name,
             account_sub_name_code,account_description,add_user_name,add_system_name,add_ip_address ,add_date_time ,status ) 
-            values('${account_type_code}','${account_name_code}','${account_sub_name}','${account_sub_name_code}','${description}','Rupesh','${os.hostname()}','${req.ip}',
+            values('${account_type_code}','${account_name_code}','${account_sub_name}','${account_sub_name_code}','${description}','${User_id}','${os.hostname()}','${req.ip}',
              getDate(),'Active');
             `)
             res.send(result)
