@@ -1,101 +1,106 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {VendAddress,EditVendAddress} from '../../../api';
+import { VendAddress, EditVendAddress } from '../../../api';
 import { Totalcountry } from '../../../api';
 import { showactivestate } from '../../../api';
-import {getCity} from '../../../api';
+import { getCity } from '../../../api';
 
- const EditVendorAddress = ()=> {
-    const [billing_address_country, setBilling_address_country] = useState();
-    const [selectState,setSelectState] = useState([]);
-    const [selectedCountry,setSelectedCountry] = useState([]);
-    const [billing_address_city, setBilling_address_city] = useState();
-    const [selectCity,setSelectCity] = useState([]);
-    const [billing_address_state, setBilling_address_state] = useState();
-    const [data,setData] = useState({})
-    const [vend_id,setVend_ID] = useState()
+const EditVendorAddress = () => {
+  const [billing_address_country, setBilling_address_country] = useState();
+  const [selectState, setSelectState] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState([]);
+  const [billing_address_city, setBilling_address_city] = useState();
+  const [selectCity, setSelectCity] = useState([]);
+  const [billing_address_state, setBilling_address_state] = useState();
+  const [data, setData] = useState({})
+  const [vend_id, setVend_ID] = useState()
 
-    useEffect(async() => {
-        const data = await VendAddress(localStorage.getItem('EditVendorAddress'))
-        setData(data)
-        setBilling_address_country(data.billing_address_country)
-        setBilling_address_state(data.billing_address_state)
-        setBilling_address_city(data.billing_address_city)
-        setVend_ID(data.vend_id)
-        console.log(data)
-        const result = await Totalcountry()
-        console.log(result)
-        setSelectedCountry(result)
-      }, []);
+  useEffect(async () => {
+    const data = await VendAddress(localStorage.getItem('EditVendorAddress'), localStorage.getItem('Organisation'))
+    setData(data)
+    setBilling_address_country(data.billing_address_country)
+    setBilling_address_state(data.billing_address_state)
+    setBilling_address_city(data.billing_address_city)
+    setVend_ID(data.vend_id)
+    const result = await Totalcountry()
+    setSelectedCountry(result)
+  }, []);
 
-      const handleClick = async (e) => {
-        e.preventDefault();
-        const billing_address_attention = document.getElementById('billing_address_attention').value;
-        const billing_address_pincode = document.getElementById('billing_address_pincode').value;
-        const billing_address_phone = document.getElementById('billing_address_phone').value;
-        const billing_address_fax = document.getElementById('billing_address_fax').value;
+  const handleClick = async (e) => {
+    e.preventDefault();
+    
+    const billing_address_gstno = document.getElementById('billing_address_gstno').value;
+    const billing_address_attention = document.getElementById('billing_address_attention').value;
+    const billing_address_pincode = document.getElementById('billing_address_pincode').value;
+    const billing_address_phone = document.getElementById('billing_address_phone').value;
+    const billing_address_fax = document.getElementById('billing_address_fax').value;
+    const org= localStorage.getItem('Organisation');
+    const User_id= localStorage.getItem('User_id');
 
-        console.log(billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        const result = await EditVendAddress(localStorage.getItem('EditVendorAddress'),vend_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        console.log(result)
-        if(result){
-            window.location.href='/TotalVendAddress'
-        }
-
+    const result = await EditVendAddress(localStorage.getItem('EditVendorAddress'), vend_id,billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,org,User_id)
+    if (result) {
+      window.location.href = '/TotalVendAddress'
     }
 
-    const handleAddressCountry = async(e) => {
-        let data = e.target.value;
-        setBilling_address_country(data);
-        const statesresult = await showactivestate(data)
-        console.log(statesresult)
-        setSelectState(statesresult)
-      }
-      const handleAddressCity = async(e) => {
-        let data = e.target.value;
-        setBilling_address_city(data);
-      }
-      const handleChangebillingState = async(e) => {
-        let data = e.target.value;
-        setBilling_address_state(data);
-        const result = await getCity(data)
-        setSelectCity(result)
-        console.log(result)
-      }
-      const handleChangeAttention = async(e) => {
-          setData({...data,billing_address_attention:e.target.value})
-        }
+  }
 
-        const handleChangePincode = async(e) => {
-            setData({...data,billing_address_pincode:e.target.value})
-            }
-            const handleChangePhone = async(e) => {
-                setData({...data,billing_address_phone:e.target.value})
-                }
-                const handleChangeFax = async(e) => {
-                    setData({...data,billing_address_fax:e.target.value})
-                    }
+  const handleAddressCountry = async (e) => {
+    let data = e.target.value;
+    setBilling_address_country(data);
+    const statesresult = await showactivestate(data)
+    console.log(statesresult)
+    setSelectState(statesresult)
+  }
+  const handleAddressCity = async (e) => {
+    let data = e.target.value;
+    setBilling_address_city(data);
+  }
+  const handleChangebillingState = async (e) => {
+    let data = e.target.value;
+    setBilling_address_state(data);
+    const result = await getCity(data)
+    setSelectCity(result)
+    console.log(result)
+  }
+  
+  const handleChangegstno = async (e) => {
+    setData({ ...data, billing_address_gstno: e.target.value })
+  }
 
- 
-    return (
-        <div>
-        <div className="wrapper">
+  const handleChangeAttention = async (e) => {
+    setData({ ...data, billing_address_attention: e.target.value })
+  }
+
+  const handleChangePincode = async (e) => {
+    setData({ ...data, billing_address_pincode: e.target.value })
+  }
+  const handleChangePhone = async (e) => {
+    setData({ ...data, billing_address_phone: e.target.value })
+  }
+  const handleChangeFax = async (e) => {
+    setData({ ...data, billing_address_fax: e.target.value })
+  }
+
+
+  return (
+    <div>
+      <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div className="spinner-border" role="status"> </div>
-          </div>
-          <Header />
-          <Menu />
-          <div>
-            <div className="content-wrapper">
-              <div className="container-fluid">
-                <br /> <h3 className="text-left ml-5">Add Address</h3>
-                <div className="row ">
-                  <div className="col ml-5">
-                    <div className="card" style={{ width: "100%" }}>
-                      <article className="card-body">
-                        <form>
+          <div className="spinner-border" role="status"> </div>
+        </div>
+        <Header />
+        <Menu />
+        <div>
+          <div className="content-wrapper">
+            <div className="container-fluid">
+              <br /> <h3 className="text-left ml-5">Edit Vendor Address</h3>
+              <div className="row ">
+                <div className="col ml-5">
+                  <div className="card" style={{ width: "100%" }}>
+                    <article className="card-body">
+                      <form>
                         <div className="Address mt-3" id="addressdiv">
                           <div
                             className="Address_left"
@@ -126,6 +131,23 @@ import {getCity} from '../../../api';
                                 </select>
                               </div>
                               {/* form-group end.// */}
+                              <div className="form-row">
+                              <label
+                                htmlFor="billing_address_gstno"
+                                className="col-md-2 col-form-label font-weight-normal"
+                              >
+                                GST NO.
+                              </label>
+                              <div className="col form-group">
+                                <input type="text"
+                                  className="form-control col-md-7"
+                                  placeholder
+                                  id="billing_address_gstno"
+                                  value={data.gst_no}
+                                  onChange={handleChangegstno}
+                                />
+                              </div>
+                            </div>
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_attention"
@@ -158,11 +180,11 @@ import {getCity} from '../../../api';
                                 >
                                   <option selected hidden> {data.billing_address_country}</option>
                                   {
-                                selectedCountry.map((data) => (
-                                    <option value={data.country_name}>{data.country_name}</option>
-                                ))
-                                
-                              }
+                                    selectedCountry.map((data) => (
+                                      <option value={data.country_name}>{data.country_name}</option>
+                                    ))
+
+                                  }
 
                                 </select>
                               </div>
@@ -205,17 +227,17 @@ import {getCity} from '../../../api';
                                 >
                                   <option selected>{data.billing_address_city}</option>
                                   {
-                                selectCity.map((data) => (
-                                    <option value={data.city_name}>{data.city_name}</option>
-                                ))  
-                              }
+                                    selectCity.map((data) => (
+                                      <option value={data.city_name}>{data.city_name}</option>
+                                    ))
+                                  }
 
                                 </select>
                               </div>
                               {/* form-group end.// */}
                             </div>
 
-                           
+
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
@@ -271,31 +293,31 @@ import {getCity} from '../../../api';
                               </div>
                             </div>
                           </div>
-  
-                       
-                                  </div>
-                       
-                        </form>
-                      </article>
-                      {/* card-body end .// */}
-                      <div className="border-top card-body">
-                        <button className="btn btn-success"onClick={handleClick} >Update</button>
-                        <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./TotalVendAddress"}}>Cancel</button>
-                      </div>
+
+
+                        </div>
+
+                      </form>
+                    </article>
+                    {/* card-body end .// */}
+                    <div className="border-top card-body">
+                      <button className="btn btn-success" onClick={handleClick} >Update</button>
+                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalVendAddress" }}>Cancel</button>
                     </div>
-                    {/* card.// */}
                   </div>
-                  {/* col.//*/}
+                  {/* card.// */}
                 </div>
-                {/* row.//*/}
-              </div>   
+                {/* col.//*/}
+              </div>
+              {/* row.//*/}
             </div>
           </div>
-          <Footer />
         </div>
+        <Footer />
       </div>
-    )
-  }
+    </div>
+  )
+}
 
 
 export default EditVendorAddress;

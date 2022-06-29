@@ -20,18 +20,21 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
     const result = await Activecountries()
     // console.log(result)
     setSelectedCountry(result)
-    const dataId = await VendorId()
+    const dataId = await VendorId(localStorage.getItem('Organisation'))
     setVendId(dataId)
-    // console.log(dataId)
+    console.log(dataId)
   }, []);
 
     const handleClick = async (e) => {
         e.preventDefault();
+        
+        const billing_address_gstno = document.getElementById('billing_address_gstno').value;
         const billing_address_attention = document.getElementById('billing_address_attention').value;
         const billing_address_pincode = document.getElementById('billing_address_pincode').value;
         const billing_address_phone = document.getElementById('billing_address_phone').value;
         const billing_address_fax = document.getElementById('billing_address_fax').value;
-
+        const org= localStorage.getItem('Organisation');
+        const User_id=localStorage.getItem('User_id');
        
         // console.log(getVendID,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
         if(!billing_address_country || !billing_address_city || !billing_address_state || !billing_address_pincode|| !billing_address_phone)
@@ -39,8 +42,9 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
             alert("Please! enter the data.")
         }
         else{
-        const result = await VendInsertAddress(cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        // console.log(result)
+        const result = await VendInsertAddress(cust_id,billing_address_gstno,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,org,User_id)
+        console.log(result)
+          window.location.href = 'TotalVendAddress'
         }
         
     }
@@ -118,6 +122,21 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                                 </select>
                               </div>
                               {/* form-group end.// */}
+                            </div>
+                            <div className="form-row">
+                              <label
+                                htmlFor="billing_address_gstno"
+                                className="col-md-2 col-form-label font-weight-normal"
+                              >
+                                GST NO.
+                              </label>
+                              <div className="col form-group">
+                                <input type="text"
+                                  className="form-control col-md-7"
+                                  placeholder
+                                  id="billing_address_gstno"
+                                />
+                              </div>
                             </div>
                             <div className="form-row">
                               <label

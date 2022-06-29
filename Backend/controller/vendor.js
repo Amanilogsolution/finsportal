@@ -146,9 +146,10 @@ async function UpdateVendor(req, res) {
 }
 
 const Vendor_id = async (req, res) => {
+    const org= req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT vend_id from FINSDB.dbo.tbl_new_vendor`)
+        const result = await sql.query(`SELECT vend_id from ${org}.dbo.tbl_new_vendor`)
         res.send(result.recordset)
     }
     catch (err) {

@@ -38,7 +38,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeleteVendAddress(row.sno, status)
+          await DeleteVendAddress(row.sno, status,localStorage.getItem('Organisation'))
           window.location.href = 'TotalVendAddress'
         }
         }>
@@ -46,7 +46,7 @@ const columns = [
 
 
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
@@ -97,10 +97,8 @@ const TotalVendAddress = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     const vend_entered_id = document.getElementById('vend_entered_id').value;
-    console.log(vend_entered_id)
-    const result = await ShowVendAddress(vend_entered_id)
+    const result = await ShowVendAddress(vend_entered_id,localStorage.getItem('Organisation'))
     setData(result)
-    console.log(result)
   }
 
 
