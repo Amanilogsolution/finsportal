@@ -157,18 +157,43 @@ const Vendor_id = async (req, res) => {
     }
 }
 
-const TotalVendor = async (req, res) => {
+const VendorMastid = async (req, res) => {
     const org= req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT count(vend_id) as count from ${org}.dbo.tbl_new_vendor  with (nolock);`)
-        console.log(result.recordset[0])
+        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_vendor`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+const TotalVendId = async (req, res) => {
+    const org= req.body.org;
+    const mast_id= req.body.mast_id;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select count(vend_id) as count from ${org}.dbo.tbl_new_vendor tnv WHERE mast_id='${mast_id}'; `)
         res.send(result.recordset[0])
     }
     catch (err) {
         res.send(err)
     }
 }
+const TotalVendor = async (req, res) => {
+    const org= req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT count(DISTINCT(mast_id)) as count2 from ${org}.dbo.tbl_new_vendor  with (nolock);`)
+        // console.log(result.recordset[0])
+        res.send(result.recordset[0])
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
 
 const ImportVendor = (req, res) => {
     const org = req.body.org;
@@ -194,7 +219,7 @@ const ImportVendor = (req, res) => {
                         contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
                         contact_person_department,remark,newvend_uuid,status,add_date_time,add_user_name,add_system_name,add_ip_address)
 
-                        values ${datas.map(item => `('${item.mast_id+1}','${item.vend_id}','${item.vend_name}','${item.company_name}','${item.vend_display_name}',
+                        values ${datas.map(item => `('${item.mast_id}','${item.vend_id}','${item.vend_name}','${item.company_name}','${item.vend_display_name}',
                                     '${item.vend_email}','${item.vend_work_phone}','${item.vend_phone}','${item.skype_detail}','${item.designation}',
                                     '${item.department}','${item.website}','${item.gst_treatment}','${item.gstin_uin}','${item.pan_no}',
                                     '${item.source_of_supply}','${item.currency}','${item.opening_balance}','${item.payment_terms}','${item.tds}',
@@ -212,5 +237,5 @@ const ImportVendor = (req, res) => {
     })
 }
 
-module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,TotalVendor, ImportVendor }
+module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,TotalVendId,TotalVendor, ImportVendor }
 

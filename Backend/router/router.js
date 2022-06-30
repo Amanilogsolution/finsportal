@@ -111,7 +111,10 @@ router.post('/vendor',vendorController.Vendor)
 router.post('/updatevendor',vendorController.UpdateVendor)
 router.post('/vendorid',vendorController.Vendor_id)
 router.post('/totalvendor',vendorController.TotalVendor)
+router.post('/totalvendid',vendorController.TotalVendId)
 router.post('/importvendor',vendorController.ImportVendor)
+router.post('/vendormastid', vendorController.VendorMastid);
+
 
 router.post('/insertcustaddress', AddressController.InsertCustomerAddress);
 router.post('/insertvendaddress', AddressController.InsertVendorAddress);

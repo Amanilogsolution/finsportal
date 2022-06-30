@@ -349,10 +349,22 @@ export const VendorId = async (org) => {
     const url = `http://localhost:3008/api/vendorid`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const VendorMastid = async (org) => {
+    const url = `http://localhost:3008/api/vendormastid`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+
 export const TotalVendor = async (org) => {
     const url = `http://localhost:3008/api/totalvendor`
     return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const TotalVendId = async (org,mast_id) => {
+    const url = `http://localhost:3008/api/totalvendid`
+    return axios.post(url,{org,mast_id}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const CustInsertAddress = async (org,userid,cust_id,cust_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax) => {
     const url = 'http://localhost:3008/api/insertcustaddress'
