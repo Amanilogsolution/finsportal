@@ -111,7 +111,7 @@ const ImportBank = (req, res) => {
     const datas = req.body.data;
     const org = req.body.org;
     const User_id = req.body.User_id;
-
+      console.log(datas)
     sql.connect(sqlConfig).then(() => {
 
         sql.query(`select * from ${org}.dbo.tbl_bankmaster where account_no in ('${datas.map(data => data.account_no).join("', '")}') OR ifsc_code in ('${datas.map(data => data.ifsc_code).join("', '")}')`)
@@ -127,7 +127,7 @@ const ImportBank = (req, res) => {
                 }
             })
 
-
+ 
     })
 }
 

@@ -110,6 +110,8 @@ const TotalBank = () => {
       window.location.reload()
     }
     else {
+
+      console.log(importdata)
       const result = await ImportBank(importdata, localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);

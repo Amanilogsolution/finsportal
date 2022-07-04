@@ -29,7 +29,8 @@ const ItemsController = require('../controller/Items')
 const AccountinfoController = require('../controller/Account-Info')
 const SubCodeController = require('../controller/SubCode')
 const AccountMinorCodeController = require('../controller/AccountMinorCode')
- const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
+const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
+const WhatsappController =require('../Whatsappbk')
 
 router.post('/newdb', NewdbController.Newdb);
 
@@ -246,4 +247,17 @@ router.post('/importchartofaccount',ChartOfAccountMasterController.ImportChartof
 
 
 
+
+
+
+
+router.post('/insertwhatsappdata',WhatsappController.InsertWhatsappdata)
+router.get('/getlastmessageid',WhatsappController.GetLastMessageid)
+
+
+
 module.exports = router;
+
+
+
+
