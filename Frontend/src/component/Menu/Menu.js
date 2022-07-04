@@ -288,6 +288,12 @@ const Menu = () => {
                         </a>
                       </li>
                       <li className="nav-item">
+                        <a href="/BillPayment" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Payment Made</p>
+                        </a>
+                      </li>
+                      <li className="nav-item">
                         <a href="/VendorCredits" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
                           <p>Vendor Credits</p>
