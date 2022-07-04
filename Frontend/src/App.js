@@ -105,6 +105,9 @@ import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAc
 import ShowChartAccount from './component/Master/ChartOfAccountMaster/ShowChartAccount'
 import EditChartAccount from'./component/Master/ChartOfAccountMaster/EditChartAccount'
 
+import BillPayment from './component/Vendor/PaymentMade/BillPayment'
+import PaymentMade from './component/Vendor/PaymentMade/PaymentMade';
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -222,9 +225,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           
           <Route exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode}/>
           <Route exact path="/EditAccountMinorCode" component={EditAccountMinorCode}/>
-
-      
-          
+          <Route exact path="/BillPayment" component={BillPayment}/>
+          <Route exact path="/PaymentMade" component={PaymentMade}/>
           <Route exact path="*" component={PageNotFound}/>
           </Switch>
         </Router>
