@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
-import Footer from "../Footer/Footer";
-import {Insertaccounttype} from '../../api'
+import Header from "../../Header/Header";
+import Menu from "../../Menu/Menu";
+import Footer from "../../Footer/Footer";
+import {Insertaccounttype} from '../../../api'
 
 
 function InsertAccountType() {

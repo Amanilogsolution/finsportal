@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
-import Footer from "../Footer/Footer";
-import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, UpdateSubAccountName, AddNewSubAccountName } from '../../api'
+import Header from "../../Header/Header";
+import Menu from "../../Menu/Menu";
+import Footer from "../../Footer/Footer";
+import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, UpdateSubAccountName, AddNewSubAccountName } from '../../../api'
 
 
 function ChartOfAccount() {

@@ -69,10 +69,15 @@ import PandingCompliances from './component/Master/Compliances/Pendingcompliance
 import Fincialyear from './component/Master/fincialyear/fincialyear'
 import ShowFincialyear from './component/Master/fincialyear/Showfincialyear'
 
-import ChartOfAccount from './component/ChartOfAccount/ChartOfAccount';
-import InsertAccountType from './component/ChartOfAccount/InsertAccountType';
+import ChartOfAccount from './component/Accountant/ChartOfAccount/ChartOfAccount';
+import InsertAccountType from './component/Accountant/ChartOfAccount/InsertAccountType';
 import ShowAccountname from './component/Master/AccountNameMaster/ShowAccountname';
 import EditAccountname from './component/Master/AccountNameMaster/EditAccountname';
+
+
+import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
+
+
 
 import Items from './component/Items/Items';
 
@@ -103,7 +108,7 @@ import ShowAccountMinorCode from './component/Master/ShowAccountMinorCode/ShowAc
 import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAccountMinorCode';
 
 import ShowChartAccount from './component/Master/ChartOfAccountMaster/ShowChartAccount'
-import EditChartAccount from'./component/Master/ChartOfAccountMaster/EditChartAccount'
+import EditChartAccount from './component/Master/ChartOfAccountMaster/EditChartAccount'
 
 import BillPayment from './component/Vendor/PaymentMade/BillPayment'
 import PaymentMade from './component/Vendor/PaymentMade/PaymentMade';
@@ -195,6 +200,9 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/ChartOfAccount" component={ChartOfAccount}/>
           <Route exact path="/ShowChartAccount" component={ShowChartAccount}/>
           <Route exact path="/EditChartAccount" component={EditChartAccount}/>
+          <Route exact path="/Currency-Adjustment" component={CurrencyAdjust}/>
+
+          
 
           <Route exact path="/InsertAccountType" component={InsertAccountType}/>
           <Route exact path="/ShowAccountname" component={ShowAccountname}/>

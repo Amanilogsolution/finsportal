@@ -30,7 +30,6 @@ const AccountinfoController = require('../controller/Account-Info')
 const SubCodeController = require('../controller/SubCode')
 const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
-const WhatsappController =require('../Whatsappbk')
 
 router.post('/newdb', NewdbController.Newdb);
 

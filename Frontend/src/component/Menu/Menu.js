@@ -67,61 +67,61 @@ const Menu = () => {
                 </a>
                 <ul className="nav nav-treeview">
 
-                      <li className="nav-item">
-                        <a href="/TotalCustomer" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Customer</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/TotalCustAddress" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Addresses</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Estimates" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Estimates</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/SalesOrder" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Sales Order</p>
-                        </a>
-                      </li>     
-                      <li className="nav-item">
-                        <a href="/DeliveryChallans" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Delivery Challans</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Invoices" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Invoices</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/PaymentsReceived" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Payments Received</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringInvoices" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Invoices</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/CreditNotes" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>CreditNotes</p>
-                        </a>
-                      </li>
-                    
+                  <li className="nav-item">
+                    <a href="/TotalCustomer" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p> Customer</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/TotalCustAddress" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Addresses</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/Estimates" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Estimates</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/SalesOrder" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Sales Order</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/DeliveryChallans" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Delivery Challans</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/Invoices" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Invoices</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/PaymentsReceived" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Payments Received</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/RecurringInvoices" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Recurring Invoices</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/CreditNotes" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>CreditNotes</p>
+                    </a>
+                  </li>
+
 
                   <li className="nav-item">
                     {/* <a href="#" className="nav-link active">
@@ -198,50 +198,50 @@ const Menu = () => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-                
-                      <li className="nav-item">
-                        <a href="/Showvendor" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Vendor</p>
-                        </a>
-                      </li>  
-                      <li className="nav-item">
-                        <a href="/TotalVendAddress" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Address</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringExpenses" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Expenses</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/PurchaseOrder" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Purchase Order</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Bills" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Bills</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringBills" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Bills</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/VendorCredits" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Vendor Credits</p>
-                        </a>
-                      </li>
-                 
+
+                  <li className="nav-item">
+                    <a href="/Showvendor" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p> Vendor</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/TotalVendAddress" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Address</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/RecurringExpenses" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Recurring Expenses</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/PurchaseOrder" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Purchase Order</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/Bills" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Bills</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/RecurringBills" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Recurring Bills</p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/VendorCredits" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Vendor Credits</p>
+                    </a>
+                  </li>
+
 
 
                   <li className="nav-item">
@@ -314,12 +314,18 @@ const Menu = () => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-                <li className="nav-item">
-                        <a href="/ChartOfAccount" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Chart OF Account </p>
-                        </a>
-                      </li>
+                  <li className="nav-item">
+                    <a href="/ChartOfAccount" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p> Chart OF Account </p>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a href="/Currency-Adjustment" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p> Currency Adjustments </p>
+                    </a>
+                  </li>
                   {/* <li className="nav-item">
                     <a href="#" className="nav-link active">
 
@@ -441,35 +447,35 @@ const Menu = () => {
                 </ul>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                  <a href="/ShowAccountname" className="nav-link active">
-                  <i className="far fa-circle nav-icon" />
-                  <p>Account Major code</p>
+                    <a href="/ShowAccountname" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Account Major code</p>
                     </a>
                   </li>
                 </ul>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                  <a href="/ShowAccountMinorCode" className="nav-link active">
-                  <i className="far fa-circle nav-icon" />
-                  <p>Account Minor Code</p>
+                    <a href="/ShowAccountMinorCode" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Account Minor Code</p>
                     </a>
                   </li>
                 </ul>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                  <a href="/ShowChartAccount" className="nav-link active">
-                  <i className="far fa-circle nav-icon" />
-                  <p>Show Chart Account</p>
+                    <a href="/ShowChartAccount" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Show Chart Account</p>
                     </a>
                   </li>
                 </ul>
 
-                
+
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                  <a href="/TotalSubCode" className="nav-link active">
-                  <i className="far fa-circle nav-icon" />
-                  <p>Sub Code</p>
+                    <a href="/TotalSubCode" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Sub Code</p>
                     </a>
                   </li>
                 </ul>

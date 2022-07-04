@@ -424,6 +424,28 @@ const Newdb = async (req, res) => {
                 update_date_time datetime NULL,
                 status varchar(30) NULL
             );
+            CREATE TABLE ${dbname}.dbo.tbl_daily_curreny (
+                sno bigint NOT NULL,
+                currency varchar(100) NULL,
+                Rupee decimal(38,0) NULL,
+                US$ decimal(38,0) NULL,
+                EURO decimal(38,0) NULL,  
+                UK decimal(38,0) NULL, 
+                AUS$ decimal(38,0) NULL, 
+                Japanese decimal(38,0) NULL ,
+                Singapore$ decimal(38,0) NULL ,
+                Reminbi decimal(38,0) NULL ,
+                Taiwan$ decimal(38,0) NULL ,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(50) NULL
+            );
             
             
             
