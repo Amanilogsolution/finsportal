@@ -247,15 +247,6 @@ router.post('/importchartofaccount',ChartOfAccountMasterController.ImportChartof
 
 
 
-
-
-
-
-router.post('/insertwhatsappdata',WhatsappController.InsertWhatsappdata)
-router.get('/getlastmessageid',WhatsappController.GetLastMessageid)
-
-
-
 module.exports = router;
 
 
