@@ -111,7 +111,7 @@ const AddCustomer = async (req, res) => {
                         '${req.ip}','${uuid}');`)
                         
             const result2 = await sql.query(`update ${org}.dbo.tbl_fin_year set cust_totalid='${getnewval}' where sno=(SELECT MAX(sno) FROM tbl_fin_year)`)
-            res.send('Updated')
+            // res.send('Updated')
 
             res.send('Added')
 

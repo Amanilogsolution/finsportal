@@ -15,15 +15,53 @@ const columns = [
   },
   
   {
-    name: 'from_date',
+    name: 'From Date',
     selector: 'from_date',
     sortable: true
   },
 
   {
-    name: 'to_date',
+    name: 'To Date',
     selector: 'to_date',
     sortable: true
+  },
+  {
+    name: 'Year',
+    selector: 'year',
+    sortable: true
+  },
+  {
+    name: 'Vendor Master',
+    selector: '',
+    sortable: true
+  },
+  {
+    name: 'Vendor ID',
+    selector: '',
+    sortable: true
+  },
+  {
+    name: 'Customer Master',
+    selector: '',
+    sortable: true
+  },
+  {
+    name: 'Customer id',
+    selector: '',
+    sortable: true
+  },
+  {
+    name: 'Location Id',
+    selector: '',
+    sortable: true
+  },
+  {
+    name: 'Active ',
+    selector: true,
+    sortable: true,
+    cell:(row)=>[
+      <input type="checkbox"/>
+    ]
   },
 //   {
 //     name: 'City ID',
@@ -91,7 +129,7 @@ const ShowFincialyear = () => {
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5">Fincial year</h3>
+              <h3 className="text-left ml-5">Financial year</h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">
