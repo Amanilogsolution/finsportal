@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Showfincialyear } from '../../../api';
+import { Showfincialyear, Statusfincialyear } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
@@ -13,7 +13,7 @@ const columns = [
     selector: 'fin_year',
     sortable: true
   },
-  
+
   {
     name: 'From Date',
     selector: 'from_date',
@@ -32,69 +32,66 @@ const columns = [
   },
   {
     name: 'Vendor Master',
-    selector: '',
+    selector: 'mvend_id',
     sortable: true
   },
   {
     name: 'Vendor ID',
-    selector: '',
+    selector: 'vend_id',
     sortable: true
   },
   {
     name: 'Customer Master',
-    selector: '',
+    selector: 'mcust_id',
     sortable: true
   },
   {
     name: 'Customer id',
-    selector: '',
+    selector: 'cust_id',
     sortable: true
   },
-  {
-    name: 'Location Id',
-    selector: '',
-    sortable: true
-  },
+
   {
     name: 'Active ',
-    selector: true,
+    selector: 'status',
     sortable: true,
-    cell:(row)=>[
-      <input type="checkbox"/>
+    cell: (row) => [
+      <input type="checkbox" checked={row.status == 'Active' ? true : false} onClick={async() => {await Statusfincialyear(localStorage.getItem('Organisation'),row.sno)
+      window.location.href="./showfincialyear"} }/>
     ]
   },
-//   {
-//     name: 'City ID',
-//     selector: 'city_id',
-//     sortable: true
-//   },
-//   {
-//     name: 'Status',
-//     sortable: true,
-//     selector: 'null',
-//     cell: (row) => [
-//       <div className='droplist'>
-//         <select >
-//           <option selected disabled hidden> {row.status}</option>
-//           <option value='Active'>Active</option>
-//           <option value='DeActive' >DeActive</option>
-//         </select>
-//       </div>
-//     ]
-//   },
+  //   {
+  //     name: 'City ID',
+  //     selector: 'city_id',
+  //     sortable: true
+  //   },
+  //   {
+  //     name: 'Status',
+  //     sortable: true,
+  //     selector: 'null',
+  //     cell: (row) => [
+  //       <div className='droplist'>
+  //         <select >
+  //           <option selected disabled hidden> {row.status}</option>
+  //           <option value='Active'>Active</option>
+  //           <option value='DeActive' >DeActive</option>
+  //         </select>
+  //       </div>
+  //     ]
+  //   },
 
-//   {
-//     name: "Actions",
-//     sortable: false,
+  {
+    name: "Actions",
+    sortable: false,
 
-//     selector: "null",
-//     cell: (row) => [
+    selector: "null",
+    cell: (row) => [
 
-//       <a title='View Document' href="EditCity">
-//         <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
+      <a title='View Document' href="/">
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
 
-//     ]
-//   }
+    ]
+  }
 
 
 ]
@@ -155,7 +152,7 @@ const ShowFincialyear = () => {
             </div>
           </div>
         </div>
-       
+
         <Footer />
       </div>
     </div>

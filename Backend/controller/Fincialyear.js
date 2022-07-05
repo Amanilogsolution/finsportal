@@ -8,7 +8,7 @@ const Showfincialyear = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year;`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year order by sno desc;`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -25,15 +25,28 @@ const Addfincialyear = async (req, res) => {
     const to_date = req.body.to_date;
     const mcust_id = req.body.mcust_id;
     const cust_id = req.body.cust_id;
+    const vendmast = req.body.vendmast;
+    const vendid = req.body.vendid;
+    const User_id = req.body.User_id;
+    console.log(org,fin_year,year,from_date,to_date,mcust_id,cust_id,vendmast,vendid,User_id)
 
     try {
         await sql.connect(sqlConfig)
+        const result1 = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Deactive' WHERE  status ='Active';`)
+
+        if(result1.rowsAffected[0]>0){
         const result = await sql.query(`INSERT into ${org}.dbo.tbl_fin_year(fin_year,year,from_date,to_date,mcust_id,mcust_count,cust_id,
             cust_count,mvend_id,mvend_count,vend_id,vend_count,location_count,add_user_name,add_system_name,
             add_ip_address,add_date_time,status)
-            values('${fin_year}','${year}','${from_date}','${to_date}','${mcust_id}','0','${cust_id}','0','MVEND','0','VEND','0','0',
-            'Aman','hp','::1',getdate(),'Active');`)
-        res.send(result.recordset)
+            values('${fin_year}','${year}','${from_date}','${to_date}','${mcust_id}','0','${cust_id}','0','${vendmast}','0','${vendid}','0','0',
+            '${User_id}','hp','::1',getdate(),'Active');`)
+            // console.log(result.rowsAffected[0])
+            res.send(result)
+        }
+        else{
+            res.send("server error")
+        }
+  
     }
     catch (err) {
         res.send(err)
@@ -64,14 +77,21 @@ const Updatefincialyear = async (req,res) =>{
 
 const Statusfincialyear = async (req,res) =>{
     const org = req.body.org;
-    const status = req.body.status
+    const sno = req.body.sno;
+    console.log(org,sno)
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year tfy with (nolock) WHERE status ='${status}';
-        UPDATE ${org}.dbo.tbl_fin_year set mcust_count='1' WHERE status ='${status}';`)
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Deactive' WHERE  status ='Active';`)
 
+        if(result.rowsAffected[0]>0){
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Active' WHERE sno=${sno};`)
+        res.send(result.rowsAffected)
+ 
+        }
+       else{
         res.send(result.recordset)
+       }
     }
     catch (err) {
         res.send(err)
