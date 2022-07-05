@@ -105,7 +105,7 @@ const ShowFincialyear = () => {
 
 
   useEffect(async () => {
-    const result = await Showfincialyear()
+    const result = await Showfincialyear(localStorage.getItem('Organisation'))
     console.log(result)
     setData(result)
   }, [])

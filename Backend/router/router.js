@@ -32,7 +32,6 @@ const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
 
 router.post('/newdb', NewdbController.Newdb);
-
 router.get('/totalstate', statesController.TotalStates);
 router.post('/deletestate', statesController.deleteState);
 router.post('/state', statesController.state);
@@ -40,8 +39,6 @@ router.post('/showstate', statesController.showstate);
 router.post('/editstate', statesController.EditState);
 router.post('/showactivestate', statesController.showactivestate);
 router.post('/importState', statesController.ImportState);
-
-
 router.post('/totalcountry', countryController.countries);
 router.get('/activecountries', countryController.Activecountries);
 router.post('/insertcountry', countryController.InsertCountry);
@@ -49,7 +46,6 @@ router.post('/showcountry', countryController.showcountry);
 router.post('/updatecountry', countryController.updatecountry);
 router.post('/deletecountry', countryController.deletecountry);
 router.post('/checkimportcountry',countryController.CheckimportCountry)
-
 
 router.post('/currency', currencyController.currency);
 router.post('/insertcurrecy', currencyController.InsertCurrency);
@@ -163,14 +159,12 @@ router.post('/locationstatus',LocationController.Locationstatus)
 router.post('/lastlocationid',LocationController.LastLocationid)
 router.post('/importlocationmaster',LocationController.ImportLocationMaster)
 
-
 router.post('/Showcompliances',ComplianceController.Showcompliances)
 router.post('/insertcompliances',ComplianceController.Insertcompliance)
 router.post('/ShowcompliancesData',ComplianceController.ShowcompliancesData)
 router.post('/Updatecompliance',ComplianceController.Updatecompliance)
 router.post('/pendingcompliances',ComplianceController.PendingCompliances)
 router.post('/updatependingcompliances',ComplianceController.UpdatePendingCompliances)
-
 
 router.post('/ShowcompliancesType',ComplianceTypeController.ShowcompliancesType)
 router.post('/InsertcomplianceType',ComplianceTypeController.InsertcomplianceType)
@@ -186,10 +180,12 @@ router.post('/importcompliances',ComplianceController.ImportCompliances)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 
 router.post('/showfincialyear',FincialyearController.Showfincialyear)
+router.post('/addfincialyear',FincialyearController.Addfincialyear)
+router.post('/updatefincialyear',FincialyearController.Updatefincialyear)  
+router.post('/statusfincialyear',FincialyearController.Statusfincialyear)
+
 
 router.post('/insertitems',ItemsController.InsertItems)
-
-
 
 router.post('/FileUpload',Multer,FileUpload)
 
