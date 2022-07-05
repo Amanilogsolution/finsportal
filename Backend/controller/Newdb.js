@@ -60,10 +60,25 @@ const Newdb = async (req, res) => {
                 year varchar(20) NULL,
                 from_date varchar(20) NULL,
                 to_date varchar(20) NULL,
-                mcust_totalid varchar(50) NULL,
-                cust_totalid varchar(50) NULL,
-                finyear_uuid varchar(100) NULL
-            );
+                mcust_id varchar(100) NULL,
+                mcust_count varchar(100) NULL,
+                cust_id varchar(100) NULL,
+                cust_count varchar(100) NULL,
+                mvend_id varchar(100) NULL,
+                mvend_count varchar(100) NULL,
+                vend_id varchar(100) NULL,
+                vend_count varchar(100) NULL,
+                location_count varchar(100) NULL,
+                add_user_name varchar(50) NULL,
+                add_date_time datetime NULL,
+                add_ip_address varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                update_user_name varchar(50) NULL,
+                update_date_time datetime NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(50) NULL
+                );
 
             CREATE TABLE ${dbname}.dbo.tbl_unit (
                 sno bigint IDENTITY(1,1) NOT NULL,
