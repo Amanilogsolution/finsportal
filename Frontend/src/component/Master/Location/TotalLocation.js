@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { totalLocation, Locationstatus, ImportLocationMaster,ImportLocationAddress } from '../../../api';
+import { totalLocation, Locationstatus, ImportLocationMaster,ImportLocationAddress,Getfincialyearid } from '../../../api';
 import DataTable from 'react-data-table-component';
 import Addbtn from '../../../images/add-btn.png'
 import Editbtn from '../../../images/edit.png'
@@ -217,8 +217,9 @@ const TotalLocation = () => {
 
   useEffect(() => {
     async function fetchdata() {
-      const result = await totalLocation(localStorage.getItem('Organisation'))
-      console.log(result)
+      const response = await Getfincialyearid(localStorage.getItem('Organisation'))
+      const fins_year=response[0].year
+      const result = await totalLocation(localStorage.getItem('Organisation'),fins_year)
       setData(result)
     }
     fetchdata();

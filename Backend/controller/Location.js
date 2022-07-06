@@ -4,10 +4,11 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const TotalLocation = async (req, res) => {
-    const org = req.body.org
+    const org = req.body.org;
+    const fins_year= req.body.fins_year;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master with (nolock) order by sno desc`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master with (nolock) where fins_year='${fins_year}' order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -24,14 +25,15 @@ const AddLocation = async (req, res) => {
     const contact_phone_no1 = req.body.contact_phone_no1;
     const contact_phone_no2 = req.body.contact_phone_no2;
     const User_id= req.body.User_id;
+    const fins_year= req.body.fins_year;
 
     try {
 
         await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
                 contact_name2,contact_phone_no1,contact_phone_no2,
-                add_date_time,add_user_name,add_system_name,add_ip_address,status)
+                add_date_time,add_user_name,add_system_name,add_ip_address,status,fins_year)
                 values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
-                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
+                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${fins_year}')`)
         res.send('Added')
 
     }

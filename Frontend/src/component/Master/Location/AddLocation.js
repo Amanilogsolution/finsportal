@@ -7,21 +7,21 @@ import { addLocation,Getfincialyearid,Updatefinancialcount } from '../../../api'
 function AddLocation() {
   // const [locationid,setLocationid] =useState();
   const[locationcount,setLocationcount] = useState()
+  const[fins_year,setFins_year] = useState();
+
   useEffect(()=>{
     const fetch = async() =>{
       const response = await Getfincialyearid(localStorage.getItem('Organisation'))
       setLocationcount(response[0].location_count)
-      
+      setFins_year(response[0].year);
     }
     fetch()
   },[])
 
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log(locationcount)
     const no = parseInt(locationcount)
     const randomno = no+1;
-    console.log(randomno)
     const lastnum=''+randomno
     const Location_name = document.getElementById('Location_name').value;
     const first3=Location_name.slice(0, 3)
@@ -34,9 +34,7 @@ function AddLocation() {
     const contact_phone2 = document.getElementById('contact_phone2').value;
     const User_id = localStorage.getItem('User_id');
 
-  
-
-    const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2,User_id);
+    const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2,User_id,fins_year);
     if (!Location_name || !gst_no) {
       alert('Enter data')
     } 

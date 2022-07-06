@@ -31,10 +31,14 @@ const Fincialyear = () => {
   const lastyear= document.getElementById('lastyear').value;
   const from_date= document.getElementById('from_date').value;
   const to_date= document.getElementById('to_date').value;
-  const vendmast= document.getElementById('vendmast').value;
-  const vendid= document.getElementById('vendid').value;
-  const custmast= document.getElementById('custmast').value;
-  const custid= document.getElementById('custid').value;
+  let vendmast= document.getElementById('vendmast').value;
+  vendmast= vendmast.toUpperCase();
+  let vendid= document.getElementById('vendid').value;
+  vendid= vendid.toUpperCase()
+  let custmast= document.getElementById('custmast').value;
+  custmast= custmast.toUpperCase();
+  let custid= document.getElementById('custid').value;
+  custid= custid.toUpperCase();
   const org = localStorage.getItem('Organisation')
   const User_id = localStorage.getItem('User_id')
 
@@ -43,9 +47,6 @@ const Fincialyear = () => {
   }
   else{
     const result =await Addfincialyear(org,fincialyear,lastyear,from_date,to_date,custmast,custid,vendmast,vendid,User_id)
-  // console.log(org,fincialyear,lastyear,from_date,to_date,custmast,custid,vendmast,vendid,User_id)
-
-  console.log(result.rowsAffected[0]) 
 
   if(result.rowsAffected[0]>0){
     alert("Data Added");
