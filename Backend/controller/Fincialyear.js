@@ -122,7 +122,7 @@ const Getfincialyearid = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year where status='Active';`)
-        console.log(result.recordset)
+        console.log(result)
         res.send(result.recordset)
     }
     catch (err) {
@@ -130,7 +130,22 @@ const Getfincialyearid = async (req, res) => {
      
     }
 }
+const Updatefinancialcount = async (req,res) =>{
+    const org = req.body.org;
+    const countkey = req.body.countkey;
+    const countvalue = req.body.countvalue;
+    console.log(countkey)
+    console.log(`Update ${org}.dbo.tbl_fin_year set ${countkey} = '${countvalue}' where status='Active'`)
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`Update ${org}.dbo.tbl_fin_year set ${countkey} = '${countvalue}' where status='Active'`)
+        res.send("Updated")
+    }
+    catch (err){
+        console.log(err)
+    }
+}
 
 
 
-module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear,Selectfincialyear,Getfincialyearid }
+module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear,Selectfincialyear,Getfincialyearid,Updatefinancialcount}

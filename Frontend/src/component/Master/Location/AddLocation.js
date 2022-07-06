@@ -2,14 +2,26 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { addLocation,LastLocationid } from '../../../api';
+import { addLocation,Getfincialyearid,Updatefinancialcount } from '../../../api';
 
 function AddLocation() {
-  const [locationid,setLocationid] =useState();
+  // const [locationid,setLocationid] =useState();
+  const[locationcount,setLocationcount] = useState()
+  useEffect(()=>{
+    const fetch = async() =>{
+      const response = await Getfincialyearid(localStorage.getItem('Organisation'))
+      setLocationcount(response[0].location_count)
+      
+    }
+    fetch()
+  },[])
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const randomno = locationid+1;
+    console.log(locationcount)
+    const no = parseInt(locationcount)
+    const randomno = no+1;
+    console.log(randomno)
     const lastnum=''+randomno
     const Location_name = document.getElementById('Location_name').value;
     const first3=Location_name.slice(0, 3)
@@ -21,7 +33,9 @@ function AddLocation() {
     const contact_phone1 = document.getElementById('contact_phone1').value;
     const contact_phone2 = document.getElementById('contact_phone2').value;
     const User_id = localStorage.getItem('User_id');
-    console.log(Location_id)
+
+  
+
     const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2,User_id);
     if (!Location_name || !gst_no) {
       alert('Enter data')
@@ -30,23 +44,27 @@ function AddLocation() {
       if (result == "Already") {
         alert('Already')
       } else {
+        const result1 = await Updatefinancialcount(localStorage.getItem('Organisation'),'location_count',lastnum)
+        if(result1==="Updated"){
+          alert("Added")
         window.location.href = '/TotalLocation'
+        }
       }
     }
   }
 
-  useEffect(() => {
-    async function fetchMyAPI() {
-      const result = await LastLocationid(localStorage.getItem("Organisation"));
-      console.log(result.count)
-      setLocationid(result.count);
-      // localStorage.setItem("lastlocationid",result.location_id)
+  // useEffect(() => {
+  //   async function fetchMyAPI() {
+  //     const result = await LastLocationid(localStorage.getItem("Organisation"));
+  //     console.log(result.count)
+  //     setLocationid(result.count);
+  //     localStorage.setItem("lastlocationid",result.location_id)
 
-    }
+  //   }
 
-    fetchMyAPI()
+  //   fetchMyAPI()
 
-  }, [])
+  // }, [])
 
   return (
     <div>

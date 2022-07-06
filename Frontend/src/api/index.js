@@ -669,6 +669,12 @@ export const Getfincialyearid = async (org) => {
     console.log(org)
     const url = `http://localhost:3008/api/getfincialyearid`
     return axios.post(url, {org }).then(response => response.data).catch(error => console.log(error));
+}    
+
+export const Updatefinancialcount = async (org,countkey,countvalue) => {
+    console.log(org,countkey,countvalue)
+    const url = `http://localhost:3008/api/updatefinancialcount`
+    return axios.post(url, {org,countkey,countvalue }).then(response => response.data).catch(error => console.log(error));
 }
 
 
