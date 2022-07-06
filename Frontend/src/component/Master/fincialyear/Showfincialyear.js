@@ -10,13 +10,13 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 const columns = [
   {
     name: 'Fincial Year',
-    selector: 'fin_year',
+    selector: row=>row.fin_year,
     sortable: true
   },
 
   {
     name: 'From Date',
-    selector: 'from_date',
+    selector: row=>row.from_date,
     sortable: true
   },
 
@@ -27,67 +27,47 @@ const columns = [
   },
   {
     name: 'Year',
-    selector: 'year',
+    selector:  row=>row.year,
     sortable: true
   },
   {
     name: 'Vendor Master',
-    selector: 'mvend_id',
+    selector: row=>row.mvend_id,
     sortable: true
   },
   {
     name: 'Vendor ID',
-    selector: 'vend_id',
+    selector: row=>row.vend_id,
     sortable: true
   },
   {
     name: 'Customer Master',
-    selector: 'mcust_id',
+    selector: row=>row.mcust_id,
     sortable: true
   },
   {
     name: 'Customer id',
-    selector: 'cust_id',
+    selector:  row=>row.cust_id,
     sortable: true
   },
 
   {
     name: 'Active ',
-    selector: 'status',
+    selector:  row=>row.status,
     sortable: true,
     cell: (row) => [
       <input type="checkbox" checked={row.status == 'Active' ? true : false} onClick={async() => {await Statusfincialyear(localStorage.getItem('Organisation'),row.sno)
       window.location.href="./showfincialyear"} }/>
     ]
   },
-  //   {
-  //     name: 'City ID',
-  //     selector: 'city_id',
-  //     sortable: true
-  //   },
-  //   {
-  //     name: 'Status',
-  //     sortable: true,
-  //     selector: 'null',
-  //     cell: (row) => [
-  //       <div className='droplist'>
-  //         <select >
-  //           <option selected disabled hidden> {row.status}</option>
-  //           <option value='Active'>Active</option>
-  //           <option value='DeActive' >DeActive</option>
-  //         </select>
-  //       </div>
-  //     ]
-  //   },
-
   {
     name: "Actions",
     sortable: false,
 
-    selector: "null",
+    selector:  row=>row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/">
+      <a title='View Document' href="/Updatefincialyear">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
 
     ]

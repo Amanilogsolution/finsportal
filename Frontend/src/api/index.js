@@ -650,13 +650,17 @@ export const Addfincialyear = async (org,fin_year,year,from_date,to_date,mcust_i
     const url = `http://localhost:3008/api/addfincialyear`
     return axios.post(url, {org,fin_year,year,from_date,to_date,mcust_id,cust_id,vendmast,vendid,User_id}).then(response => response.data).catch(error => console.log(error));
 }
-export const Updatefincialyear = async (org,mcust_id,cust_id) => {
+export const UpdateFincialyear = async (org,mcust_id,cust_id,mvend_id,vend_id,user_name,sno) => {
     const url = `http://localhost:3008/api/updatefincialyear`
-    return axios.post(url, {org,mcust_id,cust_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {org,mcust_id,cust_id,mvend_id,vend_id,user_name,sno}).then(response => response.data).catch(error => console.log(error));
 }
 export const Statusfincialyear = async (org,sno) => {
     console.log(org,sno)
     const url = `http://localhost:3008/api/statusfincialyear`
+    return axios.post(url, {org,sno }).then(response => response.data).catch(error => console.log(error));
+}
+export const Selectfincialyear = async (org,sno) => {
+    const url = `http://localhost:3008/api/selectfincialyear`
     return axios.post(url, {org,sno }).then(response => response.data).catch(error => console.log(error));
 }
 

@@ -67,7 +67,8 @@ import PandingCompliances from './component/Master/Compliances/Pendingcompliance
 
 
 import Fincialyear from './component/Master/fincialyear/fincialyear'
-import ShowFincialyear from './component/Master/fincialyear/Showfincialyear'
+import ShowFincialyear from './component/Master/fincialyear/Showfincialyear';
+import Updatefincialyear from './component/Master/fincialyear/Updatefinancialyear'
 
 import ChartOfAccount from './component/Accountant/ChartOfAccount/ChartOfAccount';
 import InsertAccountType from './component/Accountant/ChartOfAccount/InsertAccountType';
@@ -76,8 +77,6 @@ import EditAccountname from './component/Master/AccountNameMaster/EditAccountnam
 
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
-
-
 
 import Items from './component/Items/Items';
 
@@ -195,7 +194,8 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>
 
           <Route exact path="/Fincialyear" component={Fincialyear}/>
-          <Route exact path="/ShowFincialyear" component={ShowFincialyear}/>
+          <Route exact path="/ShowFincialyear" component={ShowFincialyear}/>  Updatefincialyear
+          <Route exact path="/Updatefincialyear" component={Updatefincialyear}/>
 
           <Route exact path="/ChartOfAccount" component={ChartOfAccount}/>
           <Route exact path="/ShowChartAccount" component={ShowChartAccount}/>

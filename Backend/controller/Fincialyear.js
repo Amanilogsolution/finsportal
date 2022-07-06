@@ -40,7 +40,6 @@ const Addfincialyear = async (req, res) => {
             add_ip_address,add_date_time,status)
             values('${fin_year}','${year}','${from_date}','${to_date}','${mcust_id}','0','${cust_id}','0','${vendmast}','0','${vendid}','0','0',
             '${User_id}','hp','::1',getdate(),'Active');`)
-            // console.log(result.rowsAffected[0])
             res.send(result)
         }
         else{
@@ -58,18 +57,22 @@ const Updatefincialyear = async (req,res) =>{
     const org = req.body.org;
     const mcust_id = req.body.mcust_id;
     const cust_id = req.body.cust_id;
+    const mvend_id = req.body.mvend_id;
+    const vend_id = req.body.vend_id;
+    const user_name = req.body.user_name;
+    const sno = req.body.sno
+    console.log(org,mcust_id,cust_id,mvend_id,vend_id,user_name,sno)
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Deactive' WHERE  status ='Active';`)
-        if(result){
-        const result1 = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set mcust_id='${mcust_id}',cust_id='${cust_id}',mvend_id='',vend_id='',update_user_name='Aman',
-        update_system_name='${os.hostname()}',update_ip_address='${req.ip()}',update_date_time=getdate() where status='Active';`)
-    }
-        res.send(result.recordset)
+  
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set mcust_id='${mcust_id}',cust_id='${cust_id}',mvend_id='${mvend_id}',vend_id='${vend_id}',update_user_name='${user_name}',
+        update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=getdate() where sno='${sno}';`)
+        // console.log(result)
+        res.send(result)
     }
     catch (err) {
-        res.send(err)
+        console.log(err)
      
     }
 
@@ -100,6 +103,20 @@ const Statusfincialyear = async (req,res) =>{
 
 }
 
+const Selectfincialyear = async (req, res) => {
+    const org = req.body.org;
+    const sno = req.body.sno
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year where sno=${sno};`)
+        res.send(result.recordset[0])
+    }
+    catch (err) {
+        res.send(err)
+     
+    }
+}
 
 
-module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear }
+
+module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear,Selectfincialyear}
