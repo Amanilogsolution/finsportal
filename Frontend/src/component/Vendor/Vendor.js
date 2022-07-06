@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import "./Vendor.css";
-import { InsertVendor, Activecountries, showactivestate, getCity, TotalVendor, VendorMastid, TotalVendId } from '../../api'
+import { InsertVendor, Activecountries, showactivestate, getCity, TotalVendor, VendorMastid, TotalVendId ,Getfincialyearid} from '../../api'
 
 
 const Vendor = () => {
@@ -31,6 +31,11 @@ const Vendor = () => {
   const [generateVend_id, setGenerateVend_id] = useState();
   const [preVend_id, setPreVend_id] = useState();
   const [preMastid, setPreMastid] = useState();
+  const [year, setYear] = useState();
+  const [prefixvend, setPrefixvend] = useState();
+  const [increvend, setIncrevend] = useState();
+  const [incremvend, setIncremvend] = useState();
+
 
 
 
@@ -134,26 +139,30 @@ const Vendor = () => {
     if (showMasterdropdown === true) {
       const mast_id = document.getElementById('mast_idselected').value;
       const vend_id = preVend_id;
+      console.log("increvend",increvend,"\n"," incremvend",incremvend)
   
       const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
         department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
         portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
         billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, localStorage.getItem('Organisation'), localStorage.getItem('User_id'),year,increvend,incremvend)
       if (result) 
       {
         window.location.href = '/Showvendor'
       }
     }
     else {
+      setIncremvend(incremvend+1)
+      console.log("increvend",increvend,"\n"," incremvend",incremvend)
       const mast_id = generateMast_id;
       const vend_id = generateVend_id;
+ 
 
       const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
         department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
         portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
         billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, localStorage.getItem('Organisation'), localStorage.getItem('User_id'),year,increvend,incremvend)
       if (result) {
         window.location.href = '/Showvendor'
       }
@@ -168,27 +177,41 @@ const Vendor = () => {
   useEffect(() => {
     async function fetchdata() {
       const result = await Activecountries();
-      //  console.log("country",result)
       setCountrylist(result)
-      const totalvendor = await TotalVendor(localStorage.getItem('Organisation'))
-      //  console.log(totalvendor.count,totalvendor.count2);
-      //  setTotalvendorno(totalvendor.count);
+      // const totalvendor = await TotalVendor(localStorage.getItem('Organisation'))
+      
+      const totalvendor = await Getfincialyearid(localStorage.getItem('Organisation'))
 
-      let countmast = totalvendor.count2 + 1;
+      console.log("totalvendor[0]",totalvendor[0])
+      setYear(totalvendor[0].year);
+      setPrefixvend(totalvendor[0].vend_id);
+      const int_vend=parseInt(totalvendor[0].mvend_count ) ;
+
+      let countmast = int_vend + 1;
+      console.log("countmast",countmast)
+      setIncrevend(totalvendor[0].vend_count+1)
+      setIncremvend(int_vend)
       countmast = '' + countmast;
       let countvendid = 1;
+    
       countvendid = '' + countvendid;
       const mast_id_last = countmast.padStart(4, "0");
       const cust_id_last = countvendid.padStart(4, "0");
-      const new_mast_id = "MV23" + mast_id_last;
-      const new_vend_id = "VEND23" + cust_id_last;
+      const new_mast_id =  totalvendor[0].mvend_id+totalvendor[0].year + mast_id_last;
+      const new_vend_id = totalvendor[0].vend_id +totalvendor[0].year + cust_id_last;
       setGenerateMast_id(new_mast_id)
       setGenerateVend_id(new_vend_id)
-      //  console.log("setGenerateMast_id",generateMast_id)
 
-      const totalmastid = await VendorMastid(localStorage.getItem('Organisation'));
-      setPreMastid(totalmastid);
-      //  console.log(totalmastid)   
+      const totalmastid = await VendorMastid(localStorage.getItem('Organisation'),totalvendor[0].year);
+      console.log(totalmastid)
+      if(totalmastid.length>0){
+        setPreMastid(totalmastid);
+      }
+      else{
+        setPreMastid([]);
+      }
+
+
     }
     fetchdata();
   }, [])
@@ -197,7 +220,6 @@ const Vendor = () => {
     let data = e.target.value;
     setBilling_address_country(data);
     const statesresult = await showactivestate(data)
-    // console.log(statesresult)
     setSelectState(statesresult)
   }
   const handleChangebillingState = async (e) => {
@@ -205,7 +227,6 @@ const Vendor = () => {
     setBilling_address_state(data);
     const result = await getCity(data)
     setSelectCity(result)
-    // console.log(result)
   }
   const handleAddressCity = async (e) => {
     let data = e.target.value;
@@ -215,11 +236,10 @@ const Vendor = () => {
   const handlegetvendid = async (e) => {
     const selectvend = e.target.value;
     const gettedvendid = await TotalVendId(localStorage.getItem('Organisation'), selectvend);
-    // console.log(gettedvendid.count);
     let new_vendid = gettedvendid.count + 1;
     new_vendid = '' + new_vendid;
     let created_vendid = new_vendid.padStart(4, "0");
-    created_vendid = "VEND23" + created_vendid;
+    created_vendid = prefixvend +year+ created_vendid;
     setPreVend_id(created_vendid);
 
   }
