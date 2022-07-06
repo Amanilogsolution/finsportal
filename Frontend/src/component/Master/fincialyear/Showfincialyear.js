@@ -56,8 +56,8 @@ const columns = [
     selector: 'status',
     sortable: true,
     cell: (row) => [
-      <input type="checkbox" checked={row.status == 'Active' ? true : false} onClick={async() => {await Statusfincialyear(localStorage.getItem('Organisation'),row.sno)
-      window.location.href="./showfincialyear"} }/>
+      <input type="checkbox" checked={row.status == 'Active' ? true : false} onChange={async() => {const result=await Statusfincialyear(localStorage.getItem('Organisation'),row.sno)
+     if(result.rowsAffected[0]){window.location.href="./showfincialyear"}} }/>
     ]
   },
   //   {
@@ -103,7 +103,7 @@ const ShowFincialyear = () => {
 
   useEffect(async () => {
     const result = await Showfincialyear(localStorage.getItem('Organisation'))
-    console.log(result)
+    // console.log(result)
     setData(result)
   }, [])
 

@@ -184,6 +184,7 @@ const Newdb = async (req, res) => {
                 contact_person_designation varchar(100) NULL,
                 contact_person_department varchar(100) NULL,
                 remark varchar(255) NULL,
+                fins_year varchar(50) NULL,
                 add_date_time datetime NULL,
                 add_user_name varchar(50) NULL,
                 add_system_name varchar(50) NULL,

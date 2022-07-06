@@ -78,19 +78,18 @@ const Updatefincialyear = async (req,res) =>{
 const Statusfincialyear = async (req,res) =>{
     const org = req.body.org;
     const sno = req.body.sno;
-    console.log(org,sno)
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Deactive' WHERE  status ='Active';`)
 
         if(result.rowsAffected[0]>0){
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Active' WHERE sno=${sno};`)
-        res.send(result.rowsAffected)
+        const result1 = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Active' WHERE sno=${sno};`)
+        res.send(result1)
  
         }
        else{
-        res.send(result.recordset)
+        res.send(result)
        }
     }
     catch (err) {
@@ -102,4 +101,20 @@ const Statusfincialyear = async (req,res) =>{
 
 
 
-module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear }
+const Getfincialyearid = async (req, res) => {
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year where status='Active';`)
+        console.log(result.recordset)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+     
+    }
+}
+
+
+
+module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear,Getfincialyearid }
