@@ -28,7 +28,6 @@ const Addfincialyear = async (req, res) => {
     const vendmast = req.body.vendmast;
     const vendid = req.body.vendid;
     const User_id = req.body.User_id;
-    console.log(org,fin_year,year,from_date,to_date,mcust_id,cust_id,vendmast,vendid,User_id)
 
     try {
         await sql.connect(sqlConfig)
@@ -61,7 +60,6 @@ const Updatefincialyear = async (req,res) =>{
     const vend_id = req.body.vend_id;
     const user_name = req.body.user_name;
     const sno = req.body.sno
-    console.log(org,mcust_id,cust_id,mvend_id,vend_id,user_name,sno)
 
     try {
         await sql.connect(sqlConfig)
@@ -72,7 +70,7 @@ const Updatefincialyear = async (req,res) =>{
         res.send(result)
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
      
     }
 
@@ -122,7 +120,6 @@ const Getfincialyearid = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year where status='Active';`)
-        console.log(result)
         res.send(result.recordset)
     }
     catch (err) {
@@ -134,18 +131,33 @@ const Updatefinancialcount = async (req,res) =>{
     const org = req.body.org;
     const countkey = req.body.countkey;
     const countvalue = req.body.countvalue;
-    console.log(countkey)
-    console.log(`Update ${org}.dbo.tbl_fin_year set ${countkey} = '${countvalue}' where status='Active'`)
+
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(`Update ${org}.dbo.tbl_fin_year set ${countkey} = '${countvalue}' where status='Active'`)
         res.send("Updated")
     }
     catch (err){
-        console.log(err)
+        res.send(err)
+    }
+}
+
+const UpdatefinancialTwocount = async (req,res) =>{
+    const org = req.body.org;
+    const countkey = req.body.countkey;
+    const countkey2 = req.body.countkey2;
+    const countvalue = req.body.countvalue;
+    const countvalue2 = req.body.countvalue2;
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`Update ${org}.dbo.tbl_fin_year set ${countkey} = '${countvalue}',${countkey2} = '${countvalue2}' where status='Active'`)
+        res.send(result.rowsAffected)
+    }
+    catch (err){
+        res.send(err)
     }
 }
 
 
 
-module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear,Selectfincialyear,Getfincialyearid,Updatefinancialcount}
+module.exports = { Showfincialyear,Addfincialyear,Updatefincialyear,Statusfincialyear,Selectfincialyear,Getfincialyearid,Updatefinancialcount,UpdatefinancialTwocount}

@@ -293,7 +293,7 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
     billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone,
     billing_address_fax, contact_person_name,
     contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-    contact_person_department, remark,org,User_id,year,increvend,incremvend) => {
+    contact_person_department, remark,org,User_id,year) => {
 
     const url = `http://localhost:3008/api/insertvendor`
     return axios.post(url, {
@@ -305,13 +305,13 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
         billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone,
         billing_address_fax, contact_person_name,
         contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-        contact_person_department, remark,org,User_id,year,increvend,incremvend
+        contact_person_department, remark,org,User_id,year
     }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Vendor = async (org) => {
+export const Vendor = async (org,year) => {
     const url = `http://localhost:3008/api/vendor`
-    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url,{org,year}).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -675,6 +675,11 @@ export const Updatefinancialcount = async (org,countkey,countvalue) => {
     console.log(org,countkey,countvalue)
     const url = `http://localhost:3008/api/updatefinancialcount`
     return axios.post(url, {org,countkey,countvalue }).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdatefinancialTwocount = async (org,countkey,countvalue,countkey2,countvalue2) => {
+    console.log(org,countkey,countvalue,countkey2,countvalue2)
+    const url = `http://localhost:3008/api/updatefinancialtwocount`
+    return axios.post(url, {org,countkey,countvalue ,countkey2,countvalue2}).then(response => response.data).catch(error => console.log(error));
 }
 
 

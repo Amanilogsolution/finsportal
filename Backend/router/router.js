@@ -186,6 +186,7 @@ router.post('/statusfincialyear',FincialyearController.Statusfincialyear)
 router.post('/selectfincialyear',FincialyearController.Selectfincialyear)  
 router.post('/getfincialyearid',FincialyearController.Getfincialyearid)
 router.post('/updatefinancialcount',FincialyearController.Updatefinancialcount)
+router.post('/updatefinancialtwocount',FincialyearController.UpdatefinancialTwocount)
 
 
 router.post('/insertitems',ItemsController.InsertItems)
