@@ -178,7 +178,6 @@ const VendorMastid = async (req, res) => {
 const TotalVendId = async (req, res) => {
     const org= req.body.org;
     const mast_id= req.body.mast_id;
-    console.log(`select count(vend_id) as count from ${org}.dbo.tbl_new_vendor tnv WHERE mast_id='${mast_id}';`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select count(vend_id) as count from ${org}.dbo.tbl_new_vendor tnv WHERE mast_id='${mast_id}'; `)

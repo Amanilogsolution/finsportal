@@ -98,6 +98,9 @@ router.post('/unique_cust_id',customerController.Unique_Cust_id)
 router.post('/lastcust_id',customerController.Lastcust_id)
 router.post('/ImportCustomer',customerController.ImportCustomer)
 router.post('/customername',customerController.Customername)
+router.post('/customermastid',customerController.CustomerMastid)
+router.post('/customeridmid',customerController.CustomerIdMid)
+
 
 
 router.post('/insertvendor', vendorController.InsertVendor);

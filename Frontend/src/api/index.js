@@ -247,7 +247,7 @@ export const DeleteCustomer = async (sno, status,org) => {
     return axios.post(url, { sno, status,org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddCustomer = async (User_id,org,getnewval, dateval, finyear, trimyear, year1, year2, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+export const AddCustomer = async (org,User_id, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
     opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
     billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
     contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
@@ -255,7 +255,7 @@ export const AddCustomer = async (User_id,org,getnewval, dateval, finyear, trimy
 
     const url = `http://localhost:3008/api/addcustomer`
     return axios.post(url, {
-        User_id,org,getnewval, dateval, finyear, trimyear, year1, year2, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+        org,User_id, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
         opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
         billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
         contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
@@ -285,6 +285,15 @@ export const Customername = async (org,cust_id) => {
     const url = `http://localhost:3008/api/customername`
     return axios.post(url,{org,cust_id}).then(response => response.data).catch(error => console.log(error));
 }
+export const CustomerMastId = async (org) => {
+    const url = `http://localhost:3008/api/customermastid`
+    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+}
+export const CustomerIdmid = async (org,masterid) => {
+    const url = `http://localhost:3008/api/customeridmid`
+    return axios.post(url,{org,masterid}).then(response => response.data).catch(error => console.log(error));
+}
+
 export const InsertVendor = async (mast_id, vend_id, vend_name,
     company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation, department,
     website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency,
@@ -666,7 +675,7 @@ export const Selectfincialyear = async (org,sno) => {
 }
 
 export const Getfincialyearid = async (org) => {
-    console.log(org)
+    console.log('API',org)
     const url = `http://localhost:3008/api/getfincialyearid`
     return axios.post(url, {org }).then(response => response.data).catch(error => console.log(error));
 }    
