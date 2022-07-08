@@ -210,10 +210,11 @@ const CustomerMastid = async (req, res) => {
 const CustomerIdMid = async (req, res) => {
     const org = req.body.org;
     const masterid = req.body.masterid;
+    console.log(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
-        //   console.log(result.recordset)
+          console.log(result.recordset)
         res.send(result.recordset)
         
 
@@ -228,21 +229,20 @@ const ImportCustomer = (req, res) => {
     const datas = req.body.data;
     const org = req.body.org;
     // let duplicatedate = [];
-    console.log(datas[0].cust_id)
-
+  console.log(datas)
+ 
     sql.connect(sqlConfig).then(() => {
 
-        sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_email in ('${datas.map(data => data.cust_email)
-            .join("', '")}') OR cust_work_phone in ('${datas.map(data => data.cust_work_phone)
-                .join("', '")}') OR cust_phone in ('${datas.map(data => data.cust_phone).join("', '")}') OR
-         pan_no in ('${datas.map(data => data.pan_no).join("', '")}')`)
+        // sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_email in ('${datas.map(data => data.cust_email)
+        //     .join("', '")}') OR cust_work_phone in ('${datas.map(data => data.cust_work_phone)
+        //         .join("', '")}') OR pan_no in ('${datas.map(data => data.pan_no).join("', '")}')`)
 
-            .then((resp) => {
-                if (resp.rowsAffected[0] > 0)
-                    res.send(resp.recordset.map(item => ({ "cust_email": item.cust_email, "cust_work_phone": item.cust_work_phone, "cust_phone": item.cust_phone, "pan_no": item.pan_no, })))
-                else {
-
-                    sql.query(`INSERT INTO  ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+            // .then((resp) => {
+                // if (resp.rowsAffected[0] > 0)
+                //     res.send(resp.recordset.map(item => ({ "cust_email": item.cust_email, "cust_work_phone": item.cust_work_phone, "pan_no": item.pan_no, })))
+                // else {
+ 
+                    const result=sql.query(`INSERT INTO  ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                             company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department ,website,gst_treatment
                             ,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency, opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
                             billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
@@ -256,8 +256,9 @@ const ImportCustomer = (req, res) => {
                                       '${item.contact_person_department}','${item.remark}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
                     res.send("Data Added")
                     console.log("Data Added")
-                }
-            })
+                    console.log(result)
+                // }
+            // })
 
 
     })

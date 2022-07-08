@@ -32,7 +32,7 @@ const Vendor = () => {
   const [preVend_id, setPreVend_id] = useState();
   const [preMastid, setPreMastid] = useState();
   const [year, setYear] = useState();
-  const [prefixvend, setPrefixvend] = useState();
+  // const ["VEND", setPrefixvend] = useState();
   const [increvend, setIncrevend] = useState();
   const [incremvend, setIncremvend] = useState();
 
@@ -191,7 +191,7 @@ const Vendor = () => {
 
       const totalvendor = await Getfincialyearid(localStorage.getItem('Organisation'))
       setYear(totalvendor[0].year);
-      setPrefixvend(totalvendor[0].vend_id);
+      // setPrefixvend(totalvendor[0].vend_id);
       const int_mvend = parseInt(totalvendor[0].mvend_count);
       const int_vend = parseInt(totalvendor[0].vend_count);
 
@@ -204,8 +204,8 @@ const Vendor = () => {
       countvendid = '' + countvendid;
       const mast_id_last = countmast.padStart(4, "0");
       const cust_id_last = countvendid.padStart(4, "0");
-      const new_mast_id = totalvendor[0].mvend_id + totalvendor[0].year + mast_id_last;
-      const new_vend_id = totalvendor[0].vend_id + totalvendor[0].year + cust_id_last;
+      const new_mast_id = "MVEND" + totalvendor[0].year + mast_id_last;
+      const new_vend_id = "VEND" + totalvendor[0].year + cust_id_last;
       setGenerateMast_id(new_mast_id)
       setGenerateVend_id(new_vend_id)
 
@@ -245,7 +245,7 @@ const Vendor = () => {
     let new_vendid = gettedvendid.count + 1;
     new_vendid = '' + new_vendid;
     let created_vendid = new_vendid.padStart(4, "0");
-    created_vendid = prefixvend + year + created_vendid;
+    created_vendid = "VEND" + year + created_vendid;
     setPreVend_id(created_vendid);
   }
 

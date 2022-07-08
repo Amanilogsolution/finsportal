@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -44,7 +44,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeleteCustomer(row.sno, status,localStorage.getItem("Organisation"))
+          await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
           window.location.href = 'TotalCustomer'
         }
         }>
@@ -96,16 +96,34 @@ const TotalCustomer = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [year, setYear] = useState();
+  const [idcount, setIdcount] = useState();
+  const [newcountid, setNewcountid] = useState(0);
+  const [newmcountid, setNewmcountid] = useState(0);
+  const [newmidcount, setNewmidcount] = useState();
+  var mcountid = parseInt(newmcountid);
+  var countid = parseInt(newcountid);
+
+
+
+  // const getcustidfro =async(masterid) =>{
+  //   console.log(masterid)
+  //   const  countids= await CustomerIdmid(localStorage.getItem('Organisation'),masterid)
+  //   console.log(countids)
+  //   setNewmidcount(countids)
+
+  // }
+
 
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-    importdata.map((d) => {
+    // importdata.map((d) => {
 
-      if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
-        setErrorno(errorno++);
-      }
-    })
+    //   if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+    //     setErrorno(errorno++);
+    //   }
+    // })
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -113,20 +131,88 @@ const TotalCustomer = () => {
       window.location.reload()
     }
     else {
-     
-      const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
-      console.log(importdata)
-      if (!(result == "Data Added")) {
-        setBackenddata(true);
-        setDuplicateDate(result)
+
+
+      for (let i = 0; i < importdata.length; i++) {
+        let custid = newcountid;
+
+        if (importdata[i].existing === 'y') {
+          // getcustidfro(importdata[i].master_id)
+          // console.log(newmidcount)
+
+
+          const getcustidfro = async () => {
+            const countids = await CustomerIdmid(localStorage.getItem('Organisation'), importdata[i].master_id)
+            console.log(countids)
+            // if(!countids){
+            //   getcustidfro()
+            // }
+
+            let numid = countids[0].count;
+            var increid = numid + 1;
+
+            increid = '' + increid;
+            increid = increid.padStart(4, '0');
+            // console.log(custidy)
+
+
+            const generatecust = "CUST" + year + increid;
+            console.log(generatecust)
+
+            Object.assign(importdata[i], { "cust_id": generatecust })
+            // setNewmidcount(countids)
+
+          }
+          getcustidfro()
+
+          // console.log("Api to Check Master - "+ importdata[i].master_id)
+
+        }
+        else if (importdata[i].existing === 'n') {
+          let mcustidy = mcountid + 1;
+          mcountid = mcustidy
+          // setNewmcountid(mcustidy)
+
+          // console.log('Rupesh',mcustidy)
+          mcustidy = '' + mcustidy;
+          mcustidy = mcustidy.padStart(4, '0');
+
+          let custidy = countid + 1
+          countid = custidy
+          custidy = '' + custidy;
+          custidy = custidy.padStart(4, '0');
+          // console.log(custidy)
+
+          const generatemcust = "MCUST" + year + mcustidy;
+          const generatecust = "CUST" + year + custidy;
+
+          // console.log(generatemcust,generatecust)
+
+          Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
+          // console.log(importdata[i])
+        }
+        else {
+          console.log("Please enter customer is existing or not")
+        }
 
       }
-      else if (result == "Data Added") {
-        document.getElementById("showdataModal").style.display = "none";
-        setBackenddata(false);
-        alert("Data Added")
-        window.location.reload()
-      }
+      console.log("Out", importdata)
+      setTimeout(async () => {
+        const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+        console.log(result)
+        if (!(result == "Data Added")) {
+          setBackenddata(true);
+          setDuplicateDate(result)
+
+        }
+        else if (result == "Data Added") {
+          document.getElementById("showdataModal").style.display = "none";
+          setBackenddata(false);
+          alert("Data Added")
+          window.location.reload()
+        }
+      }, 5000);
+
     }
 
   };
@@ -170,8 +256,14 @@ const TotalCustomer = () => {
   //##########################  for convert excel to array end #################################
 
   useEffect(async () => {
+    let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
+    console.log(getids)
+    setYear(getids[0].year);
+    setNewmcountid(getids[0].mcust_count)
+    setNewcountid(getids[0].cust_count)
     const result = await TotalCustomers(localStorage.getItem("Organisation"))
     setData(result)
+
   }, [])
 
   const tableData = {
@@ -354,8 +446,8 @@ const TotalCustomer = () => {
                 <table >
                   <thead>
                     <tr>
-                      <th style={{ border: "1px solid black" }}>Master Id</th>
-                      <th style={{ border: "1px solid black" }}>Customer Id</th>
+                      <th style={{ border: "1px solid black" }}>existing</th>
+                      {/* <th style={{ border: "1px solid black" }}>Master Id</th> */}
                       <th style={{ border: "1px solid black" }}>Cust Type</th>
                       <th style={{ border: "1px solid black" }}>Cust Name</th>
                       <th style={{ border: "1px solid black" }}>Company Name</th>
@@ -401,8 +493,8 @@ const TotalCustomer = () => {
                     {
                       importdata.map((d, index) => (
                         <tr key={index} style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_id}</td>
+                          <td style={{ border: "1px solid black" }}>{d.existing}</td>
+                          {/* <td style={{ border: "1px solid black" }}>{d.mast_id}</td> */}
                           <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.company_name}</td>

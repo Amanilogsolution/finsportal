@@ -34,7 +34,7 @@ const Customer = () => {
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_city, setBilling_address_city] = useState();
   const [finsyear, setFinsyear] = useState();
-  const [custid, setCustid] = useState();
+  // const [custid, setCustid] = useState();
   const [mcustcount, setMcustcount] = useState();
   const [custcount, setCustcount] = useState();
   const [generatedmcust, setGeneratedmcust] = useState();
@@ -52,13 +52,13 @@ const Customer = () => {
       setFinsyear(getyear[0].year);
       setMcustcount(getyear[0].mcust_count)
       setCustcount(getyear[0].cust_count)
-      setCustid(getyear[0].cust_id);
+      // setCustid(getyear[0].cust_id);
       // ################ id for master customer start
       let mastid = getyear[0].mcust_count;
       mastid = parseInt(mastid) + 1;
       mastid = '' + mastid
       mastid = mastid.padStart(4, '0')
-      const generateMast_id = getyear[0].mcust_id + getyear[0].year + mastid
+      const generateMast_id = "MCUST" + getyear[0].year + mastid
       setGeneratedmcust(generateMast_id)
       // ################ id for master customer Id end
 
@@ -66,7 +66,7 @@ const Customer = () => {
 
       let custid = '' + 1
       custid = custid.padStart(4, '0')
-      const generateCust_id = getyear[0].cust_id + getyear[0].year + custid
+      const generateCust_id ="CUST"+ getyear[0].year + custid
       setGeneratedcust(generateCust_id)
 
       // ##############id for  customer ID end
@@ -223,7 +223,7 @@ const Customer = () => {
     let num = parseInt(countresult[0].count) + 1
     num = '' + num;
     num = num.padStart(4, '0');
-    const newcustid = custid + finsyear + num
+    const newcustid = "cust" + finsyear + num
     setGeneratedcust2(newcustid)
 
   }

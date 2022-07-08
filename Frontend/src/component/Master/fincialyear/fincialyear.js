@@ -1,59 +1,68 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {Addfincialyear} from '../../../api'
+import { Addfincialyear } from '../../../api'
 
 
 const Fincialyear = () => {
-  const [from_date,setFromDate] = useState('YYYY')
-  const [to_date,setToDate] = useState('YYYY')
- 
-  const st =''+to_date;
+  const [from_date, setFromDate] = useState('YYYY')
+  const [to_date, setToDate] = useState('YYYY')
+
+  const st = '' + to_date;
   const year = st.slice(2)
- 
-  const handleChangefromdate = (e) =>{
-    const date= new Date(e.target.value)
+
+  const handleChangefromdate = (e) => {
+    const date = new Date(e.target.value)
     const year = date.getFullYear()
     setFromDate(year)
   }
 
-  const handleChangetodate = (e) =>{
-    const date= new Date(e.target.value)
+  const handleChangetodate = (e) => {
+    const date = new Date(e.target.value)
     const year = date.getFullYear()
     setToDate(year)
     console.log(year)
   }
 
-  const handelsave=async(e) =>{
-     e.preventDefault();
-  const fincialyear= document.getElementById('fincialyear').value;
-  const lastyear= document.getElementById('lastyear').value;
-  const from_date= document.getElementById('from_date').value;
-  const to_date= document.getElementById('to_date').value;
-  let vendmast= document.getElementById('vendmast').value;
-  vendmast= vendmast.toUpperCase();
-  let vendid= document.getElementById('vendid').value;
-  vendid= vendid.toUpperCase()
-  let custmast= document.getElementById('custmast').value;
-  custmast= custmast.toUpperCase();
-  let custid= document.getElementById('custid').value;
-  custid= custid.toUpperCase();
-  const org = localStorage.getItem('Organisation')
-  const User_id = localStorage.getItem('User_id')
+  const handelsave = async (e) => {
+    e.preventDefault();
+    const fincialyear = document.getElementById('fincialyear').value;
+    const lastyear = document.getElementById('lastyear').value;
+    const from_date = document.getElementById('from_date').value;
+    const to_date = document.getElementById('to_date').value;
+    let invoiceser = document.getElementById('invoiceser').value;
+    invoiceser = invoiceser.toUpperCase();
+    let voucher = document.getElementById('voucher').value;
+    voucher = voucher.toUpperCase();
+    
 
-  if(vendmast.length>5 || vendid.length>5 ||custmast.length>5 ||custid>5){
-    alert("ID's must be smaller then 4 char.")
-  }
-  else{
-    const result =await Addfincialyear(org,fincialyear,lastyear,from_date,to_date,custmast,custid,vendmast,vendid,User_id)
+    // let vendmast= document.getElementById('vendmast').value;
+    // vendmast= vendmast.toUpperCase();
+    // let vendid= document.getElementById('vendid').value;
+    // vendid= vendid.toUpperCase()
+    // let custmast= document.getElementById('custmast').value;
+    // custmast= custmast.toUpperCase();
+    // let custid= document.getElementById('custid').value;
+    // custid= custid.toUpperCase();
+    const org = localStorage.getItem('Organisation')
+    const User_id = localStorage.getItem('User_id')
 
-  if(result.rowsAffected[0]>0){
-    alert("Data Added");
-    window.location.href="./showfincialyear"
-  }
+    // if(vendmast.length>5 || vendid.length>5 ||custmast.length>5 ||custid>5){
+    //   alert("ID's must be smaller then 4 char.")
+    // }
+    if (invoiceser.length > 6 || voucher.length>4) {
+      alert("invoice Series is must be smaller then 6 char and voucher is 4")
+    }
+    else {
+      const result = await Addfincialyear(org, fincialyear, lastyear, from_date, to_date, invoiceser,voucher, User_id)
 
-  }
+      if (result.rowsAffected[0] > 0) {
+        alert("Data Added");
+        window.location.href = "./showfincialyear"
+      }
+
+    }
   }
   return (
     <div>
@@ -75,51 +84,63 @@ const Fincialyear = () => {
                         <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={from_date+"-"+to_date}/>
+                            <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={from_date + "-" + to_date} />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From date</label>
                           <div className="col form-group">
-                            <input type="date" className="form-control col-md-4" id='from_date'  onChange={handleChangefromdate}/>
+                            <input type="date" className="form-control col-md-4" id='from_date' onChange={handleChangefromdate} />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">To Date</label>
                           <div className="col form-group">
-                            <input type="date" className="form-control col-md-4" id='to_date'  onChange={handleChangetodate}/>
+                            <input type="date" className="form-control col-md-4" id='to_date' onChange={handleChangetodate} />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Year</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='lastyear' disabled value={year}/>
+                            <input type="text" className="form-control col-md-4" id='lastyear' disabled value={year} />
                           </div>
                         </div>
                         <div className="form-row">
+                          <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='invoiceser'  maxLength={6} />
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
+                          </div>
+                        </div>
+                        {/* <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Vendor Master</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='vendmast' />
                           </div>
-                        </div>
-                        <div className="form-row">
+                        </div> */}
+                        {/* <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Vendor Id</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='vendid' />
                           </div>
-                        </div>
-                        <div className="form-row">
+                        </div> */}
+                        {/* <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Customer Master</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='custmast' />
                           </div>
-                        </div>
-                        <div className="form-row">
+                        </div> */}
+                        {/* <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Customer Id</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='custid' />
                           </div>
-                        </div>
+                        </div> */}
                       </form>
                     </article>
                     <div className="border-top card-body">

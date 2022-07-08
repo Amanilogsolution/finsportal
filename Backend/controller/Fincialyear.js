@@ -23,10 +23,12 @@ const Addfincialyear = async (req, res) => {
     const year = req.body.year;
     const from_date = req.body.from_date;
     const to_date = req.body.to_date;
-    const mcust_id = req.body.mcust_id;
-    const cust_id = req.body.cust_id;
-    const vendmast = req.body.vendmast;
-    const vendid = req.body.vendid;
+    // const mcust_id = req.body.mcust_id;
+    // const cust_id = req.body.cust_id;
+    // const vendmast = req.body.vendmast;
+    // const vendid = req.body.vendid;
+    const invoice= req.body.invoiceser;
+    const voucher= req.body.voucher;
     const User_id = req.body.User_id;
 
     try {
@@ -34,10 +36,10 @@ const Addfincialyear = async (req, res) => {
         const result1 = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Deactive' WHERE  status ='Active';`)
     
         if(result1.rowsAffected[0]>0){
-        const result = await sql.query(`INSERT into ${org}.dbo.tbl_fin_year(fin_year,year,from_date,to_date,mcust_id,mcust_count,cust_id,
-            cust_count,mvend_id,mvend_count,vend_id,vend_count,location_count,add_user_name,add_system_name,
+        const result = await sql.query(`INSERT into ${org}.dbo.tbl_fin_year(fin_year,year,from_date,to_date,mcust_count,
+            cust_count,mvend_count,vend_count,invoice_ser,vouher_ser,location_count,add_user_name,add_system_name,
             add_ip_address,add_date_time,status)
-            values('${fin_year}','${year}','${from_date}','${to_date}','${mcust_id}','0','${cust_id}','0','${vendmast}','0','${vendid}','0','0',
+            values('${fin_year}','${year}','${from_date}','${to_date}','0','0','0','0','0','${invoice}','${voucher}',
             '${User_id}','hp','::1',getdate(),'Active');`)
             res.send(result)
         }

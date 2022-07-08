@@ -30,26 +30,37 @@ const columns = [
     selector: row => row.year,
     sortable: true
   },
-  {
-    name: 'Vendor Master',
-    selector: row => row.mvend_id,
-    sortable: true
-  },
-  {
-    name: 'Vendor ID',
-    selector: row => row.vend_id,
-    sortable: true
-  },
-  {
-    name: 'Customer Master',
-    selector: row => row.mcust_id,
-    sortable: true
-  },
-  {
-    name: 'Customer id',
-    selector: row => row.cust_id,
-    sortable: true
-  },
+
+  // {
+  //   name: 'Invoice Series',
+  //   selector: row => row.invoice_ser,
+  //   sortable: true
+  // },
+  // {
+  //   name: 'Voucher Series',
+  //   selector: row => row.voucher_ser,
+  //   sortable: true
+  // },
+  // {
+  //   name: 'Vendor Master',
+  //   selector: row => row.mvend_id,
+  //   sortable: true
+  // },
+  // {
+  //   name: 'Vendor ID',
+  //   selector: row => row.vend_id,
+  //   sortable: true
+  // },
+  // {
+  //   name: 'Customer Master',
+  //   selector: row => row.mcust_id,
+  //   sortable: true
+  // },
+  // {
+  //   name: 'Customer id',
+  //   selector: row => row.cust_id,
+  //   sortable: true
+  // },
 
   {
     name: 'Active ',
@@ -106,7 +117,7 @@ const ShowFincialyear = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Fincial Year</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Year</button>
 
             <div className="container-fluid">
               <br />
