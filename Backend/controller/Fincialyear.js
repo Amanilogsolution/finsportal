@@ -32,7 +32,7 @@ const Addfincialyear = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result1 = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Deactive' WHERE  status ='Active';`)
-
+    
         if(result1.rowsAffected[0]>0){
         const result = await sql.query(`INSERT into ${org}.dbo.tbl_fin_year(fin_year,year,from_date,to_date,mcust_id,mcust_count,cust_id,
             cust_count,mvend_id,mvend_count,vend_id,vend_count,location_count,add_user_name,add_system_name,
