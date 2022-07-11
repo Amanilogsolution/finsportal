@@ -31,16 +31,16 @@ const columns = [
     sortable: true
   },
 
-  // {
-  //   name: 'Invoice Series',
-  //   selector: row => row.invoice_ser,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Voucher Series',
-  //   selector: row => row.voucher_ser,
-  //   sortable: true
-  // },
+  {
+    name: 'Invoice Series',
+    selector: row => row.invoice_ser,
+    sortable: true
+  },
+  {
+    name: 'Voucher Series',
+    selector: row => row.voucher_ser,
+    sortable: true
+  },
   // {
   //   name: 'Vendor Master',
   //   selector: row => row.mvend_id,

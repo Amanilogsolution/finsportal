@@ -28,13 +28,13 @@ const Fincialyear = () => {
   const handelsave = async (e) => {
     e.preventDefault();
     const fincialyear = document.getElementById('fincialyear').value;
-    const lastyear = document.getElementById('lastyear').value;
+    const year = document.getElementById('lastyear').value;
     const from_date = document.getElementById('from_date').value;
     const to_date = document.getElementById('to_date').value;
-    let invoiceser = document.getElementById('invoiceser').value;
-    invoiceser = invoiceser.toUpperCase();
-    let voucher = document.getElementById('voucher').value;
-    voucher = voucher.toUpperCase();
+    let invoice_ser = document.getElementById('invoiceser').value;
+    invoice_ser = invoice_ser.toUpperCase();
+    let voucher_ser = document.getElementById('voucher').value;
+    voucher_ser = voucher_ser.toUpperCase();
     
 
     // let vendmast= document.getElementById('vendmast').value;
@@ -51,15 +51,20 @@ const Fincialyear = () => {
     // if(vendmast.length>5 || vendid.length>5 ||custmast.length>5 ||custid>5){
     //   alert("ID's must be smaller then 4 char.")
     // }
-    if (invoiceser.length > 6 || voucher.length>4) {
+
+    // console.log(fincialyear,year,from_date,to_date,invoice_ser,voucher_ser,org,User_id)
+    if (invoice_ser.length > 6 || voucher_ser.length>4) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
     }
     else {
-      const result = await Addfincialyear(org, fincialyear, lastyear, from_date, to_date, invoiceser,voucher, User_id)
+      const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser,voucher_ser, User_id)
 
       if (result.rowsAffected[0] > 0) {
         alert("Data Added");
         window.location.href = "./showfincialyear"
+      }
+      else{
+        alert("Server error !")
       }
 
     }

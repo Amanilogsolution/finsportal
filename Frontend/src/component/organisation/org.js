@@ -156,7 +156,7 @@ function Org() {
                         <input
                           className="form-control"
                           type="text" onInput="numberOnly(this.id);"
-                          maxLength="12"
+                          maxLength={10}
                           placeholder="Contact Mobile no."
                           id='org_contact_phone'
                         />
@@ -191,12 +191,13 @@ function Org() {
                       </div>
                       <div className="form-group col-md-6">
                         <input
-                          type="text"
-                          onInput="numberOnly(this.id);"
-                          maxLength="6"
+                          type="number"
+                          // onInput="numberOnly(this.id);"
+                          // maxLength={6}
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
+                          onChange={(e)=>{if(e.target.value.length>6){alert("number must be 6 digit")}}}
                         />
                       </div>
 

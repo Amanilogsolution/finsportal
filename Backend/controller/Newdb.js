@@ -60,14 +60,14 @@ const Newdb = async (req, res) => {
                 year varchar(20) NULL,
                 from_date varchar(20) NULL,
                 to_date varchar(20) NULL,
-                mcust_id varchar(100) NULL,
                 mcust_count varchar(100) NULL,
-                cust_id varchar(100) NULL,
                 cust_count varchar(100) NULL,
-                mvend_id varchar(100) NULL,
                 mvend_count varchar(100) NULL,
-                vend_id varchar(100) NULL,
                 vend_count varchar(100) NULL,
+                invoice_ser varchar(100) NULL,
+                invoice_count varchar(100) NULL,
+                voucher_ser varchar(100) NULL,
+                voucher_count varchar(100) NULL,
                 location_count varchar(100) NULL,
                 add_user_name varchar(50) NULL,
                 add_date_time datetime NULL,
@@ -196,7 +196,13 @@ const Newdb = async (req, res) => {
                 status varchar(50) NULL,
                 newvend_uuid varchar(100) NULL
             );
-            
+            CREATE TABLE ${dbname}.dbo.tbl_id_controller(
+                sno bigint IDENTITY(1,1) NOT NULL,
+                mvend_id varchar(50) NULL,
+                vend_count varchar(50) NULL,
+                mcust_id varchar(50) NULL,
+                cust_count varchar(50) NULL,
+            );
             CREATE TABLE ${dbname}.dbo.tbl_new_customer (
                 sno bigint IDENTITY(1,1) NOT NULL,
                 mast_id varchar(50) NULL,

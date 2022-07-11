@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { Getfincialyearid,Vendor, DeleteVendor,ImportVendor } from '../../api';
+import { Getfincialyearid, Vendor, DeleteVendor, ImportVendor, TotalVendId} from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -45,10 +45,9 @@ const columns = [
             <div className='droplist'>
                 <select onChange={async (e) => {
                     const status = e.target.value;
-                    await DeleteVendor(row.sno, status,localStorage.getItem('Organisation'))
+                    await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
                     window.location.href = 'ShowVendor'
-                }
-                }>
+                }}>
                     <option selected disabled hidden> {row.status}</option>
                     <option value='Active'>Active</option>
                     <option value='Deactive' >Deactive</option>
@@ -102,14 +101,17 @@ const Showvendor = () => {
     let [errorno, setErrorno] = useState(0);
     const [duplicateData, setDuplicateDate] = useState([])
     const [backenddata, setBackenddata] = useState(false);
+    const [finsyear, setFinsyear] = useState(0);
+    const [mvendid, setMvendid] = useState(0);
+    const [vendid, setVendid] = useState(0);
 
 
     //##########################  Upload data start  #################################
 
     const uploaddata = async () => {
-        document.getElementById("uploadbtn").disabled = true;
+        // document.getElementById("uploadbtn").disabled = true;
         // importdata.map((d) => {
-        //     if (!d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
+        //     if (!d.existing || !d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
         //         setErrorno(errorno++);
         //     }
         // })
@@ -120,21 +122,101 @@ const Showvendor = () => {
             window.location.reload()
         }
         else {
-            console.log(importdata)
-              const result = await ImportVendor(importdata,localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
-            console.log("result.length",result)
-            if (!(result == "Data Added")) {
-                setBackenddata(true);
-                console.log("backenddata",backenddata)
-                setDuplicateDate(result)
-                console.log("duplicatedata",duplicateData)
+            let countmvendid = mvendid;
+            let countvendid = vendid;
+
+            for (let i = 0; i < importdata.length; i++) {
+                if (importdata[i].existing === 'y') {
+                
+                    // const getcustidfro = async () => {
+                    //     const countids = await TotalVendId(localStorage.getItem('Organisation'), importdata[i].mast_id)
+                    //     console.log(countids.count)
+                    //     if(!countids){
+                    //       getcustidfro()
+                    //     }
+
+                    //     let numid = countids.count;
+                    //     var increid = numid + 1;
+
+                    //     increid = '' + increid;
+                        // increid = increid.padStart(4, '0');
+                        // console.log(custidy)
+
+
+                        // const generatevend = "Vend" + finsyear + increid;
+                        // console.log(generatevend)
+
+                        // Object.assign(importdata[i], { "vend_id": generatevend })
+                        // setNewmidcount(countids)
+
+                    // }
+                    // getcustidfro()
+
+                    // console.log("Api to Check Master - "+ importdata[i].master_id)
+
+                }
+                else if (importdata[i].existing === 'n') {
+
+                    let mvendidy = countmvendid;
+                    mvendidy = mvendidy + 1;
+                    countmvendid = mvendidy
+                    mvendidy = '' + mvendidy;
+                    mvendidy = mvendidy.padStart(4, '0');
+
+
+                    let vendidy = countvendid;
+                    vendidy = 0 + 1;
+                    countvendid = vendidy
+                    vendidy = '' + vendidy;
+                    vendidy = vendidy.padStart(4, '0');
+
+                    const generatemvend = "MVEND" + finsyear + mvendidy;
+                    const generatevend = "VEND" + finsyear + vendidy;
+
+                    console.log(generatemvend, generatevend)
+
+                    Object.assign(importdata[i], { "vend_id": generatevend }, { "mast_id": generatemvend })
+                    console.log(importdata[i])
+                }
+                else {
+                    alert("Please enter Vendor is existing or not")
+                    window.location.reload();
+                }
+
             }
-            else if (result == "Data Added") {
-                setBackenddata(false);
-                document.getElementById("showdataModal").style.display = "none";
-                alert("Data Added")
-                window.location.href = 'Showvendor'
-            }
+
+            setTimeout(async () => {
+                // const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+                // console.log(result)
+                // if (!(result == "Data Added")) {
+                //     setBackenddata(true);
+                //     setDuplicateDate(result)
+
+                // }
+                // else if (result == "Data Added") {
+                //     document.getElementById("showdataModal").style.display = "none";
+                //     setBackenddata(false);
+                //     alert("Data Added")
+                //     window.location.reload()
+                // }
+            }, 5000);
+
+
+            // console.log(importdata)
+            //   const result = await ImportVendor(importdata,localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
+            // console.log("result.length",result)
+            // if (!(result == "Data Added")) {
+            //     setBackenddata(true);
+            //     console.log("backenddata",backenddata)
+            //     setDuplicateDate(result)
+            //     console.log("duplicatedata",duplicateData)
+            // }
+            // else if (result == "Data Added") {
+            //     setBackenddata(false);
+            //     document.getElementById("showdataModal").style.display = "none";
+            //     alert("Data Added")
+            //     window.location.href = 'Showvendor'
+            // }
         }
 
     };
@@ -145,7 +227,6 @@ const Showvendor = () => {
     const handleClick = () => {
         const array = JSON.stringify(importdata)
         const datas = JSON.parse(array)
-        console.log(datas)
         // setImportdata(datas);
 
     };
@@ -153,7 +234,7 @@ const Showvendor = () => {
 
     //##########################  for convert excel to array start  #################################
     const onChange = (e) => {
-        
+
         const [file] = e.target.files;
         const reader = new FileReader();
 
@@ -182,11 +263,15 @@ const Showvendor = () => {
 
 
     useEffect(async () => {
-        const org=localStorage.getItem('Organisation')
-        const financialyear= await Getfincialyearid(org)
-        // console.log(financialyear[0].year)
-        const year= financialyear[0].year;
-        const result = await Vendor(org,year)
+        const org = localStorage.getItem('Organisation')
+        const financialyear = await Getfincialyearid(org)
+        setFinsyear(financialyear[0].year)
+        const mvendid = parseInt(financialyear[0].mvend_count);
+        const vendid = parseInt(financialyear[0].vend_count);
+        setMvendid(mvendid)
+        setVendid(vendid)
+        const year = financialyear[0].year;
+        const result = await Vendor(org, year)
         setData(result)
     }, [])
 
@@ -336,15 +421,15 @@ const Showvendor = () => {
 
                                     backenddata ?
                                         <>
-                                            <h5 style={{margin:"auto"}}>This data already exist</h5>
-                                            <table style={{ color: "red",margin:"auto" }}>
+                                            <h5 style={{ margin: "auto" }}>This data already exist</h5>
+                                            <table style={{ color: "red", margin: "auto" }}>
                                                 <thead>
-                                                <tr>
-                                                    <th style={{ border: "1px solid black" }}>vend_email</th>
-                                                    <th style={{ border: "1px solid black" }}>vend_phone</th>
-                                                    <th style={{ border: "1px solid black" }}>gstin_uin</th>
-                                                    <th style={{ border: "1px solid black" }}>pan_no</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th style={{ border: "1px solid black" }}>vend_email</th>
+                                                        <th style={{ border: "1px solid black" }}>vend_phone</th>
+                                                        <th style={{ border: "1px solid black" }}>gstin_uin</th>
+                                                        <th style={{ border: "1px solid black" }}>pan_no</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                     {
@@ -367,52 +452,52 @@ const Showvendor = () => {
                                 }
                                 <table >
                                     <thead>
-                                    <tr>
-                                        <th style={{ border: "1px solid black" }}>mast_id</th>
-                                        <th style={{ border: "1px solid black" }}>vend_id</th>
-                                        <th style={{ border: "1px solid black" }}>vend_name</th>
-                                        <th style={{ border: "1px solid black" }}>company_name</th>
-                                        <th style={{ border: "1px solid black" }}>vend_display_name</th>
-                                        <th style={{ border: "1px solid black" }}>vend_email</th>
-                                        <th style={{ border: "1px solid black" }}>vend_work_phone</th>
-                                        <th style={{ border: "1px solid black" }}>vend_phone</th>
-                                        <th style={{ border: "1px solid black" }}>skype_detail</th>
-                                        <th style={{ border: "1px solid black" }}>designation</th>
-                                        <th style={{ border: "1px solid black" }}>department</th>
-                                        <th style={{ border: "1px solid black" }}>website</th>
-                                        <th style={{ border: "1px solid black" }}>gst_treatment</th>
-                                        <th style={{ border: "1px solid black" }}>gstin_uin</th>
-                                        <th style={{ border: "1px solid black" }}>pan_no</th>
-                                        <th style={{ border: "1px solid black" }}>source_of_supply</th>
-                                        <th style={{ border: "1px solid black" }}>currency</th>
-                                        <th style={{ border: "1px solid black" }}>opening_balance</th>
-                                        <th style={{ border: "1px solid black" }}>payment_terms</th>
-                                        <th style={{ border: "1px solid black" }}>tds</th>
-                                        <th style={{ border: "1px solid black" }}>facebook_url</th>
-                                        <th style={{ border: "1px solid black" }}>twitter_url</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_attention</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_country</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_city</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_state</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_pincode</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_phone</th>
-                                        <th style={{ border: "1px solid black" }}>billing_address_fax</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_name</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_email</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_work_phone</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_phone</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_skype</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_designation</th>
-                                        <th style={{ border: "1px solid black" }}>contact_person_department</th>
-                                        <th style={{ border: "1px solid black" }}>remark</th>
+                                        <tr>
+                                            <th style={{ border: "1px solid black" }}>Existing</th>
+                                            <th style={{ border: "1px solid black" }}>Master Id</th>
+                                            <th style={{ border: "1px solid black" }}>vend_name</th>
+                                            <th style={{ border: "1px solid black" }}>company_name</th>
+                                            <th style={{ border: "1px solid black" }}>vend_display_name</th>
+                                            <th style={{ border: "1px solid black" }}>vend_email</th>
+                                            <th style={{ border: "1px solid black" }}>vend_work_phone</th>
+                                            <th style={{ border: "1px solid black" }}>vend_phone</th>
+                                            <th style={{ border: "1px solid black" }}>skype_detail</th>
+                                            <th style={{ border: "1px solid black" }}>designation</th>
+                                            <th style={{ border: "1px solid black" }}>department</th>
+                                            <th style={{ border: "1px solid black" }}>website</th>
+                                            <th style={{ border: "1px solid black" }}>gst_treatment</th>
+                                            <th style={{ border: "1px solid black" }}>gstin_uin</th>
+                                            <th style={{ border: "1px solid black" }}>pan_no</th>
+                                            <th style={{ border: "1px solid black" }}>source_of_supply</th>
+                                            <th style={{ border: "1px solid black" }}>currency</th>
+                                            <th style={{ border: "1px solid black" }}>opening_balance</th>
+                                            <th style={{ border: "1px solid black" }}>payment_terms</th>
+                                            <th style={{ border: "1px solid black" }}>tds</th>
+                                            <th style={{ border: "1px solid black" }}>facebook_url</th>
+                                            <th style={{ border: "1px solid black" }}>twitter_url</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_attention</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_country</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_city</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_state</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_pincode</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_phone</th>
+                                            <th style={{ border: "1px solid black" }}>billing_address_fax</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_name</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_email</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_work_phone</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_phone</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_skype</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_designation</th>
+                                            <th style={{ border: "1px solid black" }}>contact_person_department</th>
+                                            <th style={{ border: "1px solid black" }}>remark</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {
                                             importdata.map((d) => (
                                                 <tr style={{ border: "1px solid black" }}>
+                                                    <td style={{ border: "1px solid black" }}>{d.existing}</td>
                                                     <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
-                                                    <td style={{ border: "1px solid black" }}>{d.vend_id}</td>
                                                     <td style={{ border: "1px solid black" }}>{d.vend_name}</td>
                                                     <td style={{ border: "1px solid black" }}>{d.company_name}</td>
                                                     <td style={{ border: "1px solid black" }}>{d.vend_display_name}</td>

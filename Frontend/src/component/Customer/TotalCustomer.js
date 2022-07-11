@@ -118,6 +118,7 @@ const TotalCustomer = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
+    document.getElementById("uploadbtn").disabled = true;
     // importdata.map((d) => {
 
     //   if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
@@ -177,7 +178,7 @@ const TotalCustomer = () => {
           mcustidy = '' + mcustidy;
           mcustidy = mcustidy.padStart(4, '0');
 
-          let custidy = countid + 1
+          let custidy = 0 + 1
           countid = custidy
           custidy = '' + custidy;
           custidy = custidy.padStart(4, '0');
@@ -447,7 +448,7 @@ const TotalCustomer = () => {
                   <thead>
                     <tr>
                       <th style={{ border: "1px solid black" }}>existing</th>
-                      {/* <th style={{ border: "1px solid black" }}>Master Id</th> */}
+                      <th style={{ border: "1px solid black" }}>Master Id</th>
                       <th style={{ border: "1px solid black" }}>Cust Type</th>
                       <th style={{ border: "1px solid black" }}>Cust Name</th>
                       <th style={{ border: "1px solid black" }}>Company Name</th>
@@ -494,7 +495,7 @@ const TotalCustomer = () => {
                       importdata.map((d, index) => (
                         <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.existing}</td>
-                          {/* <td style={{ border: "1px solid black" }}>{d.mast_id}</td> */}
+                          <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.company_name}</td>
@@ -557,6 +558,7 @@ const TotalCustomer = () => {
               <button type="button"
                 onClick={uploaddata}
                 className="btn btn-primary"
+                id='uploadbtn'
               >
                 Upload
               </button>

@@ -210,7 +210,6 @@ const CustomerMastid = async (req, res) => {
 const CustomerIdMid = async (req, res) => {
     const org = req.body.org;
     const masterid = req.body.masterid;
-    console.log(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
