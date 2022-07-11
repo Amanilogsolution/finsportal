@@ -470,7 +470,37 @@ const Newdb = async (req, res) => {
                 update_ip_address varchar(50) NULL,
                 status varchar(50) NULL
             );
-            
+            CREATE TABLE ${dbname}.dbo.tbl_location_series(
+                sno bigint IDENTITY(1,1) NOT NULL,
+                fin_year  varchar(100) NULL,
+                series_type varchar(100) NULL,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(50) NULL
+            );
+
+
+ CREATE TABLE ${dbname}.dbo.tbl_crm_master(
+    sno bigint IDENTITY(1,1) NOT NULL,
+    user_name  varchar(100) NULL,
+    type varchar(30) NULL,
+    cust_vend varchar(100) NULL,
+    add_date_time datetime NULL,
+    add_user_name varchar(50) NULL,
+    add_system_name varchar(50) NULL,
+    add_ip_address varchar(30) NULL,
+    update_date_time datetime NULL,
+    update_user_name varchar(50) NULL,
+    update_system_name varchar(100) NULL,
+    update_ip_address varchar(50) NULL,
+    status varchar(50) NULL
+);
             
             
             `)

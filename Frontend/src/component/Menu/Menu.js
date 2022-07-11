@@ -314,27 +314,27 @@ const Menu = () => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a href="/ChartOfAccount" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p> Chart OF Account </p>
                     </a>
-                  </li>
+                  </li>*/}
                   <li className="nav-item">
                     <a href="/Currency-Adjustment" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p> Currency Adjustments </p>
                     </a>
                   </li>
-                  {/* <li className="nav-item">
-                    <a href="#" className="nav-link active">
 
-                      <p> Chart Of Accounts</p>
+
+                  <li className="nav-item ">
+                    <a href="#" className="nav-link active bg-success">
+                      <p className=""> Chart Of Accounts</p>
                       <i className="right fas fa-angle-left" />
                     </a>
 
                     <ul className="nav nav-treeview">
-
                       <li className="nav-item">
                         <a href="/ChartOfAccount" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
@@ -342,11 +342,22 @@ const Menu = () => {
                         </a>
                       </li>
 
+                      <li className="nav-item">
+                        <a href="/ShowAccountname" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Account Major code</p>
+                        </a>
+                      </li>
 
+
+                      <li className="nav-item">
+                        <a href="/ShowAccountMinorCode" className="nav-link active">
+                          <i className="far fa-circle nav-icon" />
+                          <p>Account Minor Code</p>
+                        </a>
+                      </li>
                     </ul>
-
-                  </li> */}
-
+                  </li>
                 </ul>
               </li>
               <li className="nav-item">
@@ -445,22 +456,8 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowAccountname" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Account Major code</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowAccountMinorCode" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Account Minor Code</p>
-                    </a>
-                  </li>
-                </ul>
+
+
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowChartAccount" className="nav-link active">

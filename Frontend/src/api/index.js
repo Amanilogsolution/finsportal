@@ -7,10 +7,9 @@ import axios from 'axios';
 //     return axios.get(url,{dbname}).then(response => response.data).catch(error => console.log(error));
 // }
 
-export const register = async (org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin) => {
-    console.log(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin)
+export const register = async (org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin,User_id) => {
     const url = `http://localhost:3008/api/insertorg`
-    return axios.post(url, {org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pin,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -19,9 +18,9 @@ export const CreatenewDb = async (dbname) => {
     return axios.post(url, { dbname }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const CreateOrgTable = async (dbname) => {
+export const CreateOrgTable = async (dbname,org_name,User_id) => {
     const url = `http://localhost:3008/api/Org_table`
-    return axios.post(url, { dbname }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { dbname,org_name,User_id }).then(response => response.data).catch(error => console.log(error));
 
 }
 
@@ -36,9 +35,9 @@ export const showOrganisation = async (org_name) => {
     return axios.post(url, { org_name }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst) => {
+export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst,User_id) => {
     const url = `http://localhost:3008/api/UpdateOrganisation`
-    return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For create  Db #################################

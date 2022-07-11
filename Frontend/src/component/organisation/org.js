@@ -26,12 +26,13 @@ function Org() {
     const org_contact_phone = document.getElementById("org_contact_phone").value;
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
+    const dbname= org_name.slice(0,3)+Math.floor(Math.random()*100)
+    const User_id= localStorage.getElementById('User_id');
 
 
-    const database = await CreatenewDb(org_name)
-    const OrgTable = await CreateOrgTable(org_name)
-    console.log(database)
-     const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
+    const database = await CreatenewDb(dbname)
+    const OrgTable = await CreateOrgTable(dbname,org_name,User_id)
+     const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode,User_id)
      if(result){
       window.location.href='/home'
      }
@@ -212,7 +213,7 @@ function Org() {
                           placeholder=""
                           accept=".jpg, .jpeg, .png"
                         /> */}
-                      <button className=" form-control col-md-3 btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Select</button>
+                      {/* <button className=" form-control col-md-3 btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Select</button> */}
 
                     </div>
                   </div>
