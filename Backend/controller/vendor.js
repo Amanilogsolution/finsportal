@@ -192,7 +192,6 @@ const TotalVendor = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT count(DISTINCT(mast_id)) as count2 from ${org}.dbo.tbl_new_vendor  with (nolock);`)
-        // console.log(result.recordset[0])
         res.send(result.recordset[0])
     }
     catch (err) {
@@ -205,8 +204,6 @@ const ImportVendor = (req, res) => {
     const org = req.body.org;
     const datas = req.body.data;
     const User_id = req.body.User_id;
-     
-  
     sql.connect(sqlConfig).then(() => {
 
         sql.query(`select * from ${org}.dbo.tbl_new_vendor where vend_email in ('${datas.map(data => data.vend_email).join("', '")}') OR vend_phone in ('${datas.map(data => data.vend_phone).join("', '")}') OR gstin_uin in ('${datas.map(data => data.gstin_uin).join("', '")}') OR pan_no in ('${datas.map(data => data.pan_no).join("','")}')`)
@@ -237,10 +234,7 @@ const ImportVendor = (req, res) => {
                     
                                     res.send("Data Added")
                 }
-            })
-
-
-    })
+            })    })
 }
 
 module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,TotalVendId,TotalVendor, ImportVendor }
