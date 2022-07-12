@@ -31,7 +31,6 @@ const Addfincialyear = async (req, res) => {
     const voucher_ser= req.body.voucher_ser;
     const User_id = req.body.User_id;
 
-    console.log(org, fincialyear, year, from_date, to_date, invoice_ser,voucher_ser, User_id)
 
     try {
         await sql.connect(sqlConfig)
@@ -63,13 +62,11 @@ const Updatefincialyear = async (req,res) =>{
     const user_id = req.body.user_id;
     const sno = req.body.sno
 
-    console.log(org,invoice_ser,voucher_ser,user_id,sno)
     try {
         await sql.connect(sqlConfig)
   
         const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set invoice_ser='${invoice_ser}',voucher_ser='${voucher_ser}',update_user_name='${user_id}',
         update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=getdate() where sno='${sno}';`)
-        console.log(result)
         res.send(result.rowsAffected)
     }
     catch (err) {

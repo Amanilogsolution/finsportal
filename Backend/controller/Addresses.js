@@ -165,9 +165,10 @@ const UpdateCustAddress = async (req, res) => {
     const billing_address_pincode = req.body.billing_address_pincode;
     const billing_address_phone = req.body.billing_address_phone;
     const billing_address_fax = req.body.billing_address_fax;
+    const User_id = req.body.User_id;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_cust_addresses set cust_id='${cust_id}',billing_address_attention='${billing_address_attention}',billing_address_country='${billing_address_country}',billing_address_city='${billing_address_city}',billing_address_state='${billing_address_state}',billing_address_pincode='${billing_address_pincode}',billing_address_phone='${billing_address_phone}',billing_address_fax='${billing_address_fax}',update_date_time=getdate(),update_user_name='Rupesh Kumar',
+        const result = await sql.query(`update ${org}.dbo.tbl_cust_addresses set cust_id='${cust_id}',billing_address_attention='${billing_address_attention}',billing_address_country='${billing_address_country}',billing_address_city='${billing_address_city}',billing_address_state='${billing_address_state}',billing_address_pincode='${billing_address_pincode}',billing_address_phone='${billing_address_phone}',billing_address_fax='${billing_address_fax}',update_date_time=getdate(),update_user_name='${User_id}',
             update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno='${sno}'`)
         res.send('Updated')
     }

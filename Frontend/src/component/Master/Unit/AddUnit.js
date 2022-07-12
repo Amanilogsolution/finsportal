@@ -15,7 +15,7 @@ import {Unit} from '../../../api';
           alert('Enter data')
         }else{
        
-        const result = await Unit(unit_name,unit_symbol,localStorage.getItem('Organisation'));
+        const result = await Unit(unit_name,unit_symbol,localStorage.getItem('Organisation'),localStorage.getItem('User_id'));
         console.log(result)
 
         if(result == "Already"){

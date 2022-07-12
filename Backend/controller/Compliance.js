@@ -27,7 +27,6 @@ const Insertcompliance = async (req, res) => {
     const due_date = req.body.due_date;
     const extended_date = req.body.extended_date;
     const user_name = req.body.user_name
-    console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_compliance (compliance_type ,nature,period ,period_name ,from_month,to_month ,
@@ -71,7 +70,6 @@ const Updatecompliance = async (req, res) => {
     const sno = req.body.sno;
     const user_name = req.body.user_name
 
-    console.log(org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, sno)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(` update ${org}.dbo.tbl_compliance set compliance_type='${compliance_type}',nature='${nature}',period='${period}',period_name='${period_name}',from_month='${from_month}',
@@ -106,7 +104,6 @@ const Compliancesduedate = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select convert(varchar(15),due_date,121) as due_date  from ${org}.dbo.tbl_compliance where status='Active'`)
-        console.log(result.recordset)
         res.status(200).send(result.recordset)
     }
     catch (err) {

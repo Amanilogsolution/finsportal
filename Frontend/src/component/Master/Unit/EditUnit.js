@@ -21,7 +21,7 @@ import { UpdateUnit } from '../../../api/index.js'
             const unit_symbol = document.getElementById('unit_symbol').value;
             
             
-            const result = await UpdateUnit(localStorage.getItem('unitSno'),unit_name,unit_symbol,localStorage.getItem('Organisation'));
+            const result = await UpdateUnit(localStorage.getItem('unitSno'),unit_name,unit_symbol,localStorage.getItem('Organisation'),localStorage.getItem('User_id'));
             if(result){
                 window.location.href = '/ShowUnit'
             }

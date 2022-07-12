@@ -42,9 +42,9 @@ export const updateOrganisation = async (org_name, org_contact_name, org_contact
 
 // ############################ For create  Db #################################
 
-export const addstates = async (state_name, country_name, state_code, state_short_name, select_type) => {
+export const addstates = async (state_name, country_name, state_code, state_short_name, select_type,User_id) => {
     const url = `http://localhost:3008/api/state`
-    return axios.post(url, { state_name, country_name, state_code, state_short_name, select_type }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { state_name, country_name, state_code, state_short_name, select_type,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const getstates = async () => {
     const url = `http://192.168.146.103:3008/api/totalstate`
@@ -59,9 +59,9 @@ export const showstate = async (sno) => {
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateState = async (sno, country_name, state_name, state_code, state_short_name, select_type) => {
+export const updateState = async (sno, country_name, state_name, state_code, state_short_name, select_type,User_id) => {
     const url = `http://192.168.146.103:3008/api/editstate`
-    return axios.post(url, { sno, country_name, state_name, state_code, state_short_name, select_type }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, country_name, state_name, state_code, state_short_name, select_type,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const showactivestate = async (country) => {
     const url = `http://localhost:3008/api/showactivestate`
@@ -157,9 +157,9 @@ export const TotalActiveUnit = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Unit = async (unit_name, unit_symbol,org) => {
+export const Unit = async (unit_name, unit_symbol,org,User_id) => {
     const url = `http://localhost:3008/api/unit`
-    return axios.post(url, { unit_name, unit_symbol,org }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { unit_name, unit_symbol,org ,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showunit = async (sno, Token,org) => {
@@ -167,9 +167,9 @@ export const showunit = async (sno, Token,org) => {
     return axios.post(url, { sno ,org}, { headers: { "Authorization": Token } }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateUnit = async (sno, unit_name, unit_symbol,org) => {
+export const UpdateUnit = async (sno, unit_name, unit_symbol,org,User_id) => {
     const url = `http://localhost:3008/api/updateunit`
-    return axios.post(url, { sno, unit_name, unit_symbol,org }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, unit_name, unit_symbol,org ,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const deleteUnit = async (sno, status,org) => {
@@ -416,9 +416,9 @@ export const CustAddress = async (sno,org) => {
     return axios.post(url, { sno,org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const EditCustAddress = async (org,sno, cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax) => {
+export const EditCustAddress = async (org,sno, cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,User_id) => {
     const url = 'http://localhost:3008/api/updatecustaddress'
-    return axios.post(url, { org,sno, cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,sno, cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const VendAddress = async (sno,org) => {
@@ -468,9 +468,9 @@ export const ImportVendor = async (data,org,User_id) => {
     const url = `http://localhost:3008/api/importvendor`
     return axios.post(url, { data,org,User_id }).then(response => response.data).catch(error => console.log(error));
 }
-export const ImportState = async (data) => {
+export const ImportState = async (data,User_id) => {
     const url = `http://localhost:3008/api/importState`
-    return axios.post(url, { data }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportCity = async (data,User_id) => {
@@ -478,9 +478,9 @@ export const ImportCity = async (data,User_id) => {
     return axios.post(url, { data,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ImportUnit = async (data, org) => {
+export const ImportUnit = async (data, org,User_id) => {
     const url = `http://localhost:3008/api/importunit`
-    return axios.post(url, { data, org }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { data, org ,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportBank = async (data, org,User_id) => {

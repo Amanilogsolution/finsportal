@@ -213,7 +213,6 @@ const CustomerIdMid = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
-          console.log(result.recordset)
         res.send(result.recordset)
         
 
@@ -228,7 +227,6 @@ const ImportCustomer = (req, res) => {
     const datas = req.body.data;
     const org = req.body.org;
     // let duplicatedate = [];
-  console.log(datas)
  
     sql.connect(sqlConfig).then(() => {
 

@@ -34,8 +34,9 @@ import {getCity} from '../../../api';
         const billing_address_pincode = document.getElementById('billing_address_pincode').value;
         const billing_address_phone = document.getElementById('billing_address_phone').value;
         const billing_address_fax = document.getElementById('billing_address_fax').value;
+        const User_id = localStorage.getItem('User_id')
 
-        const result = await EditCustAddress(localStorage.getItem("Organisation"),localStorage.getItem('EditAddress'),cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
+        const result = await EditCustAddress(localStorage.getItem("Organisation"),localStorage.getItem('EditAddress'),cust_id,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,User_id)
         if(result){
             window.location.href='/TotalCustAddress'
         }

@@ -90,7 +90,6 @@ const AddSubAccountName = async (req, res) => {
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
     const org=req.body.org;
-    console.log('Hello',account_name_code,account_name_code)
 
     try{
           await sql.connect(sqlConfig) 
@@ -110,7 +109,6 @@ const UpdateSubAccountName = async (req, res) => {
     const account_name_code = req.body.account_name_code;
     const org =req.body.org;
     const User_id= req.body.User_id;
-    console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
 
     try{
         await sql.connect(sqlConfig)

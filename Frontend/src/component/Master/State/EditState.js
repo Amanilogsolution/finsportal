@@ -43,12 +43,12 @@ import {updateState,Activecountries} from '../../../api/index.js'
             const state_short_name = document.getElementById('State_short').value;
            
              if(selectedCountry == undefined){
-            const result = await updateState(localStorage.getItem('stateSno'),data.country_name,state_name,state_code,state_short_name,statetype);
+            const result = await updateState(localStorage.getItem('stateSno'),data.country_name,state_name,state_code,state_short_name,statetype,localStorage.getItem('User_id'));
             if(result){
                 window.location.href = '/ShowState'
           }
           }else{
-            const result = await updateState(localStorage.getItem('stateSno'),selectedCountry,state_name,state_code,state_short_name,statetype);
+            const result = await updateState(localStorage.getItem('stateSno'),selectedCountry,state_name,state_code,state_short_name,statetype,localStorage.getItem('User_id'));
             if(result){
               window.location.href = '/ShowState'
         }
