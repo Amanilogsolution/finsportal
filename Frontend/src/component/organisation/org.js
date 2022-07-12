@@ -26,16 +26,16 @@ function Org() {
     const org_contact_phone = document.getElementById("org_contact_phone").value;
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
-    const dbname= org_name.slice(0,3)+Math.floor(Math.random()*100)
-    const User_id= localStorage.getElementById('User_id');
+    const dbname = org_name.slice(0, 3) + Math.floor(Math.random() * 100)
+    const User_id = localStorage.getElementById('User_id');
 
 
     const database = await CreatenewDb(dbname)
-    const OrgTable = await CreateOrgTable(dbname,org_name,User_id)
-     const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode,User_id)
-     if(result){
-      window.location.href='/home'
-     }
+    const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
+    const result = await register(org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id)
+    if (result) {
+      window.location.href = '/home'
+    }
   };
 
   const handleClick = () => {
@@ -198,7 +198,7 @@ function Org() {
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
-                          onChange={(e)=>{if(e.target.value.length>6){alert("number must be 6 digit")}}}
+                          onChange={(e) => { if (e.target.value.length > 6) { alert("number must be 6 digit") } }}
                         />
                       </div>
 
@@ -207,13 +207,7 @@ function Org() {
                       <label className="col-sm-4 col-form-label">
                         Orgaisation logo (optional) :-
                       </label>
-                      {/* <input
-                          type="file"
-                          className=""
-                          placeholder=""
-                          accept=".jpg, .jpeg, .png"
-                        /> */}
-                      {/* <button className=" form-control col-md-3 btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Select</button> */}
+                      <button className="form-control col-md-3 btn btn-outline-secondary" onClick={(e) => { e.preventDefault() }} data-toggle="modal" data-target="#exampleModal">Select</button>
 
                     </div>
                   </div>

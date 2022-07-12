@@ -47,9 +47,9 @@ async function Unit(req, res) {
     const unit_name = req.body.unit_name;
     const unit_symbol = req.body.unit_symbol;
     const org = req.body.org
-    const User_id= req.body.User_id;
+    const User_id = req.body.User_id;
     const uuid = uuidv1()
-   
+
     try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from ${org}.dbo.tbl_unit where unit_name='${unit_name}' OR unit_symbol='${unit_symbol}'`)
@@ -80,13 +80,13 @@ async function showunit(req, res) {
         res.send(err)
     }
 }
-    
+
 async function UpdateUnit(req, res) {
     const sno = req.body.sno;
     const unit_name = req.body.unit_name;
     const unit_symbol = req.body.unit_symbol;
     const org = req.body.org
-    const User_id=req.body.User_id;
+    const User_id = req.body.User_id;
 
     try {
         await sql.connect(sqlConfig)
@@ -101,13 +101,13 @@ async function UpdateUnit(req, res) {
 const ImportUnit = (req, res) => {
     const datas = req.body.data;
     const org = req.body.org;
-    const User_id=req.body.User_id;
+    const User_id = req.body.User_id;
     sql.connect(sqlConfig).then(() => {
 
         sql.query(`select * from ${org}.dbo.tbl_unit where unit_name in ('${datas.map(data => data.unit_name).join("', '")}') OR unit_symbol in ('${datas.map(data => data.unit_symbol).join("', '")}')`)
             .then((resp) => {
                 if (resp.rowsAffected[0] > 0)
-                    res.send(resp.recordset.map(item => ({ "unit_name": item.unit_name, "unit_symbol": item.unit_symbol})))
+                    res.send(resp.recordset.map(item => ({ "unit_name": item.unit_name, "unit_symbol": item.unit_symbol })))
                 else {
 
                     sql.query(`INSERT INTO ${org}.dbo.tbl_unit (unit_name,unit_symbol,status,add_date_time,add_user_name,add_system_name,add_ip_address,unit_uuid) 
@@ -119,4 +119,4 @@ const ImportUnit = (req, res) => {
     })
 }
 
-module.exports = { TotalUnit,TotalActiveUnit, deleteUnit, Unit, showunit, UpdateUnit,ImportUnit }
+module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, Unit, showunit, UpdateUnit, ImportUnit }
