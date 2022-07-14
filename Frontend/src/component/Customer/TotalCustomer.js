@@ -150,17 +150,12 @@ const TotalCustomer = () => {
         setBackenddata(true)
       }
       else {
-
-
         for (let i = 0; i < importdata.length; i++) {
           let custid = newcountid;
-
           if (importdata[i].existing === 'y') {
             const getcustidfro = async () => {
               const countids = await IdcountMaster(localStorage.getItem('Organisation'), importdata[i].mast_id)
-
               console.log('countids', countids[0].id_count)
-
               let numid = Number(countids[0].id_count);
               numid = numid;
               var increid = numid + 1;
@@ -173,7 +168,6 @@ const TotalCustomer = () => {
               Object.assign(importdata[i], { "cust_id": generatecust })
               const updatecount = await UpdateIdcountmaster(localStorage.getItem('Organisation'), importdata[i].mast_id, increid)
               console.log(updatecount)
-
 
               // console.log('updatecount',updatecount[0])
               // setNewmidcount(countids)          
