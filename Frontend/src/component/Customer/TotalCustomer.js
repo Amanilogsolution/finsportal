@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid, IdcountMaster, Checkmidvalid } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid, IdcountMaster, Checkmidvalid, UpdateIdcountmaster } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -95,7 +95,7 @@ const TotalCustomer = () => {
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(true);
+  const [backenddata, setBackenddata] = useState(false);
   const [year, setYear] = useState();
   const [idcount, setIdcount] = useState();
   const [newcountid, setNewcountid] = useState(0);
@@ -105,23 +105,13 @@ const TotalCustomer = () => {
   var countid = parseInt(newcountid);
 
 
-
-  // const getcustidfro =async(masterid) =>{
-  //   console.log(masterid)
-  //   const  countids= await CustomerIdmid(localStorage.getItem('Organisation'),masterid)
-  //   console.log(countids)
-  //   setNewmidcount(countids)
-
-  // }
-
-
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
     // document.getElementById("uploadbtn").disabled = true;
     // importdata.map((d) => {
 
-    //   if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+    //   if (!existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
     //     setErrorno(errorno++);
     //   }
     // })
@@ -133,9 +123,6 @@ const TotalCustomer = () => {
       }
     })
 
-
-
-
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
       document.getElementById("showdataModal").style.display = "none";
@@ -145,7 +132,6 @@ const TotalCustomer = () => {
 
 
       const result = await Checkmidvalid(ayy, localStorage.getItem('Organisation'));
-
       // ######## Check which data does not exist    ##########
       const duplicate = (ayy, result) => {
         let res = []
@@ -156,12 +142,79 @@ const TotalCustomer = () => {
         })
         return res
       }
-
-      const duplicatearry = duplicate(ayy, result)
+      const duplicatearry = duplicate(ayy, result);
       setDuplicateDate(duplicatearry)
       //    #############################################
 
+      if (duplicatearry.length > 0) {
+        setBackenddata(true)
+      }
+      else {
 
+
+        for (let i = 0; i < importdata.length; i++) {
+          let custid = newcountid;
+
+          if (importdata[i].existing === 'y') {
+            const getcustidfro = async () => {
+              const countids = await IdcountMaster(localStorage.getItem('Organisation'), importdata[i].mast_id)
+
+              console.log('countids', countids[0].id_count)
+
+              let numid = Number(countids[0].id_count);
+              numid = numid;
+              var increid = numid + 1;
+              // console.log('increid', increid)
+              increid = '' + increid;
+              increid = increid.padStart(4, '0');
+              const generatecust = "CUST" + year + increid;
+              console.log("importdata[i].mast_id", importdata[i].mast_id, generatecust)
+
+              Object.assign(importdata[i], { "cust_id": generatecust })
+              const updatecount = await UpdateIdcountmaster(localStorage.getItem('Organisation'), importdata[i].mast_id, increid)
+              console.log(updatecount)
+
+
+              // console.log('updatecount',updatecount[0])
+              // setNewmidcount(countids)          
+            }
+            getcustidfro()
+
+          }
+          else if (importdata[i].existing === 'n') {
+            let mcustidy = mcountid + 1;
+            mcountid = mcountid + 1;
+            mcustidy = '' + mcustidy;
+            mcustidy = mcustidy.padStart(4, '0');
+            let custidy = 0 + 1
+            countid = countid + 1;
+            custidy = '' + custidy;
+            custidy = custidy.padStart(4, '0');
+            // console.log(custidy)
+
+            const generatemcust = "MCUST" + year + mcustidy;
+            const generatecust = "CUST" + year + custidy;
+            // console.log(generatemcust, generatecust)
+            Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
+            // console.log(importdata[i])
+          }
+          else {
+            alert("Please! enter existing field in n and y form only");
+            window.location.reload();
+          }
+
+
+        }
+
+
+
+
+
+        console.log("Out", importdata)
+
+
+
+      }
 
     }
 

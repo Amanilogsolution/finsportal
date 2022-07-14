@@ -236,11 +236,11 @@ const Checkmidvalid = (req, res) => {
             .then((resp) => {
                 // console.log(resp.recordset)
                 if (resp.rowsAffected[0] > 0){
-                  console.log(resp.recordset.map(item => ({ "master_id": item.master_id })))
+                //   console.log(resp.recordset.map(item => ({ "master_id": item.master_id })))
                     res.send(resp.recordset.map(item => ({ "master_id": item.master_id })))
                  } else {
-                    // res.send(resp.rowsAffected)
-                    console.log(resp.rowsAffected)
+                    res.send(resp.rowsAffected)
+                    // console.log(resp.rowsAffected)
                 }
             })})
 
@@ -293,11 +293,12 @@ const ImportCustomer = (req, res) => {
 const Idcountmaster = async (req, res) => {
     const org = req.body.org;
     const masterid = req.body.masterid;
+    // console.log(masterid)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select id_count from ${org}.dbo.tbl_id_controller where master_id='${masterid}';`)
-        // console.log(result.rowsAffected)
-        res.send(result.rowsAffected)
+        // console.log(result.recordset)
+        res.send(result.recordset)
     }
     catch (err) {
         res.send(err)
@@ -323,11 +324,13 @@ const UpdateIdcountmaster = async (req, res) => {
     const org = req.body.org;
     const masterid = req.body.masterid;
     const id_count = req.body.id_count;
+    console.log(id_count)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_id_controller 
         set id_count='${id_count}' WHERE master_id='${masterid}';`)
-        res.send(result.recordset)
+        // console.log(result)
+        res.send(result.rowsAffected)
     }
     catch (err) {
         res.send(err)
