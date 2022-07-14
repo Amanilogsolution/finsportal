@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid, IdcountMaster, Checkmidvalid } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -95,7 +95,7 @@ const TotalCustomer = () => {
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
+  const [backenddata, setBackenddata] = useState(true);
   const [year, setYear] = useState();
   const [idcount, setIdcount] = useState();
   const [newcountid, setNewcountid] = useState(0);
@@ -118,13 +118,23 @@ const TotalCustomer = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-    document.getElementById("uploadbtn").disabled = true;
+    // document.getElementById("uploadbtn").disabled = true;
     // importdata.map((d) => {
 
     //   if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
     //     setErrorno(errorno++);
     //   }
     // })
+
+    let ayy = [];
+    importdata.map((d) => {
+      if (d.existing === 'y') {
+        ayy.push(d.mast_id)
+      }
+    })
+
+
+
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -134,87 +144,114 @@ const TotalCustomer = () => {
     else {
 
 
-      for (let i = 0; i < importdata.length; i++) {
-        let custid = newcountid;
+      const result = await Checkmidvalid(ayy, localStorage.getItem('Organisation'));
 
-        if (importdata[i].existing === 'y') {
-          // getcustidfro(importdata[i].master_id)
-          // console.log(newmidcount)
-
-
-          const getcustidfro = async () => {
-            const countids = await CustomerIdmid(localStorage.getItem('Organisation'), importdata[i].master_id)
-            console.log(countids)
-            // if(!countids){
-            //   getcustidfro()
-            // }
-
-            let numid = countids[0].count;
-            var increid = numid + 1;
-
-            increid = '' + increid;
-            increid = increid.padStart(4, '0');
-            // console.log(custidy)
-
-
-            const generatecust = "CUST" + year + increid;
-            console.log(generatecust)
-
-            Object.assign(importdata[i], { "cust_id": generatecust })
-            // setNewmidcount(countids)
-
-          }
-          getcustidfro()
-
-          // console.log("Api to Check Master - "+ importdata[i].master_id)
-
-        }
-        else if (importdata[i].existing === 'n') {
-          let mcustidy = mcountid + 1;
-          mcountid = mcustidy
-          // setNewmcountid(mcustidy)
-
-          // console.log('Rupesh',mcustidy)
-          mcustidy = '' + mcustidy;
-          mcustidy = mcustidy.padStart(4, '0');
-
-          let custidy = 0 + 1
-          countid = custidy
-          custidy = '' + custidy;
-          custidy = custidy.padStart(4, '0');
-          // console.log(custidy)
-
-          const generatemcust = "MCUST" + year + mcustidy;
-          const generatecust = "CUST" + year + custidy;
-
-          // console.log(generatemcust,generatecust)
-
-          Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
-          // console.log(importdata[i])
-        }
-        else {
-          console.log("Please enter customer is existing or not")
-        }
-
+      // ######## Check which data does not exist    ##########
+      const duplicate = (ayy, result) => {
+        let res = []
+        res = ayy.filter(el => {
+          return !result.find(obj => {
+            return el === obj.master_id
+          })
+        })
+        return res
       }
-      console.log("Out", importdata)
-      setTimeout(async () => {
-        const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-        console.log(result)
-        if (!(result == "Data Added")) {
-          setBackenddata(true);
-          setDuplicateDate(result)
 
-        }
-        else if (result == "Data Added") {
-          document.getElementById("showdataModal").style.display = "none";
-          setBackenddata(false);
-          alert("Data Added")
-          window.location.reload()
-        }
-      }, 5000);
+      const duplicatearry = duplicate(ayy, result)
+      setDuplicateDate(duplicatearry)
+      //    #############################################
+
+
 
     }
+
+    // const wrongmasterid=[];
+
+    //   for (let i = 0; i < importdata.length; i++) {
+    //     let custid = newcountid;
+
+    //     if (importdata[i].existing === 'y') {
+
+    //       const getcustidfro = async () => {
+    //         // const countids = await CustomerIdmid(localStorage.getItem('Organisation'), importdata[i].master_id)
+    //         const countids = await IdcountMaster(localStorage.getItem('Organisation'), importdata[i].mast_id)
+    //         // console.log('countids',countids)
+
+    //         if (countids[0] > 0) {
+    //           let numid = countids[0];
+    //           var increid = numid + 1;
+    //              console.log('increid',increid)
+    //           increid = '' + increid;
+    //           increid = increid.padStart(4, '0');
+    //           const generatecust = "CUST" + year + increid;
+    //           console.log(generatecust)
+    //           // Object.assign(importdata[i], { "cust_id": generatecust })
+    //           // setNewmidcount(countids)
+    //         }
+    //         else {
+    //               console.log("value id 0")
+    //               wrongmasterid.push(importdata[i].mast_id)
+    //         }
+
+    //       }
+    //       getcustidfro()
+
+    //     }
+    //     else if (importdata[i].existing === 'n') {
+    //       let mcustidy = mcountid + 1;
+    //       mcountid = mcountid+1;
+    //       mcustidy = '' + mcustidy;
+    //       mcustidy = mcustidy.padStart(4, '0');
+    //       let custidy = 0 + 1
+    //       countid = countid+1;
+    //       custidy = '' + custidy;
+    //       custidy = custidy.padStart(4, '0');
+    //       // console.log(custidy)
+
+    //       const generatemcust = "MCUST" + year + mcustidy;
+    //       const generatecust = "CUST" + year + custidy;
+    //       console.log(generatemcust,generatecust)
+    //       Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
+    //       // console.log(importdata[i])
+    //     }
+    //     else { 
+    //       alert("Please enter customer is existing or not")
+    //     }
+
+    //   }
+
+    // if(wrongmasterid.length > 0){
+    //   console.log("in if")
+    //   alert("Wrong Master id")
+    // }
+    // else{
+    //   console.log("in else")
+    //   console.log("wrongmasterid",wrongmasterid.length)
+    //   console.log("wrongmasterid",wrongmasterid)
+
+    // console.log("Out", importdata)
+    // }
+
+
+
+
+    // setTimeout(async () => {
+    //   const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+    //   console.log(result)
+    //   if (!(result == "Data Added")) {
+    //     setBackenddata(true);
+    //     setDuplicateDate(result)
+
+    //   }
+    //   else if (result == "Data Added") {
+    //     document.getElementById("showdataModal").style.display = "none";
+    //     setBackenddata(false);
+    //     alert("Data Added")
+    //     window.location.reload()
+    //   }
+    // }, 5000);
+
+    // }
 
   };
   //##########################   Upload data end  #################################
@@ -280,12 +317,9 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <Menu />
-
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
-
-
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
@@ -305,9 +339,7 @@ const TotalCustomer = () => {
                           highlightOnHover
                         />
                       </DataTableExtensions>
-
                     </article>
-
                   </div>
                 </div>
               </div>
@@ -411,17 +443,13 @@ const TotalCustomer = () => {
               <div className="" style={{ margin: "0px 8px", overflow: "auto" }}>
 
                 {
-
                   backenddata ?
                     <>
-                      <h5>This data already exist</h5>
+                      <h5>This Master id does Not exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
                           <tr>
-                            <th style={{ border: "1px solid black" }}>cust_email</th>
-                            <th style={{ border: "1px solid black" }}>cust_work_phone</th>
-                            <th style={{ border: "1px solid black" }}>cust_phone</th>
-                            <th style={{ border: "1px solid black" }}>pan_no</th>
+                            <th style={{ border: "1px solid black" }}>Master id</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -429,10 +457,7 @@ const TotalCustomer = () => {
                             duplicateData.map((d, index) => (
 
                               <tr key={index} style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.cust_email}</td>
-                                <td style={{ border: "1px solid black" }}>{d.cust_work_phone}</td>
-                                <td style={{ border: "1px solid black" }}>{d.cust_phone}</td>
-                                <td style={{ border: "1px solid black" }}>{d.pan_no}</td>
+                                <td style={{ border: "1px solid black" }}>{d}</td>
                               </tr>
                             ))
                           }

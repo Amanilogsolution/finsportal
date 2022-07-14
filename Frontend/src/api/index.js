@@ -179,7 +179,6 @@ export const deleteUnit = async (sno, status, org) => {
 
 
 export const insertBank = async (account_code, bank_name, account_no, address_line1, address_line2, state, city, pincode, ifsc_code, actype, acname, description, org, User_id) => {
-    console.log(account_code, bank_name, account_no, address_line1, address_line2, state, city, pincode, ifsc_code, actype, acname, description)
     const url = `http://localhost:3008/api/addbank`
     return axios.post(url, { account_code, bank_name, account_no, address_line1, address_line2, state, city, pincode, ifsc_code, actype, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -208,7 +207,6 @@ export const TotalUser = async () => {
 
 export const User = async (employee_name, role, warehouse, username, password,
     email_id, phone, operatemode, customer, reporting_to, designation, two_factor_authentication, user_profile_url, User_id) => {
-
     const url = `http://localhost:3008/api/insertuser`
     return axios.post(url, {
         employee_name, role, warehouse, username, password, email_id, phone,
@@ -292,6 +290,19 @@ export const CustomerIdmid = async (org, masterid) => {
     const url = `http://localhost:3008/api/customeridmid`
     return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
 }
+export const IdcountMaster = async (org, masterid) => {
+    const url = `http://localhost:3008/api/idcountmaster`
+    return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
+}
+export const InsertIdcountmaster = async (org,id_type, masterid,id_count) => {
+    const url = `http://localhost:3008/api/insertidcountmaster`
+    return axios.post(url, { org,id_type, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateIdcountmaster = async (org, masterid,id_count) => {
+    const url = `http://localhost:3008/api/updateidcountmaster`
+    return axios.post(url, { org, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const InsertVendor = async (mast_id, vend_id, vend_name,
     company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation, department,
@@ -358,7 +369,6 @@ export const VendorId = async (org) => {
 }
 
 export const VendorMastid = async (org, year) => {
-    console.log(year)
     const url = `http://localhost:3008/api/vendormastid`
     return axios.post(url, { org, year }).then(response => response.data).catch(error => console.log(error));
 }
@@ -464,6 +474,11 @@ export const ImportCustomer = async (data, org, User_id) => {
     const url = `http://localhost:3008/api/ImportCustomer`
     return axios.post(url, { data, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
+export const Checkmidvalid = async (importdata, org) => {
+    const url = `http://localhost:3008/api/checkmidvalid`
+    return axios.post(url, { importdata, org }).then(response => response.data).catch(error => console.log(error));
+}
+
 export const ImportVendor = async (data, org, User_id) => {
     const url = `http://localhost:3008/api/importvendor`
     return axios.post(url, { data, org, User_id }).then(response => response.data).catch(error => console.log(error));
@@ -512,7 +527,6 @@ export const updateLocation = async (org, location_name, gstin_no, contact_name1
     return axios.post(url, { org, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, location_id, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const showLocation = async (org, location_id) => {
-    console.log('api', org, location_id)
     const url = `http://localhost:3008/api/ShowLocation`
     return axios.post(url, { org, location_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -532,12 +546,11 @@ export const locationAddress = async (org, location_id) => {
     return axios.post(url, { org, location_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const UpdateLocationAddress = async (org, location_add1, location_add2, location_city, location_state, location_country, from_date, location_id, location_pin, User_id) => {
-    console.log('Api', User_id)
     const url = `http://localhost:3008/api/UpdateLocationAddress`
     return axios.post(url, { org, location_add1, location_add2, location_city, location_state, location_country, from_date, location_id, location_pin, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const InsertLocationAddress = async (org, location_name, gstin_no, location_add1, location_add2, location_city, location_state, location_country, from_date, location_id, location_pin, to_date, User_id) => {
-    console.log(org, location_name, gstin_no, location_add1, location_add2, location_city, location_state, location_country, from_date, location_id, location_pin, to_date)
+ 
     const url = `http://localhost:3008/api/InsertLocationAddress`
     return axios.post(url, { org, location_name, gstin_no, location_add1, location_add2, location_city, location_state, location_country, from_date, location_id, location_pin, to_date, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -553,41 +566,34 @@ export const Locationstatus = async (org, location_id, status) => {
 
 
 export const UploadData = async (data) => {
-    console.log(data, 'abcd')
     const url = `http://localhost:3008/api/FileUpload`
     return axios.post(url, data).then(res => res.data).catch(err => console.log(err))
 }
 
 export const showcompliances = async (org) => {
-    console.log(org)
     const url = `http://localhost:3008/api/Showcompliances`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Compliancesduedate = async (org) => {
-    console.log(org)
     const url = `http://localhost:3008/api/compliancesduedate`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const Insertcompliance = async (org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, user_name) => {
-    console.log(org)
     const url = `http://localhost:3008/api/insertcompliances`
     return axios.post(url, { org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, user_name }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showcompliancesData = async (org, sno) => {
-    console.log(org, sno)
     const url = `http://localhost:3008/api/ShowcompliancesData`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const updatecompliance = async (org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, sno, user_name) => {
-    console.log(org)
     const url = `http://localhost:3008/api/Updatecompliance`
     return axios.post(url, { org, compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, sno, user_name }).then(response => response.data).catch(error => console.log(error));
 }
 export const UploadDocumentCompliance = async (org, sno, document) => {
-    console.log(org, sno, document)
     const url = `http://localhost:3008/api/uploaddocumentcompliance`
     return axios.post(url, { org, sno, document }).then(response => response.data).catch(error => console.log(error));
 }
@@ -605,13 +611,11 @@ export const UpdatePendingCompliances = async (due_date, org, remark, sno, Uploa
 
 
 export const showcompliancesType = async (org) => {
-    console.log(org)
     const url = `http://localhost:3008/api/ShowcompliancesType`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Showactivecompliancestype = async (org) => {
-    console.log("Api", org)
     const url = `http://localhost:3008/api/showactivecompliancestype`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
@@ -627,24 +631,20 @@ export const ImportCompliances = async (datas, User_id, org) => {
 
 
 export const InsertcomplianceType = async (org, compliance_type, user_name) => {
-    // console.log(org)
     const url = `http://localhost:3008/api/InsertcomplianceType`
     return axios.post(url, { org, compliance_type, user_name }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ShowcompliancesTypeselect = async (org, sno) => {
-    // console.log(org)
     const url = `http://localhost:3008/api/ShowcompliancesTypeselect`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const UpdatecomplianceType = async (org, compliance_type, user_name, sno) => {
-    // console.log(org)
     const url = `http://localhost:3008/api/UpdatecomplianceType`
     return axios.post(url, { org, compliance_type, user_name, sno }).then(response => response.data).catch(error => console.log(error));
 }
 export const Compliancesstatus = async (org, sno, status) => {
-    // console.log(org)
     const url = `http://localhost:3008/api/compliancesstatus`
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
@@ -664,7 +664,6 @@ export const UpdateFincialyear = async (org, invoice_ser, voucher_ser, user_id, 
     return axios.post(url, { org, invoice_ser, voucher_ser, user_id, sno }).then(response => response.data).catch(error => console.log(error));
 }
 export const Statusfincialyear = async (org, sno) => {
-    console.log(org, sno)
     const url = `http://localhost:3008/api/statusfincialyear`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
@@ -674,18 +673,15 @@ export const Selectfincialyear = async (org, sno) => {
 }
 
 export const Getfincialyearid = async (org) => {
-    console.log('API', org)
     const url = `http://localhost:3008/api/getfincialyearid`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Updatefinancialcount = async (org, countkey, countvalue) => {
-    console.log(org, countkey, countvalue)
     const url = `http://localhost:3008/api/updatefinancialcount`
     return axios.post(url, { org, countkey, countvalue }).then(response => response.data).catch(error => console.log(error));
 }
 export const UpdatefinancialTwocount = async (org, countkey, countvalue, countkey2, countvalue2) => {
-    console.log(org, countkey, countvalue, countkey2, countvalue2)
     const url = `http://localhost:3008/api/updatefinancialtwocount`
     return axios.post(url, { org, countkey, countvalue, countkey2, countvalue2 }).then(response => response.data).catch(error => console.log(error));
 }
@@ -732,7 +728,6 @@ export const UpdateSubAccountName = async (account_sub_name, account_sub_name_co
 }
 
 export const AddNewSubAccountName = async (account_sub_name, account_sub_name_code, description, account_type_code, account_name_code, org, User_id) => {
-    console.log(account_sub_name, account_sub_name_code, description, account_type_code, account_name_code)
     const url = `http://localhost:3008/api/addnewsubaccountname`
     return axios.post(url, { account_sub_name, account_sub_name_code, description, account_type_code, account_name_code, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -817,19 +812,16 @@ export const InsertGlSubCode = async (org, glCode, SubCode, charge_code, company
 }
 
 export const ShowTotalSubCode = async (org) => {
-    console.log(org)
     const url = `http://localhost:3008/api/showtotalsubcode`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const SubCodeStatus = async (org, status, sno) => {
-    console.log(org, status, sno)
     const url = `http://localhost:3008/api/subcodestatus`
     return axios.post(url, { org, status, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetSubCodeDetails = async (org, sno) => {
-    console.log(org, sno)
     const url = `http://localhost:3008/api/getsubcodedetails`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
@@ -839,30 +831,25 @@ export const UpdateSubCodeDetails = async (org, charge_code, sub_code, gl_code, 
     return axios.post(url, { org, charge_code, sub_code, gl_code, sno, company_id, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ImportSubcode = async (data, org, User_id) => {
-    console.log("Api", data)
     const url = `http://localhost:3008/api/importsubcode`
     return axios.post(url, { data, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const TotalAccountMinorCode = async (org) => {
-    console.log(org)
     const url = `http://localhost:3008/api/totalaccountminorcode`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const AccountMinorCodeStatus = async (org, status, sno) => {
-    console.log(org, status, sno)
     const url = `http://localhost:3008/api/accountminorcodestatus`
     return axios.post(url, { org, status, sno }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetAccountMinorCode = async (org, sno) => {
-    console.log(org, sno)
     const url = `http://localhost:3008/api/getaccountminorcode`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const UpdateAccountMinorCode = async (org, sno, account_name, User_id) => {
-    console.log(org, sno)
     const url = `http://localhost:3008/api/updateaccountminorcode`
     return axios.post(url, { org, sno, account_name, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -872,7 +859,6 @@ export const ImportAccountMinorCode = async (org, datas, User_id) => {
 }
 
 export const TotalChartOfAccount = async (org) => {
-    console.log(org)
     const url = `http://localhost:3008/api/totalchartofaccount`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
@@ -892,7 +878,6 @@ export const UpdateChartOfAccount = async (org, sno, account_sub_name, User_id) 
     return axios.post(url, { org, sno, account_sub_name, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ImportChartofAccount = async (datas, org, User_id) => {
-    console.log("API", datas)
     const url = `http://localhost:3008/api/importchartofaccount`
     return axios.post(url, { datas, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }

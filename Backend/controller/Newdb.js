@@ -198,10 +198,9 @@ const Newdb = async (req, res) => {
             );
             CREATE TABLE ${dbname}.dbo.tbl_id_controller(
                 sno bigint IDENTITY(1,1) NOT NULL,
-                mvend_id varchar(50) NULL,
-                vend_count varchar(50) NULL,
-                mcust_id varchar(50) NULL,
-                cust_count varchar(50) NULL,
+                id_type varchar(50) NULL,
+                master_id varchar(50) NULL,
+                id_count varchar(50) NULL,
             );
             CREATE TABLE ${dbname}.dbo.tbl_new_customer (
                 sno bigint IDENTITY(1,1) NOT NULL,

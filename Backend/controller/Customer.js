@@ -214,7 +214,36 @@ const CustomerIdMid = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
         res.send(result.recordset)
-        
+
+
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+const Checkmidvalid = (req, res) => {
+    const org = req.body.org;
+    const importdata = req.body.importdata;
+    // console.log(org,importdata) 
+    // console.log(`select id_count,master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
+    //         .join("', '")}')`)
+    try {
+         sql.connect(sqlConfig).then(()=>{
+         sql.query(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
+            .join("', '")}')`)
+
+            .then((resp) => {
+                // console.log(resp.recordset)
+                if (resp.rowsAffected[0] > 0){
+                  console.log(resp.recordset.map(item => ({ "master_id": item.master_id })))
+                    res.send(resp.recordset.map(item => ({ "master_id": item.master_id })))
+                 } else {
+                    // res.send(resp.rowsAffected)
+                    console.log(resp.rowsAffected)
+                }
+            })})
+
 
     }
     catch (err) {
@@ -227,19 +256,19 @@ const ImportCustomer = (req, res) => {
     const datas = req.body.data;
     const org = req.body.org;
     // let duplicatedate = [];
- 
+
     sql.connect(sqlConfig).then(() => {
 
         // sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_email in ('${datas.map(data => data.cust_email)
         //     .join("', '")}') OR cust_work_phone in ('${datas.map(data => data.cust_work_phone)
         //         .join("', '")}') OR pan_no in ('${datas.map(data => data.pan_no).join("', '")}')`)
 
-            // .then((resp) => {
-                // if (resp.rowsAffected[0] > 0)
-                //     res.send(resp.recordset.map(item => ({ "cust_email": item.cust_email, "cust_work_phone": item.cust_work_phone, "pan_no": item.pan_no, })))
-                // else {
- 
-                    const result=sql.query(`INSERT INTO  ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+        // .then((resp) => {
+        // if (resp.rowsAffected[0] > 0)
+        //     res.send(resp.recordset.map(item => ({ "cust_email": item.cust_email, "cust_work_phone": item.cust_work_phone, "pan_no": item.pan_no, })))
+        // else {
+
+        const result = sql.query(`INSERT INTO  ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                             company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department ,website,gst_treatment
                             ,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency, opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
                             billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
@@ -251,16 +280,58 @@ const ImportCustomer = (req, res) => {
                                       '${item.facebook_url}','${item.twitter_url}','${item.billing_address_attention}','${item.billing_address_country}','${item.billing_address_city}','${item.billing_address_state}','${item.billing_address_pincode}','${item.billing_address_phone}','${item.billing_address_fax}','${item.contact_person_name}',
                                       '${item.contact_person_email}','${item.contact_person_work_phone}','${item.contact_person_phone}','${item.contact_person_skype}','${item.contact_person_designation}',
                                       '${item.contact_person_department}','${item.remark}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
-                    res.send("Data Added")
-                    console.log("Data Added")
-                    console.log(result)
-                // }
-            // })
+        res.send("Data Added")
+        // console.log("Data Added")
+        // console.log(result)
+        // }
+        // })
 
 
     })
 }
 
+const Idcountmaster = async (req, res) => {
+    const org = req.body.org;
+    const masterid = req.body.masterid;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select id_count from ${org}.dbo.tbl_id_controller where master_id='${masterid}';`)
+        // console.log(result.rowsAffected)
+        res.send(result.rowsAffected)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+const InsertIdcountmaster = async (req, res) => {
+    const org = req.body.org;
+    const id_type = req.body.id_type;
+    const masterid = req.body.masterid;
+    const id_count = req.body.id_count;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`insert into ${org}.dbo.tbl_id_controller(id_type ,master_id ,id_count)
+        values ('${id_type}','${masterid}','${id_count}')`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 
+const UpdateIdcountmaster = async (req, res) => {
+    const org = req.body.org;
+    const masterid = req.body.masterid;
+    const id_count = req.body.id_count;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_id_controller 
+        set id_count='${id_count}' WHERE master_id='${masterid}';`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, ImportCustomer, Customername ,CustomerMastid,CustomerIdMid}
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id,Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster }
