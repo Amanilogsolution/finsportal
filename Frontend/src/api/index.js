@@ -8,6 +8,7 @@ import axios from 'axios';
 // }
 
 export const register = async (org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin, User_id) => {
+    console.log(org_name, org_country, org_state, org_street, org_currency, org_lang)
     const url = `http://localhost:3008/api/insertorg`
     return axios.post(url, { org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -18,9 +19,9 @@ export const CreatenewDb = async (dbname) => {
     return axios.post(url, { dbname }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const CreateOrgTable = async (dbname, org_name, User_id) => {
+export const CreateOrgTable = async (dbname, org_name, User_id,fins_year,last_year,startdate,toyear) => {
     const url = `http://localhost:3008/api/Org_table`
-    return axios.post(url, { dbname, org_name, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { dbname, org_name, User_id,fins_year,last_year,startdate,toyear }).then(response => response.data).catch(error => console.log(error));
 
 }
 

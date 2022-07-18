@@ -14,6 +14,8 @@ function Org() {
 
   const Orgdetails = async (e) => {
     e.preventDefault();
+    document.getElementById('datasave').disabled = 'true';
+
     const org_name = document.getElementById("org_name").value;
     const org_country = document.getElementById("org_country").value;
     const org_state = document.getElementById("inputState").value;
@@ -27,19 +29,38 @@ function Org() {
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
     const dbname = org_name.slice(0, 3) + Math.floor(Math.random() * 100)
-    const User_id = localStorage.getElementById('User_id');
+    const User_id = localStorage.getItem('User_id');
 
+    const date = new Date()
+    const previousyear = date.getFullYear()
+    const nextyear = previousyear + 1;
+    const last_year = String(nextyear).slice(-2);
+    const fins_year = previousyear + "-" + nextyear;
+    const startdate = '01-04-' + previousyear;
+    const toyear = '31-03-' + nextyear;
 
-    const database = await CreatenewDb(dbname)
-    const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
-    const result = await register(org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id)
-    if (result) {
-      window.location.href = '/home'
+    if (!org_name) {
+      alert('Please Enter the mandatory field...')
+    }
+    else {
+      const database = await CreatenewDb(dbname)
+      const OrgTable = await CreateOrgTable(dbname, org_name, User_id, fins_year, last_year, startdate, toyear)
+      const result = await register(org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id)
+      console.log(result)
+      if (result) {
+        window.location.href = '/home'
+      }
     }
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     setgstbox(!gstbox);
+    if(gstbox){
+      document.getElementById('org_gst').style.display='none';
+    }
+    else{
+      document.getElementById('org_gst').style.display='block';
+    }
   };
 
   const handleSendFile = async (e) => {
@@ -47,7 +68,7 @@ function Org() {
     const data = new FormData();
     data.append("images", file)
     const UploadLink = await UploadData(data)
-    console.log(UploadLink)
+    // console.log(UploadLink)
   }
 
   return (
@@ -248,7 +269,20 @@ function Org() {
                       style={{ float: "right" }}
                     />
                   </p>
-                  {gstbox ? (
+
+                  <div className="form-row">
+                      <div className="form-group col-md-6">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="org_gst"
+                          placeholder="Enter Your GSTIN"
+                          style={{ fontSize: "15px" ,display:"none"}}
+                        />
+                      </div>
+                    </div>
+
+                  {/* {gstbox ? (
                     <div className="form-row">
                       <div className="form-group col-md-6">
                         <input
@@ -260,7 +294,7 @@ function Org() {
                         />
                       </div>
                     </div>
-                  ) : null}
+                  ) : null} */}
                   <small className="text-muted">
                     <strong>Note:</strong> You can change these details later in
                     Settings, if needed.
@@ -269,7 +303,7 @@ function Org() {
                   <div className="form-group">
                     <label className="col-md-4 control-label" htmlFor="save"></label>
                     <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
+                      <button id="datasave" name="save" onClick={Orgdetails} className="btn btn-success">
                         Get start
                       </button>
                       <button id="clear" onClick={(e) => {

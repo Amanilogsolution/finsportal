@@ -49,6 +49,7 @@ const Customer = () => {
       setSelectedCountry(result)
 
       const getyear = await Getfincialyearid(localStorage.getItem('Organisation'))
+      console.log("getyear",getyear)
       setFinsyear(getyear[0].year);
       setMcustcount(getyear[0].mcust_count)
       setCustcount(getyear[0].cust_count)

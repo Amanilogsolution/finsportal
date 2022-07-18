@@ -200,12 +200,23 @@ const TotalCustomer = () => {
 
         }
 
-
-
-
-
         console.log("Out", importdata)
+        setTimeout(async () => {
+          const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+          console.log(result)
+          if (!(result == "Data Added")) {
+            // setBackenddata(true);
+            // setDuplicateDate(result)
+            alert("Server Error")
 
+          }
+          else if (result == "Data Added") {
+            document.getElementById("showdataModal").style.display = "none";
+            // setBackenddata(false);
+            alert("Data Added")
+            window.location.reload()
+          }
+        }, 5000);
 
 
       }
@@ -342,7 +353,7 @@ const TotalCustomer = () => {
 
   useEffect(async () => {
     let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
-    console.log(getids)
+    console.log('getids',getids)
     setYear(getids[0].year);
     setNewmcountid(getids[0].mcust_count)
     setNewcountid(getids[0].cust_count)
