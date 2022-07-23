@@ -503,13 +503,10 @@ const Newdb = async (req, res) => {
             
             
             `)
-            res.send(
-                {
-                    "status": "true",
-                    "message": "Table and Database created",
-                    "statusCode": 200
-                }
-            )
+            res.send('created')
+        }
+        else{
+            res.send('Server Error')
         }
 
 

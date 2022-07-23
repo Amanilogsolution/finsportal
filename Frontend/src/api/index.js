@@ -7,10 +7,10 @@ import axios from 'axios';
 //     return axios.get(url,{dbname}).then(response => response.data).catch(error => console.log(error));
 // }
 
-export const register = async (org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin, User_id) => {
+export const register = async (dbname,org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin, User_id, fins_year, last_year, startdate, toyear) => {
     console.log(org_name, org_country, org_state, org_street, org_currency, org_lang)
     const url = `http://localhost:3008/api/insertorg`
-    return axios.post(url, { org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { dbname,org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pin, User_id , fins_year, last_year, startdate, toyear}).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -84,7 +84,7 @@ export const InsertCountry = async (User_id, country_name, country_id, country_c
 }
 
 export const showcountry = async (sno) => {
-    const url = `http://192.168.146.103:3008/api/showcountry`
+    const url = `http://192.168.146.199:3008/api/showcountry`
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -122,7 +122,7 @@ export const showCurrency = async (sno, org) => {
 }
 
 export const Totalcity = async () => {
-    const url = `http://192.168.146.103:3008/api/totalcity`
+    const url = `http://192.168.146.199:3008/api/totalcity`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 

@@ -37,29 +37,37 @@ function Org() {
     const last_year = String(nextyear).slice(-2);
     const fins_year = previousyear + "-" + nextyear;
     const startdate = '01-04-' + previousyear;
-    const toyear = '31-03-' + nextyear;
+    const toyear = '31-03-' + nextyear; 
 
     if (!org_name) {
       alert('Please Enter the mandatory field...')
     }
     else {
-      const database = await CreatenewDb(dbname)
-      const OrgTable = await CreateOrgTable(dbname, org_name, User_id, fins_year, last_year, startdate, toyear)
-      const result = await register(org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id)
-      console.log(result)
-      if (result) {
-        window.location.href = '/home'
+      const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
+      if (OrgTable === 'Already') {
+        alert('This Company already exist');
       }
+      else {
+        const database = await CreatenewDb(dbname)
+        if (database === 'created') {
+          const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
+          if (result) {
+          alert('Organisation created')
+            window.location.href = '/home'
+          }
+        }
+      }
+
     }
   };
 
   const handleClick = (e) => {
     setgstbox(!gstbox);
-    if(gstbox){
-      document.getElementById('org_gst').style.display='none';
+    if (gstbox) {
+      document.getElementById('org_gst').style.display = 'none';
     }
-    else{
-      document.getElementById('org_gst').style.display='block';
+    else {
+      document.getElementById('org_gst').style.display = 'block';
     }
   };
 
@@ -117,7 +125,7 @@ function Org() {
                         <span style={{ color: "red" }}>*</span>
                       </label>
                       <select id="inputState" className="form-control">
-                        <option selected hidden>Selecte State/Union Territory</option>
+                        <option selected hidden value=''>Selecte State/Union Territory</option>
                         <option>Andhra Pradesh</option>
                         <option>Arunachal Pradesh</option>
                         <option>Assam</option>
@@ -271,16 +279,16 @@ function Org() {
                   </p>
 
                   <div className="form-row">
-                      <div className="form-group col-md-6">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="org_gst"
-                          placeholder="Enter Your GSTIN"
-                          style={{ fontSize: "15px" ,display:"none"}}
-                        />
-                      </div>
+                    <div className="form-group col-md-6">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="org_gst"
+                        placeholder="Enter Your GSTIN"
+                        style={{ fontSize: "15px", display: "none" }}
+                      />
                     </div>
+                  </div>
 
                   {/* {gstbox ? (
                     <div className="form-row">
