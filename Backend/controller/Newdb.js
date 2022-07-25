@@ -500,19 +500,53 @@ const Newdb = async (req, res) => {
                      update_ip_address varchar(50) NULL,
                      status varchar(50) NULL
                   );
+
+                  CREATE TABLE ${dbname}.dbo.tbl_payment_term(
+                    sno bigint IDENTITY(1,1) NOT NULL,
+                    term nvarchar(100) NULL,
+                    term_days nvarchar(50) NULL,
+                    add_date_time datetime NULL,
+                    add_user_name nvarchar(50) NULL,
+                    add_system_name nvarchar(50) NULL,
+                    add_ip_address nvarchar(30) NULL,
+                    update_date_time datetime NULL,
+                    update_user_name nvarchar(50) NULL,
+                    update_system_name nvarchar(100) NULL,
+                    update_ip_address nvarchar(50) NULL,
+                    status nvarchar(50) NULL
+                 );
+                 CREATE TABLE ${dbname}.dbo.tbl_charge_code(
+                    sno bigint IDENTITY(1,1) NOT NULL,
+                    description nvarchar(100) NULL,
+                    short_name nvarchar(50) NULL,
+                    nature nvarchar(50) NULL,
+                    major_code nvarchar(50) NULL,
+                    activity nvarchar(50) NULL,
+                    sacHsn nvarchar(50) NULL,
+                    gst_rate nvarchar(50) NULL,
+                    add_date_time datetime NULL,
+                    add_user_name nvarchar(50) NULL,
+                    add_system_name nvarchar(50) NULL,
+                    add_ip_address nvarchar(30) NULL,
+                    update_date_time datetime NULL,
+                    update_user_name nvarchar(50) NULL,
+                    update_system_name nvarchar(100) NULL,
+                    update_ip_address nvarchar(50) NULL,
+                    status nvarchar(50) NULL
+                  );
             
             
             `)
             res.send('created')
         }
-        else{
+        else {
             res.send('Server Error')
         }
 
 
     }
     catch (err) {
-       res.send(err)
+        res.send(err)
     }
 }
 
