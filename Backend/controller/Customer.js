@@ -225,22 +225,21 @@ const CustomerIdMid = async (req, res) => {
 const Checkmidvalid = (req, res) => {
     const org = req.body.org;
     const importdata = req.body.importdata;
-    // console.log(org,importdata) 
-    // console.log(`select id_count,master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
-    //         .join("', '")}')`)
+    // console.log(importdata)
+    // console.log(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
+    //     .join("', '")}')`)
+ 
     try {
          sql.connect(sqlConfig).then(()=>{
          sql.query(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
             .join("', '")}')`)
 
             .then((resp) => {
-                // console.log(resp.recordset)
                 if (resp.rowsAffected[0] > 0){
-                //   console.log(resp.recordset.map(item => ({ "master_id": item.master_id })))
                     res.send(resp.recordset.map(item => ({ "master_id": item.master_id })))
+                    
                  } else {
                     res.send(resp.rowsAffected)
-                    // console.log(resp.rowsAffected)
                 }
             })})
 
@@ -281,10 +280,7 @@ const ImportCustomer = (req, res) => {
                                       '${item.contact_person_email}','${item.contact_person_work_phone}','${item.contact_person_phone}','${item.contact_person_skype}','${item.contact_person_designation}',
                                       '${item.contact_person_department}','${item.remark}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
         res.send("Data Added")
-        // console.log("Data Added")
-        // console.log(result)
-        // }
-        // })
+      
 
 
     })

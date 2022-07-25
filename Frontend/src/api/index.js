@@ -683,6 +683,7 @@ export const Updatefinancialcount = async (org, countkey, countvalue) => {
     return axios.post(url, { org, countkey, countvalue }).then(response => response.data).catch(error => console.log(error));
 }
 export const UpdatefinancialTwocount = async (org, countkey, countvalue, countkey2, countvalue2) => {
+    console.log(org, countkey, countvalue, countkey2, countvalue2)
     const url = `http://localhost:3008/api/updatefinancialtwocount`
     return axios.post(url, { org, countkey, countvalue, countkey2, countvalue2 }).then(response => response.data).catch(error => console.log(error));
 }
