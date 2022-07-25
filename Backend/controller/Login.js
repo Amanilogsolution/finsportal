@@ -8,7 +8,6 @@ const uuidv1 = require("uuid/v1");
 const User_login = async (req, res) => {
     const user_id = req.body.user_id;
     const user_password = req.body.user_password;
-    // console.log(user_id,user_password)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
@@ -38,7 +37,7 @@ const User_login = async (req, res) => {
             })
         }
     } catch (err) {
-        console.log(err)
+        res.send(err)
 
     }
 }
@@ -52,7 +51,6 @@ const InsertUserLogin = async (req, res) => {
     const user_password = req.body.user_password;
     const org_db_name = req.body.org_db_name;
     const user_profile_url = req.body.user_profile_url
-    console.log(user_profile_url)
 
     const uuid = uuidv1()
 
@@ -64,13 +62,12 @@ const InsertUserLogin = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
 const User_logout = async (req, res) => {
     const user_id = req.body.user_id;
-    console.log(user_id)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout'  WHERE user_name = '${user_id}'`)
@@ -79,20 +76,19 @@ const User_logout = async (req, res) => {
         })
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
 async function showLoginuser(req, res) {
     const user_id = req.body.user_id
-    console.log(user_id)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_usermaster where user_id = '${user_id}'`)
         res.send(result.recordset[0])
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -101,7 +97,6 @@ async function ChangePassword(req, res) {
     const password = req.body.password;
     const CurrentPassword = req.body.CurrentPassword;
 
-    console.log(user_id, CurrentPassword)
     try {
         await sql.connect(sqlConfig)
         const checkpass = await sql.query(`select user_password from FINSDB.dbo.tbl_Login where user_id = '${user_id}' and user_password='${CurrentPassword}'`)
@@ -117,7 +112,7 @@ async function ChangePassword(req, res) {
 
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 

@@ -23,7 +23,7 @@ import {addstates,Activecountries} from "../../../api";
       if(!state_name||!state_code||!state_short_name){
         alert('Enter data')
       }else{
-       const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type);
+       const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type,localStorage.getItem('User_id'));
        if(result == "Already"){
         alert('Already')
       }else{

@@ -47,8 +47,7 @@ const AccountInfoStatus = async (req, res) => {
     const sno = req.body.sno;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_account_info set status='${status}' where sno='${sno}';
-        `)
+        const result = await sql.query(`update ${org}.dbo.tbl_account_info set status='${status}' where sno='${sno}';`)
         res.send(result.recordset[0])
     }
     catch (err) {
@@ -97,8 +96,7 @@ const UpdateAccountInfo = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_account_info set account_info_name='${account_info_name}',account_info_type='${account_info_type}',update_user_name='${User_id}',
-        update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=GETDATE() WHERE sno='${sno}'; 
-        `)
+        update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=GETDATE() WHERE sno='${sno}'; `)
         res.send(result.recordset[0])
     }
     catch (err) {

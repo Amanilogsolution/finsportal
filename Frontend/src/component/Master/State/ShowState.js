@@ -117,8 +117,7 @@ const ShowState = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportState(importdata);
-      console.log(result.length)
+      const result = await ImportState(importdata,localStorage.getItem('User_id'));
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)

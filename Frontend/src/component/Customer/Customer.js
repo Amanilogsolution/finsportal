@@ -4,18 +4,17 @@ import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
 import { AddCustomer, Unique_Cust_id, Lastcust_id } from "../../api";
-import { Activecountries } from '../../api';
-import { showactivestate } from '../../api';
-import { getCity } from '../../api';
+import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, UpdatefinancialTwocount } from '../../api';
+
 
 const Customer = () => {
-  const [ucust_totalid, setUcust_totalid] = useState();
-  const [getnewval, setGetnewval] = useState();
-  const [checkdate, setCheckdate] = useState('false');
-  const [trimtext, setTrimtext] = useState();
-  const [finyear, setFinyear] = useState();
-  const [year1, setYear1] = useState();
-  const [year2, setYear2] = useState();
+  const [totalmastid, setTotalmastid] = useState([]);
+  // const [getnewval, setGetnewval] = useState();
+  // const [checkdate, setCheckdate] = useState('false');
+  // const [trimtext, setTrimtext] = useState();
+  // const [finyear, setFinyear] = useState();
+  // const [year1, setYear1] = useState();
+  // const [year2, setYear2] = useState();
   const [texpreferance, setTexprefernace] = useState(false);
   const [showMaster, setShowMaster] = useState(true);
   const [showMasterdropdown, setShowMasterdropdown] = useState(false);
@@ -34,80 +33,117 @@ const Customer = () => {
   const [selectState, setSelectState] = useState([]);
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_city, setBilling_address_city] = useState();
+  const [finsyear, setFinsyear] = useState();
+  // const [custid, setCustid] = useState();
+  const [mcustcount, setMcustcount] = useState();
+  const [custcount, setCustcount] = useState();
+  const [generatedmcust, setGeneratedmcust] = useState();
+  const [generatedcust, setGeneratedcust] = useState();
+  const [generatedcust2, setGeneratedcust2] = useState();
 
 
-  useEffect(async () => {
-    const result = await Activecountries()
-    setSelectedCountry(result)
-    const unique_id = await Unique_Cust_id(localStorage.getItem('Organisation'))
-    // console.log(unique_id)
-    const lastcust_id = await Lastcust_id(localStorage.getItem('Organisation'))
-    // console.log(lastcust_id)
+  useEffect(() => {
 
-    setUcust_totalid(unique_id.cust_totalid)
-    autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
+    const fetchdata = async () => {
+      const result = await Activecountries()
+      setSelectedCountry(result)
 
+      const getyear = await Getfincialyearid(localStorage.getItem('Organisation'))
+      console.log("getyear",getyear)
+      setFinsyear(getyear[0].year);
+      setMcustcount(getyear[0].mcust_count)
+      setCustcount(getyear[0].cust_count)
+      // setCustid(getyear[0].cust_id);
+      // ################ id for master customer start
+      let mastid = getyear[0].mcust_count;
+      mastid = parseInt(mastid) + 1;
+      mastid = '' + mastid
+      mastid = mastid.padStart(4, '0')
+      const generateMast_id = "MCUST" + getyear[0].year + mastid
+      setGeneratedmcust(generateMast_id)
+      // ################ id for master customer Id end
+
+      // ############# id for  customer ID start
+
+      let custid = '' + 1
+      custid = custid.padStart(4, '0')
+      const generateCust_id ="CUST"+ getyear[0].year + custid
+      setGeneratedcust(generateCust_id)
+
+      // ##############id for  customer ID end
+
+      const Allmaster_id = await CustomerMastId(localStorage.getItem('Organisation'));
+      setTotalmastid(Allmaster_id);
+
+      // const unique_id = await Unique_Cust_id(localStorage.getItem('Organisation'))
+      // // console.log(unique_id)
+      // const lastcust_id = await Lastcust_id(localStorage.getItem('Organisation'))
+      // // console.log(lastcust_id)
+
+      // setUcust_totalid(unique_id.cust_totalid)
+      // autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
+
+    }
+    fetchdata();
   }, []);
 
-  // ############### AutoIncrement Customer ID Start ################################### 
+  // // ############### AutoIncrement Customer ID Start ################################### 
 
-  function autoIncrementCustomId(lastRecordId, year, lastcust_id) {
-    // console.log("lastRecordId"+lastRecordId)
-    // console.log("year"+year)
-    // console.log("lastcust_id"+lastcust_id)
-    const a = new Date();
-    // const month = 4
-    // const date = 1
-    const month = a.getMonth() + 1;
-    const date = a.getDate();
-    if (month === 4 && date === 1) {
-      const preyear = a.getFullYear()
-      const nextyear = a.getFullYear() + 1
-      const combyear = preyear + '-' + nextyear;
-      setFinyear(combyear);
-      setYear1("31-03-" + preyear)
-      setYear2("01-04-" + nextyear)
-      const last2 = combyear.substring(7, 9);
-      setTrimtext(last2);
-      setCheckdate('true')
-      const lastcust2 = lastcust_id.substring(1, 3);
-      if (lastcust2 == last2) {
-        setCheckdate('false')
-        const lastdigitval = lastcust_id.substring(4, 10);
-        const lastintval = parseInt(lastdigitval) + 1;
-        setGetnewval(lastintval);
-        const cust_newid = 'C' + last2 + '-' + lastintval;
-        setUcust_totalid(cust_newid)
-        localStorage.setItem("cust_id", ucust_totalid);
-      }
-      else {
-        const intvalue = 0;
-        const value = intvalue + 1;
-        setGetnewval(value);
-        const cust_newid = 'C' + last2 + '-' + value;
-        setUcust_totalid(cust_newid)
-        localStorage.setItem("cust_id", ucust_totalid);
-      }
-    }
-    else {
-      const value = parseInt(lastRecordId) + 1;
-      setGetnewval(value);
-      const cust_newid = 'C' + year + '-' + value;
-      setUcust_totalid(cust_newid)
-      localStorage.setItem("cust_id", ucust_totalid);
-      // console.log(localStorage.getItem("cust_id"));
-    }
-  }
+  // function autoIncrementCustomId(lastRecordId, year, lastcust_id) {
+  //   // console.log("lastRecordId"+lastRecordId)
+  //   // console.log("year"+year)
+  //   // console.log("lastcust_id"+lastcust_id)
+  //   const a = new Date();
+  //   // const month = 4
+  //   // const date = 1
+  //   const month = a.getMonth() + 1;
+  //   const date = a.getDate();
+  //   if (month === 4 && date === 1) {
+  //     const preyear = a.getFullYear()
+  //     const nextyear = a.getFullYear() + 1
+  //     const combyear = preyear + '-' + nextyear;
+  //     setFinyear(combyear);
+  //     setYear1("31-03-" + preyear)
+  //     setYear2("01-04-" + nextyear)
+  //     const last2 = combyear.substring(7, 9);
+  //     setTrimtext(last2);
+  //     setCheckdate('true')
+  //     const lastcust2 = lastcust_id.substring(1, 3);
+  //     if (lastcust2 == last2) {
+  //       setCheckdate('false')
+  //       const lastdigitval = lastcust_id.substring(4, 10);
+  //       const lastintval = parseInt(lastdigitval) + 1;
+  //       setGetnewval(lastintval);
+  //       const cust_newid = 'C' + last2 + '-' + lastintval;
+  //       setUcust_totalid(cust_newid)
+  //       localStorage.setItem("cust_id", ucust_totalid);
+  //     }
+  //     else {
+  //       const intvalue = 0;
+  //       const value = intvalue + 1;
+  //       setGetnewval(value);
+  //       const cust_newid = 'C' + last2 + '-' + value;
+  //       setUcust_totalid(cust_newid)
+  //       localStorage.setItem("cust_id", ucust_totalid);
+  //     }
+  //   }
+  //   else {
+  //     const value = parseInt(lastRecordId) + 1;
+  //     setGetnewval(value);
+  //     const cust_newid = 'C' + year + '-' + value;
+  //     setUcust_totalid(cust_newid)
+  //     localStorage.setItem("cust_id", ucust_totalid);
+  //     // console.log(localStorage.getItem("cust_id"));
+  //   }
+  // }
 
-  // ############### AutoIncrement Customer ID End   ###################################
+  // // ############### AutoIncrement Customer ID End   ###################################
 
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const dateval = checkdate;
-    const trimyear = trimtext;
-    const mast_id = document.getElementById('mast_id').value;
-    const cust_id = ucust_totalid;
+    const radiobtn = showMasterdropdown;
+
     const customer_firstname = document.getElementById('customer_firstname').value;
     const customer_lastname = document.getElementById('customer_lastname').value;
     const cust_name = salute + " " + customer_firstname + " " + customer_lastname;
@@ -122,7 +158,7 @@ const Customer = () => {
     const website = document.getElementById('website').value;
     const gstin_uin = document.getElementById('gstin_uin').value || "";
     const pan_no = document.getElementById('pan_no').value || "";
-    const exemption_reason = document.getElementById('exemption_reason').value;
+    const exemption_reason = document.getElementById('exemption_reason').value || "";
     const opening_balance = document.getElementById('opening_balance').value;
     const facebook_url = document.getElementById('facebook_url').value;
     const twitter_url = document.getElementById('twitter_url').value;
@@ -141,35 +177,56 @@ const Customer = () => {
     const contact_person_designation = document.getElementById('contact_person_designation').value;
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
+    const org = localStorage.getItem('Organisation');
 
-    // console.log(cust_id);
-    // console.log(trimyear);
+    if (showMasterdropdown) {
+      const masterid = document.getElementById('selectedmasterid').value;
+      const result = await AddCustomer(org, localStorage.getItem("User_id"), masterid, generatedcust2, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+        opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+        billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+        contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+        contact_person_department, remark);
 
-    // console.log(mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
-    //   opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,
-    //   contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark);
+      if (result[0] > 0) {
+        const Mcust_count = parseInt(mcustcount);
+        const cust_count = parseInt(custcount) + 1;
+        const result1 = await UpdatefinancialTwocount(org, 'mcust_count', Mcust_count, 'cust_count', cust_count)
+        window.location.href = "/TotalCustomer";
+      }
 
-    const result = await AddCustomer(localStorage.getItem('Organisation'),localStorage.getItem("User_id"), getnewval, dateval, finyear, trimyear, year1, year2, mast_id, cust_id, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
-      opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
-      billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
-      contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-      contact_person_department, remark);
-    // console.log(result)
-    if (result) {
-      window.location.href = "/TotalCustomer";
+    }
+    else {
+      const result = await AddCustomer(org, localStorage.getItem("User_id"), generatedmcust, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
+        opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+        billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+        contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+        contact_person_department, remark);
+
+      if (result[0] > 0) {
+        const cust_count = parseInt(custcount) + 1;
+        const Mcust_count = parseInt(mcustcount) + 1;
+        const result1 = await UpdatefinancialTwocount(org, 'mcust_count', Mcust_count, 'cust_count', cust_count)
+        window.location.href = "/TotalCustomer";
+      }
     }
 
-
-    // console.log(mast_id,cust_type,cust_name,company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
-    //   opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
-    //   billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,contact_person_name,
-    //   contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
-    //   contact_person_department,remark)
   }
+
 
   const handleChange = (e) => {
     let data = e.target.value;
     setCust_type(data);
+  }
+
+  const handelchangemasterid = async (e) => {
+    let masterid = e.target.value;
+    const countresult = await CustomerIdmid(localStorage.getItem('Organisation'), masterid)
+    let num = parseInt(countresult[0].count) + 1
+    num = '' + num;
+    num = num.padStart(4, '0');
+    const newcustid = "cust" + finsyear + num
+    setGeneratedcust2(newcustid)
+
   }
 
   const handleChangeSalute = (e) => {
@@ -293,44 +350,65 @@ const Customer = () => {
                         </div>
 
                         {showMaster ? (
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id='mast_id' />
+                          <>
+                            <div className="form-row">
+                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
+                              <div className="col form-group">
+                                <input type="text" className="form-control col-md-4" id='mast_id' value={generatedmcust} disabled />
+                              </div>
+                              {/* form-group end.// */}
                             </div>
-                            {/* form-group end.// */}
-                          </div>) : null}
-                        {showMasterdropdown ? (
+                            <div className="form-row">
+                              <label
+                                htmlFor="cust_id"
+                                className="col-md-2 col-form-label font-weight-normal" >
+                                Customer Id
+                              </label>
+                              <div className="col form-group">
+                                <input
+                                  type="text"
+                                  id="cust_id"
+                                  className="form-control col-md-4"
+                                  value={generatedcust}
+                                  disabled
+                                />
+                              </div>
+                            </div></>) : null}
+                        {showMasterdropdown ? (<>
                           <div className="form-row" id='masterdropdown'>
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
                               <select
-                                id="gsttreatment"
-                                className="form-control col-md-4">
-                                <option selected>Select Master ID</option>
-
+                                id="selectedmasterid"
+                                className="form-control col-md-4" onChange={handelchangemasterid}>
+                                <option selected hidden >Select Master ID</option>
+                                {
+                                  totalmastid.map((allid, index) => (
+                                    <option key={index}>{allid.mast_id}</option>
+                                  ))
+                                }
                               </select>
                             </div>
-                            {/* form-group end.// */}
-                          </div>) : null}
-
-                        <div className="form-row">
-                          <label
-                            htmlFor="cust_id"
-                            className="col-md-2 col-form-label font-weight-normal" >
-                            Customer Id
-                          </label>
-                          <div className="col form-group">
-                            <input
-                              type="text"
-                              id="cust_id"
-                              className="form-control col-md-4"
-                              value={ucust_totalid}
-                              disabled
-                            />
                           </div>
-                          {/* form-group end.// */}
-                        </div>
+                          <div className="form-row">
+                            <label
+                              htmlFor="cust_id"
+                              className="col-md-2 col-form-label font-weight-normal" >
+                              Customer Id
+                            </label>
+                            <div className="col form-group">
+                              <input
+                                type="text"
+                                id="cust_id"
+                                className="form-control col-md-4"
+                                value={generatedcust2}
+                                disabled
+                              />
+                            </div>
+                          </div></>
+                        ) : null}
+
+
                         <div className="form-row" onChange={handleChange}>
                           <div className="col form-group">
                             <label
@@ -805,6 +883,7 @@ const Customer = () => {
                                 <input
                                   id="exemption_reason"
                                   className="form-control col-md-4"
+                                  type="text"
                                 />
                               </div>
                               {/* form-group end.// */}

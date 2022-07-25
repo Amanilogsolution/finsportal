@@ -60,14 +60,14 @@ const Newdb = async (req, res) => {
                 year varchar(20) NULL,
                 from_date varchar(20) NULL,
                 to_date varchar(20) NULL,
-                mcust_id varchar(100) NULL,
                 mcust_count varchar(100) NULL,
-                cust_id varchar(100) NULL,
                 cust_count varchar(100) NULL,
-                mvend_id varchar(100) NULL,
                 mvend_count varchar(100) NULL,
-                vend_id varchar(100) NULL,
                 vend_count varchar(100) NULL,
+                invoice_ser varchar(100) NULL,
+                invoice_count varchar(100) NULL,
+                voucher_ser varchar(100) NULL,
+                voucher_count varchar(100) NULL,
                 location_count varchar(100) NULL,
                 add_user_name varchar(50) NULL,
                 add_date_time datetime NULL,
@@ -196,7 +196,12 @@ const Newdb = async (req, res) => {
                 status varchar(50) NULL,
                 newvend_uuid varchar(100) NULL
             );
-            
+            CREATE TABLE ${dbname}.dbo.tbl_id_controller(
+                sno bigint IDENTITY(1,1) NOT NULL,
+                id_type varchar(50) NULL,
+                master_id varchar(50) NULL,
+                id_count varchar(50) NULL,
+            );
             CREATE TABLE ${dbname}.dbo.tbl_new_customer (
                 sno bigint IDENTITY(1,1) NOT NULL,
                 mast_id varchar(50) NULL,
@@ -240,6 +245,7 @@ const Newdb = async (req, res) => {
                 contact_person_designation varchar(100) NULL,
                 contact_person_department varchar(100) NULL,
                 remark varchar(255) NULL,
+                fins_year varchar(50) NULL,
                 add_date_time datetime NULL,
                 add_user_name varchar(50) NULL,
                 add_system_name varchar(50) NULL,
@@ -261,6 +267,7 @@ const Newdb = async (req, res) => {
                 contact_name2 varchar(100) NULL,
                 contact_phone_no1 varchar(100) NULL,
                 contact_phone_no2 varchar(100) NULL,
+                fins_year varchar(50) NULL,
                 add_date_time datetime NULL,
                 add_user_name varchar(50) NULL,
                 add_system_name varchar(100) NULL,
@@ -441,17 +448,17 @@ const Newdb = async (req, res) => {
                 status varchar(30) NULL
             );
             CREATE TABLE ${dbname}.dbo.tbl_daily_curreny (
-                sno bigint NOT NULL,
+                sno bigint IDENTITY(1,1) NOT NULL,
                 currency varchar(100) NULL,
-                Rupee decimal(38,0) NULL,
-                US$ decimal(38,0) NULL,
-                EURO decimal(38,0) NULL,  
-                UK decimal(38,0) NULL, 
-                AUS$ decimal(38,0) NULL, 
-                Japanese decimal(38,0) NULL ,
-                Singapore$ decimal(38,0) NULL ,
-                Reminbi decimal(38,0) NULL ,
-                Taiwan$ decimal(38,0) NULL ,
+                Rupee varchar(100) NULL,
+                US varchar(100) NULL,
+                EURO varchar(100) NULL,  
+                UK varchar(100) NULL, 
+                AUS varchar(100) NULL, 
+                Japanese varchar(100) NULL ,
+                Singapore varchar(100) NULL ,
+                Reminbi varchar(100) NULL ,
+                Taiwan varchar(100) NULL ,
                 add_date_time datetime NULL,
                 add_user_name varchar(50) NULL,
                 add_system_name varchar(50) NULL,
@@ -462,23 +469,50 @@ const Newdb = async (req, res) => {
                 update_ip_address varchar(50) NULL,
                 status varchar(50) NULL
             );
-            
+            CREATE TABLE ${dbname}.dbo.tbl_location_series(
+                sno bigint IDENTITY(1,1) NOT NULL,
+                fin_year  varchar(100) NULL,
+                series_type varchar(100) NULL,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(50) NULL
+            );
+
+
+                   CREATE TABLE ${dbname}.dbo.tbl_crm_master(
+                     sno bigint IDENTITY(1,1) NOT NULL,
+                     user_name  varchar(100) NULL,
+                     type varchar(30) NULL,
+                     cust_vend varchar(100) NULL,
+                     add_date_time datetime NULL,
+                     add_user_name varchar(50) NULL,
+                     add_system_name varchar(50) NULL,
+                     add_ip_address varchar(30) NULL,
+                     update_date_time datetime NULL,
+                     update_user_name varchar(50) NULL,
+                     update_system_name varchar(100) NULL,
+                     update_ip_address varchar(50) NULL,
+                     status varchar(50) NULL
+                  );
             
             
             `)
-            res.send(
-                {
-                    "status": "true",
-                    "message": "Table and Database created",
-                    "statusCode": 200
-                }
-            )
+            res.send('created')
+        }
+        else{
+            res.send('Server Error')
         }
 
 
     }
     catch (err) {
-        console.log(err)
+       res.send(err)
     }
 }
 

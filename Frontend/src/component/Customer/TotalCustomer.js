@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid, IdcountMaster, Checkmidvalid, UpdateIdcountmaster, InsertIdcountmaster, UpdatefinancialTwocount } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -44,7 +44,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeleteCustomer(row.sno, status,localStorage.getItem("Organisation"))
+          await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
           window.location.href = 'TotalCustomer'
         }
         }>
@@ -96,14 +96,30 @@ const TotalCustomer = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [year, setYear] = useState();
+  const [idcount, setIdcount] = useState();
+  const [newcountid, setNewcountid] = useState(0);
+  const [newmcountid, setNewmcountid] = useState(0);
+  const [newmidcount, setNewmidcount] = useState();
+  var mcountid = parseInt(newmcountid);
+  var countid = parseInt(newcountid);
+
 
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
+    document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
 
-      if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+      if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
         setErrorno(errorno++);
+      }
+    })
+
+    let ayy = [];
+    importdata.map((d) => {
+      if (d.existing === 'y') {
+        ayy.push(d.mast_id)
       }
     })
 
@@ -113,20 +129,109 @@ const TotalCustomer = () => {
       window.location.reload()
     }
     else {
-     
-      const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
-      console.log(importdata)
-      if (!(result == "Data Added")) {
-        setBackenddata(true);
-        setDuplicateDate(result)
+
+      const org = localStorage.getItem('Organisation');
+      const result = await Checkmidvalid(ayy, org);
+
+      // ######## Check which data does not exist    ##########
+      const duplicate = (ayy, result) => {
+        let res = []
+        res = ayy.filter(el => {
+          return !result.find(obj => {
+            return el === obj.master_id
+          })
+        })
+        return res
+      }
+      const duplicatearry = duplicate(ayy, result);
+      setDuplicateDate(duplicatearry)
+      //    #############################################
+
+      if (duplicatearry.length > 0) {
+        setBackenddata(true)
 
       }
-      else if (result == "Data Added") {
-        document.getElementById("showdataModal").style.display = "none";
-        setBackenddata(false);
-        alert("Data Added")
-        window.location.reload()
+
+      else {
+        let countmcustid = mcountid;
+        let custid = newcountid;
+
+        for (let i = 0; i < importdata.length; i++) {
+          let custid = newcountid;
+
+          if (importdata[i].existing === 'y') {
+            const getcustidfro = async () => {
+              const countids = await IdcountMaster(org, importdata[i].mast_id)
+
+              let numid = Number(countids[0].id_count);
+              numid = numid;
+              var increid = numid + 1;
+              // console.log('increid', increid)
+              increid = '' + increid;
+              increid = increid.padStart(4, '0');
+              const generatecust = "CUST" + year + increid;
+              const updatecount = await UpdateIdcountmaster(org, importdata[i].mast_id, increid)
+              Object.assign(importdata[i], { "cust_id": generatecust })
+
+            }
+            getcustidfro()
+
+          }
+          else if (importdata[i].existing === 'n') {
+            const createnotexistid = async () => {
+              let mcustidy = countmcustid;
+              mcustidy = mcustidy + 1;
+              countmcustid = mcustidy;
+              // console.log(countmcustid)
+              mcustidy = '' + mcustidy;
+              mcustidy = mcustidy.padStart(4, '0');
+
+              let custidy = 0 + 1
+              custidy = '' + custidy;
+              custidy = custidy.padStart(4, '0');
+              // console.log(custidy)
+
+              const generatemcust = "MCUST" + year + mcustidy;
+              // console.log(generatemcust)
+              const generatecust = "CUST" + year + custidy;
+              const udataidcontrollertable = await InsertIdcountmaster(org, 'vend', generatemcust, '1')
+              Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
+            }
+            createnotexistid();
+          }
+          else {
+            alert("Please! enter existing field in n and y form only");
+            window.location.reload();
+          }
+
+
+        }
+
+        setTimeout(async () => {
+          // console.log(importdata)
+          let totalcustid = Number(custid) + Number(importdata.length);
+          // console.log('totalcustid',totalcustid)
+          // console.log('countmcustid',countmcustid)
+          const updatefinstable = await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
+          // console.log(updatefinstable)
+          const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+          if (!(result === "Data Added")) {
+            setBackenddata(true);
+            setDuplicateDate(result)
+            alert("Server Error")
+
+          }
+          else if (result === "Data Added") {
+            document.getElementById("showdataModal").style.display = "none";
+            setBackenddata(false);
+            alert("Data Added")
+            window.location.reload()
+          }
+        }, 1000);
+
+
       }
+
     }
 
   };
@@ -137,7 +242,6 @@ const TotalCustomer = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
     setImportdata(datas);
-    console.log(datas);
   };
   //##########################  for convert array to json end  #################################
 
@@ -169,9 +273,19 @@ const TotalCustomer = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(async () => {
-    const result = await TotalCustomers(localStorage.getItem("Organisation"))
-    setData(result)
+  useEffect(() => {
+
+    const fetchdata = async () => {
+      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
+      console.log('getids', getids)
+      setYear(getids[0].year);
+      setNewmcountid(getids[0].mcust_count)
+      setNewcountid(getids[0].cust_count)
+      const result = await TotalCustomers(localStorage.getItem("Organisation"))
+      setData(result)
+    }
+    fetchdata();
+
   }, [])
 
   const tableData = {
@@ -187,12 +301,9 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <Menu />
-
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
-
-
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
@@ -212,9 +323,7 @@ const TotalCustomer = () => {
                           highlightOnHover
                         />
                       </DataTableExtensions>
-
                     </article>
-
                   </div>
                 </div>
               </div>
@@ -317,45 +426,12 @@ const TotalCustomer = () => {
               {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "0px 8px", overflow: "auto" }}>
 
-                {
-
-                  backenddata ?
-                    <>
-                      <h5>This data already exist</h5>
-                      <table style={{ color: "red" }}>
-                        <thead>
-                          <tr>
-                            <th style={{ border: "1px solid black" }}>cust_email</th>
-                            <th style={{ border: "1px solid black" }}>cust_work_phone</th>
-                            <th style={{ border: "1px solid black" }}>cust_phone</th>
-                            <th style={{ border: "1px solid black" }}>pan_no</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            duplicateData.map((d, index) => (
-
-                              <tr key={index} style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.cust_email}</td>
-                                <td style={{ border: "1px solid black" }}>{d.cust_work_phone}</td>
-                                <td style={{ border: "1px solid black" }}>{d.cust_phone}</td>
-                                <td style={{ border: "1px solid black" }}>{d.pan_no}</td>
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                        <tfoot></tfoot>
-                        <br /><br />
-                      </table>
-                    </>
-                    : null
-                }
 
                 <table >
                   <thead>
                     <tr>
+                      <th style={{ border: "1px solid black" }}>existing</th>
                       <th style={{ border: "1px solid black" }}>Master Id</th>
-                      <th style={{ border: "1px solid black" }}>Customer Id</th>
                       <th style={{ border: "1px solid black" }}>Cust Type</th>
                       <th style={{ border: "1px solid black" }}>Cust Name</th>
                       <th style={{ border: "1px solid black" }}>Company Name</th>
@@ -401,8 +477,8 @@ const TotalCustomer = () => {
                     {
                       importdata.map((d, index) => (
                         <tr key={index} style={{ border: "1px solid black" }}>
+                          <td style={{ border: "1px solid black" }}>{d.existing}</td>
                           <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_id}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
                           <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.company_name}</td>
@@ -448,6 +524,36 @@ const TotalCustomer = () => {
                     }</tbody>
                   <tfoot></tfoot>
                 </table>
+                <br /><br />
+
+                {
+                  backenddata ?
+                    <>
+                      <h5>This Master id does Not exist</h5>
+                      <table style={{ color: "red" }}>
+                        <thead>
+                          <tr>
+                            <th style={{ border: "1px solid black" }}>Master id</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            duplicateData.map((d, index) => (
+
+                              <tr key={index} style={{ border: "1px solid black" }}>
+                                <td style={{ border: "1px solid black" }}>{d}</td>
+                              </tr>
+                            ))
+                          }
+                        </tbody>
+                        <tfoot></tfoot>
+
+                      </table>
+
+                    </>
+                    : null
+                }
+                <br /><br />
               </div>
             </div>
             {/* </div> */}
@@ -465,6 +571,7 @@ const TotalCustomer = () => {
               <button type="button"
                 onClick={uploaddata}
                 className="btn btn-primary"
+                id='uploadbtn'
               >
                 Upload
               </button>

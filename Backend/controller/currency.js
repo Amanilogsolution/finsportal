@@ -3,12 +3,10 @@ const sqlConfig = require('../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const currency = async (req, res) => {
+const Totalcurrency = async (req, res) => {
     const org = req.body.org
-    console.log(org)
     try {
         await sql.connect(sqlConfig)
-
         const result = await sql.query(`select * from ${org}.dbo.tbl_currency with (nolock) order by sno desc`)
         res.send(result.recordset)
     } 
@@ -27,7 +25,6 @@ const InsertCurrency = async (req, res) => {
     try{
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from ${org}.dbo.tbl_currency with (nolock) where currency_name='${currency_name}' OR currency_code='${currency_code}'`)
-        console.log(duplicate.recordset[0])
         if(!duplicate.recordset.length){
           const result = await sql.query(`insert into ${org}.dbo.tbl_currency (country_name,country_code,currency_name,currency_code,currency_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
                         values('${country_name}','${country_code}','${currency_name}','${currency_code}','${uuid}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
@@ -111,4 +108,4 @@ const ImportCurrency = (req,res) =>{
 
 }
 
-module.exports = {currency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}
+module.exports = {Totalcurrency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}

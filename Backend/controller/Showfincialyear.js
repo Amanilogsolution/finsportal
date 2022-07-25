@@ -10,13 +10,13 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 const columns = [
   {
     name: 'Fincial Year',
-    selector: row => row.fin_year,
+    selector: row=>row.fin_year,
     sortable: true
   },
 
   {
     name: 'From Date',
-    selector: row => row.from_date,
+    selector: row=>row.from_date,
     sortable: true
   },
 
@@ -27,57 +27,44 @@ const columns = [
   },
   {
     name: 'Year',
-    selector: row => row.year,
-    sortable: true
-  },
-
-  {
-    name: 'Invoice Series',
-    selector: row => row.invoice_ser,
+    selector:  row=>row.year,
     sortable: true
   },
   {
-    name: 'Voucher Series',
-    selector: row => row.voucher_ser,
+    name: 'Vendor Master',
+    selector: row=>row.mvend_id,
     sortable: true
   },
-  // {
-  //   name: 'Vendor Master',
-  //   selector: row => row.mvend_id,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Vendor ID',
-  //   selector: row => row.vend_id,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Customer Master',
-  //   selector: row => row.mcust_id,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Customer id',
-  //   selector: row => row.cust_id,
-  //   sortable: true
-  // },
+  {
+    name: 'Vendor ID',
+    selector: row=>row.vend_id,
+    sortable: true
+  },
+  {
+    name: 'Customer Master',
+    selector: row=>row.mcust_id,
+    sortable: true
+  },
+  {
+    name: 'Customer id',
+    selector:  row=>row.cust_id,
+    sortable: true
+  },
 
   {
     name: 'Active ',
-    selector: row => row.status,
+    selector:  row=>row.status,
     sortable: true,
     cell: (row) => [
-      <input type="checkbox" checked={row.status == 'Active' ? true : false} onChange={async () => {
-        const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
-        if (result.rowsAffected[0]) { window.location.href = "./showfincialyear" }
-      }} />
+      <input type="checkbox" checked={row.status == 'Active' ? true : false} onChange={async() => {const result=await Statusfincialyear(localStorage.getItem('Organisation'),row.sno)
+     if(result.rowsAffected[0]){window.location.href="./showfincialyear"}} }/>
     ]
   },
   {
     name: "Actions",
     sortable: false,
 
-    selector: row => row.null,
+    selector:  row=>row.null,
     cell: (row) => [
 
       <a title='View Document' href="/Updatefincialyear">
@@ -94,13 +81,10 @@ const ShowFincialyear = () => {
 
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await Showfincialyear(localStorage.getItem('Organisation'))
-      setData(result)
-    }
-
-    fetchdata();
+  useEffect(async () => {
+    const result = await Showfincialyear(localStorage.getItem('Organisation'))
+    // console.log(result)
+    setData(result)
   }, [])
 
   const tableData = {
@@ -117,7 +101,7 @@ const ShowFincialyear = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Year</button>
+            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Fincial Year</button>
 
             <div className="container-fluid">
               <br />

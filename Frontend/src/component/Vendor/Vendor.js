@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import "./Vendor.css";
-import { InsertVendor, Activecountries, showactivestate, getCity, TotalVendor, VendorMastid, TotalVendId ,Getfincialyearid} from '../../api'
+import { InsertVendor, Activecountries, showactivestate, getCity, TotalVendor, VendorMastid, TotalVendId, Getfincialyearid, UpdatefinancialTwocount } from '../../api'
 
 
 const Vendor = () => {
@@ -32,7 +32,7 @@ const Vendor = () => {
   const [preVend_id, setPreVend_id] = useState();
   const [preMastid, setPreMastid] = useState();
   const [year, setYear] = useState();
-  const [prefixvend, setPrefixvend] = useState();
+  // const ["VEND", setPrefixvend] = useState();
   const [increvend, setIncrevend] = useState();
   const [incremvend, setIncremvend] = useState();
 
@@ -134,37 +134,46 @@ const Vendor = () => {
     const contact_person_designation = document.getElementById('contact_person_designation').value;
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
+    const org = localStorage.getItem('Organisation');
 
 
     if (showMasterdropdown === true) {
       const mast_id = document.getElementById('mast_idselected').value;
       const vend_id = preVend_id;
-      console.log("increvend",increvend,"\n"," incremvend",incremvend)
-  
-      const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
-        department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
-        portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
-        billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, localStorage.getItem('Organisation'), localStorage.getItem('User_id'),year,increvend,incremvend)
-      if (result) 
-      {
-        window.location.href = '/Showvendor'
-      }
-    }
-    else {
-      setIncremvend(incremvend+1)
-      console.log("increvend",increvend,"\n"," incremvend",incremvend)
-      const mast_id = generateMast_id;
-      const vend_id = generateVend_id;
- 
+      const countvend = increvend + 1;
+      const countmvend = incremvend;
 
       const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
         department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
         portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
         billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, localStorage.getItem('Organisation'), localStorage.getItem('User_id'),year,increvend,incremvend)
-      if (result) {
-        window.location.href = '/Showvendor'
+        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, localStorage.getItem('User_id'), year)
+      if (result[0] > 0) {
+        const result = await UpdatefinancialTwocount(org, 'mvend_count', countmvend, 'vend_count', countvend)
+        if (result[0] > 0) {
+          alert("data Added")
+          window.location.href = '/Showvendor'
+        }
+      }
+    }
+    else {
+      const mast_id = generateMast_id;
+      const vend_id = generateVend_id;
+      const countvend = increvend + 1;
+      const countmvend = incremvend + 1;
+
+      const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
+        department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
+        portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
+        billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
+        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, localStorage.getItem('User_id'), year)
+
+      if (result[0] > 0) {
+        const result1 = await UpdatefinancialTwocount(org, 'mvend_count', countmvend, 'vend_count', countvend)
+        if (result1[0] > 0) {
+          alert("data Added")
+          window.location.href = '/Showvendor'
+        }
       }
 
     }
@@ -179,35 +188,32 @@ const Vendor = () => {
       const result = await Activecountries();
       setCountrylist(result)
       // const totalvendor = await TotalVendor(localStorage.getItem('Organisation'))
-      
+
       const totalvendor = await Getfincialyearid(localStorage.getItem('Organisation'))
-
-      console.log("totalvendor[0]",totalvendor[0])
       setYear(totalvendor[0].year);
-      setPrefixvend(totalvendor[0].vend_id);
-      const int_vend=parseInt(totalvendor[0].mvend_count ) ;
+      // setPrefixvend(totalvendor[0].vend_id);
+      const int_mvend = parseInt(totalvendor[0].mvend_count);
+      const int_vend = parseInt(totalvendor[0].vend_count);
 
-      let countmast = int_vend + 1;
-      console.log("countmast",countmast)
-      setIncrevend(totalvendor[0].vend_count+1)
-      setIncremvend(int_vend)
+      let countmast = int_mvend + 1;
+      setIncrevend(int_vend)
+      setIncremvend(int_mvend)
       countmast = '' + countmast;
       let countvendid = 1;
-    
+
       countvendid = '' + countvendid;
       const mast_id_last = countmast.padStart(4, "0");
       const cust_id_last = countvendid.padStart(4, "0");
-      const new_mast_id =  totalvendor[0].mvend_id+totalvendor[0].year + mast_id_last;
-      const new_vend_id = totalvendor[0].vend_id +totalvendor[0].year + cust_id_last;
+      const new_mast_id = "MVEND" + totalvendor[0].year + mast_id_last;
+      const new_vend_id = "VEND" + totalvendor[0].year + cust_id_last;
       setGenerateMast_id(new_mast_id)
       setGenerateVend_id(new_vend_id)
 
-      const totalmastid = await VendorMastid(localStorage.getItem('Organisation'),totalvendor[0].year);
-      console.log(totalmastid)
-      if(totalmastid.length>0){
+      const totalmastid = await VendorMastid(localStorage.getItem('Organisation'), totalvendor[0].year);
+      if (totalmastid.length > 0) {
         setPreMastid(totalmastid);
       }
-      else{
+      else {
         setPreMastid([]);
       }
 
@@ -239,10 +245,10 @@ const Vendor = () => {
     let new_vendid = gettedvendid.count + 1;
     new_vendid = '' + new_vendid;
     let created_vendid = new_vendid.padStart(4, "0");
-    created_vendid = prefixvend +year+ created_vendid;
+    created_vendid = "VEND" + year + created_vendid;
     setPreVend_id(created_vendid);
-
   }
+
   return (
     <div>
       <div className="wrapper">
@@ -1041,9 +1047,9 @@ const Vendor = () => {
 
                                 </select>
                               </div>
-                            
+
                             </div>
-                         
+
                             <div className="form-row">
                               <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal"> Zip Code </label>
                               <div className="col form-group">

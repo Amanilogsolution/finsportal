@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { currency } from '../../../api';
-import { ImportCurrency } from '../../../api'
+import { Totalcurrency ,ImportCurrency,deleteCurrency} from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deleteCurrency } from '../../../api';
 import Excelfile from '../../../excelformate/tbl_currency.xlsx';
 // import Modal from '../Modal/modal'
 import * as XLSX from "xlsx";
@@ -148,7 +146,7 @@ const ShowCurrency = () => {
 
   useEffect( () => {
     const  fetchdata=async()=>{
-      const result = await currency(localStorage.getItem('Organisation'))
+      const result = await Totalcurrency(localStorage.getItem('Organisation'))
     setData(result)
     }
     fetchdata();

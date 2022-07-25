@@ -2,7 +2,7 @@ import React from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {Unit} from '../../../api';
+import {InsertUnit} from '../../../api';
 
  const AddUnit = () => {
 
@@ -15,7 +15,7 @@ import {Unit} from '../../../api';
           alert('Enter data')
         }else{
        
-        const result = await Unit(unit_name,unit_symbol,localStorage.getItem('Organisation'));
+        const result = await InsertUnit(unit_name,unit_symbol,localStorage.getItem('Organisation'),localStorage.getItem('User_id'));
         console.log(result)
 
         if(result == "Already"){

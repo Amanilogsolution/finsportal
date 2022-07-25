@@ -6,7 +6,7 @@ import { TotalUser } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deleteUser,ImportUser } from '../../../api';
+import { deleteUser, ImportUser } from '../../../api';
 import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
 
@@ -14,23 +14,23 @@ import * as XLSX from "xlsx";
 const columns = [
   {
     name: 'Employee Name',
-    selector: row=>row.employee_name,
+    selector: row => row.employee_name,
     sortable: true
   },
   {
     name: 'Role',
-    selector: row=>row.role,
+    selector: row => row.role,
     sortable: true
   },
 
   {
     name: 'Warehouse',
-    selector: row=>row.warehouse,
+    selector: row => row.warehouse,
     sortable: true
   },
   {
     name: 'UserId',
-    selector: row=>row.user_id,
+    selector: row => row.user_id,
     sortable: true
   },
   // {
@@ -40,12 +40,12 @@ const columns = [
   // },
   {
     name: 'Email Id',
-    selector: row=>row.email_id,
+    selector: row => row.email_id,
     sortable: true
   },
   {
     name: 'Phone',
-    selector: row=>row.phone,
+    selector: row => row.phone,
     sortable: true
   },
   {
@@ -53,7 +53,7 @@ const columns = [
     selector: 'null',
     cell: (row) => [
 
-      <div className='droplist'> 
+      <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUser(row.sno, status)
@@ -64,7 +64,7 @@ const columns = [
 
 
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
@@ -91,27 +91,27 @@ const columns = [
   // },
   {
     name: 'Operate Mode',
-    selector: row=>row.operate_mode,
+    selector: row => row.operate_mode,
     sortable: true
   },
   {
     name: 'Customer',
-    selector: row=>row.customer,
+    selector: row => row.customer,
     sortable: true
   },
   {
     name: 'Reporting to',
-    selector: row=>row.reporting_to,
+    selector: row => row.reporting_to,
     sortable: true
   },
   {
     name: 'Designation',
-    selector: row=>row.designation,
+    selector: row => row.designation,
     sortable: true
   },
   {
     name: 'Two factor authentication',
-    selector: row=>row.two_factor_authentication,
+    selector: row => row.two_factor_authentication,
     sortable: true
   },
 
@@ -119,7 +119,7 @@ const columns = [
     name: "Actions",
     sortable: false,
 
-    selector: row=>row.null,
+    selector: row => row.null,
     cell: (row) => [
 
       <a title='View Document' href="EditUser">
@@ -155,8 +155,7 @@ const ShowUser = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportUser(importdata,localStorage.getItem('Organisation'),localStorage.getItem('Organisation Name'));
-        console.log(result.length)
+      const result = await ImportUser(importdata, localStorage.getItem('Organisation'), localStorage.getItem('Organisation Name'), localStorage.getItem('User_id'));
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -177,7 +176,7 @@ const ShowUser = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    console.log('dates',datas)
+    console.log('dates', datas)
     setImportdata(datas);
 
   };
@@ -364,25 +363,25 @@ const ShowUser = () => {
 
                   backenddata ?
                     <>
-                      <h5 style={{margin:"auto"}}>This data already exist</h5>
-                      <table style={{ color: "red",textAlign:"center",margin:"auto" }}>
+                      <h5 style={{ margin: "auto" }}>This data already exist</h5>
+                      <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
                         <thead>
                           <tr>
-                          <th style={{ border: "1px solid black" }}>user_name</th>
-                          <th style={{ border: "1px solid black" }}>email_id</th>
-                          <th style={{ border: "1px solid black" }}>phone</th>
-                        </tr>
+                            <th style={{ border: "1px solid black" }}>user_name</th>
+                            <th style={{ border: "1px solid black" }}>email_id</th>
+                            <th style={{ border: "1px solid black" }}>phone</th>
+                          </tr>
                         </thead>
                         <tbody>
                           {
                             duplicateData.map((d) => (
 
                               <tr style={{ border: "1px solid black" }}>
-                              
+
                                 <td style={{ border: "1px solid black" }}>{d.user_name}</td>
                                 <td style={{ border: "1px solid black" }}>{d.email_id}</td>
                                 <td style={{ border: "1px solid black" }}>{d.phone}</td>
-                         
+
                               </tr>
                             ))
                           }
@@ -396,18 +395,18 @@ const ShowUser = () => {
                 <table >
                   <thead>
                     <tr>
-                    <th style={{ border: "1px solid black" }}>employee_name</th>
-                    <th style={{ border: "1px solid black" }}>role</th>
-                    <th style={{ border: "1px solid black" }}>warehouse</th>
-                    <th style={{ border: "1px solid black" }}>user_name</th>
-                    <th style={{ border: "1px solid black" }}>password</th>
-                    <th style={{ border: "1px solid black" }}>email_id</th>
-                    <th style={{ border: "1px solid black" }}>phone</th>
-                    <th style={{ border: "1px solid black" }}>operate_mode</th>
-                    <th style={{ border: "1px solid black" }}>customer</th>
-                    <th style={{ border: "1px solid black" }}>reporting_to</th>
-                    <th style={{ border: "1px solid black" }}>designation</th>
-                    <th style={{ border: "1px solid black" }}>user_profile_url</th>
+                      <th style={{ border: "1px solid black" }}>employee_name</th>
+                      <th style={{ border: "1px solid black" }}>role</th>
+                      <th style={{ border: "1px solid black" }}>warehouse</th>
+                      <th style={{ border: "1px solid black" }}>user_name</th>
+                      <th style={{ border: "1px solid black" }}>password</th>
+                      <th style={{ border: "1px solid black" }}>email_id</th>
+                      <th style={{ border: "1px solid black" }}>phone</th>
+                      <th style={{ border: "1px solid black" }}>operate_mode</th>
+                      <th style={{ border: "1px solid black" }}>customer</th>
+                      <th style={{ border: "1px solid black" }}>reporting_to</th>
+                      <th style={{ border: "1px solid black" }}>designation</th>
+                      <th style={{ border: "1px solid black" }}>user_profile_url</th>
                     </tr>
 
                   </thead>
@@ -448,7 +447,7 @@ const ShowUser = () => {
                 Cancel
               </button>
               <button type="button"
-               id="uploadbtn"
+                id="uploadbtn"
                 onClick={uploaddata}
                 className="btn btn-primary"
               >

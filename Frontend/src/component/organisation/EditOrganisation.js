@@ -16,9 +16,10 @@ function EditOrganisation() {
     const org_contact_phone = document.getElementById("org_contact_phone").value;
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
+    const User_id= document.getElementById('User_id')
 
 
-    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst)
+    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst,User_id)
     if (result) {
       alert('Updated')
       window.location.href = '/home';

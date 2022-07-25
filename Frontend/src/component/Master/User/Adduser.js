@@ -2,23 +2,22 @@ import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { User,insertUserLogin,UploadData} from '../../../api';
+import { InsertUser, insertUserLogin, UploadData } from '../../../api';
 
 const AddUser = () => {
   const [authentication, setAuthentication] = useState('with otp')
   const [passwordshow, setPasswordshow] = useState(false);
-  const [file,setFile] = useState('')
-  const [user_profile_url,setUserProfile] = useState('')
+  const [file, setFile] = useState('')
+  const [user_profile_url, setUserProfile] = useState('')
 
-  const handleSendFile =async(e)=>{
+  const handleSendFile = async (e) => {
     e.preventDefault()
     const data = new FormData();
-    data.append("images",file)
-   const UploadLink = await UploadData(data)
-   console.log(UploadLink)
-   setUserProfile(UploadLink)
-}
-  
+    data.append("images", file)
+    const UploadLink = await UploadData(data)
+    setUserProfile(UploadLink)
+  }
+
   const Toogle = async (e) => {
     e.preventDefault();
     const employee_name = document.getElementById('employee_name').value;
@@ -34,19 +33,17 @@ const AddUser = () => {
     const designation = document.getElementById('designation').value;
 
     // console.log(employee_name, role, warehouse, user_name, password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication)
-    if(!employee_name || !warehouse || !user_name || !password || !email_id || !phone || !customer)
-    {
+    if (!employee_name || !warehouse || !user_name || !password || !email_id || !phone || !customer) {
       alert('Please! enter the data')
     }
-    else
-    {
-    const result = await User(employee_name, role, warehouse, user_name,
-      password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication,user_profile_url);
+    else {
+      const result = await InsertUser(employee_name, role, warehouse, user_name,
+        password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'));
 
-     const loginInsert = await insertUserLogin(user_name,employee_name,warehouse,localStorage.getItem('Organisation Name'),password,localStorage.getItem('Organisation'),user_profile_url)
-    if (result) {
-      window.location.href = '/ShowUser'
-    }
+      const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url)
+      if (result) {
+        window.location.href = '/ShowUser'
+      }
     }
   }
   const handleClickToogle = (e) => {
@@ -112,7 +109,7 @@ const AddUser = () => {
                         <div className="form-row">
                           <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone no.</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='phone' placeholder="phone" maxLength={10}/>
+                            <input type="tel" className="form-control col-md-4" id='phone' placeholder="phone" maxLength={10} />
                           </div>
                           {/* form-group end.// */}
                         </div>
@@ -164,13 +161,15 @@ const AddUser = () => {
 
                         <div className="form-row mt-3">
                           <label className="col-md-2 col-form-label font-weight-normal">Upload Image</label>
-                          <input type="file" id="exampleInputPassword1" className="col-md-3" onChange={event=>{ const document = event.target.files[0];
-                                                                                                            setFile(document)}} />                       
+                          <input type="file" id="exampleInputPassword1" className="col-md-3" onChange={event => {
+                            const document = event.target.files[0];
+                            setFile(document)
+                          }} />
                           <div className="input-group-append">
-                                  <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
-                                    </div>
-                            </div>
-                       
+                            <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
+                          </div>
+                        </div>
+
 
                         <div className="form-row"
                           onChange={handleChange}

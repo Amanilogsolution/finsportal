@@ -14,6 +14,8 @@ function Org() {
 
   const Orgdetails = async (e) => {
     e.preventDefault();
+    document.getElementById('datasave').disabled = 'true';
+
     const org_name = document.getElementById("org_name").value;
     const org_country = document.getElementById("org_country").value;
     const org_state = document.getElementById("inputState").value;
@@ -26,19 +28,47 @@ function Org() {
     const org_contact_phone = document.getElementById("org_contact_phone").value;
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
+    const dbname = org_name.slice(0, 3) + Math.floor(Math.random() * 10000)
+    const User_id = localStorage.getItem('User_id');
 
+    const date = new Date()
+    const previousyear = date.getFullYear()
+    const nextyear = previousyear + 1;
+    const last_year = String(nextyear).slice(-2);
+    const fins_year = previousyear + "-" + nextyear;
+    const startdate = '01-04-' + previousyear;
+    const toyear = '31-03-' + nextyear; 
 
-    const database = await CreatenewDb(org_name)
-    const OrgTable = await CreateOrgTable(org_name)
-    console.log(database)
-     const result = await register(org_name, org_country, org_state, org_street,  org_currency, org_lang, org_gst,org_contact_name,org_contact_phone,org_contact_email,org_city, org_pincode)
-     if(result){
-      window.location.href='/home'
-     }
+    if (!org_name) {
+      alert('Please Enter the mandatory field...')
+    }
+    else {
+      const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
+      if (OrgTable === 'Already') {
+        alert('This Company already exist');
+      }
+      else {
+        const database = await CreatenewDb(dbname)
+        if (database === 'created') {
+          const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
+          if (result) {
+          alert('Organisation created')
+            window.location.href = '/home'
+          }
+        }
+      }
+
+    }
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     setgstbox(!gstbox);
+    if (gstbox) {
+      document.getElementById('org_gst').style.display = 'none';
+    }
+    else {
+      document.getElementById('org_gst').style.display = 'block';
+    }
   };
 
   const handleSendFile = async (e) => {
@@ -46,7 +76,7 @@ function Org() {
     const data = new FormData();
     data.append("images", file)
     const UploadLink = await UploadData(data)
-    console.log(UploadLink)
+    // console.log(UploadLink)
   }
 
   return (
@@ -95,7 +125,7 @@ function Org() {
                         <span style={{ color: "red" }}>*</span>
                       </label>
                       <select id="inputState" className="form-control">
-                        <option selected hidden>Selecte State/Union Territory</option>
+                        <option selected hidden value=''>Selecte State/Union Territory</option>
                         <option>Andhra Pradesh</option>
                         <option>Arunachal Pradesh</option>
                         <option>Assam</option>
@@ -156,7 +186,7 @@ function Org() {
                         <input
                           className="form-control"
                           type="text" onInput="numberOnly(this.id);"
-                          maxLength="12"
+                          maxLength={10}
                           placeholder="Contact Mobile no."
                           id='org_contact_phone'
                         />
@@ -191,12 +221,13 @@ function Org() {
                       </div>
                       <div className="form-group col-md-6">
                         <input
-                          type="text"
-                          onInput="numberOnly(this.id);"
-                          maxLength="6"
+                          type="number"
+                          // onInput="numberOnly(this.id);"
+                          // maxLength={6}
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
+                          onChange={(e) => { if (e.target.value.length > 6) { alert("number must be 6 digit") } }}
                         />
                       </div>
 
@@ -205,13 +236,7 @@ function Org() {
                       <label className="col-sm-4 col-form-label">
                         Orgaisation logo (optional) :-
                       </label>
-                      {/* <input
-                          type="file"
-                          className=""
-                          placeholder=""
-                          accept=".jpg, .jpeg, .png"
-                        /> */}
-                      <button className=" form-control col-md-3 btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Select</button>
+                      <button className="form-control col-md-3 btn btn-outline-secondary" onClick={(e) => { e.preventDefault() }} data-toggle="modal" data-target="#exampleModal">Select</button>
 
                     </div>
                   </div>
@@ -252,7 +277,20 @@ function Org() {
                       style={{ float: "right" }}
                     />
                   </p>
-                  {gstbox ? (
+
+                  <div className="form-row">
+                    <div className="form-group col-md-6">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="org_gst"
+                        placeholder="Enter Your GSTIN"
+                        style={{ fontSize: "15px", display: "none" }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* {gstbox ? (
                     <div className="form-row">
                       <div className="form-group col-md-6">
                         <input
@@ -264,7 +302,7 @@ function Org() {
                         />
                       </div>
                     </div>
-                  ) : null}
+                  ) : null} */}
                   <small className="text-muted">
                     <strong>Note:</strong> You can change these details later in
                     Settings, if needed.
@@ -273,7 +311,7 @@ function Org() {
                   <div className="form-group">
                     <label className="col-md-4 control-label" htmlFor="save"></label>
                     <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
+                      <button id="datasave" name="save" onClick={Orgdetails} className="btn btn-success">
                         Get start
                       </button>
                       <button id="clear" onClick={(e) => {

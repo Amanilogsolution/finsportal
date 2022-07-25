@@ -87,7 +87,7 @@ const ShowUnit = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportUnit(importdata, localStorage.getItem('Organisation'));
+      const result = await ImportUnit(importdata, localStorage.getItem('Organisation'),localStorage.getItem('User_id'));
       console.log('result', result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);

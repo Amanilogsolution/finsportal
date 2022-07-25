@@ -4,10 +4,11 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const TotalLocation = async (req, res) => {
-    const org = req.body.org
+    const org = req.body.org;
+    const fins_year = req.body.fins_year;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master with (nolock) order by sno desc`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master with (nolock) where fins_year='${fins_year}' order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -23,15 +24,16 @@ const AddLocation = async (req, res) => {
     const contact_name2 = req.body.contact_name2;
     const contact_phone_no1 = req.body.contact_phone_no1;
     const contact_phone_no2 = req.body.contact_phone_no2;
-    const User_id= req.body.User_id;
+    const User_id = req.body.User_id;
+    const fins_year = req.body.fins_year;
 
     try {
 
         await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
                 contact_name2,contact_phone_no1,contact_phone_no2,
-                add_date_time,add_user_name,add_system_name,add_ip_address,status)
+                add_date_time,add_user_name,add_system_name,add_ip_address,status,fins_year)
                 values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
-                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
+                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${fins_year}')`)
         res.send('Added')
 
     }
@@ -101,7 +103,7 @@ const InsertLocationAddress = async (req, res) => {
     const location_id = req.body.location_id
     const location_pin = req.body.location_pin
     const to_date = req.body.to_date
-    const User_id= res.body.User_id;
+    const User_id = res.body.User_id;
 
     try {
         await sql.connect(sqlConfig)
@@ -133,7 +135,7 @@ const UpdateLocationAddress = async (req, res) => {
     const from_date = req.body.from_date
     const location_id = req.body.location_id
     const location_pin = req.body.location_pin;
-    const User_id= req.body.User_id;
+    const User_id = req.body.User_id;
 
     try {
         await sql.query(`update ${org}.dbo.tbl_location_address  set location_add1='${location_add1}',location_add2='${location_add2}',
@@ -186,8 +188,8 @@ const ImportLocationMaster = (req, res) => {
             add_date_time,add_user_name,add_system_name,add_ip_address,status) 
                     VALUES ${datas.map(item => `('${item.location_name}','${item.gstin_no}','${item.location_id}','${item.contact_name1}','${item.contact_name2}',
                     '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`).join(', ')}`)
-                    res.send("Data Added")
-             
+        res.send("Data Added")
+
     })
 }
 
@@ -195,7 +197,7 @@ const ImportLocationAddress = (req, res) => {
     const org = req.body.org;
     const datas = req.body.datas;
     const User_id = req.body.User_id;
-  
+
     sql.connect(sqlConfig).then(() => {
 
         sql.query(`insert into  ${org}.dbo.tbl_location_address (location_id,location_name,gstin_no,
@@ -203,8 +205,8 @@ const ImportLocationAddress = (req, res) => {
             from_date,add_date_time,add_user_name,add_system_name,add_ip_address,status) 
                     VALUES ${datas.map(item => `('${item.location_id}','${item.location_name}','${item.gstin_no}','${item.location_add1}','${item.location_add2}',
                     '${item.location_city}','${item.location_state}','${item.location_pin}','${item.location_country}','${item.from_date}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`).join(', ')}`)
-                    res.send("Data Added")
-             
+        res.send("Data Added")
+
     })
 }
-module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, LastLocationid ,ImportLocationMaster,ImportLocationAddress}
+module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, LastLocationid, ImportLocationMaster, ImportLocationAddress }
