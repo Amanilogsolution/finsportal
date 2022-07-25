@@ -878,10 +878,17 @@ export const UpdateChartOfAccount = async (org,sno,account_sub_name,User_id)=>{
     const url = `http://localhost:3008/api/updatechartofaccount`
     return axios.post(url,{org,sno,account_sub_name,User_id}).then(response => response.data).catch(error => console.log(error));
 }
+
 export const ImportChartofAccount = async (datas,org,User_id)=>{
     console.log("API",datas)
     const url = `http://localhost:3008/api/importchartofaccount`
     return axios.post(url,{datas,org,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const CurrencyAdjustment = async (org,currency)=>{
+    const url = `http://localhost:3008/api/addcurrencyadjust` 
+    return axios.post(url,{org,currency}).then(response => response.data).catch(error => console.log(error));
+  
 }
 
 
