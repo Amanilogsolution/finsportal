@@ -43,7 +43,7 @@ async function deleteUnit(req, res) {
 
 
 
-async function Unit(req, res) {
+async function InsertUnit(req, res) {
     const unit_name = req.body.unit_name;
     const unit_symbol = req.body.unit_symbol;
     const org = req.body.org
@@ -119,4 +119,4 @@ const ImportUnit = (req, res) => {
     })
 }
 
-module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, Unit, showunit, UpdateUnit, ImportUnit }
+module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, InsertUnit, showunit, UpdateUnit, ImportUnit }

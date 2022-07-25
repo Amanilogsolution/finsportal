@@ -3,7 +3,7 @@ const sqlConfig = require('../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const currency = async (req, res) => {
+const Totalcurrency = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
@@ -108,4 +108,4 @@ const ImportCurrency = (req,res) =>{
 
 }
 
-module.exports = {currency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}
+module.exports = {Totalcurrency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}

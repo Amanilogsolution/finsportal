@@ -3,7 +3,7 @@ const sqlConfig = require('../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const user = async (req, res) => {
+const Totaluser = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_usermaster order by sno desc`)
@@ -149,4 +149,4 @@ async function UpdateImage(req, res) {
 }
 
 
-module.exports = { user, InsertUser, showuser, updateuser, deleteuser,ImportUser ,UpdateImage}
+module.exports = { Totaluser, InsertUser, showuser, updateuser, deleteuser,ImportUser ,UpdateImage}

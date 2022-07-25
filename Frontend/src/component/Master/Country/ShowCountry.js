@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Totalcountry } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_countries.xlsx';
-import { deletecountry, ImportCountry, CheckimportCountry } from '../../../api';
+import { deletecountry, ImportCountry ,Totalcountry} from '../../../api';
 import * as XLSX from "xlsx";
 
 
@@ -111,7 +110,7 @@ const ShowCountry = () => {
     }
     else {
       console.log(importdata);
-      const result = await CheckimportCountry(importdata,localStorage.getItem("User_id"));
+      const result = await ImportCountry(importdata,localStorage.getItem("User_id"));
       // console.log(result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);

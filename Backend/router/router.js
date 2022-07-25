@@ -45,9 +45,9 @@ router.post('/insertcountry', countryController.InsertCountry);
 router.post('/showcountry', countryController.showcountry);
 router.post('/updatecountry', countryController.updatecountry);
 router.post('/deletecountry', countryController.deletecountry);
-router.post('/checkimportcountry',countryController.CheckimportCountry)
+router.post('/importcountry',countryController.ImportCountry)
 
-router.post('/currency', currencyController.currency);
+router.post('/totalcurrency', currencyController.Totalcurrency);
 router.post('/insertcurrecy', currencyController.InsertCurrency);
 router.post('/deletecurrency', currencyController.deleteCurrency);
 router.post('/updatecurrency', currencyController.UpdateCurrency);
@@ -65,7 +65,7 @@ router.post('/importcity',cityController.ImportCity)
 router.post('/totalunit',checkAuth,unitController.TotalUnit)
 router.post('/totalactiveunit',unitController.TotalActiveUnit)
 
-router.post('/unit',unitController.Unit)
+router.post('/insertunit',unitController.InsertUnit)
 router.post('/showunit',checkAuth,unitController.showunit)
 router.post('/updateunit',unitController.UpdateUnit)
 router.post('/deleteunit',unitController.deleteUnit)
@@ -79,7 +79,7 @@ router.post('/showbank',bankController.ShowBank)
 router.post('/updatebank',bankController.UpdateBank)
 router.post('/importbank',bankController.ImportBank)
 
-router.get('/totaluser',userController.user)
+router.get('/totaluser',userController.Totaluser)
 router.post('/insertuser',userController.InsertUser)
 router.post('/showuser',userController.showuser)
 router.post('/updateuser',userController.updateuser)

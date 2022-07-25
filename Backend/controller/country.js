@@ -90,7 +90,7 @@ async function deletecountry(req, res) {
 }
 
 
-const CheckimportCountry = (req, res) => {
+const ImportCountry = (req, res) => {
     const datas = req.body.data;
     const User_id = req.body.User_id;
     // console.log(datas)
@@ -117,4 +117,4 @@ const CheckimportCountry = (req, res) => {
 
 
 
-module.exports = { countries,Activecountries, InsertCountry, showcountry, updatecountry, deletecountry, CheckimportCountry }
+module.exports = { countries,Activecountries, InsertCountry, showcountry, updatecountry, deletecountry, ImportCountry }
