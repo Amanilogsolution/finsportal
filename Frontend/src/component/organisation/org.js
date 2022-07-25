@@ -28,7 +28,7 @@ function Org() {
     const org_contact_phone = document.getElementById("org_contact_phone").value;
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
-    const dbname = org_name.slice(0, 3) + Math.floor(Math.random() * 100)
+    const dbname = org_name.slice(0, 3) + Math.floor(Math.random() * 10000)
     const User_id = localStorage.getItem('User_id');
 
     const date = new Date()
