@@ -112,6 +112,10 @@ import EditChartAccount from './component/Master/ChartOfAccountMaster/EditChartA
 import BillPayment from './component/Vendor/PaymentMade/BillPayment'
 import PaymentMade from './component/Vendor/PaymentMade/PaymentMade';
 
+import ShowFincialTerm from './component/Master/PaymentTerms/Showpaymentterms';
+import AddPaymentTerm from './component/Master/PaymentTerms/Addpaymentterm';
+import UpdatePaymentTerm from './component/Master/PaymentTerms/Updatepaymentterm'
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -235,6 +239,11 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/EditAccountMinorCode" component={EditAccountMinorCode}/>
           <Route exact path="/BillPayment" component={BillPayment}/>
           <Route exact path="/PaymentMade" component={PaymentMade}/>
+
+          <Route exact path="/Showfincialterm" component={ShowFincialTerm}/>
+          <Route exact path="/AddPaymentTerm" component={AddPaymentTerm}/>
+          <Route exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm}/>
+
           <Route exact path="*" component={PageNotFound}/>
           </Switch>
         </Router>

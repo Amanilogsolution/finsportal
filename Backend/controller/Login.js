@@ -11,6 +11,7 @@ const User_login = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
+        const result1 = await sql.query(`select fin_year,year  from ilogsolution.dbo.tbl_fin_year tfy with (nolock) where status='Active'`)
         if (result.recordset.length) {
             const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`)
             const token = jwt.sign({ user_id, user_password }, process.env.JWT_KEY, { expiresIn: 5 * 24 * 60 * 60 })
@@ -22,6 +23,9 @@ const User_login = async (req, res) => {
                 result3: result.recordset[0].org_name,
                 result4: result.recordset[0].user_id,
                 result5: result.recordset[0].user_profile_url,
+                result6: result1.recordset[0].fin_year,
+                result7: result1.recordset[0].year,
+
 
                 expiresIn: 5 * 24 * 60 * 60
             })

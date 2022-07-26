@@ -30,6 +30,8 @@ const AccountinfoController = require('../controller/Account-Info')
 const SubCodeController = require('../controller/SubCode')
 const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
+const CurrencyAdjustmentController = require('../controller/Currencyadjustment')
+const PaymentTermController = require('../controller/paymentMaster')
 
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
@@ -250,6 +252,15 @@ router.post('/chartofaccountstatus',ChartOfAccountMasterController.ChartOfAccoun
 router.post('/getchartofaccount',ChartOfAccountMasterController.GetChartOfAccount)
 router.post('/updatechartofaccount',ChartOfAccountMasterController.UpdateChartOfAccount)
 router.post('/importchartofaccount',ChartOfAccountMasterController.ImportChartofAccount)
+
+router.post('/addcurrencyadjust',CurrencyAdjustmentController.AddCurrencyAdjustment)
+
+router.post('/totalpaymentterm',PaymentTermController.TotalPaymentTerm)
+router.post('/deletepaymentterm',PaymentTermController.DeletePaymentTerm)
+router.post('/insertpaymentterm',PaymentTermController.InsertPaymentTerm)
+router.post('/showpaymentterm',PaymentTermController.ShowPaymentTerm)
+router.post('/updatepaymentterm',PaymentTermController.UpdatePaymentTerm)
+
 
 
 
