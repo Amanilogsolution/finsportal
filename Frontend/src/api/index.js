@@ -994,4 +994,46 @@ export const updatePaymentterm = async (sno,org,term,term_days,User_id) => {
     return axios.post(url, {sno,org,term,term_days,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
+ // ###########################  PaymentTerm api end ############################
 
+
+ // ###########################  Charge Code api start ############################
+
+ export const TotalChargecode = async (org) => {
+    const url = `http://192.168.146.136:3008/api/totalchargecode`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const AddChargecodeapi = async (org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id) => {
+    const url = `http://192.168.146.136:3008/api/addchargecode`
+    return axios.post(url, { org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const GetChargecode = async (org,sno) => {
+    const url = `http://192.168.146.136:3008/api/getchargecode`
+    return axios.post(url, { org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const DeleteChargecode = async (org,sno,status) => {
+    console.log(org,sno,status)
+    const url = `http://192.168.146.136:3008/api/deletechargecode`
+    return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateChargecode = async (sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id) => {
+    console.log(sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id)
+    const url = `http://192.168.146.136:3008/api/updatechargecode`
+    return axios.post(url, { sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+ // ###########################  Charge Code api End ############################
+
+
+
+ // ###########################  CRM Master api Start ############################
+
+
+ 
+ // ###########################  CRM Master api END ############################

@@ -484,6 +484,23 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <a href="/ShowChargecode" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Charge Code</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <a href="/ShowCrm" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>CRM Master</p>
+                    </a>
+                  </li>
+                </ul>
+                
 
               </li>
 
