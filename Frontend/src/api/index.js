@@ -967,3 +967,31 @@ export const CurrencyAdjustment = async (org,currency)=>{
 }
 
 
+ // ###########################  PaymentTerm api start ############################
+
+ export const TotalPaymentTerm = async (org) => {
+    const url = `http://localhost:3008/api/totalpaymentterm`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const DeletePaymentTerm = async (org, status, sno) => {
+    const url = `http://localhost:3008/api/deletepaymentterm`
+    return axios.post(url, { org, status, sno }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertPaymentTerm = async (org,term,term_days,User_id) => {
+    const url = `http://localhost:3008/api/insertpaymentterm`
+    return axios.post(url, {org,term,term_days,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ShowPaymentTerm = async (org,sno) => {
+    const url = `http://localhost:3008/api/showpaymentterm`
+    return axios.post(url, {org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const updatePaymentterm = async (sno,org,term,term_days,User_id) => {
+    const url = `http://localhost:3008/api/updatepaymentterm`
+    return axios.post(url, {sno,org,term,term_days,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+

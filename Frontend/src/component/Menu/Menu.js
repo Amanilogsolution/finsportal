@@ -476,6 +476,14 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <a href="/Showfincialterm" className="nav-link active">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Terms Master</p>
+                    </a>
+                  </li>
+                </ul>
 
               </li>
 

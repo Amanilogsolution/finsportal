@@ -2,73 +2,51 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Showfincialyear, Statusfincialyear } from '../../../api';
+import { TotalPaymentTerm, DeletePaymentTerm } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
 
 const columns = [
   {
-    name: 'Fincial Year',
-    selector: row=>row.fin_year,
+    name: 'Term',
+    selector: row => row.term,
     sortable: true
   },
 
   {
-    name: 'From Date',
-    selector: row=>row.from_date,
-    sortable: true
-  },
-
-  {
-    name: 'To Date',
-    selector: 'to_date',
+    name: 'Term Days',
+    selector: row => row.term_days,
     sortable: true
   },
   {
-    name: 'Year',
-    selector:  row=>row.year,
-    sortable: true
-  },
-  {
-    name: 'Vendor Master',
-    selector: row=>row.mvend_id,
-    sortable: true
-  },
-  {
-    name: 'Vendor ID',
-    selector: row=>row.vend_id,
-    sortable: true
-  },
-  {
-    name: 'Customer Master',
-    selector: row=>row.mcust_id,
-    sortable: true
-  },
-  {
-    name: 'Customer id',
-    selector:  row=>row.cust_id,
-    sortable: true
-  },
-
-  {
-    name: 'Active ',
-    selector:  row=>row.status,
+    name: 'Status',
     sortable: true,
+    selector: 'null',
     cell: (row) => [
-      <input type="checkbox" checked={row.status == 'Active' ? true : false} onChange={async() => {const result=await Statusfincialyear(localStorage.getItem('Organisation'),row.sno)
-     if(result.rowsAffected[0]){window.location.href="./showfincialyear"}} }/>
+      <div className='droplist'>
+        <select onChange={async (e) => {
+          const status = e.target.value;
+          await DeletePaymentTerm(localStorage.getItem('Organisation'),status,row.sno )
+          window.location.href = 'Showfincialterm'
+        }
+        }>
+          <option selected disabled hidden> {row.status}</option>
+          <option value='Active'>Active</option>
+          <option value='Deactive' >Deactive</option>
+        </select>
+      </div>
     ]
   },
   {
     name: "Actions",
     sortable: false,
 
-    selector:  row=>row.null,
+    selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/Updatefincialyear">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
+      <a title='View Document' href="/UpdatePaymentTerm">
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('TermSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }
@@ -76,15 +54,19 @@ const columns = [
 
 ]
 
-const ShowFincialyear = () => {
+const ShowFincialTerm = () => {
   const [data, setData] = useState([{}])
 
 
 
-  useEffect(async () => {
-    const result = await Showfincialyear(localStorage.getItem('Organisation'))
-    // console.log(result)
-    setData(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await TotalPaymentTerm(localStorage.getItem('Organisation'))
+      console.log(result)
+      setData(result)
+    }
+
+    fetchdata();
   }, [])
 
   const tableData = {
@@ -101,12 +83,12 @@ const ShowFincialyear = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Fincial Year</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Term</button>
 
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5">Financial year</h3>
+              <h3 className="text-left ml-5">Financial Terms</h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">
@@ -140,4 +122,4 @@ const ShowFincialyear = () => {
 
 }
 
-export default ShowFincialyear
+export default ShowFincialTerm
