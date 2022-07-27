@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor, } from "../../../api";
+import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor, ActiveUser } from "../../../api";
 import Select from 'react-select';
 
 const EditCrm = () => {
     const [crmtype, setCrmType] = useState(false)
     const [crmtypeval, setCrmtypeval] = useState('');
     const [data, setData] = useState([])
+    const [userlist, setUserlist] = useState([])
     const [customerlist, setCustomerlist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
@@ -18,58 +19,60 @@ const EditCrm = () => {
             const org = localStorage.getItem('Organisation');
             const customer = await ActiveCustomer(org)
             setCustomerlist(customer)
-            console.log(customer)
             const vendor = await ActiveVendor(org)
             setVendorlist(vendor)
-            console.log(vendor)
-            
+
+            const User = await ActiveUser()
+            setUserlist(User)
+
             const result = await GetCrm(org, localStorage.getItem('CrmmasterSno'))
             setData(result)
-            console.log(result)
 
-            if (result.type === "vendor") {
+            if (result.type === "Vendor") {
                 document.getElementById('vendorid').checked = true;
                 setCrmtypeval(result.type)
                 setCrmType(false)
             }
-            else {
+            else if (result.type === "Customer") {
                 document.getElementById('customerid').checked = true;
                 setCrmtypeval(result.type)
                 setCrmType(true)
+            }
+            else {
+                alert('Invalid Type')
             }
 
         }
         fetchdata()
     }, [])
+
     const handleClick = async (e) => {
         e.preventDefault();
         const crmtype = crmtypeval;
         const person_name = document.getElementById("person_name").value;
-        // const cust_vend_name = document.getElementById("cust_vend_name").value;
         const cust_vend_name = custvendval.value ? custvendval.value : data.cust_vend;
 
-
-        console.log(crmtype, person_name, cust_vend_name)
         if (!crmtype || !person_name || !cust_vend_name) {
-            // alert('Enter data')
+            alert('Enter data')
         }
         else {
-            // sno,org,user_name,type,cust_vend,User_id
-
-            // const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), paymentterm, paymentdays, localStorage.getItem('User_id'));
-            // if (result == "Already") {
-            //     alert('Already')
-            // } else {
-            //     window.location.href = '/ShowChargecode'
-            //     localStorage.removeItem('CrmmasterSno');
-            // }
+            const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'));
+            if (result == "updated") {
+                alert('Data updated')
+            } else {
+                window.location.href = '/ShowCrm'
+                localStorage.removeItem('CrmmasterSno');
+            }
         }
 
     }
 
 
+    const handlechangename = (e) => {
+        setData({ ...data, user_name: e.target.value })
+    }
+
     const handletype = (e) => {
-        console.log(e.target.value)
         if (e.target.value === 'Customer') {
             setCrmType(true)
             setCrmtypeval(e.target.value)
@@ -114,7 +117,7 @@ const EditCrm = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Type<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <input type="radio" id='vendorid' name='crmtype' value='vendor' onChange={handletype} /> Vendor  &nbsp;
+                                                        <input type="radio" id='vendorid' name='crmtype' value='Vendor' onChange={handletype} /> Vendor  &nbsp;
                                                         <input type="radio" id='customerid' name='crmtype' value='Customer' onChange={handletype} /> Customer
                                                     </div>
                                                 </div>
@@ -122,7 +125,13 @@ const EditCrm = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='person_name' value={data.user_name} />
+                                                        <select className="form-control col-md-4" id='person_name' onChange={handlechangename} >
+                                                            <option hidden>{data.user_name}</option>
+                                                            {
+                                                                userlist.map((item, index) =>
+                                                                    <option>{item.employee_name}</option>)
+                                                            }
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div className="form-row">

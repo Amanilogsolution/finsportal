@@ -15,6 +15,7 @@ const EditChargecode = () => {
         }
         fetchdata()
     }, [])
+
     const handleClick = async (e) => {
         e.preventDefault();
         const description = document.getElementById("description").value;
@@ -24,19 +25,15 @@ const EditChargecode = () => {
         const activity = document.getElementById("activity").value;
         const sacHsncode = document.getElementById("sacHsncode").value;
         const gstrate = document.getElementById("gstrate").value;
-
         const sno = localStorage.getItem('ChargecodeSno');
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
 
-        console.log(description, short_name, nature, major_code, activity, sacHsncode, gstrate)
         if (!description || !short_name || !nature || !major_code || !activity || !sacHsncode || !gstrate) {
             alert('Enter the Mandatory field...')
         }
         else {
-            // sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id
             const result = await UpdateChargecode(sno, org, description, short_name, nature, major_code, activity, sacHsncode, gstrate, user_id);
-            console.log(result)
             if (result == "updated") {
                 alert('Data Updated')
                 localStorage.removeItem('ChargecodeSno');

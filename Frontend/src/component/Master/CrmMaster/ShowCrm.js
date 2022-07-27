@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalCrm,DeleteCrm } from '../../../api';
+import { TotalCrm, DeleteCrm } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
@@ -24,7 +24,7 @@ const columns = [
     selector: row => row.cust_vend,
     sortable: true
   },
-  
+
   {
     name: 'Status',
     sortable: true,
@@ -33,8 +33,8 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-            await DeleteCrm(localStorage.getItem('Organisation'),row.sno,status )
-            window.location.href = '/ShowCrm'
+          await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
+          window.location.href = '/ShowCrm'
         }
         }>
           <option selected disabled hidden> {row.status}</option>
@@ -67,9 +67,8 @@ const ShowCrm = () => {
 
   useEffect(() => {
     const fetchdata = async () => {
-        const result = await TotalCrm(localStorage.getItem('Organisation'))
-        console.log(result)
-        setData(result)
+      const result = await TotalCrm(localStorage.getItem('Organisation'))
+      setData(result)
     }
 
     fetchdata();

@@ -48,27 +48,7 @@ const columns = [
     selector: row => row.phone,
     sortable: true
   },
-  {
-    name: 'Status',
-    selector: 'null',
-    cell: (row) => [
-
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await deleteUser(row.sno, status)
-          window.location.href = 'ShowUser'
-        }
-        }>
-          <option selected disabled hidden> {row.status}</option>
-
-
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
+ 
   // {
   //   name:'Active',
   //   selector: 'null',
@@ -113,6 +93,27 @@ const columns = [
     name: 'Two factor authentication',
     selector: row => row.two_factor_authentication,
     sortable: true
+  },
+  {
+    name: 'Status',
+    selector: 'null',
+    cell: (row) => [
+
+      <div className='droplist'>
+        <select onChange={async (e) => {
+          const status = e.target.value;
+          await deleteUser(row.sno, status)
+          window.location.href = 'ShowUser'
+        }
+        }>
+          <option selected disabled hidden> {row.status}</option>
+
+
+          <option value='Active'>Active</option>
+          <option value='Deactive' >Deactive</option>
+        </select>
+      </div>
+    ]
   },
 
   {
