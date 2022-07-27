@@ -32,6 +32,8 @@ const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
 const CurrencyAdjustmentController = require('../controller/Currencyadjustment')
 const PaymentTermController = require('../controller/paymentMaster')
+const ChargeCodeController = require('../controller/ChargeCode')
+const CRMController = require('../controller/crmMaster')
 
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
@@ -88,6 +90,8 @@ router.post('/updateuser',userController.updateuser)
 router.post('/deleteuser',userController.deleteuser)
 router.post('/importuser',userController.ImportUser)
 router.post('/updateimage',userController.UpdateImage)
+router.post('/activeuser',userController.Activeuser)
+
 
 
 router.post('/totalcustomer',customerController.AllCustomer)
@@ -106,6 +110,7 @@ router.post('/customeridmid',customerController.CustomerIdMid)
 router.post('/idcountmaster',customerController.Idcountmaster)
 router.post('/insertidcountmaster',customerController.InsertIdcountmaster)
 router.post('/updateidcountmaster',customerController.UpdateIdcountmaster)
+router.post('/activecustomer',customerController.ActiveCustomer)
 
 
 
@@ -119,6 +124,7 @@ router.post('/totalvendor',vendorController.TotalVendor)
 router.post('/totalvendid',vendorController.TotalVendId)
 router.post('/importvendor',vendorController.ImportVendor)
 router.post('/vendormastid', vendorController.VendorMastid);
+router.post('/activevendor',vendorController.ActiveVendor)
 
 
 router.post('/insertcustaddress', AddressController.InsertCustomerAddress);
@@ -216,6 +222,7 @@ router.post('/totalaccountname',AccountnameController.TotalAccountName)
 router.post('/accountnamestatus',AccountnameController.AccountnameStatus)
 router.post('/selectaccountname',AccountnameController.SelectAccountName)
 router.post('/importaccountname',AccountnameController.ImportAccountName)
+router.post('/activeaccountname',AccountnameController.ActiveAccountName)
 
 
 
@@ -260,6 +267,20 @@ router.post('/deletepaymentterm',PaymentTermController.DeletePaymentTerm)
 router.post('/insertpaymentterm',PaymentTermController.InsertPaymentTerm)
 router.post('/showpaymentterm',PaymentTermController.ShowPaymentTerm)
 router.post('/updatepaymentterm',PaymentTermController.UpdatePaymentTerm)
+
+router.post('/totalchargecode',ChargeCodeController.TotalChargeCode)
+router.post('/deletechargecode',ChargeCodeController.deleteChargeCode)
+router.post('/addchargecode',ChargeCodeController.AddChargeCode)
+router.post('/getchargecode',ChargeCodeController.getChargeCode)
+router.post('/updatechargecode',ChargeCodeController.UpdateChargeCode)
+
+router.post('/totalcrm',CRMController.Totalcrm)
+router.post('/insertcrm',CRMController.insertcrm)
+router.post('/deletecrm',CRMController.deleteCrm)
+router.post('/getcrm',CRMController.getcrm)
+router.post('/updatecrm',CRMController.updatecrm)
+router.post('/activecrm',CRMController.Activecrm)
+
 
 
 

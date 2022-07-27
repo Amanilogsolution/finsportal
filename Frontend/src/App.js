@@ -254,7 +254,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/BillPayment" component={BillPayment}/>
           <Route exact path="/PaymentMade" component={PaymentMade}/>
 
-          <Route exact path="/Showfincialterm" component={ShowFincialTerm}/>
+          <Route exact path="/ShowPaymentTerm" component={ShowFincialTerm}/>
           <Route exact path="/AddPaymentTerm" component={AddPaymentTerm}/>
           <Route exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm}/>
 

@@ -9,6 +9,7 @@ const TotalPaymentTerm = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_payment_term with (nolock) order by sno desc`)
         res.send(result.recordset)
+        console.log(result.recordset)
     } catch (err) {
         res.send(err)
     }

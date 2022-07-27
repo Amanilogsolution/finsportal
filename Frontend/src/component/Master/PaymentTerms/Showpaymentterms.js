@@ -28,7 +28,7 @@ const columns = [
         <select onChange={async (e) => {
           const status = e.target.value;
           await DeletePaymentTerm(localStorage.getItem('Organisation'),status,row.sno )
-          window.location.href = 'Showfincialterm'
+          window.location.href = 'ShowPaymentTerm'
         }
         }>
           <option selected disabled hidden> {row.status}</option>
@@ -55,7 +55,7 @@ const columns = [
 ]
 
 const ShowFincialTerm = () => {
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState([])
 
 
 

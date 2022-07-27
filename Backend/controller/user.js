@@ -148,5 +148,15 @@ async function UpdateImage(req, res) {
     }
 }
 
+const Activeuser = async (req, res) => {
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select employee_name from FINSDB.dbo.tbl_usermaster where status='Active'`)
+        res.send(result.recordset)
+    } catch (err) {
+        res.send(err)
+    }
+}
 
-module.exports = { Totaluser, InsertUser, showuser, updateuser, deleteuser,ImportUser ,UpdateImage}
+
+module.exports = { Totaluser, InsertUser, showuser, updateuser, deleteuser,ImportUser ,UpdateImage,Activeuser}

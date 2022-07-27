@@ -87,4 +87,6 @@ const ImportAccountMinorCode = (req, res) => {
 
     })
 }
+
+
 module.exports = {TotalAccountMinorCode,AccountMinorCodeStatus,GetAccountMinorCode,UpdateAccountMinorCode,ImportAccountMinorCode}

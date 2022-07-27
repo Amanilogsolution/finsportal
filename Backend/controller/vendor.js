@@ -237,5 +237,18 @@ const ImportVendor = (req, res) => {
             })    })
 }
 
-module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,TotalVendId,TotalVendor, ImportVendor }
+const ActiveVendor =async (req,res)=>{
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT vend_name  from ${org}.dbo.tbl_new_vendor tnc where status='Active'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,TotalVendId,TotalVendor, ImportVendor ,ActiveVendor}
 

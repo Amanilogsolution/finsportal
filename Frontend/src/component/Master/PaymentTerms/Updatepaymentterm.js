@@ -29,7 +29,7 @@ import {updatePaymentterm,ShowPaymentTerm} from "../../../api";
        if(result == "Already"){
         alert('Already')
       }else{
-        window.location.href = '/Showfincialterm'
+        window.location.href = '/ShowPaymentTerm'
         localStorage.removeItem('TermSno')
       }
     }

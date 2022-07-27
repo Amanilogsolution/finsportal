@@ -333,4 +333,18 @@ const UpdateIdcountmaster = async (req, res) => {
     }
 }
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id,Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster }
+const ActiveCustomer = async (req,res)=>{
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT cust_name  from ${org}.dbo.tbl_new_customer tnc where status='Active'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id,Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster,ActiveCustomer }
