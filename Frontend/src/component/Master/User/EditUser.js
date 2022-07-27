@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { showuser } from '../../../api/index.js'
-import { UpdateUser } from '../../../api/index.js'
+import { showuser, UpdateUser, ActiveCustomer } from '../../../api/index.js'
+import { } from '../../../api/index.js'
 
 const EditUser = () => {
   const [data, setData] = useState({})
   const [authentication, setAuthentication] = useState('')
   const [passwordshow, setPasswordshow] = useState(false);
+  const [activecustomer, setActivecustomer] = useState([])
 
 
   useEffect(async () => {
@@ -23,6 +24,9 @@ const EditUser = () => {
       document.getElementById('noOTP').checked = true
       setAuthentication('Without OTP')
     }
+
+    const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
+    setActivecustomer(customer)
 
   }, [])
 
@@ -41,10 +45,13 @@ const EditUser = () => {
     const designation = document.getElementById('designation').value;
     const User_id = localStorage.getItem('User_id');
 
+    // console.log(customer)
     const result = await UpdateUser(localStorage.getItem('userSno'), employee_name,
       role, warehouse, user_name, password, email_id, phone, operate_mode,
       customer, reporting_to, designation, authentication, User_id);
-    if (result) {
+
+    if (result === 'done') {
+      alert('Data Updated')
       window.location.href = '/ShowUser'
     }
   }
@@ -182,7 +189,14 @@ const EditUser = () => {
                         <div className="form-row">
                           <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='customer' value={data.customer} onChange={(e) => handleChangecustomer(e)} />
+                            {/* <input type="text" /> */}
+                            <select className="form-control col-md-4" id='customer' onChange={(e) => handleChangecustomer(e)}>
+                              <option>{data.customer}</option>
+                              {
+                                activecustomer.map((item, index) =>
+                                  <option key={index}>{item.cust_name}</option>)
+                              }
+                            </select>
                           </div>
                           {/* form-group end.// */}
                         </div>

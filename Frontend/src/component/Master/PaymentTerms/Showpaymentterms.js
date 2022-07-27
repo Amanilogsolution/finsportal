@@ -83,7 +83,7 @@ const ShowFincialTerm = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Term</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddPaymentTerm" }} className="btn btn-primary">New Financial Term</button>
 
             <div className="container-fluid">
               <br />

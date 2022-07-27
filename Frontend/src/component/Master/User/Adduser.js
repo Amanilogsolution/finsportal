@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { InsertUser, insertUserLogin, UploadData } from '../../../api';
+import { InsertUser, insertUserLogin, UploadData, ActiveCustomer } from '../../../api';
 
 const AddUser = () => {
   const [authentication, setAuthentication] = useState('with otp')
+  const [activecustomer, setActivecustomer] = useState([])
   const [passwordshow, setPasswordshow] = useState(false);
   const [file, setFile] = useState('')
   const [user_profile_url, setUserProfile] = useState('')
+
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
+      console.log(customer)
+      setActivecustomer(customer)
+    }
+    fetchdata()
+  }, [])
 
   const handleSendFile = async (e) => {
     e.preventDefault()
@@ -31,6 +42,7 @@ const AddUser = () => {
     const customer = document.getElementById('customer').value;
     const reporting_to = document.getElementById('reporting_to').value;
     const designation = document.getElementById('designation').value;
+
 
     // console.log(employee_name, role, warehouse, user_name, password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication)
     if (!employee_name || !warehouse || !user_name || !password || !email_id || !phone || !customer) {
@@ -124,7 +136,14 @@ const AddUser = () => {
                         <div className="form-row">
                           <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='customer' placeholder="customer" />
+                            {/* <input type="text" className="form-control col-md-4" id='customer' placeholder="customer" /> */}
+                            <select className="form-control col-md-4" id='customer'>
+                              <option hidden>Select the Customer</option>
+                              {
+                                activecustomer.map((item, index) =>
+                                  <option key={index}>{item.cust_name}</option>)
+                              }
+                            </select>
                           </div>
                           {/* form-group end.// */}
                         </div>
