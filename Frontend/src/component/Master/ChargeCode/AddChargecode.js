@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {AddChargecodeapi} from "../../../api";
+import {AddChargecodeapi,ActiveAccountname} from "../../../api";
 
 
 const AddChargecode = () => {
-    const [data, setData] = useState({})
+    const [data, setData] = useState([{}])
 
     useEffect(() => {
         const fetchdata = async () => {
-            //   const result = await ShowPaymentTerm(localStorage.getItem('Organisation'),localStorage.getItem('TermSno'))
-            //   setData(result)
-            //   console.log(result)
-
+              const result = await ActiveAccountname(localStorage.getItem('Organisation'))
+              setData(result)
         }
         fetchdata()
     }, [])
@@ -30,7 +28,7 @@ const AddChargecode = () => {
         const org=  localStorage.getItem('Organisation');
         const user_id=localStorage.getItem('User_id');
 
-        console.log(description, short_name,nature,major_code,activity,sacHsncode,gstrate)
+        // console.log(description, short_name,nature,major_code,activity,sacHsncode,gstrate)
         if (!description || !short_name || !nature || !major_code || !activity  || !sacHsncode || !gstrate) {
             alert('Please Enter the mandatory field')
         }
@@ -69,50 +67,50 @@ const AddChargecode = () => {
                                             <form>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Description</label>
+                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Description<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='description'  />
                                                     </div>
                                                 </div>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Short Name</label>
+                                                    <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Short Name<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='short_name'   />
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
-                                                    <label htmlFor="nature" className="col-md-2 col-form-label font-weight-normal">Nature</label>
+                                                    <label htmlFor="nature" className="col-md-2 col-form-label font-weight-normal">Nature<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='nature'  />
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
-                                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code</label>
+                                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id='major_code' >
                                                             <option selected defaultValue hidden>select the major Code</option>
-                                                            <option >select the major Code1</option>
-                                                            <option >select the major Code2</option>
-                                                            <option >select the major Code3</option>
-                                                            <option >select the major Code4</option>
+                                                           {
+                                                            data.map((item)=>
+                                                            <option value={item.account_type}>{item.account_type}</option>)
+                                                           }
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
-                                                    <label htmlFor="activity" className="col-md-2 col-form-label font-weight-normal">Activity</label>
+                                                    <label htmlFor="activity" className="col-md-2 col-form-label font-weight-normal">Activity<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='activity'   />
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
-                                                    <label htmlFor="sacHsncoe" className="col-md-2 col-form-label font-weight-normal">SAC/HSN Code</label>
+                                                    <label htmlFor="sacHsncoe" className="col-md-2 col-form-label font-weight-normal">SAC/HSN Code<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='sacHsncode' />
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
-                                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)</label>
+                                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="number" className="form-control col-md-4" id='gstrate' maxLength={3} />
                                                     </div>

@@ -2,23 +2,29 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-// import { TotalPaymentTerm, DeletePaymentTerm } from '../../../api';
+import { TotalCrm,DeleteCrm } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
 
 const columns = [
   {
-    name: 'Term',
-    selector: row => row.term,
+    name: 'Person name',
+    selector: row => row.user_name,
     sortable: true
   },
 
   {
-    name: 'Term Days',
-    selector: row => row.term_days,
+    name: 'Type',
+    selector: row => row.type,
     sortable: true
   },
+  {
+    name: 'Customer/Vendor name',
+    selector: row => row.cust_vend,
+    sortable: true
+  },
+  
   {
     name: 'Status',
     sortable: true,
@@ -27,8 +33,8 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-        //   await DeletePaymentTerm(localStorage.getItem('Organisation'),status,row.sno )
-        //   window.location.href = 'Showfincialterm'
+            await DeleteCrm(localStorage.getItem('Organisation'),row.sno,status )
+            window.location.href = '/ShowCrm'
         }
         }>
           <option selected disabled hidden> {row.status}</option>
@@ -55,15 +61,15 @@ const columns = [
 ]
 
 const ShowCrm = () => {
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState([])
 
 
 
   useEffect(() => {
     const fetchdata = async () => {
-    //   const result = await TotalPaymentTerm(localStorage.getItem('Organisation'))
-    //   console.log(result)
-    //   setData(result)
+        const result = await TotalCrm(localStorage.getItem('Organisation'))
+        console.log(result)
+        setData(result)
     }
 
     fetchdata();
@@ -114,7 +120,6 @@ const ShowCrm = () => {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     </div>

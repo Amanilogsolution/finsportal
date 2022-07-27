@@ -2,33 +2,61 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-// import {updatePaymentterm,ShowPaymentTerm} from "../../../api";
-
+import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor, } from "../../../api";
+import Select from 'react-select';
 
 const EditCrm = () => {
     const [crmtype, setCrmType] = useState(false)
+    const [crmtypeval, setCrmtypeval] = useState('');
+    const [data, setData] = useState([])
+    const [customerlist, setCustomerlist] = useState([])
+    const [vendorlist, setVendorlist] = useState([])
+    const [custvendval, setCustvendval] = useState('');
 
     useEffect(() => {
         const fetchdata = async () => {
-            //   const result = await ShowPaymentTerm(localStorage.getItem('Organisation'),localStorage.getItem('TermSno'))
-            //   setData(result)
-            //   console.log(result)
+            const org = localStorage.getItem('Organisation');
+            const customer = await ActiveCustomer(org)
+            setCustomerlist(customer)
+            console.log(customer)
+            const vendor = await ActiveVendor(org)
+            setVendorlist(vendor)
+            console.log(vendor)
+            
+            const result = await GetCrm(org, localStorage.getItem('CrmmasterSno'))
+            setData(result)
+            console.log(result)
+
+            if (result.type === "vendor") {
+                document.getElementById('vendorid').checked = true;
+                setCrmtypeval(result.type)
+                setCrmType(false)
+            }
+            else {
+                document.getElementById('customerid').checked = true;
+                setCrmtypeval(result.type)
+                setCrmType(true)
+            }
 
         }
         fetchdata()
     }, [])
     const handleClick = async (e) => {
         e.preventDefault();
-        const description = document.getElementById("description").value;
-        const short_name = document.getElementById("short_name").value;
-        const nature = document.getElementById("nature").value;
+        const crmtype = crmtypeval;
+        const person_name = document.getElementById("person_name").value;
+        // const cust_vend_name = document.getElementById("cust_vend_name").value;
+        const cust_vend_name = custvendval.value ? custvendval.value : data.cust_vend;
 
-        console.log(description, short_name, nature)
-        if (!description || !short_name || !nature) {
+
+        console.log(crmtype, person_name, cust_vend_name)
+        if (!crmtype || !person_name || !cust_vend_name) {
             // alert('Enter data')
         }
         else {
-            // const result = await updatePaymentterm(localStorage.getItem('TermSno'), localStorage.getItem('Organisation'), paymentterm, paymentdays, localStorage.getItem('User_id'));
+            // sno,org,user_name,type,cust_vend,User_id
+
+            // const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), paymentterm, paymentdays, localStorage.getItem('User_id'));
             // if (result == "Already") {
             //     alert('Already')
             // } else {
@@ -44,11 +72,25 @@ const EditCrm = () => {
         console.log(e.target.value)
         if (e.target.value === 'Customer') {
             setCrmType(true)
+            setCrmtypeval(e.target.value)
         }
         else {
             setCrmType(false)
+            setCrmtypeval(e.target.value)
         }
 
+    }
+
+
+    let options = customerlist.map((ele) => {
+        return { value: ele.cust_name, label: ele.cust_name };
+    })
+    let options2 = vendorlist.map((ele) => {
+        return { value: ele.vend_name, label: ele.vend_name };
+    })
+
+    const handleCustvendval = (e) => {
+        setCustvendval(e)
     }
 
     return (
@@ -70,31 +112,41 @@ const EditCrm = () => {
                                             <form>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Type<span style={{color:"red"}}>*</span></label>
+                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Type<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <input type="radio" id='crmtype' name='crmtype' value='vendor' onChange={handletype} defaultChecked/> Vendor  &nbsp;
-                                                        <input type="radio" id='crmtype' name='crmtype' value='Customer' onChange={handletype} /> Customer
+                                                        <input type="radio" id='vendorid' name='crmtype' value='vendor' onChange={handletype} /> Vendor  &nbsp;
+                                                        <input type="radio" id='customerid' name='crmtype' value='Customer' onChange={handletype} /> Customer
                                                     </div>
                                                 </div>
 
                                                 <div className="form-row">
-                                                    <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{color:"red"}}>*</span></label>
+                                                    <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='short_name' />
+                                                        <input type="text" className="form-control col-md-4" id='person_name' value={data.user_name} />
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
-                                                    <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Customer/Vendor Name<span style={{color:"red"}}>*</span></label>
+                                                    <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Customer/Vendor Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
                                                         {
                                                             crmtype ?
-                                                                <select type="text" className="form-control col-md-4" id='short_name'  >
-                                                                    <option hidden>Select the Customer</option>
-                                                                </select>
+                                                                <Select
+                                                                    className="col-md-4 "
+                                                                    options={options}
+                                                                    isMulti={false}
+                                                                    onChange={handleCustvendval}
+                                                                    placeholder={data.cust_vend}
+                                                                />
                                                                 :
-                                                                <select type="text" className="form-control col-md-4" id='short_name'  >
-                                                                    <option hidden>Select the vendor</option>
-                                                                </select>
+
+                                                                <Select
+                                                                    className="col-md-4 "
+                                                                    options={options2}
+                                                                    isMulti={false}
+                                                                    onChange={handleCustvendval}
+                                                                    placeholder={data.cust_vend}
+                                                                />
+
                                                         }
 
 
@@ -104,7 +156,7 @@ const EditCrm = () => {
                                         </article>
                                         <div className="border-top card-body">
                                             <button className="btn btn-success" onClick={handleClick}>Update</button>
-                                            <button className="btn btn-light ml-3" onClick={() => {localStorage.removeItem('CrmmasterSno'); window.location.href = "./ShowCrm" }}>Cancel</button>
+                                            <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('CrmmasterSno'); window.location.href = "./ShowCrm" }}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>
