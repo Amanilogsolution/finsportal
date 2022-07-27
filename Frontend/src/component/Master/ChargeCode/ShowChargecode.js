@@ -2,21 +2,45 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalPaymentTerm, DeletePaymentTerm } from '../../../api';
+import { TotalChargecode, DeleteChargecode } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
 
 const columns = [
   {
-    name: 'Term',
-    selector: row => row.term,
+    name: 'Description',
+    selector: row => row.description,
     sortable: true
   },
 
   {
-    name: 'Term Days',
-    selector: row => row.term_days,
+    name: 'Short Name',
+    selector: row => row.short_name,
+    sortable: true
+  },
+  {
+    name: 'Nature',
+    selector: row => row.nature,
+    sortable: true
+  }, {
+    name: 'Major Code',
+    selector: row => row.major_code,
+    sortable: true
+  },
+  {
+    name: 'Activity',
+    selector: row => row.activity,
+    sortable: true
+  },
+  {
+    name: 'sac/Hsn Code',
+    selector: row => row.sacHsn,
+    sortable: true
+  },
+  {
+    name: 'GST Rate(in %)',
+    selector: row => row.gst_rate,
     sortable: true
   },
   {
@@ -27,11 +51,11 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeletePaymentTerm(localStorage.getItem('Organisation'),status,row.sno )
-          window.location.href = 'ShowPaymentTerm'
+          const result = await DeleteChargecode(localStorage.getItem('Organisation'), row.sno, status)
+          window.location.href = 'ShowChargecode'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -45,8 +69,8 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/UpdatePaymentTerm">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('TermSno', `${row.sno}`)} >Edit</button></a>
+      <a title='View Document' href="/EditChargecode">
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('ChargecodeSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }
@@ -54,14 +78,14 @@ const columns = [
 
 ]
 
-const ShowFincialTerm = () => {
-  const [data, setData] = useState([])
+const ShowChargecode = () => {
+  const [data, setData] = useState([{}])
 
 
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await TotalPaymentTerm(localStorage.getItem('Organisation'))
+      const result = await TotalChargecode(localStorage.getItem('Organisation'))
       console.log(result)
       setData(result)
     }
@@ -83,12 +107,12 @@ const ShowFincialTerm = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddPaymentTerm" }} className="btn btn-primary">New Financial Term</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddChargecode" }} className="btn btn-primary">Add Chargecode</button>
 
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5">Financial Terms</h3>
+              <h3 className="text-left ml-5">Total Charge code</h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">
@@ -122,4 +146,4 @@ const ShowFincialTerm = () => {
 
 }
 
-export default ShowFincialTerm
+export default ShowChargecode;

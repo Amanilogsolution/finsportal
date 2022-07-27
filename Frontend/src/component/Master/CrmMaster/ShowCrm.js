@@ -2,23 +2,29 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalPaymentTerm, DeletePaymentTerm } from '../../../api';
+import { TotalCrm, DeleteCrm } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
 
 const columns = [
   {
-    name: 'Term',
-    selector: row => row.term,
+    name: 'Person name',
+    selector: row => row.user_name,
     sortable: true
   },
 
   {
-    name: 'Term Days',
-    selector: row => row.term_days,
+    name: 'Type',
+    selector: row => row.type,
     sortable: true
   },
+  {
+    name: 'Customer/Vendor name',
+    selector: row => row.cust_vend,
+    sortable: true
+  },
+
   {
     name: 'Status',
     sortable: true,
@@ -27,8 +33,8 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeletePaymentTerm(localStorage.getItem('Organisation'),status,row.sno )
-          window.location.href = 'ShowPaymentTerm'
+          await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
+          window.location.href = '/ShowCrm'
         }
         }>
           <option selected disabled hidden> {row.status}</option>
@@ -45,8 +51,8 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/UpdatePaymentTerm">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('TermSno', `${row.sno}`)} >Edit</button></a>
+      <a title='View Document' href="/EditCrm">
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }
@@ -54,15 +60,14 @@ const columns = [
 
 ]
 
-const ShowFincialTerm = () => {
+const ShowCrm = () => {
   const [data, setData] = useState([])
 
 
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await TotalPaymentTerm(localStorage.getItem('Organisation'))
-      console.log(result)
+      const result = await TotalCrm(localStorage.getItem('Organisation'))
       setData(result)
     }
 
@@ -83,12 +88,12 @@ const ShowFincialTerm = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddPaymentTerm" }} className="btn btn-primary">New Financial Term</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
 
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5">Financial Terms</h3>
+              <h3 className="text-left ml-5"> Crm Master </h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">
@@ -114,7 +119,6 @@ const ShowFincialTerm = () => {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     </div>
@@ -122,4 +126,4 @@ const ShowFincialTerm = () => {
 
 }
 
-export default ShowFincialTerm
+export default ShowCrm;

@@ -19,11 +19,12 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
     useEffect (async()=>{
       const result = await ShowCustomer(localStorage.getItem('CustSno'),localStorage.getItem('Organisation'))
       setData(result)
-      const fullname = result.cust_name
-      const Split = fullname.split(' ')
-      if(Split.length>2){Split.shift()}
-      setFirstname(Split[0])
-      setLastname(Split[1])
+      // console.log(result)
+      // const fullname = result.cust_name
+      // const Split = fullname.split(' ')
+      // if(Split.length>2){Split.shift()}
+      // setFirstname(Split[0])
+      // setLastname(Split[1])
 
       if(result.cust_type='Individual'){
         document.getElementById('Individual').checked = true
@@ -270,21 +271,31 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 </span>
                               </div>
                             </label>
-                            <div className=" form-group">
+                              <div className="col form-group">
+                              <input
+                                type="text"
+                                className="form-control col-md-4"
+                                placeholder="Name"
+                                value={data.cust_name}
+                                id="customer_lastname"
+                                disabled
+                              />
+                            </div>
+                            {/* <div className=" form-group">
                               <select
                                 id="inputState"
                                 className="form-control col-md-"
                               >
-                                <option selected> Salutation</option>
+                                <option selected hidden> Salutation</option>
                                 <option>Mr.</option>
                                 <option>Mrs.</option>
                                 <option>Ms.</option>
                                 <option>Miss.</option>
                                 <option>Dr.</option>
                               </select>
-                            </div>
+                            </div> */}
                             {/* form-group end.// */}
-                            <div className="col form-group">
+                            {/* <div className="col form-group">
                               <input
                                 type="text"
                                 className="form-control"
@@ -293,9 +304,9 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 id="customer_firstname"
                                 disabled
                               />
-                            </div>
+                            </div> */}
                             {/* form-group end.// */}
-                            <div className="col form-group">
+                            {/* <div className="col form-group">
                               <input
                                 type="text"
                                 className="form-control"
@@ -304,7 +315,7 @@ import {ShowCustomer,UpdateCustomer} from '../../api';
                                 id="customer_lastname"
                                 disabled
                               />
-                            </div>
+                            </div> */}
                             {/* form-group end.// */}
                           </div>
   

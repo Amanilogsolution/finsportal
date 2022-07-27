@@ -5,7 +5,7 @@ import Footer from "../../Footer/Footer";
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
-    const [amount,setAmount]= useState()
+    const [amount, setAmount] = useState()
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -14,17 +14,17 @@ function Invoices() {
         }
     }
 
-    const handleChangeQuantity =(e)=>{
+    const handleChangeQuantity = (e) => {
         e.preventDefault()
         console.log(e.target.value)
     }
 
-    const handleBlur = ()=> {
+    const handleBlur = () => {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
-        console.log(quality,rate)
-        console.log(quality*rate)
-        setAmount(quality*rate)
+        console.log(quality, rate)
+        console.log(quality * rate)
+        setAmount(quality * rate)
     }
 
     const handleAdd = (e) => {
@@ -79,7 +79,7 @@ function Invoices() {
                                                         <option defaultValue hidden>Choose</option>
 
                                                     </select>
-                                                    <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
+                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
@@ -98,43 +98,48 @@ function Invoices() {
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
+
                                                 <div className="d-flex col-md-3">
+                                                    <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
+
                                                     <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
                                                 </div>
 
-                                                <label className="col-md-1 col-form-label font-weight-normal" >Terms</label>
 
-                                                <div className="d-flex col-md-2">
-                                                <select
+                                                <div className="d-flex col-md-5">
+                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
+
+                                                    <select
                                                         id="AccountType"
-                                                        className="form-control"
+                                                        className="col-md-6  mr-0 form-control"
+
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Date on Receipt</option>
-                                                        <option >Net 15</option>
+                                                        <option hidden>Date on Receipt</option>
+                                                        {/* <option >Net 15</option>
                                                         <option >Net 30</option>
                                                         <option >Net 45</option>
                                                         <option >Due end of the Month</option>
                                                         <option >Due end of next Month</option>
                                                         <option >Due of Receipt</option>
-                                                        <option >Custom</option>
-                                                    </select>                                              
-                                                 </div>
-                                                 <label className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
+                                                        <option >Custom</option> */}
+                                                    </select>
+                                                </div>
 
-                                                <div className="d-flex col-md-3">
-                                                <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
-                            
-                                                 </div>
+                                                <div className="d-flex col-md-3" >
+                                                <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
+                                                    <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
+
+                                                </div>
                                             </div>
+                                            
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 " > </label>
                                                 <div className="d-flex col-md-4">
                                                     <small>To create transaction dated before 01/07/2017</small>
                                                 </div>
                                             </div>
-                                          
+
 
                                             <hr />
 
@@ -151,13 +156,13 @@ function Invoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                <textarea  className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
+                                                    <textarea className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
 
                                                 </div>
                                             </div>
                                             <hr />
 
-                                         
+
                                             <table class="table">
                                                 <thead>
                                                     <th scope="col">Iteam Details</th>
@@ -171,7 +176,7 @@ function Invoices() {
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td>{amount}</td>
                                                             </tr>
 

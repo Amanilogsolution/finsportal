@@ -116,6 +116,20 @@ import ShowFincialTerm from './component/Master/PaymentTerms/Showpaymentterms';
 import AddPaymentTerm from './component/Master/PaymentTerms/Addpaymentterm';
 import UpdatePaymentTerm from './component/Master/PaymentTerms/Updatepaymentterm'
 
+
+import ShowChargecode from './component/Master/ChargeCode/ShowChargecode'
+import EditChargecode from './component/Master/ChargeCode/EditChargecode'
+import AddChargecode from './component/Master/ChargeCode/AddChargecode'
+
+
+import AddCrm from './component/Master/CrmMaster/AddCrm'
+import EditCrm from './component/Master/CrmMaster/EditCrm'
+import ShowCrm from './component/Master/CrmMaster/ShowCrm'
+
+
+
+
+
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 
@@ -243,6 +257,17 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/ShowPaymentTerm" component={ShowFincialTerm}/>
           <Route exact path="/AddPaymentTerm" component={AddPaymentTerm}/>
           <Route exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm}/>
+
+          
+          <Route exact path="/ShowChargecode" component={ShowChargecode}/>
+          <Route exact path="/AddChargecode" component={AddChargecode}/>
+          <Route exact path="/EditChargecode" component={EditChargecode}/>
+
+
+          <Route exact path="/AddCrm" component={AddCrm}/>
+          <Route exact path="/EditCrm" component={EditCrm}/>
+          <Route exact path="/ShowCrm" component={ShowCrm}/>
+          
 
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

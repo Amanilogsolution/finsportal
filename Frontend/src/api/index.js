@@ -82,7 +82,7 @@ export const addstates = async (state_name, country_name, state_code, state_shor
     return axios.post(url, { state_name, country_name, state_code, state_short_name, select_type, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const getstates = async () => {
-    const url = `http://192.168.146.103:3008/api/totalstate`
+    const url = `http://localhost:3008/api/totalstate`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 export const deletestate = async (sno, status) => {
@@ -90,7 +90,7 @@ export const deletestate = async (sno, status) => {
     return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 export const showstate = async (sno) => {
-    const url = `http://192.168.146.103:3008/api/showstate`
+    const url = `http://localhost:3008/api/showstate`
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -296,7 +296,7 @@ export const ImportBank = async (data, org, User_id) => {
 
 // ###################### User api start #############################
 export const TotalUser = async () => {
-    const url = `http://192.168.146.103:3008/api/totaluser`
+    const url = `http://localhost:3008/api/totaluser`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -310,7 +310,7 @@ export const InsertUser = async (employee_name, role, warehouse, username, passw
 }
 
 export const showuser = async (sno) => {
-    const url = `http://192.168.146.103:3008/api/showuser`
+    const url = `http://localhost:3008/api/showuser`
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -332,6 +332,12 @@ export const ImportUser = async (data, org, org_name, User_id) => {
     const url = `http://localhost:3008/api/importuser`
     return axios.post(url, { data, org, org_name, User_id }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ActiveUser = async () => {
+    const url = `http://192.168.146.136:3008/api/activeuser`
+    return axios.post(url, { }).then(response => response.data).catch(error => console.log(error));
+}
+
 // ###################### User api end      #############################
 
 
@@ -414,9 +420,19 @@ export const ImportCustomer = async (data, org, User_id) => {
     return axios.post(url, { data, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const ActiveCustomer = async ( org) => {
+    const url = `http://192.168.146.136:3008/api/activecustomer`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
 // ###################### Customer and Id controller  api start #############################
 
 // ###################### Vendor api start #############################
+
+
+
 
 
 export const InsertVendor = async (mast_id, vend_id, vend_name,
@@ -501,6 +517,11 @@ export const TotalVendId = async (org, mast_id) => {
 export const ImportVendor = async (data, org, User_id) => {
     const url = `http://localhost:3008/api/importvendor`
     return axios.post(url, { data, org, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ActiveVendor = async ( org) => {
+    const url = `http://192.168.146.136:3008/api/activevendor`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const CustInsertAddress = async (org, userid, cust_id, cust_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax) => {
@@ -994,4 +1015,80 @@ export const updatePaymentterm = async (sno,org,term,term_days,User_id) => {
     return axios.post(url, {sno,org,term,term_days,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
+ // ###########################  PaymentTerm api end ############################
 
+
+ // ###########################  Charge Code api start ############################
+
+ export const TotalChargecode = async (org) => {
+    const url = `http://192.168.146.136:3008/api/totalchargecode`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const AddChargecodeapi = async (org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id) => {
+    const url = `http://192.168.146.136:3008/api/addchargecode`
+    return axios.post(url, { org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const GetChargecode = async (org,sno) => {
+    const url = `http://192.168.146.136:3008/api/getchargecode`
+    return axios.post(url, { org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const DeleteChargecode = async (org,sno,status) => {
+    console.log(org,sno,status)
+    const url = `http://192.168.146.136:3008/api/deletechargecode`
+    return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateChargecode = async (sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id) => {
+    console.log(sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id)
+    const url = `http://192.168.146.136:3008/api/updatechargecode`
+    return axios.post(url, { sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+ export const ActiveAccountname = async (org) => {
+    const url = `http://192.168.146.136:3008/api/activeaccountname`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+ // ###########################  Charge Code api End ############################
+
+
+
+ // ###########################  CRM Master api Start ############################
+
+
+ export const InsertCrm = async (org,user_name,type,cust_vend,User_id) => {
+    const url = `http://192.168.146.136:3008/api/insertcrm`
+    return axios.post(url, { org,user_name,type,cust_vend,User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const TotalCrm = async (org) => {
+    const url = `http://192.168.146.136:3008/api/totalcrm`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const DeleteCrm = async (org,sno,status) => {
+    const url = `http://192.168.146.136:3008/api/deletecrm`
+    return axios.post(url, { org,sno,status }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const GetCrm = async (org,sno) => {
+    const url = `http://192.168.146.136:3008/api/getcrm`
+    return axios.post(url, { org,sno }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateCrm = async (sno,org,user_name,type,cust_vend,User_id) => {
+    console.log('API',sno,org,user_name,type,cust_vend,User_id)
+    const url = `http://192.168.146.136:3008/api/updatecrm`
+    return axios.post(url, { sno,org,user_name,type,cust_vend,User_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
+
+ // ###########################  CRM Master api END ############################
