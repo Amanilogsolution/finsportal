@@ -1,11 +1,63 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
+import {ActiveCustomer,ActivePaymentTerm,ActiveUser} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
-    const [amount, setAmount] = useState()
+    const [activecustomer,setActiveCustomer] = useState([])
+    const [activepaymentterm,setActivePaymentTerm] = useState([])
+    const [activeuser,setActiveUser] = useState([]) 
+
+    const [amount, setAmount] = useState([])
+    const [quantity,setQuantity] = useState()
+    const [grandtotal,setGrandTotal] = useState(0)
+   
+    useEffect(() => {
+        const fetchdata = async()=>{
+            const result = await ActiveCustomer(localStorage.getItem('Organisation'))
+            setActiveCustomer(result)
+            const result1 = await ActivePaymentTerm(localStorage.getItem('Organisation'))
+            setActivePaymentTerm(result1)
+            const result2 = await ActiveUser()
+            setActiveUser(result2)
+            console.log(result2)
+
+            Todaydate()
+        }
+        fetchdata()
+    },[])
+
+    const Todaydate = () => {
+        var date = new Date();
+        var myDate = new Date(new Date().getTime()+(180*24*60*60*1000));
+
+        var day = date.getDate() ;
+        console.log(myDate)
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("Invoicedate").value = today;
+    }
+
+    const handleAccountTerm =(e) =>{
+        const days = Number(e.target.value)
+
+        var myDate = new Date(new Date().getTime()+(days*24*60*60*1000));
+        var day = myDate.getDate() ;
+        console.log(myDate)
+        var month = myDate.getMonth() + 1;
+        var year = myDate.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("Duedate").value = today;
+
+    }
+
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -13,35 +65,57 @@ function Invoices() {
             document.getElementById("Upload").click()
         }
     }
+    const handleChangerate =(e)=>{
 
-    const handleChangeQuantity = (e) => {
-        e.preventDefault()
-        console.log(e.target.value)
+        let Total = quantity*e.target.value
+        console.log(typeof(Total))
+        setTimeout(() => {
+            setAmount([...amount,Total])
+            console.log(amount)
+        },1000)
+       
+
     }
+
+    // const handleChangeQuantity = (e) => {
+    //     e.preventDefault()
+    //     console.log(e.target.value)
+    // }
 
     const handleBlur = () => {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
         console.log(quality, rate)
         console.log(quality * rate)
+
         setAmount(quality * rate)
     }
 
     const handleAdd = (e) => {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
+        var sum = 0
+         amount.map((item)=> sum+=item)
+         setGrandTotal(sum)
+     
+
         // setAmount(0)
     }
 
     const handleRemove = (e) => {
         e.preventDefault()
         var newvalue = [...totalValues]
+        var Amount = [...amount]
         console.log(newvalue.length)
         if (newvalue.length == 1) {
             setTotalValues(newvalue)
+            setAmount(Amount)
+
 
         } else {
             newvalue.pop()
+            Amount.pop()
+            setAmount(Amount)
 
             setTotalValues(newvalue)
         }
@@ -77,6 +151,12 @@ function Invoices() {
                                                     // onChange={handleAccountType}
                                                     >
                                                         <option defaultValue hidden>Choose</option>
+                                                        {
+                                                            activecustomer.map(items=>(
+                                                                <option key={items.cust_name} value={items.cust_name} >{items.cust_name}</option>
+
+                                                            ))
+                                                        }
 
                                                     </select>
                                                     {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
@@ -102,7 +182,7 @@ function Invoices() {
                                                 <div className="d-flex col-md-3">
                                                     <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
 
-                                                    <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
+                                                    <input type="date" className="form-control col-md-6" id="Invoicedate" disabled/>
                                                 </div>
 
 
@@ -113,22 +193,20 @@ function Invoices() {
                                                         id="AccountType"
                                                         className="col-md-6  mr-0 form-control"
 
-                                                    // onChange={handleAccountType}
+                                                    onChange={handleAccountTerm}
                                                     >
                                                         <option hidden>Date on Receipt</option>
-                                                        {/* <option >Net 15</option>
-                                                        <option >Net 30</option>
-                                                        <option >Net 45</option>
-                                                        <option >Due end of the Month</option>
-                                                        <option >Due end of next Month</option>
-                                                        <option >Due of Receipt</option>
-                                                        <option >Custom</option> */}
+                                                     {
+                                                        activepaymentterm.map((item)=>(
+                                                            <option key={item.term_days} value={item.term_days}>{item.term}</option>
+                                                        ))
+                                                     }
                                                     </select>
                                                 </div>
 
                                                 <div className="d-flex col-md-3" >
                                                 <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                    <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
+                                                    <input type="date" className="form-control col-md-6" id="Duedate" disabled/>
 
                                                 </div>
                                             </div>
@@ -147,7 +225,13 @@ function Invoices() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Choose a proper challan type</option>
+                                                        <option defaultValue hidden>Choose Salesperson</option>
+                                                        {
+                                                            activeuser.map((items)=>(
+                                                                <option key={items.employee_name} value={items.employee_name}>{items.employee_name}</option>
+
+                                                            ))
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
@@ -175,9 +259,12 @@ function Invoices() {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
-                                                                <td>{amount}</td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onChange={(e)=>{
+                                                                    const quantity = e.target.value
+                                                                    setQuantity(quantity)
+                                                                }} placeholder="0" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onChange={handleChangerate} placeholder="0.00" /></td>
+                                                                <td>{amount[index]}</td>
                                                             </tr>
 
                                                         ))
@@ -187,8 +274,6 @@ function Invoices() {
                                             </table>
                                             <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
                                             <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
-
-
 
                                             <hr />
 
@@ -209,7 +294,7 @@ function Invoices() {
                                                             <tr>
                                                                 <td>Sub Total</td>
                                                                 <td></td>
-                                                                <td>0.00</td>
+                                                                <td>{grandtotal}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Discount</td>
@@ -230,7 +315,7 @@ function Invoices() {
                                                             <tr>
                                                                 <td><h3>Total(₹)</h3></td>
                                                                 <td></td>
-                                                                <td>0.00</td>
+                                                                <td>$ 0</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

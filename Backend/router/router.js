@@ -267,6 +267,7 @@ router.post('/deletepaymentterm',PaymentTermController.DeletePaymentTerm)
 router.post('/insertpaymentterm',PaymentTermController.InsertPaymentTerm)
 router.post('/showpaymentterm',PaymentTermController.ShowPaymentTerm)
 router.post('/updatepaymentterm',PaymentTermController.UpdatePaymentTerm)
+router.post('/activepaymentterm',PaymentTermController.ActivePaymentTerm)
 
 router.post('/totalchargecode',ChargeCodeController.TotalChargeCode)
 router.post('/deletechargecode',ChargeCodeController.deleteChargeCode)

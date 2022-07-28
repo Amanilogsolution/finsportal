@@ -85,6 +85,20 @@ const UpdatePaymentTerm = async (req, res) => {
         console.log(err)
     }
 }
+const ActivePaymentTerm = async (req,res)=>{
+    const org = req.body.org;
+
+    try{
+        await sql.connect(sqlConfig)
+          const result = await sql.query(`SELECT term,term_days from ${org}.dbo.tbl_payment_term `)
+          res.send(result.recordset)
+
+    }
+    catch(err){
+        console.log(err)
+    }
+
+}
 
 
-module.exports={TotalPaymentTerm,DeletePaymentTerm,InsertPaymentTerm,ShowPaymentTerm,UpdatePaymentTerm}
+module.exports={TotalPaymentTerm,DeletePaymentTerm,InsertPaymentTerm,ShowPaymentTerm,UpdatePaymentTerm,ActivePaymentTerm}
