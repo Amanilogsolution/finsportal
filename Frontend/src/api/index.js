@@ -1014,6 +1014,12 @@ export const updatePaymentterm = async (sno,org,term,term_days,User_id) => {
     const url = `http://localhost:3008/api/updatepaymentterm`
     return axios.post(url, {sno,org,term,term_days,User_id}).then(response => response.data).catch(error => console.log(error));
 }
+export const ActivePaymentTerm = async (org) => {
+    const url = `http://localhost:3008/api/activepaymentterm`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+
 
  // ###########################  PaymentTerm api end ############################
 

@@ -83,7 +83,7 @@ const AddCrm = () => {
                 <div>
                     <div className="content-wrapper">
                         <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Add CRM Master</h3>
+                            <br /> <h3 className="text-left ml-5">Add CRM </h3>
                             <div className="row ">
                                 <div className="col ml-5">
                                     <div className="card" style={{ width: "100%" }}>
