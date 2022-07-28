@@ -1,21 +1,27 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {ActiveCustomer,ActivePaymentTerm,ActiveUser} from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
-    const [activecustomer,setActiveCustomer] = useState([])
-    const [activepaymentterm,setActivePaymentTerm] = useState([])
-    const [activeuser,setActiveUser] = useState([]) 
-     const [gst,setGst] =useState('0.00')
+    const [activecustomer, setActiveCustomer] = useState([])
+    const [activepaymentterm, setActivePaymentTerm] = useState([])
+    const [activeuser, setActiveUser] = useState([])
+    const [gstvalue, setGstvalue] = useState('0.00')
     const [amount, setAmount] = useState([])
-    const [quantity,setQuantity] = useState()
-    const [grandtotal,setGrandTotal] = useState(0)
-   
+    const [quantity, setQuantity] = useState()
+    const [grandtotal, setGrandTotal] = useState(0)
+
+    const [adjust, setAdjust] = useState(0)
+    const [totalamout, setTotalamount] = useState(0)
+
+
+    const [gst, setGst] = useState(0)
+
     useEffect(() => {
-        const fetchdata = async()=>{
+        const fetchdata = async () => {
             const result = await ActiveCustomer(localStorage.getItem('Organisation'))
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(localStorage.getItem('Organisation'))
@@ -27,13 +33,13 @@ function Invoices() {
             Todaydate()
         }
         fetchdata()
-    },[])
+    }, [])
 
     const Todaydate = () => {
         var date = new Date();
-        var myDate = new Date(new Date().getTime()+(180*24*60*60*1000));
+        var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
 
-        var day = date.getDate() ;
+        var day = date.getDate();
         console.log(myDate)
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
@@ -43,11 +49,11 @@ function Invoices() {
         document.getElementById("Invoicedate").value = today;
     }
 
-    const handleAccountTerm =(e) =>{
+    const handleAccountTerm = (e) => {
         const days = Number(e.target.value)
 
-        var myDate = new Date(new Date().getTime()+(days*24*60*60*1000));
-        var day = myDate.getDate() ;
+        var myDate = new Date(new Date().getTime() + (days * 24 * 60 * 60 * 1000));
+        var day = myDate.getDate();
         console.log(myDate)
         var month = myDate.getMonth() + 1;
         var year = myDate.getFullYear();
@@ -65,15 +71,15 @@ function Invoices() {
             document.getElementById("Upload").click()
         }
     }
-    const handleChangerate =(e)=>{
+    const handleChangerate = (e) => {
 
-        let Total = quantity*e.target.value
-        console.log(typeof(Total))
+        let Total = quantity * e.target.value
+        console.log(typeof (Total))
         setTimeout(() => {
-            setAmount([...amount,Total])
+            setAmount([...amount, Total])
             console.log(amount)
-        },1000)
-       
+        }, 1000)
+
 
     }
 
@@ -94,9 +100,9 @@ function Invoices() {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
         var sum = 0
-         amount.map((item)=> sum+=item)
-         setGrandTotal(sum)
-     
+        amount.map((item) => sum += item)
+        setGrandTotal(sum)
+
 
         // setAmount(0)
     }
@@ -141,19 +147,49 @@ function Invoices() {
     //     }
     // }
 
-    const handlechangegst=(e)=>{
+    const handlechangegst = (e) => {
         e.preventDefault();
-        document.getElementById('gstipt').style.border = 'none';
-        document.getElementById('gstipt').style.boxShadow = 'none';
-        const gstval= e.target.value;
-        if(gstval>100){
-            document.getElementById('gstipt').style.border = '1px solid red';
-            document.getElementById('gstipt').style.boxShadow = '1px 1px 5px red';
-            setGst('0.00')
-        }
 
+        const cgst = document.getElementById('cgstipt').value;
+        const sgst = document.getElementById('sgstipt').value;
+        const utgst = document.getElementById('utgstipt').value;
+        const igst = document.getElementById('igstipt').value;
+
+        const totalgst = Number(cgst) + Number(sgst) + Number(utgst) + Number(igst);
+
+        if (totalgst > 100) {
+            document.getElementById('gstipt').style.border = '1px solid red';
+            document.getElementById('gstipt').style.boxShadow = '1px 1px 5px red'
+            setGst(0)
+        }
+        else {
+            setGst(totalgst)
+            const totalgstvalue = grandtotal * (totalgst / 100)
+            console.log(grandtotal)
+            console.log(totalgstvalue)
+            setGstvalue(totalgstvalue)
+            const tamount = grandtotal + totalgstvalue;
+            setTotalamount(tamount)
+        }
     }
 
+    const handleadjust = (e) => {
+        e.preventDefault();
+        const adjustment = document.getElementById('adjust').value
+
+        if (adjustment > grandtotal) {
+            document.getElementById('adjust').style.border = '1px solid red';
+            document.getElementById('adjust').style.boxShadow = '1px 1px 5px red'
+        }
+        else {
+            document.getElementById('adjust').style.border = 'none';
+            document.getElementById('adjust').style.boxShadow = 'none'
+            setAdjust(adjustment)
+
+            const tamount = grandtotal + gstvalue - adjustment
+            setTotalamount(tamount)
+        }
+    }
 
     return (
         <div>
@@ -187,7 +223,7 @@ function Invoices() {
                                                     >
                                                         <option defaultValue hidden>Choose</option>
                                                         {
-                                                            activecustomer.map(items=>(
+                                                            activecustomer.map(items => (
                                                                 <option key={items.cust_name} value={items.cust_name} >{items.cust_name}</option>
 
                                                             ))
@@ -217,7 +253,7 @@ function Invoices() {
                                                 <div className="d-flex col-md-3">
                                                     <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
 
-                                                    <input type="date" className="form-control col-md-6" id="Invoicedate" disabled/>
+                                                    <input type="date" className="form-control col-md-6" id="Invoicedate" disabled />
                                                 </div>
 
 
@@ -228,24 +264,24 @@ function Invoices() {
                                                         id="AccountType"
                                                         className="col-md-6  mr-0 form-control"
 
-                                                    onChange={handleAccountTerm}
+                                                        onChange={handleAccountTerm}
                                                     >
                                                         <option hidden>Date on Receipt</option>
-                                                     {
-                                                        activepaymentterm.map((item)=>(
-                                                            <option key={item.term_days} value={item.term_days}>{item.term}</option>
-                                                        ))
-                                                     }
+                                                        {
+                                                            activepaymentterm.map((item) => (
+                                                                <option key={item.term_days} value={item.term_days}>{item.term}</option>
+                                                            ))
+                                                        }
                                                     </select>
                                                 </div>
 
                                                 <div className="d-flex col-md-3" >
-                                                <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                    <input type="date" className="form-control col-md-6" id="Duedate" disabled/>
+                                                    <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
+                                                    <input type="date" className="form-control col-md-6" id="Duedate" disabled />
 
                                                 </div>
                                             </div>
-                                            
+
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 " > </label>
                                                 <div className="d-flex col-md-4">
@@ -262,7 +298,7 @@ function Invoices() {
                                                     <select id="AccountType" className="form-control">
                                                         <option defaultValue hidden>Choose Salesperson</option>
                                                         {
-                                                            activeuser.map((items)=>(
+                                                            activeuser.map((items) => (
                                                                 <option key={items.employee_name} value={items.employee_name}>{items.employee_name}</option>
 
                                                             ))
@@ -282,19 +318,21 @@ function Invoices() {
                                             <hr />
 
 
-                                            <table class="table">
+                                            <table className="table">
                                                 <thead>
+                                                <tr>
                                                     <th scope="col">Iteam Details</th>
                                                     <th scope="col">Quality</th>
                                                     <th scope="col">Rate</th>
                                                     <th scope="col">Amount</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                     {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onChange={(e)=>{
+                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onChange={(e) => {
                                                                     const quantity = e.target.value
                                                                     setQuantity(quantity)
                                                                 }} placeholder="0" /></td>
@@ -350,16 +388,64 @@ function Invoices() {
                                                                 <td>{descount}</td>
                                                             </tr> */}
                                                             <tr >
-                                                                <td>GST (GST Type)</td>
+                                                                <td>CGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="text" className="form-control col-md-5" id='gstipt' onChange={handlechangegst}/>
+                                                                        <input type="number" className="form-control col-md-5" id='cgstipt' onChange={handlechangegst} />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td > {gst}</td>
+
+                                                            </tr>
+                                                            <tr >
+                                                                <td>SGST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className="form-control col-md-5" id='sgstipt' onChange={handlechangegst} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr >
+                                                                <td>UTGST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className="form-control col-md-5" id='utgstipt' onChange={handlechangegst} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr >
+                                                                <td>IGST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' onChange={handlechangegst} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                {/* <td > {gst}</td> */}
+                                                            </tr>
+                                                            <tr >
+                                                                <td>Total GST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className="form-control col-md-5" id='gstipt ' value={gst} disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td > {gstvalue}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
@@ -367,10 +453,13 @@ function Invoices() {
                                                                 </td>
                                                                 <td>
                                                                     <div className="input-group mb-1">
-                                                                        <input type="text" className="form-control col-md-5" />
+                                                                        <input type="number" className="form-control col-md-5" id="adjust" onBlur={handleadjust} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">₹</span>
+                                                                        </div>
                                                                     </div>
                                                                 </td>
-                                                                <td>-0.00</td>
+                                                                <td>-{adjust}</td>
                                                             </tr>
 
                                                             {/* <br /> */}
@@ -378,16 +467,16 @@ function Invoices() {
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total(₹)</h3></td>
                                                                 <td></td>
-                                                                <td>$ 0</td>
+                                                                <td>{totalamout}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
 
                                                 </div>
                                             </div>
-                                            <hr />
-                                            <div style={{ display: "flex" }}>
-                                                <div style={{ width: "55%" }}>
+                                            {/* <hr /> */}
+                                            {/* <div style={{ display: "flex" }}> */}
+                                            {/* <div style={{ width: "55%" }}>
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
                                                         <div className="d-flex col-md">
@@ -395,8 +484,8 @@ function Invoices() {
                                                         </div>
 
                                                     </div>
-                                                </div>
-                                                <div style={{ width: "40%", marginLeft: "3px", padding: "10px 10px 10px 10px", borderLeft: "1px solid grey" }}>
+                                                </div> */}
+                                            {/* <div style={{ width: "40%", marginLeft: "3px", padding: "10px 10px 10px 10px", borderLeft: "1px solid grey" }}>
                                                     <label className="font-weight-normal" >Attach file(s) to Estimate</label>
                                                     <input type="file" id="Upload" style={{ visibility: "hidden" }} />
                                                     <div style={{ marginLeft: "10px" }}>
@@ -409,8 +498,8 @@ function Invoices() {
                                                     </div>
                                                     <small>You can upload a maximum size 5MB</small>
 
-                                                </div>
-                                            </div>
+                                                </div> */}
+                                            {/* </div> */}
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>

@@ -334,7 +334,7 @@ export const ImportUser = async (data, org, org_name, User_id) => {
 }
 
 export const ActiveUser = async () => {
-    const url = `http://192.168.146.136:3008/api/activeuser`
+    const url = `http://localhost:3008/api/activeuser`
     return axios.post(url, { }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -421,7 +421,7 @@ export const ImportCustomer = async (data, org, User_id) => {
 }
 
 export const ActiveCustomer = async ( org) => {
-    const url = `http://192.168.146.136:3008/api/activecustomer`
+    const url = `http://localhost:3008/api/activecustomer`
     return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -430,10 +430,6 @@ export const ActiveCustomer = async ( org) => {
 // ###################### Customer and Id controller  api start #############################
 
 // ###################### Vendor api start #############################
-
-
-
-
 
 export const InsertVendor = async (mast_id, vend_id, vend_name,
     company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation, department,
@@ -552,7 +548,6 @@ export const SelectCustAddress = async (cust_name, org) => {
 }
 
 export const Importcustaddress = async (importdata, org, User_id) => {
-    console.log('API', importdata, org, User_id)
     const url = 'http://localhost:3008/api/importcustaddress'
     return axios.post(url, { importdata, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -580,14 +575,6 @@ export const EditVendAddress = async (sno, vend_id, billing_address_gstno, billi
     const url = 'http://localhost:3008/api/updatevendaddress'
     return axios.post(url, { sno, vend_id, billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
-
-
-
-
-
-
-
-
 
 export const Checkmidvalid = async (importdata, org) => {
     const url = `http://localhost:3008/api/checkmidvalid`
@@ -802,7 +789,6 @@ export const ChartOfAccountParentAccount = async (account_type_code, org) => {
     const url = `http://localhost:3008/api/parentaccount`
     return axios.post(url, { account_type_code, org }).then(response => response.data).catch(error => console.log(error));
 }
-
 
 
 export const ParentAccountNumber = async (account_type_code, account_name_code, org) => {
