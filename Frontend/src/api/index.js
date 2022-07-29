@@ -425,6 +425,11 @@ export const ActiveCustomer = async ( org) => {
     return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const SelectedCustomer = async ( org,cust_name) => {
+    const url = `http://localhost:3008/api/selectedcustomer`
+    return axios.post(url, { org,cust_name}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 
 // ###################### Customer and Id controller  api start #############################

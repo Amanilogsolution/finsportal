@@ -111,6 +111,7 @@ router.post('/idcountmaster',customerController.Idcountmaster)
 router.post('/insertidcountmaster',customerController.InsertIdcountmaster)
 router.post('/updateidcountmaster',customerController.UpdateIdcountmaster)
 router.post('/activecustomer',customerController.ActiveCustomer)
+router.post('/selectedcustomer',customerController.SelectedCustomer)
 
 
 

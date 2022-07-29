@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
     const [activecustomer, setActiveCustomer] = useState([])
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [activeuser, setActiveUser] = useState([])
+    const [custdetail, setCustdetail] = useState([])
     const [gstvalue, setGstvalue] = useState('0.00')
     const [amount, setAmount] = useState([])
     const [quantity, setQuantity] = useState()
@@ -28,8 +29,6 @@ function Invoices() {
             setActivePaymentTerm(result1)
             const result2 = await ActiveUser()
             setActiveUser(result2)
-            console.log(result2)
-
             Todaydate()
         }
         fetchdata()
@@ -38,9 +37,7 @@ function Invoices() {
     const Todaydate = () => {
         var date = new Date();
         var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
-
         var day = date.getDate();
-        console.log(myDate)
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
         if (month < 10) month = "0" + month;
@@ -54,7 +51,6 @@ function Invoices() {
 
         var myDate = new Date(new Date().getTime() + (days * 24 * 60 * 60 * 1000));
         var day = myDate.getDate();
-        console.log(myDate)
         var month = myDate.getMonth() + 1;
         var year = myDate.getFullYear();
         if (month < 10) month = "0" + month;
@@ -64,13 +60,12 @@ function Invoices() {
 
     }
 
-    const handleChange = (e) => {
-        console.log(e.target.value)
-        var desktop = e.target.value
-        if (desktop == 'Desktop') {
-            document.getElementById("Upload").click()
-        }
-    }
+    // const handleChange = (e) => {
+    //     var desktop = e.target.value
+    //     if (desktop == 'Desktop') {
+    //         document.getElementById("Upload").click()
+    //     }
+    // }
     const handleChangerate = (e) => {
 
         let Total = quantity * e.target.value
@@ -88,13 +83,13 @@ function Invoices() {
     //     console.log(e.target.value)
     // }
 
-    const handleBlur = () => {
-        const quality = document.getElementById('Quality').value
-        const rate = document.getElementById('Rate').value
-        console.log(quality, rate)
-        console.log(quality * rate)
-        setAmount(quality * rate)
-    }
+    // const handleBlur = () => {
+    //     const quality = document.getElementById('Quality').value
+    //     const rate = document.getElementById('Rate').value
+    //     console.log(quality, rate)
+    //     console.log(quality * rate)
+    //     setAmount(quality * rate)
+    // }
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -195,6 +190,14 @@ function Invoices() {
         }
     }
 
+
+const handleCustname=async(e)=>{
+    const cust_name=e.target.value;
+    const cust_detail= await SelectedCustomer(localStorage.getItem('Organisation'),cust_name)
+    console.log(cust_detail)
+    setCustdetail(cust_detail)
+}
+
     return (
         <div>
             <div className="wrapper">
@@ -221,9 +224,9 @@ function Invoices() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
-                                                        id="AccountType"
+                                                        id="custname"
                                                         className="form-control"
-                                                    // onChange={handleAccountType}
+                                                        onChange={handleCustname}
                                                     >
                                                         <option defaultValue hidden>Choose</option>
                                                         {
@@ -267,7 +270,6 @@ function Invoices() {
                                                     <select
                                                         id="AccountType"
                                                         className="col-md-6  mr-0 form-control"
-
                                                         onChange={handleAccountTerm}
                                                     >
                                                         <option hidden>Date on Receipt</option>

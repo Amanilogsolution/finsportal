@@ -344,7 +344,23 @@ const ActiveCustomer = async (req,res)=>{
         res.send(err)
     }
 
+
 }
 
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id,Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster,ActiveCustomer }
+const SelectedCustomer = async (req,res)=>{
+    const org = req.body.org
+    const customer = req.body.cust_name
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_name='${customer}'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id,Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster,ActiveCustomer,SelectedCustomer }
