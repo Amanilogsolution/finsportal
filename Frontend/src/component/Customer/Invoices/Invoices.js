@@ -322,7 +322,7 @@ function Invoices() {
                                                 <thead>
                                                 <tr>
                                                     <th scope="col">Iteam Details</th>
-                                                    <th scope="col">Quality</th>
+                                                    <th scope="col">Quantity</th>
                                                     <th scope="col">Rate</th>
                                                     <th scope="col">Amount</th>
                                                     </tr>
