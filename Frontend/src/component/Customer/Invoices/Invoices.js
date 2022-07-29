@@ -176,6 +176,10 @@ function Invoices() {
     const handleadjust = (e) => {
         e.preventDefault();
         const adjustment = document.getElementById('adjust').value
+        document.getElementById('igstipt').disabled='true'
+        document.getElementById('cgstipt').disabled='true'
+        document.getElementById('sgstipt').disabled='true'
+        document.getElementById('utgstipt').disabled='true'
 
         if (adjustment > grandtotal) {
             document.getElementById('adjust').style.border = '1px solid red';
