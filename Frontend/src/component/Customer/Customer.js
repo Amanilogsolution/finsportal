@@ -4,7 +4,7 @@ import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
 import { AddCustomer, Unique_Cust_id, Lastcust_id } from "../../api";
-import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, UpdatefinancialTwocount } from '../../api';
+import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, UpdatefinancialTwocount,ActivePaymentTerm } from '../../api';
 
 
 const Customer = () => {
@@ -32,6 +32,7 @@ const Customer = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectState, setSelectState] = useState([]);
   const [selectCity, setSelectCity] = useState([]);
+  const [paymentterm,setPaymentterm] = useState([]);
   const [billing_address_city, setBilling_address_city] = useState();
   const [finsyear, setFinsyear] = useState();
   // const [custid, setCustid] = useState();
@@ -49,7 +50,7 @@ const Customer = () => {
       setSelectedCountry(result)
 
       const getyear = await Getfincialyearid(localStorage.getItem('Organisation'))
-      console.log("getyear",getyear)
+      // console.log("getyear",getyear)
       setFinsyear(getyear[0].year);
       setMcustcount(getyear[0].mcust_count)
       setCustcount(getyear[0].cust_count)
@@ -83,6 +84,9 @@ const Customer = () => {
       // setUcust_totalid(unique_id.cust_totalid)
       // autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
 
+      const paymet_term=await ActivePaymentTerm(localStorage.getItem('Organisation'))
+console.log(paymet_term)
+      setPaymentterm(paymet_term)
     }
     fetchdata();
   }, []);
@@ -956,12 +960,11 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onChange={handleChangePaymentTerms}
                               >
-                                <option selected>Net 15</option>
-                                <option>Net 30</option>
-                                <option>Net 45</option>
-                                <option>Net 60</option>
-                                <option>EUR- Euro</option>
-                                <option>INR- Indian Rupee</option>
+                                <option value='' hidden>Select term</option>
+                                {
+                                  paymentterm.map((item,index)=>
+                                  <option key={index}>{item.term}</option>)
+                                }
                               </select>
                             </div>
                             {/* form-group end.// */}
