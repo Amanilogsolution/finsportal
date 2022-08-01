@@ -201,13 +201,21 @@ const ImportLocationMaster = (req, res) => {
     const datas = req.body.datas;
     const User_id = req.body.User_id;
 
-    sql.connect(sqlConfig).then(() => {
+    console.log(`INSERT INTO ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
+        contact_name2,contact_phone_no1,contact_phone_no2,
+        add_date_time,add_user_name,add_system_name,add_ip_address,status,country,state) 
+                VALUES ${datas.map(item => `('${item.location_name}','${item.gstin_no}','${item.location_id}','${item.contact_name1}','${item.contact_name2}',
+                '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${country}','${state}')`).join(', ')}
+                `)
+                
 
+    sql.connect(sqlConfig).then(() => {
         sql.query(`INSERT INTO ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
             contact_name2,contact_phone_no1,contact_phone_no2,
-            add_date_time,add_user_name,add_system_name,add_ip_address,status) 
+            add_date_time,add_user_name,add_system_name,add_ip_address,status,country,state) 
                     VALUES ${datas.map(item => `('${item.location_name}','${item.gstin_no}','${item.location_id}','${item.contact_name1}','${item.contact_name2}',
-                    '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`).join(', ')}`)
+                    '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${country}','${state}')`).join(', ')}
+                    `)
         res.send("Data Added")
 
     })

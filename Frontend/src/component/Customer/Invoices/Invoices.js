@@ -182,6 +182,7 @@ function Invoices() {
         document.getElementById('igstipt').disabled='true'
         document.getElementById('cgstipt').disabled='true'
         document.getElementById('sutgstipt').disabled='true'
+        document.getElementById('utgstipt').disabled='true'
 
         if (adjustment > grandtotal) {
             document.getElementById('adjust').style.border = '1px solid red';

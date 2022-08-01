@@ -793,6 +793,10 @@ export const InsertItems = async (org, item_type, item_name, item_unit, item_sel
     const url = `http://localhost:3008/api/insertitems`
     return axios.post(url, { org, item_type, item_name, item_unit, item_selling_price, sales_account, sales_description, item_cost_price, purchase_account, purchases_description, add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
+export const ActiveItems = async (org) => {
+    const url = `http://localhost:3008/api/activeitems`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
 
 export const ShowChartOfAccount = async (org) => {
     const url = `http://localhost:3008/api/showcoa`
