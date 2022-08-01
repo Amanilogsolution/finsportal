@@ -240,6 +240,28 @@ const handleCustname=async(e)=>{
                                                     {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
                                                 </div>
                                             </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Location <span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select
+                                                        id="custname"
+                                                        className="form-control"
+                                                        onChange={handleCustname}
+                                                    >
+                                                        <option defaultValue hidden>Choose</option>
+        
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice #<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
