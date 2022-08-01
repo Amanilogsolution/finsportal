@@ -21,6 +21,7 @@ function Invoices() {
     const [adjust, setAdjust] = useState(0)
     const [totalamout, setTotalamount] = useState(0)
     const [activeterms, setActiveTerms] = useState([])
+    const [invoiceid,setInvoiceid]=useState('INV-DEL0001')
 
 
 
@@ -319,7 +320,7 @@ const handlechnageaddress=(e)=>{
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice #<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="invoiceid" placeholder="INV-00001" />
+                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled/>
 
                                                 </div>
                                             </div>
