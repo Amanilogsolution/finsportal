@@ -544,7 +544,7 @@ const handlechnageaddress=(e)=>{
 
                                                 </div>
                                             </div>
-                                            {/* <hr /> */}
+                                       
                                             {/* <div style={{ display: "flex" }}> */}
                                             {/* <div style={{ width: "55%" }}>
                                                     <div className="form mt-3">
