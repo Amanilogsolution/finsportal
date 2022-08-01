@@ -30,5 +30,25 @@ const InsertItems = async (req, res) => {
     }
 }
 
+const ActiveItems = async(req,res) =>{
+    const org = req.body.org;
+    console.log(org)
 
-module.exports = {InsertItems}
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select item_name,item_selling_price from  ${org}.dbo.tbl_items_account`)
+       res.send(result.recordset)
+        console.log(result)
+    }
+    catch (err){
+        res.send(err)
+
+
+    }
+
+
+
+}
+
+
+module.exports = {InsertItems,ActiveItems}

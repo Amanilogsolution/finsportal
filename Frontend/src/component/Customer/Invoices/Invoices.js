@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -12,11 +12,13 @@ function Invoices() {
     const [custdetail, setCustdetail] = useState([])
     const [gstvalue, setGstvalue] = useState('0.00')
     const [amount, setAmount] = useState([])
-    const [quantity, setQuantity] = useState()
+    const [rate, setRate] = useState([])
     const [grandtotal, setGrandTotal] = useState(0)
 
     const [adjust, setAdjust] = useState(0)
     const [totalamout, setTotalamount] = useState(0)
+    const [activeterms, setActiveTerms] = useState([])
+
 
 
     const [gst, setGst] = useState(0)
@@ -30,6 +32,9 @@ function Invoices() {
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
+            const activeitems = await ActiveItems(localStorage.getItem('Organisation'))
+            setActiveTerms(activeitems)
+            console.log(activeitems)
         }
         fetchdata()
     }, [])
@@ -66,17 +71,28 @@ function Invoices() {
     //         document.getElementById("Upload").click()
     //     }
     // }
-    const handleChangerate = (e) => {
 
-        let Total = quantity * e.target.value
-        console.log(typeof (Total))
-        setTimeout(() => {
-            setAmount([...amount, Total])
-            console.log(amount)
-        }, 1000)
-
+    const handleChangeItems = (e) =>{
+        console.log(e.target.value) 
+        setRate([...rate,e.target.value])
 
     }
+  const handleSubTotal = (e) => {
+    e.preventDefault();
+    var sum = 0
+    amount.map((item) => sum += item)
+    setGrandTotal(sum)
+  } 
+
+    // const handleChangerate = (e) => {
+    //     let Total = quantity * e.target.value
+    //     console.log(typeof (Total))
+    //     setTimeout(() => {
+    //         setAmount([...amount, Total])
+    //         console.log(amount)
+    //     }, 1000)
+
+    // }
 
     // const handleChangeQuantity = (e) => {
     //     e.preventDefault()
@@ -171,10 +187,10 @@ function Invoices() {
     const handleadjust = (e) => {
         e.preventDefault();
         const adjustment = document.getElementById('adjust').value
-        document.getElementById('igstipt').disabled='true'
-        document.getElementById('cgstipt').disabled='true'
-        document.getElementById('sgstipt').disabled='true'
-        document.getElementById('utgstipt').disabled='true'
+        document.getElementById('igstipt').disabled = 'true'
+        document.getElementById('cgstipt').disabled = 'true'
+        document.getElementById('sgstipt').disabled = 'true'
+        document.getElementById('utgstipt').disabled = 'true'
 
         if (adjustment > grandtotal) {
             document.getElementById('adjust').style.border = '1px solid red';
@@ -191,12 +207,12 @@ function Invoices() {
     }
 
 
-const handleCustname=async(e)=>{
-    const cust_name=e.target.value;
-    const cust_detail= await SelectedCustomer(localStorage.getItem('Organisation'),cust_name)
-    console.log(cust_detail)
-    setCustdetail(cust_detail)
-}
+    const handleCustname = async (e) => {
+        const cust_name = e.target.value;
+        const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_name)
+        console.log(cust_detail)
+        setCustdetail(cust_detail)
+    }
 
     return (
         <div>
@@ -249,19 +265,11 @@ const handleCustname=async(e)=>{
                                                         onChange={handleCustname}
                                                     >
                                                         <option defaultValue hidden>Choose</option>
-        
+
 
                                                     </select>
                                                 </div>
                                             </div>
-
-
-
-
-
-
-
-
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice #<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
@@ -348,23 +356,45 @@ const handleCustname=async(e)=>{
 
                                             <table className="table">
                                                 <thead>
-                                                <tr>
-                                                    <th scope="col">Iteam Details</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Rate</th>
-                                                    <th scope="col">Amount</th>
+                                                    <tr>
+                                                        <th scope="col">Iteam Details</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Rate</th>
+                                                        <th scope="col">Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
-                                                                <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
+                                                                <td>
+                                                                    {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
+                                                                    <select onChange={handleChangeItems}>
+                                                                        <option hidden> Choose Item</option>
+                                                                        {
+                                                                            activeterms.map(item=>(
+                                                                                <option value={item.item_selling_price}>{item.item_name}</option>
+
+
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onChange={(e) => {
-                                                                    const quantity = e.target.value
-                                                                    setQuantity(quantity)
+                                                                    // const quantity = e.target.value
+                                                                            let Total = rate[index] * e.target.value
+
+                                                                    setTimeout(() => {
+                                                                                setAmount([...amount, Total])
+                                                                                console.log(amount)
+                                                                                
+                                                                               
+                                                                            }, 1000)
+                                                                    // setQuantity(quantity)
                                                                 }} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onChange={handleChangerate} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" 
+                                                                // onChange={handleChangerate} 
+                                                                value={rate[index]} /></td>
                                                                 <td>{amount[index]}</td>
                                                             </tr>
 
@@ -393,7 +423,7 @@ const handleCustname=async(e)=>{
                                                         <thead></thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>Sub Total</td>
+                                                                <td><button onClick={handleSubTotal}>Sub Total</button></td>
                                                                 <td></td>
                                                                 <td>{grandtotal}</td>
                                                             </tr>
