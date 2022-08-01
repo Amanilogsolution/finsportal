@@ -263,6 +263,8 @@ const Newdb = async (req, res) => {
                 location_name varchar(100) NULL,
                 gstin_no varchar(20) NULL, 
                 location_id varchar(50) NULL,
+                country varchar(100) NULL,
+                state varchar(100) NULL
                 contact_name1 varchar(100) NULL,
                 contact_name2 varchar(100) NULL,
                 contact_phone_no1 varchar(100) NULL,

@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import "./Vendor.css";
-import { InsertVendor, Activecountries, showactivestate, getCity, TotalVendor, VendorMastid, TotalVendId, Getfincialyearid, UpdatefinancialTwocount } from '../../api'
+import { InsertVendor, Activecountries, showactivestate, getCity, TotalVendor, VendorMastid, TotalVendId, Getfincialyearid, UpdatefinancialTwocount,ActivePaymentTerm } from '../../api'
 
 
 const Vendor = () => {
@@ -21,6 +21,7 @@ const Vendor = () => {
   const [enableportaltoggle, setEnableportaltoggle] = useState(false);
   const [language, setLanguage] = useState('English');
   const [countrylist, setCountrylist] = useState([]);
+  const [paymentterm, setPaymentterm] = useState([]);
   const [billing_address_country, setBilling_address_country] = useState()
   const [selectState, setSelectState] = useState([])
   const [billing_address_state, setBilling_address_state] = useState();
@@ -47,7 +48,7 @@ const Vendor = () => {
   const selectgst = () => {
     var a = document.getElementById("gsttreatment").value;
     setGsttreatment(a)
-    if (a == "Select GST Treatment" || a == "Unregistered Bussiness" || a == "Consumer" || a == "Overseas") {
+    if (a === "Select GST Treatment" || a === "Unregistered Bussiness" || a === "Consumer" || a === "Overseas") {
       document.getElementById("gstin").style.display = "none";
     }
     else {
@@ -189,6 +190,10 @@ const Vendor = () => {
       setCountrylist(result)
       // const totalvendor = await TotalVendor(localStorage.getItem('Organisation'))
 
+      const payment_term= await ActivePaymentTerm(localStorage.getItem('Organisation'))
+      // console.log(payment_term)
+      setPaymentterm(payment_term)
+
       const totalvendor = await Getfincialyearid(localStorage.getItem('Organisation'))
       setYear(totalvendor[0].year);
       // setPrefixvend(totalvendor[0].vend_id);
@@ -216,6 +221,7 @@ const Vendor = () => {
       else {
         setPreMastid([]);
       }
+
 
 
     }
@@ -335,7 +341,7 @@ const Vendor = () => {
                                   className="form-control col-md-4"
                                   onChange={handlegetvendid}
                                 >
-                                  <option selected defaultValue hidden>Select Master ID</option>
+                                  <option hidden>Select Master ID</option>
                                   {
                                     preMastid.map((item, index) => (
                                       <option key={index}>{item.mast_id}</option>))
@@ -380,8 +386,7 @@ const Vendor = () => {
                           </label>
                           <div className=" form-group">
                             <select id="inputSn" className="form-control" onChange={setsn}>
-
-                              <option selected>Mr.</option>
+                              <option >Mr.</option>
                               <option>Mrs.</option>
                               <option>Ms.</option>
                               <option>Miss.</option>
@@ -683,7 +688,7 @@ const Vendor = () => {
                                 className="form-control col-md-4"
                                 onClick={selectgst}
                               >
-                                <option selected>Select GST Treatment</option>
+                                <option hidden value=''>Select GST Treatment</option>
                                 <option>Registered Bussiness -Regular</option>
                                 <option>
                                   Registered Bussiness - Composition
@@ -753,7 +758,7 @@ const Vendor = () => {
                                 className="form-control col-md-4"
                                 onChange={ststate}
                               >
-                                <option selected>Select the state</option>
+                                <option hidden>Select the state</option>
                                 <option>Andhra Pradesh</option>
                                 <option>Arunachal Pradesh</option>
                                 <option>Assam</option>
@@ -780,7 +785,7 @@ const Vendor = () => {
                                 id="currency"
                                 className="form-control col-md-10 "
                               >
-                                <option selected> AED- UAE Dirham</option>
+                                <option hidden> AED- UAE Dirham</option>
                                 <option>AUD- Australian Dollar</option>
                                 <option>CAD- Canadian Dollar</option>
                                 <option>CNY- Yuan Renminbi</option>
@@ -831,13 +836,12 @@ const Vendor = () => {
                                 className="form-control col-md-4"
                                 onChange={paytemval}
                               >
-                                <option selected hidden>Choose the value...</option>
-                                <option>Net 15</option>
-                                <option>Net 30</option>
-                                <option>Net 45</option>
-                                <option>Net 60</option>
-                                <option>EUR- Euro</option>
-                                <option>INR- Indian Rupee</option>
+                                <option  hidden value=''>Select the term...</option>
+                                {
+                                  paymentterm.map((item,index)=>
+                                  <option key={index}>{item.term}</option>)
+                                }
+                             
                               </select>
                             </div>
                             {/* form-group end.// */}
@@ -856,7 +860,7 @@ const Vendor = () => {
                                 onChange={tdsval}
 
                               >
-                                <option selected hidden>Choose the value...</option>
+                                <option  hidden>Choose the value...</option>
                                 <option>Net 15</option>
                                 <option>Net 30</option>
                                 <option>Net 45</option>
@@ -913,7 +917,7 @@ const Vendor = () => {
                                 className="form-control col-md-4"
                                 onChange={portallang}
                               >
-                                <option selected>English</option>
+                                <option>English</option>
                                 <option>हिंदी</option>
                                 <option>عربي</option>
                                 <option>বাংলা</option>
@@ -991,7 +995,7 @@ const Vendor = () => {
                                   className="form-control col-md-7"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option hidden> Select</option>
                                   {
                                     countrylist.map((data, index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
@@ -1013,7 +1017,7 @@ const Vendor = () => {
                                   className="form-control col-md-7"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option  hidden> Choose</option>
                                   {
                                     selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -1037,7 +1041,7 @@ const Vendor = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option  hidden> Choose</option>
                                   {
                                     selectCity.map((data, index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>
@@ -1357,7 +1361,7 @@ const Vendor = () => {
                           id="inputState"
                           className="form-control col-md-10 "
                         >
-                          <option selected> AED- UAE Dirham</option>
+                          <option> AED- UAE Dirham</option>
                           <option>AUD- Australian Dollar</option>
                           <option>CAD- Canadian Dollar</option>
                           <option>CNY- Yuan Renminbi</option>

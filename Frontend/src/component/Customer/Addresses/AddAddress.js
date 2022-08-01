@@ -154,7 +154,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option hidden value=''> Select</option>
                                   {
                                     selectedCountry.map((data, index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
@@ -179,7 +179,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected> Choose</option>
+                                  <option  value=''> Choose</option>
                                   {
                                     selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -201,7 +201,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected> Select the value</option>
+                                  <option  value=''> Select the value</option>
                                   {
                                     selectCity.map((data, index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>
