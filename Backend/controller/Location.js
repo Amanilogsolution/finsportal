@@ -29,13 +29,15 @@ const AddLocation = async (req, res) => {
     const country = req.body.country;
     const state = req.body.state;
 
+    console.log(country,state)
+
     try {
 
         await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
                 contact_name2,contact_phone_no1,contact_phone_no2,
                 add_date_time,add_user_name,add_system_name,add_ip_address,status,fins_year,country,state)
                 values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
-                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${fins_year}','${country}',${state})`)
+                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${fins_year}','${country}','${state}')`)
         res.send('Added')
 
     }

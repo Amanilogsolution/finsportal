@@ -42,23 +42,23 @@ function AddLocation() {
     const contact_phone2 = document.getElementById('contact_phone2').value;
     const User_id = localStorage.getItem('User_id');
 
-    console.log(selectedcountry,selectedstate,)
+    console.log(selectedcountry,selectedstate)
 
-    // const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2,User_id,fins_year);
-    // if (!Location_name || !gst_no) {
-    //   alert('Enter data')
-    // } 
-    // else {
-    //   if (result == "Already") {
-    //     alert('Already')
-    //   } else {
-    //     const result1 = await Updatefinancialcount(localStorage.getItem('Organisation'),'location_count',lastnum)
-    //     if(result1==="Updated"){
-    //       alert("Added")
-    //     window.location.href = '/TotalLocation'
-    //     }
-    //   }
-    // }
+    const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2,User_id,fins_year,selectedcountry,selectedstate);
+    if (!Location_name || !gst_no) {
+      alert('Enter data')
+    } 
+    else {
+      if (result == "Already") {
+        alert('Already')
+      } else {
+        const result1 = await Updatefinancialcount(localStorage.getItem('Organisation'),'location_count',lastnum)
+        if(result1==="Updated"){
+          alert("Added")
+        window.location.href = '/TotalLocation'
+        }
+      }
+    }
   }
 
   // useEffect(() => {
