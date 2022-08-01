@@ -26,14 +26,16 @@ const AddLocation = async (req, res) => {
     const contact_phone_no2 = req.body.contact_phone_no2;
     const User_id = req.body.User_id;
     const fins_year = req.body.fins_year;
+    const country = req.body.country;
+    const state = req.body.state;
 
     try {
 
         await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
                 contact_name2,contact_phone_no1,contact_phone_no2,
-                add_date_time,add_user_name,add_system_name,add_ip_address,status,fins_year)
+                add_date_time,add_user_name,add_system_name,add_ip_address,status,fins_year,country,state)
                 values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
-                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${fins_year}')`)
+                getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${fins_year}','${country}',${state})`)
         res.send('Added')
 
     }
@@ -75,14 +77,16 @@ const UpdateLocation = async (req, res) => {
     const contact_name2 = req.body.contact_name2;
     const contact_phone_no1 = req.body.contact_phone_no1;
     const contact_phone_no2 = req.body.contact_phone_no2;
-    const location_id = req.body.location_id
-    const User_id = req.body.User_id
+    const location_id = req.body.location_id;
+    const User_id = req.body.User_id;
+    const country = req.body.country;
+    const state = req.body.state
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_location_master set location_name='${location_name}',
         gstin_no='${gstin_no}',contact_name1 ='${contact_name1}',contact_name2 ='${contact_name2}',contact_phone_no1='${contact_phone_no1}',contact_phone_no2 ='${contact_phone_no2}',
-        update_date_time=GETDATE(),update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' WHERE location_id ='${location_id}';`)
+        update_date_time=GETDATE(),update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address='${req.ip}',country='${country}',state='${state}' WHERE location_id ='${location_id}';`)
         res.send('done')
     }
     catch (err) {
