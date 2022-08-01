@@ -81,7 +81,6 @@ function Invoices() {
     // }
 
     const handleChangeItems = (e) =>{
-        console.log(e.target.value) 
         setRate([...rate,e.target.value])
 
     }
@@ -416,8 +415,8 @@ const handlechnageaddress=(e)=>{
                                                             <tr key={index}>
                                                                 <td>
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
-                                                                    <select onChange={handleChangeItems}>
-                                                                        <option value='' hidden> Choose Item</option>
+                                                                    <select onChange={handleChangeItems} className="form-control col-md">
+                                                                        <option value='' hidden> Select Item</option>
                                                                         {
                                                                             activeterms.map(item=>(
                                                                                 <option value={item.item_selling_price}>{item.item_name}</option>
@@ -427,7 +426,7 @@ const handlechnageaddress=(e)=>{
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onChange={(e) => {
+                                                                <td><input  className="form-control col-md-3" style={{ border: "none" }} type="number" id="Quality" onChange={(e) => {
                                                                     // const quantity = e.target.value
                                                                             let Total = rate[index] * e.target.value
 
@@ -439,7 +438,7 @@ const handlechnageaddress=(e)=>{
                                                                             }, 1000)
                                                                     // setQuantity(quantity)
                                                                 }} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Rate" 
+                                                                <td><input style={{ border: "none",background:"transparent" }} type="number" id="Rate" disabled
                                                                 // onChange={handleChangerate} 
                                                                 value={rate[index]} /></td>
                                                                 <td>{amount[index]}</td>
