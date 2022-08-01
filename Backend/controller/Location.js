@@ -182,6 +182,20 @@ const LastLocationid = async (req, res) => {
     }
 }
 
+
+const ActiveLocation =async (req,res)=>{
+    const org = req.body.org;
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_location_master where status='Active';`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+
 const ImportLocationMaster = (req, res) => {
     const org = req.body.org;
     const datas = req.body.datas;
@@ -215,4 +229,4 @@ const ImportLocationAddress = (req, res) => {
 
     })
 }
-module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, LastLocationid, ImportLocationMaster, ImportLocationAddress }
+module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, LastLocationid,ActiveLocation, ImportLocationMaster, ImportLocationAddress }

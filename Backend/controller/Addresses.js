@@ -23,9 +23,9 @@ const InsertCustomerAddress = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`INSERT into ${org}.dbo.tbl_cust_addresses(cust_id ,cust_name,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
-      billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status )
-      values('${cust_id}','${cust_name}','${gst_no}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active')`)
-        res.send('Added');
+      billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,custaddress_uuid )
+      values('${cust_id}','${cust_name}','${gst_no}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`)
+      res.send(result.rowsAffected);
     }
     catch (err) {
         res.send(err);
@@ -65,6 +65,7 @@ const SelectCustAddress = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT  cust_name FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name LIKE '%${cust_name}%';`)
+         console.log(result)
         res.send(result.recordset)
     }
     catch (err) {
@@ -75,11 +76,10 @@ const SelectCustAddress = async (req, res) => {
 //
 const TotalCustAddress = async (req, res) => {
     const org = req.body.org;
-    const cust_id = req.body.cust_id;
-    console.log(cust_id);
+    const cust_name = req.body.cust_id;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name ='${cust_id}';`)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name ='${cust_name}';`)
         res.send(result.recordset)
     }
     catch (err) {

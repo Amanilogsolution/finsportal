@@ -104,7 +104,7 @@ function AddLocation() {
                           <div className="col form-group">
                             {/* <input type="text" className="form-control col-md-4" id='country' /> */}
                             <select className="form-control col-md-4" id='country' onChange={handleAddressCountry} >
-                              <option hidden>Select Country</option>
+                              <option value='' hidden>Select Country</option>
                               {
                                 country.map((data,index)=>
                                 <option key={index} value={data.country_name}>{data.country_name}</option>)
@@ -121,7 +121,7 @@ function AddLocation() {
                                   id="inputState"
                                   className="form-control col-md-4"
                                 >
-                                  <option selected hidden> Select State</option>
+                                  <option value='' hidden> Select State</option>
                                   {
                                     state.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>

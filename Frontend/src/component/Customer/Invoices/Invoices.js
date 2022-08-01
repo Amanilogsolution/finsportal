@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocation,ShowCustAddress} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
     const [activecustomer, setActiveCustomer] = useState([])
     const [activepaymentterm, setActivePaymentTerm] = useState([])
+    const [cutomerAddress, setCutomerAddress] = useState([])
+    const [locationstate,setLocationstate] =useState([])
     const [activeuser, setActiveUser] = useState([])
     const [custdetail, setCustdetail] = useState([])
     const [gstvalue, setGstvalue] = useState('0.00')
@@ -24,12 +26,18 @@ function Invoices() {
     useEffect(() => {
         const fetchdata = async () => {
             const result = await ActiveCustomer(localStorage.getItem('Organisation'))
+           
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(localStorage.getItem('Organisation'))
             setActivePaymentTerm(result1)
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
+
+
+            const locatonstateres = await ActiveLocation(localStorage.getItem('Organisation'))
+            console.log(locatonstateres)
+            setLocationstate(locatonstateres)
         }
         fetchdata()
     }, [])
@@ -146,11 +154,11 @@ function Invoices() {
         e.preventDefault();
 
         const cgst = document.getElementById('cgstipt').value;
-        const sgst = document.getElementById('sgstipt').value;
-        const utgst = document.getElementById('utgstipt').value;
+        const sutgst = document.getElementById('sutgstipt').value;
+        // const utgst = document.getElementById('utgstipt').value;
         const igst = document.getElementById('igstipt').value;
 
-        const totalgst = Number(cgst) + Number(sgst) + Number(utgst) + Number(igst);
+        const totalgst = Number(cgst) + Number(sutgst)+ Number(igst);
 
         if (totalgst > 100) {
             document.getElementById('gstipt').style.border = '1px solid red';
@@ -173,8 +181,7 @@ function Invoices() {
         const adjustment = document.getElementById('adjust').value
         document.getElementById('igstipt').disabled='true'
         document.getElementById('cgstipt').disabled='true'
-        document.getElementById('sgstipt').disabled='true'
-        document.getElementById('utgstipt').disabled='true'
+        document.getElementById('sutgstipt').disabled='true'
 
         if (adjustment > grandtotal) {
             document.getElementById('adjust').style.border = '1px solid red';
@@ -194,8 +201,28 @@ function Invoices() {
 const handleCustname=async(e)=>{
     const cust_name=e.target.value;
     const cust_detail= await SelectedCustomer(localStorage.getItem('Organisation'),cust_name)
-    console.log(cust_detail)
+    // console.log(cust_detail)
     setCustdetail(cust_detail)
+
+    const cust_add = await ShowCustAddress(cust_name,localStorage.getItem("Organisation"))
+    console.log('cust_add',cust_add)
+    setCutomerAddress(cust_add)
+}
+
+const handlechnageaddress=(e)=>{
+    const billing_add= e.target.value;
+    const cust_add= document.getElementById('custaddr').value;
+    console.log(cust_add)
+    console.log(billing_add)
+
+    if(cust_add === billing_add){
+        document.getElementById('igstipt').disabled='true'
+        document.getElementById('sutgstipt').disabled=false
+    }
+    else{
+        document.getElementById('igstipt').disabled=false
+        document.getElementById('sutgstipt').disabled='true'
+    }
 }
 
     return (
@@ -228,11 +255,10 @@ const handleCustname=async(e)=>{
                                                         className="form-control"
                                                         onChange={handleCustname}
                                                     >
-                                                        <option defaultValue hidden>Choose</option>
+                                                        <option value='' hidden>Choose</option>
                                                         {
-                                                            activecustomer.map(items => (
-                                                                <option key={items.cust_name} value={items.cust_name} >{items.cust_name}</option>
-
+                                                            activecustomer.map((items,index) => (
+                                                                <option key={index} value={items.cust_name} >{items.cust_name}</option>
                                                             ))
                                                         }
 
@@ -241,26 +267,39 @@ const handleCustname=async(e)=>{
                                                 </div>
                                             </div>
                                             <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Location <span style={{ color: "red" }}>*</span> </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Address<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
-                                                        id="custname"
+                                                        id="custaddr"
                                                         className="form-control"
-                                                        onChange={handleCustname}
                                                     >
-                                                        <option defaultValue hidden>Choose</option>
-        
+                                                        <option value=''  hidden>Select Customer Address</option>
+                                                        {
+                                                            cutomerAddress.map((items,index) => (
+                                                                <option key={index} value={items.billing_address_state}>{items.billing_address_city},{items.billing_address_state}</option>
+                                                            ))
+                                                        }
 
+                                                    </select>
+                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Billing Address <span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select
+                                                        id="locationadd"
+                                                        className="form-control"
+                                                        onChange={handlechnageaddress}
+                                                    >
+                                                        <option value='' hidden>Select state</option>
+                                                        {
+                                                            locationstate.map((item,index)=>
+                                                            <option key={index}>{item.state}</option>)
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
-
-
-
-
-
-
-
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice #<span style={{ color: "red" }}>*</span> </label>
@@ -428,10 +467,10 @@ const handleCustname=async(e)=>{
 
                                                             </tr>
                                                             <tr >
-                                                                <td>SGST</td>
+                                                                <td>SGST/UTGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='sgstipt' onChange={handlechangegst} />
+                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' onChange={handlechangegst} />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -439,7 +478,7 @@ const handleCustname=async(e)=>{
                                                                 </td>
 
                                                             </tr>
-                                                            <tr >
+                                                            {/* <tr >
                                                                 <td>UTGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
@@ -450,7 +489,7 @@ const handleCustname=async(e)=>{
                                                                     </div>
                                                                 </td>
 
-                                                            </tr>
+                                                            </tr> */}
                                                             <tr >
                                                                 <td>IGST</td>
                                                                 <td>

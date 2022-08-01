@@ -33,11 +33,20 @@ const AddCustAddress = () => {
     const billing_address_phone = document.getElementById('billing_address_phone').value;
     const billing_address_fax = document.getElementById('billing_address_fax').value;
 
+
     if (!billing_address_country  || !billing_address_state || !billing_address_phone || !billing_address_pincode) {
       alert("Please! enter the data ")
     }
     else {
       const result = await CustInsertAddress(localStorage.getItem('Organisation'),localStorage.getItem('User_id'),cust_id,customer_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax)
+       if(result[0]>0){
+        alert("Data Added")
+        window.location.href='./TotalCustAddress'
+       }
+       else{
+        alert("Server not response")
+        window.location.reload();
+       }
     }
   }
 
@@ -179,7 +188,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option  value=''> Choose</option>
+                                  <option  hidden value=''> Choose</option>
                                   {
                                     selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -201,7 +210,7 @@ const AddCustAddress = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option  value=''> Select the value</option>
+                                  <option hidden  value=''> Select the value</option>
                                   {
                                     selectCity.map((data, index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>

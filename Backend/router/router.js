@@ -164,6 +164,8 @@ router.post('/totallocation',LocationController.TotalLocation)
 router.post('/addlocation',LocationController.AddLocation)
 router.post('/ShowLocation',LocationController.ShowLocation)
 router.post('/updatelocation',LocationController.UpdateLocation)
+router.post('/activelocation',LocationController.ActiveLocation)
+
 
 
 router.post('/LocationAddress',LocationController.LocationAddress)
