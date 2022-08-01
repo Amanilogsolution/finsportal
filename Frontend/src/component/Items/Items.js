@@ -21,7 +21,7 @@ function Items() {
             const result2 = await AllAccountsalesInfo(localStorage.getItem("Organisation"));
             setSalestype(result2)
             const purchaseinfo = await AllAccountpurchaseInfo(localStorage.getItem("Organisation"));
-          
+
             setPurchase(purchaseinfo)
         }
         fetch();
@@ -58,8 +58,9 @@ function Items() {
         }
         else {
             const result = await InsertItems(localStorage.getItem("Organisation"), item_type, item_name, item_unit, item_selling_price, sales_account, sales_description, item_cost_price, purchase_account, purchases_description, add_user_name);
-            if(result){
-            window.location.href = './home';
+            if (result === 'Added') {
+                alert('Data Added')
+                window.location.href = './home';
             }
         }
     }
@@ -99,9 +100,9 @@ function Items() {
                                                         <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " >Unit</label>
                                                         <div className="col col-form-label "  >
                                                             <select className="col p-1" style={{ width: "30.5%" }} id="unit" >
-                                                                <option  selected hidden>Select Unit</option>
+                                                                <option value='' hidden>Select Unit</option>
                                                                 {
-                                                                    unitdata.map((item ,index) => (
+                                                                    unitdata.map((item, index) => (
                                                                         <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
 
                                                                     ))
@@ -128,9 +129,9 @@ function Items() {
                                                                 <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="sales_account" disabled={!sales} >
-                                                                    <option  selected hidden>Select</option>
+                                                                        <option value='' hidden>Select</option>
                                                                         {
-                                                                            salestype.map((item,index) => {
+                                                                            salestype.map((item, index) => {
                                                                                 return <option key={index} value={item.account_info_name}>{item.account_info_name}</option>
                                                                             })
                                                                         }
@@ -162,13 +163,13 @@ function Items() {
                                                                 <label htmlFor="purchases_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col col-form-label "  >
                                                                     <select className="col-md-8 p-1" type="text" id="purchases_account" disabled={purchas}>
-                                                                        <option  selected hidden>Select</option>
+                                                                        <option value='' hidden>Select</option>
                                                                         {
-                                                                            purchase.map((item,index) => {
+                                                                            purchase.map((item, index) => {
                                                                                 return <option key={index} value={item.account_info_name}>{item.account_info_name}</option>
                                                                             })
                                                                         }
-                                                                       
+
                                                                     </select>
                                                                 </div>
                                                             </div>

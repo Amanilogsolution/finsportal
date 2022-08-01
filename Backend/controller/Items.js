@@ -1,6 +1,7 @@
 const sql =require('mssql')
 const sqlConfig = require('../config.js')
-const os = require('os')
+const os = require('os');
+const e = require('express');
 
 const InsertItems = async (req, res) => {
     const org = req.body.org;
@@ -23,7 +24,12 @@ const InsertItems = async (req, res) => {
             Values('${item_type}','${item_name}','${item_unit}',${item_selling_price},'${sales_account}','${sales_description}',${item_cost_price},'${purchase_account}',
             '${purchases_description}','${add_user_name}','${os.hostname()}','${req.ip}',getDate(),'Active');`)
 
-        res.send(result.recordset)
+            if(result.rowsAffected[0]>0){
+                res.send('Added')
+            }
+          else{
+            res.send('Server error')
+          }
     }
     catch (err) {
         res.send(err)
