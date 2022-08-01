@@ -21,7 +21,7 @@ function Invoices() {
     const [adjust, setAdjust] = useState(0)
     const [totalamout, setTotalamount] = useState(0)
     const [activeterms, setActiveTerms] = useState([])
-    const [invoiceid,setInvoiceid]=useState('INV-DEL0001')
+    const [invoiceid,setInvoiceid]=useState('')
 
 
 
@@ -44,6 +44,18 @@ function Invoices() {
             const locatonstateres = await ActiveLocation(localStorage.getItem('Organisation'))
             console.log(locatonstateres)
             setLocationstate(locatonstateres)
+
+
+
+            const invoicepefix= 'INV';
+            const invoicecitypre= 'DEL';
+            let invoicecount= Number(0);
+            invoicecount= invoicecount+1;
+            invoicecount=String(invoicecount)
+            const invoiceidauto = invoicecount.padStart(5,'0')
+            const invoiceid= invoicepefix +'-'+invoicecitypre+invoiceidauto;
+            console.log(invoiceid)
+            setInvoiceid(invoiceid);
         }
         fetchdata()
     }, [])
