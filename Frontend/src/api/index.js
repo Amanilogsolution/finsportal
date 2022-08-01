@@ -526,6 +526,7 @@ export const ActiveVendor = async ( org) => {
 }
 
 export const CustInsertAddress = async (org, userid, cust_id, cust_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax) => {
+     console.log(org, userid, cust_id, cust_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax)
     const url = 'http://localhost:3008/api/insertcustaddress'
     return axios.post(url, { org, userid, cust_id, cust_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax }).then(response => response.data).catch(error => console.log(error));
 }
@@ -548,6 +549,7 @@ export const DeleteCustAddress = async (sno, status, org) => {
     return axios.post(url, { sno, status, org }).then(response => response.data).catch(error => console.log(error));
 }
 export const SelectCustAddress = async (cust_name, org) => {
+    console.log(cust_name, org)
     const url = 'http://localhost:3008/api/selectcustaddress'
     return axios.post(url, { cust_name, org }).then(response => response.data).catch(error => console.log(error));
 }
@@ -597,14 +599,20 @@ export const addLocation = async (org, Location_id, location_name, gstin_no, con
     return axios.post(url, { org, Location_id, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, User_id, fins_year,country,state }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateLocation = async (org, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, location_id, User_id) => {
+export const updateLocation = async (org, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, location_id, User_id,country,state) => {
     const url = `http://localhost:3008/api/updatelocation`
-    return axios.post(url, { org, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, location_id, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, location_id, User_id,country,state }).then(response => response.data).catch(error => console.log(error));
 }
 export const showLocation = async (org, location_id) => {
     const url = `http://localhost:3008/api/ShowLocation`
     return axios.post(url, { org, location_id }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ActiveLocation = async (org) => {
+    const url = `http://localhost:3008/api/activelocation`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
 
 // export const LastLocationid = async (org) => {
 //     const url = `http://localhost:3008/api/lastlocationid`

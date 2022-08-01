@@ -23,6 +23,8 @@ function AddOrgAddress() {
       const location_country = document.getElementById('location_country').value;
       const from_date = document.getElementById('from_date').value;
       const location_pin = document.getElementById('location_pin').value;
+
+
      
       const to_date= new Date(from_date);
       to_date.setDate(to_date.getDate() - 1);
@@ -51,6 +53,19 @@ function AddOrgAddress() {
                 <div className="card" style={{ width: "100%" }}>
                   <article className="card-body">
                     <form>
+                    <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
+                        <div className="col form-group">
+                          <input type="text" className="form-control col-md-4" id='location_country' value={data.country} />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
+                        <div className="col form-group">
+                          <input type="text" className="form-control col-md-4" id='location_state'  value={data.state} />
+                        </div>
+                      </div>
                   
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
@@ -68,21 +83,7 @@ function AddOrgAddress() {
                         {/* form-group end.// */}
                       </div>
 
-                      <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_country'  />
-                        </div>
-                        {/* form-group end.// */}
-                      </div>
-
-                      <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-4" id='location_state'   />
-                        </div>
-                        {/* form-group end.// */}
-                      </div>
+                      
 
                       <div className="form-row">
                         <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
