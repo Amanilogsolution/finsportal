@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocation,ShowCustAddress} from '../../../api/index'
+// import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocation,ShowCustAddress,ActiveItems} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -33,7 +34,9 @@ function Invoices() {
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
-
+            const activeitems = await ActiveItems(localStorage.getItem('Organisation'))
+            setActiveTerms(activeitems)
+            console.log(activeitems)
 
             const locatonstateres = await ActiveLocation(localStorage.getItem('Organisation'))
             console.log(locatonstateres)
@@ -182,7 +185,6 @@ function Invoices() {
         document.getElementById('igstipt').disabled='true'
         document.getElementById('cgstipt').disabled='true'
         document.getElementById('sutgstipt').disabled='true'
-        document.getElementById('utgstipt').disabled='true'
 
         if (adjustment > grandtotal) {
             document.getElementById('adjust').style.border = '1px solid red';
