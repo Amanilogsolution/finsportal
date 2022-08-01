@@ -14,6 +14,16 @@ import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
 
 
 const columns = [
+  
+  {
+    name: 'Country',
+    selector: 'country',
+    sortable: true
+  }, {
+    name: 'State',
+    selector: 'state',
+    sortable: true
+  },
   {
     name: 'Location Name',
     selector: 'location_name',
@@ -221,6 +231,7 @@ const TotalLocation = () => {
       const fins_year=response[0].year
       const result = await totalLocation(localStorage.getItem('Organisation'),fins_year)
       setData(result)
+      console.log(result)
     }
     fetchdata();
   }, [])
