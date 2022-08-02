@@ -79,7 +79,7 @@ const columns = [
 ]
 
 const ShowChargecode = () => {
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState([])
 
 
 

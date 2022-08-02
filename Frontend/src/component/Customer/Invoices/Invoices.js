@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 // import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocation,ShowCustAddress,ActiveItems} from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocation,ShowCustAddress,ActiveItems,Getfincialyearid} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -21,6 +21,7 @@ function Invoices() {
     const [adjust, setAdjust] = useState(0)
     const [totalamout, setTotalamount] = useState(0)
     const [activeterms, setActiveTerms] = useState([])
+    const [invoiceid,setInvoiceid]=useState('')
 
 
 
@@ -43,6 +44,10 @@ function Invoices() {
             const locatonstateres = await ActiveLocation(localStorage.getItem('Organisation'))
             console.log(locatonstateres)
             setLocationstate(locatonstateres)
+
+
+
+            
         }
         fetchdata()
     }, [])
@@ -224,11 +229,26 @@ const handleCustname=async(e)=>{
     setCutomerAddress(cust_add)
 }
 
-const handlechnageaddress=(e)=>{
+const handlechnageaddress=async(e)=>{
+    const fin_year= await Getfincialyearid(localStorage.getItem('Organisation'))
+    console.log(fin_year)
+
     const billing_add= e.target.value;
     const cust_add= document.getElementById('custaddr').value;
-    console.log(cust_add)
-    console.log(billing_add)
+
+
+
+    const invoicepefix=fin_year[0].invoice_ser;
+    let invoicecitypre= (billing_add.substring(0,3));
+    invoicecitypre =invoicecitypre.toUpperCase();
+    let invoicecount= Number(fin_year[0].invoice_count);
+    invoicecount= invoicecount+1;
+    invoicecount=String(invoicecount)
+    const invoiceidauto = invoicecount.padStart(5,'0')
+    const invoiceid= invoicepefix +'-'+invoicecitypre+invoiceidauto;
+    console.log(invoiceid)
+    setInvoiceid(invoiceid);
+    
 
     if(cust_add === billing_add){
         document.getElementById('igstipt').disabled='true'
@@ -319,7 +339,7 @@ const handlechnageaddress=(e)=>{
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice #<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="invoiceid" placeholder="INV-00001" />
+                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled/>
 
                                                 </div>
                                             </div>
@@ -392,7 +412,8 @@ const handlechnageaddress=(e)=>{
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                    <textarea className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
+                                                    <textarea className="form-control col-md-7" id="Accountname" rows='4'  placeholder="Let your customer know what this invoice is for" style={{resize:'none'}}></textarea>
+
                                                 </div>
                                             </div>
                                             <hr />
@@ -453,7 +474,7 @@ const handlechnageaddress=(e)=>{
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="3" id="Accountname" placeholder="Looking forward for your bussiness "></textarea>
+                                                            <textarea type="text" className="form-control " rows="4" id="Accountname" placeholder="Looking forward for your bussiness " style={{resize:'none'}}></textarea>
                                                         </div>
 
                                                     </div>
