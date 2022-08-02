@@ -382,7 +382,6 @@ const handlechnageaddress=(e)=>{
                                                         {
                                                             activeuser.map((items) => (
                                                                 <option key={items.employee_name} value={items.employee_name}>{items.employee_name}</option>
-
                                                             ))
                                                         }
                                                     </select>
@@ -394,7 +393,6 @@ const handlechnageaddress=(e)=>{
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
                                                     <textarea className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
-
                                                 </div>
                                             </div>
                                             <hr />
@@ -420,8 +418,6 @@ const handlechnageaddress=(e)=>{
                                                                         {
                                                                             activeterms.map(item=>(
                                                                                 <option value={item.item_selling_price}>{item.item_name}</option>
-
-
                                                                             ))
                                                                         }
                                                                     </select>
@@ -433,8 +429,6 @@ const handlechnageaddress=(e)=>{
                                                                     setTimeout(() => {
                                                                                 setAmount([...amount, Total])
                                                                                 console.log(amount)
-                                                                                
-                                                                               
                                                                             }, 1000)
                                                                     // setQuantity(quantity)
                                                                 }} placeholder="0" /></td>
