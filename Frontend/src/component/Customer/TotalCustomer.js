@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, CustomerIdmid, IdcountMaster, Checkmidvalid, UpdateIdcountmaster, InsertIdcountmaster, UpdatefinancialTwocount } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, Checkmidvalid, UpdatefinancialTwocount } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -10,99 +10,98 @@ import Excelfile from '../../excelformate/tbl_customer.xlsx';
 import * as XLSX from "xlsx";
 
 
-const columns = [
-  {
-    name: 'Name',
-    selector: 'cust_name',
-    sortable: true
-  },
-  {
-    name: 'Company Name',
-    selector: 'company_name',
-    sortable: true
-  },
-  {
-    name: 'Email',
-    selector: 'cust_email',
-    sortable: true
-  },
-  {
-    name: 'Phone Number',
-    selector: 'cust_phone',
-    sortable: true
-  },
-  {
-    name: 'GST',
-    selector: 'gst_treatment',
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
-          window.location.href = 'TotalCustomer'
-        }
-        }>
-          <option selected disabled hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  {
-    name: "Actions",
-    sortable: false,
-    selector: "null",
-    cell: (row) => [
-      <a title='View Document' href="EditCustomer">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
-    ]
-  }
-]
-
-
-
 const TotalCustomer = () => {
+  const columns = [
+    {
+      name: 'Name',
+      selector: 'cust_name',
+      sortable: true
+    },
+    {
+      name: 'Company Name',
+      selector: 'company_name',
+      sortable: true
+    },
+    {
+      name: 'Email',
+      selector: 'cust_email',
+      sortable: true
+    },
+    {
+      name: 'Phone Number',
+      selector: 'cust_phone',
+      sortable: true
+    },
+    {
+      name: 'GST',
+      selector: 'gst_treatment',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => [
+        <div className='droplist'>
+          <select onChange={async (e) => {
+            const status = e.target.value;
+            await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
+            window.location.href = 'TotalCustomer'
+          }
+          }>
+            <option selected disabled hidden> {row.status}</option>
+            <option value='Active'>Active</option>
+            <option value='Deactive' >Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+
+    {
+      name: "Actions",
+      sortable: false,
+      selector: "null",
+      cell: (row) => [
+        <a title='View Document' href="EditCustomer">
+          <button className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
+      ]
+    }
+  ]
+
+
+
   const [data, setData] = useState([])
-
   const [importdata, setImportdata] = useState([]);
-
   let [errorno, setErrorno] = useState(0);
-
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [year, setYear] = useState();
-
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
-  // var mcountid = newmcountid;
-  // var countid = newcountid;
 
 
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-    // document.getElementById("uploadbtn").disabled = true;
-    // importdata.map((d) => {
+    document.getElementById("uploadbtn").disabled = true;
+    importdata.map((d) => {
 
-    //   if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
-    //     setErrorno(errorno++);
-    //   }
-    // })
+      if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+        setErrorno(errorno++);
+      }
+      return 0;
+    })
 
-    let ayy = [];
+    let arry = [];
+    //######################## Push master id in arry
     importdata.map((d) => {
       if (d.existing === 'y') {
-        ayy.push(d.mast_id)
+        arry.push(d.mast_id)
       }
+      return 0;
     })
+
+
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -113,25 +112,25 @@ const TotalCustomer = () => {
     else {
 
       const org = localStorage.getItem('Organisation');
-      const result = await Checkmidvalid(ayy, org);
+      const result = await Checkmidvalid(arry, org);
 
-      // ######## Check which data does not exist    ##########
-      const duplicate = (ayy, result) => {
+      // ######## Check which Master id does not exist    ##########
+      const duplicate = (arry, result) => {
         let res = []
-        res = ayy.filter(el => {
+        res = arry.filter(el => {
           return !result.find(obj => {
             return el === obj.master_id
           })
         })
         return res
       }
-      const duplicatearry = duplicate(ayy, result);
+      const duplicatearry = duplicate(arry, result);
       setDuplicateDate(duplicatearry)
+
       //    #############################################
 
       if (duplicatearry.length > 0) {
         setBackenddata(true)
-
       }
 
       else {
@@ -139,48 +138,26 @@ const TotalCustomer = () => {
         let custid = Number(newcountid);
 
         for (let i = 0; i < importdata.length; i++) {
-          // let custid = newcountid;
-
           if (importdata[i].existing === 'y') {
             const getcustidfro = async () => {
-              // const countids = await IdcountMaster(org, importdata[i].mast_id)
-              console.log()
-
-              // let numid = Number(custid[0].id_count);
-              // numid = numid;
               custid = custid + 1;
-              console.log(custid)
-              // console.log('increid', increid)
-               let increid = '' + custid;
+              let increid = '' + custid;
               increid = increid.padStart(4, '0');
               const generatecust = "CUST" + year + increid;
-              // console.log(generatecust)
-              // const updatecount = await UpdateIdcountmaster(org, importdata[i].mast_id, increid)
               Object.assign(importdata[i], { "cust_id": generatecust })
-
             }
             getcustidfro()
-
           }
           else if (importdata[i].existing === 'n') {
             const createnotexistid = async () => {
-
-              // let mcustidy = countmcustid;
               countmcustid = countmcustid + 1;
-              // countmcustid = mcustidy;
-              // console.log(countmcustid)
               let mcustidy = '' + countmcustid;
               mcustidy = mcustidy.padStart(4, '0');
-
-               custid = custid + 1
-               let custidy = '' + custid;
+              custid = custid + 1
+              let custidy = '' + custid;
               custidy = custidy.padStart(4, '0');
-              // console.log(custidy)
-
               const generatemcust = "MCUST" + year + mcustidy;
-              // console.log(generatemcust)
               const generatecust = "CUST" + year + custidy;
-              // const udataidcontrollertable = await InsertIdcountmaster(org, 'vend', generatemcust, '1')
               Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
             }
             createnotexistid();
@@ -192,27 +169,30 @@ const TotalCustomer = () => {
 
 
         }
-        console.log(importdata.map(id => console.log(id.mast_id  + "-"+  id.cust_id)))
-
-             let totalcustid = Number(newcountid) + Number(importdata.length);
-             console.log(newcountid,importdata.length)
-          console.log('totalcustid',totalcustid)
-          console.log('countmcustid',countmcustid)
-          const updatefinstable = await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
-          console.log(updatefinstable)
-          const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-
-        
 
 
+        let totalcustid = Number(newcountid) + Number(importdata.length);
+        await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
+        const result = await ImportCustomer(importdata, org, localStorage.getItem("User_id"));
+
+        if (!(result === "Data Added")) {
+          setBackenddata(true);
+          setDuplicateDate(result)
+        }
+        else if (result === "Data Added") {
+          document.getElementById("showdataModal").style.display = "none";
+          setBackenddata(false);
+          alert("Data Added")
+          window.location.reload()
+        }
       }
 
     }
 
   };
   //##########################   Upload data end  #################################
-  //##########################  for convert array to json start  #################################
 
+  //##########################  for convert array to json start  #################################
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
@@ -252,7 +232,6 @@ const TotalCustomer = () => {
 
     const fetchdata = async () => {
       let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
-      console.log('getids', getids)
       setYear(getids[0].year);
       setNewmcountid(getids[0].mcust_count)
       setNewcountid(getids[0].cust_count)

@@ -401,6 +401,10 @@ export const CustomerIdmid = async (org, masterid) => {
     const url = `http://localhost:3008/api/customeridmid`
     return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
 }
+
+
+
+// ######################   id controller
 export const IdcountMaster = async (org, masterid) => {
     const url = `http://localhost:3008/api/idcountmaster`
     return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
@@ -414,6 +418,9 @@ export const UpdateIdcountmaster = async (org, masterid,id_count) => {
     const url = `http://localhost:3008/api/updateidcountmaster`
     return axios.post(url, { org, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
 }
+
+
+// ######################   id controller
 
 export const ImportCustomer = async (data, org, User_id) => {
     const url = `http://localhost:3008/api/ImportCustomer`
@@ -471,10 +478,10 @@ export const DeleteVendor = async (sno, status, org) => {
     return axios.post(url, { sno, status, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Unique_Cust_id = async (org) => {
-    const url = `http://localhost:3008/api/unique_cust_id`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
-}
+// export const Unique_Cust_id = async (org) => {
+//     const url = `http://localhost:3008/api/unique_cust_id`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// }
 export const Lastcust_id = async (org) => {
     const url = `http://localhost:3008/api/lastcust_id`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));

@@ -149,7 +149,6 @@ const UpdatefinancialTwocount = async (req,res) =>{
     const countvalue = req.body.countvalue;
     const countvalue2 = req.body.countvalue2;
 
-    console.log(org,countkey,countkey2,countvalue,countvalue2)
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(`Update ${org}.dbo.tbl_fin_year set ${countkey} = '${countvalue}',${countkey2} = '${countvalue2}' where status='Active'`)

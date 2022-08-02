@@ -213,11 +213,11 @@ const Showvendor = () => {
                     const updatefinstable = await UpdatefinancialTwocount(org, 'mvend_count', countmvendid, 'vend_count', totalvendid);
                     console.log(updatefinstable)
                     const result = await ImportVendor(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-                    if (!(result == "Data Added")) {
+                    if (!(result === "Data Added")) {
                         setBackenddata(true);
                         setDuplicateDate(result)
                     }
-                    else if (result == "Data Added") {
+                    else if (result === "Data Added") {
                         document.getElementById("showdataModal").style.display = "none";
                         setBackenddata(false);
                         alert("Data Added")

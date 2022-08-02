@@ -3,8 +3,8 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
-import { AddCustomer, Unique_Cust_id, Lastcust_id } from "../../api";
-import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, UpdatefinancialTwocount,ActivePaymentTerm } from '../../api';
+// import {  Unique_Cust_id, Lastcust_id } from "../../api";
+import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, ActivePaymentTerm,AddCustomer } from '../../api';
 
 
 const Customer = () => {
@@ -32,7 +32,7 @@ const Customer = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectState, setSelectState] = useState([]);
   const [selectCity, setSelectCity] = useState([]);
-  const [paymentterm,setPaymentterm] = useState([]);
+  const [paymentterm, setPaymentterm] = useState([]);
   const [billing_address_city, setBilling_address_city] = useState();
   const [finsyear, setFinsyear] = useState();
   // const [custid, setCustid] = useState();
@@ -68,7 +68,7 @@ const Customer = () => {
 
       let custid = '' + 1
       custid = custid.padStart(4, '0')
-      const generateCust_id ="CUST"+ getyear[0].year + custid
+      const generateCust_id = "CUST" + getyear[0].year + custid
       setGeneratedcust(generateCust_id)
 
       // ##############id for  customer ID end
@@ -84,8 +84,8 @@ const Customer = () => {
       // setUcust_totalid(unique_id.cust_totalid)
       // autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
 
-      const paymet_term=await ActivePaymentTerm(localStorage.getItem('Organisation'))
-console.log(paymet_term)
+      const paymet_term = await ActivePaymentTerm(localStorage.getItem('Organisation'))
+      console.log(paymet_term)
       setPaymentterm(paymet_term)
     }
     fetchdata();
@@ -192,9 +192,7 @@ console.log(paymet_term)
         contact_person_department, remark);
 
       if (result[0] > 0) {
-        const Mcust_count = parseInt(mcustcount);
-        const cust_count = parseInt(custcount) + 1;
-        const result1 = await UpdatefinancialTwocount(org, 'mcust_count', Mcust_count, 'cust_count', cust_count)
+        alert('Data Added')
         window.location.href = "/TotalCustomer";
       }
 
@@ -207,9 +205,7 @@ console.log(paymet_term)
         contact_person_department, remark);
 
       if (result[0] > 0) {
-        const cust_count = parseInt(custcount) + 1;
-        const Mcust_count = parseInt(mcustcount) + 1;
-        const result1 = await UpdatefinancialTwocount(org, 'mcust_count', Mcust_count, 'cust_count', cust_count)
+        alert('Data Added')
         window.location.href = "/TotalCustomer";
       }
     }
@@ -962,8 +958,8 @@ console.log(paymet_term)
                               >
                                 <option value='' hidden>Select term</option>
                                 {
-                                  paymentterm.map((item,index)=>
-                                  <option key={index}>{item.term}</option>)
+                                  paymentterm.map((item, index) =>
+                                    <option key={index}>{item.term}</option>)
                                 }
                               </select>
                             </div>
