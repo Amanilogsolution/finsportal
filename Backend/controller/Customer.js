@@ -231,12 +231,12 @@ const Checkmidvalid = (req, res) => {
  
     try {
          sql.connect(sqlConfig).then(()=>{
-         sql.query(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
+         sql.query(`select mast_id from ${org}.dbo.tbl_new_customer where mast_id in ('${importdata.map(data => data)
             .join("', '")}')`)
 
             .then((resp) => {
                 if (resp.rowsAffected[0] > 0){
-                    res.send(resp.recordset.map(item => ({ "master_id": item.master_id })))
+                    res.send(resp.recordset.map(item => ({ "master_id": item.mast_id })))
                     
                  } else {
                     res.send(resp.rowsAffected)

@@ -111,11 +111,11 @@ const Showvendor = () => {
     const uploaddata = async () => {
         document.getElementById("uploadbtn").disabled = true;
 
-        importdata.map((d) => {
-            if (!d.existing || !d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
-                setErrorno(errorno++);
-            }
-        })
+        // importdata.map((d) => {
+        //     if (!d.existing || !d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
+        //         setErrorno(errorno++);
+        //     }
+        // })
 
         let arry = [];
         importdata.map((d) => {

@@ -109,12 +109,12 @@ const TotalCustomer = () => {
 
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
-    importdata.map((d) => {
+    // importdata.map((d) => {
 
-      if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
-        setErrorno(errorno++);
-      }
-    })
+    //   if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+    //     setErrorno(errorno++);
+    //   }
+    // })
 
     let ayy = [];
     importdata.map((d) => {
