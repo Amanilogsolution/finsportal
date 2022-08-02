@@ -55,28 +55,7 @@ const columns = [
       </div>
     ]
   },
-  // {
-  //     name:'Active',
-  //     selector: 'status',
-  //     sortable: true,
-  //     cell: (row) => [
-  //         <input type='checkbox' checked={row.status == 'Active'} value={row.status} onClick = {async(e) =>
-  //           {
-  //             console.log(e.target.value)
-  //             if(row.status == 'Active'){
-  //               const checkvalue ='Deactive'
-  //               await DeleteCustomer(row.sno,checkvalue)
-  //                   window.location.href='TotalCustomer'
 
-  //             }
-  //             else{
-  //               const checkvalue ='Active'
-  //               await DeleteCustomer(row.sno,checkvalue)
-  //                   window.location.href='TotalCustomer'
-  //             }
-  //            }} />
-  //     ]
-  //   },
   {
     name: "Actions",
     sortable: false,
@@ -92,15 +71,17 @@ const columns = [
 
 const TotalCustomer = () => {
   const [data, setData] = useState([])
+
   const [importdata, setImportdata] = useState([]);
+
   let [errorno, setErrorno] = useState(0);
+
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [year, setYear] = useState();
-  const [idcount, setIdcount] = useState();
+
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
-  const [newmidcount, setNewmidcount] = useState();
   var mcountid = parseInt(newmcountid);
   var countid = parseInt(newcountid);
 
@@ -109,12 +90,12 @@ const TotalCustomer = () => {
 
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
-    importdata.map((d) => {
+    // importdata.map((d) => {
 
-      if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
-        setErrorno(errorno++);
-      }
-    })
+    //   if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+    //     setErrorno(errorno++);
+    //   }
+    // })
 
     let ayy = [];
     importdata.map((d) => {
@@ -128,6 +109,7 @@ const TotalCustomer = () => {
       document.getElementById("showdataModal").style.display = "none";
       window.location.reload()
     }
+
     else {
 
       const org = localStorage.getItem('Organisation');
@@ -157,20 +139,21 @@ const TotalCustomer = () => {
         let custid = newcountid;
 
         for (let i = 0; i < importdata.length; i++) {
-          let custid = newcountid;
+          // let custid = newcountid;
 
           if (importdata[i].existing === 'y') {
             const getcustidfro = async () => {
-              const countids = await IdcountMaster(org, importdata[i].mast_id)
+              // const countids = await IdcountMaster(org, importdata[i].mast_id)
+              console.log()
 
-              let numid = Number(countids[0].id_count);
-              numid = numid;
-              var increid = numid + 1;
+              // let numid = Number(custid[0].id_count);
+              // numid = numid;
+              var increid = custid + 1;
               // console.log('increid', increid)
               increid = '' + increid;
               increid = increid.padStart(4, '0');
               const generatecust = "CUST" + year + increid;
-              const updatecount = await UpdateIdcountmaster(org, importdata[i].mast_id, increid)
+              // const updatecount = await UpdateIdcountmaster(org, importdata[i].mast_id, increid)
               Object.assign(importdata[i], { "cust_id": generatecust })
 
             }
@@ -207,27 +190,27 @@ const TotalCustomer = () => {
 
         }
 
-        setTimeout(async () => {
-          // console.log(importdata)
-          let totalcustid = Number(custid) + Number(importdata.length);
-          // console.log('totalcustid',totalcustid)
-          // console.log('countmcustid',countmcustid)
-          const updatefinstable = await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
-          // console.log(updatefinstable)
-          const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-          if (!(result === "Data Added")) {
-            setBackenddata(true);
-            setDuplicateDate(result)
-            alert("Server Error")
+        // setTimeout(async () => {
+        //   // console.log(importdata)
+        //   let totalcustid = Number(custid) + Number(importdata.length);
+        //   // console.log('totalcustid',totalcustid)
+        //   // console.log('countmcustid',countmcustid)
+        //   const updatefinstable = await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
+        //   // console.log(updatefinstable)
+        //   const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+        //   if (!(result === "Data Added")) {
+        //     setBackenddata(true);
+        //     setDuplicateDate(result)
+        //     alert("Server Error")
 
-          }
-          else if (result === "Data Added") {
-            document.getElementById("showdataModal").style.display = "none";
-            setBackenddata(false);
-            alert("Data Added")
-            window.location.reload()
-          }
-        }, 1000);
+        //   }
+        //   else if (result === "Data Added") {
+        //     document.getElementById("showdataModal").style.display = "none";
+        //     setBackenddata(false);
+        //     alert("Data Added")
+        //     window.location.reload()
+        //   }
+        // }, 1000);
 
 
       }
@@ -281,6 +264,7 @@ const TotalCustomer = () => {
       setYear(getids[0].year);
       setNewmcountid(getids[0].mcust_count)
       setNewcountid(getids[0].cust_count)
+
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
     }
