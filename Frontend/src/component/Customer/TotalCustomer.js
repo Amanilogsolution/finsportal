@@ -82,14 +82,14 @@ const TotalCustomer = () => {
 
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
-  var mcountid = parseInt(newmcountid);
-  var countid = parseInt(newcountid);
+  // var mcountid = newmcountid;
+  // var countid = newcountid;
 
 
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-    document.getElementById("uploadbtn").disabled = true;
+    // document.getElementById("uploadbtn").disabled = true;
     // importdata.map((d) => {
 
     //   if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
@@ -135,8 +135,8 @@ const TotalCustomer = () => {
       }
 
       else {
-        let countmcustid = mcountid;
-        let custid = newcountid;
+        let countmcustid = Number(newmcountid);
+        let custid = Number(newcountid);
 
         for (let i = 0; i < importdata.length; i++) {
           // let custid = newcountid;
@@ -148,11 +148,13 @@ const TotalCustomer = () => {
 
               // let numid = Number(custid[0].id_count);
               // numid = numid;
-              var increid = custid + 1;
+              custid = custid + 1;
+              console.log(custid)
               // console.log('increid', increid)
-              increid = '' + increid;
+               let increid = '' + custid;
               increid = increid.padStart(4, '0');
               const generatecust = "CUST" + year + increid;
+              // console.log(generatecust)
               // const updatecount = await UpdateIdcountmaster(org, importdata[i].mast_id, increid)
               Object.assign(importdata[i], { "cust_id": generatecust })
 
@@ -162,22 +164,23 @@ const TotalCustomer = () => {
           }
           else if (importdata[i].existing === 'n') {
             const createnotexistid = async () => {
-              let mcustidy = countmcustid;
-              mcustidy = mcustidy + 1;
-              countmcustid = mcustidy;
+
+              // let mcustidy = countmcustid;
+              countmcustid = countmcustid + 1;
+              // countmcustid = mcustidy;
               // console.log(countmcustid)
-              mcustidy = '' + mcustidy;
+              let mcustidy = '' + countmcustid;
               mcustidy = mcustidy.padStart(4, '0');
 
-              let custidy = 0 + 1
-              custidy = '' + custidy;
+               custid = custid + 1
+               let custidy = '' + custid;
               custidy = custidy.padStart(4, '0');
               // console.log(custidy)
 
               const generatemcust = "MCUST" + year + mcustidy;
               // console.log(generatemcust)
               const generatecust = "CUST" + year + custidy;
-              const udataidcontrollertable = await InsertIdcountmaster(org, 'vend', generatemcust, '1')
+              // const udataidcontrollertable = await InsertIdcountmaster(org, 'vend', generatemcust, '1')
               Object.assign(importdata[i], { "cust_id": generatecust }, { "mast_id": generatemcust })
             }
             createnotexistid();
@@ -189,28 +192,17 @@ const TotalCustomer = () => {
 
 
         }
+        console.log(importdata.map(id => console.log(id.mast_id  + "-"+  id.cust_id)))
 
-        // setTimeout(async () => {
-        //   // console.log(importdata)
-        //   let totalcustid = Number(custid) + Number(importdata.length);
-        //   // console.log('totalcustid',totalcustid)
-        //   // console.log('countmcustid',countmcustid)
-        //   const updatefinstable = await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
-        //   // console.log(updatefinstable)
-        //   const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-        //   if (!(result === "Data Added")) {
-        //     setBackenddata(true);
-        //     setDuplicateDate(result)
-        //     alert("Server Error")
+             let totalcustid = Number(newcountid) + Number(importdata.length);
+             console.log(newcountid,importdata.length)
+          console.log('totalcustid',totalcustid)
+          console.log('countmcustid',countmcustid)
+          const updatefinstable = await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
+          console.log(updatefinstable)
+          const result = await ImportCustomer(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
 
-        //   }
-        //   else if (result === "Data Added") {
-        //     document.getElementById("showdataModal").style.display = "none";
-        //     setBackenddata(false);
-        //     alert("Data Added")
-        //     window.location.reload()
-        //   }
-        // }, 1000);
+        
 
 
       }
