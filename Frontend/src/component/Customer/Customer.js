@@ -3,8 +3,7 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
-// import {  Unique_Cust_id, Lastcust_id } from "../../api";
-import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, ActivePaymentTerm, AddCustomer, ActiveCurrency } from '../../api';
+import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, ActivePaymentTerm, AddCustomer, ActiveCurrency } from '../../api';
 
 
 const Customer = () => {
@@ -84,9 +83,9 @@ const Customer = () => {
     const website = document.getElementById('website').value;
     const gstin_uin = document.getElementById('gstin_uin').value || "";
     const pan_no = document.getElementById('pan_no').value || "";
-    const place_of_supply= document.getElementById('place_of_supply').value;
-    const payment_terms =document.getElementById('payment_terms').value;
-    const language=document.getElementById('language').value;
+    const place_of_supply = document.getElementById('place_of_supply').value;
+    const payment_terms = document.getElementById('payment_terms').value;
+    const language = document.getElementById('language').value;
     const selectedcurrency = document.getElementById('selectedcurrency').value;
     const exemption_reason = document.getElementById('exemption_reason').value || "";
     const opening_balance = document.getElementById('opening_balance').value;
@@ -111,45 +110,44 @@ const Customer = () => {
     const User_id = localStorage.getItem("User_id");
 
 
-    console.log('language',language);
 
-    // if(!customer_firstname ){
-    //   alert('Please Enter Mandatory field')
+    if (!customer_firstname) {
+      alert('Please Enter Mandatory field')
 
-    // }
-  //   else{
+    }
+    else {
 
-  //   if (showMaster) {
-  //     const result = await AddCustomer(org, User_id, generatedmcust, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
-  //       opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
-  //       billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
-  //       contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-  //       contact_person_department, remark);
+      if (showMaster) {
+        const result = await AddCustomer(org, User_id, generatedmcust, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
+          opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+          billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+          contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+          contact_person_department, remark);
 
-  //     if (result[0] > 0) {
-  //       alert('Data Added')
-  //       window.location.href = "/TotalCustomer";
-  //     }
-  //   }
-  //   else {
-  //     const masterid = document.getElementById('selectedmasterid').value;
+        if (result[0] > 0) {
+          alert('Data Added')
+          window.location.href = "/TotalCustomer";
+        }
+      }
+      else {
+        const masterid = document.getElementById('selectedmasterid').value;
 
 
-  //     const result = await AddCustomer(org, User_id, masterid, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
-  //       opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
-  //       billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
-  //       contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-  //       contact_person_department, remark);
+        const result = await AddCustomer(org, User_id, masterid, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
+          opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+          billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+          contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+          contact_person_department, remark);
 
-  //     if (result[0] > 0) {
-  //       alert('Data Added')
-  //       window.location.href = "/TotalCustomer";
-  //     }
+        if (result[0] > 0) {
+          alert('Data Added')
+          window.location.href = "/TotalCustomer";
+        }
 
-  //   }
+      }
 
-  // }
-}
+    }
+  }
 
 
   const handleChange = (e) => {
@@ -873,7 +871,7 @@ const Customer = () => {
                               <select
                                 id="language"
                                 className="form-control col-md-4"
-                                // onChange={handleChangePortalLanguage}
+                              // onChange={handleChangePortalLanguage}
                               >
                                 <option >English</option>
                                 <option value="हिंदी">हिंदी</option>
