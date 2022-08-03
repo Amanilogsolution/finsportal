@@ -112,7 +112,7 @@ const TotalCustomer = () => {
     else {
 
       const org = localStorage.getItem('Organisation');
-      const result = await Checkmidvalid(arry, org);
+      const result = await Checkmidvalid(arry, org,'tbl_new_customer');
 
       // ######## Check which Master id does not exist    ##########
       const duplicate = (arry, result) => {
@@ -170,13 +170,12 @@ const TotalCustomer = () => {
 
         }
 
-
         let totalcustid = Number(newcountid) + Number(importdata.length);
         await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
         const result = await ImportCustomer(importdata, org, localStorage.getItem("User_id"));
 
         if (!(result === "Data Added")) {
-          setBackenddata(true);
+          setBackenddata(true);  
           setDuplicateDate(result)
         }
         else if (result === "Data Added") {

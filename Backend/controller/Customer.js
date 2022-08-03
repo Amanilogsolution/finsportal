@@ -224,19 +224,20 @@ const CustomerIdMid = async (req, res) => {
 const Checkmidvalid = (req, res) => {
     const org = req.body.org;
     const importdata = req.body.importdata;
+    const tbl_name= req.body.tbl_name;
     // console.log(importdata)
     // console.log(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
     //     .join("', '")}')`)
 
     try {
         sql.connect(sqlConfig).then(() => {
-            sql.query(`select mast_id from ${org}.dbo.tbl_new_customer where mast_id in ('${importdata.map(data => data)
+            sql.query(`select mast_id from ${org}.dbo.${tbl_name} where mast_id in ('${importdata.map(data => data)
                 .join("', '")}')`)
 
                 .then((resp) => {
                     if (resp.rowsAffected[0] > 0) {
                         res.send(resp.recordset.map(item => ({ "master_id": item.mast_id })))
-
+                        // console.log(resp.recordset.map(item => ({ "master_id": item.mast_id })))
                     } else {
                         res.send(resp.rowsAffected)
                     }

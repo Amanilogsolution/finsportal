@@ -91,10 +91,6 @@ const columns = [
 ]
 
 
-
-
-
-
 const Showvendor = () => {
     const [data, setData] = useState([])
     const [importdata, setImportdata] = useState([]);
@@ -109,7 +105,7 @@ const Showvendor = () => {
     //##########################  Upload data start  #################################
 
     const uploaddata = async () => {
-        document.getElementById("uploadbtn").disabled = true;
+        // document.getElementById("uploadbtn").disabled = true;
 
         // importdata.map((d) => {
         //     if (!d.existing || !d.vend_name || !d.vend_email || !d.vend_phone || !d.gst_treatment || !d.pan_no || !d.currency) {
@@ -132,7 +128,7 @@ const Showvendor = () => {
         else {
 
             const org = localStorage.getItem('Organisation')
-            const result = await Checkmidvalid(arry, org);
+            const result = await Checkmidvalid(arry, org, 'tbl_new_vendor');
 
             // ######## Check which data does not exist    ##########
             const duplicate = (arry, result) => {
@@ -154,24 +150,19 @@ const Showvendor = () => {
             }
             else {
 
-
-
                 let countmvendid = mvendid;
                 let countvendid = vendid;
-
                 for (let i = 0; i < importdata.length; i++) {
 
                     if (importdata[i].existing === 'y') {
                         const createvendid = async () => {
-                            const countids = await IdcountMaster(org, importdata[i].mast_id)
 
-                            let numid = Number(countids[0].id_count);
-                            numid = numid;
+                            let numid = Number(countvendid);
                             var increid = numid + 1;
+                            countvendid = increid;
                             increid = '' + increid;
                             increid = increid.padStart(4, '0');
                             const generatevendid = "VEND" + finsyear + increid;
-                            const updatecount = await UpdateIdcountmaster(org, importdata[i].mast_id, increid)
                             Object.assign(importdata[i], { "vend_id": generatevendid })
                         }
 
@@ -181,49 +172,59 @@ const Showvendor = () => {
                     else if (importdata[i].existing === 'n') {
                         const createnotexistid = async () => {
 
-                            let mvendidy = countmvendid;
-                            mvendidy = mvendidy + 1;
+                            let mvendidy = countmvendid + 1;
                             countmvendid = mvendidy
                             mvendidy = '' + mvendidy;
                             mvendidy = mvendidy.padStart(4, '0');
 
-
-                            let vendidy =  0 + 1;
+                            let vendidy = countvendid + 1;
+                            countvendid = vendidy;
                             vendidy = '' + vendidy;
                             vendidy = vendidy.padStart(4, '0');
-
                             const generatemvend = "MVEND" + finsyear + mvendidy;
                             const generatevend = "VEND" + finsyear + vendidy;
-
-                            const udataidcontrollertable = await InsertIdcountmaster(org, 'vend', generatemvend, '1')
                             Object.assign(importdata[i], { "vend_id": generatevend }, { "mast_id": generatemvend })
 
                         }
                         createnotexistid();
 
                     }
-                    else {
-                        alert('Server error')
-                    }
+
 
                 }
 
-                setTimeout(async () => {
-                    let totalvendid = countvendid + importdata.length;
-                    const updatefinstable = await UpdatefinancialTwocount(org, 'mvend_count', countmvendid, 'vend_count', totalvendid);
-                    console.log(updatefinstable)
-                    const result = await ImportVendor(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-                    if (!(result === "Data Added")) {
-                        setBackenddata(true);
-                        setDuplicateDate(result)
-                    }
-                    else if (result === "Data Added") {
-                        document.getElementById("showdataModal").style.display = "none";
-                        setBackenddata(false);
-                        alert("Data Added")
-                        window.location.reload()
-                    }
-                }, 1000);
+                const updatefinstable = await UpdatefinancialTwocount(org, 'mvend_count', countmvendid, 'vend_count', countvendid);
+                const result = await ImportVendor(importdata, org, localStorage.getItem("User_id"));
+                
+                if (!(result === "Data Added")) {
+                    setBackenddata(true);
+                    setDuplicateDate(result)
+                }
+                else if (result === "Data Added") {
+                    document.getElementById("showdataModal").style.display = "none";
+                    setBackenddata(false);
+                    alert("Data Added")
+                    window.location.reload()
+                }
+
+
+
+                // setTimeout(async () => {
+                //     let totalvendid = countvendid + importdata.length;
+                //     const updatefinstable = await UpdatefinancialTwocount(org, 'mvend_count', countmvendid, 'vend_count', totalvendid);
+                //     console.log(updatefinstable)
+                //     const result = await ImportVendor(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+                //     if (!(result === "Data Added")) {
+                //         setBackenddata(true);
+                //         setDuplicateDate(result)
+                //     }
+                //     else if (result === "Data Added") {
+                //         document.getElementById("showdataModal").style.display = "none";
+                //         setBackenddata(false);
+                //         alert("Data Added")
+                //         window.location.reload()
+                //     }
+                // }, 1000);
 
             }
 
@@ -273,8 +274,8 @@ const Showvendor = () => {
     //##########################  for convert excel to array end #################################
 
 
-    useEffect( () => {
-        const fetchdata =async()=>{
+    useEffect(() => {
+        const fetchdata = async () => {
             const org = localStorage.getItem('Organisation')
             const financialyear = await Getfincialyearid(org)
             setFinsyear(financialyear[0].year)
@@ -287,7 +288,7 @@ const Showvendor = () => {
             setData(result)
         }
         fetchdata();
-      
+
     }, [])
 
     const tableData = {
@@ -338,7 +339,7 @@ const Showvendor = () => {
                 </div>
                 <Footer />
 
-                {/* ------------------ Modal start -----------------------------*/}\
+                {/* ------------------ Modal start -----------------------------*/}
                 {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
                 <div
                     className="modal fade"
@@ -430,10 +431,8 @@ const Showvendor = () => {
                                         &times;</span>
                                 </button>
                             </div>
-                            {/* <div className="modal-body"> */}
                             <div className="" style={{ margin: "0px 8px", paddingBottom: "20px", overflow: "auto" }}>
                                 {
-
                                     backenddata ?
                                         <>
                                             <h5 style={{ margin: "auto" }}>This Master id does Not exist</h5>
@@ -455,8 +454,9 @@ const Showvendor = () => {
                                                     }
                                                 </tbody>
                                                 <tfoot></tfoot>
-                                                <br /><br />
+
                                             </table>
+                                            <br /><br />
                                         </>
                                         : null
                                 }
@@ -504,7 +504,7 @@ const Showvendor = () => {
                                     </thead>
                                     <tbody>
                                         {
-                                            importdata.map((d,index) => (
+                                            importdata.map((d, index) => (
                                                 <tr key={index} style={{ border: "1px solid black" }}>
                                                     <td style={{ border: "1px solid black" }}>{d.existing}</td>
                                                     <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
