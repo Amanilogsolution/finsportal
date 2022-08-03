@@ -73,8 +73,8 @@ router.post('/insertunit',unitController.InsertUnit)
 router.post('/showunit',checkAuth,unitController.showunit)
 router.post('/updateunit',unitController.UpdateUnit)
 router.post('/deleteunit',unitController.deleteUnit)
-router.post('/importunit',unitController.ImportUnit)
-
+router.post('/importunit',unitController.ImportUnit)    
+router.post('/activeunit',unitController.Activeunit) 
 
 router.post('/totalbank',bankController.TotalBanks)
 router.post('/addbank',bankController.InsertBank)
@@ -172,6 +172,7 @@ router.post('/LocationAddress',LocationController.LocationAddress)
 router.post('/UpdateLocationAddress',LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress',LocationController.InsertLocationAddress)
 router.post('/importlocationaddress',LocationController.ImportLocationAddress)
+router.post('/activelocationaddress',LocationController.ActiveLocationAddress)
 
 router.post('/locationstatus',LocationController.Locationstatus)
 router.post('/lastlocationid',LocationController.LastLocationid)

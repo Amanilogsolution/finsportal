@@ -259,6 +259,11 @@ export const ImportUnit = async (data, org, User_id) => {
     return axios.post(url, { data, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const Activeunit = async(org) => {
+    const url = `http://localhost:3008/api/activeunit`
+    return axios.post(url, {org }).then(response => response.data).catch(error => console.log(error));
+}
+
 // ###################### Unit api end #############################
 
 
@@ -425,9 +430,9 @@ export const ActiveCustomer = async ( org) => {
     return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const SelectedCustomer = async ( org,cust_name) => {
+export const SelectedCustomer = async ( org,cust_id) => {
     const url = `http://localhost:3008/api/selectedcustomer`
-    return axios.post(url, { org,cust_name}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,cust_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -645,6 +650,11 @@ export const InsertLocationAddress = async (org, location_name, gstin_no, locati
 export const ImportLocationAddress = async (org, datas, User_id) => {
     const url = `http://localhost:3008/api/importlocationaddress`
     return axios.post(url, { org, datas, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ActiveLocationAddress = async (org) => {
+    const url = `http://localhost:3008/api/activelocationaddress`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Locationstatus = async (org, location_id, status) => {
