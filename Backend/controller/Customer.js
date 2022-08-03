@@ -127,8 +127,7 @@ const UpdateCustomer = async (req, res) => {
     const contact_person_designation = req.body.contact_person_designation;
     const contact_person_department = req.body.contact_person_department;
     const remark = req.body.remark;
-    console.log(sno, cust_email, cust_work_phone, cust_phone, contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-        contact_person_department, remark)
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(` UPDATE ${org}.dbo.tbl_new_customer SET cust_email='${cust_email}',cust_work_phone='${cust_work_phone}',cust_phone='${cust_phone}',
@@ -228,20 +227,21 @@ const Checkmidvalid = (req, res) => {
     // console.log(importdata)
     // console.log(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
     //     .join("', '")}')`)
- 
-    try {
-         sql.connect(sqlConfig).then(()=>{
-         sql.query(`select mast_id from ${org}.dbo.tbl_new_customer where mast_id in ('${importdata.map(data => data)
-            .join("', '")}')`)
 
-            .then((resp) => {
-                if (resp.rowsAffected[0] > 0){
-                    res.send(resp.recordset.map(item => ({ "master_id": item.mast_id })))
-                    
-                 } else {
-                    res.send(resp.rowsAffected)
-                }
-            })})
+    try {
+        sql.connect(sqlConfig).then(() => {
+            sql.query(`select mast_id from ${org}.dbo.tbl_new_customer where mast_id in ('${importdata.map(data => data)
+                .join("', '")}')`)
+
+                .then((resp) => {
+                    if (resp.rowsAffected[0] > 0) {
+                        res.send(resp.recordset.map(item => ({ "master_id": item.mast_id })))
+
+                    } else {
+                        res.send(resp.rowsAffected)
+                    }
+                })
+        })
 
 
     }
@@ -280,7 +280,7 @@ const ImportCustomer = (req, res) => {
                                       '${item.contact_person_email}','${item.contact_person_work_phone}','${item.contact_person_phone}','${item.contact_person_skype}','${item.contact_person_designation}',
                                       '${item.contact_person_department}','${item.remark}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
         res.send("Data Added")
-      
+
 
 
     })
@@ -332,7 +332,7 @@ const UpdateIdcountmaster = async (req, res) => {
     }
 }
 
-const ActiveCustomer = async (req,res)=>{
+const ActiveCustomer = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
@@ -347,7 +347,7 @@ const ActiveCustomer = async (req,res)=>{
 }
 
 
-const SelectedCustomer = async (req,res)=>{
+const SelectedCustomer = async (req, res) => {
     const org = req.body.org
     const customer = req.body.cust_name
     try {
@@ -362,4 +362,4 @@ const SelectedCustomer = async (req,res)=>{
 }
 
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id,Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster,ActiveCustomer,SelectedCustomer }
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, ActiveCustomer, SelectedCustomer }

@@ -179,6 +179,14 @@ export const ImportCurrency = async (data, org, user_id) => {
     return axios.post(url, { data, org, user_id }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const ActiveCurrency = async (org) => {
+    const url = `http://localhost:3008/api/activecurrency`
+    return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
+
 // ###################### Currency api end #############################
 
 
@@ -482,11 +490,11 @@ export const DeleteVendor = async (sno, status, org) => {
 //     const url = `http://localhost:3008/api/unique_cust_id`
 //     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 // }
-export const Lastcust_id = async (org) => {
-    const url = `http://localhost:3008/api/lastcust_id`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// export const Lastcust_id = async (org) => {
+//     const url = `http://localhost:3008/api/lastcust_id`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 
-}
+// }
 
 export const showvendor = async (org, sno) => {
     const url = `http://localhost:3008/api/showvendor`

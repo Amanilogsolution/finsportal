@@ -4,29 +4,18 @@ import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
 // import {  Unique_Cust_id, Lastcust_id } from "../../api";
-import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, ActivePaymentTerm,AddCustomer } from '../../api';
+import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, CustomerIdmid, ActivePaymentTerm, AddCustomer, ActiveCurrency } from '../../api';
 
 
 const Customer = () => {
   const [totalmastid, setTotalmastid] = useState([]);
-  // const [getnewval, setGetnewval] = useState();
-  // const [checkdate, setCheckdate] = useState('false');
-  // const [trimtext, setTrimtext] = useState();
-  // const [finyear, setFinyear] = useState();
-  // const [year1, setYear1] = useState();
-  // const [year2, setYear2] = useState();
-  const [texpreferance, setTexprefernace] = useState(false);
   const [showMaster, setShowMaster] = useState(true);
-  const [showMasterdropdown, setShowMasterdropdown] = useState(false);
   const [cust_type, setCust_type] = useState();
-  const [salute, Setsalute] = useState();
   const [gst_treatment, setGst_treatment] = useState();
-  const [place_of_supply, setPlace_of_supply] = useState();
   const [tax_preference, setTax_preference] = useState();
-  const [currency, setCurrency] = useState();
-  const [payment_terms, setPayment_terms] = useState();
+  const [currencylist, setCurrencylist] = useState([]);
   const [enable_portal, setEnable_portal] = useState(false);
-  const [portal_language, setPortal_language] = useState();
+  // const [portal_language, setPortal_language] = useState();
   const [billing_address_country, setBilling_address_country] = useState();
   const [billing_address_state, setBilling_address_state] = useState();
   const [selectedCountry, setSelectedCountry] = useState([]);
@@ -34,30 +23,31 @@ const Customer = () => {
   const [selectCity, setSelectCity] = useState([]);
   const [paymentterm, setPaymentterm] = useState([]);
   const [billing_address_city, setBilling_address_city] = useState();
-  const [finsyear, setFinsyear] = useState();
-  // const [custid, setCustid] = useState();
-  const [mcustcount, setMcustcount] = useState();
-  const [custcount, setCustcount] = useState();
   const [generatedmcust, setGeneratedmcust] = useState();
   const [generatedcust, setGeneratedcust] = useState();
-  const [generatedcust2, setGeneratedcust2] = useState();
 
 
   useEffect(() => {
 
     const fetchdata = async () => {
-      const result = await Activecountries()
+      const org = localStorage.getItem('Organisation');
+      const result = await Activecountries(org)
       setSelectedCountry(result)
 
-      const getyear = await Getfincialyearid(localStorage.getItem('Organisation'))
-      // console.log("getyear",getyear)
-      setFinsyear(getyear[0].year);
-      setMcustcount(getyear[0].mcust_count)
-      setCustcount(getyear[0].cust_count)
-      // setCustid(getyear[0].cust_id);
+      const datacurrency = await ActiveCurrency(org)
+      setCurrencylist(datacurrency)
+
+      const Allmaster_id = await CustomerMastId(org);
+      setTotalmastid(Allmaster_id);
+
+      const paymet_term = await ActivePaymentTerm(org)
+      setPaymentterm(paymet_term)
+
+      const getyear = await Getfincialyearid(org)
+
       // ################ id for master customer start
       let mastid = getyear[0].mcust_count;
-      mastid = parseInt(mastid) + 1;
+      mastid = Number(mastid) + 1;
       mastid = '' + mastid
       mastid = mastid.padStart(4, '0')
       const generateMast_id = "MCUST" + getyear[0].year + mastid
@@ -65,92 +55,24 @@ const Customer = () => {
       // ################ id for master customer Id end
 
       // ############# id for  customer ID start
-
-      let custid = '' + 1
+      let custidno = Number(getyear[0].cust_count) + 1
+      let custid = '' + custidno
       custid = custid.padStart(4, '0')
       const generateCust_id = "CUST" + getyear[0].year + custid
       setGeneratedcust(generateCust_id)
 
       // ##############id for  customer ID end
-
-      const Allmaster_id = await CustomerMastId(localStorage.getItem('Organisation'));
-      setTotalmastid(Allmaster_id);
-
-      // const unique_id = await Unique_Cust_id(localStorage.getItem('Organisation'))
-      // // console.log(unique_id)
-      // const lastcust_id = await Lastcust_id(localStorage.getItem('Organisation'))
-      // // console.log(lastcust_id)
-
-      // setUcust_totalid(unique_id.cust_totalid)
-      // autoIncrementCustomId(unique_id.cust_totalid, unique_id.year, lastcust_id.cust_id)
-
-      const paymet_term = await ActivePaymentTerm(localStorage.getItem('Organisation'))
-      console.log(paymet_term)
-      setPaymentterm(paymet_term)
     }
     fetchdata();
   }, []);
 
-  // // ############### AutoIncrement Customer ID Start ################################### 
-
-  // function autoIncrementCustomId(lastRecordId, year, lastcust_id) {
-  //   // console.log("lastRecordId"+lastRecordId)
-  //   // console.log("year"+year)
-  //   // console.log("lastcust_id"+lastcust_id)
-  //   const a = new Date();
-  //   // const month = 4
-  //   // const date = 1
-  //   const month = a.getMonth() + 1;
-  //   const date = a.getDate();
-  //   if (month === 4 && date === 1) {
-  //     const preyear = a.getFullYear()
-  //     const nextyear = a.getFullYear() + 1
-  //     const combyear = preyear + '-' + nextyear;
-  //     setFinyear(combyear);
-  //     setYear1("31-03-" + preyear)
-  //     setYear2("01-04-" + nextyear)
-  //     const last2 = combyear.substring(7, 9);
-  //     setTrimtext(last2);
-  //     setCheckdate('true')
-  //     const lastcust2 = lastcust_id.substring(1, 3);
-  //     if (lastcust2 == last2) {
-  //       setCheckdate('false')
-  //       const lastdigitval = lastcust_id.substring(4, 10);
-  //       const lastintval = parseInt(lastdigitval) + 1;
-  //       setGetnewval(lastintval);
-  //       const cust_newid = 'C' + last2 + '-' + lastintval;
-  //       setUcust_totalid(cust_newid)
-  //       localStorage.setItem("cust_id", ucust_totalid);
-  //     }
-  //     else {
-  //       const intvalue = 0;
-  //       const value = intvalue + 1;
-  //       setGetnewval(value);
-  //       const cust_newid = 'C' + last2 + '-' + value;
-  //       setUcust_totalid(cust_newid)
-  //       localStorage.setItem("cust_id", ucust_totalid);
-  //     }
-  //   }
-  //   else {
-  //     const value = parseInt(lastRecordId) + 1;
-  //     setGetnewval(value);
-  //     const cust_newid = 'C' + year + '-' + value;
-  //     setUcust_totalid(cust_newid)
-  //     localStorage.setItem("cust_id", ucust_totalid);
-  //     // console.log(localStorage.getItem("cust_id"));
-  //   }
-  // }
-
-  // // ############### AutoIncrement Customer ID End   ###################################
-
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const radiobtn = showMasterdropdown;
-
     const customer_firstname = document.getElementById('customer_firstname').value;
     const customer_lastname = document.getElementById('customer_lastname').value;
-    const cust_name = salute + " " + customer_firstname + " " + customer_lastname;
+    const inputSalute = document.getElementById('inputSalute').value;
+    const cust_name = inputSalute + " " + customer_firstname + " " + customer_lastname;
     const company_name = document.getElementById('company_name').value;
     const cust_display_name = document.getElementById('cust_display_name').value;
     const cust_email = document.getElementById('cust_email').value;
@@ -162,6 +84,10 @@ const Customer = () => {
     const website = document.getElementById('website').value;
     const gstin_uin = document.getElementById('gstin_uin').value || "";
     const pan_no = document.getElementById('pan_no').value || "";
+    const place_of_supply= document.getElementById('place_of_supply').value;
+    const payment_terms =document.getElementById('payment_terms').value;
+    const language=document.getElementById('language').value;
+    const selectedcurrency = document.getElementById('selectedcurrency').value;
     const exemption_reason = document.getElementById('exemption_reason').value || "";
     const opening_balance = document.getElementById('opening_balance').value;
     const facebook_url = document.getElementById('facebook_url').value;
@@ -182,35 +108,48 @@ const Customer = () => {
     const contact_person_department = document.getElementById('contact_person_department').value;
     const remark = document.getElementById('remark').value;
     const org = localStorage.getItem('Organisation');
+    const User_id = localStorage.getItem("User_id");
 
-    if (showMasterdropdown) {
-      const masterid = document.getElementById('selectedmasterid').value;
-      const result = await AddCustomer(org, localStorage.getItem("User_id"), masterid, generatedcust2, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
-        opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
-        billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
-        contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-        contact_person_department, remark);
 
-      if (result[0] > 0) {
-        alert('Data Added')
-        window.location.href = "/TotalCustomer";
-      }
+    console.log('language',language);
 
-    }
-    else {
-      const result = await AddCustomer(org, localStorage.getItem("User_id"), generatedmcust, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, currency,
-        opening_balance, payment_terms, enable_portal, portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
-        billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
-        contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-        contact_person_department, remark);
+    // if(!customer_firstname ){
+    //   alert('Please Enter Mandatory field')
 
-      if (result[0] > 0) {
-        alert('Data Added')
-        window.location.href = "/TotalCustomer";
-      }
-    }
+    // }
+  //   else{
 
-  }
+  //   if (showMaster) {
+  //     const result = await AddCustomer(org, User_id, generatedmcust, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
+  //       opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+  //       billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+  //       contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+  //       contact_person_department, remark);
+
+  //     if (result[0] > 0) {
+  //       alert('Data Added')
+  //       window.location.href = "/TotalCustomer";
+  //     }
+  //   }
+  //   else {
+  //     const masterid = document.getElementById('selectedmasterid').value;
+
+
+  //     const result = await AddCustomer(org, User_id, masterid, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
+  //       opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
+  //       billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
+  //       contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+  //       contact_person_department, remark);
+
+  //     if (result[0] > 0) {
+  //       alert('Data Added')
+  //       window.location.href = "/TotalCustomer";
+  //     }
+
+  //   }
+
+  // }
+}
 
 
   const handleChange = (e) => {
@@ -218,42 +157,16 @@ const Customer = () => {
     setCust_type(data);
   }
 
-  const handelchangemasterid = async (e) => {
-    let masterid = e.target.value;
-    const countresult = await CustomerIdmid(localStorage.getItem('Organisation'), masterid)
-    let num = parseInt(countresult[0].count) + 1
-    num = '' + num;
-    num = num.padStart(4, '0');
-    const newcustid = "cust" + finsyear + num
-    setGeneratedcust2(newcustid)
 
-  }
 
-  const handleChangeSalute = (e) => {
-    let data = e.target.value;
-    Setsalute(data);
-  }
-
-  const handleChangeSupply = (e) => {
-    let data = e.target.value;
-    setPlace_of_supply(data);
-  }
 
   const handleChangetextPreferance = (e) => {
     let data = e.target.value;
     setTax_preference(data);
   }
 
-  const handleChangeCurrency = (e) => {
-    let data = e.target.value;
-    setCurrency(data);
-  }
-  const handleChangePaymentTerms = (e) => {
-    let data = e.target.value;
-    setPayment_terms(data);
-  }
+
   const handleClickportal = (e) => {
-    // console.log(enable_portal)
     if (enable_portal === false) {
       setEnable_portal(true);
     }
@@ -261,15 +174,14 @@ const Customer = () => {
       setEnable_portal(false);
     }
   }
-  const handleChangePortalLanguage = (e) => {
-    let data = e.target.value;
-    setPortal_language(data);
-  }
+  // const handleChangePortalLanguage = (e) => {
+  //   let data = e.target.value;
+  //   setPortal_language(data);
+  // }
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
     setBilling_address_country(data);
     const statesresult = await showactivestate(data)
-    // console.log(statesresult)
     setSelectState(statesresult)
   }
   const handleChangebillingState = async (e) => {
@@ -277,7 +189,6 @@ const Customer = () => {
     setBilling_address_state(data);
     const result = await getCity(data)
     setSelectCity(result)
-    // console.log(result)
   }
   const handleAddressCity = async (e) => {
     let data = e.target.value;
@@ -328,7 +239,7 @@ const Customer = () => {
                             </label>
                             <label className="form-check form-check-inline">
                               <input className="form-check-input" type="radio" name="masterid"
-                                onClick={() => { setShowMaster(true); setShowMasterdropdown(false) }}
+                                onClick={() => { setShowMaster(true); }}
                                 checked="checked" />
                               <span className="form-check-label font-weight-normal">
                                 Non Existing
@@ -339,8 +250,7 @@ const Customer = () => {
                                 className="form-check-input"
                                 type="radio"
                                 name="masterid"
-                                onClick={() => { setShowMaster(false); setShowMasterdropdown(true) }}
-
+                                onClick={() => { setShowMaster(false); }}
                               />
                               <span className="form-check-label font-weight-normal">
                                 Existing Customer
@@ -356,32 +266,16 @@ const Customer = () => {
                               <div className="col form-group">
                                 <input type="text" className="form-control col-md-4" id='mast_id' value={generatedmcust} disabled />
                               </div>
-                              {/* form-group end.// */}
                             </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="cust_id"
-                                className="col-md-2 col-form-label font-weight-normal" >
-                                Customer Id
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="text"
-                                  id="cust_id"
-                                  className="form-control col-md-4"
-                                  value={generatedcust}
-                                  disabled
-                                />
-                              </div>
-                            </div></>) : null}
-                        {showMasterdropdown ? (<>
+                          </>) :
                           <div className="form-row" id='masterdropdown'>
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                             <div className="col form-group">
                               <select
                                 id="selectedmasterid"
-                                className="form-control col-md-4" onChange={handelchangemasterid}>
-                                <option selected hidden >Select Master ID</option>
+                                className="form-control col-md-4"
+                              >
+                                <option value='' hidden >Select Master ID</option>
                                 {
                                   totalmastid.map((allid, index) => (
                                     <option key={index}>{allid.mast_id}</option>
@@ -390,23 +284,25 @@ const Customer = () => {
                               </select>
                             </div>
                           </div>
-                          <div className="form-row">
-                            <label
-                              htmlFor="cust_id"
-                              className="col-md-2 col-form-label font-weight-normal" >
-                              Customer Id
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="text"
-                                id="cust_id"
-                                className="form-control col-md-4"
-                                value={generatedcust2}
-                                disabled
-                              />
-                            </div>
-                          </div></>
-                        ) : null}
+                        }
+
+
+                        <div className="form-row">
+                          <label
+                            htmlFor="cust_id"
+                            className="col-md-2 col-form-label font-weight-normal" >
+                            Customer Id
+                          </label>
+                          <div className="col form-group">
+                            <input
+                              type="text"
+                              id="cust_id"
+                              className="form-control col-md-4"
+                              value={generatedcust}
+                              disabled
+                            />
+                          </div>
+                        </div>
 
 
                         <div className="form-row" onChange={handleChange}>
@@ -461,11 +357,10 @@ const Customer = () => {
                           </label>
                           <div className=" form-group">
                             <select
-                              onChange={handleChangeSalute}
                               id="inputSalute"
                               className="form-control col-md-"
                             >
-                              <option selected> Salutation</option>
+                              <option value='' hidden> Salutation</option>
                               <option value="Mr.">Mr.</option>
                               <option value="Mrs.">Mrs.</option>
                               <option value="Ms.">Ms.</option>
@@ -473,7 +368,6 @@ const Customer = () => {
                               <option value="Dr.">Dr.</option>
                             </select>
                           </div>
-                          {/* form-group end.// */}
                           <div className="col form-group">
                             <input
                               type="text"
@@ -483,7 +377,6 @@ const Customer = () => {
                               required
                             />
                           </div>
-                          {/* form-group end.// */}
                           <div className="col form-group">
                             <input
                               type="text"
@@ -493,10 +386,8 @@ const Customer = () => {
                               required
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
-                        {/* form-row end.// */}
 
 
                         <div className="form-row">
@@ -514,7 +405,6 @@ const Customer = () => {
                               required
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -532,7 +422,6 @@ const Customer = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id="cust_display_name" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -569,7 +458,6 @@ const Customer = () => {
                               required
                             />
                           </div>
-                          {/* form-group end.// */}
                           <div className="col form-group">
                             <input
                               type="number"
@@ -580,9 +468,7 @@ const Customer = () => {
                               style={{ marginLeft: "-30px" }}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-                        {/* form-row end.// */}
 
                         <p className="newlinep" id="newlinepid" onClick={formshow}>
                           Add more Details
@@ -602,7 +488,6 @@ const Customer = () => {
                                 id="skype_detail"
                               />
                             </div>
-                            {/* form-group end.// */}
                           </div>
                           <div className="form-row">
                             <label
@@ -618,7 +503,6 @@ const Customer = () => {
                                 id="designation"
                               />
                             </div>
-                            {/* form-group end.// */}
                           </div>
                           <div className="form-row">
                             <label
@@ -634,7 +518,6 @@ const Customer = () => {
                                 id="department"
                               />
                             </div>
-                            {/* form-group end.// */}
                           </div>
                         </div>
 
@@ -649,7 +532,6 @@ const Customer = () => {
                           <div className="col form-group">
                             <input type="url" className="form-control col-md-4" id="website" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row bg-light">
@@ -668,7 +550,6 @@ const Customer = () => {
                               Other Details
                             </button>
                           </div>
-                          {/* form-group end.// */}
                           <div className="col-md-1 form-group">
                             <button
                               className="btn btn-link"
@@ -700,19 +581,16 @@ const Customer = () => {
                               Contact Persons
                             </button>
                           </div>
-                          {/* form-group end.// */}
                           <div className="col-md-2 form-group">
                             <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
                               Custom Fields
                             </button>
                           </div>
-                          {/* form-group end.// */}
                           <div className="col-md-2 form-group">
                             <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
                               Reporting Tags
                             </button>
                           </div>
-                          {/* form-group end.// */}
                           <div className="col-md-2 form-group">
                             <button
                               className="btn btn-link"
@@ -728,9 +606,7 @@ const Customer = () => {
                               Remarks
                             </button>
                           </div>
-                          {/* form-group end.// */}
                         </div>
-                        {/* form-row end.// */}
 
                         {/*----------------------- Other Details  ---------------------------------------------- */}
 
@@ -750,7 +626,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                                 onClick={selectgst}
                               >
-                                <option selected>Select GST Treatment</option>
+                                <option value=''>Select GST Treatment</option>
                                 <option>Registered Bussiness -Regular</option>
                                 <option>
                                   Registered Bussiness - Composition
@@ -764,7 +640,6 @@ const Customer = () => {
                                 <option>SEZ Developer</option>
                               </select>
                             </div>
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row" id="gstin" style={{ display: "none" }}>
@@ -781,7 +656,6 @@ const Customer = () => {
                                 id="gstin_uin"
                               />
                             </div>
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row">
@@ -811,11 +685,10 @@ const Customer = () => {
                             </label>
                             <div className="col form-group">
                               <select
-                                id="inputState"
+                                id="place_of_supply"
                                 className="form-control col-md-4"
-                                onChange={handleChangeSupply}
                               >
-                                <option selected>Select the state</option>
+                                <option value='' hidden>Select the state</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                 <option value="Assam">Assam</option>
@@ -827,7 +700,6 @@ const Customer = () => {
                                 <option value="Himachal Pradesh">Himachal Pradesh</option>
                               </select>
                             </div>
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row" onChange={handleChangetextPreferance}>
@@ -847,7 +719,7 @@ const Customer = () => {
                                   type="radio"
                                   name="taxpreference"
                                   value="Taxable"
-                                  onClick={() => setTexprefernace(false)}
+                                  onClick={() => document.getElementById('exemptionreasonbox').style.display = "none"}
                                 />
                                 <span className="form-check-label font-weight-normal">
                                   Taxable
@@ -859,7 +731,7 @@ const Customer = () => {
                                   type="radio"
                                   name="taxpreference"
                                   value="Tax Exempt"
-                                  onClick={() => setTexprefernace(true)}
+                                  onClick={(e) => { document.getElementById('exemptionreasonbox').style.display = "flex" }}
                                 />
                                 <span className="form-check-label font-weight-normal">
                                   Tax Exempt
@@ -868,29 +740,33 @@ const Customer = () => {
                             </div>
                           </div>
 
-                          {/*---------------------------------- toogle exemption reason  -----------------------------------*/}
-                          {texpreferance ? (
-                            <div className="form-row" id="exemptionreason">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                <span style={{ color: "red" }}>
-                                  Exemption Reason *
-                                </span>
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  id="exemption_reason"
-                                  className="form-control col-md-4"
-                                  type="text"
-                                />
-                              </div>
-                              {/* form-group end.// */}
-                            </div>
-                          ) : null}
+                          {/*---------------------------------- toogle exemption reason start -----------------------------------*/}
 
-                          <div className="form-row">
+                          <div className="form-row " id="exemptionreasonbox" style={{ display: "none" }}>
+
+                            <label
+                              htmlFor="exemption_reason"
+                              className="col-md-2 col-form-label font-weight-normal">
+                              <span style={{ color: "red" }}>
+                                Exemption Reason *
+                              </span>
+                            </label>
+                            <div className=" form-group col" >
+                              <input
+                                id="exemption_reason"
+                                className="form-control col-md-4"
+                                type="text"
+                              />
+                            </div>
+
+                          </div>
+
+                          {/*---------------------------------- toogle exemption reason end -----------------------------------*/}
+
+
+
+
+                          <div className="form-row" >
                             <label
                               htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal"
@@ -899,31 +775,19 @@ const Customer = () => {
                             </label>
                             <div className="col-md-4 form-group pr-0">
                               <select
-                                id="inputState"
+                                id="selectedcurrency"
                                 className="form-control col-md-10 "
                                 data-live-search="true"
-                                onChange={handleChangeCurrency}
+
                               >
-                                <option selected> AED- UAE Dirham</option>
-                                <option value="AUD- Australian Dollar">AUD- Australian Dollar</option>
-                                <option value="CAD- Canadian Dollar">CAD- Canadian Dollar</option>
-                                <option value="CNY- Yuan Renminbi">CNY- Yuan Renminbi</option>
-                                <option value="EUR- Euro">EUR- Euro</option>
-                                <option value="INR- Indian Rupee">INR- Indian Rupee</option>
+                                <option hidden value=''>Select Currency</option>
+                                {
+                                  currencylist.map((item, index) =>
+                                    <option key={index}>{item.currency_name}</option>)
+                                }
                               </select>
                             </div>
 
-                            {/* <div className=" form-group">
-                              <button
-                                type="button"
-                                className="btn btn-primary "
-                                data-toggle="modal"
-                                data-target="#exampleModal"
-                              >
-                                Add Currency
-                              </button>
-                            </div> */}
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row">
@@ -940,7 +804,6 @@ const Customer = () => {
                                 id="opening_balance"
                               />
                             </div>
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row">
@@ -952,9 +815,8 @@ const Customer = () => {
                             </label>
                             <div className="col form-group">
                               <select
-                                id="inputState"
+                                id="payment_terms"
                                 className="form-control col-md-4"
-                                onChange={handleChangePaymentTerms}
                               >
                                 <option value='' hidden>Select term</option>
                                 {
@@ -963,7 +825,6 @@ const Customer = () => {
                                 }
                               </select>
                             </div>
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row">
@@ -1010,11 +871,11 @@ const Customer = () => {
                             </label>
                             <div className="col form-group">
                               <select
-                                id="inputState"
+                                id="language"
                                 className="form-control col-md-4"
-                                onChange={handleChangePortalLanguage}
+                                // onChange={handleChangePortalLanguage}
                               >
-                                <option selected>English</option>
+                                <option >English</option>
                                 <option value="हिंदी">हिंदी</option>
                                 <option value="عربي">عربي</option>
                                 <option value="বাংলা">বাংলা</option>
@@ -1022,7 +883,6 @@ const Customer = () => {
                                 <option value="Deutsch">Deutsch</option>
                               </select>
                             </div>
-                            {/* form-group end.// */}
                           </div>
 
                           <div className="form-row">
@@ -1087,7 +947,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option value='' hidden> Select</option>
                                   {
                                     selectedCountry.map((data, index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
@@ -1097,7 +957,6 @@ const Customer = () => {
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
                             <div className="form-row">
                               <label
@@ -1112,7 +971,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option value='' hidden> Select State</option>
                                   {
                                     selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -1135,7 +994,7 @@ const Customer = () => {
                                   className="form-control"
                                   onChange={handleAddressCity}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option value='' hidden> select city</option>
                                   {
                                     selectCity.map((data, index) => (
                                       <option key={index} value={data.city_name}>{data.city_name}</option>
@@ -1145,26 +1004,7 @@ const Customer = () => {
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
-
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                City
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="email"
-                                  className="form-control col-md-7"
-                                  id="billing_address_city"
-                                />
-                              </div>
-                            </div> */}
-
-
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
@@ -1212,137 +1052,6 @@ const Customer = () => {
                               </div>
                             </div>
                           </div>
-                          <div
-                            className="Address_right"
-                            style={{ width: "50%", float: "right" }}
-                          >
-                            {/* <label>SHIPPING ADDRESS</label> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Attention
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="email"
-                                  className="form-control col-md-7"
-                                />
-                              </div>
-                            </div> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Country / Region
-                              </label>
-                              <div className="col-md-6 form-group">
-                                <select
-                                  id="inputState"
-                                  className="form-control"
-                                >
-                                  <option defa> Select</option>
-                                </select>
-                              </div>
-                              {/* form-group end.// 
-                            </div> */}
-                            {/* <div className="form-row">
-                                <label
-                                  htmlFor="user_name"
-                                  className="col-md-2 col-form-label font-weight-normal"
-                                >
-                                  City
-                                </label>
-                                <div className="col form-group">
-                                  <input
-                                    type="email"
-                                    className="form-control col-md-7"
-                                    placeholder="Street 1"
-                                  />
-                                  <br />
-                                  <input
-                                    type="email"
-                                    className="form-control col-md-7"
-                                    placeholder="Street 2"
-                                  />
-                                </div>
-                              </div> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                City
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="text"
-                                  className="form-control col-md-7"
-                                />
-                              </div>
-                            </div> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                State
-                              </label>
-                              <div className="col-md-6 form-group">
-                                <select
-                                  id="inputState"
-                                  className="form-control"
-                                >
-                                  <option selected>Select</option>
-                                </select>
-                              </div>
-                              {/* form-group end.// 
-                            </div> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Zip Code
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="number"
-                                  className="form-control col-md-7"
-                                />
-                              </div>
-                            </div> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Phone
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="number"
-                                  className="form-control col-md-7"
-                                />
-                              </div>
-                            </div> */}
-                            {/* <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Fax
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="email"
-                                  className="form-control col-md-7"
-                                />
-                              </div>
-                            </div> */}
-                          </div>
                         </div>
 
                         {/*--------- Remark ---------- */}
@@ -1363,15 +1072,11 @@ const Customer = () => {
                               rows="5"
                             ></textarea>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         {/*---------------------------  Add Contact Person ---------------------------- */}
 
                         <div className="Address mt-3" id="contactdiv" style={{ display: "none" }}>
-                          {/* <div
-                             className="Address_left"
-                             style={{ width: "50%", float: "left" }}> */}
                           <label>Contact Person</label>
                           <div className="form-row">
                             <label
@@ -1388,12 +1093,7 @@ const Customer = () => {
                               />
                             </div>
                           </div>
-                          {/* <div className="form-row">
-                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Last Name</label>
-                              <div className="col form-group">
-                                <input type="name" className="form-control col-md-4"  />
-                              </div>
-                            </div> */}
+
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
                             <div className="col form-group">
@@ -1434,115 +1134,14 @@ const Customer = () => {
 
                       </form>
                     </article>
-                    {/* card-body end .// */}
                     <div className="border-top card-body">
                       <button className="btn btn-success " onClick={handleClick}>Save</button>
                       <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
                     </div>
                   </div>
-                  {/* card.// */}
-                </div>
-                {/* col.//*/}
-              </div>
-              {/* row.//*/}
-            </div>
-
-            {/* ------------------ Modal start -----------------------------*/}
-            <div
-              className="modal fade"
-              id="exampleModal"
-              tabIndex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      Add Currency
-                    </h5>
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div className="modal-body">
-                    <div className=" ">
-                      <label
-                        htmlFor="user_name"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        <span style={{ color: "red" }}> Currency Code *</span>
-                      </label>
-                      <div className="col form-group ">
-                        <select
-                          id="inputState"
-                          className="form-control col-md-10 "
-                        >
-                          <option selected> AED- UAE Dirham</option>
-                          <option>AUD- Australian Dollar</option>
-                          <option>CAD- Canadian Dollar</option>
-                          <option>CNY- Yuan Renminbi</option>
-                          <option>EUR- Euro</option>
-                          <option>INR- Indian Rupee</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className=" ">
-                      <label
-                        htmlFor="user_name"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        <span style={{ color: "red" }}> Currency Symbol *</span>
-                      </label>
-                      <div className="col form-group ">
-                        <input
-                          id="addsymbol"
-                          type="text"
-                          className="form-control col-md-10"
-                        />
-                      </div>
-                    </div>
-                    <div className=" ">
-                      <label
-                        htmlFor="user_name"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        <span style={{ color: "red" }}> Currency Name *</span>
-                      </label>
-                      <div className="col form-group ">
-                        <input
-                          id="addcurrencyname"
-                          type="text"
-                          className="form-control col-md-10"
-                        />
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" className="btn btn-primary">
-                      ADD
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
-            {/* ------------------ Modal end -----------------------------*/}
-
             <br />
             <br />
           </div>

@@ -108,4 +108,20 @@ const ImportCurrency = (req,res) =>{
 
 }
 
-module.exports = {Totalcurrency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency}
+
+
+const ActiveCurrency = async (req, res) => {
+    const org = req.body.org;
+  
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_currency with (nolock) WHERE status='Active'`)
+        // console.log(result.recordset)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = {Totalcurrency,InsertCurrency,deleteCurrency,UpdateCurrency,ShowCurrency,ImportCurrency,ActiveCurrency}

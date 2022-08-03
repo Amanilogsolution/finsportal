@@ -57,6 +57,8 @@ router.post('/deletecurrency', currencyController.deleteCurrency);
 router.post('/updatecurrency', currencyController.UpdateCurrency);
 router.post('/showcurrency', currencyController.ShowCurrency);
 router.post('/ImportCurrency', currencyController.ImportCurrency)
+router.post('/activecurrency', currencyController.ActiveCurrency)
+
 
 router.get('/totalcity',cityController.city)
 router.post('/insertcity',cityController.insertCity)
