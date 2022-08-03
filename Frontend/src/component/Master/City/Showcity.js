@@ -270,7 +270,8 @@ const Showcity = () => {
                   </div><br />
                   <span style={{ color: "red" }}>
                     <a href={Excelfile} download> Download formate</a>
-                  </span><br />
+                  </span>
+                  <br />
                 </div>
               </div>
               <div className="modal-footer">

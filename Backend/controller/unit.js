@@ -119,4 +119,16 @@ const ImportUnit = (req, res) => {
     })
 }
 
-module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, InsertUnit, showunit, UpdateUnit, ImportUnit }
+async function Activeunit(req, res) {
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select unit_name from ${org}.dbo.tbl_unit with (nolock)`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, InsertUnit, showunit, UpdateUnit, ImportUnit,Activeunit }

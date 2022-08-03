@@ -76,10 +76,10 @@ const SelectCustAddress = async (req, res) => {
 //
 const TotalCustAddress = async (req, res) => {
     const org = req.body.org;
-    const cust_name = req.body.cust_id;
+    const cust_id = req.body.cust_id;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name ='${cust_name}';`)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses WHERE cust_id ='${cust_id}';`)
         res.send(result.recordset)
     }
     catch (err) {

@@ -336,7 +336,7 @@ const ActiveCustomer = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT cust_name  from ${org}.dbo.tbl_new_customer tnc where status='Active'`)
+        const result = await sql.query(`SELECT cust_name,cust_id  from ${org}.dbo.tbl_new_customer tnc where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -349,11 +349,13 @@ const ActiveCustomer = async (req, res) => {
 
 const SelectedCustomer = async (req, res) => {
     const org = req.body.org
-    const customer = req.body.cust_name
+    const cust_id = req.body.cust_id
+    console.log(org,cust_id)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_name='${customer}'`)
-        res.send(result.recordset)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_id='${cust_id}'`)
+        res.send(result.recordset[0])
+        // console.log(result.recordset[0])
     }
     catch (err) {
         res.send(err)
