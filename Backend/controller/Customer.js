@@ -293,7 +293,6 @@ const Idcountmaster = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select id_count from ${org}.dbo.tbl_id_controller where master_id='${masterid}';`)
-        // console.log(result.recordset)
         res.send(result.recordset)
     }
     catch (err) {

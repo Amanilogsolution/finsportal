@@ -196,12 +196,7 @@ const Newdb = async (req, res) => {
                 status varchar(50) NULL,
                 newvend_uuid varchar(100) NULL
             );
-            CREATE TABLE ${dbname}.dbo.tbl_id_controller(
-                sno bigint IDENTITY(1,1) NOT NULL,
-                id_type varchar(50) NULL,
-                master_id varchar(50) NULL,
-                id_count varchar(50) NULL,
-            );
+         
             CREATE TABLE ${dbname}.dbo.tbl_new_customer (
                 sno bigint IDENTITY(1,1) NOT NULL,
                 mast_id varchar(50) NULL,
