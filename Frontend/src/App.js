@@ -147,126 +147,126 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/LoginDetails" component={LoginDetails}/>
           <Route exact path="/ChangePassword" component={ChangePassword}/>
 
-          <Route  exact path="/home" component={Home}/>
-          <Route exact path="/Customer" component={Customer}/>
+          <PrivatRoute  exact path="/home" component={Home}/>
+          <PrivatRoute exact path="/Customer" component={Customer}/>
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
-          <Route exact path="/org" component={Org}/>
-          <Route exact path="/EditOrganisation" component={EditOrganisation}/>
+          <PrivatRoute exact path="/org" component={Org}/>
+          <PrivatRoute exact path="/EditOrganisation" component={EditOrganisation}/>
 
-          <Route exact path="/vendor" component={Vendor}/>
-          <Route exact path="/Showvendor" component={Showvendor}/>
-          <Route exact path="/Editvendor" component={Editvendor}/>
-          <Route exact path="/StateMaster" component={StateMaster}/>
-          <Route exact path="/ShowState" component={ShowState}/>
-          <Route exact path="/EditState" component={EditState}/>
+          <PrivatRoute exact path="/vendor" component={Vendor}/>
+          <PrivatRoute exact path="/Showvendor" component={Showvendor}/>
+          <PrivatRoute exact path="/Editvendor" component={Editvendor}/>
+          <PrivatRoute exact path="/StateMaster" component={StateMaster}/>
+          <PrivatRoute exact path="/ShowState" component={ShowState}/>
+          <PrivatRoute exact path="/EditState" component={EditState}/>
           
-          <Route exact path="/ShowCountry" component={ShowCountry}/>
-          <Route exact path="/AddCountry" component={AddCountry}/>
-          <Route exact path="/EditCountry" component={EditCountry}/>
-          <Route exact path="/ShowCurrency" component={ShowCurrency}/>
-          <Route exact path="/AddCurrency" component={AddCurrency}/>
-          <Route exact path="/EditCurrency" component={EditCurrency}/>
-          <Route exact path="/Showcity" component={Showcity}/>
-          <Route exact path="/Addcity" component={Addcity}/>
-          <Route exact path='/EditCity' component={EditCity}/>
+          <PrivatRoute exact path="/ShowCountry" component={ShowCountry}/>
+          <PrivatRoute exact path="/AddCountry" component={AddCountry}/>
+          <PrivatRoute exact path="/EditCountry" component={EditCountry}/>
+          <PrivatRoute exact path="/ShowCurrency" component={ShowCurrency}/>
+          <PrivatRoute exact path="/AddCurrency" component={AddCurrency}/>
+          <PrivatRoute exact path="/EditCurrency" component={EditCurrency}/>
+          <PrivatRoute exact path="/Showcity" component={Showcity}/>
+          <PrivatRoute exact path="/Addcity" component={Addcity}/>
+          <PrivatRoute exact path='/EditCity' component={EditCity}/>
           <PrivatRoute exact path="/ShowUnit" component={ShowUnit}/>
-          <Route exact path="/AddUnit" component={AddUnit}/>
+          <PrivatRoute exact path="/AddUnit" component={AddUnit}/>
           <PrivatRoute exact path="/EditUnit" component={EditUnit}/>
 
-          <Route exact path="/AddBank" component={AddBank}/>
-          <Route exact path="/TotalBank" component={TotalBank}/>
-          <Route exact path="/EditBank" component={EditBank}/>
-          <Route exact path="/AddBankList" component={AddBankList}/>
+          <PrivatRoute exact path="/AddBank" component={AddBank}/>
+          <PrivatRoute exact path="/TotalBank" component={TotalBank}/>
+          <PrivatRoute exact path="/EditBank" component={EditBank}/>
+          <PrivatRoute exact path="/AddBankList" component={AddBankList}/>
 
-          <Route exact path="/ShowUser" component={ShowUser}/>
-          <Route exact path="/AddUser" component={AddUser}/>
-          <Route exact path="/EditUser" component={EditUser}/>
-          <Route exact path="/Practice" component={Practice}/>
+          <PrivatRoute exact path="/ShowUser" component={ShowUser}/>
+          <PrivatRoute exact path="/AddUser" component={AddUser}/>
+          <PrivatRoute exact path="/EditUser" component={EditUser}/>
+          <PrivatRoute exact path="/Practice" component={Practice}/>
 
-          <Route exact path="/TotalCustomer" component={TotalCustomer}/>
-          <Route exact path="/EditCustomer" component={EditCustomer}/>
+          <PrivatRoute exact path="/TotalCustomer" component={TotalCustomer}/>
+          <PrivatRoute exact path="/EditCustomer" component={EditCustomer}/>
           <Route exact path="/AddCustAddress" component={AddCustAddress}/>
-          <Route exact path="/TotalCustAddress" component={TotalCustAddress}/>
-          <Route exact path="/EditAddress" component={EditAddress}/>
+          <PrivatRoute exact path="/TotalCustAddress" component={TotalCustAddress}/>
+          <PrivatRoute exact path="/EditAddress" component={EditAddress}/>
 
-          <Route exact path="/AddVendAddress" component={AddVendAddress}/>
-          <Route exact path="/TotalVendAddress" component={TotalVendAddress}/>
-          <Route exact path="/EditVendorAddress" component={EditVendorAddress}/>
+          <PrivatRoute exact path="/AddVendAddress" component={AddVendAddress}/>
+          <PrivatRoute exact path="/TotalVendAddress" component={TotalVendAddress}/>
+          <PrivatRoute exact path="/EditVendorAddress" component={EditVendorAddress}/>
           
-          <Route exact path="/TotalLocation" component={TotalLocation}/>
-          <Route exact path="/AddLocation" component={AddLocation}/>
-          <Route exact path="/EditLocation" component={EditLocation}/>
+          <PrivatRoute exact path="/TotalLocation" component={TotalLocation}/>
+          <PrivatRoute exact path="/AddLocation" component={AddLocation}/>
+          <PrivatRoute exact path="/EditLocation" component={EditLocation}/>
 
-          <Route exact path="/Addcompliances" component={Addcompliances}/>
-          <Route exact path="/Showcompliances" component={Showcompliances}/>
-          <Route exact path="/Editcompliances" component={Editcompliances}/>
-          <Route exact path="/UploadComplianceDocument" component={UploadComplianceDocument}/>
+          <PrivatRoute exact path="/Addcompliances" component={Addcompliances}/>
+          <PrivatRoute exact path="/Showcompliances" component={Showcompliances}/>
+          <PrivatRoute exact path="/Editcompliances" component={Editcompliances}/>
+          <PrivatRoute exact path="/UploadComplianceDocument" component={UploadComplianceDocument}/>
 
 
-          <Route exact path="/ShowcompliancesType" component={ShowcompliancesType}/>
-          <Route exact path="/AddcomplianceType" component={AddcomplianceType}/>
-          <Route exact path="/EditComplianceType" component={EditComplianceType}/>
-          <Route exact path="/Panding-Compliances" component={PandingCompliances}/>
+          <PrivatRoute exact path="/ShowcompliancesType" component={ShowcompliancesType}/>
+          <PrivatRoute exact path="/AddcomplianceType" component={AddcomplianceType}/>
+          <PrivatRoute exact path="/EditComplianceType" component={EditComplianceType}/>
+          <PrivatRoute exact path="/Panding-Compliances" component={PandingCompliances}/>
 
-          <Route exact path="/AddOrgAddress" component={AddOrgAddress}/>
-          <Route exact path="/EditOrgAddress" component={EditOrgAddress}/>
+          <PrivatRoute exact path="/AddOrgAddress" component={AddOrgAddress}/>
+          <PrivatRoute exact path="/EditOrgAddress" component={EditOrgAddress}/>
 
-          <Route exact path="/Fincialyear" component={Fincialyear}/>
-          <Route exact path="/ShowFincialyear" component={ShowFincialyear}/>  Updatefincialyear
-          <Route exact path="/Updatefincialyear" component={Updatefincialyear}/>
+          <PrivatRoute exact path="/Fincialyear" component={Fincialyear}/>
+          <PrivatRoute exact path="/ShowFincialyear" component={ShowFincialyear}/> 
+          <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear}/>
 
-          <Route exact path="/ChartOfAccount" component={ChartOfAccount}/>
-          <Route exact path="/ShowChartAccount" component={ShowChartAccount}/>
-          <Route exact path="/EditChartAccount" component={EditChartAccount}/>
-          <Route exact path="/Currency-Adjustment" component={CurrencyAdjust}/>
-
-          
-
-          <Route exact path="/InsertAccountType" component={InsertAccountType}/>
-          <Route exact path="/ShowAccountname" component={ShowAccountname}/>
-          <Route exact path="/EditAccountname" component={EditAccountname}/>
-          <Route exact path="/Items" component={Items}/>
-
-          <Route exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
-          <Route exact path="/AddAccountInfo" component={AddAccountInfo}/>
-          <Route exact path="/EditAccountInfo" component={EditAccountInfo}/>
-
-          <Route exact path="/RecurringExpenses" component={RecurringExpenses}/>
-          <Route exact path="/AddSubCode" component={AddSubCode}/>
-          <Route exact path="/TotalSubCode" component={TotalSubCode}/>
-          <Route exact path="/EditSubCode" component={EditSubCode}/>
-
-          <Route exact path="/Estimates" component={Estimates}/>
-          <Route exact path="/SalesOrder" component={SalesOrder}/>
-          <Route exact path="/DeliveryChallans" component={DeliveryChallans}/>
-          <Route exact path="/Invoices" component={Invoices}/>
-          <Route exact path="/RecurringInvoices" component={RecurringInvoices}/>
-          <Route exact path="/CreditNotes" component={CreditNotes}/>
-          <Route exact path="/PaymentsReceived" component={PaymentsReceived}/>
-
-          <Route exact path="/PurchaseOrder" component={PurchaseOrder}/>
-          <Route exact path="/Bills" component={Bills}/>
-          <Route exact path="/RecurringBills" component={RecurringBills}/>
-          <Route exact path="/VendorCredits" component={VendorCredits}/>
-          
-          <Route exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode}/>
-          <Route exact path="/EditAccountMinorCode" component={EditAccountMinorCode}/>
-          <Route exact path="/BillPayment" component={BillPayment}/>
-          <Route exact path="/PaymentMade" component={PaymentMade}/>
-
-          <Route exact path="/ShowPaymentTerm" component={ShowFincialTerm}/>
-          <Route exact path="/AddPaymentTerm" component={AddPaymentTerm}/>
-          <Route exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm}/>
+          <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount}/>
+          <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount}/>
+          <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount}/>
+          <PrivatRoute exact path="/Currency-Adjustment" component={CurrencyAdjust}/>
 
           
-          <Route exact path="/ShowChargecode" component={ShowChargecode}/>
-          <Route exact path="/AddChargecode" component={AddChargecode}/>
-          <Route exact path="/EditChargecode" component={EditChargecode}/>
+
+          <PrivatRoute exact path="/InsertAccountType" component={InsertAccountType}/>
+          <PrivatRoute exact path="/ShowAccountname" component={ShowAccountname}/>
+          <PrivatRoute exact path="/EditAccountname" component={EditAccountname}/>
+          <PrivatRoute exact path="/Items" component={Items}/>
+
+          <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
+          <PrivatRoute exact path="/AddAccountInfo" component={AddAccountInfo}/>
+          <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/>
+
+          <PrivatRoute exact path="/RecurringExpenses" component={RecurringExpenses}/>
+          <PrivatRoute exact path="/AddSubCode" component={AddSubCode}/>
+          <PrivatRoute exact path="/TotalSubCode" component={TotalSubCode}/>
+          <PrivatRoute exact path="/EditSubCode" component={EditSubCode}/>
+
+          <PrivatRoute exact path="/Estimates" component={Estimates}/>
+          <PrivatRoute exact path="/SalesOrder" component={SalesOrder}/>
+          <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans}/>
+          <PrivatRoute exact path="/Invoices" component={Invoices}/>
+          <PrivatRoute exact path="/RecurringInvoices" component={RecurringInvoices}/>
+          <PrivatRoute exact path="/CreditNotes" component={CreditNotes}/>
+          <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived}/>
+
+          <PrivatRoute exact path="/PurchaseOrder" component={PurchaseOrder}/>
+          <PrivatRoute exact path="/Bills" component={Bills}/>
+          <PrivatRoute exact path="/RecurringBills" component={RecurringBills}/>
+          <PrivatRoute exact path="/VendorCredits" component={VendorCredits}/>
+          
+          <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode}/>
+          <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode}/>
+          <PrivatRoute exact path="/BillPayment" component={BillPayment}/>
+          <PrivatRoute exact path="/PaymentMade" component={PaymentMade}/>
+
+          <PrivatRoute exact path="/ShowPaymentTerm" component={ShowFincialTerm}/>
+          <PrivatRoute exact path="/AddPaymentTerm" component={AddPaymentTerm}/>
+          <PrivatRoute exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm}/>
+
+          
+          <PrivatRoute exact path="/ShowChargecode" component={ShowChargecode}/>
+          <PrivatRoute exact path="/AddChargecode" component={AddChargecode}/>
+          <PrivatRoute exact path="/EditChargecode" component={EditChargecode}/>
 
 
-          <Route exact path="/AddCrm" component={AddCrm}/>
-          <Route exact path="/EditCrm" component={EditCrm}/>
-          <Route exact path="/ShowCrm" component={ShowCrm}/>
+          <PrivatRoute exact path="/AddCrm" component={AddCrm}/>
+          <PrivatRoute exact path="/EditCrm" component={EditCrm}/>
+          <PrivatRoute exact path="/ShowCrm" component={ShowCrm}/>
           
 
           <Route exact path="*" component={PageNotFound}/>
