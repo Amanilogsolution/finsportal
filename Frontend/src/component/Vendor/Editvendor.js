@@ -529,7 +529,7 @@ const Vendor = () => {
                               <span style={{ color: "red" }}>Currency *</span>
                             </label>
                             <div className="col-md-4 form-group pr-0">
-                              <input className="form-control col-md-10" value={data.currency} disabled />
+                              <input className="form-control col-md-10"  id="currency" value={data.currency} disabled />
                               {/* <select
                                   id="currency"
                                   className="form-control col-md-10 "
@@ -638,7 +638,7 @@ const Vendor = () => {
                                 value={data.portal_language}
                                 disabled
                               >
-                                <option selected>English</option>
+                                <option>English</option>
                                 <option>हिंदी</option>
                                 <option>عربي</option>
                                 <option>বাংলা</option>
