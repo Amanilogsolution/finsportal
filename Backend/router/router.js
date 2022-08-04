@@ -177,7 +177,7 @@ router.post('/importlocationaddress',LocationController.ImportLocationAddress)
 router.post('/activelocationaddress',LocationController.ActiveLocationAddress)
 
 router.post('/locationstatus',LocationController.Locationstatus)
-router.post('/lastlocationid',LocationController.LastLocationid)
+// router.post('/lastlocationid',LocationController.LastLocationid)
 router.post('/importlocationmaster',LocationController.ImportLocationMaster)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)

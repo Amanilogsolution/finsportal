@@ -29,8 +29,6 @@ const AddLocation = async (req, res) => {
     const country = req.body.country;
     const state = req.body.state;
 
-    // console.log(country,state)
-
     try {
 
        const result =  await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
@@ -170,17 +168,17 @@ const Locationstatus = async (req, res) => {
     }
 }
 
-const LastLocationid = async (req, res) => {
-    const org = req.body.org;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT COUNT(location_id) as count FROM ${org}.dbo.tbl_location_master;`)
-        res.status(200).send(result.recordset[0])
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const LastLocationid = async (req, res) => {
+//     const org = req.body.org;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT COUNT(location_id) as count FROM ${org}.dbo.tbl_location_master;`)
+//         res.status(200).send(result.recordset[0])
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 
 const ActiveLocation =async (req,res)=>{
@@ -250,4 +248,6 @@ const ActiveLocationAddress =async (req,res)=>{
     }
 }
 
-module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, LastLocationid,ActiveLocation, ImportLocationMaster, ImportLocationAddress ,ActiveLocationAddress}
+module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, 
+    // LastLocationid,
+    ActiveLocation, ImportLocationMaster, ImportLocationAddress ,ActiveLocationAddress}
