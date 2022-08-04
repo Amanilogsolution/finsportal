@@ -28,7 +28,6 @@ const AddChargecode = () => {
         const org=  localStorage.getItem('Organisation');
         const user_id=localStorage.getItem('User_id');
 
-        // console.log(description, short_name,nature,major_code,activity,sacHsncode,gstrate)
         if (!description || !short_name || !nature || !major_code || !activity  || !sacHsncode || !gstrate) {
             alert('Please Enter the mandatory field')
         }
@@ -89,10 +88,10 @@ const AddChargecode = () => {
                                                     <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span style={{color:"red"}}>*</span></label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id='major_code' >
-                                                            <option selected defaultValue hidden>select the major Code</option>
+                                                            <option  value='' hidden>select the major Code</option>
                                                            {
-                                                            data.map((item)=>
-                                                            <option value={item.account_type}>{item.account_type}</option>)
+                                                            data.map((item,index)=>
+                                                            <option key={index} value={item.account_type}>{item.account_type}</option>)
                                                            }
                                                         </select>
                                                     </div>

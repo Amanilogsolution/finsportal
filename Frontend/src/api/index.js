@@ -1085,7 +1085,7 @@ export const UpdateChargecode = async (sno,org,description,short_name,nature,maj
 }
 
  export const ActiveAccountname = async (org) => {
-    const url = `http://192.168.146.136:3008/api/activeaccountname`
+    const url = `http://localhost:3008/api/activeaccountname`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
  // ###########################  Charge Code api End ############################
@@ -1096,30 +1096,30 @@ export const UpdateChargecode = async (sno,org,description,short_name,nature,maj
 
 
  export const InsertCrm = async (org,user_name,type,cust_vend,User_id) => {
-    const url = `http://192.168.146.136:3008/api/insertcrm`
+    const url = `http://localhost:3008/api/insertcrm`
     return axios.post(url, { org,user_name,type,cust_vend,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const TotalCrm = async (org) => {
-    const url = `http://192.168.146.136:3008/api/totalcrm`
+    const url = `http://localhost:3008/api/totalcrm`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 
 export const DeleteCrm = async (org,sno,status) => {
-    const url = `http://192.168.146.136:3008/api/deletecrm`
+    const url = `http://localhost:3008/api/deletecrm`
     return axios.post(url, { org,sno,status }).then(response => response.data).catch(error => console.log(error));
 }
 
 
 export const GetCrm = async (org,sno) => {
-    const url = `http://192.168.146.136:3008/api/getcrm`
+    const url = `http://localhost:3008/api/getcrm`
     return axios.post(url, { org,sno }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const UpdateCrm = async (sno,org,user_name,type,cust_vend,User_id) => {
     console.log('API',sno,org,user_name,type,cust_vend,User_id)
-    const url = `http://192.168.146.136:3008/api/updatecrm`
+    const url = `http://localhost:3008/api/updatecrm`
     return axios.post(url, { sno,org,user_name,type,cust_vend,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 

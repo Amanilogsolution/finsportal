@@ -19,11 +19,9 @@ const deleteChargeCode = async (req,res) =>{
     const org = req.body.org
     const sno = req.body.sno;
     const status = req.body.status;
-    console.log(org,sno,status)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_charge_code set status='${status}' where sno = ${sno}`)
-        console.log(result)
         res.send('done')
     }
     catch (err) {
@@ -41,7 +39,6 @@ const AddChargeCode = async (req,res) =>{
     const sacHsn = req.body.sacHsn;
     const gst_rate = req.body.gst_rate
     const User_id= req.body.User_id;
-    console.log(org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id)
     try {
         await sql.connect(sqlConfig)
       
@@ -60,7 +57,6 @@ const AddChargeCode = async (req,res) =>{
 async function getChargeCode(req, res) {
     const org = req.body.org
     const sno = req.body.sno
-    console.log(org,sno)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_charge_code with (nolock) where sno = ${sno}`)
@@ -82,9 +78,7 @@ const UpdateChargeCode = async (req,res) =>{
     const sacHsn = req.body.sacHsn;
     const gst_rate = req.body.gst_rate
     const User_id= req.body.User_id;
-    console.log( `update ${org}.dbo.tbl_charge_code set description='${description}',short_name='${short_name}',nature='${nature}',major_code='${major_code}',
-    activity='${activity}',sacHsn ='${sacHsn}',gst_rate ='${gst_rate}', update_date_time=getDate(),
-    update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address ='${req.ip}' where sno='${sno}'`)
+  
     try {
         await sql.connect(sqlConfig)
       
@@ -92,7 +86,6 @@ const UpdateChargeCode = async (req,res) =>{
             activity='${activity}',sacHsn ='${sacHsn}',gst_rate ='${gst_rate}', update_date_time=getDate(),
             update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address ='${req.ip}' where sno='${sno}'`)
             res.send("updated")
-            console.log(result)
     }
     catch (err) {
         res.send(err)
