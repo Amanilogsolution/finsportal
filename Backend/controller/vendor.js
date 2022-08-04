@@ -71,7 +71,6 @@ const InsertVendor = async (req, res) => {
                     '${contact_person_email}','${contact_person_work_phone}','${contact_person_phone}','${contact_person_skype}','${contact_person_designation}',
                     '${contact_person_department}','${remark}','${uuid}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${year}')`)
         res.send(result.rowsAffected)
-        // console.log(result.rowsAffected[0])
     }
     catch (err) {
         res.send(err)
@@ -80,10 +79,9 @@ const InsertVendor = async (req, res) => {
 
 const Vendor = async (req, res) => {
     const org = req.body.org;
-    const year= req.body.year;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_new_vendor where fins_year='${year}' order by sno desc`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_new_vendor order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -163,11 +161,9 @@ const Vendor_id = async (req, res) => {
 
 const VendorMastid = async (req, res) => {
     const org= req.body.org;
-    const fins_year= req.body.year;
-    console.log("fins_year",fins_year)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_vendor where fins_year=${fins_year} and status='Active'`)
+        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_vendor where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -175,29 +171,29 @@ const VendorMastid = async (req, res) => {
     }
 }
 
-const TotalVendId = async (req, res) => {
-    const org= req.body.org;
-    const mast_id= req.body.mast_id;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`select count(vend_id) as count from ${org}.dbo.tbl_new_vendor tnv WHERE mast_id='${mast_id}'; `)
-        res.send(result.recordset[0])
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
-const TotalVendor = async (req, res) => {
-    const org= req.body.org;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT count(DISTINCT(mast_id)) as count2 from ${org}.dbo.tbl_new_vendor  with (nolock);`)
-        res.send(result.recordset[0])
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const TotalVendId = async (req, res) => {
+//     const org= req.body.org;
+//     const mast_id= req.body.mast_id;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`select count(vend_id) as count from ${org}.dbo.tbl_new_vendor tnv WHERE mast_id='${mast_id}'; `)
+//         res.send(result.recordset[0])
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
+// const TotalVendor = async (req, res) => {
+//     const org= req.body.org;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT count(DISTINCT(mast_id)) as count2 from ${org}.dbo.tbl_new_vendor  with (nolock);`)
+//         res.send(result.recordset[0])
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 
 const ImportVendor = (req, res) => {
@@ -250,5 +246,7 @@ const ActiveVendor =async (req,res)=>{
 
 }
 
-module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,TotalVendId,TotalVendor, ImportVendor ,ActiveVendor}
+module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,
+    // TotalVendId, TotalVendor, 
+    ImportVendor ,ActiveVendor}
 

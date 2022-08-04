@@ -287,51 +287,49 @@ const ImportCustomer = (req, res) => {
     })
 }
 
-const Idcountmaster = async (req, res) => {
-    const org = req.body.org;
-    const masterid = req.body.masterid;
-    // console.log(masterid)
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`select id_count from ${org}.dbo.tbl_id_controller where master_id='${masterid}';`)
-        res.send(result.recordset)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
-const InsertIdcountmaster = async (req, res) => {
-    const org = req.body.org;
-    const id_type = req.body.id_type;
-    const masterid = req.body.masterid;
-    const id_count = req.body.id_count;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_id_controller(id_type ,master_id ,id_count)
-        values ('${id_type}','${masterid}','${id_count}')`)
-        res.send(result.recordset)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const Idcountmaster = async (req, res) => {
+//     const org = req.body.org;
+//     const masterid = req.body.masterid;
+//     // console.log(masterid)
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`select id_count from ${org}.dbo.tbl_id_controller where master_id='${masterid}';`)
+//         res.send(result.recordset)
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
+// const InsertIdcountmaster = async (req, res) => {
+//     const org = req.body.org;
+//     const id_type = req.body.id_type;
+//     const masterid = req.body.masterid;
+//     const id_count = req.body.id_count;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`insert into ${org}.dbo.tbl_id_controller(id_type ,master_id ,id_count)
+//         values ('${id_type}','${masterid}','${id_count}')`)
+//         res.send(result.recordset)
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
-const UpdateIdcountmaster = async (req, res) => {
-    const org = req.body.org;
-    const masterid = req.body.masterid;
-    const id_count = req.body.id_count;
-    console.log(id_count)
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_id_controller 
-        set id_count='${id_count}' WHERE master_id='${masterid}';`)
-        // console.log(result)
-        res.send(result.rowsAffected)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const UpdateIdcountmaster = async (req, res) => {
+//     const org = req.body.org;
+//     const masterid = req.body.masterid;
+//     const id_count = req.body.id_count;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`update ${org}.dbo.tbl_id_controller 
+//         set id_count='${id_count}' WHERE master_id='${masterid}';`)
+//         res.send(result.rowsAffected)
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 const ActiveCustomer = async (req, res) => {
     const org = req.body.org
@@ -356,7 +354,6 @@ const SelectedCustomer = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_id='${cust_id}'`)
         res.send(result.recordset[0])
-        // console.log(result.recordset[0])
     }
     catch (err) {
         res.send(err)
@@ -365,4 +362,6 @@ const SelectedCustomer = async (req, res) => {
 }
 
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, ActiveCustomer, SelectedCustomer }
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, 
+    // Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, 
+    ActiveCustomer, SelectedCustomer }

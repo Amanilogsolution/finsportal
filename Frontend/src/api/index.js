@@ -480,9 +480,9 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
     }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Vendor = async (org, year) => {
+export const Vendor = async (org) => {
     const url = `http://localhost:3008/api/vendor`
-    return axios.post(url, { org, year }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -520,20 +520,20 @@ export const VendorId = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const VendorMastid = async (org, year) => {
+export const VendorMastid = async (org) => {
     const url = `http://localhost:3008/api/vendormastid`
-    return axios.post(url, { org, year }).then(response => response.data).catch(error => console.log(error));
-}
-
-export const TotalVendor = async (org) => {
-    const url = `http://localhost:3008/api/totalvendor`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const TotalVendId = async (org, mast_id) => {
-    const url = `http://localhost:3008/api/totalvendid`
-    return axios.post(url, { org, mast_id }).then(response => response.data).catch(error => console.log(error));
-}
+// export const TotalVendor = async (org) => {
+//     const url = `http://localhost:3008/api/totalvendor`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// }
+
+// export const TotalVendId = async (org, mast_id) => {
+//     const url = `http://localhost:3008/api/totalvendid`
+//     return axios.post(url, { org, mast_id }).then(response => response.data).catch(error => console.log(error));
+// }
 
 export const ImportVendor = async (data, org, User_id) => {
     const url = `http://localhost:3008/api/importvendor`

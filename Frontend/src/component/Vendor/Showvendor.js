@@ -9,89 +9,65 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../excelformate/tbl_currency.xlsx';
 import * as XLSX from "xlsx";
 
-
-const columns = [
-    {
-        name: 'Name',
-        selector: 'vend_name',
-        sortable: true
-    },
-    {
-        name: 'Company Name',
-        selector: 'company_name',
-        sortable: true
-    },
-    {
-        name: 'Email',
-        selector: 'vend_email',
-        sortable: true
-    },
-    {
-        name: 'Work Phone',
-        selector: 'vend_work_phone',
-        sortable: true
-    },
-    {
-        name: 'Source of Supply',
-        selector: 'source_of_supply',
-        sortable: true
-    },
-
-    {
-        name: 'Status',
-        selector: 'null',
-        cell: (row) => [
-
-            <div className='droplist'>
-                <select onChange={async (e) => {
-                    const status = e.target.value;
-                    await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
-                    window.location.href = 'ShowVendor'
-                }}>
-                    <option selected disabled hidden> {row.status}</option>
-                    <option value='Active'>Active</option>
-                    <option value='Deactive' >Deactive</option>
-                </select>
-            </div>
-        ]
-    },
-    //   {
-    //     name:'Active',
-    //     selector: 'null',
-    //     cell: (row) => [
-    //         <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-    //           {
-    //             if(row.status == 'Active'){
-    //               const checkvalue ='Deactive'
-    //               await DeleteVendor(row.sno,checkvalue)
-    //                   window.location.href='ShowVendor'
-
-    //             }
-    //             else{
-    //               const checkvalue ='Active'
-    //               await DeleteVendor(row.sno,checkvalue)
-    //                   window.location.href='ShowVendor'
-    //             }
-    //            }} />
-    //     ]
-    //   },
-
-    {
-        name: "Actions",
-        sortable: false,
-
-        selector: "null",
-        cell: (row) => [
-
-            <a title='View Document' href="Editvendor">
-                <button className="editbtn btn-success " onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit</button></a>
-
-        ]
-    }
-]
-
-
 const Showvendor = () => {
+    const columns = [
+        {
+            name: 'Name',
+            selector: 'vend_name',
+            sortable: true
+        },
+        {
+            name: 'Company Name',
+            selector: 'company_name',
+            sortable: true
+        },
+        {
+            name: 'Email',
+            selector: 'vend_email',
+            sortable: true
+        },
+        {
+            name: 'Work Phone',
+            selector: 'vend_work_phone',
+            sortable: true
+        },
+        {
+            name: 'Source of Supply',
+            selector: 'source_of_supply',
+            sortable: true
+        },
+
+        {
+            name: 'Status',
+            selector: 'null',
+            cell: (row) => [
+
+                <div className='droplist'>
+                    <select onChange={async (e) => {
+                        const status = e.target.value;
+                        await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
+                        window.location.href = 'ShowVendor'
+                    }}>
+                        <option selected disabled hidden> {row.status}</option>
+                        <option value='Active'>Active</option>
+                        <option value='Deactive' >Deactive</option>
+                    </select>
+                </div>
+            ]
+        },
+        {
+            name: "Actions",
+            sortable: false,
+            selector: "null",
+            cell: (row) => [
+                <a title='View Document' href="Editvendor">
+                    <button className="editbtn btn-success " onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit</button></a>
+
+            ]
+        }
+    ]
+
+
     const [data, setData] = useState([])
     const [importdata, setImportdata] = useState([]);
     let [errorno, setErrorno] = useState(0);
@@ -195,7 +171,7 @@ const Showvendor = () => {
 
                 const updatefinstable = await UpdatefinancialTwocount(org, 'mvend_count', countmvendid, 'vend_count', countvendid);
                 const result = await ImportVendor(importdata, org, localStorage.getItem("User_id"));
-                
+
                 if (!(result === "Data Added")) {
                     setBackenddata(true);
                     setDuplicateDate(result)
@@ -208,24 +184,6 @@ const Showvendor = () => {
                 }
 
 
-
-                // setTimeout(async () => {
-                //     let totalvendid = countvendid + importdata.length;
-                //     const updatefinstable = await UpdatefinancialTwocount(org, 'mvend_count', countmvendid, 'vend_count', totalvendid);
-                //     console.log(updatefinstable)
-                //     const result = await ImportVendor(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-                //     if (!(result === "Data Added")) {
-                //         setBackenddata(true);
-                //         setDuplicateDate(result)
-                //     }
-                //     else if (result === "Data Added") {
-                //         document.getElementById("showdataModal").style.display = "none";
-                //         setBackenddata(false);
-                //         alert("Data Added")
-                //         window.location.reload()
-                //     }
-                // }, 1000);
-
             }
 
 
@@ -233,16 +191,6 @@ const Showvendor = () => {
 
     };
     //##########################   Upload data end  #################################
-
-    //##########################  for convert array to json start  #################################
-
-    const handleClick = () => {
-        const array = JSON.stringify(importdata)
-        const datas = JSON.parse(array)
-        // setImportdata(datas);
-
-    };
-    //##########################  for convert array to json end  #################################
 
     //##########################  for convert excel to array start  #################################
     const onChange = (e) => {
@@ -284,7 +232,7 @@ const Showvendor = () => {
             setMvendid(mvendid)
             setVendid(vendid)
             const year = financialyear[0].year;
-            const result = await Vendor(org, year)
+            const result = await Vendor(org)
             setData(result)
         }
         fetchdata();
@@ -329,18 +277,14 @@ const Showvendor = () => {
 
                                         </article>
                                     </div>
-                                    {/* card.// */}
                                 </div>
-                                {/* col.//*/}
                             </div>
-                            {/* row.//*/}
                         </div>
                     </div>
                 </div>
                 <Footer />
 
                 {/* ------------------ Modal start -----------------------------*/}
-                {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
                 <div
                     className="modal fade"
                     id="exampleModal"
@@ -364,16 +308,14 @@ const Showvendor = () => {
                                 </button>
                             </div>
                             <div className="modal-body">
-
-                                <div className=" ">
+                                <div>
                                     <label
                                         htmlFor="user_name"
                                         className=" col-form-label font-weight-normal">
                                         <span >Select the file</span>
                                     </label>
-                                    <div className=" ">
+                                    <div>
                                         <input
-                                            id=""
                                             type="file"
                                             onChange={onChange}
                                             className="form-control "
@@ -392,7 +334,7 @@ const Showvendor = () => {
                                 >
                                     Close
                                 </button>
-                                <button type="button" onClick={handleClick} className="btn btn-primary"
+                                <button type="button" className="btn btn-primary"
                                     data-dismiss="modal"
                                     data-toggle="modal"
                                     data-target=".bd-example-modal-lg">
@@ -431,7 +373,7 @@ const Showvendor = () => {
                                         &times;</span>
                                 </button>
                             </div>
-                            <div className="" style={{ margin: "0px 8px", paddingBottom: "20px", overflow: "auto" }}>
+                            <div style={{ margin: "0px 8px", paddingBottom: "20px", overflow: "auto" }}>
                                 {
                                     backenddata ?
                                         <>
@@ -550,7 +492,6 @@ const Showvendor = () => {
                                 </table>
                             </div>
                         </div>
-                        {/* </div> */}
                         <div className="modal-footer" style={{ background: "white" }}>
                             <button
                                 type="button"
