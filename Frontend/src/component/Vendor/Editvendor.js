@@ -21,7 +21,7 @@ const Vendor = () => {
       document.getElementById("gstin").style.display = "flex";
     }
 
-    if (result.enable_portal) {
+    if (result.enable_portal ==="true") {
       document.getElementById('portalcheck').checked = true;
     }
 
