@@ -3,29 +3,31 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 // import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocationAddress,ShowCustAddress,ActiveChargeCode,Getfincialyearid,Activeunit} from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
     const [activecustomer, setActiveCustomer] = useState([])
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [cutomerAddress, setCutomerAddress] = useState([])
-    const [locationstate,setLocationstate] =useState([])
+    const [locationstate, setLocationstate] = useState([])
     const [activeuser, setActiveUser] = useState([])
     const [custdetail, setCustdetail] = useState({})
     const [gstvalue, setGstvalue] = useState('0.00')
     const [amount, setAmount] = useState([])
-    const [rate, setRate] = useState([])
+    const [totalgst, setTotalGst] = useState([])
     const [grandtotal, setGrandTotal] = useState(0)
 
     const [adjust, setAdjust] = useState(0)
     const [totalamout, setTotalamount] = useState(0)
-    const [activeterms, setActiveTerms] = useState([])
-    const [activeunit,setActiveUnit] = useState([])
+    const [activechargecode, setActiveChargeCode] = useState([])
+    const [activeunit, setActiveUnit] = useState([])
     const [unit, setUnit] = useState([])
 
-    const [invoiceid,setInvoiceid]=useState('')
-    const [quantity,setQuantity] =useState(0)
+    const [invoiceid, setInvoiceid] = useState('')
+    const [quantity, setQuantity] = useState(0);
+    const [gstvalues,setGstVAlue] = useState([])
+    const [Totalamountnew,setTotalAmountNew] = useState([])
 
 
 
@@ -42,7 +44,7 @@ function Invoices() {
             setActiveUser(result2)
             Todaydate()
             const activechargecode = await ActiveChargeCode(localStorage.getItem('Organisation'))
-            // setActiveTerms(activeitems)
+            setActiveChargeCode(activechargecode)
             console.log(activechargecode)
 
             const locatonstateres = await ActiveLocationAddress(localStorage.getItem('Organisation'))
@@ -54,7 +56,7 @@ function Invoices() {
             setActiveUnit(ActiveUnit)
 
 
-            
+
         }
         fetchdata()
     }, [])
@@ -95,29 +97,44 @@ function Invoices() {
     //     }
     // }
 
-    const handleChangeItems = (e) =>{
-        setRate([...rate,e.target.value])
+    const handleChangeItems = (e) => {
+        console.log(e.target.value)
+        setTotalGst([...totalgst, Number(e.target.value)])
     }
 
-  const handleChangeUnit = (e) =>{
-    setUnit([...unit,e.target.value])
-    var sum = 0
-    amount.map((item) => sum += item)
-    setGrandTotal(sum)
+    const handleChangeUnit = (e) => {
 
-  }
+        setUnit([...unit, e.target.value])
+        var sum = 0
+        amount.map((item) => sum += item)
+        // setGrandTotal(sum)
 
-  const handleSubTotal = (e) => {
-    e.preventDefault();
-    var sum = 0
-    amount.map((item) => sum += item)
-    setGrandTotal(sum)
-  } 
+        let tolgst = 0
+        totalgst.map((item) => tolgst += item)
+
+
+    }
+
+    const handleSubTotal = (e) => {
+        e.preventDefault();
+        var sum = 0
+        Totalamountnew.map((item) => sum += item)
+        setGrandTotal(sum)
+
+        let gsttotal = 0
+        console.log('hello',gstvalues)
+        gstvalues.map((item)=> gsttotal += item)
+        setGstvalue(gsttotal)
+    }
 
     const handleChangerate = (e) => {
         let Total = quantity * e.target.value
-        console.log(typeof (Total))
+        let gst = Total *document.getElementById('gstvalue').value/100
+        let grandToatal = Total+gst
+        // console.log(typeof (Total))
         setTimeout(() => {
+            setTotalAmountNew([...Totalamountnew,grandToatal])
+            setGstVAlue([...gstvalues,gst])
             setAmount([...amount, Total])
             // console.log(amount)
         }, 1000)
@@ -141,7 +158,7 @@ function Invoices() {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
         var sum = 0
-        amount.map((item) => sum += item)
+        Totalamountnew.map((item) => sum += item)
         setGrandTotal(sum)
 
 
@@ -196,7 +213,7 @@ function Invoices() {
         // const utgst = document.getElementById('utgstipt').value;
         const igst = document.getElementById('igstipt').value;
 
-        const totalgst = Number(cgst) + Number(sutgst)+ Number(igst);
+        const totalgst = Number(cgst) + Number(sutgst) + Number(igst);
 
         if (totalgst > 100) {
             document.getElementById('gstipt').style.border = '1px solid red';
@@ -217,9 +234,9 @@ function Invoices() {
     const handleadjust = (e) => {
         e.preventDefault();
         const adjustment = document.getElementById('adjust').value
-        document.getElementById('igstipt').disabled='true'
-        document.getElementById('cgstipt').disabled='true'
-        document.getElementById('sutgstipt').disabled='true'
+        document.getElementById('igstipt').disabled = 'true'
+        document.getElementById('cgstipt').disabled = 'true'
+        document.getElementById('sutgstipt').disabled = 'true'
 
         if (adjustment > grandtotal) {
             document.getElementById('adjust').style.border = '1px solid red';
@@ -236,49 +253,49 @@ function Invoices() {
     }
 
 
-const handleCustname=async(e)=>{
-    const cust_id=e.target.value;
-    const cust_detail= await SelectedCustomer(localStorage.getItem('Organisation'),cust_id)
-    setCustdetail(cust_detail)
-    console.log(cust_detail)
+    const handleCustname = async (e) => {
+        const cust_id = e.target.value;
+        const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
+        setCustdetail(cust_detail)
+        console.log(cust_detail)
 
-    Duedate(45)
-
-
-    const cust_add = await ShowCustAddress(cust_id,localStorage.getItem("Organisation"))
-    setCutomerAddress(cust_add)
-}
-
-const handlechnageaddress=async(e)=>{
-    const fin_year= await Getfincialyearid(localStorage.getItem('Organisation'))
-    console.log(fin_year)
-
-    const billing_add= e.target.value;
-    const cust_add= document.getElementById('custaddr').value;
+        Duedate(45)
 
 
+        const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
+        setCutomerAddress(cust_add)
+    }
 
-    const invoicepefix=fin_year[0].invoice_ser;
-    let invoicecitypre= (billing_add.substring(0,3));
-    invoicecitypre =invoicecitypre.toUpperCase();
-    let invoicecount= Number(fin_year[0].invoice_count);
-    invoicecount= invoicecount+1;
-    invoicecount=String(invoicecount)
-    const invoiceidauto = invoicecount.padStart(5,'0')
-    const invoiceid= invoicepefix +'-'+invoicecitypre+invoiceidauto;
-    console.log(invoiceid)
-    setInvoiceid(invoiceid);
-    
+    const handlechnageaddress = async (e) => {
+        const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
+        console.log(fin_year)
 
-    // if(cust_add === billing_add){
-    //     document.getElementById('igstipt').disabled='true'
-    //     document.getElementById('sutgstipt').disabled=false
-    // }
-    // else{
-    //     document.getElementById('igstipt').disabled=false
-    //     document.getElementById('sutgstipt').disabled='true'
-    // }
-}
+        const billing_add = e.target.value;
+        const cust_add = document.getElementById('custaddr').value;
+
+
+
+        const invoicepefix = fin_year[0].invoice_ser;
+        let invoicecitypre = (billing_add.substring(0, 3));
+        invoicecitypre = invoicecitypre.toUpperCase();
+        let invoicecount = Number(fin_year[0].invoice_count);
+        invoicecount = invoicecount + 1;
+        invoicecount = String(invoicecount)
+        const invoiceidauto = invoicecount.padStart(5, '0')
+        const invoiceid = invoicepefix + '-' + invoicecitypre + invoiceidauto;
+        console.log(invoiceid)
+        setInvoiceid(invoiceid);
+
+
+        // if(cust_add === billing_add){
+        //     document.getElementById('igstipt').disabled='true'
+        //     document.getElementById('sutgstipt').disabled=false
+        // }
+        // else{
+        //     document.getElementById('igstipt').disabled=false
+        //     document.getElementById('sutgstipt').disabled='true'
+        // }
+    }
 
     return (
         <div>
@@ -312,7 +329,7 @@ const handlechnageaddress=async(e)=>{
                                                     >
                                                         <option value='' hidden>Choose</option>
                                                         {
-                                                            activecustomer.map((items,index) => (
+                                                            activecustomer.map((items, index) => (
                                                                 <option key={index} value={items.cust_id} >{items.cust_name}</option>
                                                             ))
                                                         }
@@ -332,8 +349,8 @@ const handlechnageaddress=async(e)=>{
                                                     >
                                                         <option value='' hidden>Select state</option>
                                                         {
-                                                            locationstate.map((item,index)=>
-                                                            <option key={index} value={item.location_state}>{item.location_add1}</option>
+                                                            locationstate.map((item, index) =>
+                                                                <option key={index} value={item.location_state}>{item.location_add1}</option>
                                                             )
                                                         }
                                                     </select>
@@ -346,9 +363,9 @@ const handlechnageaddress=async(e)=>{
                                                         id="custaddr"
                                                         className="form-control"
                                                     >
-                                                        <option value=''  hidden>Select Customer Address</option>
+                                                        <option value='' hidden>Select Customer Address</option>
                                                         {
-                                                            cutomerAddress.map((items,index) => (
+                                                            cutomerAddress.map((items, index) => (
                                                                 <option key={index} value={items.billing_address_state}>{items.billing_address_attention}</option>
                                                             ))
                                                         }
@@ -357,12 +374,12 @@ const handlechnageaddress=async(e)=>{
                                                     {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
                                                 </div>
                                             </div>
-                                        
+
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice #<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled/>
+                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled />
 
                                                 </div>
                                             </div>
@@ -435,7 +452,7 @@ const handlechnageaddress=async(e)=>{
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                    <textarea className="form-control col-md-7" id="Accountname" rows='4'  placeholder="Let your customer know what this invoice is for" style={{resize:'none'}}></textarea>
+                                                    <textarea className="form-control col-md-7" id="Accountname" rows='4' placeholder="Let your customer know what this invoice is for" style={{ resize: 'none' }}></textarea>
 
                                                 </div>
                                             </div>
@@ -445,11 +462,14 @@ const handlechnageaddress=async(e)=>{
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Iteam Details</th>
+                                                        <th scope="col">Charge Code</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Rate</th>
+                                                        <th scope="col">Tax</th>
                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>
+                                                        <th scope="col">Total</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -458,18 +478,18 @@ const handlechnageaddress=async(e)=>{
                                                             <tr key={index}>
                                                                 <td>
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
-                                                                    <select onChange={handleChangeItems} className="form-control col-md">
-                                                                        <option value='' hidden> Select Item</option>
+                                                                    <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
+                                                                        <option value='' hidden> Select Charge Code</option>
                                                                         {
-                                                                            activeterms.map(item=>(
-                                                                                <option value={item.item_selling_price}>{item.item_name}</option>
+                                                                            activechargecode.map(item => (
+                                                                                <option value={item.gst_rate}>{item.chartof_account}</option>
                                                                             ))
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td><input  className="form-control col-md-2" style={{ border: "none" }} type="number" id="Quality"  placeholder="0" onChange={(e) => {
+                                                                <td><input className="form-control col-md-2" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                     const quantity = e.target.value
-                                                                            // let Total = rate[index] * e.target.value
+                                                                    // let Total = rate[index] * e.target.value
 
                                                                     // setTimeout(() => {
                                                                     //             setAmount([...amount, Total])
@@ -478,22 +498,26 @@ const handlechnageaddress=async(e)=>{
                                                                     setQuantity(quantity)
                                                                 }} /></td>
 
-                                                                <td><input  className="form-control col-md-2"  style={{ border: "none" }} type="number" id="Rate"  placeholder="0"
-                                                                onChange={handleChangerate} 
+                                                                <td><input className="form-control col-md-2" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
+                                                                    onChange={handleChangerate}
                                                                 // value={rate[index]}
-                                                                 /></td>
-                                                                      <td>
+                                                                /></td>
+                                                                <td id="gst">{gstvalues[index]}</td>
+
+                                                                <td>
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeUnit} className="form-control col-md">
                                                                         <option value='' hidden> Select Unit</option>
                                                                         {
-                                                                            activeunit.map(item=>(
+                                                                            activeunit.map(item => (
                                                                                 <option value={item.unit_name}>{item.unit_name}</option>
                                                                             ))
                                                                         }
                                                                     </select>
                                                                 </td>
                                                                 <td>{amount[index]}</td>
+                                                                <td id="Totalsum">{amount[index] ? amount[index] + amount[index] * totalgst[index] / 100 : 0}</td>
+
                                                             </tr>
 
                                                         ))
@@ -511,7 +535,7 @@ const handlechnageaddress=async(e)=>{
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="4" id="Accountname" placeholder="Looking forward for your bussiness " style={{resize:'none'}}></textarea>
+                                                            <textarea type="text" className="form-control " rows="4" id="Accountname" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                         </div>
 
                                                     </div>
@@ -630,7 +654,7 @@ const handlechnageaddress=async(e)=>{
 
                                                 </div>
                                             </div>
-                                       
+
                                             {/* <div style={{ display: "flex" }}> */}
                                             {/* <div style={{ width: "55%" }}>
                                                     <div className="form mt-3">
