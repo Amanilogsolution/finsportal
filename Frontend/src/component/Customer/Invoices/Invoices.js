@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 // import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocationAddress,ShowCustAddress,ActiveItems,Getfincialyearid,Activeunit} from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser,SelectedCustomer ,ActiveLocationAddress,ShowCustAddress,ActiveChargeCode,Getfincialyearid,Activeunit} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -41,9 +41,9 @@ function Invoices() {
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
-            const activeitems = await ActiveItems(localStorage.getItem('Organisation'))
-            setActiveTerms(activeitems)
-            console.log(activeitems)
+            const activechargecode = await ActiveChargeCode(localStorage.getItem('Organisation'))
+            // setActiveTerms(activeitems)
+            console.log(activechargecode)
 
             const locatonstateres = await ActiveLocationAddress(localStorage.getItem('Organisation'))
             console.log(locatonstateres)

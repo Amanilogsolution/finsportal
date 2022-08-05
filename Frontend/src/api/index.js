@@ -1088,6 +1088,12 @@ export const UpdateChargecode = async (sno,org,description,short_name,nature,maj
     const url = `http://localhost:3008/api/activeaccountname`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ActiveChargeCode = async (org) => {
+    const url = `http://localhost:3008/api/activechargecode`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
  // ###########################  Charge Code api End ############################
 
 

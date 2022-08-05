@@ -281,6 +281,8 @@ router.post('/deletechargecode',ChargeCodeController.deleteChargeCode)
 router.post('/addchargecode',ChargeCodeController.AddChargeCode)
 router.post('/getchargecode',ChargeCodeController.getChargeCode)
 router.post('/updatechargecode',ChargeCodeController.UpdateChargeCode)
+router.post('/activechargecode',ChargeCodeController.ActiveChargeCode)
+
 
 router.post('/totalcrm',CRMController.Totalcrm)
 router.post('/insertcrm',CRMController.insertcrm)

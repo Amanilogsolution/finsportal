@@ -92,5 +92,18 @@ const UpdateChargeCode = async (req,res) =>{
     }
 }
 
+const ActiveChargeCode = async (req, res) => {
+    const org = req.body.org
+ 
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT chartof_account,gst_rate from ${org}.dbo.tbl_charge_code with (nolock) where status='Active'`)
+        console.log(result)
+        res.send(result.recordset)
+    } catch (err) {
+        res.send(err)
+    }
+}
 
-module.exports={TotalChargeCode,deleteChargeCode,AddChargeCode,getChargeCode,UpdateChargeCode}
+
+module.exports={TotalChargeCode,deleteChargeCode,AddChargeCode,getChargeCode,UpdateChargeCode,ActiveChargeCode}
