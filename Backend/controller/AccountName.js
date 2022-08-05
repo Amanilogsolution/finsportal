@@ -114,7 +114,7 @@ const ActiveAccountName = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select account_type from ${org}.dbo.tbl_account_type with (nolock) where status = 'Active'`)
+        const result = await sql.query(`select account_type,account_type_code from ${org}.dbo.tbl_account_type with (nolock) where status = 'Active'`)
         res.send(result.recordset)
     }
     catch (err) {

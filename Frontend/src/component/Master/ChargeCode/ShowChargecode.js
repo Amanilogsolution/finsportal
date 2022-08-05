@@ -6,7 +6,7 @@ import { TotalChargecode, DeleteChargecode } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
-
+const ShowChargecode = () => {
 const columns = [
   {
     name: 'Description',
@@ -23,9 +23,15 @@ const columns = [
     name: 'Nature',
     selector: row => row.nature,
     sortable: true
-  }, {
+  }, 
+  {
     name: 'Major Code',
     selector: row => row.major_code,
+    sortable: true
+  },
+  {
+    name: 'Chart of Account',
+    selector: row => row.chartof_account,
     sortable: true
   },
   {
@@ -78,7 +84,7 @@ const columns = [
 
 ]
 
-const ShowChargecode = () => {
+
   const [data, setData] = useState([])
 
 
@@ -86,7 +92,6 @@ const ShowChargecode = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const result = await TotalChargecode(localStorage.getItem('Organisation'))
-      console.log(result)
       setData(result)
     }
 

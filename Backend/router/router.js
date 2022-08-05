@@ -222,6 +222,10 @@ router.post('/addaccountname',ChartOfAccountController.AddAccountName)
 router.post('/addsubaccountname',ChartOfAccountController.AddSubAccountName)
 router.post('/updatesubaccountname',ChartOfAccountController.UpdateSubAccountName)
 router.post('/addnewsubaccountname',ChartOfAccountController.AddNewSubAccountName)
+router.post('/selectsubaccountname',ChartOfAccountController.SelectSubAccountname)
+router.post('/selectsubacconameytype',ChartOfAccountController.SelectSubAcconameByType)
+
+
 
 router.post('/updateaccountname',AccountnameController.UpdateAccountName)
 router.post('/insertaccounttype',AccountnameController.InsertAccountType)
@@ -230,7 +234,6 @@ router.post('/accountnamestatus',AccountnameController.AccountnameStatus)
 router.post('/selectaccountname',AccountnameController.SelectAccountName)
 router.post('/importaccountname',AccountnameController.ImportAccountName)
 router.post('/activeaccountname',AccountnameController.ActiveAccountName)
-
 
 
 router.post('/allaccountinfo',AccountinfoController.AllAccountInfo)

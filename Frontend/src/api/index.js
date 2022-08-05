@@ -833,6 +833,10 @@ export const ChartOfAccountParentAccount = async (account_type_code, org) => {
     return axios.post(url, { account_type_code, org }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const SelectSubAccountname = async ( org,account_type_code) => {
+    const url = `http://localhost:3008/api/selectsubaccountname`
+    return axios.post(url, {org,account_type_code }).then(response => response.data).catch(error => console.log(error));
+}
 
 export const ParentAccountNumber = async (account_type_code, account_name_code, org) => {
     const url = `http://localhost:3008/api/parentaccountNumber`
@@ -877,6 +881,11 @@ export const AccountnameStatus = async (org, status, account_type_code) => {
 export const SelectAccountName = async (org, account_type_code) => {
     const url = `http://localhost:3008/api/selectaccountname`
     return axios.post(url, { org, account_type_code }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const SelectSubAcconameByType = async (org, account_type) => {
+    const url = `http://localhost:3008/api/selectsubacconameytype`
+    return axios.post(url, { org, account_type }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportAccountName = async (datas, org, User_id) => {
@@ -1060,9 +1069,9 @@ export const ActivePaymentTerm = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddChargecodeapi = async (org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id) => {
+export const AddChargecodeapi = async (org,description,short_name,nature,major_code,chartofaccount,activity,sacHsn,gst_rate,User_id) => {
     const url = `http://localhost:3008/api/addchargecode`
-    return axios.post(url, { org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,description,short_name,nature,major_code,chartofaccount,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -1073,15 +1082,13 @@ export const GetChargecode = async (org,sno) => {
 
 
 export const DeleteChargecode = async (org,sno,status) => {
-    console.log(org,sno,status)
     const url = `http://localhost:3008/api/deletechargecode`
     return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateChargecode = async (sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id) => {
-    console.log(sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id)
-    const url = `http://localhost:3008/api/updatechargecode`
-    return axios.post(url, { sno,org,description,short_name,nature,major_code,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
+export const UpdateChargecode = async (sno,org,description,short_name,nature,major_code,chartofaccount,activity,sacHsn,gst_rate,User_id) => {
+     const url = `http://localhost:3008/api/updatechargecode`
+    return axios.post(url, { sno,org,description,short_name,nature,major_code,chartofaccount,activity,sacHsn,gst_rate,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
  export const ActiveAccountname = async (org) => {
@@ -1093,6 +1100,7 @@ export const ActiveChargeCode = async (org) => {
     const url = `http://localhost:3008/api/activechargecode`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+
 
  // ###########################  Charge Code api End ############################
 
