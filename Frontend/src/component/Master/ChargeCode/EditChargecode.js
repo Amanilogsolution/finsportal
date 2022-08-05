@@ -2,19 +2,36 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { GetChargecode, UpdateChargecode } from "../../../api";
+import { GetChargecode, UpdateChargecode ,ActiveAccountname,SelectSubAcconameByType,SelectSubAccountname} from "../../../api";
 
 
 const EditChargecode = () => {
     const [data, setData] = useState({})
+    const [majorcodelist,setMajorcodelist] =useState([])
+    const [chartofaccountlist, setChartofaccountlist] = useState([]);
 
     useEffect(() => {
         const fetchdata = async () => {
-            const result = await GetChargecode(localStorage.getItem('Organisation'), localStorage.getItem('ChargecodeSno'))
+            const org= localStorage.getItem('Organisation');
+            const result = await GetChargecode(org, localStorage.getItem('ChargecodeSno'))
             setData(result)
+
+            const subAcconameByType= await SelectSubAcconameByType(org,result.major_code)
+            const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), subAcconameByType[0].account_type_code)
+            setChartofaccountlist(chartofaccount)
+
+            const result2 = await ActiveAccountname(org)
+            setMajorcodelist(result2)
         }
         fetchdata()
     }, [])
+
+  
+    const getchartofaccountdata=async(e)=>{
+        setChartofaccountlist([])
+        const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'),e.target.value)
+        setChartofaccountlist(chartofaccount)
+    }
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -22,6 +39,7 @@ const EditChargecode = () => {
         const short_name = document.getElementById("short_name").value;
         const nature = document.getElementById("nature").value;
         const major_code = document.getElementById("major_code").value;
+        const chartofaccount =document.getElementById('chartofaccount').value;
         const activity = document.getElementById("activity").value;
         const sacHsncode = document.getElementById("sacHsncode").value;
         const gstrate = document.getElementById("gstrate").value;
@@ -29,12 +47,12 @@ const EditChargecode = () => {
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
 
-        if (!description || !short_name || !nature || !major_code || !activity || !sacHsncode || !gstrate) {
+        if (!description || !short_name || !nature || !major_code || !chartofaccount || !activity || !sacHsncode || !gstrate) {
             alert('Enter the Mandatory field...')
         }
         else {
-            const result = await UpdateChargecode(sno, org, description, short_name, nature, major_code, activity, sacHsncode, gstrate, user_id);
-            if (result == "updated") {
+            const result = await UpdateChargecode(sno, org, description, short_name, nature, major_code,chartofaccount, activity, sacHsncode, gstrate, user_id);
+            if (result === "updated") {
                 alert('Data Updated')
                 localStorage.removeItem('ChargecodeSno');
                 window.location.href = '/ShowChargecode'
@@ -57,9 +75,7 @@ const EditChargecode = () => {
     const handleNature = (e) => {
         setData({ ...data, nature: e.target.value })
     }
-    const handleMajor_code = (e) => {
-        setData({ ...data, major_code: e.target.value })
-    }
+ 
     const handleActivity = (e) => {
         setData({ ...data, activity: e.target.value })
     }
@@ -110,8 +126,24 @@ const EditChargecode = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code</label>
                                                     <div className="col form-group">
-                                                        <select className="form-control col-md-4" id='major_code' value={data.major_code} onChange={handleMajor_code} >
-                                                            <option selected defaultValue hidden>{data.major_code}</option>
+                                                        <select className="form-control col-md-4" id='major_code'  onChange={getchartofaccountdata}  >
+                                                            <option  hidden>{data.major_code}</option>
+                                                            {
+                                                                majorcodelist.map((item,index)=>
+                                                                <option key={index} value={item.account_type_code}>{item.account_type}</option>)
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="form-row">
+                                                    <label htmlFor="chartofaccount" className="col-md-2 col-form-label font-weight-normal">Chart of Account</label>
+                                                    <div className="col form-group">
+                                                        <select className="form-control col-md-4" id='chartofaccount'   >
+                                                            <option  hidden>{data.chartof_account}</option>
+                                                            {
+                                                                chartofaccountlist.map((item, index) =>
+                                                                    <option key={index} value={item.account_sub_name}>{item.account_sub_name}</option>)
+                                                            }
                                                         </select>
                                                     </div>
                                                 </div>

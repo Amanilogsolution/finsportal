@@ -518,6 +518,7 @@ const Newdb = async (req, res) => {
                     short_name nvarchar(50) NULL,
                     nature nvarchar(50) NULL,
                     major_code nvarchar(50) NULL,
+                    chartof_account nvarchar(100) NULL,
                     activity nvarchar(50) NULL,
                     sacHsn nvarchar(50) NULL,
                     gst_rate nvarchar(50) NULL,

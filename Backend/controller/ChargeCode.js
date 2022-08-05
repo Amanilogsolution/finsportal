@@ -35,16 +35,18 @@ const AddChargeCode = async (req,res) =>{
     const short_name = req.body.short_name;
     const nature = req.body.nature;
     const major_code = req.body.major_code;
+    const chartofaccount= req.body.chartofaccount;
     const activity = req.body.activity;
     const sacHsn = req.body.sacHsn;
     const gst_rate = req.body.gst_rate
     const User_id= req.body.User_id;
+
     try {
         await sql.connect(sqlConfig)
       
             const result = await sql.query(`insert into ${org}.dbo.tbl_charge_code(description,short_name,nature,major_code,activity,sacHsn,
-                gst_rate,add_date_time,add_user_name,add_system_name,add_ip_address,status)
-                values('${description}','${short_name}','${nature}','${major_code}','${activity}','${sacHsn}','${gst_rate}',getDate(),'${User_id}','${os.hostname()}','${req.ip}','Active')
+                gst_rate,add_date_time,add_user_name,add_system_name,add_ip_address,status,chartof_account)
+                values('${description}','${short_name}','${nature}','${major_code}','${activity}','${sacHsn}','${gst_rate}',getDate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${chartofaccount}')
                 `)
             res.send('Added')
     
@@ -74,16 +76,18 @@ const UpdateChargeCode = async (req,res) =>{
     const short_name = req.body.short_name;
     const nature = req.body.nature;
     const major_code = req.body.major_code;
+    const chartofaccount= req.body.chartofaccount;
     const activity = req.body.activity;
     const sacHsn = req.body.sacHsn;
     const gst_rate = req.body.gst_rate
     const User_id= req.body.User_id;
-  
+
+
     try {
-        await sql.connect(sqlConfig)
+         await sql.connect(sqlConfig)
       
-            const result = await sql.query(` update ${org}.dbo.tbl_charge_code set description='${description}',short_name='${short_name}',nature='${nature}',major_code='${major_code}',
-            activity='${activity}',sacHsn ='${sacHsn}',gst_rate ='${gst_rate}', update_date_time=getDate(),
+             const result = await sql.query(` update ${org}.dbo.tbl_charge_code set description='${description}',short_name='${short_name}',nature='${nature}',major_code='${major_code}',
+             chartof_account='${chartofaccount}' ,activity='${activity}',sacHsn ='${sacHsn}',gst_rate ='${gst_rate}', update_date_time=getDate(),
             update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address ='${req.ip}' where sno='${sno}'`)
             res.send("updated")
     }
@@ -98,7 +102,6 @@ const ActiveChargeCode = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT chartof_account,gst_rate from ${org}.dbo.tbl_charge_code with (nolock) where status='Active'`)
-        console.log(result)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
