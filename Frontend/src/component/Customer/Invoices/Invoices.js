@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 // import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit ,ActiveCurrency} from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -26,8 +26,9 @@ function Invoices() {
 
     const [invoiceid, setInvoiceid] = useState('')
     const [quantity, setQuantity] = useState(0);
-    const [gstvalues,setGstVAlue] = useState([])
-    const [Totalamountnew,setTotalAmountNew] = useState([])
+    const [gstvalues, setGstVAlue] = useState([])
+    const [Totalamountnew, setTotalAmountNew] = useState([])
+    const [currencylist,setCurrencylist] = useState([]);
 
 
 
@@ -35,27 +36,26 @@ function Invoices() {
 
     useEffect(() => {
         const fetchdata = async () => {
-            const result = await ActiveCustomer(localStorage.getItem('Organisation'))
+            const org= localStorage.getItem('Organisation');
+            const result = await ActiveCustomer(org)
             setActiveCustomer(result)
-            console.log(result)
-            const result1 = await ActivePaymentTerm(localStorage.getItem('Organisation'))
+            const result1 = await ActivePaymentTerm(org)
             setActivePaymentTerm(result1)
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
-            const activechargecode = await ActiveChargeCode(localStorage.getItem('Organisation'))
+            const activechargecode = await ActiveChargeCode(org)
             setActiveChargeCode(activechargecode)
-            console.log(activechargecode)
 
-            const locatonstateres = await ActiveLocationAddress(localStorage.getItem('Organisation'))
-            console.log(locatonstateres)
+            const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
 
-            const ActiveUnit = await Activeunit(localStorage.getItem('Organisation'))
-            console.log(ActiveUnit)
+            const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
 
-
+            const currencydata= await ActiveCurrency(org)
+            console.log(currencydata)
+            setCurrencylist(currencydata)
 
         }
         fetchdata()
@@ -122,19 +122,19 @@ function Invoices() {
         setGrandTotal(sum)
 
         let gsttotal = 0
-        console.log('hello',gstvalues)
-        gstvalues.map((item)=> gsttotal += item)
+        console.log('hello', gstvalues)
+        gstvalues.map((item) => gsttotal += item)
         setGstvalue(gsttotal)
     }
 
     const handleChangerate = (e) => {
         let Total = quantity * e.target.value
-        let gst = Total *document.getElementById('gstvalue').value/100
-        let grandToatal = Total+gst
+        let gst = Total * document.getElementById('gstvalue').value / 100
+        let grandToatal = Total + gst
         // console.log(typeof (Total))
         setTimeout(() => {
-            setTotalAmountNew([...Totalamountnew,grandToatal])
-            setGstVAlue([...gstvalues,gst])
+            setTotalAmountNew([...Totalamountnew, grandToatal])
+            setGstVAlue([...gstvalues, gst])
             setAmount([...amount, Total])
             // console.log(amount)
         }, 1000)
@@ -231,26 +231,26 @@ function Invoices() {
         }
     }
 
-    const handleadjust = (e) => {
-        e.preventDefault();
-        const adjustment = document.getElementById('adjust').value
-        document.getElementById('igstipt').disabled = 'true'
-        document.getElementById('cgstipt').disabled = 'true'
-        document.getElementById('sutgstipt').disabled = 'true'
+    // const handleadjust = (e) => {
+    //     e.preventDefault();
+    //     const adjustment = document.getElementById('adjust').value
+    //     document.getElementById('igstipt').disabled = 'true'
+    //     document.getElementById('cgstipt').disabled = 'true'
+    //     document.getElementById('sutgstipt').disabled = 'true'
 
-        if (adjustment > grandtotal) {
-            document.getElementById('adjust').style.border = '1px solid red';
-            document.getElementById('adjust').style.boxShadow = '1px 1px 5px red'
-        }
-        else {
-            document.getElementById('adjust').style.border = 'none';
-            document.getElementById('adjust').style.boxShadow = 'none'
-            setAdjust(adjustment)
+    //     if (adjustment > grandtotal) {
+    //         document.getElementById('adjust').style.border = '1px solid red';
+    //         document.getElementById('adjust').style.boxShadow = '1px 1px 5px red'
+    //     }
+    //     else {
+    //         document.getElementById('adjust').style.border = 'none';
+    //         document.getElementById('adjust').style.boxShadow = 'none'
+    //         setAdjust(adjustment)
 
-            const tamount = grandtotal + gstvalue - adjustment
-            setTotalamount(tamount)
-        }
-    }
+    //         const tamount = grandtotal + gstvalue - adjustment
+    //         setTotalamount(tamount)
+    //     }
+    // }
 
 
     const handleCustname = async (e) => {
@@ -476,7 +476,7 @@ function Invoices() {
                                                     {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
-                                                                <td>
+                                                                <td className="col-md-2 pl-0 pr-0">
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
                                                                         <option value='' hidden> Select Charge Code</option>
@@ -487,7 +487,8 @@ function Invoices() {
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td><input className="form-control col-md-2" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
+                                                                <td  className='col-md-2 pl-0 pr-0'>
+                                                                <input className="form-control col-md" style={{border:"none"}} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                     const quantity = e.target.value
                                                                     // let Total = rate[index] * e.target.value
 
@@ -498,13 +499,14 @@ function Invoices() {
                                                                     setQuantity(quantity)
                                                                 }} /></td>
 
-                                                                <td><input className="form-control col-md-2" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
+                                                                <td  className='col-md-2 pl-0 pr-0'>
+                                                                <input className="form-control col-md" style={{border:"none"}} type="number" id="Rate" placeholder="0"
                                                                     onChange={handleChangerate}
                                                                 // value={rate[index]}
                                                                 /></td>
-                                                                <td id="gst">{gstvalues[index]}</td>
+                                                                <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
 
-                                                                <td>
+                                                                <td className='pl-0 pr-0 col-md-2'>
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeUnit} className="form-control col-md">
                                                                         <option value='' hidden> Select Unit</option>
@@ -629,14 +631,22 @@ function Invoices() {
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="text" className="form-control col-md-6" placeholder='Adjustment' />
+                                                                    {/* <input type="text" className="form-control col-md-6" placeholder='Adjustment' /> */}
+                                                                    Currency
                                                                 </td>
                                                                 <td>
                                                                     <div className="input-group mb-1">
-                                                                        <input type="number" className="form-control col-md-5" id="adjust" onBlur={handleadjust} />
-                                                                        <div className="input-group-append">
+                                                                        <select className="form-control col-md-5" id="adjust" >
+                                                                            <option value='' hidden >{custdetail.currency}</option>
+                                                                            {
+                                                                                currencylist.map((item,index)=>
+                                                                                <option key={index} value={item.currency_code} style={{height:"80px"}}>{item.currency_code}</option>)
+                                                                            }
+                                                                        </select>
+                                                                        {/* <input type="number" className="form-control col-md-5" id="adjust" onBlur={handleadjust} /> */}
+                                                                        {/* <div className="input-group-append">
                                                                             <span className="input-group-text">₹</span>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </td>
                                                                 <td>-{adjust}</td>
