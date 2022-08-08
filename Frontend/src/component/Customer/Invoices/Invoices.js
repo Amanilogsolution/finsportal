@@ -348,7 +348,7 @@ function Invoices() {
                                                         className="form-control"
                                                         onChange={handleCustname}
                                                     >
-                                                        <option value='' hidden>Choose</option>
+                                                        <option value='' hidden>Select Customer</option>
                                                         {
                                                             activecustomer.map((items, index) => (
                                                                 <option key={index} value={items.cust_id} >{items.cust_name}</option>
@@ -409,7 +409,7 @@ function Invoices() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="ordernumber" />
+                                                    <input type="text" className="form-control col-md-5" id="ordernumber" placeholder='Enter the order number'/>
                                                 </div>
                                             </div>
 
@@ -673,7 +673,7 @@ function Invoices() {
                                                                 <td>
                                                                     <div className="input-group mb-1">
                                                                         <select className="form-control col-md-5" id="adjust" >
-                                                                            <option value='' hidden >{custdetail.currency}</option>
+                                                                            <option value={custdetail.currency} hidden >{custdetail.currency}</option>
                                                                             {
                                                                                 currencylist.map((item, index) =>
                                                                                     <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
