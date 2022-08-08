@@ -122,9 +122,26 @@ function Invoices() {
         setGrandTotal(sum)
 
         let gsttotal = 0
-        console.log('hello', gstvalues)
+       
         gstvalues.map((item) => gsttotal += item)
         setGstvalue(gsttotal)
+
+        let custadd= document.getElementById('custaddr').value;
+        custadd =custadd.toUpperCase();
+        let billadd= document.getElementById('locationadd').value;
+        billadd= billadd.toUpperCase();
+       
+
+        if(custadd === billadd){
+          document.getElementById('cgstipt').value=Math.max(...totalgst)/2
+          document.getElementById('sutgstipt').value=Math.max(...totalgst)/2
+          document.getElementById('igstipt').value='';
+        }
+        else{
+            document.getElementById('igstipt').value=totalgst;
+            document.getElementById('cgstipt').value=''
+            document.getElementById('sutgstipt').value=''
+        }
     }
 
     const handleChangerate = (e) => {
@@ -209,31 +226,31 @@ function Invoices() {
     //     }
     // }
 
-    const handlechangegst = (e) => {
-        e.preventDefault();
+    // const handlechangegst = (e) => {
+    //     e.preventDefault();
 
-        const cgst = document.getElementById('cgstipt').value;
-        const sutgst = document.getElementById('sutgstipt').value;
-        // const utgst = document.getElementById('utgstipt').value;
-        const igst = document.getElementById('igstipt').value;
+    //     const cgst = document.getElementById('cgstipt').value;
+    //     const sutgst = document.getElementById('sutgstipt').value;
+    //     // const utgst = document.getElementById('utgstipt').value;
+    //     const igst = document.getElementById('igstipt').value;
 
-        const totalgst = Number(cgst) + Number(sutgst) + Number(igst);
+    //     const totalgst = Number(cgst) + Number(sutgst) + Number(igst);
 
-        if (totalgst > 100) {
-            document.getElementById('gstipt').style.border = '1px solid red';
-            document.getElementById('gstipt').style.boxShadow = '1px 1px 5px red'
-            setGst(0)
-        }
-        else {
-            setGst(totalgst)
-            const totalgstvalue = grandtotal * (totalgst / 100)
-            console.log(grandtotal)
-            console.log(totalgstvalue)
-            setGstvalue(totalgstvalue)
-            const tamount = grandtotal + totalgstvalue;
-            setTotalamount(tamount)
-        }
-    }
+    //     if (totalgst > 100) {
+    //         document.getElementById('gstipt').style.border = '1px solid red';
+    //         document.getElementById('gstipt').style.boxShadow = '1px 1px 5px red'
+    //         setGst(0)
+    //     }
+    //     else {
+    //         setGst(totalgst)
+    //         const totalgstvalue = grandtotal * (totalgst / 100)
+    //         console.log(grandtotal)
+    //         console.log(totalgstvalue)
+    //         setGstvalue(totalgstvalue)
+    //         const tamount = grandtotal + totalgstvalue;
+    //         setTotalamount(tamount)
+    //     }
+    // }
 
     // const handleadjust = (e) => {
     //     e.preventDefault();
@@ -590,7 +607,9 @@ function Invoices() {
                                                                 <td>CGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='cgstipt' onChange={handlechangegst} disabled />
+                                                                        <input type="number" className="form-control col-md-5" id='cgstipt' 
+                                                                        // onChange={handlechangegst} 
+                                                                        disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -602,7 +621,7 @@ function Invoices() {
                                                                 <td>SGST/UTGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' onChange={handlechangegst} disabled />
+                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -626,7 +645,7 @@ function Invoices() {
                                                                 <td>IGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' onChange={handlechangegst} disabled />
+                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
