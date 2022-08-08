@@ -479,7 +479,7 @@ function Invoices() {
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Charge Code</th>
+                                                        <th scope="col">Items</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Tax</th>
@@ -496,7 +496,7 @@ function Invoices() {
                                                                 <td className="col-md-2 pl-0 pr-0">
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
-                                                                        <option value='' hidden> Select Charge Code</option>
+                                                                        <option value='' hidden> Select item</option>
                                                                         {
                                                                             activechargecode.map(item => (
                                                                                 <option value={item.gst_rate}>{item.chartof_account}</option>
