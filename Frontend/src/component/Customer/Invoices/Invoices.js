@@ -573,7 +573,7 @@ function Invoices() {
                                                                 <td>CGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='cgstipt' onChange={handlechangegst} />
+                                                                        <input type="number" className="form-control col-md-5" id='cgstipt' onChange={handlechangegst} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -585,7 +585,7 @@ function Invoices() {
                                                                 <td>SGST/UTGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' onChange={handlechangegst} />
+                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' onChange={handlechangegst} disabled/>
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -609,7 +609,7 @@ function Invoices() {
                                                                 <td>IGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' onChange={handlechangegst} />
+                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' onChange={handlechangegst} disabled/>
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -655,7 +655,7 @@ function Invoices() {
                                                             {/* <br /> */}
 
                                                             <tr className='mt-2'>
-                                                                <td><h3>Total(₹)</h3></td>
+                                                                <td><h3>Total</h3></td>
                                                                 <td></td>
                                                                 <td>{totalamout}</td>
                                                             </tr>
