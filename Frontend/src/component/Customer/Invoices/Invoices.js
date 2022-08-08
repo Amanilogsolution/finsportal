@@ -621,7 +621,7 @@ function Invoices() {
                                                                 <td>Total GST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='gstipt ' value={gst} disabled />
+                                                                        <input type="number" className="form-control col-md-5" id='gstipt ' value={Math.max(...totalgst)} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -657,7 +657,7 @@ function Invoices() {
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total</h3></td>
                                                                 <td></td>
-                                                                <td>{totalamout}</td>
+                                                                <td>{Totalamountnew}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
