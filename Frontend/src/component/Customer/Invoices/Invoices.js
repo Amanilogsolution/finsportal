@@ -169,16 +169,20 @@ function Invoices() {
         e.preventDefault()
         var newvalue = [...totalValues]
         var Amount = [...amount]
+        var gstpop = [...totalgst]
         console.log(newvalue.length)
         if (newvalue.length == 1) {
             setTotalValues(newvalue)
             setAmount(Amount)
+            setTotalGst(gstpop)
 
 
         } else {
             newvalue.pop()
             Amount.pop()
+            gstpop.pop()
             setAmount(Amount)
+            setTotalGst(gstpop)
 
             setTotalValues(newvalue)
         }
@@ -549,7 +553,7 @@ function Invoices() {
                                                             <tr>
                                                                 <td><button className="btn btn-primary" onClick={handleSubTotal}>Sub Total</button></td>
                                                                 <td></td>
-                                                                <td>{grandtotal}</td>
+                                                                <td>{totalamout}</td>
                                                             </tr>
                                                             {/* <tr>
                                                                 <td>Discount</td>
@@ -657,7 +661,7 @@ function Invoices() {
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total</h3></td>
                                                                 <td></td>
-                                                                <td>{Totalamountnew}</td>
+                                                                <td>{grandtotal}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
