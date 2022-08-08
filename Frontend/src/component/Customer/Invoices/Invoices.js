@@ -18,7 +18,7 @@ function Invoices() {
     const [totalgst, setTotalGst] = useState([])
     const [grandtotal, setGrandTotal] = useState(0)
 
-    const [adjust, setAdjust] = useState(0)
+
     const [totalamout, setTotalamount] = useState(0)
     const [activechargecode, setActiveChargeCode] = useState([])
     const [activeunit, setActiveUnit] = useState([])
@@ -685,7 +685,7 @@ function Invoices() {
                                                                         </div> */}
                                                                     </div>
                                                                 </td>
-                                                                <td>-{adjust}</td>
+                                                            
                                                             </tr>
 
                                                             {/* <br /> */}
