@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency,InsertInvoice } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -31,44 +31,14 @@ function Invoices() {
     const [currencylist, setCurrencylist] = useState([]);
     const [masterid,setMasterid] = useState([])
     const [locationid,setLocationid]= useState('')
+    const [billingaddress,setBillingAddress] = useState('')
 
    
 
 
 
     const [gst, setGst] = useState(0)
-    const [Alldata,setAllData]=useState({
-        "fin_year":"",
-        "Inv_no":"",
-        "Squ_no":"",
-        "InvoiceDate": 0,
-        "Invoice_Amount":"",
-        "user_id":"",
-        "period_from":"",
-        "period_to":"",
-        "major":"",
-        "location":"",
-        "cust_id":"",
-        "billsubtotal":"",
-        "taxtotal":"",
-        "custlocation_id":"",
-        "remark":"",
-        "flagsave":"",
-        "location_name":"",
-        "consignee":"",
-        "master_id":"",
-        "cgst":"",
-        "sgst":"",
-        "Igst":"",
-        "utgst":"",
-        "taxableamount":"",
-        "currency_type":"",
-        "salesperson":"",
-        "subject":"",
-        "Term":"",
-        "duedate":"",
-        "order_no":""
-    })
+  
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -85,7 +55,7 @@ function Invoices() {
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-            console.log(locatonstateres)
+            console.log('hello',locatonstateres)
 
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
@@ -144,7 +114,7 @@ function Invoices() {
         setUnit([...unit, e.target.value])
         var sum = 0
         amount.map((item) => sum += item)
-        // setGrandTotal(sum)
+        setTotalamount(sum)
 
         let tolgst = 0
         totalgst.map((item) => tolgst += item)
@@ -165,8 +135,10 @@ function Invoices() {
 
         let custadd= document.getElementById('custaddr').value;
         custadd =custadd.toUpperCase();
-        let billadd= document.getElementById('locationadd').value;
+        let billadd= billingaddress;
         billadd= billadd.toUpperCase();
+        console.log(billadd)
+        
        
 
         if(custadd === billadd){
@@ -328,9 +300,14 @@ function Invoices() {
     const handlechnageaddress = async (e) => {
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
         // console.log(fin_year)
+        console.log(e.target.value)
+        const [billadd,id] = e.target.value.split(' ')
+        console.log(billadd,id)
+        setLocationid(id)
 
-        const billing_add = e.target.value;
-        const cust_add = document.getElementById('custaddr').value;
+        const billing_add = billadd;
+        setBillingAddress(billadd)
+        // const cust_add = document.getElementById('custaddr').value;
 
 
 
@@ -358,7 +335,7 @@ function Invoices() {
     }
 
 
-    const handlesavebtn =(e)=>{
+    const handlesavebtn =async(e)=>{
         e.preventDefault();
         let invoiceids ="";
         let squ_nos=""
@@ -367,15 +344,16 @@ function Invoices() {
         const fin_year= localStorage.getItem('fin_year')
         if(btn_type=='save'){
             console.log('if')
-             invoiceids= document.getElementById('invoiceid').value;
-              squ_nos= invoiceprefix;
+            invoiceids= 'Inv001';
+            squ_nos=""
 
             console.log(invoiceids)
         }else{
             console.log("else")
-             invoiceids= 'Inv001';
-             squ_nos=""
+          
             console.log(invoiceids)
+            invoiceids= document.getElementById('invoiceid').value;
+            squ_nos= invoiceprefix;
 
 
         }
@@ -409,7 +387,11 @@ function Invoices() {
         const taxableamt= gstvalue;
 
         console.log(fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,custid,billsubtotal,
-            total_tax,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,subject,paymentterm,Duedate)
+            total_tax,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,subject,paymentterm,Duedate,locationid)
+
+            const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,'major',locationid,custid,billsubtotal,
+                total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
+                subject,paymentterm,Duedate,User_id)
     }
 
     return (
@@ -466,7 +448,7 @@ function Invoices() {
                                                         <option value='' hidden>Select state</option>
                                                         {
                                                             locationstate.map((item, index) =>
-                                                                <option key={index} value={item.location_state}>{item.location_add1}</option>
+                                                                <option key={index} value={`${item.location_state} ${item.location_id}`}>{item.location_add1}</option>
                                                             )
                                                         }
                                                     </select>
@@ -566,7 +548,7 @@ function Invoices() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="salesperson" className="form-control">
-                                                        <option value='' hidden>{custdetail.contact_person_name}</option>
+                                                        <option value={custdetail.contact_person_name} hidden>{custdetail.contact_person_name}</option>
                                                         {
                                                             activeuser.map((items) => (
                                                                 <option key={items.employee_name} value={items.employee_name}>{items.employee_name}</option>
