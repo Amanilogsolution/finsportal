@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-// import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
 import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency } from '../../../api/index'
 
 function Invoices() {
@@ -25,10 +24,15 @@ function Invoices() {
     const [unit, setUnit] = useState([])
 
     const [invoiceid, setInvoiceid] = useState('')
+    const [invoiceprefix,setInvoiceprefix]=useState('')
     const [quantity, setQuantity] = useState(0);
     const [gstvalues, setGstVAlue] = useState([])
     const [Totalamountnew, setTotalAmountNew] = useState([])
     const [currencylist, setCurrencylist] = useState([]);
+    const [masterid,setMasterid] = useState([])
+    const [locationid,setLocationid]= useState('')
+
+   
 
 
 
@@ -49,12 +53,13 @@ function Invoices() {
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
+            console.log(locatonstateres)
 
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
 
             const currencydata = await ActiveCurrency(org)
-            console.log(currencydata)
+            // console.log(currencydata)
             setCurrencylist(currencydata)
 
         }
@@ -98,7 +103,7 @@ function Invoices() {
     // }
 
     const handleChangeItems = (e) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         setTotalGst([...totalgst, Number(e.target.value)])
     }
 
@@ -135,12 +140,12 @@ function Invoices() {
         if(custadd === billadd){
           document.getElementById('cgstipt').value=Math.max(...totalgst)/2
           document.getElementById('sutgstipt').value=Math.max(...totalgst)/2
-          document.getElementById('igstipt').value='';
+          document.getElementById('igstipt').value=0;
         }
         else{
             document.getElementById('igstipt').value=totalgst;
-            document.getElementById('cgstipt').value=''
-            document.getElementById('sutgstipt').value=''
+            document.getElementById('cgstipt').value=0
+            document.getElementById('sutgstipt').value=0
         }
     }
 
@@ -187,7 +192,7 @@ function Invoices() {
         var newvalue = [...totalValues]
         var Amount = [...amount]
         var gstpop = [...totalgst]
-        console.log(newvalue.length)
+        // console.log(newvalue.length)
         if (newvalue.length == 1) {
             setTotalValues(newvalue)
             setAmount(Amount)
@@ -278,6 +283,7 @@ function Invoices() {
         const cust_id = e.target.value;
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
         setCustdetail(cust_detail)
+        setMasterid(cust_detail.mast_id)
         console.log(cust_detail)
 
         Duedate(45)
@@ -285,11 +291,12 @@ function Invoices() {
 
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
+        
     }
 
     const handlechnageaddress = async (e) => {
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
-        console.log(fin_year)
+        // console.log(fin_year)
 
         const billing_add = e.target.value;
         const cust_add = document.getElementById('custaddr').value;
@@ -304,7 +311,8 @@ function Invoices() {
         invoicecount = String(invoicecount)
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + '-' + invoicecitypre + invoiceidauto;
-        console.log(invoiceid)
+        // console.log(invoiceid)
+        setInvoiceprefix(invoicepefix)
         setInvoiceid(invoiceid);
 
 
@@ -316,6 +324,61 @@ function Invoices() {
         //     document.getElementById('igstipt').disabled=false
         //     document.getElementById('sutgstipt').disabled='true'
         // }
+    }
+
+
+    const handlesavebtn =(e)=>{
+        e.preventDefault();
+        let invoiceids ="";
+        let squ_nos=""
+        const btn_type=e.target.value;
+        console.log(btn_type)
+        const fin_year= localStorage.getItem('fin_year')
+        if(btn_type=='save'){
+            console.log('if')
+             invoiceids= document.getElementById('invoiceid').value;
+              squ_nos= invoiceprefix;
+
+            console.log(invoiceids)
+        }else{
+            console.log("else")
+             invoiceids= 'Inv001';
+             squ_nos=""
+            console.log(invoiceids)
+
+
+        }
+        // const s= document.getElementById('s').value;
+        const squ_no= invoiceprefix;
+        const Invoicedate= document.getElementById('Invoicedate').value
+        const ordernumber= document.getElementById('ordernumber').value
+        const invoiceamt= grandtotal;
+        const User_id= localStorage.getItem('User_id')
+        const periodfrom= document.getElementById('fromdate').value;
+        const periodto= document.getElementById('todate').value;
+        const custid= document.getElementById('custname').value;
+        const billsubtotal=totalamout
+        const total_tax= Math.max(...totalgst)
+        const remark= document.getElementById('custnotes').value;
+        let location= document.getElementById('locationadd')
+         location = location.options[location.selectedIndex].text;
+        let  consignee= document.getElementById('custname')
+        consignee = consignee.options[consignee.selectedIndex].text;
+
+        
+        const currency_type= document.getElementById('currency').value
+        const salesperson =document.getElementById('salesperson').value;
+        const subject =document.getElementById('subject').value;
+        const paymentterm= document.getElementById('paymentterm').value;
+        const Duedate =document.getElementById('Duedate').value;
+        const cgst =document.getElementById('cgstipt').value;
+        const sgst =document.getElementById('sutgstipt').value;
+        const utgst =document.getElementById('sutgstipt').value;
+        const igst =document.getElementById('igstipt').value;
+        const taxableamt= gstvalue;
+
+        console.log(fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,custid,billsubtotal,
+            total_tax,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,subject,paymentterm,Duedate)
     }
 
     return (
@@ -426,11 +489,11 @@ function Invoices() {
                                                     <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
 
                                                     <select
-                                                        id="AccountType"
+                                                        id="paymentterm"
                                                         className="col-md-6  mr-0 form-control"
                                                         onChange={handleAccountTerm}
                                                     >
-                                                        <option value='' hidden>{custdetail.payment_terms}</option>
+                                                        <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
                                                         {
                                                             activepaymentterm.map((item) => (
                                                                 <option key={item.term_days} value={item.term_days}>{item.term}</option>
@@ -471,7 +534,7 @@ function Invoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select id="AccountType" className="form-control">
+                                                    <select id="salesperson" className="form-control">
                                                         <option value='' hidden>{custdetail.contact_person_name}</option>
                                                         {
                                                             activeuser.map((items) => (
@@ -486,7 +549,7 @@ function Invoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                    <textarea className="form-control col-md-7" id="Accountname" rows='4' placeholder="Let your customer know what this invoice is for" style={{ resize: 'none' }}></textarea>
+                                                    <textarea className="form-control col-md-7" id="subject" rows='4' placeholder="Let your customer know what this invoice is for" style={{ resize: 'none' }}></textarea>
 
                                                 </div>
                                             </div>
@@ -570,7 +633,7 @@ function Invoices() {
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes (Remarks)</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="4" id="Accountname" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
+                                                            <textarea type="text" className="form-control " rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                         </div>
 
                                                     </div>
@@ -671,7 +734,7 @@ function Invoices() {
                                                                 </td>
                                                                 <td>
                                                                     <div className="input-group mb-1">
-                                                                        <select className="form-control col-md-5" id="adjust" >
+                                                                        <select className="form-control col-md-5" id="currency" >
                                                                             <option value={custdetail.currency} hidden >{custdetail.currency}</option>
                                                                             {
                                                                                 currencylist.map((item, index) =>
@@ -728,10 +791,10 @@ function Invoices() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger">
+                                                    <button id="save" name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
                                                         Save
                                                     </button>
-                                                    <button id="save" name="save" className="btn btn-danger ml-2">
+                                                    <button id="save" name="save" className="btn btn-danger ml-2" onClick={handlesavebtn} value='post'>
                                                         Post
                                                     </button>
                                                     <button id="clear" onClick={(e) => {
