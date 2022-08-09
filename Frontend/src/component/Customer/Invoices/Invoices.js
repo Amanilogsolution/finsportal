@@ -503,7 +503,6 @@ function Invoices() {
                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>
                                                         <th scope="col">Total</th>
-
                                                     </tr>
                                                 </thead>
                                                 <tbody>
