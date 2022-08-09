@@ -284,7 +284,6 @@ function Invoices() {
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
-        console.log(cust_detail)
 
         Duedate(45)
 
@@ -577,8 +576,8 @@ function Invoices() {
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
                                                                         <option value='' hidden> Select item</option>
                                                                         {
-                                                                            activechargecode.map(item => (
-                                                                                <option value={item.gst_rate}>{item.chartof_account}</option>
+                                                                            activechargecode.map((item,index) => (
+                                                                                <option key={index} value={item.gst_rate} >{item.chartof_account}</option>
                                                                             ))
                                                                         }
                                                                     </select>
@@ -607,8 +606,8 @@ function Invoices() {
                                                                     <select onChange={handleChangeUnit} className="form-control col-md">
                                                                         <option value='' hidden> Select Unit</option>
                                                                         {
-                                                                            activeunit.map(item => (
-                                                                                <option value={item.unit_name}>{item.unit_name}</option>
+                                                                            activeunit.map((item,index) => (
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
                                                                             ))
                                                                         }
                                                                     </select>
