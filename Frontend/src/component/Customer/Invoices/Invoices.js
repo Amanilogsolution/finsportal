@@ -626,7 +626,11 @@ function Invoices() {
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td>{Math.floor(amount[index])}</td>
+
+                              
+
+                                                                <td>{amount[index]?amount[index]:0}</td>
+
                                                                 <td id="Totalsum">{amount[index] ? amount[index] + amount[index] * totalgst[index] / 100 : 0}</td>
 
                                                             </tr>
