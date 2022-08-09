@@ -1149,3 +1149,5 @@ export const UpdateCrm = async (sno,org,user_name,type,cust_vend,User_id) => {
         total_tax,cust_locationid,remark,flagsave,location_name,consignee,cust_family,cgst_amt,sgst_amt,utgst_amt,igst_amt,taxable_amt,currency_type,sales_person,
         subject,payment_term,due_date,User_id }).then(response => response.data).catch(error => console.log(error));
 }
+
+ // ###########################  For Invoice api End ############################
