@@ -1137,7 +1137,15 @@ export const UpdateCrm = async (sno,org,user_name,type,cust_vend,User_id) => {
     return axios.post(url, { sno,org,user_name,type,cust_vend,User_id}).then(response => response.data).catch(error => console.log(error));
 }
 
-
-
-
  // ###########################  CRM Master api END ############################
+
+ // ############################For Invoice api Start #################################
+
+ export const InsertInvoice = async (org,fin_year,invoice_no,squence_no,invoice_date,order_no,invoice_amt,user_id,periodfrom,periodto,major,location,custid,billsubtotal,
+    total_tax,cust_locationid,remark,flagsave,location_name,consignee,cust_family,cgst_amt,sgst_amt,utgst_amt,igst_amt,taxable_amt,currency_type,sales_person,
+    subject,payment_term,due_date,User_id) => {
+    const url = `http://localhost:3008/api/insertinvoice`
+    return axios.post(url, { org,fin_year,invoice_no,squence_no,invoice_date,order_no,invoice_amt,user_id,periodfrom,periodto,major,location,custid,billsubtotal,
+        total_tax,cust_locationid,remark,flagsave,location_name,consignee,cust_family,cgst_amt,sgst_amt,utgst_amt,igst_amt,taxable_amt,currency_type,sales_person,
+        subject,payment_term,due_date,User_id }).then(response => response.data).catch(error => console.log(error));
+}

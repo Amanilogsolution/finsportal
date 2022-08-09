@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 // import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer,ActiveItems} from '../../../api/index'
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit ,ActiveCurrency} from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -28,15 +28,44 @@ function Invoices() {
     const [quantity, setQuantity] = useState(0);
     const [gstvalues, setGstVAlue] = useState([])
     const [Totalamountnew, setTotalAmountNew] = useState([])
-    const [currencylist,setCurrencylist] = useState([]);
-
-
-
+    const [currencylist, setCurrencylist] = useState([]);
     const [gst, setGst] = useState(0)
+    const [Alldata,setAllData]=useState({
+        "fin_year":"",
+        "Inv_no":"",
+        "Squ_no":"",
+        "InvoiceDate": 0,
+        "Invoice_Amount":"",
+        "user_id":"",
+        "period_from":"",
+        "period_to":"",
+        "major":"",
+        "location":"",
+        "cust_id":"",
+        "billsubtotal":"",
+        "taxtotal":"",
+        "custlocation_id":"",
+        "remark":"",
+        "flagsave":"",
+        "location_name":"",
+        "consignee":"",
+        "master_id":"",
+        "cgst":"",
+        "sgst":"",
+        "Igst":"",
+        "utgst":"",
+        "taxableamount":"",
+        "currency_type":"",
+        "salesperson":"",
+        "subject":"",
+        "Term":"",
+        "duedate":"",
+        "order_no":""
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
-            const org= localStorage.getItem('Organisation');
+            const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
@@ -53,7 +82,7 @@ function Invoices() {
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
 
-            const currencydata= await ActiveCurrency(org)
+            const currencydata = await ActiveCurrency(org)
             console.log(currencydata)
             setCurrencylist(currencydata)
 
@@ -350,6 +379,7 @@ function Invoices() {
                                                         id="locationadd"
                                                         className="form-control"
                                                         onChange={handlechnageaddress}
+
                                                     >
                                                         <option value='' hidden>Select state</option>
                                                         {
@@ -428,12 +458,24 @@ function Invoices() {
                                                 </div>
                                             </div>
 
+                                            <div className="form-row mt-3">
+                                                <div className="d-flex col-md-3">
+                                                    <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date<span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="date" className="form-control col-md-6" id="fromdate" />
+                                                </div>
+                                                <div className="d-flex col-md-5">
+                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date<span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="date" className="form-control col-md-6" id="todate" />
+                                                </div>
+                                            </div>
+
+                                            {/* 
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 " > </label>
                                                 <div className="d-flex col-md-4">
                                                     <small>To create transaction dated before 01/07/2017</small>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
 
                                             <hr />
@@ -466,7 +508,7 @@ function Invoices() {
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Charge Code</th>
+                                                        <th scope="col">Items</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Tax</th>
@@ -482,7 +524,7 @@ function Invoices() {
                                                                 <td className="col-md-2 pl-0 pr-0">
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
-                                                                        <option value='' hidden> Select Charge Code</option>
+                                                                        <option value='' hidden> Select item</option>
                                                                         {
                                                                             activechargecode.map(item => (
                                                                                 <option value={item.gst_rate}>{item.chartof_account}</option>
@@ -490,23 +532,23 @@ function Invoices() {
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td  className='col-md-2 pl-0 pr-0'>
-                                                                <input className="form-control col-md" style={{border:"none"}} type="number" id="Quality" placeholder="0" onChange={(e) => {
-                                                                    const quantity = e.target.value
-                                                                    // let Total = rate[index] * e.target.value
+                                                                <td className='col-md-2 pl-0 pr-0'>
+                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
+                                                                        const quantity = e.target.value
+                                                                        // let Total = rate[index] * e.target.value
 
-                                                                    // setTimeout(() => {
-                                                                    //             setAmount([...amount, Total])
-                                                                    //             console.log(amount)
-                                                                    //         }, 1000)
-                                                                    setQuantity(quantity)
-                                                                }} /></td>
+                                                                        // setTimeout(() => {
+                                                                        //             setAmount([...amount, Total])
+                                                                        //             console.log(amount)
+                                                                        //         }, 1000)
+                                                                        setQuantity(quantity)
+                                                                    }} /></td>
 
-                                                                <td  className='col-md-2 pl-0 pr-0'>
-                                                                <input className="form-control col-md" style={{border:"none"}} type="number" id="Rate" placeholder="0"
-                                                                    onChange={handleChangerate}
-                                                                // value={rate[index]}
-                                                                /></td>
+                                                                <td className='col-md-2 pl-0 pr-0'>
+                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
+                                                                        onChange={handleChangerate}
+                                                                    // value={rate[index]}
+                                                                    /></td>
                                                                 <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
 
                                                                 <td className='pl-0 pr-0 col-md-2'>
@@ -538,7 +580,7 @@ function Invoices() {
                                             <div style={{ display: "flex" }}>
                                                 <div style={{ width: "40%" }}>
                                                     <div className="form mt-3">
-                                                        <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes</label>
+                                                        <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes (Remarks)</label>
                                                         <div className="d-flex col-md">
                                                             <textarea type="text" className="form-control " rows="4" id="Accountname" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                         </div>
@@ -588,7 +630,7 @@ function Invoices() {
                                                                 <td>SGST/UTGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' onChange={handlechangegst} disabled/>
+                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' onChange={handlechangegst} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -612,7 +654,7 @@ function Invoices() {
                                                                 <td>IGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' onChange={handlechangegst} disabled/>
+                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' onChange={handlechangegst} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -642,8 +684,8 @@ function Invoices() {
                                                                         <select className="form-control col-md-5" id="adjust" >
                                                                             <option value='' hidden >{custdetail.currency}</option>
                                                                             {
-                                                                                currencylist.map((item,index)=>
-                                                                                <option key={index} value={item.currency_code} style={{height:"80px"}}>{item.currency_code}</option>)
+                                                                                currencylist.map((item, index) =>
+                                                                                    <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
                                                                             }
                                                                         </select>
                                                                         {/* <input type="number" className="form-control col-md-5" id="adjust" onBlur={handleadjust} /> */}
@@ -697,11 +739,14 @@ function Invoices() {
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
                                                     <button id="save" name="save" className="btn btn-danger">
-                                                        Save and Send
+                                                        Save
+                                                    </button>
+                                                    <button id="save" name="save" className="btn btn-danger ml-2">
+                                                        Post
                                                     </button>
                                                     <button id="clear" onClick={(e) => {
                                                         e.preventDefault(); window.location.href = '/home'
-                                                    }} name="clear" className="btn ml-2">
+                                                    }} name="clear" className="btn ml-2 btn btn-primary">
                                                         Cancel
                                                     </button>
                                                 </div>

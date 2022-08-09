@@ -34,6 +34,7 @@ const CurrencyAdjustmentController = require('../controller/Currencyadjustment')
 const PaymentTermController = require('../controller/paymentMaster')
 const ChargeCodeController = require('../controller/ChargeCode')
 const CRMController = require('../controller/crmMaster')
+const InvoiceController = require('../controller/Invoice')
 
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
@@ -294,6 +295,8 @@ router.post('/getcrm',CRMController.getcrm)
 router.post('/updatecrm',CRMController.updatecrm)
 router.post('/activecrm',CRMController.Activecrm)
 
+
+router.post('/insertinvoice',InvoiceController.InsertInvoice)
 
 
 
