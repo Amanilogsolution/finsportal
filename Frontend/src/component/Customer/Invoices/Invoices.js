@@ -37,6 +37,38 @@ function Invoices() {
 
 
     const [gst, setGst] = useState(0)
+    const [Alldata,setAllData]=useState({
+        "fin_year":"",
+        "Inv_no":"",
+        "Squ_no":"",
+        "InvoiceDate": 0,
+        "Invoice_Amount":"",
+        "user_id":"",
+        "period_from":"",
+        "period_to":"",
+        "major":"",
+        "location":"",
+        "cust_id":"",
+        "billsubtotal":"",
+        "taxtotal":"",
+        "custlocation_id":"",
+        "remark":"",
+        "flagsave":"",
+        "location_name":"",
+        "consignee":"",
+        "master_id":"",
+        "cgst":"",
+        "sgst":"",
+        "Igst":"",
+        "utgst":"",
+        "taxableamount":"",
+        "currency_type":"",
+        "salesperson":"",
+        "subject":"",
+        "Term":"",
+        "duedate":"",
+        "order_no":""
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
