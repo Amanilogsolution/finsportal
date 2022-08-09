@@ -12,7 +12,7 @@ function Invoices() {
     const [locationstate, setLocationstate] = useState([])
     const [activeuser, setActiveUser] = useState([])
     const [custdetail, setCustdetail] = useState({})
-    const [gstvalue, setGstvalue] = useState('0.00')
+    const [gstvalue, setGstvalue] = useState('0')
     const [amount, setAmount] = useState([])
     const [totalgst, setTotalGst] = useState([])
     const [grandtotal, setGrandTotal] = useState(0)
