@@ -86,7 +86,7 @@ export const getstates = async () => {
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 export const deletestate = async (sno, status) => {
-    const url = `http://192.168.146.103:3008/api/deletestate`
+    const url = `http://localhost:3008/api/deletestate`
     return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 export const showstate = async (sno) => {
@@ -95,7 +95,7 @@ export const showstate = async (sno) => {
 }
 
 export const updateState = async (sno, country_name, state_name, state_code, state_short_name, select_type, User_id) => {
-    const url = `http://192.168.146.103:3008/api/editstate`
+    const url = `http://localhost:3008/api/editstate`
     return axios.post(url, { sno, country_name, state_name, state_code, state_short_name, select_type, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const showactivestate = async (country) => {
@@ -541,7 +541,7 @@ export const ImportVendor = async (data, org, User_id) => {
 }
 
 export const ActiveVendor = async ( org) => {
-    const url = `http://192.168.146.136:3008/api/activevendor`
+    const url = `http://localhost:3008/api/activevendor`
     return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
 }
 
