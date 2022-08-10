@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency,InsertInvoice } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency,InsertInvoice,ActiveAccountname } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -33,10 +33,7 @@ function Invoices() {
     const [locationid,setLocationid]= useState('')
     const [billingaddress,setBillingAddress] = useState('')
 
-   
-
-
-
+    const [Activeaccount,setActiveAccount] = useState([])
     const [gst, setGst] = useState(0)
   
 
@@ -61,8 +58,11 @@ function Invoices() {
             setActiveUnit(ActiveUnit)
 
             const currencydata = await ActiveCurrency(org)
-            // console.log(currencydata)
             setCurrencylist(currencydata)
+
+            const ActiveAccount = await ActiveAccountname(org)
+            console.log(ActiveAccount)
+            setActiveAccount(ActiveAccount)
 
         }
         fetchdata()
@@ -97,25 +97,15 @@ function Invoices() {
 
     }
 
-    // const handleChange = (e) => {
-    //     var desktop = e.target.value
-    //     if (desktop == 'Desktop') {
-    //         document.getElementById("Upload").click()
-    //     }
-    // }
-
     const handleChangeItems = (e) => {
-        // console.log(e.target.value)
         setTotalGst([...totalgst, Number(e.target.value)])
     }
 
     const handleChangeUnit = (e) => {
-
         setUnit([...unit, e.target.value])
         var sum = 0
         amount.map((item) => sum += item)
         setTotalamount(sum)
-
         let tolgst = 0
         totalgst.map((item) => tolgst += item)
 
@@ -127,20 +117,13 @@ function Invoices() {
         var sum = 0
         Totalamountnew.map((item) => sum += item)
         setGrandTotal(sum)
-
         let gsttotal = 0
-       
         gstvalues.map((item) => gsttotal += item)
         setGstvalue(gsttotal)
-
         let custadd= document.getElementById('custaddr').value;
         custadd =custadd.toUpperCase();
         let billadd= billingaddress;
         billadd= billadd.toUpperCase();
-        console.log(billadd)
-        
-       
-
         if(custadd === billadd){
           document.getElementById('cgstipt').value=Math.max(...totalgst)/2
           document.getElementById('sutgstipt').value=Math.max(...totalgst)/2
@@ -157,28 +140,15 @@ function Invoices() {
         let Total = quantity * e.target.value
         let gst = Total * document.getElementById('gstvalue').value / 100
         let grandToatal = Total + gst
-        // console.log(typeof (Total))
         setTimeout(() => {
             setTotalAmountNew([...Totalamountnew, grandToatal])
             setGstVAlue([...gstvalues, gst])
             setAmount([...amount, Total])
-            // console.log(amount)
         }, 1000)
 
     }
 
-    // const handleChangeQuantity = (e) => {
-    //     e.preventDefault()
-    //     console.log(e.target.value)
-    // }
 
-    // const handleBlur = () => {
-    //     const quality = document.getElementById('Quality').value
-    //     const rate = document.getElementById('Rate').value
-    //     console.log(quality, rate)
-    //     console.log(quality * rate)
-    //     setAmount(quality * rate)
-    // }
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -186,9 +156,6 @@ function Invoices() {
         var sum = 0
         Totalamountnew.map((item) => sum += item)
         setGrandTotal(sum)
-
-
-        // setAmount(0)
     }
 
     const handleRemove = (e) => {
@@ -196,121 +163,40 @@ function Invoices() {
         var newvalue = [...totalValues]
         var Amount = [...amount]
         var gstpop = [...totalgst]
-        // console.log(newvalue.length)
         if (newvalue.length == 1) {
             setTotalValues(newvalue)
             setAmount(Amount)
             setTotalGst(gstpop)
-
-
         } else {
             newvalue.pop()
             Amount.pop()
             gstpop.pop()
             setAmount(Amount)
             setTotalGst(gstpop)
-
             setTotalValues(newvalue)
         }
     }
 
 
-    // const handledescount = (e) => {
-    //     e.preventDefault();
-    //     document.getElementById('discountipt').style.border = 'none';
-    //     document.getElementById('discountipt').style.boxShadow = 'none';
-    //     console.log(e.target.value)
-    //     const value = e.target.value;
-    //     const symb = document.getElementById('discountsyb').value;
-    //     setDescount(value)
-    //     if (symb === '%') {
-    //         if (value > 100) {
-    //             document.getElementById('discountipt').style.border = '1px solid red';
-    //             document.getElementById('discountipt').style.boxShadow = '1px 1px 5px red';
-    //             console.log(symb)
-    //             setDescount('-0.00')
-    //         }
-
-
-    //     }
-    // }
-
-    // const handlechangegst = (e) => {
-    //     e.preventDefault();
-
-    //     const cgst = document.getElementById('cgstipt').value;
-    //     const sutgst = document.getElementById('sutgstipt').value;
-    //     // const utgst = document.getElementById('utgstipt').value;
-    //     const igst = document.getElementById('igstipt').value;
-
-    //     const totalgst = Number(cgst) + Number(sutgst) + Number(igst);
-
-    //     if (totalgst > 100) {
-    //         document.getElementById('gstipt').style.border = '1px solid red';
-    //         document.getElementById('gstipt').style.boxShadow = '1px 1px 5px red'
-    //         setGst(0)
-    //     }
-    //     else {
-    //         setGst(totalgst)
-    //         const totalgstvalue = grandtotal * (totalgst / 100)
-    //         console.log(grandtotal)
-    //         console.log(totalgstvalue)
-    //         setGstvalue(totalgstvalue)
-    //         const tamount = grandtotal + totalgstvalue;
-    //         setTotalamount(tamount)
-    //     }
-    // }
-
-    // const handleadjust = (e) => {
-    //     e.preventDefault();
-    //     const adjustment = document.getElementById('adjust').value
-    //     document.getElementById('igstipt').disabled = 'true'
-    //     document.getElementById('cgstipt').disabled = 'true'
-    //     document.getElementById('sutgstipt').disabled = 'true'
-
-    //     if (adjustment > grandtotal) {
-    //         document.getElementById('adjust').style.border = '1px solid red';
-    //         document.getElementById('adjust').style.boxShadow = '1px 1px 5px red'
-    //     }
-    //     else {
-    //         document.getElementById('adjust').style.border = 'none';
-    //         document.getElementById('adjust').style.boxShadow = 'none'
-    //         setAdjust(adjustment)
-
-    //         const tamount = grandtotal + gstvalue - adjustment
-    //         setTotalamount(tamount)
-    //     }
-    // }
-
-
+   
     const handleCustname = async (e) => {
         const cust_id = e.target.value;
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
-
         Duedate(45)
-
-
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
-        setCutomerAddress(cust_add)
-        
+        setCutomerAddress(cust_add) 
     }
 
     const handlechnageaddress = async (e) => {
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
-        // console.log(fin_year)
         console.log(e.target.value)
         const [billadd,id] = e.target.value.split(' ')
         console.log(billadd,id)
         setLocationid(id)
-
         const billing_add = billadd;
         setBillingAddress(billadd)
-        // const cust_add = document.getElementById('custaddr').value;
-
-
-
         const invoicepefix = fin_year[0].invoice_ser;
         let invoicecitypre = (billing_add.substring(0, 3));
         invoicecitypre = invoicecitypre.toUpperCase();
@@ -319,19 +205,8 @@ function Invoices() {
         invoicecount = String(invoicecount)
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + '-' + invoicecitypre + invoiceidauto;
-        // console.log(invoiceid)
         setInvoiceprefix(invoicepefix)
         setInvoiceid(invoiceid);
-
-
-        // if(cust_add === billing_add){
-        //     document.getElementById('igstipt').disabled='true'
-        //     document.getElementById('sutgstipt').disabled=false
-        // }
-        // else{
-        //     document.getElementById('igstipt').disabled=false
-        //     document.getElementById('sutgstipt').disabled='true'
-        // }
     }
 
 
@@ -384,12 +259,13 @@ function Invoices() {
         const sgst =document.getElementById('sutgstipt').value;
         const utgst =document.getElementById('sutgstipt').value;
         const igst =document.getElementById('igstipt').value;
+        const Activity = document.getElementById('Activity').value
         const taxableamt= gstvalue;
 
         console.log(fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,custid,billsubtotal,
             total_tax,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,subject,paymentterm,Duedate,locationid)
 
-            const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,'major',locationid,custid,billsubtotal,
+            const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Activity,locationid,custid,billsubtotal,
                 total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
                 subject,paymentterm,Duedate,User_id)
     }
@@ -567,6 +443,20 @@ function Invoices() {
                                                 </div>
                                             </div>
                                             <hr />
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Activity </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select id="Activity" className="form-control">
+                                                        <option hidden>Select Activity</option>
+                                                        {
+                                                            Activeaccount.map((items) => (
+                                                                <option key={items.account_type_code} value={items.account_type_code}>{items.account_type}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <hr/>
 
 
                                             <table className="table">
@@ -599,12 +489,6 @@ function Invoices() {
                                                                 <td className='col-md-2 pl-0 pr-0'>
                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                         const quantity = e.target.value
-                                                                        // let Total = rate[index] * e.target.value
-
-                                                                        // setTimeout(() => {
-                                                                        //             setAmount([...amount, Total])
-                                                                        //             console.log(amount)
-                                                                        //         }, 1000)
                                                                         setQuantity(quantity)
                                                                     }} /></td>
 
