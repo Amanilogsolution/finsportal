@@ -6,9 +6,9 @@ const uuidv1 = require("uuid/v1");
 // Customer Add Adddress
 const InsertCustomerAddress = async (req, res) => {
     const org = req.body.org;
-    const userid = req.body.userid;
-    const cust_id = req.body.cust_id;
-    const cust_name = req.body.cust_name;
+    const User_id = req.body.User_id;
+    const custid = req.body.custid;
+    const custname = req.body.custname;
     const gst_no = req.body.gst_no;
     const billing_address_attention = req.body.billing_address_attention;
     const billing_address_country = req.body.billing_address_country;
@@ -17,15 +17,15 @@ const InsertCustomerAddress = async (req, res) => {
     const billing_address_pincode = req.body.billing_address_pincode;
     const billing_address_phone = req.body.billing_address_phone;
     const billing_address_fax = req.body.billing_address_fax;
-    console.log(org, userid, cust_id, cust_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax);
-   
+    const custaddid = req.body.custaddid;
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`INSERT into ${org}.dbo.tbl_cust_addresses(cust_id ,cust_name,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
-      billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,custaddress_uuid )
-      values('${cust_id}','${cust_name}','${gst_no}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`)
-      res.send(result.rowsAffected);
+      billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,custaddress_uuid,cust_addressid )
+      values('${custid}','${custname}','${gst_no}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}',
+      getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuidv1()}','${custaddid}')`)
+        res.send(result.rowsAffected);
     }
     catch (err) {
         res.send(err);
@@ -35,7 +35,7 @@ const InsertCustomerAddress = async (req, res) => {
 //Vendor Add Address
 const InsertVendorAddress = async (req, res) => {
     const vend_id = req.body.vend_id;
-    
+
     const billing_address_gstno = req.body.billing_address_gstno;
     const billing_address_attention = req.body.billing_address_attention;
     const billing_address_country = req.body.billing_address_country;
@@ -44,8 +44,8 @@ const InsertVendorAddress = async (req, res) => {
     const billing_address_pincode = req.body.billing_address_pincode;
     const billing_address_phone = req.body.billing_address_phone;
     const billing_address_fax = req.body.billing_address_fax;
-    const org= req.body.org;
-    const User_id= req.body.User_id;
+    const org = req.body.org;
+    const User_id = req.body.User_id;
     console.log(vend_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax);
 
     try {
@@ -64,8 +64,7 @@ const SelectCustAddress = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT  cust_name FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name LIKE '%${cust_name}%';`)
-         console.log(result)
+        const result = await sql.query(`SELECT DISTINCT cust_id,cust_name FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name LIKE '%${cust_name}%';`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -202,44 +201,43 @@ const UpdateVendAddress = async (req, res) => {
     }
 }
 
-const Importcustaddress = async (req,res) =>{
-    const importdata= req.body.importdata;
+const Importcustaddress = async (req, res) => {
+    const importdata = req.body.importdata;
     const org = req.body.org;
     const User_id = req.body.User_id;
-    // console.log(importdata,org,User_id)
-    
-  
+    console.log(importdata,org,User_id)
+
+
 
     sql.connect(sqlConfig).then(() => {
 
-        sql.query(`select * from ${org}.dbo.tbl_cust_addresses where cust_id in ('${importdata.map(data => data.cust_id)
-        .join("', '")}') OR gst_no in ('${importdata.map(data => data.gst_no)
-        .join("', '")}') OR cust_name in ('${importdata.map(data => data.cust_name).join("', '")}')`)
+        // sql.query(`select * from ${org}.dbo.tbl_cust_addresses where cust_id in ('${importdata.map(data => data.cust_id)
+        //     .join("', '")}') OR gst_no in ('${importdata.map(data => data.gst_no)
+        //         .join("', '")}') OR cust_name in ('${importdata.map(data => data.cust_name).join("', '")}')`)
 
-        .then((resp) =>{
-            if (resp.rowsAffected[0] > 0)
-        res.send(resp.recordset.map(item => ({ "cust_id": item.cust_id, "gst_no": item.gst_no, "cust_name": item.cust_name })))
-        else {
+        //     .then((resp) => {
+        //         if (resp.rowsAffected[0] > 0)
+        //             res.send(resp.recordset.map(item => ({ "cust_id": item.cust_id, "gst_no": item.gst_no, "cust_name": item.cust_name })))
+        //         else {
 
-        sql.query(`INSERT INTO  ${org}.dbo.tbl_cust_addresses(cust_id ,cust_name,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
-            billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,custaddress_uuid)
-
+                    sql.query(`INSERT INTO  ${org}.dbo.tbl_cust_addresses(cust_id ,cust_name,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
+            billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,custaddress_uuid,cust_addressid)
                              VALUES ${importdata.map(item => `('${item.cust_id}','${item.cust_name}','${item.gst_no}',
                              '${item.billing_address_attention}','${item.billing_address_country}',
                              '${item.billing_address_city}','${item.billing_address_state}',
                              '${item.billing_address_pincode}','${item.billing_address_phone}',
                              '${item.billing_address_fax}',getdate(),'${User_id}',
-                             '${os.hostname()}','${req.ip}','Active','${uuidv1()}')`).join(', ')}`)
+                             '${os.hostname()}','${req.ip}','Active','${uuidv1()}' ,'${item.cust_add_id}')`).join(', ')}`)
 
-        res.send("Data Added")
-        console.log("Data Added") 
-        }
-        })
+                    res.send("Data Added")
+                }
+            // }
+            )
 
 
-    })
+    // })
 
 }
 
 
-module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress,Importcustaddress }
+module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress }

@@ -50,12 +50,13 @@ function Invoices() {
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
-            const activechargecode = await ActiveChargeCode(org)
-            setActiveChargeCode(activechargecode)
+            const activechargecodedata = await ActiveChargeCode(org)
+            setActiveChargeCode(activechargecodedata)
+            console.log(activechargecodedata)
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-            console.log('hello',locatonstateres)
+            
 
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)

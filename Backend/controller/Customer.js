@@ -154,18 +154,18 @@ const Customer_id = async (req, res) => {
     }
 }
 
-const Customername = async (req, res) => {
-    const org = req.body.org;
-    const cust_id = req.body.cust_id;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`select cust_name from ${org}.dbo.tbl_new_customer with (nolock) where cust_id='${cust_id}' and status='Active'`)
-        res.send(result.recordset[0])
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const Customername = async (req, res) => {
+//     const org = req.body.org;
+//     const cust_id = req.body.cust_id;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`select cust_name from ${org}.dbo.tbl_new_customer with (nolock) where cust_id='${cust_id}' and status='Active'`)
+//         res.send(result.recordset[0])
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 const Unique_Cust_id = async (req, res) => {
     const org = req.body.org;
@@ -206,20 +206,20 @@ const CustomerMastid = async (req, res) => {
         res.send(err)
     }
 }
-const CustomerIdMid = async (req, res) => {
-    const org = req.body.org;
-    const masterid = req.body.masterid;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
-        res.send(result.recordset)
+// const CustomerIdMid = async (req, res) => {
+//     const org = req.body.org;
+//     const masterid = req.body.masterid;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`select count(cust_id) as count from ${org}.dbo.tbl_new_customer tnv with (nolock) WHERE mast_id='${masterid}';`)
+//         res.send(result.recordset)
 
 
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 const Checkmidvalid = (req, res) => {
     const org = req.body.org;
@@ -362,6 +362,6 @@ const SelectedCustomer = async (req, res) => {
 }
 
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, Customername, CustomerMastid, CustomerIdMid, 
-    // Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, 
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, CustomerMastid, 
+    // Customername,CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, 
     ActiveCustomer, SelectedCustomer }

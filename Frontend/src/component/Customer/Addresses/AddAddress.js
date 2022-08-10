@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Totalcountry,showactivestate,getCity,CustomerId,CustInsertAddress,Activecountries,Customername} from '../../../api';
+import { Totalcountry,showactivestate,getCity,ActiveCustomer,CustInsertAddress,Activecountries} from '../../../api';
 
 
 const AddCustAddress = () => {
@@ -10,35 +10,45 @@ const AddCustAddress = () => {
   const [billing_address_country, setBilling_address_country] = useState();
   const [selectState, setSelectState] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState([]);
-  const [billing_address_city, setBilling_address_city] = useState();
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_state, setBilling_address_state] = useState();
-  const [cust_id, setCust_id] = useState();
 
 
-  useEffect(async () => {
+  useEffect( () => {
+    const fetchdata=async()=>{
     const result = await Activecountries()
     setSelectedCountry(result)
-    const customerId = await CustomerId(localStorage.getItem('Organisation'))
-    setGetCustId(customerId)
+    const customerlist = await ActiveCustomer(localStorage.getItem('Organisation'))
+    setGetCustId(customerlist)
+    }
+    fetchdata()
   }, []);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const custname= await Customername(localStorage.getItem('Organisation'),cust_id);
-    const customer_name = custname.cust_name;
+    let custid= document.getElementById('custname');
+    const custname= custid.options[custid.selectedIndex].text;
+    custid =custid.value;
     const gst_no = document.getElementById('gst_no').value;
     const billing_address_attention = document.getElementById('billing_address_attention').value;
+    const billing_address_city = document.getElementById('inputcity').value;
     const billing_address_pincode = document.getElementById('billing_address_pincode').value;
     const billing_address_phone = document.getElementById('billing_address_phone').value;
     const billing_address_fax = document.getElementById('billing_address_fax').value;
+    const org =localStorage.getItem('Organisation')
+    const User_id= localStorage.getItem('User_id')
+
+    const custnamrchar= custname.substring(0, 3);
+    const citychar= billing_address_city.substring(0,3);
+    const custaddid = custnamrchar.toUpperCase() +citychar.toUpperCase()+Math.floor(Math.random() * 100000);
 
 
-    if (!billing_address_country  || !billing_address_state || !billing_address_phone || !billing_address_pincode) {
+    if (!custname || !billing_address_country  || !billing_address_state || !billing_address_city || !billing_address_phone || !billing_address_pincode) {
       alert("Please! enter the data ")
     }
     else {
-      const result = await CustInsertAddress(localStorage.getItem('Organisation'),localStorage.getItem('User_id'),cust_id,customer_name, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax)
+
+      const result = await CustInsertAddress(org,User_id,custid,custname, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,custaddid)
        if(result[0]>0){
         alert("Data Added")
         window.location.href='./TotalCustAddress'
@@ -51,11 +61,6 @@ const AddCustAddress = () => {
   }
 
 
-  const handleChangeCID = async (e) => {
-    let data = e.target.value;
-    setCust_id(data);
-  }
-
 
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
@@ -63,10 +68,7 @@ const AddCustAddress = () => {
     const statesresult = await showactivestate(data)
     setSelectState(statesresult)
   }
-  const handleAddressCity = async (e) => {
-    let data = e.target.value;
-    setBilling_address_city(data);
-  }
+
   const handleChangebillingState = async (e) => {
     let data = e.target.value;
     setBilling_address_state(data);
@@ -99,28 +101,27 @@ const AddCustAddress = () => {
                             <label>BILLING ADDRESS</label>
                             <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="custname"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 Customer ID
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
-                                  id="inputState"
+                                  id="custname"
                                   className="form-control"
-                                  onChange={handleChangeCID}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option value='' hidden> Select Customer</option>
                                   {
                                     getCustID.map((data, index) => (
-                                      <option key={index} value={data.cust_id} >{data.cust_id}</option>
+                                      <option key={index} value={data.cust_id} >{data.cust_name}</option>
                                     ))
 
                                   }
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
+                            
                             </div>
                             <div className="form-row">
                               <label
@@ -173,7 +174,6 @@ const AddCustAddress = () => {
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
                             <div className="form-row">
                               <label
@@ -186,9 +186,8 @@ const AddCustAddress = () => {
                                 <select
                                   id="inputState"
                                   className="form-control"
-                                  onChange={handleChangebillingState}
-                                >
-                                  <option  hidden value=''> Choose</option>
+                                  onChange={handleChangebillingState}>
+                                  <option  hidden value=''> Select state</option>
                                   {
                                     selectState.map((data, index) => (
                                       <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -199,16 +198,15 @@ const AddCustAddress = () => {
                             </div>
                             <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="inputcity"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 City
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
-                                  id="inputState"
+                                  id="inputcity"
                                   className="form-control"
-                                  onChange={handleAddressCity}
                                 >
                                   <option hidden  value=''> Select the value</option>
                                   {
@@ -220,10 +218,8 @@ const AddCustAddress = () => {
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
+                             
                             </div>
-
-
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
@@ -273,17 +269,17 @@ const AddCustAddress = () => {
                         </div>
                       </form>
                     </article>
-                    {/* card-body end .// */}
+                  
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalCustAddress" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
+                 
                 </div>
-                {/* col.//*/}
+             
               </div>
-              {/* row.//*/}
+           
             </div>
           </div>
         </div>

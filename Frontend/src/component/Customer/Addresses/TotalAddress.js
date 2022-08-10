@@ -5,7 +5,7 @@ import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { ShowCustAddress,DeleteCustAddress ,SelectCustAddress,Importcustaddress} from '../../../api';
+import { ShowCustAddress, DeleteCustAddress, SelectCustAddress, Importcustaddress } from '../../../api';
 // import Excelfile from '';
 import * as XLSX from "xlsx";
 import './TotalAddress.css';
@@ -39,7 +39,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await DeleteCustAddress(row.sno, status,localStorage.getItem("Organisation"));
+          await DeleteCustAddress(row.sno, status, localStorage.getItem("Organisation"));
           window.location.href = 'TotalCustAddress'
         }
         }>
@@ -89,7 +89,7 @@ const columns = [
 const TotalCustAddress = () => {
 
   const [data, setData] = useState([])
-  const [selectedCust_id, setSelectedCust_id] = useState([])
+  const [selectedCustname, setSelectedCustname] = useState([])
   const [cust_name, setCust_Name] = useState()
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -97,79 +97,83 @@ const TotalCustAddress = () => {
   const [backenddata, setBackenddata] = useState(false);
 
 
-    //##########################  Upload data start  #################################
+  //##########################  Upload data start  #################################
 
-    const uploaddata = async () => {
-      // importdata.map((d) => {
-  
-      //   if (!d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
-      //     setErrorno(errorno++);
-      //   }
-      // })
-  
-      if (errorno > 0) {
-        alert("Please! fill the mandatory data");
+  const uploaddata = async () => {
+    importdata.map((d) => {
+      if (!d.cust_name || !d.billing_address_attention || !d.billing_address_country || !d.billing_address_state || !d.billing_address_city) {
+        setErrorno(errorno++);
+      }
+    })
+
+    if (errorno > 0) {
+      alert("Please! fill the mandatory data");
+      document.getElementById("showdataModal").style.display = "none";
+      window.location.reload()
+    }
+    else {
+
+      for (let i = 0; i < importdata.length; i++) {
+        let custnamrchar = importdata[i].cust_name.substring(0, 3);
+        let citychar = importdata[i].billing_address_city.substring(0, 3);
+        let custaddid = custnamrchar.toUpperCase() + citychar.toUpperCase() + Math.floor(Math.random() * 100000);
+        Object.assign(importdata[i], { "cust_add_id": custaddid })
+      }
+
+
+      const result = await Importcustaddress(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
+      if (!(result == "Data Added")) {
+        setBackenddata(true);
+        setDuplicateDate(result)
+      }
+      else if (result == "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
+        setBackenddata(false);
+        alert("Data Added")
         window.location.reload()
       }
-      else {
-       
-        const result = await Importcustaddress(importdata, localStorage.getItem("Organisation"),localStorage.getItem("User_id"));
-        console.log(importdata)
-        console.log("result",result)
-        if (!(result == "Data Added")) {
-          setBackenddata(true);
-          setDuplicateDate(result)
-          
-  
+    }
+
+  };
+  //##########################   Upload data end  #################################
+  //##########################  for convert array to json start  #################################
+
+  const handleClick = () => {
+    const array = JSON.stringify(importdata)
+    const datas = JSON.parse(array)
+    setImportdata(datas);
+  };
+  //##########################  for convert array to json end  #################################
+
+  //##########################  for convert excel to array start  #################################
+  const onChange = (e) => {
+    const [file] = e.target.files;
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+      let lines = data.split("\n");
+
+      let result = [];
+      let headers = lines[0].split(",");
+
+      for (var i = 1; i < lines.length - 1; i++) {
+        let obj = {};
+        let currentline = lines[i].split(",");
+        for (var j = 0; j < headers.length; j++) {
+          obj[headers[j]] = currentline[j];
         }
-        else if (result == "Data Added") {
-          document.getElementById("showdataModal").style.display = "none";
-          setBackenddata(false);
-          alert("Data Added")
-          window.location.reload()
-        }
+        result.push(obj);
       }
-  
+      setImportdata(result);
     };
-    //##########################   Upload data end  #################################
-    //##########################  for convert array to json start  #################################
-  
-    const handleClick = () => {
-      const array = JSON.stringify(importdata)
-      const datas = JSON.parse(array)
-      setImportdata(datas);
-      console.log("datas",datas);
-    };
-    //##########################  for convert array to json end  #################################
-  
-    //##########################  for convert excel to array start  #################################
-    const onChange = (e) => {
-      const [file] = e.target.files;
-      const reader = new FileReader();
-  
-      reader.onload = (evt) => {
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        var lines = data.split("\n");
-        var result = [];
-        var headers = lines[0].split(",");
-        for (var i = 1; i < lines.length - 1; i++) {
-          var obj = {};
-          var currentline = lines[i].split(",");
-          for (var j = 0; j < headers.length; j++) {
-            obj[headers[j]] = currentline[j];
-          }
-          result.push(obj);
-        }
-        setImportdata(result);
-      };
-      reader.readAsBinaryString(file);
-    };
-    //##########################  for convert excel to array end #################################
+    reader.readAsBinaryString(file);
+  };
+  //##########################  for convert excel to array end #################################
 
   useEffect(async () => {
     // const result = await ShowCustAddress(cust_name)
@@ -180,13 +184,20 @@ const TotalCustAddress = () => {
   const handleChange = async (e) => {
     e.preventDefault();
     const cust_entered_name = document.getElementById('cust_entered_id').value;
-    if (!cust_entered_name) {
-      setSelectedCust_id([])
-    } else {
-      const result = await SelectCustAddress(cust_entered_name,localStorage.getItem("Organisation"))
-      setSelectedCust_id(result)
+    if (cust_entered_name.length > 2) {
+      const result = await SelectCustAddress(cust_entered_name, localStorage.getItem("Organisation"))
+      setSelectedCustname(result)
+      console.log(result)
+
     }
+    else {
+      setSelectedCustname([])
+    }
+
   }
+
+
+
 
 
   const tableData = {
@@ -203,39 +214,28 @@ const TotalCustAddress = () => {
         <Menu />
         <div>
           <div className="content-wrapper">
-            <div className="container-fluid" style={{position:"relative"}}>
-            <button type="button"style={{float:"right",marginRight:'10%',marginTop:'3%'}} onClick={()=>{window.location.href="./AddCustAddress"}} className="btn btn-primary">Add Address</button>
-            <button type="button"style={{float:"right",marginRight:'3%',marginTop:'3%'}} className="btn btn-success"  data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
-                <br/>
+            <div className="container-fluid" style={{ position: "relative" }}>
+              <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddCustAddress" }} className="btn btn-primary">Add Address</button>
+              <button type="button" style={{ float: "right", marginRight: '3%', marginTop: '3%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
+              <br />
               <h3 className="text-left ml-5">Customer Address</h3>
               <form className="form-inline" style={{ marginLeft: "50px" }}>
                 <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
-               
-                <ul className="ulstyle" >
-                <div style={{height:"300px",overflow:"auto"}}>
-                  {
-                    selectedCust_id.map((value) => (
-                      <li className="liststyle"><a onClick={
-                        async (e) => { e.preventDefault(); const result = await ShowCustAddress(value.cust_name,localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedCust_id([]) } }}>{value.cust_name}</a></li>
-                      // <li className="liststyle"><a onClick={()=>{setCust_Name(value.cust_name)}}>{value.cust_name}</a></li>
 
-                    ))
-                  }
+                <ul className="ulstyle" >
+                  <div style={{ height: "300px", overflow: "auto" }}>
+                    {
+                      selectedCustname.map((value) => (
+                        <li className="liststyle"><a onClick={
+                          async (e) => { e.preventDefault(); const result = await ShowCustAddress(value.cust_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedCustname([]) } }}
+                          >{value.cust_name}</a></li>
+                      ))
+                    }
                   </div>
                 </ul>
-                      {
-                      /* <select id="myselect" className="selectpicker" data-live-search="true" placeholder="please type" data-live-Search-Placeholder="search" onChange={handleChange} >
-                        {
-                          data.map((value)=>(
-                            <option>{value.cust_name}</option>
-                          ) )
-                        }
-                       
-                      </select> */
-                      }
-                 {/* <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button> */}
-               </form>
-              <br/>
+
+              </form>
+              <br />
               <div className="row ">
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
@@ -373,7 +373,7 @@ const TotalCustAddress = () => {
                         <tbody>
                           {
                             duplicateData.map((d, index) => (
-                              
+
 
                               <tr key={index} style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.cust_id}</td>
@@ -384,7 +384,7 @@ const TotalCustAddress = () => {
                           }
                         </tbody>
                         <tfoot></tfoot>
-                        
+
                       </table>
                       <br /><br />
                     </>
