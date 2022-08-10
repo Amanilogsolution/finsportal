@@ -142,17 +142,17 @@ const UpdateCustomer = async (req, res) => {
     }
 }
 
-const Customer_id = async (req, res) => {
-    const org = req.body.org;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT cust_id FROM ${org}.dbo.tbl_new_customer with (nolock)`)
-        res.send(result.recordset)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const Customer_id = async (req, res) => {
+//     const org = req.body.org;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT cust_id FROM ${org}.dbo.tbl_new_customer with (nolock)`)
+//         res.send(result.recordset)
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 // const Customername = async (req, res) => {
 //     const org = req.body.org;
@@ -362,6 +362,6 @@ const SelectedCustomer = async (req, res) => {
 }
 
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Customer_id, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, CustomerMastid, 
-    // Customername,CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, 
+module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, CustomerMastid, 
+    // Customer_id,Customername,CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, 
     ActiveCustomer, SelectedCustomer }

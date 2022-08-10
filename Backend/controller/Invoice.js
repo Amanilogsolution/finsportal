@@ -35,9 +35,7 @@ const InsertInvoice = async (req, res) => {
     const payment_term= req.body.payment_term;
     const due_date = req.body.due_date;
     const User_id = req.body.User_id;
-    console.log(org,fin_year,invoice_no,squence_no,invoice_date,order_no,invoice_amt,user_id,periodfrom,periodto,major,location,custid,billsubtotal,
-              total_tax,cust_locationid,remark,flagsave,location_name,consignee,cust_family,cgst_amt,sgst_amt,utgst_amt,igst_amt,taxable_amt,currency_type,sales_person,
-              subject,payment_term,due_date,User_id)
+ 
 
     try {
         await sql.connect(sqlConfig)

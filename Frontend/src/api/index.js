@@ -398,10 +398,10 @@ export const UpdateCustomer = async (org, sno, User_id, cust_email, cust_work_ph
     }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const CustomerId = async (org) => {
-    const url = `http://localhost:3008/api/customerid`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
-}
+// export const CustomerId = async (org) => {
+//     const url = `http://localhost:3008/api/customerid`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// }
 // export const Customername = async (org, cust_id) => {
 //     const url = `http://localhost:3008/api/customername`
 //     return axios.post(url, { org, cust_id }).then(response => response.data).catch(error => console.log(error));
@@ -418,19 +418,19 @@ export const CustomerMastId = async (org) => {
 
 
 // ######################   id controller
-export const IdcountMaster = async (org, masterid) => {
-    const url = `http://localhost:3008/api/idcountmaster`
-    return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
-}
-export const InsertIdcountmaster = async (org,id_type, masterid,id_count) => {
-    const url = `http://localhost:3008/api/insertidcountmaster`
-    return axios.post(url, { org,id_type, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
-}
+// export const IdcountMaster = async (org, masterid) => {
+//     const url = `http://localhost:3008/api/idcountmaster`
+//     return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
+// }
+// export const InsertIdcountmaster = async (org,id_type, masterid,id_count) => {
+//     const url = `http://localhost:3008/api/insertidcountmaster`
+//     return axios.post(url, { org,id_type, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
+// }
 
-export const UpdateIdcountmaster = async (org, masterid,id_count) => {
-    const url = `http://localhost:3008/api/updateidcountmaster`
-    return axios.post(url, { org, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
-}
+// export const UpdateIdcountmaster = async (org, masterid,id_count) => {
+//     const url = `http://localhost:3008/api/updateidcountmaster`
+//     return axios.post(url, { org, masterid,id_count}).then(response => response.data).catch(error => console.log(error));
+// }
 
 
 // ######################   id controller
@@ -603,7 +603,6 @@ export const EditVendAddress = async (sno, vend_id, billing_address_gstno, billi
 }
 
 export const Checkmidvalid = async (importdata, org,tbl_name) => {
-    console.log()
     const url = `http://localhost:3008/api/checkmidvalid`
     return axios.post(url, { importdata, org,tbl_name }).then(response => response.data).catch(error => console.log(error));
 }

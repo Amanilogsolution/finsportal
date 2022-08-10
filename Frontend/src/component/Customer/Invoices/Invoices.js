@@ -49,7 +49,6 @@ function Invoices() {
             Todaydate()
             const activechargecodedata = await ActiveChargeCode(org)
             setActiveChargeCode(activechargecodedata)
-            console.log(activechargecodedata)
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
@@ -62,7 +61,6 @@ function Invoices() {
             setCurrencylist(currencydata)
 
             const ActiveAccount = await ActiveAccountname(org)
-            console.log(ActiveAccount)
             setActiveAccount(ActiveAccount)
 
         }
@@ -188,6 +186,7 @@ function Invoices() {
         Duedate(45)
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add) 
+        console.log(cust_add)
     }
 
     const handlechnageaddress = async (e) => {
@@ -263,12 +262,13 @@ function Invoices() {
         const Activity = document.getElementById('Activity').value
         const taxableamt= gstvalue;
 
-        console.log(fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,custid,billsubtotal,
-            total_tax,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,subject,paymentterm,Duedate,locationid)
+        console.log(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Activity,locationid,custid,billsubtotal,
+            total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
+            subject,paymentterm,Duedate,User_id)
 
-            const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Activity,locationid,custid,billsubtotal,
-                total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
-                subject,paymentterm,Duedate,User_id)
+            // const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Activity,locationid,custid,billsubtotal,
+            //     total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
+            //     subject,paymentterm,Duedate,User_id)
     }
 
     return (
