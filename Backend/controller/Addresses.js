@@ -34,8 +34,10 @@ const InsertCustomerAddress = async (req, res) => {
 
 //Vendor Add Address
 const InsertVendorAddress = async (req, res) => {
-    const vend_id = req.body.vend_id;
 
+    const vend_id = req.body.vendid;
+    const vend_name = req.body.vend_name;
+    const vendaddid = req.body.vendaddid;
     const billing_address_gstno = req.body.billing_address_gstno;
     const billing_address_attention = req.body.billing_address_attention;
     const billing_address_country = req.body.billing_address_country;
@@ -46,14 +48,14 @@ const InsertVendorAddress = async (req, res) => {
     const billing_address_fax = req.body.billing_address_fax;
     const org = req.body.org;
     const User_id = req.body.User_id;
-    console.log(vend_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax);
-
+   
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`INSERT into ${org}.dbo.tbl_vend_addresses(vend_id ,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
-          billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,vendaddress_uuid )
-          values('${vend_id}','${billing_address_gstno}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`)
-        res.send('Added')
+        const result = await sql.query(`INSERT into ${org}.dbo.tbl_vend_addresses(vend_id,vend_name,vend_addressid,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
+              billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,vendaddress_uuid )
+              values('${vend_id}','${vend_name}','${vendaddid}','${billing_address_gstno}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}',
+              '${billing_address_phone}','${billing_address_fax}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`)
+              res.send(result.rowsAffected)
     }
     catch (err) {
         res.send(err)

@@ -123,7 +123,7 @@ router.post('/deletevendor', vendorController.DeleteVendor);
 router.post('/showvendor', vendorController.showVendor);
 router.post('/vendor',vendorController.Vendor)
 router.post('/updatevendor',vendorController.UpdateVendor)
-router.post('/vendorid',vendorController.Vendor_id)
+// router.post('/vendorid',vendorController.Vendor_id)
 // router.post('/totalvendor',vendorController.TotalVendor)
 // router.post('/totalvendid',vendorController.TotalVendId)
 router.post('/importvendor',vendorController.ImportVendor)

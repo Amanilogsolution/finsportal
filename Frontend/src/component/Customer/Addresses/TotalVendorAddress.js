@@ -5,9 +5,9 @@ import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { ShowVendAddress } from '../../../api';
-import { DeleteVendAddress } from '../../../api';
+import { ShowVendAddress,DeleteVendAddress } from '../../../api';
 
+const TotalVendAddress = () => {
 const columns = [
   {
     name: 'Attention',
@@ -42,54 +42,26 @@ const columns = [
           window.location.href = 'TotalVendAddress'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
-
-
+          <option value={row.status}  hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
   },
-  //  {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await DeleteVendAddress(row.sno,checkvalue)
-  //                 window.location.href='TotalVendAddress'
-
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await DeleteVendAddress(row.sno,checkvalue)
-  //                 window.location.href='TotalVendAddress'
-  //           }
-  //          }} />
-  //   ]
-  // },
-
   {
     name: "Actions",
     sortable: false,
-
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document'
-        href="EditVendorAddress"
-      >
-        <button className="editbtn btn-success " onClick={() => { console.log(row.sno); localStorage.setItem('EditVendorAddress', `${row.sno}`) }} >Edit</button></a>
+      <a title='View Document' href="EditVendorAddress">
+        <button className="editbtn btn-success" onClick={() => {localStorage.setItem('EditVendorAddress', `${row.sno}`) }} >Edit</button></a>
 
     ]
   }
-
-
 ]
-const TotalVendAddress = () => {
+
 
   const [data, setData] = useState([])
 
