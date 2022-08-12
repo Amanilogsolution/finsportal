@@ -568,6 +568,11 @@ export const SelectVendAddress = async (vend_name, org) => {
     const url = 'http://localhost:3008/api/selectvendaddress'
     return axios.post(url, { vend_name, org }).then(response => response.data).catch(error => console.log(error));
 }
+export const Importvendaddress = async (importdata, org, User_id) => {
+    const url = 'http://localhost:3008/api/importvendaddress'
+    return axios.post(url, { importdata, org, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const DeleteCustAddress = async (sno, status, org) => {
     const url = 'http://localhost:3008/api/deletecustaddress'

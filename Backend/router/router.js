@@ -147,6 +147,8 @@ router.post('/selectvendaddress', AddressController.SelectVendAddress);
 router.post('/deletevendaddress', AddressController.DeleteVendAddress);
 router.post('/vendoraddress', AddressController.VendAddress);
 router.post('/updatevendaddress', AddressController.UpdateVendAddress);
+router.post('/importvendaddress', AddressController.Importvendaddress);
+
 
 router.post('/userlogin',LoginController.User_login)
 router.post('/userlogout',LoginController.User_logout)

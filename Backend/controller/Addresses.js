@@ -48,14 +48,14 @@ const InsertVendorAddress = async (req, res) => {
     const billing_address_fax = req.body.billing_address_fax;
     const org = req.body.org;
     const User_id = req.body.User_id;
-   
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`INSERT into ${org}.dbo.tbl_vend_addresses(vend_id,vend_name,vend_addressid,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
               billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,vendaddress_uuid )
               values('${vend_id}','${vend_name}','${vendaddid}','${billing_address_gstno}','${billing_address_attention}','${billing_address_country}','${billing_address_city}','${billing_address_state}','${billing_address_pincode}',
               '${billing_address_phone}','${billing_address_fax}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`)
-              res.send(result.rowsAffected)
+        res.send(result.rowsAffected)
     }
     catch (err) {
         res.send(err)
@@ -74,7 +74,6 @@ const SelectCustAddress = async (req, res) => {
     }
 }
 
-//
 const TotalCustAddress = async (req, res) => {
     const org = req.body.org;
     const cust_id = req.body.cust_id;
@@ -87,7 +86,6 @@ const TotalCustAddress = async (req, res) => {
         res.send(err)
     }
 }
-// const TotalCustAddress
 
 const TotalVendAddress = async (req, res) => {
     const vend_id = req.body.vend_id;
@@ -218,9 +216,6 @@ const Importcustaddress = async (req, res) => {
     const importdata = req.body.importdata;
     const org = req.body.org;
     const User_id = req.body.User_id;
-    console.log(importdata,org,User_id)
-
-
 
     sql.connect(sqlConfig).then(() => {
 
@@ -233,7 +228,7 @@ const Importcustaddress = async (req, res) => {
         //             res.send(resp.recordset.map(item => ({ "cust_id": item.cust_id, "gst_no": item.gst_no, "cust_name": item.cust_name })))
         //         else {
 
-                    sql.query(`INSERT INTO  ${org}.dbo.tbl_cust_addresses(cust_id ,cust_name,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
+        sql.query(`INSERT INTO  ${org}.dbo.tbl_cust_addresses(cust_id ,cust_name,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
             billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,custaddress_uuid,cust_addressid)
                              VALUES ${importdata.map(item => `('${item.cust_id}','${item.cust_name}','${item.gst_no}',
                              '${item.billing_address_attention}','${item.billing_address_country}',
@@ -242,15 +237,30 @@ const Importcustaddress = async (req, res) => {
                              '${item.billing_address_fax}',getdate(),'${User_id}',
                              '${os.hostname()}','${req.ip}','Active','${uuidv1()}' ,'${item.cust_add_id}')`).join(', ')}`)
 
-                    res.send("Data Added")
-                }
-            // }
-            )
-
-
+        res.send("Data Added")
+    }
+        // }
+    )
     // })
 
 }
 
 
-module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress,SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress }
+const Importvendaddress = async (req, res) => {
+    const importdata = req.body.importdata;
+    const org = req.body.org;
+    const User_id = req.body.User_id;
+
+    sql.connect(sqlConfig).then(() => {
+        const result = sql.query(`INSERT into ${org}.dbo.tbl_vend_addresses(vend_id,vend_name,vend_addressid,gst_no,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,    
+                        billing_address_phone ,billing_address_fax,add_date_time,add_user_name,add_system_name ,add_ip_address ,status,vendaddress_uuid)
+                             VALUES ${importdata.map(item => `('${item.vend_id}','${item.vend_name}','${item.vend_addressid}','${item.gst_no}','${item.billing_address_attention}','${item.billing_address_country}','${item.billing_address_city}','${item.billing_address_state}','${item.billing_address_pincode}',
+                             '${item.billing_address_phone}','${item.billing_address_fax}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`).join(', ')}`)
+
+        res.send("Data Added")
+    }
+    )
+}
+
+
+module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress }
