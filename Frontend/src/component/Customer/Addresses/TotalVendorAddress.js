@@ -2,16 +2,28 @@ import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
+import './TotalAddress.css';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { ShowVendAddress,DeleteVendAddress } from '../../../api';
+import { ShowVendAddress,DeleteVendAddress,SelectVendAddress } from '../../../api';
 
 const TotalVendAddress = () => {
 const columns = [
   {
+    name: 'vend Name',
+    selector: 'vend_name',
+    sortable: true
+  },
+  {
     name: 'Attention',
     selector: 'billing_address_attention',
+    sortable: true
+  },
+  
+  {
+    name: 'GST',
+    selector: 'gst_no',
     sortable: true
   },
   {
@@ -28,6 +40,11 @@ const columns = [
   {
     name: 'City',
     selector: 'billing_address_city',
+    sortable: true
+  },
+  {
+    name: 'Pincode',
+    selector: 'billing_address_pincode',
     sortable: true
   },
   {
@@ -64,13 +81,17 @@ const columns = [
 
 
   const [data, setData] = useState([])
+ const [selectedvendname,setSelectedvendname] =useState([])
 
-
-  const handleClick = async (e) => {
+  const handleChange = async (e) => {
     e.preventDefault();
-    const vend_entered_id = document.getElementById('vend_entered_id').value;
-    const result = await ShowVendAddress(vend_entered_id,localStorage.getItem('Organisation'))
-    setData(result)
+
+    const vend_name = document.getElementById('vend_name').value;
+    if(vend_name.length>2){
+      const result = await SelectVendAddress(vend_name,localStorage.getItem('Organisation'))
+      setSelectedvendname(result)
+    }
+    
   }
 
 
@@ -97,8 +118,19 @@ const columns = [
 
               <h3 className="text-left ml-5">Vendor Address</h3>
               <form className="form-inline" style={{ marginLeft: "50px" }}>
-                <input className="form-control mr-sm-2" type="search" placeholder="Search" id="vend_entered_id" aria-label="Search" />
-                <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleClick} type="button">Search</button>
+                <input className="form-control mr-sm-2" type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange}/>
+                <ul className="vendulstyle" >
+                  <div style={{ height: "40%", overflow: "auto" }}>
+                    {
+                      selectedvendname.map((value,index) => (
+                        <li className="vendliststyle"><a key={index} onClick={
+                          async (e) => { e.preventDefault(); 
+                          const result = await ShowVendAddress(value.vend_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedvendname([]) } 
+                          }} >{value.vend_name}</a></li>
+                      ))
+                    }
+                  </div>
+                </ul>
               </form>
               <br />
               <div className="row ">
@@ -120,11 +152,8 @@ const columns = [
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

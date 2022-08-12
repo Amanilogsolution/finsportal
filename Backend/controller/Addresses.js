@@ -155,6 +155,18 @@ const VendAddress = async (req, res) => {
         res.send(err)
     }
 }
+const SelectVendAddress = async (req, res) => {
+    const vend_name = req.body.vend_name;
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT DISTINCT vend_id,vend_name FROM ${org}.dbo.tbl_vend_addresses WHERE vend_name LIKE '%${vend_name}%';`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 const UpdateCustAddress = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
@@ -191,7 +203,6 @@ const UpdateVendAddress = async (req, res) => {
     const billing_address_fax = req.body.billing_address_fax;
     const org = req.body.org;
     const User_id = req.body.User_id;
-    console.log(sno, vend_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax);
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_vend_addresses set vend_id='${vend_id}',gst_no='${billing_address_gstno}',billing_address_attention='${billing_address_attention}',billing_address_country='${billing_address_country}',billing_address_city='${billing_address_city}',billing_address_state='${billing_address_state}',billing_address_pincode='${billing_address_pincode}',billing_address_phone='${billing_address_phone}',billing_address_fax='${billing_address_fax}',update_date_time=getdate(),update_user_name='${User_id}',
@@ -242,4 +253,4 @@ const Importcustaddress = async (req, res) => {
 }
 
 
-module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress }
+module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress,SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress }

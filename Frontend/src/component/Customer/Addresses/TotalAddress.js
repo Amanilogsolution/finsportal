@@ -220,7 +220,7 @@ const TotalCustAddress = () => {
               <br />
               <h3 className="text-left ml-5">Customer Address</h3>
               <form className="form-inline" style={{ marginLeft: "50px" }}>
-                <input className="form-control mr-sm-2" type="search" placeholder="Search" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
+                <input className="form-control mr-sm-2" type="search" placeholder="Enter Customer name" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
 
                 <ul className="ulstyle" >
                   <div style={{ height: "300px", overflow: "auto" }}>

@@ -564,6 +564,11 @@ export const ShowVendAddress = async (vend_id, org) => {
     const url = 'http://localhost:3008/api/showvendaddress'
     return axios.post(url, { vend_id, org }).then(response => response.data).catch(error => console.log(error));
 }
+export const SelectVendAddress = async (vend_name, org) => {
+    const url = 'http://localhost:3008/api/selectvendaddress'
+    return axios.post(url, { vend_name, org }).then(response => response.data).catch(error => console.log(error));
+}
+
 export const DeleteCustAddress = async (sno, status, org) => {
     const url = 'http://localhost:3008/api/deletecustaddress'
     return axios.post(url, { sno, status, org }).then(response => response.data).catch(error => console.log(error));

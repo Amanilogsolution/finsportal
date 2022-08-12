@@ -143,6 +143,7 @@ router.post('/importcustaddress',AddressController.Importcustaddress)
 
 
 router.post('/showvendaddress', AddressController.TotalVendAddress);
+router.post('/selectvendaddress', AddressController.SelectVendAddress);
 router.post('/deletevendaddress', AddressController.DeleteVendAddress);
 router.post('/vendoraddress', AddressController.VendAddress);
 router.post('/updatevendaddress', AddressController.UpdateVendAddress);
