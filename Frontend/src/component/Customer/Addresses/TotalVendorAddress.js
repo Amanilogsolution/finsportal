@@ -76,7 +76,7 @@ const TotalVendAddress = () => {
       cell: (row) => [
 
         <a title='View Document' href="EditVendorAddress">
-          <button className="editbtn btn-success" onClick={() => { localStorage.setItem('EditVendorAddress', `${row.sno}`) }} >Edit</button></a>
+          <button className="editbtn btn-success" onClick={() => { localStorage.setItem('EditVendorAddresssno', `${row.sno}`) }} >Edit</button></a>
 
       ]
     }

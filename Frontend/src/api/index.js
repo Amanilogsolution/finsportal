@@ -607,9 +607,11 @@ export const VendAddress = async (sno, org) => {
     return axios.post(url, { sno, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const EditVendAddress = async (sno, vend_id, billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id) => {
+export const EditVendAddress = async (sno, vendid,vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id) => {
+    console.log(sno, vendid,vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
+   
     const url = 'http://localhost:3008/api/updatevendaddress'
-    return axios.post(url, { sno, vend_id, billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {sno, vendid,vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Checkmidvalid = async (importdata, org,tbl_name) => {

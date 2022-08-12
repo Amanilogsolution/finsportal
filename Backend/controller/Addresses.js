@@ -190,20 +190,22 @@ const UpdateCustAddress = async (req, res) => {
 
 const UpdateVendAddress = async (req, res) => {
     const sno = req.body.sno;
-    const vend_id = req.body.vend_id;
+    const vend_id = req.body.vendid;
+    const vendname= req.body.vendname;
     const billing_address_gstno = req.body.billing_address_gstno;
     const billing_address_attention = req.body.billing_address_attention;
     const billing_address_country = req.body.billing_address_country;
-    const billing_address_city = req.body.billing_address_city;
+    const billing_address_city = req.body.city;
     const billing_address_state = req.body.billing_address_state;
     const billing_address_pincode = req.body.billing_address_pincode;
     const billing_address_phone = req.body.billing_address_phone;
     const billing_address_fax = req.body.billing_address_fax;
     const org = req.body.org;
     const User_id = req.body.User_id;
+
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_vend_addresses set vend_id='${vend_id}',gst_no='${billing_address_gstno}',billing_address_attention='${billing_address_attention}',billing_address_country='${billing_address_country}',billing_address_city='${billing_address_city}',billing_address_state='${billing_address_state}',billing_address_pincode='${billing_address_pincode}',billing_address_phone='${billing_address_phone}',billing_address_fax='${billing_address_fax}',update_date_time=getdate(),update_user_name='${User_id}',
+        const result = await sql.query(`update ${org}.dbo.tbl_vend_addresses set vend_id='${vend_id}',vend_name='${vendname}',gst_no='${billing_address_gstno}',billing_address_attention='${billing_address_attention}',billing_address_country='${billing_address_country}',billing_address_city='${billing_address_city}',billing_address_state='${billing_address_state}',billing_address_pincode='${billing_address_pincode}',billing_address_phone='${billing_address_phone}',billing_address_fax='${billing_address_fax}',update_date_time=getdate(),update_user_name='${User_id}',
                 update_system_name='${os.hostname()}',update_ip_address='${req.ip}' where sno='${sno}'`)
         res.send('Updated')
     }
