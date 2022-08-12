@@ -251,7 +251,6 @@ const EditVendorAddress = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_pincode"
                                   value={data.billing_address_pincode}
                                   onChange={handleChangePincode}
@@ -269,7 +268,6 @@ const EditVendorAddress = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_phone"
                                   value={data.billing_address_phone}
                                   onChange={handleChangePhone}
@@ -287,7 +285,6 @@ const EditVendorAddress = () => {
                                 <input
                                   type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_fax"
                                   value={data.billing_address_fax}
                                   onChange={handleChangeFax}
