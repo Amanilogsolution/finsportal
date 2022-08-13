@@ -20,10 +20,6 @@ const Updatefincialyear = () => {
   const handelsave = async (e) => {
     e.preventDefault();
 
-    // const vendmast= document.getElementById('vendmast').value;
-    // const vendid= document.getElementById('vendid').value;
-    // const custmast= document.getElementById('custmast').value;
-    // const custid= document.getElementById('custid').value;
     const invoice_ser = document.getElementById('invoiceser').value;
     const voucher_ser = document.getElementById('voucher').value;
     const org = localStorage.getItem('Organisation')
@@ -34,7 +30,6 @@ const Updatefincialyear = () => {
     }
     else {
       const result = await UpdateFincialyear(localStorage.getItem('Organisation'), invoice_ser, voucher_ser, localStorage.getItem('User_id'), localStorage.getItem('FinsyearSno'))
-      console.log(result[0])
       if (result[0] > 0) {
         alert("Updated")
         localStorage.removeItem('FinsyearSno');
@@ -48,21 +43,7 @@ const Updatefincialyear = () => {
     }
   }
 
-  // const handleChangevendmast =(e)=>{
-  //   setData({...data,mvend_id:e.target.value})
 
-  // }
-  // const handleChanevendid = (e)=>{
-  //   setData({...data,vend_id:e.target.value})
-  // }
-  // const handleCustomermaster = (e)=>{
-  //   setData({...data,mcust_id:e.target.value})
-
-  // }
-  // const handleCustomerid = (e)=>{
-  //   setData({...data,cust_id:e.target.value})
-
-  // }
   const handleChangeinvoice = (e) => {
     setData({ ...data, invoice_ser: e.target.value })
 
@@ -125,30 +106,6 @@ const Updatefincialyear = () => {
                             <input type="text" className="form-control col-md-4" id='voucher' value={data.voucher_ser} onChange={handleChangevoucher} maxLength={4} />
                           </div>
                         </div>
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Vendor Master</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='vendmast' value={data.mvend_id} onChange={handleChangevendmast}/>
-                          </div>
-                        </div> */}
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Vendor Id</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='vendid' value={data.vend_id} onChange={handleChanevendid}/>
-                          </div>
-                        </div> */}
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Customer Master</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='custmast' value={data.mcust_id} onChange={handleCustomermaster}/>
-                          </div>
-                        </div> */}
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Customer Id</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='custid' value={data.cust_id} onChange={handleCustomerid}/>
-                          </div>
-                        </div> */}
                       </form>
                     </article>
                     <div className="border-top card-body">

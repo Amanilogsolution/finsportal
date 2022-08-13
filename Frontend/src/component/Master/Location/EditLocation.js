@@ -37,6 +37,8 @@ function EditLocation() {
 
     const result = await updateLocation(localStorage.getItem('Organisation'), Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2, localStorage.getItem('location_id'), User_id, country, state);
     if (result) {
+      alert('Data Updated');
+      localStorage.removeItem('location_id')
       window.location.href = './TotalLocation'
     }
   }
@@ -89,7 +91,6 @@ function EditLocation() {
                         <div className="form-row">
                           <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country</label>
                           <div className="col form-group">
-                            {/* <input type="text" className="form-control col-md-4" id='country' /> */}
                             <select className="form-control col-md-4" id='country' onChange={handleAddressCountry} >
                               <option hidden> {data.country}</option>
                               {
