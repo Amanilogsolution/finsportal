@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { VendAddress, EditVendAddress, ActiveVendor } from '../../../api';
-import { Activecountries } from '../../../api';
-import { showactivestate } from '../../../api';
-import { getCity } from '../../../api';
+import { VendAddress, EditVendAddress, ActiveVendor,Activecountries,showactivestate,getCity } from '../../../api';
+
 
 const EditVendorAddress = () => {
   const [billing_address_country, setBilling_address_country] = useState();
@@ -32,7 +30,6 @@ const EditVendorAddress = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
     const venddetail = document.getElementById('venddetail');
     const vendname = venddetail.options[venddetail.selectedIndex].text;
     const vendid = venddetail.value;
