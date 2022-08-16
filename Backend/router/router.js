@@ -35,6 +35,7 @@ const PaymentTermController = require('../controller/paymentMaster')
 const ChargeCodeController = require('../controller/ChargeCode')
 const CRMController = require('../controller/crmMaster')
 const InvoiceController = require('../controller/Invoice')
+const InvoiceSubController = require('../controller/subinvoice')
 
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
@@ -270,6 +271,7 @@ router.post('/chartofaccountstatus',ChartOfAccountMasterController.ChartOfAccoun
 router.post('/getchartofaccount',ChartOfAccountMasterController.GetChartOfAccount)
 router.post('/updatechartofaccount',ChartOfAccountMasterController.UpdateChartOfAccount)
 router.post('/importchartofaccount',ChartOfAccountMasterController.ImportChartofAccount)
+router.post('/activechartofaccountname',ChartOfAccountMasterController.ActiveChartofAccountname)
 
 router.post('/addcurrencyadjust',CurrencyAdjustmentController.AddCurrencyAdjustment)
 
@@ -285,7 +287,7 @@ router.post('/deletechargecode',ChargeCodeController.deleteChargeCode)
 router.post('/addchargecode',ChargeCodeController.AddChargeCode)
 router.post('/getchargecode',ChargeCodeController.getChargeCode)
 router.post('/updatechargecode',ChargeCodeController.UpdateChargeCode)
-router.post('/activechargecode',ChargeCodeController.ActiveChargeCode)
+router.post('/activechargecodemajor',ChargeCodeController.ActiveChargeCodeMajor)
 
 
 router.post('/totalcrm',CRMController.Totalcrm)
@@ -297,6 +299,7 @@ router.post('/activecrm',CRMController.Activecrm)
 
 
 router.post('/insertinvoice',InvoiceController.InsertInvoice)
+router.post('/insertsubinvoice',InvoiceSubController.InsertSubInvoice)
 
 
 

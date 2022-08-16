@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCode, Getfincialyearid, Activeunit, ActiveCurrency,InsertInvoice,ActiveAccountname } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountname, InsertInvoiceSub,ActiveChartofAccountname } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -17,25 +17,34 @@ function Invoices() {
     const [totalgst, setTotalGst] = useState([])
     const [grandtotal, setGrandTotal] = useState(0)
 
+    const [Quantitys, setQuantitys] = useState([])
+    const [rate, setRate] = useState([])
+
 
     const [totalamout, setTotalamount] = useState(0)
     const [activechargecode, setActiveChargeCode] = useState([])
     const [activeunit, setActiveUnit] = useState([])
     const [unit, setUnit] = useState([])
+    const [taxable,setTaxable]= useState([])
 
     const [invoiceid, setInvoiceid] = useState('')
-    const [invoiceprefix,setInvoiceprefix]=useState('')
+    const [invoiceprefix, setInvoiceprefix] = useState('')
     const [quantity, setQuantity] = useState(0);
     const [gstvalues, setGstVAlue] = useState([])
     const [Totalamountnew, setTotalAmountNew] = useState([])
     const [currencylist, setCurrencylist] = useState([]);
-    const [masterid,setMasterid] = useState([])
-    const [locationid,setLocationid]= useState('')
-    const [billingaddress,setBillingAddress] = useState('')
+    const [masterid, setMasterid] = useState([])
+    const [locationid, setLocationid] = useState('')
+    const [billingaddress, setBillingAddress] = useState('')
 
-    const [Activeaccount,setActiveAccount] = useState([])
+    const [Activeaccount, setActiveAccount] = useState([])
     const [gst, setGst] = useState(0)
-  
+
+    const [custaddress_state, setCustaddstate] = useState()
+    const [locationcustaddid, setLocationCustAddid] = useState()
+    const [minor,setMinor] = useState([])
+    const [glcode,setGlCode] = useState([])
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -47,12 +56,12 @@ function Invoices() {
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
-            const activechargecodedata = await ActiveChargeCode(org)
-            setActiveChargeCode(activechargecodedata)
+            // const activechargecodedata = await ActiveChargeCode(org)
+            // setActiveChargeCode(activechargecodedata)
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-            
+
 
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
@@ -61,6 +70,7 @@ function Invoices() {
             setCurrencylist(currencydata)
 
             const ActiveAccount = await ActiveAccountname(org)
+            console.log(ActiveAccount)
             setActiveAccount(ActiveAccount)
 
         }
@@ -96,8 +106,23 @@ function Invoices() {
 
     }
 
-    const handleChangeItems = (e) => {
-        setTotalGst([...totalgst, Number(e.target.value)])
+    const handleChangeItems = async(e) => {
+        console.log(e.target.value)
+        const [actgst, chargecode] = e.target.value.split(',')
+        console.log(chargecode)
+        const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'),chargecode)
+        console.log(result)
+        setMinor([...minor,result.account_name_code])
+        setGlCode([...glcode,result.account_sub_name_code])
+
+
+        if(actgst>0){
+            setTaxable([...taxable,'Yes'])
+        }else{
+            setTaxable([...taxable,'No'])
+
+        }
+        setTotalGst([...totalgst, Number(actgst)])
     }
 
     const handleChangeUnit = (e) => {
@@ -119,30 +144,39 @@ function Invoices() {
         let gsttotal = 0
         gstvalues.map((item) => gsttotal += item)
         setGstvalue(gsttotal)
-        let custadd= document.getElementById('custaddr').value;
-        custadd =custadd.toUpperCase();
-        let billadd= billingaddress;
-        billadd= billadd.toUpperCase();
-        if(custadd === billadd){
-          document.getElementById('cgstipt').value=Math.max(...totalgst)/2
-          document.getElementById('sutgstipt').value=Math.max(...totalgst)/2
-          document.getElementById('igstipt').value=0;
+        let custadd = custaddress_state;
+        custadd = custadd.toUpperCase();
+        let billadd = billingaddress;
+        billadd = billadd.toUpperCase();
+        if (custadd === billadd) {
+            document.getElementById('cgstipt').value = Math.max(...totalgst) / 2
+            document.getElementById('sutgstipt').value = Math.max(...totalgst) / 2
+            document.getElementById('igstipt').value = 0;
         }
-        else{
-            document.getElementById('igstipt').value=totalgst;
-            document.getElementById('cgstipt').value=0
-            document.getElementById('sutgstipt').value=0
+        else {
+            document.getElementById('igstipt').value = totalgst;
+            document.getElementById('cgstipt').value = 0
+            document.getElementById('sutgstipt').value = 0
         }
     }
 
     const handleChangerate = (e) => {
         let Total = quantity * e.target.value
-        let gst = Total * document.getElementById('gstvalue').value / 100
-        let grandToatal = Total + gst
+        setRate([...rate, e.target.value])
+
+        const [actgst,other] = document.getElementById('gstvalue').value .split(',')
+        console.log(actgst)
+
+
+        let gst = Total * actgst / 100
+ 
+        let grandToatal = Total + Math.round(gst)
+        console.log(grandToatal)
         setTimeout(() => {
-            setTotalAmountNew([...Totalamountnew, grandToatal])
-            setGstVAlue([...gstvalues, gst])
+            setTotalAmountNew([...Totalamountnew,grandToatal])
+            setGstVAlue([...gstvalues, Math.round(gst)])
             setAmount([...amount, Total])
+            setQuantitys([...Quantitys, quantity])
         }, 1000)
 
     }
@@ -177,7 +211,7 @@ function Invoices() {
     }
 
 
-   
+
     const handleCustname = async (e) => {
         const cust_id = e.target.value;
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
@@ -185,15 +219,15 @@ function Invoices() {
         setMasterid(cust_detail.mast_id)
         Duedate(45)
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
-        setCutomerAddress(cust_add) 
+        setCutomerAddress(cust_add)
         console.log(cust_add)
     }
 
     const handlechnageaddress = async (e) => {
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
         console.log(e.target.value)
-        const [billadd,id] = e.target.value.split(' ')
-        console.log(billadd,id)
+        const [billadd, id] = e.target.value.split(' ')
+        console.log(billadd, id)
         setLocationid(id)
         const billing_add = billadd;
         setBillingAddress(billadd)
@@ -209,66 +243,87 @@ function Invoices() {
         setInvoiceid(invoiceid);
     }
 
+    const handleChangeCustomerAdd = (e) => {
+        console.log(e.target.value)
+        const [state, address_id] = e.target.value.split(' ')
+        console.log(state, address_id)
+        setCustaddstate(state)
+        setLocationCustAddid(address_id)
+    }
 
-    const handlesavebtn =async(e)=>{
+    const handleChangeActivity = async() => {
+        let major = document.getElementById('Activity')
+        major = major.options[major.selectedIndex].text;
+        const result = await ActiveChargeCodeMajor(localStorage.getItem('Organisation'),major);
+        console.log(result)
+         setActiveChargeCode(result)
+    }
+
+
+    const handlesavebtn = async (e) => {
         e.preventDefault();
-        let invoiceids ="";
-        let squ_nos=""
-        const btn_type=e.target.value;
+        let invoiceids = "";
+        let squ_nos = ""
+        const btn_type = e.target.value;
         console.log(btn_type)
-        const fin_year= localStorage.getItem('fin_year')
-        if(btn_type=='save'){
+        const fin_year = localStorage.getItem('fin_year')
+        if (btn_type == 'save') {
             console.log('if')
-            invoiceids= 'Inv001';
-            squ_nos=""
+            invoiceids = 'Inv001';
+            squ_nos = ""
 
             console.log(invoiceids)
-        }else{
+        } else {
             console.log("else")
-          
+
             console.log(invoiceids)
-            invoiceids= document.getElementById('invoiceid').value;
-            squ_nos= invoiceprefix;
-
-
+            invoiceids = document.getElementById('invoiceid').value;
+            squ_nos = invoiceprefix;
         }
-        // const s= document.getElementById('s').value;
-        const squ_no= invoiceprefix;
-        const Invoicedate= document.getElementById('Invoicedate').value
-        const ordernumber= document.getElementById('ordernumber').value
-        const invoiceamt= grandtotal;
-        const User_id= localStorage.getItem('User_id')
-        const periodfrom= document.getElementById('fromdate').value;
-        const periodto= document.getElementById('todate').value;
-        const custid= document.getElementById('custname').value;
-        const billsubtotal=totalamout
-        const total_tax= Math.max(...totalgst)
-        const remark= document.getElementById('custnotes').value;
-        let location= document.getElementById('locationadd')
-         location = location.options[location.selectedIndex].text;
-        let  consignee= document.getElementById('custname')
+
+        const squ_no = invoiceprefix;
+        const Invoicedate = document.getElementById('Invoicedate').value
+        const ordernumber = document.getElementById('ordernumber').value
+        const invoiceamt = grandtotal;
+        const User_id = localStorage.getItem('User_id')
+        const periodfrom = document.getElementById('fromdate').value;
+        const periodto = document.getElementById('todate').value;
+        const custid = document.getElementById('custname').value;
+        const billsubtotal = totalamout
+        const total_tax = Math.max(...totalgst)
+        const remark = document.getElementById('custnotes').value;
+        let location = document.getElementById('locationadd')
+        location = location.options[location.selectedIndex].text;
+        let consignee = document.getElementById('custname')
         consignee = consignee.options[consignee.selectedIndex].text;
+        const currency_type = document.getElementById('currency').value
+        const salesperson = document.getElementById('salesperson').value;
+        const subject = document.getElementById('subject').value;
+        const paymentterm = document.getElementById('paymentterm').value;
+        const Duedate = document.getElementById('Duedate').value;
+        const cgst = document.getElementById('cgstipt').value;
+        const sgst = document.getElementById('sutgstipt').value;
+        const utgst = document.getElementById('sutgstipt').value;
+        const igst = document.getElementById('igstipt').value;
+        const Major = document.getElementById('Activity').value;
+        let billing_code = document.getElementById('Activity')
+        billing_code = billing_code.options[billing_code.selectedIndex].text;
 
-        
-        const currency_type= document.getElementById('currency').value
-        const salesperson =document.getElementById('salesperson').value;
-        const subject =document.getElementById('subject').value;
-        const paymentterm= document.getElementById('paymentterm').value;
-        const Duedate =document.getElementById('Duedate').value;
-        const cgst =document.getElementById('cgstipt').value;
-        const sgst =document.getElementById('sutgstipt').value;
-        const utgst =document.getElementById('sutgstipt').value;
-        const igst =document.getElementById('igstipt').value;
-        const Activity = document.getElementById('Activity').value
-        const taxableamt= gstvalue;
 
-        console.log(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Activity,locationid,custid,billsubtotal,
-            total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
-            subject,paymentterm,Duedate,User_id)
+        const taxableamt = gstvalue;
 
-            // const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Activity,locationid,custid,billsubtotal,
-            //     total_tax,custid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
-            //     subject,paymentterm,Duedate,User_id)
+        console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type, salesperson,
+            subject, paymentterm, Duedate, User_id)
+
+       
+
+        amount.map(async (amt, index) => {
+            console.log(amt, Quantitys[index], rate[index], unit[index],minor[index],glcode[index])
+             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'),fin_year,invoiceids,Major,minor[index],glcode[index],billing_code,Quantitys[index],rate[index],unit[index],amt,consignee,custaddress_state,custid,locationcustaddid,taxable[index],cgst,sgst,utgst,igst,'cgst_amt','sgst_amt','utgst_amt','igst_amt',User_id)
+
+        })
+
     }
 
     return (
@@ -337,11 +392,12 @@ function Invoices() {
                                                     <select
                                                         id="custaddr"
                                                         className="form-control"
+                                                        onChange={handleChangeCustomerAdd}
                                                     >
                                                         <option value='' hidden>Select Customer Address</option>
                                                         {
                                                             cutomerAddress.map((items, index) => (
-                                                                <option key={index} value={items.billing_address_state}>{items.billing_address_attention}</option>
+                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid}`}>{items.billing_address_attention}</option>
                                                             ))
                                                         }
 
@@ -362,7 +418,7 @@ function Invoices() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="ordernumber" placeholder='Enter the order number'/>
+                                                    <input type="text" className="form-control col-md-5" id="ordernumber" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
 
@@ -447,7 +503,7 @@ function Invoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Activity </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select id="Activity" className="form-control">
+                                                    <select id="Activity" className="form-control" onChange={handleChangeActivity}>
                                                         <option hidden>Select Activity</option>
                                                         {
                                                             Activeaccount.map((items) => (
@@ -457,7 +513,7 @@ function Invoices() {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <hr/>
+                                            <hr />
 
 
                                             <table className="table">
@@ -481,8 +537,8 @@ function Invoices() {
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
                                                                         <option value='' hidden> Select item</option>
                                                                         {
-                                                                            activechargecode.map((item,index) => (
-                                                                                <option key={index} value={item.gst_rate} >{item.chartof_account}</option>
+                                                                            activechargecode.map((item, index) => (
+                                                                                <option key={index} value={`${item.gst_rate},${item.chartof_account}`} >{item.chartof_account}</option>
                                                                             ))
                                                                         }
                                                                     </select>
@@ -505,18 +561,18 @@ function Invoices() {
                                                                     <select onChange={handleChangeUnit} className="form-control col-md">
                                                                         <option value='' hidden> Select Unit</option>
                                                                         {
-                                                                            activeunit.map((item,index) => (
+                                                                            activeunit.map((item, index) => (
                                                                                 <option key={index} value={item.unit_name}>{item.unit_name}</option>
                                                                             ))
                                                                         }
                                                                     </select>
                                                                 </td>
 
-                              
 
-                                                                <td>{amount[index]?amount[index]:0}</td>
 
-                                                                <td id="Totalsum">{amount[index] ? amount[index] + amount[index] * totalgst[index] / 100 : 0}</td>
+                                                                <td>{amount[index] ? amount[index] : 0}</td>
+
+                                                                <td id="Totalsum">{Totalamountnew[index] ? Totalamountnew[index] : 0}</td>
 
                                                             </tr>
 
@@ -549,31 +605,14 @@ function Invoices() {
                                                                 <td></td>
                                                                 <td>{totalamout}</td>
                                                             </tr>
-                                                            {/* <tr>
-                                                                <td>Discount</td>
-                                                                <td >
-                                                                    <div className="input-group mb-1">
-
-                                                                        <input type="number" className="form-control col-md-5" id='discountipt' onChange={handledescount} />
-                                                                        <div className="input-group-append descountbox" >
-                                                                            <span className="input-group-text">
-                                                                                <select id='discountsyb'>
-                                                                                    <option>₹</option>
-                                                                                    <option>%</option>
-                                                                                </select>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>{descount}</td>
-                                                            </tr> */}
+                                                    
                                                             <tr >
                                                                 <td>CGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='cgstipt' 
-                                                                        // onChange={handlechangegst} 
-                                                                        disabled />
+                                                                        <input type="number" className="form-control col-md-5" id='cgstipt'
+                                                                            // onChange={handlechangegst} 
+                                                                            disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -649,11 +688,8 @@ function Invoices() {
                                                                         </div> */}
                                                                     </div>
                                                                 </td>
-                                                            
                                                             </tr>
-
                                                             {/* <br /> */}
-
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total</h3></td>
                                                                 <td></td>
@@ -664,32 +700,6 @@ function Invoices() {
 
                                                 </div>
                                             </div>
-
-                                            {/* <div style={{ display: "flex" }}> */}
-                                            {/* <div style={{ width: "55%" }}>
-                                                    <div className="form mt-3">
-                                                        <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
-                                                        <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder="Enter the terms "></textarea>
-                                                        </div>
-
-                                                    </div>
-                                                </div> */}
-                                            {/* <div style={{ width: "40%", marginLeft: "3px", padding: "10px 10px 10px 10px", borderLeft: "1px solid grey" }}>
-                                                    <label className="font-weight-normal" >Attach file(s) to Estimate</label>
-                                                    <input type="file" id="Upload" style={{ visibility: "hidden" }} />
-                                                    <div style={{ marginLeft: "10px" }}>
-                                                        <buttton onClick={(e) => { e.preventDefault(); document.getElementById("Upload").click() }}>Upload</buttton>
-                                                        <select onChange={handleChange}>
-                                                            <option hidden defaultValue>Upload File</option>
-                                                            <option value="Desktop">Attach from Desktop</option>
-                                                            <option>Attach from Cloud</option>
-                                                        </select>
-                                                    </div>
-                                                    <small>You can upload a maximum size 5MB</small>
-
-                                                </div> */}
-                                            {/* </div> */}
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
