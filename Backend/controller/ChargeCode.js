@@ -96,12 +96,14 @@ const UpdateChargeCode = async (req,res) =>{
     }
 }
 
-const ActiveChargeCode = async (req, res) => {
-    const org = req.body.org
+const ActiveChargeCodeMajor = async (req, res) => {
+    const org = req.body.org;
+    const major_code = req.body.major_code;
+   
  
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT chartof_account,gst_rate from ${org}.dbo.tbl_charge_code with (nolock) where status='Active'`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_charge_code with (nolock) where status='Active' and major_code='${major_code}'`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -109,4 +111,4 @@ const ActiveChargeCode = async (req, res) => {
 }
 
 
-module.exports={TotalChargeCode,deleteChargeCode,AddChargeCode,getChargeCode,UpdateChargeCode,ActiveChargeCode}
+module.exports={TotalChargeCode,deleteChargeCode,AddChargeCode,getChargeCode,UpdateChargeCode,ActiveChargeCodeMajor}

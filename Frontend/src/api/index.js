@@ -1034,6 +1034,11 @@ export const CurrencyAdjustment = async (org,currency)=>{
     return axios.post(url,{org,currency}).then(response => response.data).catch(error => console.log(error));
   
 }
+export const ActiveChartofAccountname = async (org,account_sub_name)=>{
+    const url = `http://localhost:3008/api/activechartofaccountname` 
+    return axios.post(url,{org,account_sub_name}).then(response => response.data).catch(error => console.log(error));
+  
+}
 
 
  // ###########################  PaymentTerm api start ############################
@@ -1106,9 +1111,9 @@ export const UpdateChargecode = async (sno,org,description,short_name,nature,maj
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ActiveChargeCode = async (org) => {
-    const url = `http://localhost:3008/api/activechargecode`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+export const ActiveChargeCodeMajor = async (org,major_code) => {
+    const url = `http://localhost:3008/api/activechargecodemajor`
+    return axios.post(url, { org,major_code }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -1161,3 +1166,11 @@ export const UpdateCrm = async (sno,org,user_name,type,cust_vend,User_id) => {
 }
 
  // ###########################  For Invoice api End ############################
+
+  // ############################For InvoiceSub api Start #################################
+
+  export const InsertInvoiceSub = async (org,fin_year,invoice_no,major,minor,revgl_code,billing_code,quantity,rate,unit,amount,consignee,city,custid,cust_locationid,taxable,cgst_rate,sgst_rate,utgst_rate,igst_rate,cgst_amt,sgst_amt,utgst_amt,igst_amt,User_id) => {
+    const url = `http://localhost:3008/api/insertsubinvoice`
+    return axios.post(url, { org,fin_year,invoice_no,major,minor,revgl_code,billing_code,quantity,rate,unit,amount,consignee,city,custid,cust_locationid,taxable,cgst_rate,sgst_rate,utgst_rate,igst_rate,cgst_amt,sgst_amt,utgst_amt,igst_amt,User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
