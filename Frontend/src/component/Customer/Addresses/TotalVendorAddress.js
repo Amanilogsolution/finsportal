@@ -188,15 +188,11 @@ const TotalVendAddress = () => {
         <Header />
         <Menu />
         <div>
-
-
-
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary">Add Address</button>
             <button type="button" style={{ float: "right", marginRight: '3%', marginTop: '3%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
             <div className="container-fluid">
               <br />
-
               <h3 className="text-left ml-5">Vendor Address</h3>
               <form className="form-inline" style={{ marginLeft: "50px" }}>
                 <input className="form-control mr-sm-2" type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />

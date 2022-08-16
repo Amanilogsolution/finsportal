@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountname, InsertInvoiceSub,ActiveChartofAccountname } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountname, InsertInvoiceSub,ActiveChartofAccountname,Updatefinancialcount } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -44,6 +44,7 @@ function Invoices() {
     const [locationcustaddid, setLocationCustAddid] = useState()
     const [minor,setMinor] = useState([])
     const [glcode,setGlCode] = useState([])
+    const [updateinvcount,setUpdateInvCount] = useState()
 
 
     useEffect(() => {
@@ -154,7 +155,8 @@ function Invoices() {
             document.getElementById('igstipt').value = 0;
         }
         else {
-            document.getElementById('igstipt').value = totalgst;
+            document.getElementById('igstipt').value = Math.max(...totalgst) ;
+            console.log(totalgst)
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
         }
@@ -162,7 +164,7 @@ function Invoices() {
 
     const handleChangerate = (e) => {
         let Total = quantity * e.target.value
-        setRate([...rate, e.target.value])
+        console.log(quantity)
 
         const [actgst,other] = document.getElementById('gstvalue').value .split(',')
         console.log(actgst)
@@ -173,6 +175,8 @@ function Invoices() {
         let grandToatal = Total + Math.round(gst)
         console.log(grandToatal)
         setTimeout(() => {
+            setRate([...rate, e.target.value])
+
             setTotalAmountNew([...Totalamountnew,grandToatal])
             setGstVAlue([...gstvalues, Math.round(gst)])
             setAmount([...amount, Total])
@@ -236,6 +240,7 @@ function Invoices() {
         invoicecitypre = invoicecitypre.toUpperCase();
         let invoicecount = Number(fin_year[0].invoice_count);
         invoicecount = invoicecount + 1;
+        setUpdateInvCount(invoicecount)
         invoicecount = String(invoicecount)
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + '-' + invoicecitypre + invoiceidauto;
@@ -308,21 +313,44 @@ function Invoices() {
         const Major = document.getElementById('Activity').value;
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
-
-
+        let cgstamount = 0;
+        let sgstamount = 0;
+        let utgstamount = 0;
+        let igstamount=0;
         const taxableamt = gstvalue;
+
+        if(igst>0){
+            igstamount = taxableamt
+
+        }else{
+            cgstamount=  taxableamt/2
+            sgstamount = taxableamt/2
+            utgstamount = taxableamt/2
+
+        }
+
+
+
 
         console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type, salesperson,
             subject, paymentterm, Duedate, User_id)
 
        
+         const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Major,locationid,custid,billsubtotal,
+            total_tax,locationcustaddid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
+            subject,paymentterm,Duedate,User_id)
+
+        const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'),'invoice_count',updateinvcount)
 
         amount.map(async (amt, index) => {
             console.log(amt, Quantitys[index], rate[index], unit[index],minor[index],glcode[index])
-             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'),fin_year,invoiceids,Major,minor[index],glcode[index],billing_code,Quantitys[index],rate[index],unit[index],amt,consignee,custaddress_state,custid,locationcustaddid,taxable[index],cgst,sgst,utgst,igst,'cgst_amt','sgst_amt','utgst_amt','igst_amt',User_id)
+             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'),fin_year,invoiceids,Major,minor[index],glcode[index],billing_code,Quantitys[index],rate[index],unit[index],amt,consignee,custaddress_state,custid,locationcustaddid,taxable[index],cgst,sgst,utgst,igst,cgstamount,sgstamount,utgstamount,igstamount,User_id)
 
         })
+        if(result){
+            alert('Added')
+        }
 
     }
 

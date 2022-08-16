@@ -35,6 +35,7 @@ const InsertInvoice = async (req, res) => {
     const payment_term= req.body.payment_term;
     const due_date = req.body.due_date;
     const User_id = req.body.User_id;
+    console.log('bill',billsubtotal)
  
 
     try {
