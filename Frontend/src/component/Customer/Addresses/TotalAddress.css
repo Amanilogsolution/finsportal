@@ -1,15 +1,13 @@
 .ulstyle{
-    /* border:2px solid green; */
     position: absolute;
     top: 30%;
     left: 10%;
     z-index:1000;
-    /* background:white; */
+    border: 2px solid red;
 
 }
 
 .liststyle{
-    /* border:2px solid red; */
     list-style:none;
     background:rgb(250, 248, 248);
     padding:10px;
@@ -18,5 +16,26 @@
 
 }
 .liststyle:hover{
+    background:rgb(164, 197, 212);
+}
+
+
+
+.vendulstyle{
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    z-index:1000;
+}
+
+.vendliststyle{
+    list-style:none;
+    background:rgb(250, 248, 248);
+    padding:10px;
+    cursor:pointer;
+    border: 1px solid black;
+
+}
+.vendliststyle:hover{
     background:rgb(164, 197, 212);
 }

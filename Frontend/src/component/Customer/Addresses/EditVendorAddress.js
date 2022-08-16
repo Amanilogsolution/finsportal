@@ -2,46 +2,53 @@ import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { VendAddress, EditVendAddress } from '../../../api';
-import { Totalcountry } from '../../../api';
-import { showactivestate } from '../../../api';
-import { getCity } from '../../../api';
+import { VendAddress, EditVendAddress, ActiveVendor,Activecountries,showactivestate,getCity } from '../../../api';
+
 
 const EditVendorAddress = () => {
   const [billing_address_country, setBilling_address_country] = useState();
   const [selectState, setSelectState] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState([]);
-  const [billing_address_city, setBilling_address_city] = useState();
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_state, setBilling_address_state] = useState();
   const [data, setData] = useState({})
-  const [vend_id, setVend_ID] = useState()
+  const [getvendname, setGetvendname] = useState([])
 
-  useEffect(async () => {
-    const data = await VendAddress(localStorage.getItem('EditVendorAddress'), localStorage.getItem('Organisation'))
-    setData(data)
-    setBilling_address_country(data.billing_address_country)
-    setBilling_address_state(data.billing_address_state)
-    setBilling_address_city(data.billing_address_city)
-    setVend_ID(data.vend_id)
-    const result = await Totalcountry()
-    setSelectedCountry(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation');
+      const venddetail = await VendAddress(localStorage.getItem('EditVendorAddresssno'), org)
+      setData(venddetail)
+      const vendname = await ActiveVendor(org);
+      setGetvendname(vendname)
+
+      const result = await Activecountries()
+      setSelectedCountry(result)
+    }
+    fetchdata();
   }, []);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    
-    const billing_address_gstno = document.getElementById('billing_address_gstno').value;
+    const venddetail = document.getElementById('venddetail');
+    const vendname = venddetail.options[venddetail.selectedIndex].text;
+    const vendid = venddetail.value;
+    const billing_address_gstno = document.getElementById('gstno').value;
     const billing_address_attention = document.getElementById('billing_address_attention').value;
+    const city = document.getElementById('billing_address_city').value;
     const billing_address_pincode = document.getElementById('billing_address_pincode').value;
     const billing_address_phone = document.getElementById('billing_address_phone').value;
     const billing_address_fax = document.getElementById('billing_address_fax').value;
-    const org= localStorage.getItem('Organisation');
-    const User_id= localStorage.getItem('User_id');
+    const org = localStorage.getItem('Organisation');
+    const User_id = localStorage.getItem('User_id');
+    const sno = localStorage.getItem('EditVendorAddresssno')
 
-    const result = await EditVendAddress(localStorage.getItem('EditVendorAddress'), vend_id,billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax,org,User_id)
+
+    const result = await EditVendAddress(sno, vendid, vendname, billing_address_gstno, billing_address_attention,
+      billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
     if (result) {
-      window.location.href = '/TotalVendAddress'
+      alert('Data Updated');
+      window.location.href = './TotalVendAddress';
     }
 
   }
@@ -50,25 +57,25 @@ const EditVendorAddress = () => {
     let data = e.target.value;
     setBilling_address_country(data);
     const statesresult = await showactivestate(data)
-    console.log(statesresult)
     setSelectState(statesresult)
+
   }
-  const handleAddressCity = async (e) => {
-    let data = e.target.value;
-    setBilling_address_city(data);
-  }
+
   const handleChangebillingState = async (e) => {
     let data = e.target.value;
     setBilling_address_state(data);
     const result = await getCity(data)
     setSelectCity(result)
-    console.log(result)
-  }
-  
-  const handleChangegstno = async (e) => {
-    setData({ ...data, billing_address_gstno: e.target.value })
   }
 
+
+  const handleChangeCID = async (e) => {
+    const venddetail = document.getElementById('venddetail');
+    const vendname = venddetail.options[venddetail.selectedIndex].text;
+    const vendid = venddetail.value;
+    setData({ ...data, vend_id: vendid })
+    setData({ ...data, vend_name: vendname })
+  }
   const handleChangeAttention = async (e) => {
     setData({ ...data, billing_address_attention: e.target.value })
   }
@@ -107,58 +114,57 @@ const EditVendorAddress = () => {
                             style={{ width: "50%", float: "left" }}
                           >
                             <label>BILLING ADDRESS</label>
-                            {/* <div className="form-row">
+                            <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="venddetail"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                               Customer ID
+                                Vendor Name
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
-                                  id="inputState"
+                                  id="venddetail"
                                   className="form-control"
                                   onChange={handleChangeCID}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option value={data.vend_id} hidden> {data.vend_name}</option>
                                   {
-                                getCustID.map((data) => (
-                                    <option value={data.cust_id}>{data.cust_id}</option>
-                                ))
-                                
-                              }
+                                    getvendname.map((item, index) =>
+                                      <option key={index} value={item.vend_id}>{item.vend_name}</option>
+                                    )
+
+                                  }
 
                                 </select>
-                              </div>
-                              {/* form-group end.// */}
-                              <div className="form-row">
-                              <label
-                                htmlFor="billing_address_gstno"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                GST NO.
-                              </label>
-                              <div className="col form-group">
-                                <input type="text"
-                                  className="form-control col-md-7"
-                                  placeholder
-                                  id="billing_address_gstno"
-                                  value={data.gst_no}
-                                  onChange={handleChangegstno}
-                                />
                               </div>
                             </div>
                             <div className="form-row">
                               <label
-                                htmlFor="billing_address_attention"
+                                htmlFor="gstno"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                                Attention
+                                GST
                               </label>
-                              <div className="col form-group">
+                              <div className="col-md-6 form-group">
                                 <input type="text"
-                                  className="form-control col-md-7"
-                                  placeholder
+                                  className="form-control "
+                                  id="gstno"
+                                  value={data.gst_no}
+                                  disabled
+                                />
+                              </div>
+                            </div>
+
+                            <div className="form-row">
+                              <label
+                                htmlFor="inputState"
+                                className="col-md-2 col-form-label font-weight-normal"
+                              >
+                                Address
+                              </label>
+                              <div className="col-md-6 form-group">
+                                <input type="text"
+                                  className="form-control "
                                   id="billing_address_attention"
                                   value={data.billing_address_attention}
                                   onChange={handleChangeAttention}
@@ -167,10 +173,10 @@ const EditVendorAddress = () => {
                             </div>
                             <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="user_name"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                                Country / Region
+                                Country
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
@@ -178,18 +184,16 @@ const EditVendorAddress = () => {
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> {data.billing_address_country}</option>
+                                  <option value={data.billing_address_country} hidden>{data.billing_address_country}</option>
                                   {
-                                    selectedCountry.map((data) => (
-                                      <option value={data.country_name}>{data.country_name}</option>
+                                    selectedCountry.map((item, index) => (
+                                      <option key={index} value={item.country_name}>{item.country_name}</option>
                                     ))
-
                                   }
-
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
+
                             <div className="form-row">
                               <label
                                 htmlFor="user_name"
@@ -203,10 +207,10 @@ const EditVendorAddress = () => {
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected>{data.billing_address_state}</option>
+                                  <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
                                   {
-                                    selectState.map((data) => (
-                                      <option value={data.state_name}>{data.state_name}</option>
+                                    selectState.map((data, index) => (
+                                      <option key={index} value={data.state_name}>{data.state_name}</option>
                                     ))
                                   }
                                 </select>
@@ -214,30 +218,25 @@ const EditVendorAddress = () => {
                             </div>
                             <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="billing_address_city"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 City
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
-                                  id="inputState"
+                                  id="billing_address_city"
                                   className="form-control"
-                                  onChange={handleAddressCity}
                                 >
-                                  <option selected>{data.billing_address_city}</option>
+                                  <option hidden value={data.billing_address_city}>{data.billing_address_city}</option>
                                   {
-                                    selectCity.map((data) => (
-                                      <option value={data.city_name}>{data.city_name}</option>
+                                    selectCity.map((data, index) => (
+                                      <option key={index} value={data.city_name}>{data.city_name}</option>
                                     ))
                                   }
-
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
-
-
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
@@ -249,7 +248,6 @@ const EditVendorAddress = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_pincode"
                                   value={data.billing_address_pincode}
                                   onChange={handleChangePincode}
@@ -267,7 +265,6 @@ const EditVendorAddress = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_phone"
                                   value={data.billing_address_phone}
                                   onChange={handleChangePhone}
@@ -285,7 +282,6 @@ const EditVendorAddress = () => {
                                 <input
                                   type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_fax"
                                   value={data.billing_address_fax}
                                   onChange={handleChangeFax}
@@ -293,23 +289,16 @@ const EditVendorAddress = () => {
                               </div>
                             </div>
                           </div>
-
-
                         </div>
-
                       </form>
                     </article>
-                    {/* card-body end .// */}
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalVendAddress" }}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => { localStorage.remove('EditVendorAddresssno'); window.location.href = "./TotalVendAddress" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

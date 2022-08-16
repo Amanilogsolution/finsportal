@@ -1,97 +1,96 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} from '../../../api';
+import { Activecountries, showactivestate, getCity, ActiveVendor, VendInsertAddress } from '../../../api';
 
 
- const AddVendAddress =() =>  {
-    const[getVendID,setVendId] = useState([]);
-    const [billing_address_country, setBilling_address_country] = useState();
-    const [selectState,setSelectState] = useState([]);
-    const [selectedCountry,setSelectedCountry] = useState([]);
-    const [billing_address_city, setBilling_address_city] = useState();
-    const [selectCity,setSelectCity] = useState([]);
-    const [billing_address_state, setBilling_address_state] = useState();
-    const [cust_id,setCust_id] = useState();
+const AddVendAddress = () => {
+  const [getVendID, setVendId] = useState([]);
+  const [billing_address_country, setBilling_address_country] = useState();
+  const [selectState, setSelectState] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState([]);
+  const [selectCity, setSelectCity] = useState([]);
+  const [billing_address_state, setBilling_address_state] = useState();
 
-    
-  useEffect(async() => {
+  useEffect(async () => {
     const result = await Activecountries()
-    // console.log(result)
     setSelectedCountry(result)
-    const dataId = await VendorId(localStorage.getItem('Organisation'))
+    const dataId = await ActiveVendor(localStorage.getItem('Organisation'))
     setVendId(dataId)
-    console.log(dataId)
   }, []);
 
-    const handleClick = async (e) => {
-        e.preventDefault();
-        
-        const billing_address_gstno = document.getElementById('billing_address_gstno').value;
-        const billing_address_attention = document.getElementById('billing_address_attention').value;
-        const billing_address_pincode = document.getElementById('billing_address_pincode').value;
-        const billing_address_phone = document.getElementById('billing_address_phone').value;
-        const billing_address_fax = document.getElementById('billing_address_fax').value;
-        const org= localStorage.getItem('Organisation');
-        const User_id=localStorage.getItem('User_id');
-       
-        // console.log(getVendID,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax)
-        if(!billing_address_country || !billing_address_city || !billing_address_state || !billing_address_pincode|| !billing_address_phone)
-        {
-            alert("Please! enter the data.")
-        }
-        else{
-        const result = await VendInsertAddress(cust_id,billing_address_gstno,billing_address_attention,billing_address_country,billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,billing_address_fax,org,User_id)
-        console.log(result)
-          window.location.href = 'TotalVendAddress'
-        }
-        
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const vend = document.getElementById('venddetail');
+    const vend_name = vend.options[vend.selectedIndex].text;
+    const vendid = vend.value;
+    const billing_address_gstno = document.getElementById('billing_address_gstno').value;
+    const billing_address_attention = document.getElementById('billing_address_attention').value;
+    const billing_address_pincode = document.getElementById('billing_address_pincode').value;
+    const billing_address_phone = document.getElementById('billing_address_phone').value;
+    const billing_address_fax = document.getElementById('billing_address_fax').value;
+    const billing_address_city = document.getElementById('billing_address_city').value;
+
+
+    const vendnamrchar = vend_name.substring(0, 3);
+    const citychar = billing_address_city.substring(0, 3);
+    const vendaddid = vendnamrchar.toUpperCase() + citychar.toUpperCase() + Math.floor(Math.random() * 100000);
+
+    const org = localStorage.getItem('Organisation');
+    const User_id = localStorage.getItem('User_id');
+
+    if (!vend || !billing_address_country || !billing_address_city || !billing_address_state || !billing_address_pincode || !billing_address_phone) {
+      alert("Please! fill the mandatory field.")
+    }
+    else {
+      const result = await VendInsertAddress(vendid, vend_name, vendaddid, billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
+      if (result[0] > 0) {
+        alert('Data Added')
+        window.location.href = 'TotalVendAddress'
+      }
+      else {
+        alert('Server not response')
+      }
+
     }
 
-
-    const handleChangeCID= async(e) => {
-        let data = e.target.value;
-        setCust_id(data);
-    }
+  }
 
 
-    const handleAddressCountry = async(e) => {
-        let data = e.target.value;
-        setBilling_address_country(data);
-        const statesresult = await showactivestate(data)
-        // console.log(statesresult)
-        setSelectState(statesresult)
-      }
-      const handleAddressCity = async(e) => {
-        let data = e.target.value;
-        setBilling_address_city(data);
-      }
-      const handleChangebillingState = async(e) => {
-        let data = e.target.value;
-        setBilling_address_state(data);
-        const result = await getCity(data)
-        setSelectCity(result)
-        // console.log(result)
-      }
 
-    return (
-        <div>
-        <div className="wrapper">
+
+  const handleAddressCountry = async (e) => {
+    let data = e.target.value;
+    setBilling_address_country(data);
+    const statesresult = await showactivestate(data)
+    setSelectState(statesresult)
+  }
+
+  const handleChangebillingState = async (e) => {
+    let data = e.target.value;
+    setBilling_address_state(data);
+    const result = await getCity(data)
+    setSelectCity(result)
+  }
+
+  return (
+    <div>
+      <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-            <div className="spinner-border" role="status"> </div>
-          </div>
-          <Header />
-          <Menu />
-          <div>
-            <div className="content-wrapper">
-              <div className="container-fluid">
-                <br /> <h3 className="text-left ml-5">Add Address</h3>
-                <div className="row ">
-                  <div className="col ml-5">
-                    <div className="card" style={{ width: "100%" }}>
-                      <article className="card-body">
-                        <form>
+          <div className="spinner-border" role="status"> </div>
+        </div>
+        <Header />
+        <Menu />
+        <div>
+          <div className="content-wrapper">
+            <div className="container-fluid">
+              <br /> <h3 className="text-left ml-5">Add Address</h3>
+              <div className="row ">
+                <div className="col ml-5">
+                  <div className="card" style={{ width: "100%" }}>
+                    <article className="card-body">
+                      <form>
                         <div className="Address mt-3" id="addressdiv">
                           <div
                             className="Address_left"
@@ -100,28 +99,26 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                             <label>BILLING ADDRESS</label>
                             <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="venddetail"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
-                               Vendor ID
+                                Vendor Name
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
-                                  id="inputState"
+                                  id="venddetail"
                                   className="form-control"
-                                  onChange={handleChangeCID}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option value='' hidden> Select</option>
                                   {
-                                getVendID.map((data) => (
-                                    <option value={data.vend_id}>{data.vend_id}</option>
-                                ))
-                                
-                              }
+                                    getVendID.map((data, index) => (
+                                      <option key={index} value={data.vend_id}>{data.vend_name}</option>
+                                    ))
+
+                                  }
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
                             <div className="form-row">
                               <label
@@ -133,7 +130,6 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                               <div className="col form-group">
                                 <input type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_gstno"
                                 />
                               </div>
@@ -148,7 +144,6 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                               <div className="col form-group">
                                 <input type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_attention"
                                 />
                               </div>
@@ -166,17 +161,16 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                                   className="form-control"
                                   onChange={handleAddressCountry}
                                 >
-                                  <option selected hidden> Select</option>
+                                  <option value='' hidden> Select Country</option>
                                   {
-                                selectedCountry.map((data) => (
-                                    <option value={data.country_name}>{data.country_name}</option>
-                                ))
-                                
-                              }
+                                    selectedCountry.map((data,index) => (
+                                      <option key={index} value={data.country_name}>{data.country_name}</option>
+                                    ))
+
+                                  }
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
                             <div className="form-row">
                               <label
@@ -191,10 +185,10 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                                   className="form-control"
                                   onChange={handleChangebillingState}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option value='' hidden> Select State</option>
                                   {
-                                    selectState.map((data) => (
-                                      <option value={data.state_name}>{data.state_name}</option>
+                                    selectState.map((data, index) => (
+                                      <option key={index} value={data.state_name}>{data.state_name}</option>
                                     ))
                                   }
                                 </select>
@@ -202,31 +196,29 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                             </div>
                             <div className="form-row">
                               <label
-                                htmlFor="inputState"
+                                htmlFor="billing_address_city"
                                 className="col-md-2 col-form-label font-weight-normal"
                               >
                                 City
                               </label>
                               <div className="col-md-6 form-group">
                                 <select
-                                  id="inputState"
+                                  id="billing_address_city"
                                   className="form-control"
-                                  onChange={handleAddressCity}
                                 >
-                                  <option selected hidden> Choose</option>
+                                  <option value='' hidden> Select City</option>
                                   {
-                                selectCity.map((data) => (
-                                    <option value={data.city_name}>{data.city_name}</option>
-                                ))
-                                
-                              }
+                                    selectCity.map((data, index) => (
+                                      <option key={index} value={data.city_name}>{data.city_name}</option>
+                                    ))
+
+                                  }
 
                                 </select>
                               </div>
-                              {/* form-group end.// */}
                             </div>
 
-                           
+
                             <div className="form-row">
                               <label
                                 htmlFor="billing_address_pincode"
@@ -238,7 +230,7 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
+                                  
                                   id="billing_address_pincode"
                                 />
                               </div>
@@ -254,7 +246,6 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_phone"
                                 />
                               </div>
@@ -270,37 +261,32 @@ import { Activecountries,showactivestate, getCity,VendorId,VendInsertAddress} fr
                                 <input
                                   type="text"
                                   className="form-control col-md-7"
-                                  placeholder
                                   id="billing_address_fax"
                                 />
                               </div>
                             </div>
                           </div>
-  
-                       
-                                  </div>
-                       
-                        </form>
-                      </article>
-                      {/* card-body end .// */}
-                      <div className="border-top card-body">
-                        <button className="btn btn-success"onClick={handleClick} >Save</button>
-                        <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./TotalVendAddress"}}>Cancel</button>
-                      </div>
+
+
+                        </div>
+
+                      </form>
+                    </article>
+                    <div className="border-top card-body">
+                      <button className="btn btn-success" onClick={handleClick} >Save</button>
+                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalVendAddress" }}>Cancel</button>
                     </div>
-                    {/* card.// */}
                   </div>
-                  {/* col.//*/}
                 </div>
-                {/* row.//*/}
-              </div>   
+              </div>
             </div>
           </div>
-          <Footer />
         </div>
+        <Footer />
       </div>
-    )
-  }
+    </div>
+  )
+}
 
 
 export default AddVendAddress

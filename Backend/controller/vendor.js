@@ -147,17 +147,17 @@ async function UpdateVendor(req, res) {
     }
 }
 
-const Vendor_id = async (req, res) => {
-    const org= req.body.org;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT vend_id from ${org}.dbo.tbl_new_vendor`)
-        res.send(result.recordset)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const Vendor_id = async (req, res) => {
+//     const org= req.body.org;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT vend_id from ${org}.dbo.tbl_new_vendor`)
+//         res.send(result.recordset)
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
 const VendorMastid = async (req, res) => {
     const org= req.body.org;
@@ -237,7 +237,7 @@ const ActiveVendor =async (req,res)=>{
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT vend_name  from ${org}.dbo.tbl_new_vendor tnc where status='Active'`)
+        const result = await sql.query(`SELECT vend_name,vend_id  from ${org}.dbo.tbl_new_vendor tnc where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -246,7 +246,7 @@ const ActiveVendor =async (req,res)=>{
 
 }
 
-module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, Vendor_id,VendorMastid,
-    // TotalVendId, TotalVendor, 
+module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor,VendorMastid,
+    // TotalVendId, TotalVendor, Vendor_id
     ImportVendor ,ActiveVendor}
 

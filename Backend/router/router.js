@@ -124,7 +124,7 @@ router.post('/deletevendor', vendorController.DeleteVendor);
 router.post('/showvendor', vendorController.showVendor);
 router.post('/vendor',vendorController.Vendor)
 router.post('/updatevendor',vendorController.UpdateVendor)
-router.post('/vendorid',vendorController.Vendor_id)
+// router.post('/vendorid',vendorController.Vendor_id)
 // router.post('/totalvendor',vendorController.TotalVendor)
 // router.post('/totalvendid',vendorController.TotalVendId)
 router.post('/importvendor',vendorController.ImportVendor)
@@ -144,9 +144,12 @@ router.post('/importcustaddress',AddressController.Importcustaddress)
 
 
 router.post('/showvendaddress', AddressController.TotalVendAddress);
+router.post('/selectvendaddress', AddressController.SelectVendAddress);
 router.post('/deletevendaddress', AddressController.DeleteVendAddress);
 router.post('/vendoraddress', AddressController.VendAddress);
 router.post('/updatevendaddress', AddressController.UpdateVendAddress);
+router.post('/importvendaddress', AddressController.Importvendaddress);
+
 
 router.post('/userlogin',LoginController.User_login)
 router.post('/userlogout',LoginController.User_logout)
