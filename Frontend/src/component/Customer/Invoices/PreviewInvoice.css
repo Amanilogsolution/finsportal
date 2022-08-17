@@ -1,0 +1,250 @@
+.modalinvoice {
+    font-family: sans-serif;
+    border: 1px solid #000;
+    /* height: 100vh; */
+    padding-bottom: 10px;
+  }
+  
+  .topdiv {
+    height: 13vh;
+    /* border: 2px solid red; */
+    position: relative;
+  }
+  
+  .topinnerdiv {
+    position: absolute;
+    right: 0;
+    /* border: 2px solid yellow; */
+    height: 100%;
+    width: 50%;
+  }
+  
+  .topinnerdiv h5 {
+    padding: 0px;
+    margin: 0px;
+  }
+  .topinnerdiv p {
+    /* border: 2px solid red; */
+    margin: -1px 0px 3px 0px;
+  }
+  .topbottomdiv {
+    /* border: 2px solid red; */
+    height: 15px;
+    width: 100%;
+  }
+  
+  .invoicediv {
+    height: 60px;
+    width: 100%;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .inerinvoicediv {
+    /* border: 2px solid red; */
+    width: 95%;
+    height: 33px;
+    display: flex;
+    align-items: center;
+  }
+  .firstinvoicediv {
+    width: 30%;
+  }
+  .secondinvoicediv,
+  .thirdinvoicediv {
+    border-right: 2px solid #000;
+  }
+  
+  .forthinvoicediv {
+    /* border:2px solid red; */
+    width: 35%;
+    text-align: right;
+  }
+  
+  .addressmaindiv {
+    height: 150px;
+    width: 100%;
+    /* border: 2px solid red; */
+    display: flex;
+    border-bottom: 1px dotted #000;
+  }
+  .addressmaindiv .inneraddduiv {
+    height: 100%;
+    width: 50%;
+    /* border: 2px solid red; */
+    padding: 0px 0px 5px 10px;
+  }
+  
+  .addressmaindiv .inneraddduiv h5 {
+    margin: 7px 0px 0px 0px;
+    font-size: 15px;
+  }
+  .addressmaindiv .inneraddduiv h6 {
+    margin: 20px 0px 0px 0px;
+    font-size: 14px;
+  }
+  .addressmaindiv .inneraddduiv p {
+    margin: 5px 0px 3px 0px;
+  }
+  
+  .detail {
+    height: 60px;
+    padding: 2px 0px 0px 10px;
+    /* border-bottom: 1px dotted #000; */
+  }
+  .detail .detailtable {
+    width: 100%;
+  }
+  .detail .detailtable tr td {
+    width: 30%;
+  }
+  
+  .itemtablediv {
+    /* height: 500px; */
+    width: 100%;
+    position: relative;
+    /* border: 2px solid red; */
+  }
+  .itemtablediv .itemtable {
+    border: 1px solid #000;
+    width: 100%;
+    padding: 0%;
+    border-collapse: collapse;
+  }
+  .itemtablediv .itemtable .itemthead {
+    border-bottom: 1px solid #000;
+  }
+  .itemtablediv .itemtable .itemthead .itemtr .itemth,
+  .itemthtrtd {
+    border-right: 1px solid #000;
+    margin: 0;
+    text-align: center;
+    padding: 0;
+  }
+  .itemtablediv .itemtable tbody {
+    border-bottom: 1px solid #000;
+  }
+  .itemtablediv .itemtable .itemtfoot .itemtfoottr th {
+    text-align: right;
+    padding-right: 5%;
+    border-right: 1px solid #000;
+  }
+  .itemtablediv .itemtable .itemtfoot .itemtfoottr .itemtfoottrtd {
+    text-align: center;
+    padding: 0;
+    border-right: 1px solid #000;
+  }
+  .gstcolum td {
+    margin: 0;
+    height: 100%;
+    width: 50%;
+  }
+  .gstcolum :first-child {
+    border-right: 1px solid #000;
+  }
+  
+  /* invoiceval */
+  .invoiceval {
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px dotted #000;
+    padding-top: 15px;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .invoiceval h4 {
+    /* border: 2px solid red; */
+    margin: 0;
+    width: 25%;
+    padding-left: 10px;
+  }
+  /* invoicevalword */
+  .invoicevalword {
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px dotted #000;
+    padding-top: 15px;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .invoicevalword h4 {
+    /* border: 2px solid red; */
+    margin: 0;
+    width: 25%;
+    padding-left: 10px;
+  }
+  .invoicevalword h4:nth-child(2) {
+    width: 35%;
+  }
+  
+  /* amounttax */
+  .amounttax {
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px dotted #000;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .amounttax h4 {
+    /* border: 2px solid red; */
+    margin-top: 15px;
+    width: 45%;
+    padding-left: 10px;
+  }
+  .amounttax .amounttaxtable {
+    margin: 0;
+    width: 50%;
+    border-collapse: collapse;
+    background: #eee;
+  }
+  
+  .amounttax .amounttaxtable th {
+    border: 1px solid #000;
+  }
+  .amounttax .amounttaxtable .amounttaxtr td {
+    border: 1px solid #000;
+    text-align: center;
+  }
+  /* gstdetail */
+  .gstdetail {
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px dotted #000;
+    padding-top: 15px;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .gstdetail h4 {
+    /* border: 2px solid red; */
+    margin: 0;
+    padding-left: 10px;
+  }
+  /* payable */
+  .payable {
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px dotted #000;
+    padding-top: 15px;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .payable h4 {
+    margin: 0;
+    padding-left: 10px;
+  }
+  
+  /* payable */
+  .signature {
+    height: 40px;
+    width: 100%;
+    padding-top: 15px;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .signature h4 {
+    margin: 0;
+    padding-left: 10px;
+  }
+  
