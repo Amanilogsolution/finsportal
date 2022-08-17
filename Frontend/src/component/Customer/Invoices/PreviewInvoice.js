@@ -6,7 +6,7 @@ const InvoicePreview = (props) => {
     <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
       <div class="modal-dialog   modal-lg" role="document" >
-        <div class="modal-content" style={{ width:"60vw",transform:"translate(-20%)" }}>
+        <div class="modal-content modeldivcard" style={{  }}>
           {/* <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLongTitle">Invoice</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -266,7 +266,7 @@ const InvoicePreview = (props) => {
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-primary">Download</button>
+         
           </div>
         </div>
       </div>
