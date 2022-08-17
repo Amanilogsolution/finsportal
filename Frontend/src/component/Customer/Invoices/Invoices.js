@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
+import InvoicePreview from './PreviewInvoice';
 import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountname, InsertInvoiceSub,ActiveChartofAccountname,Updatefinancialcount } from '../../../api/index'
 
 function Invoices() {
@@ -728,6 +729,7 @@ function Invoices() {
 
                                                 </div>
                                             </div>
+                                            <InvoicePreview />
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
@@ -742,6 +744,9 @@ function Invoices() {
                                                     }} name="clear" className="btn ml-2 btn btn-primary">
                                                         Cancel
                                                     </button>
+                                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter">Preview Invoice
+</button>
+
                                                 </div>
                                             </div>
                                         </form>
