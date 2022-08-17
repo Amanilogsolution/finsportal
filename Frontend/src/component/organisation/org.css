@@ -2,6 +2,7 @@
     background: rgb(137, 192, 236);
     padding-bottom: 150px;
     font-size: 15px;
+    height: 100vh;
     /* border: 2px solid red; */
 }
 
@@ -9,7 +10,6 @@
     color: blue;
     font-size: 15px;
     cursor:pointer;
-
 }
 .regtext{
     color: rgb(192, 192, 192);

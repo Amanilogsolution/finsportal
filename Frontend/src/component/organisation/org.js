@@ -81,7 +81,7 @@ function Org() {
 
   return (
     <>
-      <div className="orgcontainer">
+      <div className="orgcontainer" >
         <br />
         <p className="text-center" >
           AWL is your end-to-end online accounting software.
