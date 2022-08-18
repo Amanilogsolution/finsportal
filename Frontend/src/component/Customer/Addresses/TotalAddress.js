@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
@@ -6,10 +6,20 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import { ShowCustAddress, DeleteCustAddress, SelectCustAddress, Importcustaddress } from '../../../api';
-// import Excelfile from '';
 import * as XLSX from "xlsx";
 import './TotalAddress.css';
+
 const columns = [
+    {
+    name: 'Cust Name',
+    selector: 'cust_name',
+    sortable: true
+  },
+  {
+    name: 'Gst no',
+    selector: 'gst_no',
+    sortable: true
+  },
   {
     name: 'Attention',
     selector: 'billing_address_attention',
@@ -43,33 +53,13 @@ const columns = [
           window.location.href = 'TotalCustAddress'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option  value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
-          <option value='DeActive' >Deactive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
   },
-  //  {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await DeleteCustAddress(row.sno,checkvalue)
-  //                 window.location.href='TotalCustAddress'
-
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await DeleteCustAddress(row.sno,checkvalue)
-  //                 window.location.href='TotalCustAddress'
-  //           }
-  //          }} />
-  //   ]
-  // },
 
   {
     name: "Actions",
@@ -90,9 +80,8 @@ const TotalCustAddress = () => {
 
   const [data, setData] = useState([])
   const [selectedCustname, setSelectedCustname] = useState([])
-  const [cust_name, setCust_Name] = useState()
   const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
+  let   [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
 
@@ -175,19 +164,12 @@ const TotalCustAddress = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(async () => {
-    // const result = await ShowCustAddress(cust_name)
-    // setData(result)
-    // setSelectedCust_id([])
-  }, [cust_name])
-
   const handleChange = async (e) => {
     e.preventDefault();
     const cust_entered_name = document.getElementById('cust_entered_id').value;
     if (cust_entered_name.length > 2) {
       const result = await SelectCustAddress(cust_entered_name, localStorage.getItem("Organisation"))
       setSelectedCustname(result)
-      console.log(result)
 
     }
     else {
@@ -195,9 +177,6 @@ const TotalCustAddress = () => {
     }
 
   }
-
-
-
 
 
   const tableData = {
@@ -225,9 +204,9 @@ const TotalCustAddress = () => {
                 <ul className="ulstyle" >
                   <div style={{ height: "300px", overflow: "auto" }}>
                     {
-                      selectedCustname.map((value) => (
-                        <li className="liststyle"><a onClick={
-                          async (e) => { e.preventDefault(); const result = await ShowCustAddress(value.cust_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedCustname([]) } }}
+                      selectedCustname.map((value,index) => (
+                        <li key={index} className="liststyle"><a onClick={
+                          async (e) => { e.preventDefault(); const result = await ShowCustAddress(value.cust_id, localStorage.getItem("Organisation"));setData(result); if (result) { setSelectedCustname([]) } }}
                           >{value.cust_name}</a></li>
                       ))
                     }
@@ -262,7 +241,6 @@ const TotalCustAddress = () => {
         </div>
         <Footer />
         {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"
           id="exampleModal"
@@ -354,11 +332,8 @@ const TotalCustAddress = () => {
                     &times;</span>
                 </button>
               </div>
-              {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "0px 8px", overflow: "auto" }}>
-
                 {
-
                   backenddata ?
                     <>
                       <h5>This data already exist</h5>
