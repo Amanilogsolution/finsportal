@@ -46,6 +46,21 @@ function Invoices() {
     const [minor,setMinor] = useState([])
     const [glcode,setGlCode] = useState([])
     const [updateinvcount,setUpdateInvCount] = useState()
+    const [custAddgst,setCustAddGst] = useState('')
+
+    const [allInvoiceData,setAllInvoiceData] = useState({
+        Activity:"",
+        TaxInvoice:"",
+        InvoiceData:"",
+        GrandTotal:"",
+        TotalTaxamount:"",
+        CGST:"",
+        SGST:"",
+        IGST:"",
+        BillTo:"",
+        SupplyTo:"",
+        BillToGst:""
+    })
 
 
     useEffect(() => {
@@ -58,8 +73,6 @@ function Invoices() {
             const result2 = await ActiveUser()
             setActiveUser(result2)
             Todaydate()
-            // const activechargecodedata = await ActiveChargeCode(org)
-            // setActiveChargeCode(activechargecodedata)
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
@@ -117,12 +130,10 @@ function Invoices() {
         setMinor([...minor,result.account_name_code])
         setGlCode([...glcode,result.account_sub_name_code])
 
-
         if(actgst>0){
             setTaxable([...taxable,'Yes'])
         }else{
             setTaxable([...taxable,'No'])
-
         }
         setTotalGst([...totalgst, Number(actgst)])
     }
@@ -139,6 +150,28 @@ function Invoices() {
     }
 
     const handleSubTotal = (e) => {
+        let location = document.getElementById('locationadd')
+        location = location.options[location.selectedIndex].text;
+        let custaddrs = document.getElementById('custaddr')
+        custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+        const igst = document.getElementById('igstipt').value;
+        let cgstamount = 0;
+        let sgstamount = 0;
+        let igstamount=0;
+        const taxableamt = gstvalue;
+
+        if(igst>0){
+            igstamount = taxableamt
+
+        }else{
+            cgstamount=  taxableamt/2
+            sgstamount = taxableamt/2
+        }
+
+        setAllInvoiceData({...allInvoiceData,Activity:document.getElementById('Activity').value,
+         TaxInvoice: document.getElementById('invoiceid').value,InvoiceData:document.getElementById('Invoicedate').value,
+         GrandTotal:document.getElementById('grandtotaltd').innerHTML,TotalTaxamount:document.getElementById('Totalvaluerd').innerHTML,
+         CGST:cgstamount,SGST:sgstamount,IGST:igstamount,BillTo:custaddrs,SupplyTo:location,BillToGst:custAddgst})
         e.preventDefault();
         var sum = 0
         Totalamountnew.map((item) => sum += item)
@@ -250,11 +283,11 @@ function Invoices() {
     }
 
     const handleChangeCustomerAdd = (e) => {
-        console.log(e.target.value)
-        const [state, address_id] = e.target.value.split(' ')
-        console.log(state, address_id)
+        const [state, address_id, custaddgst] = e.target.value.split(' ')
+        console.log(state, address_id,custaddgst)
         setCustaddstate(state)
         setLocationCustAddid(address_id)
+        setCustAddGst(custaddgst)
     }
 
     const handleChangeActivity = async() => {
@@ -314,6 +347,7 @@ function Invoices() {
         const Major = document.getElementById('Activity').value;
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
+
         let cgstamount = 0;
         let sgstamount = 0;
         let utgstamount = 0;
@@ -426,7 +460,7 @@ function Invoices() {
                                                         <option value='' hidden>Select Customer Address</option>
                                                         {
                                                             cutomerAddress.map((items, index) => (
-                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid}`}>{items.billing_address_attention}</option>
+                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>{items.billing_address_attention}</option>
                                                             ))
                                                         }
 
@@ -695,7 +729,7 @@ function Invoices() {
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td > {gstvalue}</td>
+                                                                <td id="Totalvaluerd"> {gstvalue}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
@@ -722,14 +756,14 @@ function Invoices() {
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total</h3></td>
                                                                 <td></td>
-                                                                <td>{grandtotal}</td>
+                                                                <td id="grandtotaltd">{grandtotal}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
 
                                                 </div>
                                             </div>
-                                            <InvoicePreview />
+                                            <InvoicePreview Allinvoicedata={allInvoiceData} />
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
