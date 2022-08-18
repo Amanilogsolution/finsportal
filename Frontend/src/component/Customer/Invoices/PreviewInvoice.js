@@ -1,9 +1,9 @@
 import React from 'react'
 import './PreviewInvoice.css'
+import DecamalNumber from 'decimal-number-to-words'
 
 
 const InvoicePreview = (props) => {
- 
   return (
     <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
@@ -29,32 +29,30 @@ const InvoicePreview = (props) => {
               </div>
               <div className="invoicediv">
                 <div className="inerinvoicediv">
-                  <div className="firstinvoicediv"><b>Activity :</b>02</div>
+                  <div className="firstinvoicediv"><b>Activity :</b>{props.Allinvoicedata.Activity}</div>
                   <div className="secondinvoicediv">
-                  <b>TAX INVOICE NO :</b>&nbsp; 2212300325 &nbsp;
+                  <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.TaxInvoice} &nbsp;
                   </div>
-                  <div className="thirdinvoicediv"> &nbsp;16-08-2022 &nbsp;</div>
-                  <div className="forthinvoicediv"><b> Rs.</b> 2153.00</div>
+                  <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.InvoiceData} &nbsp;</div>
+                  <div className="forthinvoicediv"><b> Rs.</b>{props.Allinvoicedata.GrandTotal}</div>
                 </div>
               </div>
 
               <div className="addressmaindiv">
                 <div className="inneraddduiv inneraddduiv1">
                   <h5><b>Bill To</b></h5>
-                  <h6>Kelley Material Handling Equipment India Pvt Ltd</h6>
+                  {/* <h6>Kelley Material Handling Equipment India Pvt Ltd</h6> */}
                   <p>
-                    Dashmesh Complex, Warehousing & Godowns, Nadal Village, Old Pune
-                    Bombay Road, Khalapur, Dist Raigad Mumbai Maharashtra-410202 India
+                   {props.Allinvoicedata.BillTo}
                   </p>
-                  <h6><b>GST IN.</b> 27AAECK1880H1ZG</h6>
+                  <h6><b>GST IN.</b> {props.Allinvoicedata.BillToGst}</h6>
                 </div>
                 <div className="inneraddduiv inneraddduiv2">
                   <h5><b>Place of Supply</b></h5>
-                  <h6>KELLEY MATERIAL HANDLING EQUIPMENT INDIA PVT. LTD.</h6>
+                  {/* <h6>KELLEY MATERIAL HANDLING EQUIPMENT INDIA PVT. LTD.</h6> */}
                   <p>
-                    Kelley Material Handling Equipment India Pvt. Ltd. G - 09, SSR
-                    Corporate Park, 13 / 6 Mathura Road, Sector - 27 B Faridabad -
-                    121003, Haryana Faridabad Haryana 121003
+                  {props.Allinvoicedata.SupplyTo}
+
                   </p>
                 </div>
               </div>
@@ -223,11 +221,11 @@ const InvoicePreview = (props) => {
               </div>
               <div className="invoiceval">
                 <h4><b>Total Invoice Value (In Words) :</b></h4>
-                <h4>2153.00</h4>
+                <h4>{props.Allinvoicedata.GrandTotal}</h4>
               </div>
               <div className="invoicevalword">
                 <h4><b>Total Invoice Value (In Figure) :</b></h4>
-                <h4> Two Thousand One Hundred Fifty-Three Only</h4>
+                <h4>{DecamalNumber.toWords(Number(props.Allinvoicedata.GrandTotal))} only </h4>
               </div>
               <div className="amounttax">
                 <h4><b>Amount Of Tax :</b></h4>
@@ -242,10 +240,10 @@ const InvoicePreview = (props) => {
                   </tr>
                   <tr className="amounttaxtr">
                     <th>Rs.</th>
-                    <td>164.00</td>
-                    <td>164.00</td>
-                    <td>0.00</td>
-                    <td>328.00</td>
+                    <td>{props.Allinvoicedata.CGST}</td>
+                    <td>{props.Allinvoicedata.SGST}</td>
+                    <td>{props.Allinvoicedata.IGST}</td>
+                    <td>{props.Allinvoicedata.TotalTaxamount} </td>
                   </tr>
                 </table>
               </div>
