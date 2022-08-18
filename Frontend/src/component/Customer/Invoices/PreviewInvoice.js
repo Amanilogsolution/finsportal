@@ -1,7 +1,9 @@
 import React from 'react'
 import './PreviewInvoice.css'
 
+
 const InvoicePreview = (props) => {
+ 
   return (
     <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
