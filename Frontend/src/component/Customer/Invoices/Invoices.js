@@ -567,10 +567,10 @@ function Invoices() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Activity </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="Activity" className="form-control" onChange={handleChangeActivity}>
-                                                        <option hidden>Select Activity</option>
+                                                        <option value='' hidden>Select Activity</option>
                                                         {
-                                                            Activeaccount.map((items) => (
-                                                                <option key={items.account_type_code} value={items.account_type_code}>{items.account_type}</option>
+                                                            Activeaccount.map((items,index) => (
+                                                                <option key={index} value={items.account_type_code}>{items.account_type}</option>
                                                             ))
                                                         }
                                                     </select>
