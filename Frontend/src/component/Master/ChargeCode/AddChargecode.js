@@ -30,6 +30,7 @@ const AddChargecode = () => {
         const nature = document.getElementById("nature").value;
         const major_code1 = document.getElementById('major_code');
         const major_code = major_code1.options[major_code1.selectedIndex].textContent;
+        const major_code_val=major_code1.value;
         const chartofaccount = document.getElementById('chartof_account').value;
         const activity = document.getElementById("activity").value;
         const sacHsncode = document.getElementById("sacHsncode").value;
@@ -42,7 +43,7 @@ const AddChargecode = () => {
             alert('Please Enter the mandatory field')
         }
         else {
-            const result = await AddChargecodeapi(org, description, short_name, nature, major_code, chartofaccount, activity, sacHsncode, gstrate, user_id);
+            const result = await AddChargecodeapi(org, description, short_name, nature, major_code, chartofaccount, activity, sacHsncode, gstrate, user_id,major_code_val);
             if (result == "Added") {
                 alert('Data Added')
                 window.location.href = '/ShowChargecode'

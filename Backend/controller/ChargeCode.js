@@ -1,10 +1,10 @@
-const sql =require('mssql')
+const sql = require('mssql')
 const sqlConfig = require('../config.js')
 const os = require('os')
 
 const TotalChargeCode = async (req, res) => {
     const org = req.body.org
- 
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_charge_code with (nolock) order by sno desc`)
@@ -15,7 +15,7 @@ const TotalChargeCode = async (req, res) => {
     }
 }
 
-const deleteChargeCode = async (req,res) =>{
+const deleteChargeCode = async (req, res) => {
     const org = req.body.org
     const sno = req.body.sno;
     const status = req.body.status;
@@ -29,27 +29,28 @@ const deleteChargeCode = async (req,res) =>{
     }
 }
 
-const AddChargeCode = async (req,res) =>{
+const AddChargeCode = async (req, res) => {
     const org = req.body.org
     const description = req.body.description;
     const short_name = req.body.short_name;
     const nature = req.body.nature;
     const major_code = req.body.major_code;
-    const chartofaccount= req.body.chartofaccount;
+    const chartofaccount = req.body.chartofaccount;
     const activity = req.body.activity;
     const sacHsn = req.body.sacHsn;
     const gst_rate = req.body.gst_rate
-    const User_id= req.body.User_id;
+    const User_id = req.body.User_id;
+    const major_code_val = req.body.major_code_val;
 
     try {
         await sql.connect(sqlConfig)
-      
-            const result = await sql.query(`insert into ${org}.dbo.tbl_charge_code(description,short_name,nature,major_code,activity,sacHsn,
-                gst_rate,add_date_time,add_user_name,add_system_name,add_ip_address,status,chartof_account)
-                values('${description}','${short_name}','${nature}','${major_code}','${activity}','${sacHsn}','${gst_rate}',getDate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${chartofaccount}')
+
+        const result = await sql.query(`insert into ${org}.dbo.tbl_charge_code(description,short_name,nature,major_code,activity,sacHsn,
+                gst_rate,add_date_time,add_user_name,add_system_name,add_ip_address,status,chartof_account,major_code_id)
+                values('${description}','${short_name}','${nature}','${major_code}','${activity}','${sacHsn}','${gst_rate}',getDate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${chartofaccount}','${major_code_val}')
                 `)
-            res.send('Added')
-    
+        res.send('Added')
+
     }
     catch (err) {
         res.send(err)
@@ -69,27 +70,27 @@ async function getChargeCode(req, res) {
     }
 }
 
-const UpdateChargeCode = async (req,res) =>{
+const UpdateChargeCode = async (req, res) => {
     const sno = req.body.sno;
     const org = req.body.org
     const description = req.body.description;
     const short_name = req.body.short_name;
     const nature = req.body.nature;
     const major_code = req.body.major_code;
-    const chartofaccount= req.body.chartofaccount;
+    const chartofaccount = req.body.chartofaccount;
     const activity = req.body.activity;
     const sacHsn = req.body.sacHsn;
     const gst_rate = req.body.gst_rate
-    const User_id= req.body.User_id;
-
+    const User_id = req.body.User_id;
+    const major_code_val = req.body.major_code_val;
 
     try {
-         await sql.connect(sqlConfig)
-      
-             const result = await sql.query(` update ${org}.dbo.tbl_charge_code set description='${description}',short_name='${short_name}',nature='${nature}',major_code='${major_code}',
-             chartof_account='${chartofaccount}' ,activity='${activity}',sacHsn ='${sacHsn}',gst_rate ='${gst_rate}', update_date_time=getDate(),
+        await sql.connect(sqlConfig)
+
+        const result = await sql.query(` update ${org}.dbo.tbl_charge_code set description='${description}',short_name='${short_name}',nature='${nature}',major_code='${major_code}',
+             major_code_id='${major_code_val}', chartof_account='${chartofaccount}' ,activity='${activity}',sacHsn ='${sacHsn}',gst_rate ='${gst_rate}', update_date_time=getDate(),
             update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address ='${req.ip}' where sno='${sno}'`)
-            res.send("updated")
+        res.send("updated")
     }
     catch (err) {
         res.send(err)
@@ -99,8 +100,8 @@ const UpdateChargeCode = async (req,res) =>{
 const ActiveChargeCodeMajor = async (req, res) => {
     const org = req.body.org;
     const major_code = req.body.major_code;
-   
- 
+
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_charge_code with (nolock) where status='Active' and major_code='${major_code}'`)
@@ -111,4 +112,4 @@ const ActiveChargeCodeMajor = async (req, res) => {
 }
 
 
-module.exports={TotalChargeCode,deleteChargeCode,AddChargeCode,getChargeCode,UpdateChargeCode,ActiveChargeCodeMajor}
+module.exports = { TotalChargeCode, deleteChargeCode, AddChargeCode, getChargeCode, UpdateChargeCode, ActiveChargeCodeMajor }
