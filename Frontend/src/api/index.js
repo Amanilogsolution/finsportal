@@ -1000,6 +1000,12 @@ export const UpdateAccountMinorCode = async (org, sno, account_name, User_id) =>
     const url = `http://localhost:3008/api/updateaccountminorcode`
     return axios.post(url, { org, sno, account_name, User_id }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ActiveAccountMinorCode = async (org) => {
+    const url = `http://localhost:3008/api/activeaccountminorcode`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+}
+// 
 export const ImportAccountMinorCode = async (org, datas, User_id) => {
     const url = `http://localhost:3008/api/importaccountminorcode`
     return axios.post(url, { org, datas, User_id }).then(response => response.data).catch(error => console.log(error));
@@ -1111,9 +1117,9 @@ export const UpdateChargecode = async (sno,org,description,short_name,nature,maj
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ActiveChargeCodeMajor = async (org,major_code) => {
+export const ActiveChargeCodeMajor = async (org,major_code_id) => {
     const url = `http://localhost:3008/api/activechargecodemajor`
-    return axios.post(url, { org,major_code }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,major_code_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 

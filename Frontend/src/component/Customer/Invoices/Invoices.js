@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountname, InsertInvoiceSub,ActiveChartofAccountname,Updatefinancialcount } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub,ActiveChartofAccountname,Updatefinancialcount } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -84,7 +84,7 @@ function Invoices() {
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
 
-            const ActiveAccount = await ActiveAccountname(org)
+            const ActiveAccount = await ActiveAccountMinorCode(org)
             console.log(ActiveAccount)
             setActiveAccount(ActiveAccount)
 
@@ -291,8 +291,8 @@ function Invoices() {
     }
 
     const handleChangeActivity = async() => {
-        let major = document.getElementById('Activity')
-        major = major.options[major.selectedIndex].text;
+        let major = document.getElementById('Activity').value
+        
         const result = await ActiveChargeCodeMajor(localStorage.getItem('Organisation'),major);
         console.log(result)
          setActiveChargeCode(result)
@@ -304,7 +304,6 @@ function Invoices() {
         let invoiceids = "";
         let squ_nos = ""
         const btn_type = e.target.value;
-        console.log(btn_type)
         const fin_year = localStorage.getItem('fin_year')
         if (btn_type == 'save') {
             console.log('if')
@@ -570,7 +569,7 @@ function Invoices() {
                                                         <option value='' hidden>Select Activity</option>
                                                         {
                                                             Activeaccount.map((items,index) => (
-                                                                <option key={index} value={items.account_type_code}>{items.account_type}</option>
+                                                                <option key={index} value={items.account_type_code}>{items.account_name}</option>
                                                             ))
                                                         }
                                                     </select>

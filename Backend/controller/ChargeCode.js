@@ -99,12 +99,11 @@ const UpdateChargeCode = async (req, res) => {
 
 const ActiveChargeCodeMajor = async (req, res) => {
     const org = req.body.org;
-    const major_code = req.body.major_code;
-
+    const major_code_id = req.body.major_code_id;
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_charge_code with (nolock) where status='Active' and major_code='${major_code}'`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_charge_code with (nolock) where status='Active' and major_code_id='${major_code_id}'`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
