@@ -5,17 +5,17 @@ import DecamalNumber from 'decimal-number-to-words'
 
 const InvoicePreview = (props) => {
   return (
-    <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
-      <div class="modal-dialog   modal-lg" role="document" >
-        <div class="modal-content modeldivcard" >
-          {/* <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Invoice</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div className="modal-dialog   modal-lg" role="document" >
+        <div className="modal-content modeldivcard" >
+          {/* <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">Invoice</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div> */}
-          <div class="modal-body">
+          <div className="modal-body">
             <div className="modalinvoice">
               <div className="topdiv">
                 <div className="topinnerdiv">
@@ -60,6 +60,7 @@ const InvoicePreview = (props) => {
 
               <div className="detail">
                 <table className="detailtable">
+                <tbody>
                   <tr>
                     <td><b>Gross WT.</b> </td>
                     <td><b>Pcs.</b></td>
@@ -70,6 +71,7 @@ const InvoicePreview = (props) => {
                     <td><b>Veh Type : Courier</b></td>
                     <td><b>Destination : </b>Faridabad</td>
                   </tr>
+                  </tbody>
                 </table>
               </div>
 
@@ -288,6 +290,7 @@ const InvoicePreview = (props) => {
               <div className="amounttax">
                 <h4><b>Amount Of Tax :</b></h4>
                 <table className="amounttaxtable">
+                <tbody>
                   <tr className="amounttaxtr">
                     <th colSpan="2" style={{ textAlign: "right" }}>
                       CGST AMT
@@ -303,6 +306,7 @@ const InvoicePreview = (props) => {
                     <td>{props.Allinvoicedata.IGST}</td>
                     <td>{props.Allinvoicedata.TotalTaxamount} </td>
                   </tr>
+                  </tbody>
                 </table>
               </div>
               <div className="gstdetail">
@@ -321,10 +325,9 @@ const InvoicePreview = (props) => {
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" className="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>

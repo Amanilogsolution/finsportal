@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub,ActiveChartofAccountname,Updatefinancialcount } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
 
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
@@ -26,7 +26,7 @@ function Invoices() {
     const [activechargecode, setActiveChargeCode] = useState([])
     const [activeunit, setActiveUnit] = useState([])
     const [unit, setUnit] = useState([])
-    const [taxable,setTaxable]= useState([])
+    const [taxable, setTaxable] = useState([])
 
     const [invoiceid, setInvoiceid] = useState('')
     const [invoiceprefix, setInvoiceprefix] = useState('')
@@ -43,23 +43,23 @@ function Invoices() {
 
     const [custaddress_state, setCustaddstate] = useState()
     const [locationcustaddid, setLocationCustAddid] = useState()
-    const [minor,setMinor] = useState([])
-    const [glcode,setGlCode] = useState([])
-    const [updateinvcount,setUpdateInvCount] = useState()
-    const [custAddgst,setCustAddGst] = useState('')
+    const [minor, setMinor] = useState([])
+    const [glcode, setGlCode] = useState([])
+    const [updateinvcount, setUpdateInvCount] = useState()
+    const [custAddgst, setCustAddGst] = useState('')
 
-    const [allInvoiceData,setAllInvoiceData] = useState({
-        Activity:"",
-        TaxInvoice:"",
-        InvoiceData:"",
-        GrandTotal:"",
-        TotalTaxamount:"",
-        CGST:"",
-        SGST:"",
-        IGST:"",
-        BillTo:"",
-        SupplyTo:"",
-        BillToGst:""
+    const [allInvoiceData, setAllInvoiceData] = useState({
+        Activity: "",
+        TaxInvoice: "",
+        InvoiceData: "",
+        GrandTotal: "",
+        TotalTaxamount: "",
+        CGST: "",
+        SGST: "",
+        IGST: "",
+        BillTo: "",
+        SupplyTo: "",
+        BillToGst: ""
     })
 
 
@@ -77,7 +77,6 @@ function Invoices() {
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
 
-
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
 
@@ -85,7 +84,6 @@ function Invoices() {
             setCurrencylist(currencydata)
 
             const ActiveAccount = await ActiveAccountMinorCode(org)
-            console.log(ActiveAccount)
             setActiveAccount(ActiveAccount)
 
         }
@@ -121,19 +119,19 @@ function Invoices() {
 
     }
 
-    const handleChangeItems = async(e) => {
+    const handleChangeItems = async (e) => {
         console.log(e.target.value)
         const [actgst, chargecode] = e.target.value.split(',')
         console.log(chargecode)
-        const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'),chargecode)
+        const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'), chargecode)
         console.log(result)
-        setMinor([...minor,result.account_name_code])
-        setGlCode([...glcode,result.account_sub_name_code])
+        setMinor([...minor, result.account_name_code])
+        setGlCode([...glcode, result.account_sub_name_code])
 
-        if(actgst>0){
-            setTaxable([...taxable,'Yes'])
-        }else{
-            setTaxable([...taxable,'No'])
+        if (actgst > 0) {
+            setTaxable([...taxable, 'Yes'])
+        } else {
+            setTaxable([...taxable, 'No'])
         }
         setTotalGst([...totalgst, Number(actgst)])
     }
@@ -157,21 +155,23 @@ function Invoices() {
         const igst = document.getElementById('igstipt').value;
         let cgstamount = 0;
         let sgstamount = 0;
-        let igstamount=0;
+        let igstamount = 0;
         const taxableamt = gstvalue;
 
-        if(igst>0){
+        if (igst > 0) {
             igstamount = taxableamt
 
-        }else{
-            cgstamount=  taxableamt/2
-            sgstamount = taxableamt/2
+        } else {
+            cgstamount = taxableamt / 2
+            sgstamount = taxableamt / 2
         }
 
-        setAllInvoiceData({...allInvoiceData,Activity:document.getElementById('Activity').value,
-         TaxInvoice: document.getElementById('invoiceid').value,InvoiceData:document.getElementById('Invoicedate').value,
-         GrandTotal:document.getElementById('grandtotaltd').innerHTML,TotalTaxamount:document.getElementById('Totalvaluerd').innerHTML,
-         CGST:cgstamount,SGST:sgstamount,IGST:igstamount,BillTo:custaddrs,SupplyTo:location,BillToGst:custAddgst})
+        setAllInvoiceData({
+            ...allInvoiceData, Activity: document.getElementById('Activity').value,
+            TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
+            GrandTotal: document.getElementById('grandtotaltd').innerHTML, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
+            CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst
+        })
         e.preventDefault();
         var sum = 0
         Totalamountnew.map((item) => sum += item)
@@ -189,7 +189,7 @@ function Invoices() {
             document.getElementById('igstipt').value = 0;
         }
         else {
-            document.getElementById('igstipt').value = Math.max(...totalgst) ;
+            document.getElementById('igstipt').value = Math.max(...totalgst);
             console.log(totalgst)
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
@@ -200,18 +200,18 @@ function Invoices() {
         let Total = quantity * e.target.value
         console.log(quantity)
 
-        const [actgst,other] = document.getElementById('gstvalue').value .split(',')
+        const [actgst, other] = document.getElementById('gstvalue').value.split(',')
         console.log(actgst)
 
 
         let gst = Total * actgst / 100
- 
+
         let grandToatal = Total + Math.round(gst)
         console.log(grandToatal)
         setTimeout(() => {
             setRate([...rate, e.target.value])
 
-            setTotalAmountNew([...Totalamountnew,grandToatal])
+            setTotalAmountNew([...Totalamountnew, grandToatal])
             setGstVAlue([...gstvalues, Math.round(gst)])
             setAmount([...amount, Total])
             setQuantitys([...Quantitys, quantity])
@@ -284,18 +284,18 @@ function Invoices() {
 
     const handleChangeCustomerAdd = (e) => {
         const [state, address_id, custaddgst] = e.target.value.split(' ')
-        console.log(state, address_id,custaddgst)
+        console.log(state, address_id, custaddgst)
         setCustaddstate(state)
         setLocationCustAddid(address_id)
         setCustAddGst(custaddgst)
     }
 
-    const handleChangeActivity = async() => {
+    const handleChangeActivity = async () => {
         let major = document.getElementById('Activity').value
-        
-        const result = await ActiveChargeCodeMajor(localStorage.getItem('Organisation'),major);
+
+        const result = await ActiveChargeCodeMajor(localStorage.getItem('Organisation'), major);
         console.log(result)
-         setActiveChargeCode(result)
+        setActiveChargeCode(result)
     }
 
 
@@ -350,16 +350,16 @@ function Invoices() {
         let cgstamount = 0;
         let sgstamount = 0;
         let utgstamount = 0;
-        let igstamount=0;
+        let igstamount = 0;
         const taxableamt = gstvalue;
 
-        if(igst>0){
+        if (igst > 0) {
             igstamount = taxableamt
 
-        }else{
-            cgstamount=  taxableamt/2
-            sgstamount = taxableamt/2
-            utgstamount = taxableamt/2
+        } else {
+            cgstamount = taxableamt / 2
+            sgstamount = taxableamt / 2
+            utgstamount = taxableamt / 2
 
         }
 
@@ -370,19 +370,19 @@ function Invoices() {
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type, salesperson,
             subject, paymentterm, Duedate, User_id)
 
-       
-         const result = await InsertInvoice(localStorage.getItem('Organisation'),fin_year,invoiceids,squ_nos,Invoicedate,ordernumber,invoiceamt,User_id,periodfrom,periodto,Major,locationid,custid,billsubtotal,
-            total_tax,locationcustaddid,remark,btn_type,location,consignee,masterid,cgst,sgst,utgst,igst,taxableamt,currency_type,salesperson,
-            subject,paymentterm,Duedate,User_id)
 
-        const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'),'invoice_count',updateinvcount)
+        const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type, salesperson,
+            subject, paymentterm, Duedate, User_id)
+
+        const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
 
         amount.map(async (amt, index) => {
-            console.log(amt, Quantitys[index], rate[index], unit[index],minor[index],glcode[index])
-             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'),fin_year,invoiceids,Major,minor[index],glcode[index],billing_code,Quantitys[index],rate[index],unit[index],amt,consignee,custaddress_state,custid,locationcustaddid,taxable[index],cgst,sgst,utgst,igst,cgstamount,sgstamount,utgstamount,igstamount,User_id)
+            console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
+            const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
         })
-        if(result){
+        if (result) {
             alert('Added')
         }
 
@@ -568,7 +568,7 @@ function Invoices() {
                                                     <select id="Activity" className="form-control" onChange={handleChangeActivity}>
                                                         <option value='' hidden>Select Activity</option>
                                                         {
-                                                            Activeaccount.map((items,index) => (
+                                                            Activeaccount.map((items, index) => (
                                                                 <option key={index} value={items.account_type_code}>{items.account_name}</option>
                                                             ))
                                                         }
@@ -629,18 +629,11 @@ function Invoices() {
                                                                         }
                                                                     </select>
                                                                 </td>
-
-
-
                                                                 <td>{amount[index] ? amount[index] : 0}</td>
-
                                                                 <td id="Totalsum">{Totalamountnew[index] ? Totalamountnew[index] : 0}</td>
-
                                                             </tr>
-
                                                         ))
                                                     }
-
                                                 </tbody>
                                             </table>
                                             <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
@@ -663,11 +656,11 @@ function Invoices() {
                                                         <thead></thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><button className="btn btn-primary" onClick={handleSubTotal}>Sub Total</button></td>
+                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} >Sub Total</button></td>
                                                                 <td></td>
                                                                 <td>{totalamout}</td>
                                                             </tr>
-                                                    
+
                                                             <tr >
                                                                 <td>CGST</td>
                                                                 <td>
@@ -765,7 +758,7 @@ function Invoices() {
                                             <InvoicePreview Allinvoicedata={allInvoiceData} />
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }}>
+                                                <div className="col-md-20" style={{ width: "100%" }} >
                                                     <button id="save" name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
                                                         Save
                                                     </button>
@@ -778,7 +771,7 @@ function Invoices() {
                                                         Cancel
                                                     </button>
                                                     <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter">Preview Invoice
-</button>
+                                                    </button>
 
                                                 </div>
                                             </div>
