@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { Getfincialyearid, Vendor, DeleteVendor, ImportVendor, TotalVendId, Checkmidvalid, IdcountMaster, UpdateIdcountmaster, UpdatefinancialTwocount, InsertIdcountmaster } from '../../api';
+import { Getfincialyearid, Vendor, DeleteVendor, ImportVendor, Checkmidvalid, UpdatefinancialTwocount } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -90,7 +90,7 @@ const Showvendor = () => {
         // })
 
         let arry = [];
-        importdata.map((d) => {
+          importdata.map((d) => {
             if (d.existing === 'y') {
                 arry.push(d.mast_id)
             }

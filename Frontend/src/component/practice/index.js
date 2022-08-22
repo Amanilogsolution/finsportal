@@ -62,7 +62,7 @@ const handleSelect = (e) =>{
     console.log(periodname,fromdate,todate,duedate,fromapplicable,extenddate)
     periodname.map(async(name,index)=>{
       const result = await Insertcompliance(org,ComplianceType,nature,period,name,fromdate[index],todate[index],fromapplicable[index],duedate[index],extenddate[index])
-          // console.log(ComplianceType,nature,period,name,fromdate[index],todate[index],duedate[index],fromapplicable[index],extenddate[index])
+          console.log(result)
     })
    
   }
