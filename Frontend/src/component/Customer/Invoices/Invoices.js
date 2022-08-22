@@ -47,6 +47,8 @@ function Invoices() {
     const [glcode, setGlCode] = useState([])
     const [updateinvcount, setUpdateInvCount] = useState()
     const [custAddgst, setCustAddGst] = useState('')
+    const [chargecodes,setChargeCode] = useState([])
+
 
     const [allInvoiceData, setAllInvoiceData] = useState({
         Activity: "",
@@ -54,13 +56,18 @@ function Invoices() {
         InvoiceData: "",
         GrandTotal: "",
         TotalTaxamount: "",
+        Totalamounts:"",
         CGST: "",
         SGST: "",
         IGST: "",
         BillTo: "",
         SupplyTo: "",
-        BillToGst: ""
+        BillToGst: "",
+        OriginState: "",
+        DestinationState:""
     })
+
+    const [items,setItems] = useState([])
 
 
     useEffect(() => {
@@ -122,6 +129,8 @@ function Invoices() {
     const handleChangeItems = async (e) => {
         console.log(e.target.value)
         const [actgst, chargecode] = e.target.value.split(',')
+        setChargeCode([...chargecodes,chargecode])
+        
         console.log(chargecode)
         const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'), chargecode)
         console.log(result)
@@ -145,6 +154,14 @@ function Invoices() {
         totalgst.map((item) => tolgst += item)
 
 
+        // console.log(selectitems)
+        // setTimeout(() => {
+
+        setItems([...items,{itemsvalue:chargecodes[chargecodes.length-1],quantity:Quantitys[Quantitys.length-1],rate:rate[rate.length-1],
+                           tax:gstvalues[gstvalues.length-1],unit:e.target.value,
+                           amount:amount[amount.length-1],Totalamount:Totalamountnew[Totalamountnew.length-1]
+                        }])
+                    // },1000)
     }
 
     const handleSubTotal = (e) => {
@@ -170,7 +187,8 @@ function Invoices() {
             ...allInvoiceData, Activity: document.getElementById('Activity').value,
             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
             GrandTotal: document.getElementById('grandtotaltd').innerHTML, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
-            CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst
+            CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
+            Totalamounts:totalamout,OriginState:billingaddress,DestinationState:custaddress_state
         })
         e.preventDefault();
         var sum = 0
@@ -629,7 +647,7 @@ function Invoices() {
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td>{amount[index] ? amount[index] : 0}</td>
+                                                                <td id="amountvalue">{amount[index] ? amount[index] : 0}</td>
                                                                 <td id="Totalsum">{Totalamountnew[index] ? Totalamountnew[index] : 0}</td>
                                                             </tr>
                                                         ))
@@ -755,7 +773,7 @@ function Invoices() {
 
                                                 </div>
                                             </div>
-                                            <InvoicePreview Allinvoicedata={allInvoiceData} />
+                                            <InvoicePreview Allinvoicedata={allInvoiceData}  Allitems={items}/>
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }} >
@@ -770,7 +788,7 @@ function Invoices() {
                                                     }} name="clear" className="btn ml-2 btn btn-primary">
                                                         Cancel
                                                     </button>
-                                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter">Preview Invoice
+                                                    <button type="button" onClick={()=> console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter">Preview Invoice
                                                     </button>
 
                                                 </div>
