@@ -84,10 +84,6 @@ const columns = [
         <button className="editbtn btn-success "
         onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)}
         >Edit</button></a>,
-      // <button className="editbtn btn-success" data-toggle="modal" data-target="#exampleModal" style={{ marginLeft: "7px", width: "50px" }} onClick={(e) => {
-      //   e.preventDefault();
-      //   localStorage.setItem('ComplianceSno', `${row.sno}`)
-      // }}>Upload</button>
 
     ]
   }
@@ -136,7 +132,6 @@ function Showcompliances() {
   //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
-    console.log(importdata)
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
     setImportdata(datas);

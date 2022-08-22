@@ -15,12 +15,10 @@ const Header = () => {
   useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
-    // console.log(organisation)
   }, [])
 
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
-    // console.log(result)
 
     if (result.status == 'Logout') {
       localStorage.clear()

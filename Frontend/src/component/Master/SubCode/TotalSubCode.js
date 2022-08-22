@@ -7,7 +7,7 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import * as XLSX from "xlsx";
-import Excelfile from '../../../excelformate/tbl_cities.xlsx';
+import Excelfile from '../../../excelformate/sub_code formate.xlsx';
 
 
 function TotalSubCode() {
@@ -86,16 +86,14 @@ function TotalSubCode() {
       window.location.reload()
     }
     else {
-      console.log(importdata)
       const result = await ImportSubcode(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-       console.log(result)
       if (result == "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
         window.location.href = './TotalSubCode'
       }
 
-    
+
     }
 
   };
@@ -141,7 +139,6 @@ function TotalSubCode() {
 
   useEffect(async () => {
     const result = await ShowTotalSubCode(localStorage.getItem('Organisation'))
-    console.log(result)
     setData(result)
   }, [])
 
@@ -186,23 +183,15 @@ function TotalSubCode() {
                           highlightOnHover
                         />
                       </DataTableExtensions>
-
                     </article>
-
-
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
-
         </div>
         <Footer />
         {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"
           id="exampleModal"
@@ -278,7 +267,6 @@ function TotalSubCode() {
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
         >
-
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
             <div className="modal-content">
               <div className="modal-header">
@@ -313,8 +301,8 @@ function TotalSubCode() {
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
+                      importdata.map((d,index) => (
+                        <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.charge_Code}</td>
                           <td style={{ border: "1px solid black" }}>{d.gl_code}</td>
                           <td style={{ border: "1px solid black" }}>{d.sub_code}</td>
@@ -327,7 +315,6 @@ function TotalSubCode() {
                 </table>
               </div>
             </div>
-            {/* </div> */}
             <div className="modal-footer" style={{ background: "white" }}>
               <button
                 type="button"

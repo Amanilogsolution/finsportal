@@ -16,14 +16,12 @@ const Practice = () => {
 
   const handleChange = (e) => {
     const value = e.target.value
-    console.log(value)
     setTotal(parseInt(value))
   }
 
   const handleChangedate = (e) => {
    const date = e.target.value
    setFromDate([...fromdate,date])
-   console.log(date)
   }
 
   const handleChangeTodate = (e) => {
@@ -52,17 +50,14 @@ const handleSelect = (e) =>{
   }else if(values === 'Semi_Annual'){
     setTotal(2)
   }
-  console.log(values)
 }
 
   const handlesave =()=>{
     const org = localStorage.getItem('Organisation')
     const ComplianceType = document.getElementById('compliancetype').value
     const nature =document.getElementById('nature').value
-    console.log(periodname,fromdate,todate,duedate,fromapplicable,extenddate)
     periodname.map(async(name,index)=>{
       const result = await Insertcompliance(org,ComplianceType,nature,period,name,fromdate[index],todate[index],fromapplicable[index],duedate[index],extenddate[index])
-          console.log(result)
     })
    
   }

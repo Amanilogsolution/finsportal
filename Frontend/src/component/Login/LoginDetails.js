@@ -12,7 +12,6 @@ const LoginDetails = () => {
 
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
-        console.log(result)
         setData(result)
     }, [])
 
@@ -31,7 +30,6 @@ const LoginDetails = () => {
         const data = new FormData();
         data.append("images",file)
        const UploadLink = await UploadData(data)
-       console.log(UploadLink)
        setImageLink(UploadLink)
     }
 

@@ -19,13 +19,10 @@ const Login = () => {
         e.preventDefault()
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
-        console.log(email, password)
         const result = await UserLogin(email, password)
-        console.log(result)
         if (result.status == 'Success') {
             localStorage.setItem('Token', result.token)
             localStorage.setItem('ExpiredIn', result.expiresIn)
-            console.log(result.result)
             localStorage.setItem('Organisation', result.result)
             localStorage.setItem('User_name', result.result2)
             localStorage.setItem('Organisation Name', result.result3)

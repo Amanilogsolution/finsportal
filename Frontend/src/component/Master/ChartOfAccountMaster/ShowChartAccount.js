@@ -94,7 +94,6 @@ function ShowChartAccount() {
         window.location.reload()
       }
       else {
-        console.log(importdata)
         const result = await ImportChartofAccount(importdata,localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
         if (result == "Data Added") {
           document.getElementById("showdataModal").style.display = "none";
@@ -114,7 +113,6 @@ function ShowChartAccount() {
     //##########################  for convert array to json start  #################################
   
     const handleClick = () => {
-      console.log(importdata)
       const array = JSON.stringify(importdata)
       const datas = JSON.parse(array)
       setImportdata(datas);
@@ -154,7 +152,6 @@ function ShowChartAccount() {
     useEffect(async () => {
         const result = await TotalChartOfAccount(localStorage.getItem('Organisation'))
         setData(result)
-        console.log(result)
     }, [])
 
     const tableData = {
