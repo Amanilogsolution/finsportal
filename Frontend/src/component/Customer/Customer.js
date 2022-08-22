@@ -369,7 +369,7 @@ const Customer = () => {
                               <option value="Dr.">Dr.</option>
                             </select>
                           </div>
-                          <div className="col form-group">
+                          <div className="col-group-5 form-group">
                             <input
                               type="text"
                               className="form-control"
@@ -378,7 +378,7 @@ const Customer = () => {
                               required
                             />
                           </div>
-                          <div className="col form-group">
+                          <div className="col-group-5 form-group">
                             <input
                               type="text"
                               className="form-control"
