@@ -184,17 +184,12 @@ export const ActiveCurrency = async (org) => {
     return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
 }
 
-
-
-
 // ###################### Currency api end #############################
 
 
 
 
 // ###################### City api start #############################
-
-
 export const Totalcity = async () => {
     const url = `http://192.168.146.199:3008/api/totalcity`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
@@ -608,8 +603,6 @@ export const VendAddress = async (sno, org) => {
 }
 
 export const EditVendAddress = async (sno, vendid,vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id) => {
-    console.log(sno, vendid,vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
-   
     const url = 'http://localhost:3008/api/updatevendaddress'
     return axios.post(url, {sno, vendid,vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
