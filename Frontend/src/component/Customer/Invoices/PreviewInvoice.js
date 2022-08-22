@@ -1,11 +1,28 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import './PreviewInvoice.css'
-import DecamalNumber from 'decimal-number-to-words'
+import DecamalNumber from 'decimal-number-to-words';
+import jsPDF from "jspdf";
 
 
 const InvoicePreview = (props) => {
+  const pdfRef = useRef(null);
+
+  const print = (e) => {
+    e.preventDefault();
+    const content = pdfRef.current;
+    const doc = new jsPDF();
+    doc.html(content, {
+      callback: function (doc) {
+          doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
+      },
+      html2canvas: { scale: 0.21 },
+      margin:[5,0,0,5],
+
+
+  });
+  };
   return (
-    <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div className="modal fade bd-example-modal-lg"  id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
@@ -15,7 +32,7 @@ const InvoicePreview = (props) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div> */}
-          <div className="modal-body">
+          <div className="modal-body" ref={pdfRef}>
             <div className="modalinvoice">
               <div className="topdiv">
                 <div className="topinnerdiv">
@@ -322,6 +339,8 @@ const InvoicePreview = (props) => {
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" className="btn btn-primary">Save changes</button>
+            <button type="button" className="btn btn-success" onClick={print}>Print</button>
+
           </div>
         </div>
       </div>
