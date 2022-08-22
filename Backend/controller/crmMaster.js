@@ -6,7 +6,7 @@ const Totalcrm = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` SELECT * from ${org}.dbo.tbl_crm_master tcm`)
+        const result = await sql.query(` SELECT * from ${org}.dbo.tbl_crm_master tcm with (nolock)`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -54,7 +54,7 @@ const getcrm = async (req,res) => {
     const sno = req.body.sno;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` select * from ${org}.dbo.tbl_crm_master WHERE sno = '${sno}'`)
+        const result = await sql.query(` select * from ${org}.dbo.tbl_crm_master with (nolock) WHERE sno = '${sno}'`)
         res.send(result.recordset[0])
     }
     catch (err) {
@@ -85,7 +85,7 @@ const updatecrm = async (req, res) => {
 const Activecrm = async (req, res)=>{
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select  uname  as CRMNAME from  NEWAWLDB.dbo.User_Rights  where  uDept in (6,1)
+        const result = await sql.query(`select  uname  as CRMNAME from  NEWAWLDB.dbo.User_Rights with (nolock) where  uDept in (6,1)
         and uActive=1    order by uName asc`)
         res.send(result)
     }

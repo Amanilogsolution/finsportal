@@ -17,7 +17,7 @@ const EditChargecode = () => {
             setData(result)
 
             const subAcconameByType= await SelectSubAcconameByType(org,result.major_code)
-            const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), subAcconameByType[0].account_type_code)
+            const chartofaccount = await SelectSubAccountname(org, subAcconameByType[0].account_type_code)
             setChartofaccountlist(chartofaccount)
 
             const result2 = await ActiveAccountname(org)
@@ -38,7 +38,9 @@ const EditChargecode = () => {
         const description = document.getElementById("description").value;
         const short_name = document.getElementById("short_name").value;
         const nature = document.getElementById("nature").value;
-        const major_code = document.getElementById("major_code").value;
+        const major_code1 = document.getElementById("major_code");
+        const major_code= major_code1.options[major_code1.selectedIndex].textContent;
+        const major_code_val=major_code1.value
         const chartofaccount =document.getElementById('chartofaccount').value;
         const activity = document.getElementById("activity").value;
         const sacHsncode = document.getElementById("sacHsncode").value;
@@ -51,7 +53,7 @@ const EditChargecode = () => {
             alert('Enter the Mandatory field...')
         }
         else {
-            const result = await UpdateChargecode(sno, org, description, short_name, nature, major_code,chartofaccount, activity, sacHsncode, gstrate, user_id);
+            const result = await UpdateChargecode(sno, org, description, short_name, nature, major_code,chartofaccount, activity, sacHsncode, gstrate, user_id,major_code_val);
             if (result === "updated") {
                 alert('Data Updated')
                 localStorage.removeItem('ChargecodeSno');
@@ -127,7 +129,7 @@ const EditChargecode = () => {
                                                     <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code</label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id='major_code'  onChange={getchartofaccountdata}  >
-                                                            <option  hidden>{data.major_code}</option>
+                                                            <option value={data.major_code_id}  hidden>{data.major_code}</option>
                                                             {
                                                                 majorcodelist.map((item,index)=>
                                                                 <option key={index} value={item.account_type_code}>{item.account_type}</option>)
