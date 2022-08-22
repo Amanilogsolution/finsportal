@@ -30,7 +30,7 @@ const InvoicePreview = (props) => {
               <div className="invoicediv">
                 <div className="inerinvoicediv">
                   <div className="firstinvoicediv"><b>Activity :</b>{props.Allinvoicedata.Activity}</div>
-                  <div className="secondinvoicediv">
+                  <div className="secondinvoicediv" >
                     <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.TaxInvoice} &nbsp;
                   </div>
                   <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.InvoiceData} &nbsp;</div>

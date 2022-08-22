@@ -62,6 +62,7 @@
   width: 30%;
 }
 
+
 .secondinvoicediv,
 .thirdinvoicediv {
   border-right: 2px solid #000;
@@ -381,12 +382,19 @@
     height: 70px;
   }
 }
+@media screen and (max-width:1700px) {
+  .secondinvoicediv{
+    width:20%;
+   }
+  
+}
 
 
 @media screen and (max-width:1500px) {
   .invoicevalword {
     height: 80px;
   }
+  
 }
 
 @media screen and (max-width:1350px) {
