@@ -4,12 +4,10 @@ const os = require('os')
 
 const TotalPaymentTerm = async (req, res) => {
     const org = req.body.org;
-    console.log(org)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_payment_term with (nolock) order by sno desc`)
         res.send(result.recordset)
-        console.log(result.recordset)
     } catch (err) {
         res.send(err)
     }
@@ -44,7 +42,7 @@ const InsertPaymentTerm = async (req, res) => {
 
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
