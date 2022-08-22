@@ -66,7 +66,7 @@ const SelectCustAddress = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT DISTINCT cust_id,cust_name FROM ${org}.dbo.tbl_cust_addresses WHERE cust_name LIKE '%${cust_name}%';`)
+        const result = await sql.query(`SELECT DISTINCT cust_id,cust_name FROM ${org}.dbo.tbl_cust_addresses with (nolock) WHERE cust_name LIKE '%${cust_name}%';`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -79,7 +79,7 @@ const TotalCustAddress = async (req, res) => {
     const cust_id = req.body.cust_id;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses WHERE cust_id ='${cust_id}';`)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses with (nolock) WHERE cust_id ='${cust_id}';`)
         res.send(result.recordset)
     }
     catch (err) {

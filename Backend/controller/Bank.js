@@ -41,7 +41,7 @@ const TotalBanks = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_bankmaster`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_bankmaster with (nolock)`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -68,7 +68,7 @@ const ShowBank = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_bankmaster where sno = ${sno}`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_bankmaster with (nolock) where sno = ${sno}`)
         res.send(result.recordset[0])
     }
     catch (err) {

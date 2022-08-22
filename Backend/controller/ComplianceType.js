@@ -7,7 +7,7 @@ const ShowcompliancesType = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type `)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type with (nolock)`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -20,7 +20,7 @@ const ShowActivecompliancesType = async (req, res) => {
     console.log("org",org)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type  where status='Active'`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type with (nolock) where status='Active'`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -33,7 +33,7 @@ const ShowcompliancesTypeselect = async (req, res) => {
     const sno = req.body.sno
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type  where sno=${sno}`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_compliances_type with (nolock) where sno=${sno}`)
         res.send(result.recordset[0])
     } catch (err) {
         res.send(err)

@@ -151,7 +151,7 @@ const SelectSubAccountname = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select account_sub_name,account_sub_name_code from  ${org}.dbo.tbl_sub_account tsa WHERE account_type_code ='${account_type_code}'`)
+        const result = await sql.query(`select account_sub_name,account_sub_name_code from  ${org}.dbo.tbl_sub_account tsa with (nolock) WHERE account_type_code ='${account_type_code}'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -165,7 +165,7 @@ const SelectSubAcconameByType = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` select account_type_code from ${org}.dbo.tbl_account_type where account_type='${account_type}' and status='Active';`)
+        const result = await sql.query(` select account_type_code from ${org}.dbo.tbl_account_type with (nolock) where account_type='${account_type}' and status='Active';`)
         res.send(result.recordset)
         // console.log(result.recordset)
     }
