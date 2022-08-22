@@ -20,12 +20,9 @@ const DeletePaymentTerm = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
     const status = req.body.status;
-    console.log(org,sno,status)
-    console.log(`update ${org}.dbo.tbl_payment_term set status='${status}' where sno=${sno}`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_payment_term set status='${status}' where sno=${sno}`)
-        console.log(result)
         res.send('Deleted')
     }
     catch (err) {
@@ -38,17 +35,15 @@ const InsertPaymentTerm = async (req, res) => {
     const term = req.body.term;
     const term_days = req.body.term_days;
     const User_id = req.body.User_id;
-    console.log(org,term,term_days,User_id)
-
-    try{
+    try {
         await sql.connect(sqlConfig)
-          const result = await sql.query(` insert into ${org}.dbo.tbl_payment_term  (term,term_days,add_date_time,
+        const result = await sql.query(` insert into ${org}.dbo.tbl_payment_term  (term,term_days,add_date_time,
             add_user_name ,add_system_name ,add_ip_address,status)
             values('${term}','${term_days}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')  `)
         res.send('Added')
 
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 }
@@ -72,33 +67,32 @@ const UpdatePaymentTerm = async (req, res) => {
     const term = req.body.term;
     const term_days = req.body.term_days;
     const User_id = req.body.User_id;
-    console.log(sno,org,term,term_days,User_id)
 
-    try{
+    try {
         await sql.connect(sqlConfig)
-          const result = await sql.query(` update ${org}.dbo.tbl_payment_term set term='${term}',term_days='${term_days}',update_date_time=getDate(),
+        const result = await sql.query(` update ${org}.dbo.tbl_payment_term set term='${term}',term_days='${term_days}',update_date_time=getDate(),
           update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address ='${req.ip}' where sno='${sno}'`)
         res.send('Updated')
 
     }
-    catch(err){
-        console.log(err)
+    catch (err) {
+        res.send(err)
     }
 }
-const ActivePaymentTerm = async (req,res)=>{
+const ActivePaymentTerm = async (req, res) => {
     const org = req.body.org;
 
-    try{
+    try {
         await sql.connect(sqlConfig)
-          const result = await sql.query(`SELECT term,term_days from ${org}.dbo.tbl_payment_term `)
-          res.send(result.recordset)
+        const result = await sql.query(`SELECT term,term_days from ${org}.dbo.tbl_payment_term with (nolock)`)
+        res.send(result.recordset)
 
     }
-    catch(err){
-        console.log(err)
+    catch (err) {
+        res.send(err)
     }
 
 }
 
 
-module.exports={TotalPaymentTerm,DeletePaymentTerm,InsertPaymentTerm,ShowPaymentTerm,UpdatePaymentTerm,ActivePaymentTerm}
+module.exports = { TotalPaymentTerm, DeletePaymentTerm, InsertPaymentTerm, ShowPaymentTerm, UpdatePaymentTerm, ActivePaymentTerm }

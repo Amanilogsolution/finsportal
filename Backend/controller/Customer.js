@@ -198,7 +198,7 @@ const CustomerMastid = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_customer where  status='Active'`)
+        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_customer  with (nolock) where  status='Active'`)
         res.send(result.recordset)
 
     }
@@ -224,10 +224,7 @@ const CustomerMastid = async (req, res) => {
 const Checkmidvalid = (req, res) => {
     const org = req.body.org;
     const importdata = req.body.importdata;
-    const tbl_name= req.body.tbl_name;
-    // console.log(importdata)
-    // console.log(`select master_id from ${org}.dbo.tbl_id_controller where master_id in ('${importdata.map(data => data)
-    //     .join("', '")}')`)
+    const tbl_name = req.body.tbl_name;
 
     try {
         sql.connect(sqlConfig).then(() => {
@@ -237,7 +234,6 @@ const Checkmidvalid = (req, res) => {
                 .then((resp) => {
                     if (resp.rowsAffected[0] > 0) {
                         res.send(resp.recordset.map(item => ({ "master_id": item.mast_id })))
-                        // console.log(resp.recordset.map(item => ({ "master_id": item.mast_id })))
                     } else {
                         res.send(resp.rowsAffected)
                     }
@@ -335,7 +331,7 @@ const ActiveCustomer = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT cust_name,cust_id  from ${org}.dbo.tbl_new_customer tnc where status='Active'`)
+        const result = await sql.query(`SELECT cust_name,cust_id  from ${org}.dbo.tbl_new_customer tnc with (nolock) where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -349,10 +345,9 @@ const ActiveCustomer = async (req, res) => {
 const SelectedCustomer = async (req, res) => {
     const org = req.body.org
     const cust_id = req.body.cust_id
-    console.log(org,cust_id)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_id='${cust_id}'`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_new_customer with (nolock) where cust_id='${cust_id}'`)
         res.send(result.recordset[0])
     }
     catch (err) {
@@ -362,6 +357,8 @@ const SelectedCustomer = async (req, res) => {
 }
 
 
-module.exports = { AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, CustomerMastid, 
+module.exports = {
+    AllCustomer, DeleteCustomer, AddCustomer, Customer, UpdateCustomer, Unique_Cust_id, Lastcust_id, Checkmidvalid, ImportCustomer, CustomerMastid,
     // Customer_id,Customername,CustomerIdMid, Idcountmaster, InsertIdcountmaster, UpdateIdcountmaster, 
-    ActiveCustomer, SelectedCustomer }
+    ActiveCustomer, SelectedCustomer
+}

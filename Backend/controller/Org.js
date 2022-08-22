@@ -58,7 +58,7 @@ const ShowOrganisation = async (req, res) => {
     const org_name = req.body.org_name
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FinsDB.dbo.organisation where org_name = '${org_name}'`)
+        const result = await sql.query(`select * from FinsDB.dbo.organisation with (nolock) where org_name = '${org_name}'`)
         res.send(result.recordset[0])
 
     }

@@ -81,7 +81,7 @@ const Vendor = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_new_vendor order by sno desc`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_new_vendor with (nolock) order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -108,7 +108,7 @@ async function showVendor(req, res) {
     const sno = req.body.sno
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`Select * from ${org}.dbo.tbl_new_vendor where sno = ${sno}`)
+        const result = await sql.query(`Select * from ${org}.dbo.tbl_new_vendor with (nolock) where sno = ${sno}`)
         res.send(result.recordset[0])
     } catch (err) {
         res.send(err)
@@ -163,7 +163,7 @@ const VendorMastid = async (req, res) => {
     const org= req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_vendor where status='Active'`)
+        const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_vendor with (nolock) where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -237,7 +237,7 @@ const ActiveVendor =async (req,res)=>{
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT vend_name,vend_id  from ${org}.dbo.tbl_new_vendor tnc where status='Active'`)
+        const result = await sql.query(`SELECT vend_name,vend_id  from ${org}.dbo.tbl_new_vendor tnc  with (nolock) where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {

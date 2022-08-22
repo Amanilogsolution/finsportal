@@ -10,7 +10,7 @@ const User_login = async (req, res) => {
     const user_password = req.body.user_password;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_Login where user_id='${user_id}' and user_password = '${user_password}'`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_Login with (nolock) where user_id='${user_id}' and user_password = '${user_password}'`)
         const result1 = await sql.query(`select fin_year,year  from ilogsolution.dbo.tbl_fin_year tfy with (nolock) where status='Active'`)
         if (result.recordset.length) {
             const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`)
@@ -84,7 +84,7 @@ async function showLoginuser(req, res) {
     const user_id = req.body.user_id
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_usermaster where user_id = '${user_id}'`)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_usermaster with (nolock) where user_id = '${user_id}'`)
         res.send(result.recordset[0])
     }
     catch (err) {
@@ -99,17 +99,15 @@ async function ChangePassword(req, res) {
 
     try {
         await sql.connect(sqlConfig)
-        const checkpass = await sql.query(`select user_password from FINSDB.dbo.tbl_Login where user_id = '${user_id}' and user_password='${CurrentPassword}'`)
+        const checkpass = await sql.query(`select user_password from FINSDB.dbo.tbl_Login with (nolock) where user_id = '${user_id}' and user_password='${CurrentPassword}'`)
         if ((checkpass.recordset).length === 0) {
-             res.send('Incorrect Current Password')
+            res.send('Incorrect Current Password')
         }
         else {
             const UserChange = await sql.query(`update FINSDB.dbo.tbl_usermaster set password='${password}' where user_id ='${user_id}' and password='${CurrentPassword}'`)
             const LoginChange = await sql.query(`update FINSDB.dbo.tbl_Login set user_password ='${password}' where user_id ='${user_id}' and user_password='${CurrentPassword}'`)
-            res.send(UserChange) 
+            res.send(UserChange)
         }
-
-
     }
     catch (err) {
         res.send(err)

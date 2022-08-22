@@ -52,7 +52,7 @@ async function InsertUnit(req, res) {
 
     try {
         await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_unit where unit_name='${unit_name}' OR unit_symbol='${unit_symbol}'`)
+        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_unit with (nolock) where unit_name='${unit_name}' OR unit_symbol='${unit_symbol}'`)
 
         if (!duplicate.recordset.length) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_unit (unit_name,unit_symbol,unit_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
@@ -131,4 +131,4 @@ async function Activeunit(req, res) {
     }
 }
 
-module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, InsertUnit, showunit, UpdateUnit, ImportUnit,Activeunit }
+module.exports = { TotalUnit, TotalActiveUnit, deleteUnit, InsertUnit, showunit, UpdateUnit, ImportUnit, Activeunit }
