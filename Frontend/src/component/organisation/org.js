@@ -317,7 +317,7 @@ function Org() {
                       }} name="clear" className="btn ml-2">
                         Cancel
                       </button>
-                      <a href="#" style={{ float: "right" }}>
+                      <a href="/#" style={{ float: "right" }}>
                         Privacy Policy
                       </a>
 

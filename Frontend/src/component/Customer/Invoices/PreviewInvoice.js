@@ -64,12 +64,12 @@ const InvoicePreview = (props) => {
                   <tr>
                     <td><b>Gross WT.</b> </td>
                     <td><b>Pcs.</b></td>
-                    <td><b>Origin :</b> Mumbai</td>
+                    <td><b>Origin :</b> {props.Allinvoicedata.OriginState}</td>
                   </tr>
                   <tr>
                     <td><b>Details Of Goods :</b></td>
                     <td><b>Veh Type : Courier</b></td>
-                    <td><b>Destination : </b>Faridabad</td>
+                    <td><b>Destination : </b>{props.Allinvoicedata.DestinationState}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -95,32 +95,26 @@ const InvoicePreview = (props) => {
                     </tr>
                   </thead>
                   <tbody className='itembodysec'>
-                    <tr className='itemtrsec'>
-                      <th>1</th>
-                      <td>COURIER CHARGES LR NO. BOM010013627</td>
-                      <td>12</td>
-                      <td>12</td>
-                      <td>10</td>
-                      <td>Box</td>
-                      <td>144</td>
-                      <td>158</td>
-                    </tr>
-                    <tr className='itemtrsec'>
-                      <th>2</th>
-                      <td>COURIER CHARGES LR NO. BOM010013628</td>
-                      <td>12</td>
-                      <td>12</td>
-                      <td>10</td>
-                      <td>Box</td>
-                      <td>144</td>
-                      <td>158</td>
-                    </tr>
+                    {
+                      props.Allitems.map((item,index) =>(
+                            <tr className='itemtrsec'>
+                      <th>{index+1}</th>
+                      <td>{item.itemsvalue}</td>
+                      <td>{item.quantity}</td>
+                      <td>{item.rate}</td>
+                      <td>{item.tax}</td>
+                      <td>{item.unit}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.Totalamount}</td>
+                    </tr> 
+                      ))
+                    }  
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
                     <th colSpan='6'>Total</th>
-                      <td>288</td>
-                      <td>316</td>
+                      <td>{props.Allinvoicedata.Totalamounts}</td>
+                      <td>{props.Allinvoicedata.GrandTotal}</td>
                     </tr>
                   </tfoot>
                 </table>

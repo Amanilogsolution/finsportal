@@ -186,8 +186,8 @@ const ShowState = () => {
               <br />
               <h3 className="text-left ml-5">State</h3>
               <br />
-              <div className="row ">
-                <div className="col ml-5">
+              <div className="row " >
+                <div className="col ml-5" >
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <DataTableExtensions
