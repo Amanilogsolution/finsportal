@@ -168,17 +168,17 @@ function Invoices() {
 
     const handleSubTotal = (e) => {
         e.preventDefault();
-        document.getElementById('trdiv').disabled=true
-        // document.getElementById('additembtm').disabled=true;
-        // document.getElementById('removeitembtm').disabled=true;
-        // document.getElementById('gstvalue').disabled=true;
-        // document.getElementById('Quality').disabled=true;
-        // document.getElementById('Rate').disabled=true;
-        // document.getElementById('unitdrop').disabled=true;
-        // // document.getElementById('subtotalbtn').disabled=true;
-        // document.getElementById('savebtn').disabled=false;
-        // document.getElementById('postbtn').disabled=false;
-        // document.getElementById('previewbtn').disabled=false;
+        
+        document.getElementById('additembtm').disabled=true;
+        document.getElementById('removeitembtm').disabled=true;
+        document.getElementById('gstvalue').disabled=true;
+        document.getElementById('Quality').disabled=true;
+        document.getElementById('Rate').disabled=true;
+        document.getElementById('unitdrop').disabled=true;
+        document.getElementById('subtotalbtn').disabled=true;
+        document.getElementById('savebtn').disabled=false;
+        document.getElementById('postbtn').disabled=false;
+        document.getElementById('previewbtn').disabled=false;
         
         console.log('grandtotaltd',grandtotal)
         let location = document.getElementById('locationadd')
