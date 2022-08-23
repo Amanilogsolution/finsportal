@@ -168,17 +168,19 @@ function Invoices() {
 
     const handleSubTotal = (e) => {
         e.preventDefault();
-        document.getElementById('additembtm').disabled=true;
-        document.getElementById('removeitembtm').disabled=true;
-        document.getElementById('gstvalue').disabled=true;
-        document.getElementById('Quality').disabled=true;
-        document.getElementById('Rate').disabled=true;
-        document.getElementById('unitdrop').disabled=true;
-        document.getElementById('subtotalbtn').disabled=true;
-        document.getElementById('savebtn').disabled=false;
-        document.getElementById('postbtn').disabled=false;
-        document.getElementById('previewbtn').disabled=false;
+        document.getElementById('trdiv').disabled=true
+        // document.getElementById('additembtm').disabled=true;
+        // document.getElementById('removeitembtm').disabled=true;
+        // document.getElementById('gstvalue').disabled=true;
+        // document.getElementById('Quality').disabled=true;
+        // document.getElementById('Rate').disabled=true;
+        // document.getElementById('unitdrop').disabled=true;
+        // // document.getElementById('subtotalbtn').disabled=true;
+        // document.getElementById('savebtn').disabled=false;
+        // document.getElementById('postbtn').disabled=false;
+        // document.getElementById('previewbtn').disabled=false;
         
+        console.log('grandtotaltd',grandtotal)
         let location = document.getElementById('locationadd')
         location = location.options[location.selectedIndex].text;
         let custaddrs = document.getElementById('custaddr')
@@ -625,6 +627,7 @@ function Invoices() {
                                                     {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
+                                                            <div id='trdiv'>
                                                                 <td className="col-md-2 pl-0 pr-0">
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
@@ -636,6 +639,7 @@ function Invoices() {
                                                                         }
                                                                     </select>
                                                                 </td>
+                                                            </div>
                                                                 <td className='col-md-2 pl-0 pr-0'>
                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                         const quantity = e.target.value
