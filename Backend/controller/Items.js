@@ -1,4 +1,4 @@
-const sql =require('mssql')
+const sql = require('mssql')
 const sqlConfig = require('../config.js')
 const os = require('os');
 const e = require('express');
@@ -8,14 +8,14 @@ const InsertItems = async (req, res) => {
     const item_type = req.body.item_type;
     const item_name = req.body.item_name;
     const item_unit = req.body.item_unit;
-    const item_selling_price = req.body.item_selling_price? req.body.item_selling_price:null;
-    const sales_account = req.body.sales_account? req.body.sales_account:'';
-    const sales_description = req.body.sales_description ? req.body.sales_description:'';
-    const item_cost_price = req.body.item_cost_price? req.body.item_cost_price:null;
-    const purchase_account = req.body.purchase_account?req.body.purchase_account:'';
-    const purchases_description = req.body.purchases_description?req.body.purchases_description:'';
+    const item_selling_price = req.body.item_selling_price ? req.body.item_selling_price : null;
+    const sales_account = req.body.sales_account ? req.body.sales_account : '';
+    const sales_description = req.body.sales_description ? req.body.sales_description : '';
+    const item_cost_price = req.body.item_cost_price ? req.body.item_cost_price : null;
+    const purchase_account = req.body.purchase_account ? req.body.purchase_account : '';
+    const purchases_description = req.body.purchases_description ? req.body.purchases_description : '';
     const add_user_name = req.body.add_user_name;
-  
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_items_account (item_type,item_name,item_unit,item_selling_price,sales_account,
@@ -24,37 +24,31 @@ const InsertItems = async (req, res) => {
             Values('${item_type}','${item_name}','${item_unit}',${item_selling_price},'${sales_account}','${sales_description}',${item_cost_price},'${purchase_account}',
             '${purchases_description}','${add_user_name}','${os.hostname()}','${req.ip}',getDate(),'Active');`)
 
-            if(result.rowsAffected[0]>0){
-                res.send('Added')
-            }
-          else{
+        if (result.rowsAffected[0] > 0) {
+            res.send('Added')
+        }
+        else {
             res.send('Server error')
-          }
+        }
     }
     catch (err) {
         res.send(err)
     }
 }
 
-const ActiveItems = async(req,res) =>{
+const ActiveItems = async (req, res) => {
     const org = req.body.org;
-    console.log(org)
-
-    try{
+    try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select item_name,item_selling_price from  ${org}.dbo.tbl_items_account`)
-       res.send(result.recordset)
-        console.log(result)
+        const result = await sql.query(`select item_name,item_selling_price from  ${org}.dbo.tbl_items_account with (nolock)`)
+        res.send(result.recordset)
     }
-    catch (err){
+    catch (err) {
         res.send(err)
 
-
     }
-
-
 
 }
 
 
-module.exports = {InsertItems,ActiveItems}
+module.exports = { InsertItems, ActiveItems }

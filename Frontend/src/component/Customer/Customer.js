@@ -40,6 +40,7 @@ const Customer = () => {
       setTotalmastid(Allmaster_id);
 
       const paymet_term = await ActivePaymentTerm(org)
+
       setPaymentterm(paymet_term)
 
       const getyear = await Getfincialyearid(org)
@@ -275,9 +276,11 @@ const Customer = () => {
                               >
                                 <option value='' hidden >Select Master ID</option>
                                 {
-                                  totalmastid.map((allid, index) => (
-                                    <option key={index}>{allid.mast_id}</option>
-                                  ))
+                                  totalmastid ?
+                                    totalmastid.map((allid, index) => (
+                                      <option key={index}>{allid.mast_id}</option>
+                                    ))
+                                    : 0
                                 }
                               </select>
                             </div>
@@ -780,8 +783,11 @@ const Customer = () => {
                               >
                                 <option hidden value=''>Select Currency</option>
                                 {
-                                  currencylist.map((item, index) =>
-                                    <option key={index}>{item.currency_name}</option>)
+                                  currencylist ?
+                                    currencylist.map((item, index) =>
+                                      <option key={index}>{item.currency_name}</option>)
+                                    :
+                                    0
                                 }
                               </select>
                             </div>
@@ -818,8 +824,10 @@ const Customer = () => {
                               >
                                 <option value='' hidden>Select term</option>
                                 {
-                                  paymentterm.map((item, index) =>
-                                    <option key={index}>{item.term}</option>)
+                                  paymentterm ?
+                                    paymentterm.map((item, index) =>
+                                      <option key={index}>{item.term}</option>)
+                                    : 0
                                 }
                               </select>
                             </div>
@@ -873,7 +881,7 @@ const Customer = () => {
                                 className="form-control col-md-4"
                               // onChange={handleChangePortalLanguage}
                               >
-                                <option >English</option>
+                                <option value='English'>English</option>
                                 <option value="हिंदी">हिंदी</option>
                                 <option value="عربي">عربي</option>
                                 <option value="বাংলা">বাংলা</option>
@@ -947,9 +955,11 @@ const Customer = () => {
                                 >
                                   <option value='' hidden> Select</option>
                                   {
-                                    selectedCountry.map((data, index) => (
-                                      <option key={index} value={data.country_name}>{data.country_name}</option>
-                                    ))
+                                    selectedCountry ?
+                                      selectedCountry.map((data, index) => (
+                                        <option key={index} value={data.country_name}>{data.country_name}</option>
+                                      ))
+                                      : 0
 
                                   }
 
@@ -971,9 +981,11 @@ const Customer = () => {
                                 >
                                   <option value='' hidden> Select State</option>
                                   {
-                                    selectState.map((data, index) => (
-                                      <option key={index} value={data.state_name}>{data.state_name}</option>
-                                    ))
+                                    selectState ?
+                                      selectState.map((data, index) => (
+                                        <option key={index} value={data.state_name}>{data.state_name}</option>
+                                      ))
+                                      : 0
                                   }
                                 </select>
                               </div>
@@ -994,9 +1006,11 @@ const Customer = () => {
                                 >
                                   <option value='' hidden> select city</option>
                                   {
-                                    selectCity.map((data, index) => (
-                                      <option key={index} value={data.city_name}>{data.city_name}</option>
-                                    ))
+                                    selectCity ?
+                                      selectCity.map((data, index) => (
+                                        <option key={index} value={data.city_name}>{data.city_name}</option>
+                                      ))
+                                      : 0
 
                                   }
 

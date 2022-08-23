@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { totalLocation, Locationstatus, ImportLocationMaster,ImportLocationAddress,Getfincialyearid } from '../../../api';
+import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddress, Getfincialyearid } from '../../../api';
 import DataTable from 'react-data-table-component';
 import Addbtn from '../../../images/add-btn.png'
 import Editbtn from '../../../images/edit.png'
@@ -14,7 +14,7 @@ import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
 
 
 const columns = [
-  
+
   {
     name: 'Country',
     selector: 'country',
@@ -51,11 +51,11 @@ const columns = [
     sortable: true
   },
 
-  // {
-  //   name: 'Contact Phone2',
-  //   selector: 'contact_phone_no2',
-  //   sortable: true
-  // },
+  {
+    name: 'Contact Phone2',
+    selector: 'contact_phone_no2',
+    sortable: true
+  },
   {
     name: 'Status',
     sortable: true,
@@ -69,9 +69,9 @@ const columns = [
           window.location.href = 'TotalLocation'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
-          <option >Active</option>
-          <option >DeActive</option>
+          <option value={row.status} hidden> {row.status}</option>
+          <option value='Active'>Active</option>
+          <option value='Deactive'>Deactive</option>
         </select>
       </div>
     ]
@@ -88,28 +88,17 @@ const columns = [
           onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
         >Edit</button></a>,
       <a title='View Document' href="AddOrgAddress">
-      <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
-      onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-        <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-      </button></a>,
+        <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
+          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+          <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
+        </button></a>,
       <a title='View Document' href="EditOrgAddress">
-       <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
-       onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-        <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
-      </button></a>
+        <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
+          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+          <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
+        </button></a>
 
-      // <a title='View Document' href="EditLocation">
-      //   <button className="editbtn btn-success "
-      //    onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
-      //     >Edit</button></a>,
-      //   <a title='View Document' href="AddOrgAddress">
-      //   <button className="editbtn btn-success ml-2"
-      //   onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
-      //    >Add Address</button></a>,
-      //  <a title='View Document' href="EditOrgAddress">
-      //  <button className="editbtn btn-success ml-2"
-      //   onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
-      //    >Edit Address</button></a>,
+  
     ]
   }
 ]
@@ -149,7 +138,6 @@ const TotalLocation = () => {
       else {
         const result = await ImportLocationMaster(localStorage.getItem('Organisation'), importdata, localStorage.getItem('User_id'));
         if (result === "Data Added") {
-          console.log(result)
           document.getElementById("showdataModal").style.display = "none";
           alert("Data Added")
           window.location.href = './TotalLocation'
@@ -172,7 +160,6 @@ const TotalLocation = () => {
       else {
         const result = await ImportLocationAddress(localStorage.getItem('Organisation'), importdata, localStorage.getItem('User_id'));
         if (result === "Data Added") {
-          console.log(result)
           document.getElementById("showdataModal").style.display = "none";
           alert("Data Added")
           window.location.href = './TotalLocation'
@@ -217,7 +204,6 @@ const TotalLocation = () => {
         result.push(obj);
       }
       setImportdata(result);
-      console.log(result)
     };
     reader.readAsBinaryString(file);
   };
@@ -228,10 +214,9 @@ const TotalLocation = () => {
   useEffect(() => {
     async function fetchdata() {
       const response = await Getfincialyearid(localStorage.getItem('Organisation'))
-      const fins_year=response[0].year
-      const result = await totalLocation(localStorage.getItem('Organisation'),fins_year)
+      const fins_year = response[0].year
+      const result = await totalLocation(localStorage.getItem('Organisation'), fins_year)
       setData(result)
-      console.log(result)
     }
     fetchdata();
   }, [])

@@ -48,10 +48,6 @@ async function state(req, res) {
         } else {
             res.send("Already")
         }
-
-        // const result = await sql.query(`insert into tbl_states (state_name,state_code,state_short_name,state_type,country_name,add_date_time,add_user_name,add_system_name,add_ip_address,status)
-        //                 values('${state_name}','${state_code}','${state_short_name}','${select_type}','${country_name}',getdate(),'admin','${system_name}','${req.ip}','Active')`)
-        // res.send('Added')
     }
     catch (err) {
         res.send(err)
@@ -108,10 +104,8 @@ const ImportState = (req, res) => {
     const User_id= req.body.User_id;
 
     sql.connect(sqlConfig).then(() => {
-
         sql.query(`select * from FINSDB.dbo.tbl_states where state_name in ('${datas.map(data => data.state_name).join("', '")}') OR state_code in ('${datas.map(data => data.state_code).join(', ')}') OR state_short_name in ('${datas.map(data => data.state_short_name).join("', '")}')`)
             .then((resp) => {
-                // console.log(resp.rowsAffected[0])
                 if (resp.rowsAffected[0] > 0)
                     res.send(resp.recordset.map(item => ({ "state_name": item.state_name, "state_code": item.state_code, "state_short_name": item.state_short_name })))
                 else {
@@ -120,9 +114,6 @@ const ImportState = (req, res) => {
                     res.send("Data Added")
                 }
             })
-
-        // console.log(duplicatedate)
-
     })
 }
 

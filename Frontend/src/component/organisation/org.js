@@ -1,5 +1,5 @@
 import "./org.css";
-import { useState } from "react";
+import React,{ useState } from "react";
 import { register, CreatenewDb, CreateOrgTable, UploadData } from "../../api/index";
 
 function Org() {
@@ -76,7 +76,6 @@ function Org() {
     const data = new FormData();
     data.append("images", file)
     const UploadLink = await UploadData(data)
-    console.log(UploadLink)
   }
 
   return (
@@ -102,7 +101,7 @@ function Org() {
                   <div className="form-group">
                     <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
 
-                    <input type="text" className="form-control" id="org_name" required="true" />
+                    <input type="text" className="form-control" id="org_name" required={true} />
                   </div>
                   <div className="form-row">
                     <div className="col form-group">
@@ -114,7 +113,7 @@ function Org() {
                         className="form-control"
                         value="India"
                         id="org_country"
-                        required
+                        required={true}
                         disabled
                         style={{ cursor: "not-allowed" }}
                       />
@@ -125,7 +124,7 @@ function Org() {
                         <span style={{ color: "red" }}>*</span>
                       </label>
                       <select id="inputState" className="form-control">
-                        <option selected hidden value=''>Selecte State/Union Territory</option>
+                        <option hidden value=''>Selecte State/Union Territory</option>
                         <option>Andhra Pradesh</option>
                         <option>Arunachal Pradesh</option>
                         <option>Assam</option>
@@ -185,7 +184,7 @@ function Org() {
                       <div className="form-group col-md-6">
                         <input
                           className="form-control"
-                          type="text" onInput="numberOnly(this.id);"
+                          type="text" 
                           maxLength={10}
                           placeholder="Contact Mobile no."
                           id='org_contact_phone'
@@ -222,8 +221,7 @@ function Org() {
                       <div className="form-group col-md-6">
                         <input
                           type="number"
-                          // onInput="numberOnly(this.id);"
-                          // maxLength={6}
+                          maxLength={6}
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
@@ -249,7 +247,7 @@ function Org() {
                         className="form-control"
                         value="INR-Rupees"
                         id="org_currency"
-                        placeholder
+                        placeholder=''
                         disabled
                         style={{ cursor: "not-allowed" }}
                       />
@@ -261,7 +259,7 @@ function Org() {
                         className="form-control"
                         value="English"
                         id="org_lang"
-                        placeholder
+                        placeholder=''
                         disabled
                         style={{ cursor: "not-allowed" }}
                       />
@@ -272,7 +270,7 @@ function Org() {
                     Is this business registered for GST?
                     <input type="checkbox"
                       id="checkboxgst"
-                      placeholder
+                      placeholder=''
                       onClick={handleClick}
                       style={{ float: "right" }}
                     />

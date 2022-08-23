@@ -1153,7 +1153,6 @@ export const GetCrm = async (org,sno) => {
 }
 
 export const UpdateCrm = async (sno,org,user_name,type,cust_vend,User_id) => {
-    console.log('API',sno,org,user_name,type,cust_vend,User_id)
     const url = `http://localhost:3008/api/updatecrm`
     return axios.post(url, { sno,org,user_name,type,cust_vend,User_id}).then(response => response.data).catch(error => console.log(error));
 }

@@ -15,12 +15,10 @@ const Header = () => {
   useEffect(async () => {
     const organisation = await TotalOrganistion()
     setData(organisation)
-    // console.log(organisation)
   }, [])
 
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
-    // console.log(result)
 
     if (result.status == 'Logout') {
       localStorage.clear()
@@ -82,7 +80,7 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                if (showprofile == true) {
+                if (showprofile === true) {
                   setShowprofile(!showprofile);
                   setOrgDeatils(!orgdetails);
                 }
@@ -174,11 +172,11 @@ const Header = () => {
             <div className="user-panel mr-7">
               <div className="image" onClick={() => {
 
-                if (show == true) {
+                if (show === true) {
                   setShow(!show);
                   setShowprofile(!showprofile);
                 }
-                else if(orgdetails == true){
+                else if(orgdetails === true){
                   setOrgDeatils(!orgdetails);
                   setShowprofile(!showprofile);
 
@@ -210,9 +208,9 @@ const Header = () => {
                   <a href='/org' style={{ color: "green", float: "right", textDecoration: "underline" }}> Add Organisation</a>
                 </li>
                 {
-                  data.map(item => (
+                  data.map((item,index) => (
 
-                    <li className="list-group-item">
+                    <li key={index} className="list-group-item">
                       <a href="#" style={{ color: "blue", }}>
                         <i className="fa fa-building" style={{ color: "#333" }}></i> &nbsp;
                         <span className="orgnamehover" onClick={() => {

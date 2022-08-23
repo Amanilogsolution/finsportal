@@ -60,33 +60,12 @@ const columns = [
       </div>
     ]
   },
-  // {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await deletestate(row.sno,checkvalue)
-  //                 window.location.href='ShowState'
-
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await deletestate(row.sno,checkvalue)
-  //                 window.location.href='ShowState'
-  //           }
-  //          }} />
-  //   ]
-  // },
   {
     name: "Actions",
     sortable: false,
 
     selector: "null",
     cell: (row) => [
-
       <a title='View Document' href="EditState">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
 
@@ -98,7 +77,7 @@ const columns = [
 const ShowState = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
+  let   [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
 
@@ -142,7 +121,6 @@ const ShowState = () => {
   const datatojson = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    console.log(datas)
     setImportdata(datas);
 
   };
@@ -170,7 +148,6 @@ const ShowState = () => {
         }
         result.push(obj);
       }
-      console.log("excel", result)
       setImportdata(result);
     };
     reader.readAsBinaryString(file);
@@ -209,8 +186,8 @@ const ShowState = () => {
               <br />
               <h3 className="text-left ml-5">State</h3>
               <br />
-              <div className="row ">
-                <div className="col ml-5">
+              <div className="row " >
+                <div className="col ml-5" >
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <DataTableExtensions
@@ -231,7 +208,6 @@ const ShowState = () => {
           </div>
         </div>
         {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"
           id="exampleModal"
@@ -255,7 +231,6 @@ const ShowState = () => {
                 </button>
               </div>
               <div className="modal-body">
-
                 <div className=" ">
                   <label
                     htmlFor="user_name"
@@ -326,7 +301,6 @@ const ShowState = () => {
                     &times;</span>
                 </button>
               </div>
-              {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
                 {
 

@@ -26,7 +26,6 @@ function ChangePassword() {
         const confirmpassword = document.getElementById('confirmpassword').value
         if (password === confirmpassword) {
             const result = await UserChangePassword(localStorage.getItem('User_id'),password,CurrentPassword)
-            console.log(result)
             if(result== 'Incorrect Current Password'){
                 setCheckpass(!checkpass)
             }

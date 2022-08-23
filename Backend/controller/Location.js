@@ -31,7 +31,7 @@ const AddLocation = async (req, res) => {
 
     try {
 
-       const result =  await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
+        const result = await sql.query(`insert into ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
                 contact_name2,contact_phone_no1,contact_phone_no2,
                 add_date_time,add_user_name,add_system_name,add_ip_address,status,fins_year,country,state)
                 values('${location_name}','${gstin_no}','${Location_id}','${contact_name1}','${contact_name2}','${contact_phone_no1}','${contact_phone_no2}',
@@ -181,11 +181,11 @@ const Locationstatus = async (req, res) => {
 // }
 
 
-const ActiveLocation =async (req,res)=>{
+const ActiveLocation = async (req, res) => {
     const org = req.body.org;
-    try{
+    try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_location_master where status='Active';`)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_location_master with (nolock) where status='Active';`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -198,14 +198,6 @@ const ImportLocationMaster = (req, res) => {
     const org = req.body.org;
     const datas = req.body.datas;
     const User_id = req.body.User_id;
-
-    console.log(`INSERT INTO ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
-        contact_name2,contact_phone_no1,contact_phone_no2,
-        add_date_time,add_user_name,add_system_name,add_ip_address,status,country,state) 
-                VALUES ${datas.map(item => `('${item.location_name}','${item.gstin_no}','${item.location_id}','${item.contact_name1}','${item.contact_name2}',
-                '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${country}','${state}')`).join(', ')}
-                `)
-                
 
     sql.connect(sqlConfig).then(() => {
         sql.query(`INSERT INTO ${org}.dbo.tbl_location_master (location_name,gstin_no,location_id,contact_name1,
@@ -236,11 +228,11 @@ const ImportLocationAddress = (req, res) => {
     })
 }
 
-const ActiveLocationAddress =async (req,res)=>{
+const ActiveLocationAddress = async (req, res) => {
     const org = req.body.org;
-    try{
+    try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_location_address where status='Active'`)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_location_address with (nolock) where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -248,6 +240,8 @@ const ActiveLocationAddress =async (req,res)=>{
     }
 }
 
-module.exports = { AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus, 
+module.exports = {
+    AddLocation, TotalLocation, LocationAddress, UpdateLocationAddress, ShowLocation, InsertLocationAddress, UpdateLocation, Locationstatus,
     // LastLocationid,
-    ActiveLocation, ImportLocationMaster, ImportLocationAddress ,ActiveLocationAddress}
+    ActiveLocation, ImportLocationMaster, ImportLocationAddress, ActiveLocationAddress
+}

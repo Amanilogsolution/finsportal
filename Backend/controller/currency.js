@@ -112,6 +112,7 @@ const ImportCurrency = (req,res) =>{
 
 const ActiveCurrency = async (req, res) => {
     const org = req.body.org;
+    console.log(org)
   
     try {
         await sql.connect(sqlConfig)

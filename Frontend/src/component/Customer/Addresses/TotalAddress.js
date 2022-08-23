@@ -8,6 +8,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { ShowCustAddress, DeleteCustAddress, SelectCustAddress, Importcustaddress } from '../../../api';
 import * as XLSX from "xlsx";
 import './TotalAddress.css';
+import Excelfile from '../../../excelformate/customer_address_formate.xlsx'
 
 const columns = [
     {
@@ -89,11 +90,11 @@ const TotalCustAddress = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-    importdata.map((d) => {
-      if (!d.cust_name || !d.billing_address_attention || !d.billing_address_country || !d.billing_address_state || !d.billing_address_city) {
-        setErrorno(errorno++);
-      }
-    })
+    // importdata.map((d) => {
+    //   if (!d.cust_name || !d.billing_address_attention || !d.billing_address_country || !d.billing_address_state || !d.billing_address_city) {
+    //     setErrorno(errorno++);
+    //   }
+    // })
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -281,7 +282,7 @@ const TotalCustAddress = () => {
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
-                    {/* <a href={Excelfile} download> Download formate</a> */}
+                    <a href={Excelfile} download> Download formate</a>
                   </span><br />
                 </div>
               </div>

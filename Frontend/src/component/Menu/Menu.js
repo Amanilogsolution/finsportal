@@ -7,7 +7,6 @@ const Menu = () => {
 
   //  const handleClick = async()=>{
   //    const result = await UserLogout(localStorage.getItem('username'));
-  //   //  console.log(result)
   //    if(result.status == 'Logout'){
   //     localStorage.clear()
   //      window.location.href='/'

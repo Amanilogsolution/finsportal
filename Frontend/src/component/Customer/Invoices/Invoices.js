@@ -216,19 +216,14 @@ function Invoices() {
 
     const handleChangerate = (e) => {
         let Total = quantity * e.target.value
-        console.log(quantity)
 
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
-        console.log(actgst)
-
-
         let gst = Total * actgst / 100
 
         let grandToatal = Total + Math.round(gst)
         console.log(grandToatal)
         setTimeout(() => {
             setRate([...rate, e.target.value])
-
             setTotalAmountNew([...Totalamountnew, grandToatal])
             setGstVAlue([...gstvalues, Math.round(gst)])
             setAmount([...amount, Total])
@@ -273,10 +268,13 @@ function Invoices() {
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
-        Duedate(45)
+
+        const terms = cust_detail.payment_terms
+        let [val,Ter] = terms.split(" ")
+        Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
-        console.log(cust_add)
+        
     }
 
     const handlechnageaddress = async (e) => {
