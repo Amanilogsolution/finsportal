@@ -687,7 +687,7 @@ function Invoices() {
                                                         <thead></thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><button className="btn btn-primary" onDoubleClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
+                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
                                                                 <td></td>
                                                                 <td>{totalamout}</td>
                                                             </tr>
