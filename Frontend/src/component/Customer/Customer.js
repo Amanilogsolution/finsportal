@@ -1147,7 +1147,7 @@ const Customer = () => {
                       </form>
                     </article>
                     <div className="border-top card-body">
-                      <button className="btn btn-success " onClick={handleClick}>Save</button>
+                      <button className="btn btn-success " onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
                     </div>
                   </div>

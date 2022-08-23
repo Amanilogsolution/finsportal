@@ -146,6 +146,8 @@ function Invoices() {
     }
 
     const handleChangeUnit = (e) => {
+        e.preventDefault();
+        document.getElementById('subtotalbtn').disabled=false;
         setUnit([...unit, e.target.value])
         var sum = 0
         amount.map((item) => sum += item)
@@ -165,6 +167,18 @@ function Invoices() {
     }
 
     const handleSubTotal = (e) => {
+        e.preventDefault();
+        document.getElementById('additembtm').disabled=true;
+        document.getElementById('removeitembtm').disabled=true;
+        document.getElementById('gstvalue').disabled=true;
+        document.getElementById('Quality').disabled=true;
+        document.getElementById('Rate').disabled=true;
+        document.getElementById('unitdrop').disabled=true;
+        document.getElementById('subtotalbtn').disabled=true;
+        document.getElementById('savebtn').disabled=false;
+        document.getElementById('postbtn').disabled=false;
+        document.getElementById('previewbtn').disabled=false;
+        
         let location = document.getElementById('locationadd')
         location = location.options[location.selectedIndex].text;
         let custaddrs = document.getElementById('custaddr')
@@ -190,7 +204,7 @@ function Invoices() {
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
             Totalamounts:totalamout,OriginState:billingaddress,DestinationState:custaddress_state
         })
-        e.preventDefault();
+        
         var sum = 0
         Totalamountnew.map((item) => sum += item)
         setGrandTotal(sum)
@@ -240,7 +254,7 @@ function Invoices() {
 
 
     const handleAdd = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         setTotalValues([...totalValues, 1])
         var sum = 0
         Totalamountnew.map((item) => sum += item)
@@ -615,7 +629,7 @@ function Invoices() {
                                                                 <td className="col-md-2 pl-0 pr-0">
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
-                                                                        <option value='' hidden> Select item</option>
+                                                                        <option value='' hidden > Select item</option>
                                                                         {
                                                                             activechargecode.map((item, index) => (
                                                                                 <option key={index} value={`${item.gst_rate},${item.chartof_account}`} >{item.chartof_account}</option>
@@ -638,7 +652,7 @@ function Invoices() {
 
                                                                 <td className='pl-0 pr-0 col-md-2'>
                                                                     {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
-                                                                    <select onChange={handleChangeUnit} className="form-control col-md">
+                                                                    <select onChange={handleChangeUnit} className="form-control col-md" id='unitdrop'>
                                                                         <option value='' hidden> Select Unit</option>
                                                                         {
                                                                             activeunit.map((item, index) => (
@@ -654,8 +668,8 @@ function Invoices() {
                                                     }
                                                 </tbody>
                                             </table>
-                                            <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
+                                            <button className="btn btn-primary" onClick={handleAdd} id='additembtm'>Add Item</button>   &nbsp;
+                                            <button className="btn btn-danger" onClick={handleRemove} id='removeitembtm'>Remove</button>
 
                                             <hr />
 
@@ -674,7 +688,7 @@ function Invoices() {
                                                         <thead></thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} >Sub Total</button></td>
+                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn' disabled>Sub Total</button></td>
                                                                 <td></td>
                                                                 <td>{totalamout}</td>
                                                             </tr>
@@ -777,10 +791,10 @@ function Invoices() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }} >
-                                                    <button id="save" name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
+                                                    <button id="savebtn" name="save" className="btn btn-danger" onClick={handlesavebtn} value='save' disabled>
                                                         Save
                                                     </button>
-                                                    <button id="save" name="save" className="btn btn-danger ml-2" onClick={handlesavebtn} value='post'>
+                                                    <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' disabled>
                                                         Post
                                                     </button>
                                                     <button id="clear" onClick={(e) => {
@@ -788,7 +802,7 @@ function Invoices() {
                                                     }} name="clear" className="btn ml-2 btn btn-primary">
                                                         Cancel
                                                     </button>
-                                                    <button type="button" onClick={()=> console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter">Preview Invoice
+                                                    <button id='previewbtn' type="button" onClick={()=> console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
                                                     </button>
 
                                                 </div>
