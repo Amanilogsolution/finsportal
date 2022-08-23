@@ -369,7 +369,7 @@ const Customer = () => {
                               <option value="Dr.">Dr.</option>
                             </select>
                           </div>
-                          <div className="col form-group">
+                          <div className="col-group-5 form-group">
                             <input
                               type="text"
                               className="form-control"
@@ -378,7 +378,7 @@ const Customer = () => {
                               required
                             />
                           </div>
-                          <div className="col form-group">
+                          <div className="col-group-5 form-group">
                             <input
                               type="text"
                               className="form-control"
@@ -1147,7 +1147,7 @@ const Customer = () => {
                       </form>
                     </article>
                     <div className="border-top card-body">
-                      <button className="btn btn-success " onClick={handleClick}>Save</button>
+                      <button className="btn btn-success " onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
                     </div>
                   </div>
