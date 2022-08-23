@@ -198,18 +198,19 @@ function Invoices() {
             cgstamount = taxableamt / 2
             sgstamount = taxableamt / 2
         }
+        var sum = 0
+        Totalamountnew.map((item) => sum += item)
+        setGrandTotal(sum)
 
         setAllInvoiceData({
             ...allInvoiceData, Activity: document.getElementById('Activity').value,
             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
-            GrandTotal: document.getElementById('grandtotaltd').innerHTML, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
+            GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
             Totalamounts:totalamout,OriginState:billingaddress,DestinationState:custaddress_state
         })
         
-        var sum = 0
-        Totalamountnew.map((item) => sum += item)
-        setGrandTotal(sum)
+   
         let gsttotal = 0
         gstvalues.map((item) => gsttotal += item)
         setGstvalue(gsttotal)
@@ -629,7 +630,6 @@ function Invoices() {
                                                             <tr key={index}>
                                                             <div id='trdiv'>
                                                                 <td className="col-md-2 pl-0 pr-0">
-                                                                    {/* <input style={{ border: "none" }} type="text" placeholder="Type Items" /> */}
                                                                     <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
                                                                         <option value='' hidden > Select item</option>
                                                                         {
