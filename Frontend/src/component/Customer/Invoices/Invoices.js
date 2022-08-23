@@ -5,6 +5,9 @@ import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
 import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
 
+
+
+
 function Invoices() {
     const [totalValues, setTotalValues] = useState([1])
     const [activecustomer, setActiveCustomer] = useState([])
@@ -466,6 +469,7 @@ function Invoices() {
                                                         onChange={handlechnageaddress}
 
                                                     >
+                                                   
                                                         <option value='' hidden>Select state</option>
                                                         {
                                                             locationstate.map((item, index) =>
@@ -683,7 +687,7 @@ function Invoices() {
                                                         <thead></thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
+                                                                <td><button className="btn btn-primary" onDoubleClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
                                                                 <td></td>
                                                                 <td>{totalamout}</td>
                                                             </tr>
