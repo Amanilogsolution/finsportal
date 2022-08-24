@@ -76,7 +76,7 @@ const AddBank = () => {
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
-                      <form>
+                      <form autoComplete='off'>
                         <div className="form-row" onChange={handleChange}>
                           <div className="col form-group" >
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Select Account type</label>

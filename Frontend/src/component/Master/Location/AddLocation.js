@@ -8,6 +8,8 @@ function AddLocation() {
   // const [locationid,setLocationid] =useState();
   const [country,setCountry] =useState([]);
   const [state,setState] =useState([])
+  const [phone1,setPhone1] = useState('')
+  const [phone2,setPhone2] = useState('')
   const[locationcount,setLocationcount] = useState()
   const[fins_year,setFins_year] = useState();
 
@@ -61,19 +63,6 @@ function AddLocation() {
     }
   }
 
-  // useEffect(() => {
-  //   async function fetchMyAPI() {
-  //     const result = await LastLocationid(localStorage.getItem("Organisation"));
-  //     console.log(result.count)
-  //     setLocationid(result.count);
-  //     localStorage.setItem("lastlocationid",result.location_id)
-
-  //   }
-
-  //   fetchMyAPI()
-
-  // }, [])
-
 
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
@@ -97,12 +86,11 @@ function AddLocation() {
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
-                      <form>
+                      <form autoComplete='off'>
 
                       <div className="form-row">
                           <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country</label>
                           <div className="col form-group">
-                            {/* <input type="text" className="form-control col-md-4" id='country' /> */}
                             <select className="form-control col-md-4" id='country' onChange={handleAddressCountry} >
                               <option value='' hidden>Select Country</option>
                               {
@@ -115,8 +103,6 @@ function AddLocation() {
                          <div className="form-row">
                           <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State</label>
                           <div className="col form-group">
-                            {/* <input type="text" className="form-control col-md-4" id='state' /> */}
-
                             <select
                                   id="inputState"
                                   className="form-control col-md-4"
@@ -153,7 +139,12 @@ function AddLocation() {
                         <div className="form-row">
                           <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='contact_phone1' maxLength={10} />
+                            <input type="number" className="form-control col-md-4" id='contact_phone1' 
+                            value={phone1}
+                            onChange={(e)=>{
+                              if(e.target.value.length ===11) return false;
+                              setPhone1(e.target.value)
+                            }} />
                           </div>
                         </div>
                         <div className="form-row">
@@ -166,7 +157,12 @@ function AddLocation() {
                         <div className="form-row">
                           <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='contact_phone2' maxLength={10} />
+                            <input type="number" className="form-control col-md-4" id='contact_phone2'
+                              value={phone2}
+                            onChange={(e)=>{
+                              if(e.target.value.length ===11) return false;
+                              setPhone2(e.target.value)
+                            }}  />
                           </div>
                         </div>
                       </form>
