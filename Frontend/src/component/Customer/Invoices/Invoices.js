@@ -175,7 +175,7 @@ function Invoices() {
         document.getElementById('Quality').disabled=true;
         document.getElementById('Rate').disabled=true;
         document.getElementById('unitdrop').disabled=true;
-        document.getElementById('subtotalbtn').disabled=true;
+        // document.getElementById('subtotalbtn').disabled=true;
         document.getElementById('savebtn').disabled=false;
         document.getElementById('postbtn').disabled=false;
         document.getElementById('previewbtn').disabled=false;
