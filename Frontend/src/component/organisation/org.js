@@ -1,11 +1,13 @@
 import "./org.css";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { register, CreatenewDb, CreateOrgTable, UploadData } from "../../api/index";
 
 function Org() {
   const [gstbox, setgstbox] = useState(false);
-  const [file, setFile] = useState('')
-
+  const [file, setFile] = useState('');
+  const [phonenum, setPhonenum] = useState();
+  const [pinno,setPinno]= useState();
+ 
 
   const formshow = () => {
     document.getElementById("formallbox").style.display = "block";
@@ -37,27 +39,27 @@ function Org() {
     const last_year = String(nextyear).slice(-2);
     const fins_year = previousyear + "-" + nextyear;
     const startdate = '01-04-' + previousyear;
-    const toyear = '31-03-' + nextyear; 
+    const toyear = '31-03-' + nextyear;
 
-    if (!org_name) {
+    if (!org_name || !org_state) {
       alert('Please Enter the mandatory field...')
     }
     else {
-      const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
-      if (OrgTable === 'Already') {
-        alert('This Company already exist');
-      }
-      else {
-        const database = await CreatenewDb(dbname)
-        if (database === 'created') {
-          const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
-          if (result) {
-          alert('Organisation created')
-            window.location.href = '/home'
-          }
-        }
-      }
+      // const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
+      // if (OrgTable === 'Already') {
+      //   alert('This Company already exist');
+      // }
+      // else {
+      //   const database = await CreatenewDb(dbname)
+      //   if (database === 'created') {
+      //     const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
+      //     if (result) {
+      //       alert('Organisation created')
+      //       window.location.href = '/home'
+      //     }
+      //   }
 
+      // }
     }
   };
 
@@ -77,6 +79,7 @@ function Org() {
     data.append("images", file)
     const UploadLink = await UploadData(data)
   }
+
 
   return (
     <>
@@ -178,16 +181,19 @@ function Org() {
                           className="form-control"
                           placeholder="Contact Person Name"
                           id='org_contact_name'
-
                         />
                       </div>
                       <div className="form-group col-md-6">
                         <input
                           className="form-control"
-                          type="text" 
-                          maxLength={10}
+                          type="number"
                           placeholder="Contact Mobile no."
                           id='org_contact_phone'
+                          value={phonenum}
+                          onChange={(e)=>{
+                            if(e.target.value.length ===11) return false;
+                            setPhonenum(e.target.value)
+                          }}
                         />
                       </div>
                     </div>
@@ -221,11 +227,14 @@ function Org() {
                       <div className="form-group col-md-6">
                         <input
                           type="number"
-                          maxLength={6}
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
-                          onChange={(e) => { if (e.target.value.length > 6) { alert("number must be 6 digit") } }}
+                          value={pinno}
+                          onChange={(e)=>{
+                            if(e.target.value.length ===7) return false;
+                            setPinno(e.target.value)
+                          }}
                         />
                       </div>
 
@@ -288,19 +297,6 @@ function Org() {
                     </div>
                   </div>
 
-                  {/* {gstbox ? (
-                    <div className="form-row">
-                      <div className="form-group col-md-6">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="org_gst"
-                          placeholder="Enter Your GSTIN"
-                          style={{ fontSize: "15px" }}
-                        />
-                      </div>
-                    </div>
-                  ) : null} */}
                   <small className="text-muted">
                     <strong>Note:</strong> You can change these details later in
                     Settings, if needed.
@@ -308,8 +304,9 @@ function Org() {
                   <hr />
                   <div className="form-group">
                     <label className="col-md-4 control-label" htmlFor="save"></label>
+                  
                     <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="datasave" name="save" onClick={Orgdetails} className="btn btn-success">
+                      <button type='submit' id="datasave" name="save" onClick={Orgdetails} className="btn btn-success">
                         Get start
                       </button>
                       <button id="clear" onClick={(e) => {
@@ -331,7 +328,7 @@ function Org() {
             </div>
           </div>
         </div>
-        {/* Modal */}
+        {/* ############# Modal Start ########################## */}
         <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -360,6 +357,8 @@ function Org() {
             </div>
           </div>
         </div>
+
+        {/* ############# Modal End ########################## */}
 
       </div>
     </>

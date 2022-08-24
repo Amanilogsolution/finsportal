@@ -6,7 +6,7 @@ import { totalBank, deleteBank, ImportBank } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import Excelfile from '../../../excelformate/tbl_bank.xlsx';
+import Excelfile from '../../../excelformate/Bank_formate.xlsx';
 import * as XLSX from "xlsx";
 
 const columns = [
@@ -27,6 +27,11 @@ const columns = [
     sortable: true
   },
 
+  {
+    name: 'Country',
+    selector: 'country',
+    sortable: true
+  },
   {
     name: 'State',
     selector: 'state',
@@ -98,11 +103,11 @@ const TotalBank = () => {
 
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
-    importdata.map((d) => {
-      if (!d.bank_name  || !d.branch || !d.state || !d.city || !d.pincode || !d.ifsc_code || !d.ac_type || !d.acname) {
-        setErrorno(errorno++);
-      }
-    })
+    // importdata.map((d) => {
+    //   if (!d.bank_name  || !d.branch || !d.country ||!d.state || !d.city || !d.pincode || !d.ifsc_code || !d.ac_type || !d.acname) {
+    //     setErrorno(errorno++);
+    //   }
+    // })
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -111,7 +116,6 @@ const TotalBank = () => {
     }
     else {
 
-      console.log(importdata)
       const result = await ImportBank(importdata, localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);
@@ -361,6 +365,7 @@ const TotalBank = () => {
                       <th style={{ border: "1px solid black" }}>address_line1</th>
                       <th style={{ border: "1px solid black" }}>address_line2</th>
                       <th style={{ border: "1px solid black" }}>branch</th>
+                      <th style={{ border: "1px solid black" }}>Country</th>
                       <th style={{ border: "1px solid black" }}>state</th>
                       <th style={{ border: "1px solid black" }}>city</th>
                       <th style={{ border: "1px solid black" }}>pincode</th>
@@ -381,6 +386,7 @@ const TotalBank = () => {
                           <td style={{ border: "1px solid black" }}>{d.address_line2}</td>
                           <td style={{ border: "1px solid black" }}>{d.branch}</td>
                           <td style={{ border: "1px solid black" }}>{d.state}</td>
+                          <td style={{ border: "1px solid black" }}>{d.country}</td>
                           <td style={{ border: "1px solid black" }}>{d.city}</td>
                           <td style={{ border: "1px solid black" }}>{d.pincode}</td>
                           <td style={{ border: "1px solid black" }}>{d.ifsc_code}</td>
