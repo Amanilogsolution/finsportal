@@ -177,16 +177,14 @@ function EditOrgAddress() {
                             />
                           </div>
                         </div>
-
-                      </form>
-                    </article>
-                    {/* card-body end .// */}
-                    <div className="border-top card-body">
+                        <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick}>Update</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
                     </div>
+                      </form>
+                    </article>
+                   
                   </div>
-                  {/* card.// */}
                 </div>
                 {/* col.//*/}
               </div>
