@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../../Header/Header";
 import Menu from "../../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
-import { locationAddress, UpdateLocationAddress } from '../../../../api'
+import { locationAddress, UpdateLocationAddress ,getCity} from '../../../../api'
 
 
 function EditOrgAddress() {
   const [data, setData] = useState({})
+  const [citylist,setCitylist] =useState([])
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await locationAddress(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
       setData(result)
+
+      const city = await getCity(result.location_state);
+      setCitylist(city)
     }
     fetchdata()
   }, [])
@@ -27,14 +31,21 @@ function EditOrgAddress() {
     const location_pin = document.getElementById('location_pin').value;
     const User_id = localStorage.getItem('User_id');
 
-    const result = await UpdateLocationAddress(localStorage.getItem('Organisation'), location_add1, location_add2, location_city, location_state, location_country, from_date, localStorage.getItem('location_id'), location_pin, User_id)
-    if (result) {
-      alert('Data Updated');
-      localStorage.removeItem('location_id')
-      window.location.href = '/TotalLocation'
+    if (!location_city || !location_pin || location_pin.length < 6 ) {
+      alert('Please Fill the mandatory field or Invalid Data')
     }
+    else {
+      const result = await UpdateLocationAddress(localStorage.getItem('Organisation'), location_add1, location_add2, location_city, location_state, location_country, from_date, localStorage.getItem('location_id'), location_pin, User_id)
+      if (result) {
+        alert('Data Updated');
+        localStorage.removeItem('location_id')
+        window.location.href = '/TotalLocation'
+      }
+      else {
+        alert('Server Error')
+      }
 
-
+    }
   }
 
   const handleChangeCountry = (e) => {
@@ -53,6 +64,7 @@ function EditOrgAddress() {
     setData({ ...data, location_add2: e.target.value })
   }
   const handleChangePin = (e) => {
+    if(e.target.value.length === 7) return false;
     setData({ ...data, location_pin: e.target.value })
   }
   const handleChangeDate = (e) => {
@@ -85,7 +97,6 @@ function EditOrgAddress() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='country_name' value={data.location_name} disabled />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -93,7 +104,6 @@ function EditOrgAddress() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='country_id' value={data.gstin_no} disabled />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -102,9 +112,9 @@ function EditOrgAddress() {
                             <input type="text" className="form-control col-md-4" id='location_country'
                               value={data.location_country}
                               onChange={(e) => handleChangeCountry(e)}
+                              disabled
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -112,19 +122,23 @@ function EditOrgAddress() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='location_state' value={data.location_state}
                               onChange={(e) => handleChangeState(e)}
+                              disabled
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_city' value={data.location_city}
-                              onChange={(e) => handleChangeCity(e)}
-                            />
+                            <select  className="form-control col-md-4" id='location_city' 
+                              onChange={(e) => handleChangeCity(e)}>
+                              <option value={data.location_city} hidden>{data.location_city}</option>
+                              {
+                              citylist.map((item,index)=>
+                              <option key={index} value={item.city_name}>{item.city_name}</option>)
+                            }
+                              </select>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -144,17 +158,15 @@ function EditOrgAddress() {
                               onChange={(e) => handleChangeAddr2(e)}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_pin' value={data.location_pin}
+                            <input type="number" className="form-control col-md-4" id='location_pin' value={data.location_pin}
                               onChange={(e) => handleChangePin(e)}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -164,7 +176,6 @@ function EditOrgAddress() {
                               onChange={(e) => handleChangeDate(e)}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                       </form>

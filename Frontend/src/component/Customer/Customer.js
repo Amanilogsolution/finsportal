@@ -7,6 +7,12 @@ import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMa
 
 
 const Customer = () => {
+  const [custworkphonecount, setCustworkphonecount] = useState()
+  const [custphonecount, setCustphonecount] = useState()
+  const [billpincount, setBillpincount] = useState()
+  const [billphonecount, setBillphonecount] = useState()
+  const [contphonecount, setContphonecount] = useState()
+  const [contworkphonecount, setContworkphonecount] = useState()
   const [totalmastid, setTotalmastid] = useState([]);
   const [showMaster, setShowMaster] = useState(true);
   const [cust_type, setCust_type] = useState();
@@ -451,12 +457,16 @@ const Customer = () => {
                           </label>
                           <div className="col form-group">
                             <input
-                              type="tel"
+                              type="number"
                               className="form-control col-md-8"
                               placeholder="Work Phone"
                               id="cust_work_phone"
-                              maxLength={10}
                               required
+                              value={custworkphonecount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 11) return false;
+                                setCustworkphonecount(e.target.value)
+                              }}
                             />
                           </div>
                           <div className="col form-group">
@@ -467,6 +477,11 @@ const Customer = () => {
                               id="cust_phone"
                               required
                               style={{ marginLeft: "-30px" }}
+                              value={custphonecount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 11) return false;
+                                setCustphonecount(e.target.value)
+                              }}
                             />
                           </div>
                         </div>
@@ -960,7 +975,6 @@ const Customer = () => {
                                         <option key={index} value={data.country_name}>{data.country_name}</option>
                                       ))
                                       : 0
-
                                   }
 
                                 </select>
@@ -1029,6 +1043,11 @@ const Customer = () => {
                                   type="number"
                                   className="form-control col-md-7"
                                   id="billing_address_pincode"
+                                  value={billpincount}
+                                  onChange={(e)=>{
+                                    if(e.target.value.length === 7) return false;
+                                    setBillpincount(e.target.value)
+                                  }}
                                 />
                               </div>
                             </div>
@@ -1041,10 +1060,14 @@ const Customer = () => {
                               </label>
                               <div className="col form-group">
                                 <input
-                                  type="tel"
+                                  type="number"
                                   className="form-control col-md-7"
                                   id="billing_address_phone"
-                                  maxLength={10}
+                                  value={billphonecount}
+                                  onChange={(e)=>{
+                                    if(e.target.value.length === 11) return false;
+                                    setBillphonecount(e.target.value)
+                                  }}
                                 />
                               </div>
                             </div>
@@ -1115,13 +1138,25 @@ const Customer = () => {
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                             <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id="contact_person_work_phone" />
+                              <input type="number" className="form-control col-md-4" id="contact_person_work_phone" 
+                                value={contworkphonecount}
+                                  onChange={(e)=>{
+                                    if(e.target.value.length === 11) return false;
+                                    setContworkphonecount(e.target.value)
+                                  }}
+                              />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
-                              <input type="tel" className="form-control col-md-4" id="contact_person_phone" maxLength={10} />
+                              <input type="number" className="form-control col-md-4" id="contact_person_phone" 
+                               value={contphonecount}
+                                  onChange={(e)=>{
+                                    if(e.target.value.length === 11) return false;
+                                    setContphonecount(e.target.value)
+                                  }}
+                               />
                             </div>
                           </div>
                           <div className="form-row">
@@ -1143,13 +1178,12 @@ const Customer = () => {
                             </div>
                           </div>
                         </div>
-
+                        <div className="border-top card-body">
+                          <button type="submit" className="btn btn-success " onClick={handleClick} >Save</button>
+                          <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
+                        </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
-                      <button className="btn btn-success " onClick={handleClick} >Save</button>
-                      <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
-                    </div>
                   </div>
                 </div>
               </div>

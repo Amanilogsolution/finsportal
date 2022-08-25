@@ -17,7 +17,7 @@ const Activecountries = async (req, res) => {
  
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select country_name from FINSDB.dbo.tbl_countries with (nolock) where status='Active' `)
+        const result = await sql.query(`select country_name,country_code from FINSDB.dbo.tbl_countries with (nolock) where status='Active' `)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)

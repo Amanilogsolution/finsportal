@@ -2,27 +2,33 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { UpdateCurrency } from '../../../api';
-import { showCurrency } from '../../../api';
+import { UpdateCurrency, showCurrency, Activecountries } from '../../../api';
 
 const EditCurrency = () => {
   const [data, setData] = useState([])
+  const [selectCountry, setSelectCountry] = useState([])
+
   useEffect(() => {
     const fetchdata = async () => {
       const result = await showCurrency(localStorage.getItem('CurrencySno'), localStorage.getItem("Organisation"));
       setData(result)
+
+      const country = await Activecountries()
+      setSelectCountry(country)
+
     }
     fetchdata();
-
   }, [])
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const country_name = document.getElementById('country_name').value;
-    const country_code = document.getElementById('country_code').value;
+    const country = document.getElementById('country_name');
+    const country_name = country.options[country.selectedIndex].text
+    const country_code = country.value;
     const currency_name = document.getElementById('currency_name').value;
     const currency_code = document.getElementById('currency_code').value;
-    const result = await UpdateCurrency(localStorage.getItem('CurrencySno'), localStorage.getItem("Organisation"), localStorage.getItem("User_id"), country_name, country_code, currency_name, currency_code);
+
+    const result = await UpdateCurrency( localStorage.getItem("Organisation"), localStorage.getItem("User_id"),localStorage.getItem('CurrencySno'), country_name, country_code, currency_name, currency_code);
     if (result) {
       alert('Data Updated');
       localStorage.removeItem('CurrencySno')
@@ -33,9 +39,7 @@ const EditCurrency = () => {
   const handleChangeCname = (e) => {
     setData({ ...data, country_name: e.target.value })
   }
-  const handleChangeCcode = (e) => {
-    setData({ ...data, country_code: e.target.value })
-  }
+
   const handleChangeCurrencyname = (e) => {
     setData({ ...data, currency_name: e.target.value })
   }
@@ -63,27 +67,25 @@ const EditCurrency = () => {
                       <form>
 
                         <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Code</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='country_code' value={data.country_code} onChange={(e) => handleChangeCcode(e)} />
-                          </div>
-                          {/* form-group end.// */}
-                        </div>
-
-                        <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)} />
+                            <select className="form-control col-md-4" id='country_name' onChange={(e) => handleChangeCname(e)} >
+                              <option value={data.country_code} hidden> {data.country_name} </option>
+                              {
+                                selectCountry.map((data, index) => (
+                                  <option key={index} value={data.country_code}>{data.country_name}</option>
+                                ))
+
+                              }
+                            </select>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Currency Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='currency_name' value={data.country_name} onChange={(e) => handleChangeCurrencyname(e)} />
+                            <input type="text" className="form-control col-md-4" id='currency_name' value={data.currency_name} onChange={(e) => handleChangeCurrencyname(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -91,21 +93,17 @@ const EditCurrency = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='currency_code' value={data.currency_code} onChange={(e) => handleChangeCurrencycode(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                       </form>
                     </article>
-                    {/* card-body end .// */}
+
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCurrency" }}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => {  localStorage.removeItem('CurrencySno');window.location.href = "./ShowCurrency" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

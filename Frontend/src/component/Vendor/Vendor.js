@@ -4,21 +4,27 @@ import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import "./Vendor.css";
 import {
-  InsertVendor, Activecountries, showactivestate, getCity,  VendorMastid,
+  InsertVendor, Activecountries, showactivestate, getCity, VendorMastid,
   // TotalVendId,TotalVendor
   Getfincialyearid, Updatefinancialcount, UpdatefinancialTwocount, ActivePaymentTerm, ActiveCurrency
 } from '../../api'
 
 
 const Vendor = () => {
+  const [vendworkphonecount, setVendworkphonecount] = useState();
+  const [vendphonecount, setVendphonecount] = useState();
+  const [billpincount, setBillpincount] = useState();
+  const [billphonecount, setBillphonecount] = useState();
+  const [contworkphonecount, setContworkphonecount] = useState();
+  const [contphonecount, setContphonecount] = useState();
   const [showMaster, setShowMaster] = useState(false);
   const [gsttreatment, setGsttreatment] = useState('');
   const [enableportaltoggle, setEnableportaltoggle] = useState(false);
   const [countrylist, setCountrylist] = useState([]);
   const [paymentterm, setPaymentterm] = useState([]);
-  const [billing_address_country, setBilling_address_country] = useState()
+  // const [billing_address_country, setBilling_address_country] = useState()
   const [selectState, setSelectState] = useState([])
-  const [billing_address_state, setBilling_address_state] = useState();
+  // const [billing_address_state, setBilling_address_state] = useState();
   const [selectCity, setSelectCity] = useState([]);
   const [generateMast_id, setGenerateMast_id] = useState();
   const [generateVend_id, setGenerateVend_id] = useState();
@@ -193,13 +199,13 @@ const Vendor = () => {
 
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
-    setBilling_address_country(data);
+    // setBilling_address_country(data);
     const statesresult = await showactivestate(data)
     setSelectState(statesresult)
   }
   const handleChangebillingState = async (e) => {
     let data = e.target.value;
-    setBilling_address_state(data);
+    // setBilling_address_state(data);
     const result = await getCity(data)
     setSelectCity(result)
   }
@@ -412,10 +418,15 @@ const Vendor = () => {
                           </label>
                           <div className="col form-group">
                             <input
-                              type="text"
+                              type="number"
                               id="vend_work_phone"
                               className="form-control col-md-8"
                               placeholder="Work Phone"
+                              value={vendworkphonecount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 11) return false;
+                                setVendworkphonecount(e.target.value);
+                              }}
                             />
                           </div>
                           <div className="col form-group">
@@ -425,6 +436,11 @@ const Vendor = () => {
                               className="form-control col-md-8"
                               placeholder="Mobile"
                               style={{ marginLeft: "-30px" }}
+                              value={vendphonecount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 11) return false;
+                                setVendphonecount(e.target.value);
+                              }}
                             />
                           </div>
                         </div>
@@ -928,6 +944,11 @@ const Vendor = () => {
                                   type="number"
                                   id="billing_address_pincode"
                                   className="form-control col-md-7"
+                                  value={billpincount}
+                                  onChange={(e) => {
+                                    if (e.target.value.length === 7) return false;
+                                    setBillpincount(e.target.value);
+                                  }}
                                 />
                               </div>
                             </div>
@@ -940,9 +961,14 @@ const Vendor = () => {
                               </label>
                               <div className="col form-group">
                                 <input
-                                  type="tel"
+                                  type="number"
                                   id="billing_address_phone"
                                   className="form-control col-md-7"
+                                  value={billphonecount}
+                                  onChange={(e) => {
+                                    if (e.target.value.length === 11) return false;
+                                    setBillphonecount(e.target.value);
+                                  }}
                                 />
                               </div>
                             </div>
@@ -1014,13 +1040,25 @@ const Vendor = () => {
                           <div className="form-row">
                             <label htmlFor="contact_person_work_phone" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                             <div className="col form-group">
-                              <input type="number" id="contact_person_work_phone" className="form-control col-md-4" />
+                              <input type="number" id="contact_person_work_phone" className="form-control col-md-4"
+                                value={contworkphonecount}
+                                onChange={(e) => {
+                                  if (e.target.value.length === 11) return false;
+                                  setContworkphonecount(e.target.value);
+                                }}
+                              />
                             </div>
                           </div>
                           <div className="form-row">
                             <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
-                              <input type="number" id="contact_person_phone" className="form-control col-md-4" maxLength={10} />
+                              <input type="number" id="contact_person_phone" className="form-control col-md-4"
+                                value={contphonecount}
+                                onChange={(e) => {
+                                  if (e.target.value.length === 11) return false;
+                                  setContphonecount(e.target.value);
+                                }}
+                              />
                             </div>
                           </div>
                           <div className="form-row">

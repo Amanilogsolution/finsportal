@@ -10,16 +10,18 @@ function EditLocation() {
   const [state, setState] = useState([])
   const [slectedstate, setSelectedstate] = useState()
 
-  useEffect(async () => {
-    const result = await showLocation(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
-    setData(result)
-    console.log(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await showLocation(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
+      setData(result)
 
-    const totlcountry = await Activecountries();
-    setCountry(totlcountry);
-     console.log()
-    const statesresult = await showactivestate(result.country)
-    setState(statesresult)
+      const totlcountry = await Activecountries();
+      setCountry(totlcountry);
+      const statesresult = await showactivestate(result.country)
+      setState(statesresult)
+    }
+
+    fetchdata()
   }, [])
 
   const handleClick = async (e) => {
@@ -56,10 +58,14 @@ function EditLocation() {
     setData({ ...data, contact_name2: e.target.value })
   }
   const handleChangeContactphone1 = (e) => {
-    setData({ ...data, contact_phone_no1: e.target.value })
+    const no = e.target.value ;
+    if(no.length===11) return false;
+    setData({ ...data, contact_phone_no1: no})
   }
   const handleChangeContactphone2 = (e) => {
-    setData({ ...data, contact_phone_no2: e.target.value })
+    const no = e.target.value ;
+    if(no.length===11) return false;
+    setData({ ...data, contact_phone_no2: no })
   }
 
   const handleAddressCountry = async (e) => {
@@ -67,7 +73,7 @@ function EditLocation() {
     const statesresult = await showactivestate(data)
     setState(statesresult)
   }
-  const handlechangestate=(e)=>{
+  const handlechangestate = (e) => {
     setSelectedstate(e.targer.value)
   }
 
@@ -91,8 +97,8 @@ function EditLocation() {
                         <div className="form-row">
                           <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country</label>
                           <div className="col form-group">
-                            <select className="form-control col-md-4" id='country' onChange={handleAddressCountry} >
-                              <option hidden> {data.country}</option>
+                            <select className="form-control col-md-4" id='country' onChange={handleAddressCountry}  disabled>
+                              <option hidden value={data.country}> {data.country}</option>
                               {
                                 country.map((data, index) =>
                                   <option key={index} value={data.country_name}>{data.country_name}</option>)
@@ -108,8 +114,9 @@ function EditLocation() {
                               id="inputState"
                               className="form-control col-md-4"
                               onChange={handlechangestate}
+                              disabled
                             >
-                              <option hidden> {data.state}</option>
+                              <option hidden value={data.state}> {data.state}</option>
                               {
                                 state.map((data, index) => (
                                   <option key={index} value={data.state_name}>{data.state_name}</option>
@@ -131,7 +138,6 @@ function EditLocation() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='gst_no' value={data.gstin_no} onChange={(e) => handleChangeGstno(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -139,28 +145,28 @@ function EditLocation() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='contact_Person1' value={data.contact_name1} onChange={(e) => handleChangeContactperson1(e)} />
                           </div>
-                          {/* form-group end.// */}
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='contact_person2' value={data.contact_name2} onChange={(e) => handleChangeContactperson2(e)} />
-                          </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='contact_phone1' value={data.contact_phone_no1} onChange={(e) => handleChangeContactphone1(e)} maxLength={10} />
+                            <input type="number" className="form-control col-md-4" id='contact_phone1' value={data.contact_phone_no1} onChange={(e) => handleChangeContactphone1(e)}  />
                           </div>
-                          {/* form-group end.// */}
                         </div>
+
+                        <div className="form-row">
+                          <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
+                          <div className="col form-group">
+                            <input type="text" className="form-control col-md-4" id='contact_person2' value={data.contact_name2} onChange={(e) => handleChangeContactperson2(e)} />
+                          </div>
+                        </div>
+
+                       
 
                         <div className="form-row">
                           <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='contact_phone2' value={data.contact_phone_no2} onChange={(e) => handleChangeContactphone2(e)} maxLength={10} />
+                            <input type="number" className="form-control col-md-4" id='contact_phone2' value={data.contact_phone_no2} onChange={(e) => handleChangeContactphone2(e)} maxLength={10} />
                           </div>
                           {/* form-group end.// */}
                         </div>

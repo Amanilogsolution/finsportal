@@ -17,7 +17,7 @@ const AddCountry = () => {
     if (!country_name || !country_id || !country_code || !country_phonecode) {
       alert('Enter data')
     } else {
-      if (result == "Already") {
+      if (result === "Already") {
         alert('Already')
       } else {
         window.location.href = '/ShowCountry'

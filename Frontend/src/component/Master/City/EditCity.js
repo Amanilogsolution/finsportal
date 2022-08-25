@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { showCity } from '../../../api';
-import { updateCity } from '../../../api';
-import { Activecountries } from '../../../api';
-import { showactivestate } from '../../../api';
+import { showCity, updateCity, Activecountries, showactivestate } from '../../../api';
+
 
 const EditCity = () => {
   const [data, setData] = useState({})
@@ -14,27 +12,31 @@ const EditCity = () => {
   const [selectState, setSelectState] = useState([]);
   const [country, setCountry] = useState()
 
-  useEffect(async () => {
-    const result = await showCity(localStorage.getItem('citySno'));
-    setData(result)
-    setState(result.state_name)
-    setCountry(result.country_name)
-    if (result.country_name) {
+  useEffect( () => {
+    const fetchdata = async () => {
+      const result = await showCity(localStorage.getItem('citySno'));
+      setData(result)
+      setState(result.state_name)
+      setCountry(result.country_name)
+      if (result.country_name) {
 
-      const statesresult = await showactivestate(result.country_name)
-      setSelectState(statesresult)
+        const statesresult = await showactivestate(result.country_name)
+        setSelectState(statesresult)
+      }
+
+      const country = await Activecountries()
+      setSelectCountry(country)
     }
-
-    const country = await Activecountries()
-    setSelectCountry(country)
+    fetchdata();
   }, [])
 
   const handleClick = async (e) => {
     e.preventDefault();
     const city_id = document.getElementById('city_id').value;
     const city_name = document.getElementById('city_name').value;
-    const User_id =localStorage.getItem("User_id");
-    const result = await updateCity(localStorage.getItem('citySno'), city_id, city_name, state, country,User_id);
+    const User_id = localStorage.getItem("User_id");
+
+    const result = await updateCity(localStorage.getItem('citySno'), city_id, city_name, state, country, User_id);
     if (result) {
       alert("Data Updated");
       localStorage.removeItem('citySno');
@@ -86,17 +88,17 @@ const EditCity = () => {
                               id="inputState"
                               className="form-control col-md-4"
                               onChange={handleChangeCountry}
-
                             >
-                              <option selected hidden>{country}</option>
+                              <option value={country} hidden>{country}</option>
                               {
-                                selectCountry.map((data) => (
-                                  <option value={data.country_name}>{data.country_name}</option>
+                                selectCountry.map((data,index) => (
+                                  <option key={index} value={data.country_name}>{data.country_name}</option>
                                 ))
 
                               }
 
-                            </select>                            </div>
+                            </select>                            
+                            </div>
                         </div>
 
                         <div className="form-row">
@@ -108,10 +110,10 @@ const EditCity = () => {
                               onChange={handleChangeState}
 
                             >
-                              <option selected hidden >{data.state_name}</option>
+                              <option value={data.state_name} hidden >{data.state_name}</option>
                               {
-                                selectState.map((data) => (
-                                  <option value={data.state_name}>{data.state_name}</option>
+                                selectState.map((data,index) => (
+                                  <option key={index} value={data.state_name}>{data.state_name}</option>
                                 ))
 
                               }
@@ -135,7 +137,7 @@ const EditCity = () => {
                     </article>
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('citySno'); window.location.href = "./ShowState" }}>Cancel</button>
                     </div>
                   </div>
                 </div>

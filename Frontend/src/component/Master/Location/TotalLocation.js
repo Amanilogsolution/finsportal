@@ -6,6 +6,7 @@ import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddr
 import DataTable from 'react-data-table-component';
 import Addbtn from '../../../images/add-btn.png'
 import Editbtn from '../../../images/edit.png'
+import Editbtn2 from '../../../images/edit2.png'
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import * as XLSX from "xlsx";
@@ -84,9 +85,11 @@ const columns = [
     cell: (row) => [
 
       <a title='Edit Location' href="EditLocation">
-        <button className="editbtn btn-success "
+        <button className="editbtn btn"
           onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
-        >Edit</button></a>,
+        >
+        <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
+        </button></a>,
       <a title='View Document' href="AddOrgAddress">
         <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
           onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>

@@ -10,20 +10,23 @@ const Vendor = () => {
   const [data, setData] = useState({})
 
 
-  useEffect(async () => {
-    const result = await showvendor(localStorage.getItem('Organisation'), localStorage.getItem('VendorSno'));
-    setData(result)
+  useEffect( () => {
+    const fetchdata = async () => {
+      const result = await showvendor(localStorage.getItem('Organisation'), localStorage.getItem('VendorSno'));
+      setData(result)
 
-    if (result.gst_treatment === "Unregistered Bussiness" || result.gst_treatment === "Consumer" || result.gst_treatment === "Overseas") {
-      document.getElementById("gstin").style.display = "none";
-    }
-    else {
-      document.getElementById("gstin").style.display = "flex";
-    }
+      if (result.gst_treatment === "Unregistered Bussiness" || result.gst_treatment === "Consumer" || result.gst_treatment === "Overseas") {
+        document.getElementById("gstin").style.display = "none";
+      }
+      else {
+        document.getElementById("gstin").style.display = "flex";
+      }
 
-    if (result.enable_portal ==="true") {
-      document.getElementById('portalcheck').checked = true;
+      if (result.enable_portal === "true") {
+        document.getElementById('portalcheck').checked = true;
+      }
     }
+    fetchdata();
 
   }, [])
 
@@ -66,10 +69,14 @@ const Vendor = () => {
     setData({ ...data, vend_email: e.target.value })
   }
   const handleChangeVendworkphone = (e) => {
-    setData({ ...data, vend_work_phone: e.target.value })
+    const no = e.target.value;
+    if (no.length === 11) return false;
+    setData({ ...data, vend_work_phone: no })
   }
   const handleChangeVendphone = (e) => {
-    setData({ ...data, vend_phone: e.target.value })
+    const no = e.target.value;
+    if (no.length === 11) return false;
+    setData({ ...data, vend_phone: no })
   }
   const handleChangeContactname = (e) => {
     setData({ ...data, contact_person_name: e.target.value })
@@ -78,10 +85,14 @@ const Vendor = () => {
     setData({ ...data, contact_person_email: e.target.value })
   }
   const handleChangeContactwokphone = (e) => {
-    setData({ ...data, contact_person_work_phone: e.target.value })
+    const no = e.target.value;
+    if (no.length === 11) return false;
+    setData({ ...data, contact_person_work_phone: no })
   }
   const handleChangeContactphone = (e) => {
-    setData({ ...data, contact_person_phone: e.target.value })
+    const no = e.target.value;
+    if (no.length === 11) return false;
+    setData({ ...data, contact_person_phone: no })
   }
   const handleChangeContactskype = (e) => {
     setData({ ...data, contact_person_skype: e.target.value })
@@ -271,7 +282,7 @@ const Vendor = () => {
                           </label>
                           <div className="col form-group">
                             <input
-                              type="text"
+                              type="number"
                               id="vend_work_phone"
                               className="form-control col-md-8"
                               placeholder="Work Phone"
@@ -281,7 +292,7 @@ const Vendor = () => {
                           </div>
                           <div className="col form-group">
                             <input
-                              type="tel"
+                              type="number"
                               id="vend_phone"
                               className="form-control col-md-8"
                               placeholder="Mobile"
@@ -529,7 +540,7 @@ const Vendor = () => {
                               <span style={{ color: "red" }}>Currency *</span>
                             </label>
                             <div className="col-md-4 form-group pr-0">
-                              <input className="form-control col-md-10"  id="currency" value={data.currency} disabled />
+                              <input className="form-control col-md-10" id="currency" value={data.currency} disabled />
                               {/* <select
                                   id="currency"
                                   className="form-control col-md-10 "

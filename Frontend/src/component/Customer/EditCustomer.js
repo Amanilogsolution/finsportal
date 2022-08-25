@@ -79,6 +79,9 @@ const EditCustomer = () => {
       alert('Data Updated')
       window.location.href = "/TotalCustomer"
     }
+    else{
+      alert('Server Error');
+    }
 
   }
 
@@ -105,10 +108,14 @@ const EditCustomer = () => {
     setData({ ...data, cust_email: e.target.value })
   }
   const handleChangeCustWorkPhone = (e) => {
-    setData({ ...data, cust_work_phone: e.target.value })
+    const no=e.target.value ;
+    if(no.length === 11) return false;
+    setData({ ...data, cust_work_phone: no})
   }
   const handleChangeCustPhone = (e) => {
-    setData({ ...data, cust_phone: e.target.value })
+    const no=e.target.value ;
+    if(no.length === 11) return false;
+    setData({ ...data, cust_phone:no })
   }
   const handleChangeContactPerson = (e) => {
     setData({ ...data, contact_person_name: e.target.value })
@@ -117,10 +124,14 @@ const EditCustomer = () => {
     setData({ ...data, contact_person_email: e.target.value })
   }
   const handleChangeContactPersonWP = (e) => {
-    setData({ ...data, contact_person_work_phone: e.target.value })
+    const no = e.target.value ;
+    if(no.length === 11) return false;
+    setData({ ...data, contact_person_work_phone: no })
   }
   const handleChangeContactPersonPhone = (e) => {
-    setData({ ...data, contact_person_phone: e.target.value })
+    const no = e.target.value ;
+    if(no.length === 11) return false;
+    setData({ ...data, contact_person_phone: no })
   }
   const handleChangeContactPersonSkype = (e) => {
     setData({ ...data, contact_person_skype: e.target.value })
@@ -338,7 +349,7 @@ const EditCustomer = () => {
                           </label>
                           <div className="col form-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control col-md-8"
                               placeholder="Work Phone"
                               value={data.cust_work_phone}
@@ -349,13 +360,12 @@ const EditCustomer = () => {
                           </div>
                           <div className="col form-group">
                             <input
-                              type="tel"
+                              type="number"
                               className="form-control col-md-8"
                               placeholder="Mobile"
                               style={{ marginLeft: "-30px" }}
                               id="cust_phone"
                               value={data.cust_phone}
-                              maxLength={10}
                               onChange={handleChangeCustPhone}
                             />
                           </div>
@@ -1028,7 +1038,7 @@ const EditCustomer = () => {
                           <div className="form-row">
                             <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
-                              <input type="tel" className="form-control col-md-4" id="contact_person_phone" maxLength={10} value={data.contact_person_phone} onChange={handleChangeContactPersonPhone} />
+                              <input type="number" className="form-control col-md-4" id="contact_person_phone"  value={data.contact_person_phone} onChange={handleChangeContactPersonPhone} />
                             </div>
                           </div>
                           <div className="form-row">

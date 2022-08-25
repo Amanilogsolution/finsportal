@@ -3,7 +3,6 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { showuser, UpdateUser, ActiveCustomer } from '../../../api/index.js'
-import { } from '../../../api/index.js'
 
 const EditUser = () => {
   const [data, setData] = useState({})
@@ -13,20 +12,23 @@ const EditUser = () => {
 
 
   useEffect(async () => {
-    const result = await showuser(localStorage.getItem('userSno'));
-    setData(result)
+    const fetchdata = async () => {
+      const result = await showuser(localStorage.getItem('userSno'));
+      setData(result)
 
-    if (result.two_factor_authentication == 'With OTP') {
-      document.getElementById('otp').checked = true
-      setAuthentication('With OTP')
-    }
-    else {
-      document.getElementById('noOTP').checked = true
-      setAuthentication('Without OTP')
-    }
+      if (result.two_factor_authentication == 'With OTP') {
+        document.getElementById('otp').checked = true
+        setAuthentication('With OTP')
+      }
+      else {
+        document.getElementById('noOTP').checked = true
+        setAuthentication('Without OTP')
+      }
 
-    const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
-    setActivecustomer(customer)
+      const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
+      setActivecustomer(customer)
+    }
+    fetchdata()
 
   }, [])
 
@@ -45,14 +47,23 @@ const EditUser = () => {
     const designation = document.getElementById('designation').value;
     const User_id = localStorage.getItem('User_id');
 
-    // console.log(customer)
-    const result = await UpdateUser(localStorage.getItem('userSno'), employee_name,
-      role, warehouse, user_name, password, email_id, phone, operate_mode,
-      customer, reporting_to, designation, authentication, User_id);
+    if (!employee_name || !warehouse || !password || !email_id) {
+      alert('Please Enter the mandatory Field')
+    }
 
-    if (result === 'done') {
-      alert('Data Updated')
-      window.location.href = '/ShowUser'
+    else {
+      const result = await UpdateUser(localStorage.getItem('userSno'), employee_name,
+        role, warehouse, user_name, password, email_id, phone, operate_mode,
+        customer, reporting_to, designation, authentication, User_id);
+
+      if (result === 'done') {
+        alert('Data Updated')
+        localStorage.removeItem('userSno');
+        window.location.href = '/ShowUser'
+      }
+      else {
+        alert('Server Error')
+      }
     }
   }
 
@@ -82,7 +93,9 @@ const EditUser = () => {
   }
 
   const handleChangephone = (e) => {
-    setData({ ...data, phone: e.target.value })
+    const no = e.target.value;
+    if (no.length === 11) return 0;
+    setData({ ...data, phone: no })
   }
   const handleChangeoperatemode = (e) => {
     setData({ ...data, operate_mode: e.target.value })
@@ -124,36 +137,29 @@ const EditUser = () => {
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <form>
-                        {/* form-group start.// */}
                         <div className="form-row">
                           <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee Name</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='employee_name' value={data.employee_name} onChange={(e) => handleChangeempname(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-                        {/* form-group start.// */}
                         <div className="form-row">
                           <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='role' value={data.role} onChange={(e) => handleChangerole(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-                        {/* form-group start.// */}
                         <div className="form-row">
                           <label htmlFor="warehouse" className="col-md-2 col-form-label font-weight-normal">Warehouse</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='warehouse' value={data.warehouse} onChange={(e) => handleChangeware(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">User Id</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='username' disabled value={data.user_id} onChange={(e) => handleChangeusername(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
@@ -168,28 +174,24 @@ const EditUser = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='email_id' value={data.email_id} onChange={(e) => handleChangeemail(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='phone' value={data.phone} onChange={(e) => handleChangephone(e)} maxLength={10} />
+                            <input type="number" className="form-control col-md-4" id='phone' value={data.phone}
+                              onChange={(e) => handleChangephone(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-                        {/* asjnasjnaas */}
 
                         <div className="form-row">
                           <label htmlFor="operatemode" className="col-md-2 col-form-label font-weight-normal">Operate mode</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='operatemode' value={data.operate_mode} onChange={(e) => handleChangeoperatemode(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
                           <div className="col form-group">
-                            {/* <input type="text" /> */}
                             <select className="form-control col-md-4" id='customer' onChange={(e) => handleChangecustomer(e)}>
                               <option>{data.customer}</option>
                               {
@@ -198,21 +200,18 @@ const EditUser = () => {
                               }
                             </select>
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting To</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='reporting_to' value={data.reporting_to} onChange={(e) => handleChangereporting_to(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='designation' value={data.designation} onChange={(e) => handleChangedesignation(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row" onChange={handleChange}>
@@ -245,19 +244,17 @@ const EditUser = () => {
                             </label>
                           </div>
                         </div>
+
+                        <div className="border-top card-body">
+                          <button className="btn btn-success" onClick={handleClick}>Update</button>
+                          <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
+                        </div>
                       </form>
                     </article>
-                    {/* card-body end .// */}
-                    <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={handleClick}>Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => window.location.href = './ShowUser'}>Cancel</button>
-                    </div>
+
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

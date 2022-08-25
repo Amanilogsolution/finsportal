@@ -52,26 +52,6 @@ const columns = [
       </div>
     ]
   },
-  //  {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await deletecountry(row.sno,checkvalue)
-  //                 window.location.href='ShowCountry'
-
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await deletecountry(row.sno,checkvalue)
-  //                 window.location.href='ShowCountry'
-  //           }
-  //          }} />
-  //   ]
-  // },
   {
     name: "Actions",
     sortable: false,
@@ -109,15 +89,13 @@ const ShowCountry = () => {
       window.location.reload()
     }
     else {
-      console.log(importdata);
       const result = await ImportCountry(importdata,localStorage.getItem("User_id"));
-      // console.log(result.length)
-      if (!(result == "Data Added")) {
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
 
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
@@ -339,9 +317,9 @@ const ShowCountry = () => {
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d) => (
+                            duplicateData.map((d,index) => (
 
-                              <tr style={{ border: "1px solid black" }}>
+                              <tr key={index} style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.country_code}</td>
                                 <td style={{ border: "1px solid black" }}>{d.country_id}</td>
                                 <td style={{ border: "1px solid black" }}>{d.country_name}</td>
@@ -367,8 +345,8 @@ const ShowCountry = () => {
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
+                      importdata.map((d,index) => (
+                        <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.country_code}</td>
                           <td style={{ border: "1px solid black" }}>{d.country_id}</td>
                           <td style={{ border: "1px solid black" }}>{d.country_name}</td>

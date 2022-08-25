@@ -9,20 +9,20 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { deleteCity, ImportCity } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
- 
+
 const columns = [
   {
     name: 'Country Name',
     selector: 'country_name',
     sortable: true
   },
-  
+
   {
     name: 'State Code',
     selector: 'state_name',
     sortable: true
   },
- 
+
   {
     name: 'City Name',
     selector: 'city_name',
@@ -45,34 +45,13 @@ const columns = [
           window.location.href = 'ShowCity'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
   },
-  //  {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await deleteCity(row.sno,checkvalue)
-  //                 window.location.href='Showcity'
-
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await deleteCity(row.sno,checkvalue)
-  //                 window.location.href='Showcity'
-  //           }
-  //          }} />
-  //   ]
-  // },
-
   {
     name: "Actions",
     sortable: false,
@@ -111,12 +90,12 @@ const Showcity = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportCity(importdata,localStorage.getItem('User_id'));
-      if (!(result == "Data Added")) {
+      const result = await ImportCity(importdata, localStorage.getItem('User_id'));
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         console.log(result)
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
@@ -124,7 +103,7 @@ const Showcity = () => {
         window.location.href = './Showcity'
       }
 
-   
+
     }
 
   };
@@ -168,10 +147,11 @@ const Showcity = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect( () => {
-    async function fetchdata (){
-    const result = await Totalcity()
-    setData(result)}
+  useEffect(() => {
+    async function fetchdata() {
+      const result = await Totalcity()
+      setData(result)
+    }
     fetchdata()
   }, [])
 
@@ -334,16 +314,16 @@ const Showcity = () => {
                       <table style={{ color: "red", margin: "auto" }}>
                         <thead>
                           <tr>
-                           
+
                             <th style={{ border: "1px solid black" }}>city_id</th>
                             <th style={{ border: "1px solid black" }}>city_name</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d) => (
-                              <tr style={{ border: "1px solid black" }}>
-                               
+                            duplicateData.map((d,index) => (
+                              <tr key={index} style={{ border: "1px solid black" }}>
+
                                 <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_id}</td>
                                 <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_name}</td>
                               </tr>
@@ -369,8 +349,8 @@ const Showcity = () => {
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
+                      importdata.map((d,index) => (
+                        <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.country_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.state_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.city_id}</td>

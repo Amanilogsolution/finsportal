@@ -127,7 +127,7 @@ export const InsertCountry = async (User_id, country_name, country_id, country_c
 }
 
 export const showcountry = async (sno) => {
-    const url = `http://192.168.146.199:3008/api/showcountry`
+    const url = `http://localhost:3008/api/showcountry`
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -191,7 +191,7 @@ export const ActiveCurrency = async (org) => {
 
 // ###################### City api start #############################
 export const Totalcity = async () => {
-    const url = `http://192.168.146.199:3008/api/totalcity`
+    const url = `http://localhost:3008/api/totalcity`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -201,12 +201,12 @@ export const InsertCity = async (city_id, city_name, state_name, country_name, U
 }
 
 export const deleteCity = async (sno, status) => {
-    const url = `http://192.168.146.103:3008/api/deletecity`
+    const url = `http://localhost:3008/api/deletecity`
     return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const showCity = async (sno) => {
-    const url = `http://192.168.146.103:3008/api/showcity`
+    const url = `http://localhost:3008/api/showcity`
     return axios.post(url, { sno }).then(response => response.data).catch(error => console.log(error));
 }
 

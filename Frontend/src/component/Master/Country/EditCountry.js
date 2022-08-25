@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { showcountry,updatecountry } from '../../../api'
+import { showcountry, updatecountry } from '../../../api'
 
 const EditCountry = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchdata =async()=>{
+    const fetchdata = async () => {
       const result = await showcountry(localStorage.getItem('countrySno'))
       setData(result)
     }
@@ -38,7 +38,9 @@ const EditCountry = () => {
     setData({ ...data, country_code: e.target.value })
   }
   const handleChangeCp = (e) => {
-    setData({ ...data, country_phonecode: e.target.value })
+    const no= e.target.value ;
+    if(no.length === 11) return false;
+    setData({ ...data, country_phonecode: no})
   }
 
 
@@ -63,17 +65,15 @@ const EditCountry = () => {
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)} />
+                            <input type="text" className="form-control col-md-4" id='country_name' value={data.country_name} onChange={(e) => handleChangeCname(e)} required/>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country ID</label>
                           <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='country_id' value={data.country_id} onChange={(e) => handleChangeCid(e)} />
+                            <input type="text" className="form-control col-md-4" id='country_id' value={data.country_id} onChange={(e) => handleChangeCid(e)} maxLength={5} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -81,7 +81,6 @@ const EditCountry = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='country_code' value={data.country_code} onChange={(e) => handleChangeCcode(e)} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -89,21 +88,17 @@ const EditCountry = () => {
                           <div className="col form-group">
                             <input type="number" className="form-control col-md-4" id='country_phonecode' value={data.country_phonecode} onChange={(e) => handleChangeCp(e)} />
                           </div>
-                          {/* form-group end.// */}
+                        </div>
+                        <div className="border-top card-body">
+                          <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
+                          <button className="btn btn-light ml-3" onClick={() => {  localStorage.removeItem('countrySno');window.location.href = "./ShowState" }}>Cancel</button>
                         </div>
                       </form>
                     </article>
-                    {/* card-body end .// */}
-                    <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={handleClick}>Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
-                    </div>
+
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

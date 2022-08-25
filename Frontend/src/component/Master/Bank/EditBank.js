@@ -94,7 +94,9 @@ const EditBank = () => {
     setData({ ...data, city: e.target.value })
   }
   const handleChangepincode = (e) => {
-    setData({ ...data, pincode: e.target.value })
+    const no=  e.target.value;
+    if(no.length === 7) return false;
+    setData({ ...data, pincode:no })
   }
   const handleChangeifsc = (e) => {
     setData({ ...data, ifsc_code: e.target.value })
