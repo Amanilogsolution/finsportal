@@ -148,7 +148,6 @@ function EditOrgAddress() {
                               onChange={(e) => handleChangeaddr1(e)}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -186,9 +185,7 @@ function EditOrgAddress() {
                    
                   </div>
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
