@@ -22,7 +22,6 @@ const Fincialyear = () => {
     const date = new Date(e.target.value)
     const year = date.getFullYear()
     setToDate(year)
-    console.log(year)
   }
 
   const handelsave = async (e) => {
@@ -35,39 +34,27 @@ const Fincialyear = () => {
     invoice_ser = invoice_ser.toUpperCase();
     let voucher_ser = document.getElementById('voucher').value;
     voucher_ser = voucher_ser.toUpperCase();
-    
 
-    // let vendmast= document.getElementById('vendmast').value;
-    // vendmast= vendmast.toUpperCase();
-    // let vendid= document.getElementById('vendid').value;
-    // vendid= vendid.toUpperCase()
-    // let custmast= document.getElementById('custmast').value;
-    // custmast= custmast.toUpperCase();
-    // let custid= document.getElementById('custid').value;
-    // custid= custid.toUpperCase();
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
 
-    // if(vendmast.length>5 || vendid.length>5 ||custmast.length>5 ||custid>5){
-    //   alert("ID's must be smaller then 4 char.")
-    // }
 
-    // console.log(fincialyear,year,from_date,to_date,invoice_ser,voucher_ser,org,User_id)
-    if (invoice_ser.length > 6 || voucher_ser.length>4) {
-      alert("invoice Series is must be smaller then 6 char and voucher is 4")
+    if (!fincialyear || !year || !from_date || !to_date || invoice_ser.length > 5 || voucher_ser.length > 4) {
+      alert("invoice Series is must be smaller then 5 char and voucher is 4")
     }
     else {
-      const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser,voucher_ser, User_id)
+      const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id)
 
       if (result.rowsAffected[0] > 0) {
         alert("Data Added");
         window.location.href = "./showfincialyear"
       }
-      else{
+      else {
         alert("Server error !")
       }
 
     }
+
   }
   return (
     <div>
@@ -113,45 +100,25 @@ const Fincialyear = () => {
                         <div className="form-row">
                           <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='invoiceser'  maxLength={6} />
+                            <input type="text" className="form-control col-md-4" id='invoiceser' maxLength={5} style={{ textTransform: "uppercase" }} />
+                            <small style={{ color: "red" }}>Invoice Series must be maximum 5 Character</small>
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
+                            <small style={{ color: "red" }}>Voucher Series must be maximum 4 Character</small>
                           </div>
                         </div>
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Vendor Master</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='vendmast' />
-                          </div>
-                        </div> */}
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Vendor Id</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='vendid' />
-                          </div>
-                        </div> */}
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Customer Master</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='custmast' />
-                          </div>
-                        </div> */}
-                        {/* <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Customer Id</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='custid' />
-                          </div>
-                        </div> */}
+
+                        <div className="border-top card-body">
+                          <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
+                          <button className="btn btn-light ml-3" onClick={(e)=>{e.preventDefault(); window.location.href='./Home'}}>Cancel</button>
+                        </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={handelsave}>Save</button>
-                      <button className="btn btn-light ml-3" >Cancel</button>
-                    </div>
+
                   </div>
                 </div>
               </div>

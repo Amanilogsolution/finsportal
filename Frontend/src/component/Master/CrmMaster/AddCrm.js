@@ -27,23 +27,25 @@ const AddCrm = () => {
     }, [])
     const handleClick = async (e) => {
         e.preventDefault();
-        const crmtype = document.getElementById("crmtype").value;
+        const crmtypes = document.getElementById("crmtype").value;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value;
 
-        if (!crmtype || !person_name || !cust_vend_name) {
-            alert('Enter data')
-        }
-        else {
-            const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'));
-            if (result === "Added") {
-                alert('Data Added')
-                window.location.href = '/ShowCrm'
-            }
-            else {
-                alert('Server not Response')
-            }
-        }
+
+        console.log(person_name, custvendval)
+        // if (!crmtype || !person_name || !cust_vend_name) {
+        //     alert('Enter data')
+        // }
+        // else {
+        //     const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'));
+        //     if (result === "Added") {
+        //         alert('Data Added')
+        //         window.location.href = '/ShowCrm'
+        //     }
+        //     else {
+        //         alert('Server not Response')
+        //     }
+        // }
 
     }
 
@@ -101,14 +103,15 @@ const AddCrm = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
+                                                    <input type='text' className="form-control col-md-4"  id='person_name'/>
 
-                                                        <select className="form-control col-md-4" id='person_name' >
+                                                        {/* <select className="form-control col-md-4" id='person_name' >
                                                             <option hidden>Select the Person name</option>
                                                             {
                                                                 userlist.map((item, index) =>
                                                                     <option key={index}>{item.employee_name}</option>)
                                                             }
-                                                        </select>
+                                                        </select> */}
 
                                                     </div>
                                                 </div>

@@ -31,7 +31,7 @@ const InsertInvoice = async (req, res) => {
     const taxable_amt= req.body.taxable_amt;
     const currency_type = req.body.currency_type;
     const sales_person = req.body.sales_person;
-    const subject = req.body.subject;
+    // const subject = req.body.subject;
     const payment_term= req.body.payment_term;
     const due_date = req.body.due_date;
     const User_id = req.body.User_id;
@@ -42,11 +42,11 @@ const InsertInvoice = async (req, res) => {
         await sql.connect(sqlConfig)
          const result = await sql.query(`insert into ${org}.dbo.tbl_invoice(fin_year,invoice_no,squence_no ,invoice_date ,order_no ,invoice_amt,
             doe,user_id,periodfrom,periodto,major,location,custid,billsubtotal,total_tax,cust_locationid,remark,flagsave ,
-            location_name ,consignee ,cust_family,cgst_amt,sgst_amt,utgst_amt ,igst_amt,taxable_amt,currency_type,sales_person,subject,payment_term,due_date,add_date_time,add_user_name ,add_system_name ,
+            location_name ,consignee ,cust_family,cgst_amt,sgst_amt,utgst_amt ,igst_amt,taxable_amt,currency_type,sales_person,payment_term,due_date,add_date_time,add_user_name ,add_system_name ,
             add_ip_address ,status)
             values('${fin_year}','${invoice_no}','${squence_no}','${invoice_date}','${order_no}','${invoice_amt}',getdate(),'${user_id}','${periodfrom}','${periodto}',
             '${major}','${location}','${custid}','${billsubtotal}','${total_tax}','${cust_locationid}','${remark}','${flagsave}','${location_name}','${consignee}','${cust_family}',
-            '${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}','${taxable_amt}','${currency_type}','${sales_person}','${subject}','${payment_term}','${due_date}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
+            '${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}','${taxable_amt}','${currency_type}','${sales_person}','${payment_term}','${due_date}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
         res.send('Added')
         
        
