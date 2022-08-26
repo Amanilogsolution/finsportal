@@ -11,6 +11,7 @@ const AddCrm = () => {
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
     const [userlist, setUserlist] = useState([]);
+    const [typeselect,setTypeSelect] = useState('Vendor')
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -27,30 +28,31 @@ const AddCrm = () => {
     }, [])
     const handleClick = async (e) => {
         e.preventDefault();
-        const crmtypes = document.getElementById("crmtype").value;
+        const crmtypes = typeselect;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value;
+        console.log(crmtypes,person_name)
 
 
-        console.log(person_name, custvendval)
-        // if (!crmtype || !person_name || !cust_vend_name) {
-        //     alert('Enter data')
-        // }
-        // else {
-        //     const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'));
-        //     if (result === "Added") {
-        //         alert('Data Added')
-        //         window.location.href = '/ShowCrm'
-        //     }
-        //     else {
-        //         alert('Server not Response')
-        //     }
-        // }
+        if (!crmtypes || !person_name || !cust_vend_name) {
+            alert('Enter data')
+        }
+        else {
+            const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'));
+            if (result === "Added") {
+                alert('Data Added')
+                window.location.href = '/ShowCrm'
+            }
+            else {
+                alert('Server not Response')
+            }
+        }
 
     }
 
 
     const handletype = (e) => {
+        setTypeSelect(e.target.value)
 
         if (e.target.value === 'Customer') {
             setCrmType(true)
