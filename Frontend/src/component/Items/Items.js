@@ -39,6 +39,33 @@ function Items() {
     const handletype = (e) => {
         const type = e.target.value;
         setType(type);
+        console.log(type)
+        if (type === 'Goods') {
+            document.getElementById('hsncode').style.display = "flex";
+            document.getElementById('saccode').style.display = "none";
+            document.getElementById('exemptionreas').style.display = "none";
+        }
+        else {
+            document.getElementById('hsncode').style.display = "none";
+            document.getElementById('saccode').style.display = "flex";
+            document.getElementById('exemptionreas').style.display = "flex";
+        }
+    }
+
+    const handletaxprefrnce = (e) => {
+        if (e.target.value === 'Taxable') {
+            document.getElementById('exemptionreas').style.display = "none";
+            document.getElementById('defaulttax').style.display = "block";
+        }
+        else if (e.target.value === 'Non-Taxable') {
+            document.getElementById('exemptionreas').style.display = "flex";
+            document.getElementById('defaulttax').style.display = "none";
+        }
+        else {
+            document.getElementById('defaulttax').style.display = "none";
+            document.getElementById('exemptionreas').style.display = "none";
+
+        }
     }
 
     const handlesubmit = async () => {
@@ -85,21 +112,21 @@ function Items() {
                                                 <form>
                                                     <div className="form-row" >
                                                         <label htmlFor="type" className="col-md-2 col-form-label font-weight-bold" >Type</label>
-                                                        <div className="col-md-2 col-form-label " onChange={handletype}  >
+                                                        <div className="col form-group " onChange={handletype}  >
                                                             <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' />  Goods  &nbsp; &nbsp;
                                                             <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Service' />  Service
                                                         </div>
                                                     </div>
                                                     <div className="form-row" >
                                                         <label htmlFor="item_name" className="col-md-2 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Name *</span></label>
-                                                        <div className="col-md-2 col-form-label "  >
-                                                            <input className="col-mt-2" type="text" id="item_name" />
+                                                        <div className="col form-group">
+                                                            <input className="form-control col-md-4" type="text" id="item_name" />
                                                         </div>
                                                     </div>
                                                     <div className="form-row" >
                                                         <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " >Unit</label>
-                                                        <div className="col col-form-label "  >
-                                                            <select className="col p-1" style={{ width: "30.5%" }} id="unit" >
+                                                        <div className="col form-group">
+                                                            <select className="form-control col-md-4" id="unit">
                                                                 <option value='' hidden>Select Unit</option>
                                                                 {
                                                                     unitdata.map((item, index) => (
@@ -110,25 +137,63 @@ function Items() {
                                                             </select>
                                                         </div>
                                                     </div>
+
+
+                                                    <div className="form-row" id="hsncode">
+                                                        <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-bold" >HSN CODE</label>
+                                                        <div className="col form-group">
+                                                            <input className="form-control col-md-4" type="text" id="hsncode" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-row" id="saccode" style={{display:"none"}} >
+                                                        <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-bold" >SAC</label>
+                                                        <div className="col form-group">
+                                                            <input className="form-control col-md-4" type="text" id="saccode" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-row" >
+                                                        <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " ><span style={{ color: "rgba(210,0,0,0.7)" }}>Tax Preference *</span></label>
+                                                        <div className="col form-group">
+                                                            <select className="form-control col-md-4" id="unit" onChange={handletaxprefrnce}>
+                                                                <option value='' hidden>Select Tax Preference</option>
+                                                                <option value='Taxable' >Taxable</option>
+                                                                <option value='Non-Taxable' >Non-Taxable</option>
+                                                                <option value='Out-of-Scope' >Out of Scope</option>
+                                                                <option value='Non-GST Supply' >Non-GST Supply </option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="form-row" id="exemptionreas" style={{ display: "none" }}>
+                                                        <label htmlFor="unit" className="col-md-2 col-form-label font-weight-bold " ><span style={{ color: "rgba(210,0,0,0.7)" }}>Exemption Reason*</span></label>
+                                                        <div className="col form-group">
+                                                            <select className="form-control col-md-4" id="exemp">
+                                                                <option value='' hidden>Select Tax Preference</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
                                                     <div style={{ display: "flex", marginTop: "20px" }}>
                                                         <div style={{ width: "50%" }}>
                                                             <div className="form-row" >
-                                                                <div className="colcol-form-label " style={{ marginTop: "10px" }}>
-                                                                    <input className="col-mt-3" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} defaultChecked onClick={handlesales} />
+                                                                <div className="form-group " style={{ marginTop: "10px" }}>
+                                                                    <input className="form-control" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} defaultChecked onClick={handlesales} />
                                                                 </div>
                                                                 <label htmlFor="" className="col col-form-label font-weight-bold" >Sales Information</label>
 
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="Selling_price" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Selling Price *</span></label>
-                                                                <div className="col-md-2 col-form-label "  >
-                                                                    <input className="col-mt-2" type="text" id="Selling_price" disabled={!sales} />
+                                                                <div className="form-group col"  >
+                                                                    <input className="form-control col-md-8" type="text" id="Selling_price" disabled={!sales} />
                                                                 </div>
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
-                                                                <div className="col col-form-label "  >
-                                                                    <select className="col-md-8 p-1" type="text" id="sales_account" disabled={!sales} >
+                                                                <div className="col form-group "  >
+                                                                    <select className="col-md-8 p-1 form-control" type="text" id="sales_account" disabled={!sales} >
                                                                         <option value='' hidden>Select</option>
                                                                         {
                                                                             salestype.map((item, index) => {
@@ -140,29 +205,56 @@ function Items() {
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="sales_description" className="col-md-3 col-form-label font-weight-bold" >Description </label>
-                                                                <div className="col col-form-label "  >
-                                                                    <textarea className="col-md-8" type="text" id="sales_description" disabled={!sales}></textarea>
+                                                                <div className="col form-group "  >
+                                                                    <textarea className="col-md-8 form-control" type="text" id="sales_description" disabled={!sales} rows="4" style={{ resize: "none" }}></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="defaulttax" style={{ display: "none" }}>
+                                                                <hr />
+                                                                <div className="form-row" >
+                                                                    <h4 className="col">Default Tax Rates</h4>
+
+                                                                </div>
+
+                                                                <div className="form-row md-2" >
+                                                                    <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-500" >Intra State Tax Rate</label>
+                                                                    <div className="col form-group "  >
+                                                                        <select className="col-md-8 p-2 form-control" type="text" id="sales_account">
+                                                                            <option value='' hidden>Select</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="form-row md-2" >
+                                                                    <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-500" >Inter State Tax Rate</label>
+                                                                    <div className="col form-group "  >
+                                                                        <select className="col-md-8 p-2 form-control" type="text" id="sales_account" >
+                                                                            <option value='' hidden>Select</option>
+
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div style={{ width: "50%" }}>
                                                             <div className="form-row" >
-                                                                <div className="colcol-form-label " style={{ marginTop: "10px" }} >
-                                                                    <input className="col-mt-2" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} onClick={handlepurchases} />
+                                                                <div className="form-group " style={{ marginTop: "10px" }} >
+                                                                    <input className="form-control" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} onClick={handlepurchases} />
                                                                 </div>
                                                                 <label htmlFor="item_name" className="col col-form-label font-weight-bold">Purchase Information</label>
 
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="cost_price" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Cost Price *</span></label>
-                                                                <div className="col-md-2 col-form-label "  >
-                                                                    <input className="col-mt-2" type="text" id="cost_price" disabled={purchas} />
+                                                                <div className="col form-group "  >
+                                                                    <input className="col-md-8  p-1 form-control" type="text" id="cost_price" disabled={purchas} />
                                                                 </div>
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="purchases_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
-                                                                <div className="col col-form-label "  >
-                                                                    <select className="col-md-8 p-1" type="text" id="purchases_account" disabled={purchas}>
+                                                                <div className="col form-group "  >
+                                                                    <select className="col-md-8 p-1 form-control" type="text" id="purchases_account" disabled={purchas}>
                                                                         <option value='' hidden>Select</option>
                                                                         {
                                                                             purchase.map((item, index) => {
@@ -175,8 +267,8 @@ function Items() {
                                                             </div>
                                                             <div className="form-row" >
                                                                 <label htmlFor="purchases_description" className="col-md-3 col-form-label font-weight-bold" >Description </label>
-                                                                <div className="col col-form-label "  >
-                                                                    <textarea className="col-md-8" type="text" id="purchases_description" disabled={purchas}></textarea>
+                                                                <div className="col col-form-group "  >
+                                                                    <textarea className="col-md-8 form-control " type="text" id="purchases_description" disabled={purchas} rows="4" style={{ resize: "none" }}></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>

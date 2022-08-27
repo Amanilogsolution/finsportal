@@ -31,7 +31,6 @@ const AddCrm = () => {
         const crmtypes = typeselect;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value;
-        console.log(crmtypes,person_name)
 
 
         if (!crmtypes || !person_name || !cust_vend_name) {
@@ -123,7 +122,7 @@ const AddCrm = () => {
                                                         {
                                                             crmtype ?
                                                                 <Select
-                                                                    className="col-md-4 "
+                                                                    className="col-md-4"
                                                                     options={options}
                                                                     isMulti={false}
                                                                     onChange={handleCustvendval}
