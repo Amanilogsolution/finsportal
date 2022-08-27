@@ -193,7 +193,7 @@ function Items() {
                                                             <div className="form-row" >
                                                                 <label htmlFor="sales_account" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Account *</span></label>
                                                                 <div className="col form-group "  >
-                                                                    <select className="col-md-8 p-1 form-control" type="text" id="sales_account" disabled={!sales} >
+                                                                    <select className="col-md-8 p-1 form-control" type="number" id="sales_account" disabled={!sales} >
                                                                         <option value='' hidden>Select</option>
                                                                         {
                                                                             salestype.map((item, index) => {
@@ -248,7 +248,7 @@ function Items() {
                                                             <div className="form-row" >
                                                                 <label htmlFor="cost_price" className="col-md-3 col-form-label font-weight-bold" ><span style={{ color: "rgba(210,0,0,0.7)" }}>Cost Price *</span></label>
                                                                 <div className="col form-group "  >
-                                                                    <input className="col-md-8  p-1 form-control" type="text" id="cost_price" disabled={purchas} />
+                                                                    <input className="col-md-8  p-1 form-control" type="number" id="cost_price" disabled={purchas} />
                                                                 </div>
                                                             </div>
                                                             <div className="form-row" >
@@ -273,18 +273,18 @@ function Items() {
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                </form>
-                                            </article>
-
-                                            <div className="border-top card-body">
+                                                    <div className="border-top card-body">
                                                 {
                                                     mandatory
                                                         ? <p style={{ color: 'red' }}>Please! fill the mandatory field...</p> : null
                                                 }
-                                                <button className="btn btn-success" onClick={handlesubmit} >Save</button>
+                                                <button type="submit" className="btn btn-success" onClick={handlesubmit} >Save</button>
                                                 <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                                             </div>
+                                                </form>
+                                            </article>
+
+                                          
                                         </div>
                                     </div>
                                 </div>
