@@ -176,7 +176,7 @@ function Items() {
                                                     </div>
 
                                                     <div style={{ display: "flex", marginTop: "20px" }}>
-                                                        <div style={{ width: "50%" }}>
+                                                        <div style={{ width: "45%" }}>
                                                             <div className="form-row" >
                                                                 <div className="form-group " style={{ marginTop: "10px" }}>
                                                                     <input className="form-control" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} defaultChecked onClick={handlesales} />
@@ -237,7 +237,7 @@ function Items() {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div style={{ width: "50%" }}>
+                                                        <div style={{ width: "45%",paddingLeft:"10px" }}>
                                                             <div className="form-row" >
                                                                 <div className="form-group " style={{ marginTop: "10px" }} >
                                                                     <input className="form-control" type="checkbox" id="item_name" style={{ height: "16px", width: "16px" }} onClick={handlepurchases} />
