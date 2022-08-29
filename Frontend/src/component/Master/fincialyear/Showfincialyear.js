@@ -41,27 +41,6 @@ const columns = [
     selector: row => row.voucher_ser,
     sortable: true
   },
-  // {
-  //   name: 'Vendor Master',
-  //   selector: row => row.mvend_id,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Vendor ID',
-  //   selector: row => row.vend_id,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Customer Master',
-  //   selector: row => row.mcust_id,
-  //   sortable: true
-  // },
-  // {
-  //   name: 'Customer id',
-  //   selector: row => row.cust_id,
-  //   sortable: true
-  // },
-
   {
     name: 'Active ',
     selector: row => row.status,

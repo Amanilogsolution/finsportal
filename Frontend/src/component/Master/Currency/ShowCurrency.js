@@ -7,7 +7,6 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_currency.xlsx';
-// import Modal from '../Modal/modal'
 import * as XLSX from "xlsx";
 
 const columns = [
@@ -43,9 +42,7 @@ const columns = [
           window.location.href = 'ShowCurrency'
         }
         }>
-          <option  disabled hidden selected value={row.status}> {row.status}</option>
-
-
+          <option hidden value={row.status}> {row.status}</option>
           <option>Active</option>
           <option>Deactive</option>
         </select>

@@ -29,7 +29,7 @@ const Updatefincialyear = () => {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
     }
     else {
-      const result = await UpdateFincialyear(localStorage.getItem('Organisation'), invoice_ser, voucher_ser, localStorage.getItem('User_id'), localStorage.getItem('FinsyearSno'))
+      const result = await UpdateFincialyear(org, invoice_ser, voucher_ser, User_id, localStorage.getItem('FinsyearSno'))
       if (result[0] > 0) {
         alert("Updated")
         localStorage.removeItem('FinsyearSno');
@@ -110,7 +110,10 @@ const Updatefincialyear = () => {
                     </article>
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handelsave}>Save</button>
-                      <button className="btn btn-light ml-3" >Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => {
+                        localStorage.removeItem('FinsyearSno');
+                        window.location.href = "./showfincialyear"
+                      }}>Cancel</button>
                     </div>
                   </div>
                 </div>
