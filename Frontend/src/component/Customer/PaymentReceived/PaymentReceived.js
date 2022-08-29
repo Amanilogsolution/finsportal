@@ -5,44 +5,33 @@ import Footer from "../../Footer/Footer";
 
 function PaymentsReceived() {
     const [totalValues, setTotalValues] = useState([1])
-    const [amount,setAmount]= useState()
+    const [amount, setAmount] = useState()
     const handleChange = (e) => {
-        console.log(e.target.value)
         var desktop = e.target.value
-        if (desktop == 'Desktop') {
+        if (desktop === 'Desktop') {
             document.getElementById("Upload").click()
         }
     }
 
-    const handleChangeQuantity =(e)=>{
-        e.preventDefault()
-        console.log(e.target.value)
-    }
-
-    const handleBlur = ()=> {
+    const handleBlur = () => {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
-        console.log(quality,rate)
-        console.log(quality*rate)
-        setAmount(quality*rate)
+        setAmount(quality * rate)
     }
 
     const handleAdd = (e) => {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
-        // setAmount(0)
     }
 
     const handleRemove = (e) => {
         e.preventDefault()
         var newvalue = [...totalValues]
-        console.log(newvalue.length)
-        if (newvalue.length == 1) {
+        if (newvalue.length === 1) {
             setTotalValues(newvalue)
 
         } else {
             newvalue.pop()
-
             setTotalValues(newvalue)
         }
     }
@@ -76,13 +65,13 @@ function PaymentsReceived() {
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Choose</option>
+                                                        <option value='' hidden>Choose</option>
 
                                                     </select>
                                                     <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
                                                 </div>
                                             </div>
-                                            <hr/>
+                                            <hr />
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Amount Received<span style={{ color: "red" }}>*</span> </label>
@@ -93,8 +82,8 @@ function PaymentsReceived() {
                                                 <label className="col-md-1 col-form-label font-weight-normal" >Bank Charges</label>
 
                                                 <div className="d-flex col-md-4">
-                                                <input type="text" className="form-control " id="Accountname" placeholder="" />
-                                                 </div>
+                                                    <input type="text" className="form-control " id="Accountname" placeholder="" />
+                                                </div>
                                             </div>
 
                                             <div className="form-row mt-2">
@@ -115,12 +104,12 @@ function PaymentsReceived() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Payment Mode </label>
                                                 <div className="d-flex col-md">
-                                                <select
+                                                    <select
                                                         id="AccountType"
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Choose</option>
+                                                        <option value='' hidden>Choose</option>
 
                                                     </select>
                                                 </div>
@@ -129,12 +118,12 @@ function PaymentsReceived() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Deposit To<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                <select
+                                                    <select
                                                         id="AccountType"
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Select Account</option>
+                                                        <option value='' hidden>Select Account</option>
 
                                                     </select>
                                                 </div>
@@ -147,8 +136,8 @@ function PaymentsReceived() {
                                                 </div>
                                             </div>
 
-                                      
-                                          
+
+
 
                                             <hr />
 
@@ -156,7 +145,7 @@ function PaymentsReceived() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Select or Add Salesperson</option>
+                                                        <option value='' hidden>Select or Add Salesperson</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -165,13 +154,13 @@ function PaymentsReceived() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                <textarea  className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
+                                                    <textarea className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
 
                                                 </div>
                                             </div>
                                             <hr />
 
-                                         
+
                                             <table class="table">
                                                 <thead>
                                                     <th scope="col">Iteam Details</th>
@@ -185,7 +174,7 @@ function PaymentsReceived() {
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td>{amount}</td>
                                                             </tr>
 

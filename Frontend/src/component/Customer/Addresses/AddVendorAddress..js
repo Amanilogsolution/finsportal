@@ -13,11 +13,14 @@ const AddVendAddress = () => {
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_state, setBilling_address_state] = useState();
 
-  useEffect(async () => {
-    const result = await Activecountries()
-    setSelectedCountry(result)
-    const dataId = await ActiveVendor(localStorage.getItem('Organisation'))
-    setVendId(dataId)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await Activecountries()
+      setSelectedCountry(result)
+      const dataId = await ActiveVendor(localStorage.getItem('Organisation'))
+      setVendId(dataId)
+    }
+    fetchdata();
   }, []);
 
   const handleClick = async (e) => {
@@ -163,7 +166,7 @@ const AddVendAddress = () => {
                                 >
                                   <option value='' hidden> Select Country</option>
                                   {
-                                    selectedCountry.map((data,index) => (
+                                    selectedCountry.map((data, index) => (
                                       <option key={index} value={data.country_name}>{data.country_name}</option>
                                     ))
 
@@ -230,7 +233,7 @@ const AddVendAddress = () => {
                                 <input
                                   type="number"
                                   className="form-control col-md-7"
-                                  
+
                                   id="billing_address_pincode"
                                 />
                               </div>

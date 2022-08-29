@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { CustAddress, EditCustAddress,Totalcountry,showactivestate,getCity } from '../../../api';
+import { CustAddress, EditCustAddress, Totalcountry, showactivestate, getCity } from '../../../api';
 
 
 const EditAddress = () => {
@@ -15,16 +15,18 @@ const EditAddress = () => {
   const [data, setData] = useState({})
   const [cust_id, setCust_id] = useState()
 
-  useEffect(async () => {
-    const data = await CustAddress(localStorage.getItem('EditAddress'), localStorage.getItem("Organisation"))
-    setData(data)
-    console.log(data)
-    setBilling_address_country(data.billing_address_country)
-    setBilling_address_state(data.billing_address_state)
-    setBilling_address_city(data.billing_address_city)
-    setCust_id(data.cust_id)
-    const result = await Totalcountry()
-    setSelectedCountry(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const data = await CustAddress(localStorage.getItem('EditAddress'), localStorage.getItem("Organisation"))
+      setData(data)
+      setBilling_address_country(data.billing_address_country)
+      setBilling_address_state(data.billing_address_state)
+      setBilling_address_city(data.billing_address_city)
+      setCust_id(data.cust_id)
+      const result = await Totalcountry()
+      setSelectedCountry(result)
+    }
+    fetchdata()
   }, []);
 
   const handleClick = async (e) => {
@@ -37,7 +39,12 @@ const EditAddress = () => {
 
     const result = await EditCustAddress(localStorage.getItem("Organisation"), localStorage.getItem('EditAddress'), cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, User_id)
     if (result) {
+      alert('Data Updated')
+      localStorage.removeItem('EditAddress')
       window.location.href = '/TotalCustAddress'
+    }
+    else{
+      alert('Server not response')
     }
 
   }
@@ -273,7 +280,7 @@ const EditAddress = () => {
                     </article>
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalCustAddress" }}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => {  localStorage.removeItem('EditAddress');window.location.href = "./TotalCustAddress" }}>Cancel</button>
                     </div>
                   </div>
                 </div>

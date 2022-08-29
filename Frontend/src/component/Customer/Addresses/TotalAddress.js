@@ -90,11 +90,11 @@ const TotalCustAddress = () => {
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
-    // importdata.map((d) => {
-    //   if (!d.cust_name || !d.billing_address_attention || !d.billing_address_country || !d.billing_address_state || !d.billing_address_city) {
-    //     setErrorno(errorno++);
-    //   }
-    // })
+    importdata.map((d) => {
+      if (!d.cust_name || !d.billing_address_attention || !d.billing_address_country || !d.billing_address_state || !d.billing_address_city) {
+        setErrorno(errorno++);
+      }
+    })
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");

@@ -48,6 +48,7 @@ const EditVendorAddress = () => {
       billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
     if (result) {
       alert('Data Updated');
+      localStorage.removeItem('EditVendorAddresssno');
       window.location.href = './TotalVendAddress';
     }
 
