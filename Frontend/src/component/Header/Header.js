@@ -245,6 +245,8 @@ const Header = () => {
                   <b><a href="/EditOrganisation">Orgaisation profile</a></b> </li>
                 <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b><a href="ShowFincialyear">Fincial Year</a></b> </li>
+                  <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b><a href="/TotalLocation">Branches</a></b> </li>
               </ul>
 
 

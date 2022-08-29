@@ -30,13 +30,11 @@ const InsertInvoice = async (req, res) => {
     const igst_amt = req.body.igst_amt;
     const taxable_amt= req.body.taxable_amt;
     const currency_type = req.body.currency_type;
-    const sales_person = req.body.sales_person;
+    const sales_person = '';
     // const subject = req.body.subject;
     const payment_term= req.body.payment_term;
     const due_date = req.body.due_date;
     const User_id = req.body.User_id;
-    console.log('bill',billsubtotal)
- 
 
     try {
         await sql.connect(sqlConfig)

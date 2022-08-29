@@ -578,8 +578,6 @@ const Newdb = async (req, res) => {
                 taxable_amt nvarchar(100) NULL,
                 con_add nvarchar(100) NULL,
                 currency_type nvarchar(100) NULL,
-                sales_person nvarchar(100) NULL,
-                subject nvarchar(100) NULL,
                 payment_term nvarchar(100) NULL,
                 due_date date NULL, 
                 add_date_time datetime NULL,
