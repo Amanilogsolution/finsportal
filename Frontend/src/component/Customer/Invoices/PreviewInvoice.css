@@ -1,7 +1,6 @@
 .modalinvoice {
   font-family: sans-serif;
   border: 1px solid #000;
-  /* height: 100vh; */
   padding-bottom: 10px;
 }
 
@@ -12,14 +11,13 @@
 
 .topdiv {
   height: 13vh;
-  /* border: 2px solid red; */
   position: relative;
 }
 
 .topinnerdiv {
   position: absolute;
   right: 0;
-  top:4%;
+  top: 4%;
   height: 100%;
   width: 50%;
 
@@ -31,12 +29,10 @@
 }
 
 .topinnerdiv p {
-  /* border: 2px solid red; */
   margin: -1px 0px 3px 0px;
 }
 
 .topbottomdiv {
-  /* border: 2px solid red; */
   height: 15px;
   width: 100%;
 }
@@ -51,7 +47,6 @@
 }
 
 .inerinvoicediv {
-  /* border: 2px solid red; */
   width: 95%;
   height: 33px;
   display: flex;
@@ -69,7 +64,6 @@
 }
 
 .forthinvoicediv {
-  /* border:2px solid red; */
   width: 35%;
   text-align: right;
 }
@@ -77,7 +71,6 @@
 .addressmaindiv {
   height: 150px;
   width: 100%;
-  /* border: 2px solid red; */
   display: flex;
   border-bottom: 1px dotted #000;
 }
@@ -85,7 +78,6 @@
 .addressmaindiv .inneraddduiv {
   height: 100%;
   width: 50%;
-  /* border: 2px solid red; */
   padding: 0px 5px 5px 10px;
 }
 
@@ -197,8 +189,8 @@
 }
 
 
-.itemtablesec .itembodysec th:nth-child(1){
-  width:4%;
+.itemtablesec .itembodysec th:nth-child(1) {
+  width: 4%;
 }
 
 .itemtablesec .itembodysec .itemtrsec td:nth-child(2) {
@@ -221,10 +213,10 @@
 
 }
 
-/*####################### itemtablesec End */
+/*####################### itemtablesec End ######################## */
 
 
-/*  ################# invoiceval */
+/*  ################# invoiceval  ########################### */
 .invoiceval {
   height: 40px;
   width: 100%;
@@ -252,12 +244,9 @@
 }
 
 .invoicevalword h4 {
-  /* border: 2px solid red; */
   margin: 0;
   width: 35%;
   padding-left: 8px;
-  /* font-size: 18px;
-    font-weight: 600px; */
 }
 
 .invoicevalword h4:nth-child(2) {
@@ -274,11 +263,9 @@
 }
 
 .amounttax h4 {
-  /* border: 2px solid red; */
   margin-top: 15px;
   width: 45%;
   padding-left: 10px;
-
 }
 
 .amounttax .amounttaxtable {
@@ -299,7 +286,7 @@
 
 .amounttax .amounttaxtable .amounttaxtr td {
   border: 1px solid #000;
-  
+
 }
 
 /* gstdetail */
@@ -313,14 +300,10 @@
 }
 
 .gstdetail h5 {
-  /* border: 2px solid red; */
   margin: 0;
   padding-left: 10px;
-  /* font-size: 16px; */
-
 }
 
-/* payable */
 .payable {
   height: 40px;
   width: 100%;
@@ -335,7 +318,6 @@
   padding-left: 10px;
 }
 
-/* payable */
 .signature {
   height: 40px;
   width: 100%;
@@ -367,26 +349,23 @@
   }
 
   .invoicevalword h4:nth-child(1) {
-    /* border: 2px solid red; */
     width: 40%;
-
   }
 
   .invoicevalword h4:nth-child(2) {
-    /* border: 2px solid red; */
     width: 60%;
-
   }
 
   .gstdetail {
     height: 70px;
   }
 }
+
 @media screen and (max-width:1700px) {
-  .secondinvoicediv{
-    width:20%;
-   }
-  
+  .secondinvoicediv {
+    width: 20%;
+  }
+
 }
 
 
@@ -394,7 +373,7 @@
   .invoicevalword {
     height: 80px;
   }
-  
+
 }
 
 @media screen and (max-width:1350px) {
@@ -418,17 +397,11 @@
     transform: translate(-20%);
   }
 
-  /* .invoiceval {
-    width: 55%;
-  } */
-
   .invoiceval :nth-child(1) {
-    /* border: 2px solid red; */
     width: 70%;
   }
 
   .invoiceval :nth-child(2) {
-    /* border: 2px solid red; */
     width: 20%;
   }
 }
@@ -447,22 +420,37 @@
   }
 }
 
+@media screen and (max-width:850px) {
+  .modeldivcard {
+    width: 90vw;
+    transform: translate(-18%);
+  }
+
+  .secondinvoicediv {
+    width: 30%;
+  }
+
+
+}
+
 @media screen and (max-width:800px) {
   .modeldivcard {
     margin-top: 10px;
     width: 100vw;
-    transform: translate(-20%);
+    transform: translate(-17%);
   }
 
 
 }
 
 @media screen and (max-width:720px) {
-
   .modeldivcard {
-    /* width: 745px; */
     transform: translate(-13%);
   }
+}
 
-
+@media screen and (max-width:650px) {
+  .modeldivcard {
+    transform: translate(-10%);
+  }
 }
