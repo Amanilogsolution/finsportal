@@ -1,28 +1,33 @@
 const sql = require('mssql')
 const sqlConfig = require('../config.js')
 const os = require('os');
-const e = require('express');
+const uuidv1 = require("uuid/v1");
+
 
 const InsertItems = async (req, res) => {
     const org = req.body.org;
     const item_type = req.body.item_type;
     const item_name = req.body.item_name;
     const item_unit = req.body.item_unit;
-    const item_selling_price = req.body.item_selling_price ? req.body.item_selling_price : null;
-    const sales_account = req.body.sales_account ? req.body.sales_account : '';
-    const sales_description = req.body.sales_description ? req.body.sales_description : '';
-    const item_cost_price = req.body.item_cost_price ? req.body.item_cost_price : null;
-    const purchase_account = req.body.purchase_account ? req.body.purchase_account : '';
-    const purchases_description = req.body.purchases_description ? req.body.purchases_description : '';
+    const sac_code = req.body.sac_code;
+    const hsn_code = req.body.hsn_code;
+    const major_code_id = req.body.major_code_id;
+    const major_code = req.body.major_code;
+    const chart_of_account = req.body.chart_of_account;
+    const tax_preference = req.body.tax_preference;
+    const sales_account = req.body.sales_account;
+    const purchase_account = req.body.purchase_account;
+    const gst_rate = req.body.gst_rate;
     const add_user_name = req.body.add_user_name;
+    console.log(org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name)
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_items_account (item_type,item_name,item_unit,item_selling_price,sales_account,
-            sales_description,item_cost_price,purchase_account,purchases_description,add_user_name,add_system_name,
-            add_ip_address,add_date_time,status)
-            Values('${item_type}','${item_name}','${item_unit}',${item_selling_price},'${sales_account}','${sales_description}',${item_cost_price},'${purchase_account}',
-            '${purchases_description}','${add_user_name}','${os.hostname()}','${req.ip}',getDate(),'Active');`)
+        const result = await sql.query(` INSERT into ${org}.dbo.tbl_items_account
+        (item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,
+       add_user_name,add_system_name ,add_ip_address ,add_date_time,status,item_uuid )
+       values('${item_type}','${item_name}','${item_unit}','${sac_code}','${hsn_code}','${major_code_id}','${major_code}','${chart_of_account}','${tax_preference}','${sales_account}','${purchase_account}','${gst_rate}','${add_user_name}','${os.hostname()}','${req.ip}',getdate(),'Active',
+       '${uuidv1()}')`)
 
         if (result.rowsAffected[0] > 0) {
             res.send('Added')
@@ -30,6 +35,34 @@ const InsertItems = async (req, res) => {
         else {
             res.send('Server error')
         }
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+const TotalItems = async (req, res) => {
+    const org = req.body.org
+
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_items_account with (nolock) order by sno desc;`)
+
+        res.send(result.recordset)
+    } catch (err) {
+        res.send(err)
+    }
+}
+
+const deleteItems = async (req, res) => {
+    const org = req.body.org
+    const sno = req.body.sno;
+    const status = req.body.status;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_items_account set status='${status}' WHERE  sno='${sno}';  
+        `)
+        res.send('done')
     }
     catch (err) {
         res.send(err)
@@ -51,4 +84,4 @@ const ActiveItems = async (req, res) => {
 }
 
 
-module.exports = { InsertItems, ActiveItems }
+module.exports = { InsertItems,TotalItems, ActiveItems,deleteItems }

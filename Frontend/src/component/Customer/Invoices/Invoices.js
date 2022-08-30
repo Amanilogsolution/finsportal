@@ -630,7 +630,7 @@ function Invoices() {
                                                             <tr key={index}>
                                                                 <div id='trdiv'>
                                                                     <td className="col-md-2 pl-0 pr-0">
-                                                                        <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md">
+                                                                        <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md-">
                                                                             <option value='' hidden > Select item</option>
                                                                             {
                                                                                 activechargecode.map((item, index) => (

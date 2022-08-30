@@ -7,6 +7,7 @@ import { showOrganisation, updateOrganisation, UploadData } from "../../api/inde
 function EditOrganisation() {
   const [data, setData] = useState({})
   const [file, setFile] = useState('')
+  const [report_basic,setReportBasic] = useState('')
 
 
   const Orgdetails = async (e) => {
@@ -19,9 +20,14 @@ function EditOrganisation() {
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
     const User_id = document.getElementById('User_id')
+    const Industry_Type = document.getElementById('industry_type').value
+    const Fins_year = document.getElementById('fins_year').value
+    const Company_Id = document .getElementById('company_id').value
+    const Tax_id = document.getElementById('tax_id').value
+    console.log(Industry_Type,Fins_year,Company_Id,Tax_id,report_basic)
 
 
-    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id)
+    const result = await updateOrganisation(localStorage.getItem('Organisation'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id,Industry_Type,Fins_year,report_basic,Company_Id,Tax_id)
     if (result) {
       alert('Updated')
       window.location.href = '/home';
@@ -57,12 +63,36 @@ function EditOrganisation() {
   const handleChangeGst = (e) => {
     setData({ ...data, org_gst: e.target.value })
   }
+  const handleChangeIndustrytype = (e) => {
+    setData({ ...data, industry_type: e.target.value })
+  }
+  const handleChangeCompanyId = (e) =>{
+    setData({ ...data, company_id: e.target.value })
+  }
+  const handleChangeTaxId = (e) =>{
+    setData({ ...data, tax_id: e.target.value })
+  }
+
+  const handleChange= (e) =>{
+    console.log(e.target.value)
+    setReportBasic(e.target.value)
+  }
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await showOrganisation(localStorage.getItem('Organisation'))
       console.log(result)
       setData(result)
+      console.log(result.report_basic)
+      if(result.report_basic==='Accural'){
+        document.getElementById('Accural').checked = true
+        setReportBasic('Accural')
+      }else{
+        document.getElementById('Cash').checked = true
+        setReportBasic('Cash')
+
+      }
+
     }
     fetchdata()
 
@@ -108,7 +138,7 @@ function EditOrganisation() {
                     </div>
                     <div className="col form-group">
                       <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
-                      <input type="text" className="form-control" id="org_name" />
+                      <input type="text" className="form-control" id="industry_type"  value={data.industry_type}  onChange={(e) => handleChangeIndustrytype(e)}/>
                     </div>
                   </div>
                   <div className="form-row">
@@ -227,22 +257,24 @@ function EditOrganisation() {
                       <label>Finacial year</label>
 
                       <select
-                        id="state_name"
+                        id="fins_year"
                         className="form-control col-md-6"
                       >
-                        <option value='' hidden >April-March</option>
+                        <option value='' hidden >{data.fins_year_month}</option>
+                        <option value='January_Feburary' >January_Feburary</option>
+
 
                       </select>
                     </div>
-                    <div className=" form-group col">
+                    <div className=" form-group col"onChange={handleChange}>
                       <label> Report Basic </label>
                       <label className="form-check form-check-inline">
 
                         <input
                           className="form-check-input ml-2" type="radio"
                           name="taxpreference"
-                          value="state"
-                          id="State"
+                          value="Accural"
+                          id="Accural"
                         />Accural
                       </label>
                       <div className="form-group col ml-6" >
@@ -252,8 +284,8 @@ function EditOrganisation() {
                             className="form-check-input "
                             type="radio"
                             name="taxpreference"
-                            value="UT"
-                            id="UT"
+                            value="Cash"
+                            id="Cash"
                           />Cash
 
                         </label>
@@ -297,19 +329,14 @@ function EditOrganisation() {
                       <label>
                         Company ID<span style={{ color: "red" }}>*</span>
                       </label>
-                      <input type="text" className="form-control" placeholder id="company_id"
-                        required
-                      />
+                      <input type="text" className="form-control" placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)}/>
                     </div>
                     <div className="form-group col-md-6">
                       <label>
                         Tax ID
                         <span style={{ color: "red" }}>*</span>
                       </label>
-                      <input type="text" className="form-control"
-                        placeholder
-                        id="Tax_id"
-
+                      <input type="text" className="form-control" placeholder id="tax_id"  value={data.tax_id}  onChange={(e) => handleChangeTaxId(e)}
                       />
                     </div>
                   </div>

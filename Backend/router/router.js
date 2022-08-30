@@ -216,6 +216,9 @@ router.post('/updatefinancialtwocount',FincialyearController.UpdatefinancialTwoc
 
 
 router.post('/insertitems',ItemsController.InsertItems)
+router.post('/totalitems',ItemsController.TotalItems)
+router.post('/deleteitems',ItemsController.deleteItems)
+
 router.post('/activeitems',ItemsController.ActiveItems)
 
 router.post('/FileUpload',Multer,FileUpload)

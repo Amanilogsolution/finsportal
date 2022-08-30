@@ -101,7 +101,7 @@ function ShowAccountMinorCode() {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
-        window.location.href = 'ShowUnit'
+        window.location.href = 'ShowAccountMinorCode'
       }
     }
 
