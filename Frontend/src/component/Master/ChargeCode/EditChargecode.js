@@ -87,8 +87,8 @@ const EditChargecode = () => {
             const result = await UpdateItems(sno,org,type,Name,Unit,saccode,hsncode,major_code_val,major_code,chartofaccount,taxpreference,Sales,Purchase,gstrate,user_id);
             if (result === "updated") {
                 alert('Data Updated')
-                // localStorage.removeItem('ItemsSno');
-                // window.location.href = '/ShowChargecode'
+                localStorage.removeItem('ItemsSno');
+                window.location.href = '/ShowChargecode'
             }
             else {
                 alert('Server error')
