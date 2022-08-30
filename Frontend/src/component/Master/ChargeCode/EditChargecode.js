@@ -2,26 +2,54 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { GetChargecode, UpdateChargecode ,ActiveAccountname,SelectSubAcconameByType,SelectSubAccountname} from "../../../api";
+import { GetItems, UpdateItems ,ActiveAccountname,SelectSubAcconameByType,SelectSubAccountname,TotalActiveUnit} from "../../../api";
 
 
 const EditChargecode = () => {
     const [data, setData] = useState({})
-    const [majorcodelist,setMajorcodelist] =useState([])
+    const [majorcodelist,setMajorcodelist] =useState([{}])
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
+    const [type, setType] = useState();
+    const [unitdata, setUnitdata] = useState([]);
+
+
 
     useEffect(() => {
         const fetchdata = async () => {
             const org= localStorage.getItem('Organisation');
-            const result = await GetChargecode(org, localStorage.getItem('ChargecodeSno'))
+            const result = await GetItems(org, localStorage.getItem('ItemsSno'))
+            console.log(result)
             setData(result)
+            if(result.item_type === 'Goods'){
+                document.getElementById('typeGoods').checked = true
+                setType('Goods')
+            }else{
+                document.getElementById('typeService').checked = true
+                setType('Service')
+            }
+            if(result.purchase_account === 'Purchase' && result.sales_account === 'Sales'){
+                document.getElementById('item_name_purchase').checked = true
+                document.getElementById('item_name_sales').checked = true
+            }else if(result.purchase_account === 'Purchase'){
+                document.getElementById('item_name_purchase').checked = true
+            }else if(result.sales_account === 'Sales'){
+                document.getElementById('item_name_sales').checked = true
+            }else{
 
-            const subAcconameByType= await SelectSubAcconameByType(org,result.major_code)
-            const chartofaccount = await SelectSubAccountname(org, subAcconameByType[0].account_type_code)
-            setChartofaccountlist(chartofaccount)
+            }
 
-            const result2 = await ActiveAccountname(org)
+            if(result.tax_preference === "Taxable"){
+                document.getElementById('defaulttax').style.display = "block";
+            }else{
+                document.getElementById('defaulttax').style.display = "none";
+            }
+
+            const result2 = await ActiveAccountname(localStorage.getItem('Organisation'))
+            console.log(result2)
             setMajorcodelist(result2)
+
+            const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
+            setUnitdata(result1)
         }
         fetchdata()
     }, [])
@@ -35,29 +63,32 @@ const EditChargecode = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        const description = document.getElementById("description").value;
-        const short_name = document.getElementById("short_name").value;
-        const nature = document.getElementById("nature").value;
+        const Name = document.getElementById("name").value;
+        const Unit = document.getElementById("unit").value;
+        const hsncode = document.getElementById("hsncode").value;
+        const saccode = document.getElementById("saccode").value
         const major_code1 = document.getElementById("major_code");
         const major_code= major_code1.options[major_code1.selectedIndex].textContent;
         const major_code_val=major_code1.value
         const chartofaccount =document.getElementById('chartofaccount').value;
-        const activity = document.getElementById("activity").value;
-        const sacHsncode = document.getElementById("sacHsncode").value;
+        const taxpreference = document.getElementById("taxpreference").value;
+        const Purchase = document.getElementById("item_name_purchase").checked===true?'Purchase':'';
+        const Sales = document.getElementById("item_name_sales").checked===true?'Sales':'';
         const gstrate = document.getElementById("gstrate").value;
-        const sno = localStorage.getItem('ChargecodeSno');
+        const sno = localStorage.getItem('ItemsSno');
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
+        console.log(sno,org,type,Name,Unit,saccode,hsncode,major_code_val,major_code,chartofaccount,taxpreference,Sales,Purchase,gstrate,user_id)
 
-        if (!description || !short_name || !nature || !major_code || !chartofaccount || !activity || !sacHsncode || !gstrate) {
+        if (!Name) {
             alert('Enter the Mandatory field...')
         }
         else {
-            const result = await UpdateChargecode(sno, org, description, short_name, nature, major_code,chartofaccount, activity, sacHsncode, gstrate, user_id,major_code_val);
+            const result = await UpdateItems(sno,org,type,Name,Unit,saccode,hsncode,major_code_val,major_code,chartofaccount,taxpreference,Sales,Purchase,gstrate,user_id);
             if (result === "updated") {
                 alert('Data Updated')
-                localStorage.removeItem('ChargecodeSno');
-                window.location.href = '/ShowChargecode'
+                // localStorage.removeItem('ItemsSno');
+                // window.location.href = '/ShowChargecode'
             }
             else {
                 alert('Server error')
@@ -66,25 +97,48 @@ const EditChargecode = () => {
 
     }
 
-    const handleDescription = (e) => {
-        setData({ ...data, description: e.target.value })
+    const handletaxprefrnce = (e) => {
+        if (e.target.value === 'Taxable') {
+            document.getElementById('defaulttax').style.display = "block";
+        }
+        else if (e.target.value === 'Non-Taxable') {
+            document.getElementById('defaulttax').style.display = "none";
+        }
+        else {
+            document.getElementById('defaulttax').style.display = "none";
+
+        }
     }
 
-    const handleShort_name = (e) => {
-        setData({ ...data, short_name: e.target.value })
+    const handletype = (e) => {
+        const type = e.target.value;
+        setType(type);
+        console.log(type)
+        if (type === 'Goods') {
+            document.getElementById('hsncodetoogle').style.display = "flex";
+            document.getElementById('saccodetoogle').style.display = "none";
+        }
+        else {
+            document.getElementById('hsncodetoogle').style.display = "none";
+            document.getElementById('saccodetoogle').style.display = "flex";
+        }
     }
 
-    const handleNature = (e) => {
-        setData({ ...data, nature: e.target.value })
+    const handleChangename = (e) => {
+        setData({ ...data, item_name: e.target.value })
+    }
+
+
+
+    const handleChangehsn = (e) => {
+        setData({ ...data, hsn_code: e.target.value })
     }
  
-    const handleActivity = (e) => {
-        setData({ ...data, activity: e.target.value })
+    const handleChangesac = (e) => {
+        setData({ ...data, sac_code: e.target.value })
     }
 
-    const handleSacHsn_code = (e) => {
-        setData({ ...data, sacHsn: e.target.value })
-    }
+
     const handleGst_rate = (e) => {
         setData({ ...data, gst_rate: e.target.value })
     }
@@ -105,26 +159,48 @@ const EditChargecode = () => {
                                     <div className="card" style={{ width: "100%" }}>
                                         <article className="card-body">
                                             <form>
+                                            <div className="form-row" >
+                                                        <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
+                                                        <div className="col form-group "  onChange={handletype} >
+                                                            <input className="col-mt-2" type="radio" id="typeGoods" name="itemtype" value='Goods' />  Goods  &nbsp; &nbsp;
+                                                            <input className="col-mt-2" type="radio" id="typeService" name="itemtype" value='Service' />  Service
+                                                        </div>
+                                                    </div>
 
-                                                <div className="form-row">
-                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Description</label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='description' value={data.description} onChange={handleDescription} />
-                                                    </div>
-                                                </div>
 
-                                                <div className="form-row">
-                                                    <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Short Name</label>
+                                                    <div className="form-row">
+                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='short_name' value={data.short_name} onChange={handleShort_name} />
+                                                        <input type="text" className="form-control col-md-4" id='name' value={data.item_name} onChange={(e) => handleChangename(e)}  />
                                                     </div>
                                                 </div>
-                                                <div className="form-row">
-                                                    <label htmlFor="nature" className="col-md-2 col-form-label font-weight-normal">Nature</label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='nature' value={data.nature} onChange={handleNature} />
+                                                <div className="form-row" >
+                                                        <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
+                                                        <div className="col form-group">
+                                                            <select className="form-control col-md-4" id="unit">
+                                                                <option value='' hidden>{data.item_type}</option>
+                                                                {
+                                                                    unitdata.map((item, index) => (
+                                                                        <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
+
+                                                                    ))
+                                                                }
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <div className="form-row" id="hsncodetoogle">
+                                                        <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
+                                                        <div className="col form-group">
+                                                            <input className="form-control col-md-4" type="text" id="hsncode" value={data.hsn_code}  onChange={(e) => handleChangehsn(e)} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-row" id="saccodetoogle" style={{display:"none"}} >
+                                                        <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-normal" >SAC</label>
+                                                        <div className="col form-group">
+                                                            <input className="form-control col-md-4" type="text" id="saccode" value={data.sac_code} onChange={(e) => handleChangesac(e)} />
+                                                        </div>
+                                                    </div>
+                                              
                                                 <div className="form-row">
                                                     <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code</label>
                                                     <div className="col form-group">
@@ -141,7 +217,7 @@ const EditChargecode = () => {
                                                     <label htmlFor="chartofaccount" className="col-md-2 col-form-label font-weight-normal">Chart of Account</label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id='chartofaccount'   >
-                                                            <option  hidden>{data.chartof_account}</option>
+                                                            <option  hidden>{data.chart_of_account}</option>
                                                             {
                                                                 chartofaccountlist.map((item, index) =>
                                                                     <option key={index} value={item.account_sub_name}>{item.account_sub_name}</option>)
@@ -149,19 +225,32 @@ const EditChargecode = () => {
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div className="form-row">
-                                                    <label htmlFor="activity" className="col-md-2 col-form-label font-weight-normal">Activity</label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='activity' value={data.activity} onChange={handleActivity} />
+                                                <div className="form-row" >
+                                                        <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
+                                                        <div className="col form-group">
+                                                            <select className="form-control col-md-4" id="taxpreference" onChange={handletaxprefrnce}>
+                                                                <option value='' hidden>{data.tax_preference}</option>
+                                                                <option value='Taxable' >Taxable</option>
+                                                                <option value='Non-Taxable' >Non-Taxable</option>
+                                                                <option value='Out-of-Scope' >Out of Scope</option>
+                                                                <option value='Non-GST Supply' >Non-GST Supply </option>
+
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="form-row">
-                                                    <label htmlFor="sacHsncoe" className="col-md-2 col-form-label font-weight-normal">SAC/HSN Code</label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='sacHsncode' value={data.sacHsn} onChange={handleSacHsn_code} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-row">
+                                                    <div className="form-row">
+                                                                <div className="form-group " style={{ marginTop: "10px" }} >
+                                                                    <input className="form-control" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
+                                                                </div>
+                                                                <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
+
+                                                                <div className="form-group " style={{ marginTop: "10px" }} >
+                                                                    <input className="form-control" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
+                                                                </div>
+                                                                <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
+
+                                                            </div>
+                                                            <div className="form-row" id="defaulttax" style={{ display: "none" }}>
                                                     <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)</label>
                                                     <div className="col form-group">
                                                         <input type="number" className="form-control col-md-4" id='gstrate' value={data.gst_rate} maxLength={3} onChange={handleGst_rate} />
