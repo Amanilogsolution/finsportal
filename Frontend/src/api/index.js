@@ -1089,8 +1089,8 @@ export const AddChargecodeapi = async (org,description,short_name,nature,major_c
 }
 
 
-export const GetChargecode = async (org,sno) => {
-    const url = `http://localhost:3008/api/getchargecode`
+export const GetItems = async (org,sno) => {
+    const url = `http://localhost:3008/api/getItems`
     return axios.post(url, { org,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1100,9 +1100,10 @@ export const deleteItems = async (org,sno,status) => {
     return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateChargecode = async (sno,org,description,short_name,nature,major_code,chartofaccount,activity,sacHsn,gst_rate,User_id,major_code_val) => {
-     const url = `http://localhost:3008/api/updatechargecode`
-    return axios.post(url, { sno,org,description,short_name,nature,major_code,chartofaccount,activity,sacHsn,gst_rate,User_id,major_code_val}).then(response => response.data).catch(error => console.log(error));
+export const UpdateItems = async (sno,org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name) => {
+    console.log(sno,org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name)
+     const url = `http://localhost:3008/api/updateItems`
+    return axios.post(url, { sno,org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name}).then(response => response.data).catch(error => console.log(error));
 }
 
  export const ActiveAccountname = async (org) => {

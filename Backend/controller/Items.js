@@ -69,6 +69,50 @@ const deleteItems = async (req, res) => {
     }
 }
 
+async function getItems(req, res) {
+    const org = req.body.org
+    const sno = req.body.sno
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_items_account with (nolock) where sno = ${sno}`)
+        res.send(result.recordset[0])
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+const UpdateItems = async (req, res) => {
+    const sno = req.body.sno;
+    const org = req.body.org;
+    const item_type = req.body.item_type;
+    const item_name = req.body.item_name;
+    const item_unit = req.body.item_unit;
+    const sac_code = req.body.sac_code;
+    const hsn_code = req.body.hsn_code;
+    const major_code_id = req.body.major_code_id;
+    const major_code = req.body.major_code;
+    const chart_of_account = req.body.chart_of_account;
+    const tax_preference = req.body.tax_preference;
+    const sales_account = req.body.sales_account;
+    const purchase_account = req.body.purchase_account;
+    const gst_rate = req.body.gst_rate;
+    const add_user_name = req.body.add_user_name;
+    console.log(sno,org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name)
+
+    try {
+        await sql.connect(sqlConfig)
+
+        const result = await sql.query(`  update ${org}.dbo.tbl_items_account set item_type='${item_type}',item_name='${item_name}',item_unit='${item_unit}',sac_code='${sac_code}',
+        hsn_code='${hsn_code}',major_code_id='${major_code_id}',major_code='${major_code}',chart_of_account='${chart_of_account}',tax_preference='${tax_preference}',
+        sales_account='${sales_account}',purchase_account='${purchase_account}',gst_rate='${gst_rate}',update_user_name='${add_user_name}',add_system_name='${os.hostname()}',
+        add_ip_address='${req.ip}',add_date_time=GETDATE() WHERE  sno='${sno}';`)
+        res.send("updated")
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
 const ActiveItems = async (req, res) => {
     const org = req.body.org;
     try {
@@ -84,4 +128,4 @@ const ActiveItems = async (req, res) => {
 }
 
 
-module.exports = { InsertItems,TotalItems, ActiveItems,deleteItems }
+module.exports = { InsertItems,TotalItems, ActiveItems,deleteItems,getItems,UpdateItems}
