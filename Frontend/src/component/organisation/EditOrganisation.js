@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { showOrganisation, updateOrganisation,UploadData } from "../../api/index";
+import { showOrganisation, updateOrganisation, UploadData } from "../../api/index";
 
 
 function EditOrganisation() {
   const [data, setData] = useState({})
-  const [file,setFile] = useState('')
+  const [file, setFile] = useState('')
 
 
   const Orgdetails = async (e) => {
@@ -16,10 +16,10 @@ function EditOrganisation() {
     const org_contact_phone = document.getElementById("org_contact_phone").value;
     const org_contact_email = document.getElementById("org_contact_email").value;
     const org_gst = document.getElementById("org_gst").value;
-    const User_id= document.getElementById('User_id')
+    const User_id = document.getElementById('User_id')
 
 
-    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst,User_id)
+    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id)
     if (result) {
       alert('Updated')
       window.location.href = '/home';
@@ -27,14 +27,12 @@ function EditOrganisation() {
     }
   };
 
-  const handleSendFile =async(e)=>{
+  const handleSendFile = async (e) => {
     e.preventDefault()
     const data = new FormData();
-    data.append("images",file)
-   const UploadLink = await UploadData(data)
-   console.log(UploadLink)
-
-}
+    data.append("images", file)
+    const UploadLink = await UploadData(data)
+  }
 
   const handleChangeContactname = (e) => {
     setData({ ...data, org_contact_name: e.target.value })
@@ -58,11 +56,12 @@ function EditOrganisation() {
     setData({ ...data, org_gst: e.target.value })
   }
 
-  useEffect(async () => {
-
-    const result = await showOrganisation(localStorage.getItem('Organisation_details'))
-    console.log('Result', result)
-    setData(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await showOrganisation(localStorage.getItem('Organisation_details'))
+      setData(result)
+    }
+    fetchdata()
 
   }, [])
 
@@ -93,10 +92,10 @@ function EditOrganisation() {
                       <input type="text" className="form-control " id="org_name" disabled value={data.org_name} />
                     </div>
                     <div className="col form-group">
-                      <div style={{ height: "100px", width: "100px", border: "2px solid black",borderRadius:"50%",position:"absolute",top:"-60%",right:"20%" }}>
-                        <img src="https://anyspaze.blob.core.windows.net/awlvendorportal/97576410-d5b0-11ec-816d-5df392c9ae87-account_circle_FILL0_wght400_GRAD0_opsz48.svg" alt="Org_logo" style={{height:"100%",width:"100%"}}/>
-                        <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{position:"absolute",bottom:"10%",color:"blue"}}></i>
-                                                     
+                      <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "absolute", top: "-60%", right: "20%" }}>
+                        <img src="https://anyspaze.blob.core.windows.net/awlvendorportal/97576410-d5b0-11ec-816d-5df392c9ae87-account_circle_FILL0_wght400_GRAD0_opsz48.svg" alt="Org_logo" style={{ height: "100%", width: "100%" }} />
+                        <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "blue" }}></i>
+
                       </div>
                     </div>
                   </div>
@@ -206,7 +205,7 @@ function EditOrganisation() {
                           onChange={(e) => handleChangePin(e)}
                         />
                       </div>
-                
+
                     </div>
                   </div>
                   <p className="regtext">REGIONAL SETTINGS</p>
@@ -280,38 +279,40 @@ function EditOrganisation() {
           </div>
         </div>
       </div>
-                     {/* Modal */}
-                     <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Change Organisation Image</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="form-row">
-                                    <label className="col-sm-6 col-form-label">
-                                        Select Organisation image
-                                    </label>
-                                    <input
-                                        type="file"
-                                     
-                                        onChange={event=>{ const document = event.target.files[0];
-                                          setFile(document)}}   
-                                        accept=".jpg, .jpeg, .png,.svg"
-                                    />
+      {/* Modal */}
+      <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">Change Organisation Image</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-row">
+                <label className="col-sm-6 col-form-label">
+                  Select Organisation image
+                </label>
+                <input
+                  type="file"
 
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal">Upload</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                  onChange={event => {
+                    const document = event.target.files[0];
+                    setFile(document)
+                  }}
+                  accept=".jpg, .jpeg, .png,.svg"
+                />
+
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal">Upload</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
