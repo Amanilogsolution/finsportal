@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalChargecode, DeleteChargecode } from '../../../api';
+import { TotalItems, deleteItems } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
 const ShowChargecode = () => {
 const columns = [
   {
-    name: 'Description',
-    selector: row => row.description,
+    name: 'Name',
+    selector: row => row.item_name,
     sortable: true
   },
 
   {
-    name: 'Short Name',
-    selector: row => row.short_name,
+    name: 'Item Type',
+    selector: row => row.item_type,
     sortable: true
   },
   {
@@ -57,7 +57,7 @@ const columns = [
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
-          const result = await DeleteChargecode(localStorage.getItem('Organisation'), row.sno, status)
+          const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
           window.location.href = 'ShowChargecode'
         }
         }>
@@ -76,7 +76,7 @@ const columns = [
     cell: (row) => [
 
       <a title='View Document' href="/EditChargecode">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('ChargecodeSno', `${row.sno}`)} >Edit</button></a>
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }
@@ -91,8 +91,9 @@ const columns = [
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await TotalChargecode(localStorage.getItem('Organisation'))
+      const result = await TotalItems(localStorage.getItem('Organisation'))
       setData(result)
+      console.log(result)
     }
 
     fetchdata();

@@ -67,9 +67,9 @@ export const showOrganisation = async (org_name) => {
     return axios.post(url, { org_name }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id) => {
+export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id,industry_type,fins_year,report_basic,company_id,tax_id) => {
     const url = `http://localhost:3008/api/UpdateOrganisation`
-    return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id,industry_type,fins_year,report_basic,company_id,tax_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For create  Db End #################################
@@ -818,9 +818,9 @@ export const UpdatefinancialTwocount = async (org, countkey, countvalue, countke
 
 //  ########################## Item api start ###############################
 
-export const InsertItems = async (org, item_type, item_name, item_unit, item_selling_price, sales_account, sales_description, item_cost_price, purchase_account, purchases_description, add_user_name) => {
+export const InsertItems = async (org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name) => {
     const url = `http://localhost:3008/api/insertitems`
-    return axios.post(url, { org, item_type, item_name, item_unit, item_selling_price, sales_account, sales_description, item_cost_price, purchase_account, purchases_description, add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,tax_preference,sales_account,purchase_account,gst_rate,add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveItems = async (org) => {
     const url = `http://localhost:3008/api/activeitems`
@@ -1078,8 +1078,8 @@ export const ActivePaymentTerm = async (org) => {
 
  // ###########################  Charge Code api start ############################
 
- export const TotalChargecode = async (org) => {
-    const url = `http://localhost:3008/api/totalchargecode`
+ export const TotalItems = async (org) => {
+    const url = `http://localhost:3008/api/totalitems`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1095,8 +1095,8 @@ export const GetChargecode = async (org,sno) => {
 }
 
 
-export const DeleteChargecode = async (org,sno,status) => {
-    const url = `http://localhost:3008/api/deletechargecode`
+export const deleteItems = async (org,sno,status) => {
+    const url = `http://localhost:3008/api/deleteitems`
     return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
 }
 
