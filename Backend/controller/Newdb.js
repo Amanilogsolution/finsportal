@@ -346,28 +346,32 @@ const Newdb = async (req, res) => {
                 update_ip_address varchar(50) NULL,
                 status varchar(20) NULL
             );
-            
             CREATE TABLE  ${dbname}.dbo.tbl_items_account (
                 sno bigint IDENTITY(1,1) NOT NULL,
-                item_type varchar(100) NULL,
-                item_name varchar(100) NULL,
-                item_unit varchar(30) NULL,
-                item_selling_price float NULL,
-                sales_account varchar(100) NULL,
-                sales_description varchar(300) NULL,
-                item_cost_price float NULL,
-                purchase_account varchar(100) NULL,
-                purchases_description varchar(300) NULL,
-                add_user_name varchar(50) NULL,
-                add_system_name varchar(100) NULL,
-                add_ip_address varchar(30) NULL,
+                item_type nvarchar(100) NULL,
+                item_name nvarchar(100) NULL,
+                item_unit nvarchar (30) NULL,
+                sac_code nvarchar(30) NULL,
+                hsn_code nvarchar(30) NULL,
+                major_code_id nvarchar (30) NULL,
+                major_code nvarchar (30) NULL,
+                chart_of_account nvarchar (30) NULL,
+                tax_preference  nvarchar (30) NULL,
+                sales_account nvarchar(100) NULL,
+                purchase_account nvarchar(100) NULL,
+                gst_rate nvarchar (30) NULL,
+                add_user_name nvarchar(50) NULL,
+                add_system_name nvarchar(100) NULL,
+                add_ip_address nvarchar(30) NULL,
                 add_date_time datetime NULL,
-                update_user_name varchar(30) NULL,
-                update_system_name varchar(100) NULL,
-                update_ip_address varchar(30) NULL,
+                update_user_name nvarchar(30) NULL,
+                update_system_name nvarchar(100) NULL,
+                update_ip_address nvarchar(30) NULL,
                 update_date_time datetime NULL,
-                status varchar(30) NULL
+                status nvarchar(30) NULL,
+                item_uuid nvarchar(350) NULL
             );
+         
             
             CREATE TABLE ${dbname}.dbo.tbl_account_type (
                 sno bigint IDENTITY(1,1) NOT NULL,
@@ -647,3 +651,29 @@ const Newdb = async (req, res) => {
 
 
 module.exports = { Newdb }
+
+
+
+
+
+// CREATE TABLE  ${dbname}.dbo.tbl_items_account (
+//     sno bigint IDENTITY(1,1) NOT NULL,
+//     item_type varchar(100) NULL,
+//     item_name varchar(100) NULL,
+//     item_unit varchar(30) NULL,
+//     item_selling_price float NULL,
+//     sales_account varchar(100) NULL,
+//     sales_description varchar(300) NULL,
+//     item_cost_price float NULL,
+//     purchase_account varchar(100) NULL,
+//     purchases_description varchar(300) NULL,
+//     add_user_name varchar(50) NULL,
+//     add_system_name varchar(100) NULL,
+//     add_ip_address varchar(30) NULL,
+//     add_date_time datetime NULL,
+//     update_user_name varchar(30) NULL,
+//     update_system_name varchar(100) NULL,
+//     update_ip_address varchar(30) NULL,
+//     update_date_time datetime NULL,
+//     status varchar(30) NULL
+// );
