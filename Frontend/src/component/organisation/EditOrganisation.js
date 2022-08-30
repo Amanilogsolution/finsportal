@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import Header from "../Header/Header";
+import Menu from "../Menu/Menu";
 import { showOrganisation, updateOrganisation, UploadData } from "../../api/index";
 
 
@@ -58,7 +60,8 @@ function EditOrganisation() {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await showOrganisation(localStorage.getItem('Organisation_details'))
+      const result = await showOrganisation(localStorage.getItem('Organisation'))
+      console.log(result)
       setData(result)
     }
     fetchdata()
@@ -66,12 +69,16 @@ function EditOrganisation() {
   }, [])
 
   return (
-    <>
+    <>      <div className="wrapper">
+
+     <div className="preloader flex-column justify-content-center align-items-center">
+          <div className="spinner-border" role="status"> </div>
+        </div>
+
+        <Header />
+        <Menu />
       <div className="orgcontainer">
         <br />
-        <p className="text-center" >
-          AWL is your end-to-end online accounting software.
-        </p>
         <div className="row justify-content-center " style={{ width: "100%" }}>
           <div className="col-md-6">
             <div className="card">
@@ -85,6 +92,14 @@ function EditOrganisation() {
                 <br />
 
                 <form autoComplete="off">
+                  <div className="form-group" style={{ marginLeft:"40%"}}>
+                    <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "relative", }}>
+                      <img src="https://anyspaze.blob.core.windows.net/awlvendorportal/97576410-d5b0-11ec-816d-5df392c9ae87-account_circle_FILL0_wght400_GRAD0_opsz48.svg" alt="Org_logo" style={{ height: "100%", width: "100%" }} />
+                      <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "blue" }}></i>
+
+                    </div>
+                  </div>
+
                   <div className="form-row">
                     <div className="col form-group">
                       <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
@@ -92,11 +107,8 @@ function EditOrganisation() {
                       <input type="text" className="form-control " id="org_name" disabled value={data.org_name} />
                     </div>
                     <div className="col form-group">
-                      <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "absolute", top: "-60%", right: "20%" }}>
-                        <img src="https://anyspaze.blob.core.windows.net/awlvendorportal/97576410-d5b0-11ec-816d-5df392c9ae87-account_circle_FILL0_wght400_GRAD0_opsz48.svg" alt="Org_logo" style={{ height: "100%", width: "100%" }} />
-                        <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "blue" }}></i>
-
-                      </div>
+                      <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
+                      <input type="text" className="form-control " id="org_name" />
                     </div>
                   </div>
                   <div className="form-row">
@@ -209,6 +221,52 @@ function EditOrganisation() {
                     </div>
                   </div>
                   <p className="regtext">REGIONAL SETTINGS</p>
+
+
+                  <div className="form-row">
+                    <div className="form-group col">
+                      <label>Finacial year</label>
+
+                      <select
+                        id="state_name"
+                        className="form-control col-md-6"
+                      >
+                        <option value='' hidden >April-March</option>
+
+                      </select>
+                    </div>
+                    <div className=" form-group col">
+                      <label> Report Basic </label>
+                      <label className="form-check form-check-inline">
+
+                        <input
+                          className="form-check-input ml-2" type="radio"
+                          name="taxpreference"
+                          value="state"
+                          id="State"
+                        />Accural
+                      </label>
+                      <div className="form-group col ml-6" >
+                        <label className="form-check form-check "style={{marginLeft:"90px"}}>
+
+                          <input
+                            className="form-check-input "
+                            type="radio"
+                            name="taxpreference"
+                            value="UT"
+                            id="UT"
+                          />Cash
+
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+
+                    </div>
+                  </div>
+
+
+
                   <div className="form-row">
                     <div className="form-group col-md-6">
                       <label>Currency</label>
@@ -232,6 +290,27 @@ function EditOrganisation() {
                         placeholder
                         disabled
                         style={{ cursor: "not-allowed" }}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="col form-group">
+                      <label>
+                        Company ID<span style={{ color: "red" }}>*</span>
+                      </label>
+                      <input type="text" className="form-control" placeholder id="company_id"
+                        required
+                      />
+                    </div>
+                    <div className="form-group col-md-6">
+                      <label>
+                        Tax ID
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
+                      <input type="text" className="form-control"
+                        placeholder
+                        id="Tax_id"
+
                       />
                     </div>
                   </div>
@@ -312,6 +391,7 @@ function EditOrganisation() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   )
