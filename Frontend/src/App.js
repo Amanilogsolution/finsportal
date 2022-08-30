@@ -78,7 +78,7 @@ import EditAccountname from './component/Master/AccountNameMaster/EditAccountnam
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
 
-import Items from './component/Items/Items';
+import Items from './component/Master/ItemMaster/AddChargecode';
 
 import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
 import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
@@ -117,9 +117,9 @@ import AddPaymentTerm from './component/Master/PaymentTerms/Addpaymentterm';
 import UpdatePaymentTerm from './component/Master/PaymentTerms/Updatepaymentterm'
 
 
-import ShowChargecode from './component/Master/ChargeCode/ShowChargecode'
-import EditChargecode from './component/Master/ChargeCode/EditChargecode'
-import AddChargecode from './component/Master/ChargeCode/AddChargecode'
+import ShowChargecode from './component/Master/ItemMaster/ShowChargecode'
+import EditChargecode from './component/Master/ItemMaster/EditChargecode'
+import AddChargecode from './component/Master/ItemMaster/AddChargecode'
 
 
 import AddCrm from './component/Master/CrmMaster/AddCrm'
