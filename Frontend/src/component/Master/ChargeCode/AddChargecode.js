@@ -99,7 +99,7 @@ const AddChargecode = () => {
                 <div>
                     <div className="content-wrapper">
                         <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Add Charge Code</h3>
+                            <br /> <h3 className="text-left ml-5">Add Item</h3>
                             <div className="row ">
                                 <div className="col ml-5">
                                     <div className="card" style={{ width: "100%" }}>
@@ -109,7 +109,7 @@ const AddChargecode = () => {
                                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
                                                     <div className="col form-group " onChange={handletype} >
                                                         <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
-                                                        <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Service' />  Service
+                                                        <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
                                                     </div>
                                                 </div>
 
@@ -190,7 +190,7 @@ const AddChargecode = () => {
                                                 </div>
 
                                                 <div className="form-row col-md-6">
-                                                    <div className="form-group d-flex col-md-4 float-left" ></div>
+                                                    <div className="form-group d-flex col-md-4" ></div>
                                                     <div className="form-group d-flex col-md-2" >
                                                         <input className="form-control mt-2" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
                                                         <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
@@ -225,7 +225,7 @@ const AddChargecode = () => {
                                                 </div>
                                                 <div className="border-top card-body">
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                                                    <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowChargecode" }}>Cancel</button>
+                                                    <button className="btn btn-light ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./ShowChargecode" }}>Cancel</button>
                                                 </div>
                                             </form>
                                         </article>

@@ -125,12 +125,12 @@ const columns = [
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddChargecode" }} className="btn btn-primary">Add Chargecode</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddChargecode" }} className="btn btn-primary">Add Item</button>
 
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5">Total Charge code</h3>
+              <h3 className="text-left ml-5">Total Items</h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">
