@@ -11,7 +11,7 @@ const AddCrm = () => {
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
     const [userlist, setUserlist] = useState([]);
-    const [typeselect,setTypeSelect] = useState('Vendor')
+    const [typeselect, setTypeSelect] = useState('Vendor')
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -104,7 +104,7 @@ const AddCrm = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                    <input type='text' className="form-control col-md-4"  id='person_name'/>
+                                                        <input type='text' className="form-control col-md-4" id='person_name' required />
 
                                                         {/* <select className="form-control col-md-4" id='person_name' >
                                                             <option hidden>Select the Person name</option>
@@ -139,13 +139,13 @@ const AddCrm = () => {
                                                         }
                                                     </div>
                                                 </div>
-
+                                                <div className="border-top card-body">
+                                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
+                                                    <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCrm" }}>Cancel</button>
+                                                </div>
                                             </form>
                                         </article>
-                                        <div className="border-top card-body">
-                                            <button className="btn btn-success" onClick={handleClick}>Add</button>
-                                            <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCrm" }}>Cancel</button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

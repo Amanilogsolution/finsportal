@@ -37,7 +37,7 @@ const columns = [
           window.location.href = '/ShowCrm'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -93,7 +93,7 @@ const ShowCrm = () => {
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5"> Crm Master </h3>
+              <h3 className="text-left ml-5"> CRM Master </h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">

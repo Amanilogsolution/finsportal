@@ -57,11 +57,14 @@ const EditCrm = () => {
         }
         else {
             const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'));
-            if (result == "updated") {
-                alert('Data updated')
-            } else {
-                window.location.href = '/ShowCrm'
+            if (result === "updated") {
+                alert('Data updated');
                 localStorage.removeItem('CrmmasterSno');
+                window.location.href = '/ShowCrm'
+            }
+            else {
+                alert('Server Error')
+                window.location.reload();
             }
         }
 
@@ -107,7 +110,7 @@ const EditCrm = () => {
                 <div>
                     <div className="content-wrapper">
                         <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Edit Crm Master</h3>
+                            <br /> <h3 className="text-left ml-5">Edit CRM Master</h3>
                             <div className="row ">
                                 <div className="col ml-5">
                                     <div className="card" style={{ width: "100%" }}>
@@ -125,13 +128,14 @@ const EditCrm = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <select className="form-control col-md-4" id='person_name' onChange={handlechangename} >
-                                                            <option hidden>{data.user_name}</option>
+                                                        <input type='text' className="form-control col-md-4" id='person_name' onChange={handlechangename} value={data.user_name} required />
+                                                        {/* <select className="form-control col-md-4" id='person_name' onChange={handlechangename} >
+                                                            <option value={data.user_name} hidden>{data.user_name}</option>
                                                             {
                                                                 userlist.map((item, index) =>
-                                                                    <option>{item.employee_name}</option>)
+                                                                    <option key={index} value={item.employee_name}>{item.employee_name}</option>)
                                                             }
-                                                        </select>
+                                                        </select> */}
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
@@ -155,18 +159,16 @@ const EditCrm = () => {
                                                                     onChange={handleCustvendval}
                                                                     placeholder={data.cust_vend}
                                                                 />
-
                                                         }
-
-
                                                     </div>
+                                                </div>
+                                                <div className="border-top card-body">
+                                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
+                                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('CrmmasterSno'); window.location.href = "./ShowCrm" }}>Cancel</button>
                                                 </div>
                                             </form>
                                         </article>
-                                        <div className="border-top card-body">
-                                            <button className="btn btn-success" onClick={handleClick}>Update</button>
-                                            <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('CrmmasterSno'); window.location.href = "./ShowCrm" }}>Cancel</button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

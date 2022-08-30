@@ -37,7 +37,8 @@ const Updatefincialyear = () => {
 
       }
       else {
-        alert("Server Error!")
+        alert("Server Error!");
+        window.location.reload();
       }
 
     }
