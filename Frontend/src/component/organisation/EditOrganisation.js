@@ -108,7 +108,7 @@ function EditOrganisation() {
                     </div>
                     <div className="col form-group">
                       <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
-                      <input type="text" className="form-control " id="org_name" />
+                      <input type="text" className="form-control" id="org_name" />
                     </div>
                   </div>
                   <div className="form-row">
@@ -119,7 +119,6 @@ function EditOrganisation() {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder
                         value={data.org_country}
                         id="org_country"
                         required
