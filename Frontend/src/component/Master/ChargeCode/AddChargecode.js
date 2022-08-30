@@ -76,8 +76,8 @@ const AddChargecode = () => {
             const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, taxpreference, Sales, Purchase, gstrate, user_id);
             if (result === "Added") {
                 alert('Data Added')
-                window.location.href = '/ShowChargecode'
                 localStorage.removeItem('ChargecodeSno');
+                window.location.href = '/ShowChargecode'
             }
             else {
                 alert('Server Error')
@@ -106,7 +106,7 @@ const AddChargecode = () => {
                                         <article className="card-body">
                                             <form>
                                                 <div className="form-row" >
-                                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
+                                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group " onChange={handletype} >
                                                         <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
                                                         <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
@@ -120,7 +120,7 @@ const AddChargecode = () => {
                                                     </div>
                                                 </div>
                                                 <div className="form-row" >
-                                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
+                                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id="unit">
                                                             <option value='' hidden>Select Unit</option>
