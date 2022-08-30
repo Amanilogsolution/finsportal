@@ -10,7 +10,7 @@ const AddChargecode = () => {
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
     const [type, setType] = useState();
     const [unitdata, setUnitdata] = useState([]);
-
+    const [gstvaluecount, setGstvaluecount] = useState()
 
 
     useEffect(() => {
@@ -19,7 +19,6 @@ const AddChargecode = () => {
             setData(result)
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
-
         }
         fetchdata()
     }, [])
@@ -33,7 +32,6 @@ const AddChargecode = () => {
     const handletype = (e) => {
         const type = e.target.value;
         setType(type);
-        console.log(type)
         if (type === 'Goods') {
             document.getElementById('hsncodetoogle').style.display = "flex";
             document.getElementById('saccodetoogle').style.display = "none";
@@ -46,14 +44,10 @@ const AddChargecode = () => {
 
     const handletaxprefrnce = (e) => {
         if (e.target.value === 'Taxable') {
-            document.getElementById('defaulttax').style.display = "block";
-        }
-        else if (e.target.value === 'Non-Taxable') {
-            document.getElementById('defaulttax').style.display = "none";
+            document.getElementById('defaulttax').style.display = "flex";
         }
         else {
             document.getElementById('defaulttax').style.display = "none";
-
         }
     }
 
@@ -70,21 +64,17 @@ const AddChargecode = () => {
         const taxpreference = document.getElementById("taxpreference").value;
         const Purchase = document.getElementById("item_name_purchase").checked === true ? 'Purchase' : '';
         const Sales = document.getElementById("item_name_sales").checked === true ? 'Sales' : '';
-
         const gstrate = document.getElementById("gstrate").value;
-
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
 
-        console.log(type, Name, unit, HSNcode, SACcode, major_code, major_code_val, chartofaccount, taxpreference, Purchase, Sales, gstrate)
-        console.log(Purchase, Sales)
 
         if (!Name || !unit || !major_code || !chartofaccount || !taxpreference) {
             alert('Please Enter the mandatory field')
         }
         else {
             const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, taxpreference, Sales, Purchase, gstrate, user_id);
-            if (result == "Added") {
+            if (result === "Added") {
                 alert('Data Added')
                 window.location.href = '/ShowChargecode'
                 localStorage.removeItem('ChargecodeSno');
@@ -118,7 +108,7 @@ const AddChargecode = () => {
                                                 <div className="form-row" >
                                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
                                                     <div className="col form-group " onChange={handletype} >
-                                                        <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods'  defaultChecked={true}/>  Goods  &nbsp; &nbsp;
+                                                        <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
                                                         <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Service' />  Service
                                                     </div>
                                                 </div>
@@ -137,7 +127,6 @@ const AddChargecode = () => {
                                                             {
                                                                 unitdata.map((item, index) => (
                                                                     <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
-
                                                                 ))
                                                             }
                                                         </select>
@@ -228,7 +217,10 @@ const AddChargecode = () => {
                                                 <div className="form-row" id="defaulttax" style={{ display: "none" }}>
                                                     <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
-                                                        <input type="number" className="form-control col-md-4" id='gstrate' maxLength={3} />
+                                                        <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
+                                                            if (e.target.value >100) return false;
+                                                            setGstvaluecount(e.target.value)
+                                                        }} />
                                                     </div>
                                                 </div>
                                                 <div className="border-top card-body">
