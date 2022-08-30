@@ -12,15 +12,19 @@ const Header = () => {
 
 
 
-  useEffect(async () => {
-    const organisation = await TotalOrganistion()
-    setData(organisation)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const organisation = await TotalOrganistion()
+      setData(organisation)
+    }
+    fetchdata()
+
   }, [])
 
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
 
-    if (result.status == 'Logout') {
+    if (result.status === 'Logout') {
       localStorage.clear()
       window.location.href = '/'
     }
@@ -56,11 +60,11 @@ const Header = () => {
               className="nav-link"
               role="button"
               onClick={() => {
-                if (showprofile == true) {
+                if (showprofile === true) {
                   setShowprofile(!showprofile);
                   setShow(!show);
                 }
-                else if(orgdetails == true){
+                else if (orgdetails === true) {
                   setOrgDeatils(!orgdetails);
                   setShow(!show);
 
@@ -84,7 +88,7 @@ const Header = () => {
                   setShowprofile(!showprofile);
                   setOrgDeatils(!orgdetails);
                 }
-                else if(show == true){
+                else if (show === true) {
                   setShow(!show);
                   setOrgDeatils(!orgdetails);
 
@@ -167,7 +171,7 @@ const Header = () => {
               <i className="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
-    
+
           <li className="nav-item profilediv"  >
             <div className="user-panel mr-7">
               <div className="image" onClick={() => {
@@ -176,7 +180,7 @@ const Header = () => {
                   setShow(!show);
                   setShowprofile(!showprofile);
                 }
-                else if(orgdetails === true){
+                else if (orgdetails === true) {
                   setOrgDeatils(!orgdetails);
                   setShowprofile(!showprofile);
 
@@ -208,7 +212,7 @@ const Header = () => {
                   <a href='/org' style={{ color: "green", float: "right", textDecoration: "underline" }}> Add Organisation</a>
                 </li>
                 {
-                  data.map((item,index) => (
+                  data.map((item, index) => (
 
                     <li key={index} className="list-group-item">
                       <a href="#" style={{ color: "blue", }}>
@@ -220,7 +224,7 @@ const Header = () => {
                         }
                         }>{item.org_name}</span>
                       </a>
-                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right",cursor:"pointer" }}>
+                      <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right", cursor: "pointer" }}>
                         <i className="fas fa-cog" ></i> Manage</a>
                     </li>
                   ))
@@ -245,7 +249,7 @@ const Header = () => {
                   <b><a href="/EditOrganisation">Orgaisation profile</a></b> </li>
                 <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b><a href="ShowFincialyear">Fincial Year</a></b> </li>
-                  <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
+                <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b><a href="/TotalLocation">Branches</a></b> </li>
               </ul>
 
@@ -260,11 +264,11 @@ const Header = () => {
               <div className="profilcard card" >
                 <div className="card-body">
                   <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
-                  <img className="card-img-top " src={localStorage.getItem("User_img")}  alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+                  <img className="card-img-top " src={localStorage.getItem("User_img")} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
                     <a href="/LoginDetails">Profile</a> |
-                    <a href="/ChangePassword" style={{ color: "green" }}> Change Password</a><br/>
+                    <a href="/ChangePassword" style={{ color: "green" }}> Change Password</a><br />
                     <a href="#" onClick={handleClick} style={{ color: "red" }}> Logout</a>
                   </div>
                 </div>
