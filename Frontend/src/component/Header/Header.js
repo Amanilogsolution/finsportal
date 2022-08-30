@@ -253,6 +253,8 @@ const Header = () => {
                   <b><a href="/TotalLocation">Branches</a></b> </li>
                   <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b><a href="/ShowPaymentTerm">Payment Terms</a></b> </li>
+                  <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b><a href="/ShowCrm">CRM Master</a></b> </li>
               </ul>
 
 
