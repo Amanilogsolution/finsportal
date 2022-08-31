@@ -156,7 +156,6 @@ const AddUser = () => {
                             <input type="text" className="form-control col-md-4" id='designation' placeholder="Designation" />
                           </div>
                         </div>
-                        
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">User Id</label>
                           <div className="col form-group">
