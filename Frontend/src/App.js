@@ -94,6 +94,7 @@ import Estimates from './component/Customer/Estimates/Estimates';
 import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
 import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChallans';
 import Invoices from './component/Customer/Invoices/Invoices';
+
 import RecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
 import CreditNotes from './component/Customer/CreditNotes/CreditNotes';
 import PaymentsReceived from './component/Customer/PaymentReceived/PaymentReceived';
