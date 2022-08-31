@@ -186,7 +186,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
 
           <PrivatRoute exact path="/TotalCustomer" component={TotalCustomer}/>
           <PrivatRoute exact path="/EditCustomer" component={EditCustomer}/>
-          <Route exact path="/AddCustAddress" component={AddCustAddress}/>
+          <PrivatRoute exact path="/AddCustAddress" component={AddCustAddress}/>
           <PrivatRoute exact path="/TotalCustAddress" component={TotalCustAddress}/>
           <PrivatRoute exact path="/EditAddress" component={EditAddress}/>
 
