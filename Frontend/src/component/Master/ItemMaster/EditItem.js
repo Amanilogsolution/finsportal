@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { GetItems, UpdateItems, ActiveAccountname, SelectSubAcconameByType, SelectSubAccountname, TotalActiveUnit } from "../../../api";
+import { GetItems, UpdateItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../../api";
 
 
 const EditItem = () => {

@@ -18,7 +18,8 @@ function Org() {
     e.preventDefault();
     document.getElementById('datasave').disabled = 'true';
 
-    const org_name = document.getElementById("org_name").value;
+    let org_name = document.getElementById("org_name").value;
+    org_name= org_name.trim();
     const org_country = document.getElementById("org_country").value;
     const org_state = document.getElementById("inputState").value;
     const org_street = document.getElementById("org_street").value;
@@ -45,21 +46,21 @@ function Org() {
       alert('Please Enter the mandatory field...')
     }
     else {
-      // const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
-      // if (OrgTable === 'Already') {
-      //   alert('This Company already exist');
-      // }
-      // else {
-      //   const database = await CreatenewDb(dbname)
-      //   if (database === 'created') {
-      //     const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
-      //     if (result) {
-      //       alert('Organisation created')
-      //       window.location.href = '/home'
-      //     }
-      //   }
+      const OrgTable = await CreateOrgTable(dbname, org_name, User_id)
+      if (OrgTable === 'Already') {
+        alert('This Company already exist');
+      }
+      else {
+        const database = await CreatenewDb(dbname)
+        if (database === 'created') {
+          const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
+          if (result) {
+            alert('Organisation created')
+            window.location.href = '/home'
+          }
+        }
 
-      // }
+      }
     }
   };
 

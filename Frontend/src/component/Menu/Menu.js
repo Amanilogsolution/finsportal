@@ -1,18 +1,7 @@
-import React, { useState } from 'react';
-import { UserLogout } from '../../api';
+import React from 'react';
 
 const Menu = () => {
   const currentorg = localStorage.getItem('Organisation Name');
-  const username = localStorage.getItem("User_name")
-
-  //  const handleClick = async()=>{
-  //    const result = await UserLogout(localStorage.getItem('username'));
-  //    if(result.status == 'Logout'){
-  //     localStorage.clear()
-  //      window.location.href='/'
-  //    }
-
-  //  }
 
   return (
     <div>
