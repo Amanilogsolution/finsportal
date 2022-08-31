@@ -72,6 +72,7 @@ const columns = [
         <select onChange={async (e) => {
           const status = e.target.value;
           const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
+          console.log(result)
           window.location.href = 'ShowChargecode'
         }
         }>

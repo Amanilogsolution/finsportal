@@ -3,7 +3,9 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, 
+    // ActiveUser
+     SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
 
 
 function Invoices() {
@@ -12,7 +14,7 @@ function Invoices() {
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [cutomerAddress, setCutomerAddress] = useState([])
     const [locationstate, setLocationstate] = useState([])
-    const [activeuser, setActiveUser] = useState([])
+    // const [activeuser, setActiveUser] = useState([])
     const [custdetail, setCustdetail] = useState({})
     const [gstvalue, setGstvalue] = useState('0')
     const [amount, setAmount] = useState([])
@@ -40,7 +42,7 @@ function Invoices() {
     const [billingaddress, setBillingAddress] = useState('')
 
     const [Activeaccount, setActiveAccount] = useState([])
-    const [gst, setGst] = useState(0)
+    // const [gst, setGst] = useState(0)
 
     const [custaddress_state, setCustaddstate] = useState()
     const [locationcustaddid, setLocationCustAddid] = useState()
@@ -82,8 +84,8 @@ function Invoices() {
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
             setActivePaymentTerm(result1)
-            const result2 = await ActiveUser()
-            setActiveUser(result2)
+            // const result2 = await ActiveUser()
+            // setActiveUser(result2)
             Todaydate()
 
             const locatonstateres = await ActiveLocationAddress(org)
@@ -104,7 +106,7 @@ function Invoices() {
 
     const Todaydate = () => {
         var date = new Date();
-        var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
+        // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
         var day = date.getDate();
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
@@ -233,6 +235,7 @@ function Invoices() {
         e.preventDefault();
         let Total = quantity * e.target.value
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
+        console.log(other)
         let gst = Total * actgst / 100
 
         let grandToatal = Total + Math.round(gst)
@@ -261,7 +264,7 @@ function Invoices() {
         var newvalue = [...totalValues]
         var Amount = [...amount]
         var gstpop = [...totalgst]
-        if (newvalue.length == 1) {
+        if (newvalue.length === 1) {
             setTotalValues(newvalue)
             setAmount(Amount)
             setTotalGst(gstpop)
@@ -286,6 +289,8 @@ function Invoices() {
 
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
+        console.log(val)
+        
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
@@ -405,20 +410,20 @@ function Invoices() {
             paymentterm, Duedate, User_id)
 
 
-        // const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-        //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-        //     paymentterm, Duedate, User_id)
+        const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+            paymentterm, Duedate, User_id)
 
-        // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+        const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
 
-        // amount.map(async (amt, index) => {
-        //     console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
-        //     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
+        amount.map(async (amt, index) => {
+            console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
+            const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
-        // })
-        // if (result) {
-        //     alert('Added')
-        // }
+        })
+        if (result) {
+            alert('Added')
+        }
 
     }
 

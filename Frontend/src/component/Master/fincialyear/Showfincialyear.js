@@ -46,7 +46,7 @@ const columns = [
     selector: row => row.status,
     sortable: true,
     cell: (row) => [
-      <input type="checkbox" checked={row.status == 'Active' ? true : false} onChange={async () => {
+      <input type="checkbox" checked={row.status === 'Active' ? true : false} onChange={async () => {
         const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
         if (result.rowsAffected[0]) { window.location.href = "./showfincialyear" }
       }} />
