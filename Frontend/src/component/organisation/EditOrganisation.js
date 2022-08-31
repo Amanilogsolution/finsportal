@@ -46,6 +46,7 @@ function EditOrganisation() {
     setData({ ...data, org_contact_name: e.target.value })
   }
   const handleChangeContactPhone = (e) => {
+    if(e.target.value.length === 11) return false;
     setData({ ...data, org_contact_phone: e.target.value })
   }
   const handleChangeContactEmail = (e) => {
@@ -58,6 +59,7 @@ function EditOrganisation() {
     setData({ ...data, org_city: e.target.value })
   }
   const handleChangePin = (e) => {
+    if(e.target.value.length === 7) return false
     setData({ ...data, org_pincode: e.target.value })
   }
   const handleChangeGst = (e) => {
@@ -236,9 +238,8 @@ function EditOrganisation() {
                       </div>
                       <div className="form-group col-md-6">
                         <input
-                          type="text"
+                          type="number"
                           oninput="numberOnly(this.id);"
-                          maxlength="6"
                           className="form-control"
                           placeholder="Zip/Postal Code"
                           id="org_pin"
