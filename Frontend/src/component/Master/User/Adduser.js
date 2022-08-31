@@ -7,6 +7,7 @@ import { InsertUser, insertUserLogin, UploadData, ActiveCustomer } from '../../.
 const AddUser = () => {
   const [authentication, setAuthentication] = useState('with otp')
   const [activecustomer, setActivecustomer] = useState([])
+  const [numbercount, setNumbercount] = useState();
   const [passwordshow, setPasswordshow] = useState(false);
   const [file, setFile] = useState('')
   const [user_profile_url, setUserProfile] = useState('')
@@ -15,7 +16,6 @@ const AddUser = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
-      console.log(customer)
       setActivecustomer(customer)
     }
     fetchdata()
@@ -44,7 +44,6 @@ const AddUser = () => {
     const designation = document.getElementById('designation').value;
 
 
-    // console.log(employee_name, role, warehouse, user_name, password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication)
     if (!employee_name || !warehouse || !user_name || !password || !email_id || !phone || !customer) {
       alert('Please! enter the data')
     }
@@ -65,7 +64,6 @@ const AddUser = () => {
   const handleChange = (e) => {
     let data = e.target.value
     setAuthentication(data)
-    console.log(data)
   }
 
   return (
@@ -84,14 +82,13 @@ const AddUser = () => {
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
-                      <form>
+                      <form autoComplete='off'>
 
                         <div className="form-row">
                           <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee name</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='employee_name' placeholder="Employee name" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -99,7 +96,6 @@ const AddUser = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='role' placeholder="role" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -107,23 +103,25 @@ const AddUser = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='warehouse' placeholder="warehouse" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
 
                         <div className="form-row">
                           <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email id</label>
                           <div className="col form-group">
-                            <input type="url" className="form-control col-md-4" id='email_id' placeholder="email id" />
+                            <input type="email" className="form-control col-md-4" id='email_id' placeholder="email id" required />
                           </div>
-                          {/* form-group end.// */}
                         </div>
+
                         <div className="form-row">
                           <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone no.</label>
                           <div className="col form-group">
-                            <input type="tel" className="form-control col-md-4" id='phone' placeholder="phone" maxLength={10} />
+                            <input type="number" className="form-control col-md-4" id='phone' placeholder="phone" value={numbercount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 11) return false;
+                                setNumbercount(e.target.value)
+                              }} />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -131,21 +129,18 @@ const AddUser = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='operate_mode' placeholder="operate mode" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
                           <div className="col form-group">
-                            {/* <input type="text" className="form-control col-md-4" id='customer' placeholder="customer" /> */}
                             <select className="form-control col-md-4" id='customer'>
-                              <option hidden>Select the Customer</option>
+                              <option value='' hidden>Select the Customer</option>
                               {
                                 activecustomer.map((item, index) =>
-                                  <option key={index}>{item.cust_name}</option>)
+                                  <option key={index} value={item.cust_name}>{item.cust_name}</option>)
                               }
                             </select>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -153,15 +148,15 @@ const AddUser = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='reporting_to' placeholder="reporting to" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
+
                         <div className="form-row">
                           <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='designation' placeholder="Designation" />
                           </div>
-                          {/* form-group end.// */}
                         </div>
+                        
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">User Id</label>
                           <div className="col form-group">
@@ -220,22 +215,16 @@ const AddUser = () => {
                             </label>
                           </div>
                         </div>
-
-
+                        <div className="border-top card-body">
+                          <button type="submit" className="btn btn-success" onClick={Toogle} >Save</button>
+                          <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>
+                        </div>
 
                       </form>
                     </article>
-                    {/* card-body end .// */}
-                    <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={Toogle} >Save</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>
-                    </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
