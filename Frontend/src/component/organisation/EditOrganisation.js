@@ -22,7 +22,7 @@ function EditOrganisation() {
     const User_id = document.getElementById('User_id')
     const Industry_Type = document.getElementById('industry_type').value
     const Fins_year = document.getElementById('fins_year').value
-    const Company_Id = document .getElementById('company_id').value
+    const Company_Id = document.getElementById('company_id').value
     const Tax_id = document.getElementById('tax_id').value
     console.log(Industry_Type,Fins_year,Company_Id,Tax_id,report_basic)
 
@@ -40,6 +40,7 @@ function EditOrganisation() {
     const data = new FormData();
     data.append("images", file)
     const UploadLink = await UploadData(data)
+    console.log(UploadLink)
   }
 
   const handleChangeContactname = (e) => {

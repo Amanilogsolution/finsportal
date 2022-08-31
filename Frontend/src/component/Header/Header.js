@@ -245,16 +245,16 @@ const Header = () => {
                 <i className="fa fa-times position-absolute" aria-hidden="true" style={{ right: "25px" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item"><i className="fa fa-building"></i> &nbsp;
-                  <b><a href="/EditOrganisation">Orgaisation profile</a></b> </li>
-                <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                  <b><a href="ShowFincialyear">Fincial Year</a></b> </li>
-                <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                  <b><a href="/TotalLocation">Branches</a></b> </li>
-                  <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                  <b><a href="/ShowPaymentTerm">Payment Terms</a></b> </li>
-                  <li className="list-group-item"><i className="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                  <b><a href="/ShowCrm">CRM Master</a></b> </li>
+                <a href="/EditOrganisation"> <li className="list-group-item "><i className="fa fa-building text-dark"></i> &nbsp;
+                  <b>Orgaisation profile</b> </li></a>
+                <a href="ShowFincialyear"><li className="list-group-item"><i className="fa fa-calendar text-dark" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b>Fincial Year</b> </li></a>
+                <a href="/TotalLocation"> <li className="list-group-item"><i className="fa fa-map-marker text-dark" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b>Branches</b> </li></a>
+                <a href="/ShowPaymentTerm"> <li className="list-group-item"><i className="fa fa-university text-dark" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b>Payment Terms</b> </li></a>
+                <a href="/ShowCrm"> <li className="list-group-item"><i className="fa fa-user-plus text-dark" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <b>CRM Master</b> </li></a>
               </ul>
 
 

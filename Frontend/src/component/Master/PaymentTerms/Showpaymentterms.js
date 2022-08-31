@@ -31,7 +31,7 @@ const columns = [
           window.location.href = 'ShowPaymentTerm'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option value={row.status}  hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -114,7 +114,6 @@ const ShowFincialTerm = () => {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     </div>

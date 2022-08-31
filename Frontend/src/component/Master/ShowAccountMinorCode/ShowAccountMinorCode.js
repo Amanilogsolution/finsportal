@@ -93,11 +93,11 @@ function ShowAccountMinorCode() {
     }
     else {
       const result = await ImportAccountMinorCode(localStorage.getItem('Organisation'), importdata, localStorage.getItem('User_id'));
-      if (!(result == "Data Added")) {
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
@@ -111,7 +111,7 @@ function ShowAccountMinorCode() {
   //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
-    if (importdata.length == 0) {
+    if (importdata.length === 0) {
       alert("please select the file")
       window.location.reload();
     }

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { UserLogout } from '../../api';
+import React from 'react';
+// import { UserLogout } from '../../api';
 
 const Menu = () => {
   const currentorg = localStorage.getItem('Organisation Name');
-  const username = localStorage.getItem("User_name")
+  // const username = localStorage.getItem("User_name")
 
   //  const handleClick = async()=>{
   //    const result = await UserLogout(localStorage.getItem('username'));

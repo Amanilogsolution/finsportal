@@ -9,19 +9,28 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 const ShowChargecode = () => {
 const columns = [
   {
-    name: 'Name',
-    selector: row => row.item_name,
-    sortable: true
-  },
-
-  {
     name: 'Item Type',
     selector: row => row.item_type,
     sortable: true
   },
   {
-    name: 'Nature',
-    selector: row => row.nature,
+    name: 'Name',
+    selector: row => row.item_name,
+    sortable: true
+  },
+  {
+    name: 'Unit',
+    selector: row => row.item_unit,
+    sortable: true
+  }, 
+  {
+    name: 'HSN Code',
+    selector: row => row.hsn_code,
+    sortable: true
+  }, 
+  {
+    name: 'SAC Code',
+    selector: row => row.sac_code,
     sortable: true
   }, 
   {
@@ -31,17 +40,22 @@ const columns = [
   },
   {
     name: 'Chart of Account',
-    selector: row => row.chartof_account,
+    selector: row => row.chart_of_account,
     sortable: true
   },
   {
-    name: 'Activity',
-    selector: row => row.activity,
+    name: 'Tax Preference',
+    selector: row => row.tax_preference,
     sortable: true
   },
   {
-    name: 'sac/Hsn Code',
-    selector: row => row.sacHsn,
+    name: 'Sales',
+    selector: row => row.sales_account,
+    sortable: true
+  },
+  {
+    name: 'Purchase',
+    selector: row => row.purchase_account,
     sortable: true
   },
   {
@@ -61,7 +75,7 @@ const columns = [
           window.location.href = 'ShowChargecode'
         }
         }>
-          <option hidden> {row.status}</option>
+          <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -71,7 +85,6 @@ const columns = [
   {
     name: "Actions",
     sortable: false,
-
     selector: row => row.null,
     cell: (row) => [
 
@@ -93,7 +106,6 @@ const columns = [
     const fetchdata = async () => {
       const result = await TotalItems(localStorage.getItem('Organisation'))
       setData(result)
-      console.log(result)
     }
 
     fetchdata();
@@ -113,12 +125,12 @@ const columns = [
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddChargecode" }} className="btn btn-primary">Add Chargecode</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddChargecode" }} className="btn btn-primary">Add Item</button>
 
             <div className="container-fluid">
               <br />
 
-              <h3 className="text-left ml-5">Total Charge code</h3>
+              <h3 className="text-left ml-5">Total Items</h3>
               <br />
               <div className="row ">
                 <div className="col ml-5">

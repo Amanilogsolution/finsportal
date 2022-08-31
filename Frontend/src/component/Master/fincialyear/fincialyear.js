@@ -51,6 +51,7 @@ const Fincialyear = () => {
       }
       else {
         alert("Server error !")
+        
       }
 
     }
