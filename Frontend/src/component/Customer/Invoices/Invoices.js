@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
 
 
 function Invoices() {
@@ -74,6 +74,8 @@ function Invoices() {
     useEffect(() => {
         const fetchdata = async () => {
             document.getElementById('subtotalbtn').disabled = true;
+            document.getElementById('savebtn').disabled = true;
+            document.getElementById('postbtn').disabled = true;
 
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
@@ -148,6 +150,7 @@ function Invoices() {
 
     const handleChangeUnit = (e) => {
         e.preventDefault();
+        document.getElementById('Activity').disabled = true;
         document.getElementById('subtotalbtn').disabled = false;
         setUnit([...unit, e.target.value])
         var sum = 0
@@ -229,7 +232,6 @@ function Invoices() {
     const handleChangerate = (e) => {
         e.preventDefault();
         let Total = quantity * e.target.value
-
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
         let gst = Total * actgst / 100
 
@@ -322,10 +324,11 @@ function Invoices() {
         e.preventDefault();
         let val = document.getElementById('Activity');
         let text = val.options[val.selectedIndex].text;
-        let major = val.value;
+        let major_code = val.value;
 
-        const result = await ActiveChargeCodeMajor(localStorage.getItem('Organisation'), major);
+        const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
+        console.log(result)
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }
@@ -488,10 +491,7 @@ function Invoices() {
                                                     <select
                                                         id="locationadd"
                                                         className="form-control"
-                                                        onChange={handlechnageaddress}
-
-                                                    >
-
+                                                        onChange={handlechnageaddress}>
                                                         <option value='' hidden>Select Address</option>
                                                         {
                                                             locationstate.map((item, index) =>
@@ -536,7 +536,7 @@ function Invoices() {
                                                     >
                                                         <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
                                                         {
-                                                            activepaymentterm.map((item,index) => (
+                                                            activepaymentterm.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
                                                             ))
                                                         }
@@ -634,7 +634,7 @@ function Invoices() {
                                                                             <option value='' hidden > Select item</option>
                                                                             {
                                                                                 activechargecode.map((item, index) => (
-                                                                                    <option key={index} value={`${item.gst_rate},${item.chartof_account}`} >{item.chartof_account}</option>
+                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name}`} >{item.item_name}</option>
                                                                                 ))
                                                                             }
                                                                         </select>
@@ -648,7 +648,7 @@ function Invoices() {
 
                                                                 <td className='col-md-2 pl-0 pr-0'>
                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
-                                                                        onChange={handleChangerate}/>
+                                                                        onChange={handleChangerate} />
                                                                 </td>
                                                                 <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
 
@@ -756,7 +756,7 @@ function Invoices() {
                                                                                     <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
                                                                             }
                                                                         </select>
-                                                                       
+
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -774,17 +774,14 @@ function Invoices() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }} >
-                                                    <button id="savebtn" name="save" className="btn btn-danger" onClick={handlesavebtn} value='save' disabled>
+                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
                                                         Save
                                                     </button>
-                                                    <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' disabled>
+                                                    <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' >
                                                         Post
                                                     </button>
-                                                    <button id="clear" onClick={(e) => {
-                                                        e.preventDefault(); window.location.href = '/home'
-                                                    }} name="clear" className="btn ml-2 btn btn-primary">
-                                                        Cancel
-                                                    </button>
+                                                    <button id="clear" onClick={(e) => {e.preventDefault(); window.location.href = '/home'}} 
+                                                    name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
                                                     <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
                                                     </button>
 
