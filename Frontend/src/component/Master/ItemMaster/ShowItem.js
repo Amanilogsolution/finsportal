@@ -6,7 +6,7 @@ import { TotalItems, deleteItems } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
-const ShowChargecode = () => {
+const ShowItem = () => {
 const columns = [
   {
     name: 'Item Type',
@@ -72,6 +72,7 @@ const columns = [
         <select onChange={async (e) => {
           const status = e.target.value;
           const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
+          console.log(result)
           window.location.href = 'ShowChargecode'
         }
         }>
@@ -88,7 +89,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/EditChargecode">
+      <a title='View Document' href="/EditItem">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -125,7 +126,7 @@ const columns = [
         <Menu />
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddChargecode" }} className="btn btn-primary">Add Item</button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
 
             <div className="container-fluid">
               <br />
@@ -164,4 +165,4 @@ const columns = [
 
 }
 
-export default ShowChargecode;
+export default ShowItem;

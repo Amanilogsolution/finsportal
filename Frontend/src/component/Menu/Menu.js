@@ -485,9 +485,9 @@ const Menu = () => {
                 </ul> */}
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="/ShowChargecode" className="nav-link active">
+                    <a href="/ShowItem" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
-                      <p>Charge Code</p>
+                      <p>Item Master</p>
                     </a>
                   </li>
                 </ul>

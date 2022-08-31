@@ -3,7 +3,9 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import { ActiveCustomer, ActivePaymentTerm, ActiveUser, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveChargeCodeMajor, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
+import { ActiveCustomer, ActivePaymentTerm, 
+    // ActiveUser
+     SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
 
 
 function Invoices() {
@@ -12,7 +14,7 @@ function Invoices() {
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [cutomerAddress, setCutomerAddress] = useState([])
     const [locationstate, setLocationstate] = useState([])
-    const [activeuser, setActiveUser] = useState([])
+    // const [activeuser, setActiveUser] = useState([])
     const [custdetail, setCustdetail] = useState({})
     const [gstvalue, setGstvalue] = useState('0')
     const [amount, setAmount] = useState([])
@@ -40,7 +42,7 @@ function Invoices() {
     const [billingaddress, setBillingAddress] = useState('')
 
     const [Activeaccount, setActiveAccount] = useState([])
-    const [gst, setGst] = useState(0)
+    // const [gst, setGst] = useState(0)
 
     const [custaddress_state, setCustaddstate] = useState()
     const [locationcustaddid, setLocationCustAddid] = useState()
@@ -74,14 +76,16 @@ function Invoices() {
     useEffect(() => {
         const fetchdata = async () => {
             document.getElementById('subtotalbtn').disabled = true;
+            document.getElementById('savebtn').disabled = true;
+            document.getElementById('postbtn').disabled = true;
 
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
             setActivePaymentTerm(result1)
-            const result2 = await ActiveUser()
-            setActiveUser(result2)
+            // const result2 = await ActiveUser()
+            // setActiveUser(result2)
             Todaydate()
 
             const locatonstateres = await ActiveLocationAddress(org)
@@ -102,7 +106,7 @@ function Invoices() {
 
     const Todaydate = () => {
         var date = new Date();
-        var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
+        // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
         var day = date.getDate();
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
@@ -148,6 +152,7 @@ function Invoices() {
 
     const handleChangeUnit = (e) => {
         e.preventDefault();
+        document.getElementById('Activity').disabled = true;
         document.getElementById('subtotalbtn').disabled = false;
         setUnit([...unit, e.target.value])
         var sum = 0
@@ -229,8 +234,8 @@ function Invoices() {
     const handleChangerate = (e) => {
         e.preventDefault();
         let Total = quantity * e.target.value
-
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
+        console.log(other)
         let gst = Total * actgst / 100
 
         let grandToatal = Total + Math.round(gst)
@@ -259,7 +264,7 @@ function Invoices() {
         var newvalue = [...totalValues]
         var Amount = [...amount]
         var gstpop = [...totalgst]
-        if (newvalue.length == 1) {
+        if (newvalue.length === 1) {
             setTotalValues(newvalue)
             setAmount(Amount)
             setTotalGst(gstpop)
@@ -284,6 +289,8 @@ function Invoices() {
 
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
+        console.log(val)
+        
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
@@ -322,10 +329,11 @@ function Invoices() {
         e.preventDefault();
         let val = document.getElementById('Activity');
         let text = val.options[val.selectedIndex].text;
-        let major = val.value;
+        let major_code = val.value;
 
-        const result = await ActiveChargeCodeMajor(localStorage.getItem('Organisation'), major);
+        const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
+        console.log(result)
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }
@@ -402,20 +410,20 @@ function Invoices() {
             paymentterm, Duedate, User_id)
 
 
-        // const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-        //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-        //     paymentterm, Duedate, User_id)
+        const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+            paymentterm, Duedate, User_id)
 
-        // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+        const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
 
-        // amount.map(async (amt, index) => {
-        //     console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
-        //     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
+        amount.map(async (amt, index) => {
+            console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
+            const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
-        // })
-        // if (result) {
-        //     alert('Added')
-        // }
+        })
+        if (result) {
+            alert('Added')
+        }
 
     }
 
@@ -488,10 +496,7 @@ function Invoices() {
                                                     <select
                                                         id="locationadd"
                                                         className="form-control"
-                                                        onChange={handlechnageaddress}
-
-                                                    >
-
+                                                        onChange={handlechnageaddress}>
                                                         <option value='' hidden>Select Address</option>
                                                         {
                                                             locationstate.map((item, index) =>
@@ -536,7 +541,7 @@ function Invoices() {
                                                     >
                                                         <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
                                                         {
-                                                            activepaymentterm.map((item,index) => (
+                                                            activepaymentterm.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
                                                             ))
                                                         }
@@ -634,7 +639,7 @@ function Invoices() {
                                                                             <option value='' hidden > Select item</option>
                                                                             {
                                                                                 activechargecode.map((item, index) => (
-                                                                                    <option key={index} value={`${item.gst_rate},${item.chartof_account}`} >{item.chartof_account}</option>
+                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name}`} >{item.item_name}</option>
                                                                                 ))
                                                                             }
                                                                         </select>
@@ -648,7 +653,7 @@ function Invoices() {
 
                                                                 <td className='col-md-2 pl-0 pr-0'>
                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
-                                                                        onChange={handleChangerate}/>
+                                                                        onChange={handleChangerate} />
                                                                 </td>
                                                                 <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
 
@@ -756,7 +761,7 @@ function Invoices() {
                                                                                     <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
                                                                             }
                                                                         </select>
-                                                                       
+
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -774,17 +779,14 @@ function Invoices() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }} >
-                                                    <button id="savebtn" name="save" className="btn btn-danger" onClick={handlesavebtn} value='save' disabled>
+                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
                                                         Save
                                                     </button>
-                                                    <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' disabled>
+                                                    <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' >
                                                         Post
                                                     </button>
-                                                    <button id="clear" onClick={(e) => {
-                                                        e.preventDefault(); window.location.href = '/home'
-                                                    }} name="clear" className="btn ml-2 btn btn-primary">
-                                                        Cancel
-                                                    </button>
+                                                    <button id="clear" onClick={(e) => {e.preventDefault(); window.location.href = '/home'}} 
+                                                    name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
                                                     <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
                                                     </button>
 

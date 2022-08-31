@@ -115,9 +115,10 @@ const UpdateItems = async (req, res) => {
 
 const ActiveItems = async (req, res) => {
     const org = req.body.org;
+    const major_code = req.body.major_code;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select item_name,item_selling_price from  ${org}.dbo.tbl_items_account with (nolock)`)
+        const result = await sql.query(`select * from  ${org}.dbo.tbl_items_account with (nolock) where status='Active' and  major_code_id='${major_code}'`)
         res.send(result.recordset)
     }
     catch (err) {

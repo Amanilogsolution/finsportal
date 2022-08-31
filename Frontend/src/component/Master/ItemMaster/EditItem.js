@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { GetItems, UpdateItems, ActiveAccountname, SelectSubAcconameByType, SelectSubAccountname, TotalActiveUnit } from "../../../api";
+import { GetItems, UpdateItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../../api";
 
 
-const EditChargecode = () => {
+const EditItem = () => {
     const [data, setData] = useState({})
     const [majorcodelist, setMajorcodelist] = useState([{}])
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
@@ -85,7 +85,7 @@ const EditChargecode = () => {
             if (result === "updated") {
                 alert('Data Updated')
                 localStorage.removeItem('ItemsSno');
-                window.location.href = '/ShowChargecode'
+                window.location.href = '/ShowItem'
             }
             else {
                 alert('Server error')
@@ -175,7 +175,7 @@ const EditChargecode = () => {
                                                     <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id="unit">
-                                                            <option value='' hidden>{data.item_type}</option>
+                                                            <option value={data.item_type} hidden>{data.item_type}</option>
                                                             {
                                                                 unitdata.map((item, index) => (
                                                                     <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
@@ -256,7 +256,7 @@ const EditChargecode = () => {
                                                 </div>
                                                 <div className="border-top card-body">
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
-                                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('ChargecodeSno'); window.location.href = "./ShowChargecode" }}>Cancel</button>
+                                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('ChargecodeSno'); window.location.href = "./ShowItem" }}>Cancel</button>
                                                 </div>
                                             </form>
                                         </article>
@@ -274,4 +274,4 @@ const EditChargecode = () => {
 
 }
 
-export default EditChargecode
+export default EditItem

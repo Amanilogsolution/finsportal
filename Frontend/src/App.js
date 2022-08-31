@@ -78,7 +78,7 @@ import EditAccountname from './component/Master/AccountNameMaster/EditAccountnam
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
 
-import Items from './component/Items/Items';
+import Items from './component/Master/ItemMaster/AddItem';
 
 import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
 import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
@@ -117,9 +117,9 @@ import AddPaymentTerm from './component/Master/PaymentTerms/Addpaymentterm';
 import UpdatePaymentTerm from './component/Master/PaymentTerms/Updatepaymentterm'
 
 
-import ShowChargecode from './component/Master/ChargeCode/ShowChargecode'
-import EditChargecode from './component/Master/ChargeCode/EditChargecode'
-import AddChargecode from './component/Master/ChargeCode/AddChargecode'
+import ShowItem from './component/Master/ItemMaster/ShowItem'
+import AddItem from './component/Master/ItemMaster/AddItem'
+import EditItem from './component/Master/ItemMaster/EditItem'
 
 
 import AddCrm from './component/Master/CrmMaster/AddCrm'
@@ -259,9 +259,9 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <PrivatRoute exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm}/>
 
           
-          <PrivatRoute exact path="/ShowChargecode" component={ShowChargecode}/>
-          <PrivatRoute exact path="/AddChargecode" component={AddChargecode}/>
-          <PrivatRoute exact path="/EditChargecode" component={EditChargecode}/>
+          <PrivatRoute exact path="/ShowItem" component={ShowItem}/>
+          <PrivatRoute exact path="/AddItem" component={AddItem}/>
+          <PrivatRoute exact path="/EditItem" component={EditItem}/>
 
 
           <PrivatRoute exact path="/AddCrm" component={AddCrm}/>

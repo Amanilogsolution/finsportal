@@ -1,6 +1,6 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { TotalOrganistion, UserLogout } from '../../api'
+import { showOrganisation,TotalOrganistion, UserLogout } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 
 const Header = () => {
@@ -16,6 +16,16 @@ const Header = () => {
     const fetchdata = async () => {
       const organisation = await TotalOrganistion()
       setData(organisation)
+
+      const result = await showOrganisation(localStorage.getItem('Organisation Name'))
+      console.log(result.org_gst)
+      if(!result.org_gst){
+        localStorage.setItem('gststatus','false')
+
+      }else{
+        localStorage.setItem('gststatus','true')
+      }
+
     }
     fetchdata()
 

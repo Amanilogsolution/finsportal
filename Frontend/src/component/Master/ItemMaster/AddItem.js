@@ -5,7 +5,7 @@ import Footer from "../../Footer/Footer";
 import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../../api";
 
 
-const AddChargecode = () => {
+const AddItem = () => {
     const [data, setData] = useState([{}])
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
     const [type, setType] = useState();
@@ -77,7 +77,7 @@ const AddChargecode = () => {
             if (result === "Added") {
                 alert('Data Added')
                 localStorage.removeItem('ChargecodeSno');
-                window.location.href = '/ShowChargecode'
+                window.location.href = '/ShowItem'
             }
             else {
                 alert('Server Error')
@@ -225,7 +225,7 @@ const AddChargecode = () => {
                                                 </div>
                                                 <div className="border-top card-body">
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                                                    <button className="btn btn-light ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./ShowChargecode" }}>Cancel</button>
+                                                    <button className="btn btn-light ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
                                                 </div>
                                             </form>
                                         </article>
@@ -243,4 +243,4 @@ const AddChargecode = () => {
 
 }
 
-export default AddChargecode
+export default AddItem

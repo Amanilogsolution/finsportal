@@ -3,7 +3,7 @@ const sqlConfig = require('../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const AddCurrencyAdjustment= async(req,res)=>{
+const AddCurrencyAdjustment = async(req,res)=>{
     const org = req.body.org;
     const currency = req.body.currency;
     console.log(org,currency)

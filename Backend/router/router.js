@@ -32,7 +32,7 @@ const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
 const CurrencyAdjustmentController = require('../controller/Currencyadjustment')
 const PaymentTermController = require('../controller/paymentMaster')
-const ChargeCodeController = require('../controller/ChargeCode')
+// const ChargeCodeController = require('../controller/ChargeCode')
 const CRMController = require('../controller/crmMaster')
 const InvoiceController = require('../controller/Invoice')
 const InvoiceSubController = require('../controller/subinvoice')
@@ -202,7 +202,6 @@ router.post('/showactivecompliancestype',ComplianceTypeController.ShowActivecomp
 
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/importcompliances',ComplianceController.ImportCompliances)
-
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
 
 router.post('/showfincialyear',FincialyearController.Showfincialyear)
@@ -220,7 +219,6 @@ router.post('/totalitems',ItemsController.TotalItems)
 router.post('/deleteitems',ItemsController.deleteItems)
 router.post('/getItems',ItemsController.getItems)
 router.post('/updateItems',ItemsController.UpdateItems)
-
 router.post('/activeitems',ItemsController.ActiveItems)
 
 router.post('/FileUpload',Multer,FileUpload)
@@ -272,7 +270,6 @@ router.post('/accountminorcodestatus',AccountMinorCodeController.AccountMinorCod
 router.post('/getaccountminorcode',AccountMinorCodeController.GetAccountMinorCode)
 router.post('/updateaccountminorcode',AccountMinorCodeController.UpdateAccountMinorCode)
 router.post('/activeaccountminorcode',AccountMinorCodeController.ActiveAccountMinorCode)
-
 router.post('/importaccountminorcode',AccountMinorCodeController.ImportAccountMinorCode)
 
 
@@ -292,12 +289,12 @@ router.post('/showpaymentterm',PaymentTermController.ShowPaymentTerm)
 router.post('/updatepaymentterm',PaymentTermController.UpdatePaymentTerm)
 router.post('/activepaymentterm',PaymentTermController.ActivePaymentTerm)
 
-router.post('/totalchargecode',ChargeCodeController.TotalChargeCode)
-router.post('/deletechargecode',ChargeCodeController.deleteChargeCode)
-router.post('/addchargecode',ChargeCodeController.AddChargeCode)
-router.post('/getchargecode',ChargeCodeController.getChargeCode)
-router.post('/updatechargecode',ChargeCodeController.UpdateChargeCode)
-router.post('/activechargecodemajor',ChargeCodeController.ActiveChargeCodeMajor)
+// router.post('/totalchargecode',ChargeCodeController.TotalChargeCode)
+// router.post('/deletechargecode',ChargeCodeController.deleteChargeCode)
+// router.post('/addchargecode',ChargeCodeController.AddChargeCode)
+// router.post('/getchargecode',ChargeCodeController.getChargeCode)
+// router.post('/updatechargecode',ChargeCodeController.UpdateChargeCode)
+// router.post('/activechargecodemajor',ChargeCodeController.ActiveChargeCodeMajor)
 
 
 router.post('/totalcrm',CRMController.Totalcrm)
