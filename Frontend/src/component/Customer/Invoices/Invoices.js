@@ -11,6 +11,8 @@ import {
 
 
 function Invoices() {
+    const [loading, setLoading] = useState(false)
+
     const [totalValues, setTotalValues] = useState([1])
     const [activecustomer, setActiveCustomer] = useState([])
     const [activepaymentterm, setActivePaymentTerm] = useState([])
@@ -78,6 +80,15 @@ function Invoices() {
     useEffect(() => {
         const fetchdata = async () => {
 
+
+            setTimeout(() => {
+                setLoading(true)
+                const localdata = localStorage.getItem('gststatus');
+                if (localdata == 'false') {
+                    document.getElementById('cgstlocal').style.display = 'none';
+                }
+
+            }, 2000);
             document.getElementById('subtotalbtn').disabled = true;
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
@@ -97,19 +108,11 @@ function Invoices() {
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
 
-            const localdata = localStorage.getItem('gststatus');
-            if (localdata === 'true') {
-                console.log("helloo")
-                document.getElementById('cgstlocal').style.display = 'none';
-            }
-
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
 
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
-
-
 
 
         }
@@ -247,7 +250,6 @@ function Invoices() {
         e.preventDefault();
         let Total = quantity * e.target.value
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
-        console.log(other)
         let gst = Total * actgst / 100
 
         let grandToatal = Total + Math.round(gst)
@@ -301,7 +303,6 @@ function Invoices() {
 
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
-        console.log(val)
 
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
@@ -345,7 +346,6 @@ function Invoices() {
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
-        console.log(result)
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }
@@ -440,136 +440,142 @@ function Invoices() {
     }
 
     return (
-        <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
-                <Menu />
+        <>
+            <div>
 
-                <div className="content-wrapper">
-                    <div className="container-fluid">
+                <div className="wrapper">
+                    {/* <div className="preloader flex-column justify-content-center align-items-center">
+                                <div className="spinner-border" role="status"> </div>
+                            </div> */}
+                    <Header />
+                    <Menu />
 
-                        <div className="row pt-3" >
-                            <div className="col">
-                                <div className="card">
-                                    <article
-                                        className="card-body"
-                                    >
-                                        <h3 className="text-left"> New Invoice</h3>
-                                        <br />
+                    <div className="content-wrapper" >
+                        <div className="container-fluid" >
 
-                                        <form autoComplete="off">
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="custname"
-                                                        className="form-control"
-                                                        onChange={handleCustname}
+                            <div className="row pt-3" >
+                                <div className="col">
+                                    {
+
+                                        loading ?
+                                            (
+                                                <div className="card" >
+                                                    <article
+                                                        className="card-body"
                                                     >
-                                                        <option value='' hidden>Select Customer</option>
-                                                        {
-                                                            activecustomer.map((items, index) => (
-                                                                <option key={index} value={items.cust_id} >{items.cust_name}</option>
-                                                            ))
-                                                        }
+                                                        <h3 className="text-left"> New Invoice</h3>
+                                                        <br />
 
-                                                    </select>
-                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
-                                                </div>
-                                            </div>
+                                                        <form autoComplete="off">
+                                                            <div className="form-row mt-2">
+                                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
+                                                                <div className="d-flex col-md-4">
+                                                                    <select
+                                                                        id="custname"
+                                                                        className="form-control"
+                                                                        onChange={handleCustname}
+                                                                    >
+                                                                        <option value='' hidden>Select Customer</option>
+                                                                        {
+                                                                            activecustomer.map((items, index) => (
+                                                                                <option key={index} value={items.cust_id} >{items.cust_name}</option>
+                                                                            ))
+                                                                        }
 
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="custaddr"
-                                                        className="form-control"
-                                                        onChange={handleChangeCustomerAdd}
-                                                    >
-                                                        <option value='' hidden>Select Address</option>
-                                                        {
-                                                            cutomerAddress.map((items, index) => (
-                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>{items.billing_address_attention}</option>
-                                                            ))
-                                                        }
-
-                                                    </select>
-                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="locationadd"
-                                                        className="form-control"
-                                                        onChange={handlechnageaddress}>
-                                                        <option value='' hidden>Select Address</option>
-                                                        {
-                                                            locationstate.map((item, index) =>
-                                                                <option key={index} value={`${item.location_state} ${item.location_id}`}>{item.location_add1}</option>
-                                                            )
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled />
-
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="ordernumber" placeholder='Enter the order number' />
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-
-                                                <div className="d-flex col-md-3">
-                                                    <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
-
-                                                    <input type="date" className="form-control col-md-6" id="Invoicedate" disabled />
-                                                </div>
+                                                                    </select>
+                                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
+                                                                </div>
+                                                            </div>
 
 
-                                                <div className="d-flex col-md-5">
-                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
+                                                            <div className="form-row mt-2">
+                                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span style={{ color: "red" }}>*</span> </label>
+                                                                <div className="d-flex col-md-4">
+                                                                    <select
+                                                                        id="custaddr"
+                                                                        className="form-control"
+                                                                        onChange={handleChangeCustomerAdd}
+                                                                    >
+                                                                        <option value='' hidden>Select Address</option>
+                                                                        {
+                                                                            cutomerAddress.map((items, index) => (
+                                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>{items.billing_address_attention}</option>
+                                                                            ))
+                                                                        }
 
-                                                    <select
-                                                        id="paymentterm"
-                                                        className="col-md-6  mr-0 form-control"
-                                                        onChange={handleAccountTerm}
-                                                    >
-                                                        <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
-                                                        {
-                                                            activepaymentterm.map((item, index) => (
-                                                                <option key={index} value={item.term_days}>{item.term}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                </div>
+                                                                    </select>
+                                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
+                                                                </div>
+                                                            </div>
 
-                                                <div className="d-flex col-md-3" >
-                                                    <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                    <input type="date" className="form-control col-md-6" id="Duedate" disabled />
+                                                            <div className="form-row mt-2">
+                                                                <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span style={{ color: "red" }}>*</span> </label>
+                                                                <div className="d-flex col-md-4">
+                                                                    <select
+                                                                        id="locationadd"
+                                                                        className="form-control"
+                                                                        onChange={handlechnageaddress}>
+                                                                        <option value='' hidden>Select Address</option>
+                                                                        {
+                                                                            locationstate.map((item, index) =>
+                                                                                <option key={index} value={`${item.location_state} ${item.location_id}`}>{item.location_add1}</option>
+                                                                            )
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
 
-                                                </div>
-                                            </div>
+                                                            <div className="form-row mt-3">
+                                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span style={{ color: "red" }}>*</span> </label>
+                                                                <div className="d-flex col-md">
+                                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled />
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="form-row mt-3">
+                                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
+                                                                <div className="d-flex col-md">
+                                                                    <input type="text" className="form-control col-md-5" id="ordernumber" placeholder='Enter the order number' />
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="form-row mt-3">
+
+                                                                <div className="d-flex col-md-3">
+                                                                    <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
+
+                                                                    <input type="date" className="form-control col-md-6" id="Invoicedate" disabled />
+                                                                </div>
+
+
+                                                                <div className="d-flex col-md-5">
+                                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
+
+                                                                    <select
+                                                                        id="paymentterm"
+                                                                        className="col-md-6  mr-0 form-control"
+                                                                        onChange={handleAccountTerm}
+                                                                    >
+                                                                        <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
+                                                                        {
+                                                                            activepaymentterm.map((item, index) => (
+                                                                                <option key={index} value={item.term_days}>{item.term}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </div>
+
+                                                                <div className="d-flex col-md-3" >
+                                                                    <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
+                                                                    <input type="date" className="form-control col-md-6" id="Duedate" disabled />
+
+                                                                </div>
+                                                            </div>
 
 
 
-                                            {/* 
+                                                            {/* 
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 " > </label>
                                                 <div className="d-flex col-md-4">
@@ -579,7 +585,7 @@ function Invoices() {
 
 
 
-                                            {/* <div className="form-row mt-2">
+                                                            {/* <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Contact Person </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="salesperson" className="form-control">
@@ -592,228 +598,235 @@ function Invoices() {
                                                     </select>
                                                 </div>
                                             </div> */}
-                                            {/* <hr /> */}
+                                                            {/* <hr /> */}
 
-                                            {/* <div className="form-row mt-2">
+                                                            {/* <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
                                                     <textarea className="form-control col-md-7" id="subject" rows='4' placeholder="Let your customer know what this invoice is for" style={{ resize: 'none' }}></textarea>
 
                                                 </div>
                                             </div> */}
-                                            <hr />
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Activity <span style={{ color: "red" }}>*</span></label>
-                                                <div className="d-flex col-md-4">
-                                                    <select id="Activity" className="form-control" onChange={handleChangeActivity}>
-                                                        <option value='' hidden>Select Activity</option>
-                                                        {
-                                                            Activeaccount.map((items, index) => (
-                                                                <option key={index} value={items.account_type_code}>{items.account_name}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
-                                                <div className="d-flex col-md-3">
-                                                    <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                                    <input type="date" className="form-control col-md-6" id="fromdate" />
-                                                </div>
-                                                <div className="d-flex col-md-5">
-                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                                    <input type="date" className="form-control col-md-6" id="todate" />
-                                                </div>
-                                            </div>
-                                            {/* <hr /> */}
-                                            <br />
-
-
-                                            <table className="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Items</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Rate</th>
-                                                        <th scope="col">Tax</th>
-                                                        <th scope="col">Unit</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        totalValues.map((element, index) => (
-                                                            <tr key={index}>
-                                                                <div id='trdiv'>
-                                                                    <td className="col-md-2 pl-0 pr-0">
-                                                                        <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md-">
-                                                                            <option value='' hidden > Select item</option>
-                                                                            {
-                                                                                activechargecode.map((item, index) => (
-                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name}`} >{item.item_name}</option>
-                                                                                ))
-                                                                            }
-                                                                        </select>
-                                                                    </td>
-                                                                </div>
-                                                                <td className='col-md-2 pl-0 pr-0'>
-                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
-                                                                        const quantity = e.target.value
-                                                                        setQuantity(quantity)
-                                                                    }} /></td>
-
-                                                                <td className='col-md-2 pl-0 pr-0'>
-                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
-                                                                        onChange={handleChangerate} />
-                                                                </td>
-                                                                <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
-
-                                                                <td className='pl-0 pr-0 col-md-2'>
-                                                                    <select onChange={handleChangeUnit} className="form-control col-md" id='unitdrop'>
-                                                                        <option value='' hidden> Select Unit</option>
+                                                            <hr />
+                                                            <div className="form-row mt-2">
+                                                                <label className="col-md-2 col-form-label font-weight-normal" >Activity <span style={{ color: "red" }}>*</span></label>
+                                                                <div className="d-flex col-md-4">
+                                                                    <select id="Activity" className="form-control" onChange={handleChangeActivity}>
+                                                                        <option value='' hidden>Select Activity</option>
                                                                         {
-                                                                            activeunit.map((item, index) => (
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
+                                                                            Activeaccount.map((items, index) => (
+                                                                                <option key={index} value={items.account_type_code}>{items.account_name}</option>
                                                                             ))
                                                                         }
                                                                     </select>
-                                                                </td>
-                                                                <td id="amountvalue">{amount[index] ? amount[index] : 0}</td>
-                                                                <td id="Totalsum">{Totalamountnew[index] ? Totalamountnew[index] : 0}</td>
-                                                            </tr>
-                                                        ))
-                                                    }
-                                                </tbody>
-                                            </table>
-                                            <button className="btn btn-primary" onClick={handleAdd} id='additembtm'>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={handleRemove} id='removeitembtm'>Remove</button>
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
+                                                                <div className="d-flex col-md-3">
+                                                                    <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
+                                                                    <input type="date" className="form-control col-md-6" id="fromdate" />
+                                                                </div>
+                                                                <div className="d-flex col-md-5">
+                                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
+                                                                    <input type="date" className="form-control col-md-6" id="todate" />
+                                                                </div>
+                                                            </div>
+                                                            {/* <hr /> */}
+                                                            <br />
 
-                                            <hr />
 
-                                            <div style={{ display: "flex" }}>
-                                                <div style={{ width: "40%" }}>
-                                                    <div className="form mt-3">
-                                                        <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
-                                                        <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
-                                                        </div>
+                                                            <table className="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Items</th>
+                                                                        <th scope="col">Quantity</th>
+                                                                        <th scope="col">Rate</th>
+                                                                        <th scope="col">Tax</th>
+                                                                        <th scope="col">Unit</th>
+                                                                        <th scope="col">Amount</th>
+                                                                        <th scope="col">Total</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        totalValues.map((element, index) => (
+                                                                            <tr key={index}>
+                                                                                <div id='trdiv'>
+                                                                                    <td className="col-md-2 pl-0 pr-0">
+                                                                                        <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md-">
+                                                                                            <option value='' hidden > Select item</option>
+                                                                                            {
+                                                                                                activechargecode.map((item, index) => (
+                                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name}`} >{item.item_name}</option>
+                                                                                                ))
+                                                                                            }
+                                                                                        </select>
+                                                                                    </td>
+                                                                                </div>
+                                                                                <td className='col-md-2 pl-0 pr-0'>
+                                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
+                                                                                        const quantity = e.target.value
+                                                                                        setQuantity(quantity)
+                                                                                    }} /></td>
 
-                                                    </div>
+                                                                                <td className='col-md-2 pl-0 pr-0'>
+                                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
+                                                                                        onChange={handleChangerate} />
+                                                                                </td>
+                                                                                <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
+
+                                                                                <td className='pl-0 pr-0 col-md-2'>
+                                                                                    <select onChange={handleChangeUnit} className="form-control col-md" id='unitdrop'>
+                                                                                        <option value='' hidden> Select Unit</option>
+                                                                                        {
+                                                                                            activeunit.map((item, index) => (
+                                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
+                                                                                            ))
+                                                                                        }
+                                                                                    </select>
+                                                                                </td>
+                                                                                <td id="amountvalue">{amount[index] ? amount[index] : 0}</td>
+                                                                                <td id="Totalsum">{Totalamountnew[index] ? Totalamountnew[index] : 0}</td>
+                                                                            </tr>
+                                                                        ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                            <button className="btn btn-primary" onClick={handleAdd} id='additembtm'>Add Item</button>   &nbsp;
+                                                            <button className="btn btn-danger" onClick={handleRemove} id='removeitembtm'>Remove</button>
+
+                                                            <hr />
+
+                                                            <div style={{ display: "flex" }}>
+                                                                <div style={{ width: "40%" }}>
+                                                                    <div className="form mt-3">
+                                                                        <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
+                                                                        <div className="d-flex col-md">
+                                                                            <textarea type="text" className="form-control " rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                                                    <table style={{ width: "100%" }}>
+                                                                        <thead></thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
+                                                                                <td></td>
+                                                                                <td>{totalamout}</td>
+                                                                            </tr>
+
+                                                                            <tr id='cgstlocal' >
+                                                                                <td>CGST</td>
+                                                                                <td>
+                                                                                    <div className="input-group mb-1" >
+                                                                                        <input type="number" className="form-control col-md-5" id='cgstipt'
+                                                                                            // onChange={handlechangegst} 
+                                                                                            disabled />
+                                                                                        <div className="input-group-append">
+                                                                                            <span className="input-group-text">%</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td>SGST/UTGST</td>
+                                                                                <td>
+                                                                                    <div className="input-group mb-1" >
+                                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' disabled />
+                                                                                        <div className="input-group-append">
+                                                                                            <span className="input-group-text">%</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td>IGST</td>
+                                                                                <td>
+                                                                                    <div className="input-group mb-1" >
+                                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' disabled />
+                                                                                        <div className="input-group-append">
+                                                                                            <span className="input-group-text">%</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td>Total GST</td>
+                                                                                <td>
+                                                                                    <div className="input-group mb-1" >
+                                                                                        <input type="number" className="form-control col-md-5" id='gstipt ' value={Math.max(...totalgst)} disabled />
+                                                                                        <div className="input-group-append">
+                                                                                            <span className="input-group-text">%</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td id="Totalvaluerd"> {gstvalue}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Currency
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div className="input-group mb-1">
+                                                                                        <select className="form-control col-md-5" id="currency" >
+                                                                                            <option value={custdetail.currency} hidden >{custdetail.currency}</option>
+                                                                                            {
+                                                                                                currencylist.map((item, index) =>
+                                                                                                    <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
+                                                                                            }
+                                                                                        </select>
+
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr className='mt-2'>
+                                                                                <td><h3>Total</h3></td>
+                                                                                <td></td>
+                                                                                <td id="grandtotaltd">{grandtotal}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                </div>
+                                                            </div>
+                                                            <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
+                                                            <div className="form-group">
+                                                                <label className="col-md-4 control-label" htmlFor="save"></label>
+                                                                <div className="col-md-20" style={{ width: "100%" }} >
+                                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
+                                                                        Save
+                                                                    </button>
+                                                                    <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' >
+                                                                        Post
+                                                                    </button>
+                                                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                                                        name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
+                                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
+                                                                    </button>
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </article>
                                                 </div>
-                                                <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
-                                                    <table style={{ width: "100%" }}>
-                                                        <thead></thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
-                                                                <td></td>
-                                                                <td>{totalamout}</td>
-                                                            </tr>
-
-                                                            <tr id='cgstlocal' >
-                                                                <td>CGST</td>
-                                                                <td>
-                                                                    <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='cgstipt'
-                                                                            // onChange={handlechangegst} 
-                                                                            disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr >
-                                                                <td>SGST/UTGST</td>
-                                                                <td>
-                                                                    <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr >
-                                                                <td>IGST</td>
-                                                                <td>
-                                                                    <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr >
-                                                                <td>Total GST</td>
-                                                                <td>
-                                                                    <div className="input-group mb-1" >
-                                                                        <input type="number" className="form-control col-md-5" id='gstipt ' value={Math.max(...totalgst)} disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td id="Totalvaluerd"> {gstvalue}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Currency
-                                                                </td>
-                                                                <td>
-                                                                    <div className="input-group mb-1">
-                                                                        <select className="form-control col-md-5" id="currency" >
-                                                                            <option value={custdetail.currency} hidden >{custdetail.currency}</option>
-                                                                            {
-                                                                                currencylist.map((item, index) =>
-                                                                                    <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
-                                                                            }
-                                                                        </select>
-
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr className='mt-2'>
-                                                                <td><h3>Total</h3></td>
-                                                                <td></td>
-                                                                <td id="grandtotaltd">{grandtotal}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-                                            </div>
-                                            <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
-                                            <div className="form-group">
-                                                <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }} >
-                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
-                                                        Save
-                                                    </button>
-                                                    <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' >
-                                                        Post
-                                                    </button>
-                                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
-                                                        name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
-                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
-                                                    </button>
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </article>
+                                            )
+                                            :
+                                            (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
+                                                <div className="spinner-border" role="status"> </div>
+                                            </div>)
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <Footer />
                 </div>
-                <Footer />
             </div>
-        </div>
+        </>
     )
 }
 
