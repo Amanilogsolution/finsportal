@@ -80,7 +80,7 @@ function Invoices() {
     useEffect(() => {
         const fetchdata = async () => {
 
-
+          
             setTimeout(() => {
                 setLoading(true)
                 const localdata = localStorage.getItem('gststatus');
@@ -89,9 +89,9 @@ function Invoices() {
                 }
 
             }, 2000);
-            document.getElementById('subtotalbtn').disabled = true;
-            document.getElementById('savebtn').disabled = true;
-            document.getElementById('postbtn').disabled = true;
+               document.getElementById('subtotalbtn').disabled = true;
+                document.getElementById('savebtn').disabled = true;
+                document.getElementById('postbtn').disabled = true;
 
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
@@ -114,7 +114,7 @@ function Invoices() {
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
 
-
+           
         }
         fetchdata()
     }, [])
@@ -442,7 +442,7 @@ function Invoices() {
     return (
         <>
             <div>
-
+              
                 <div className="wrapper">
                     {/* <div className="preloader flex-column justify-content-center align-items-center">
                                 <div className="spinner-border" role="status"> </div>

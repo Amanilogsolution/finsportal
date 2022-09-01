@@ -127,6 +127,8 @@ import AddCrm from './component/Master/CrmMaster/AddCrm'
 import EditCrm from './component/Master/CrmMaster/EditCrm'
 import ShowCrm from './component/Master/CrmMaster/ShowCrm'
 
+import OTPpage from './component/Login/OTP'
+
 
 
 
@@ -147,6 +149,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <Route exact path="/" restricted={false} component={Login}/>
           <Route exact path="/LoginDetails" component={LoginDetails}/>
           <Route exact path="/ChangePassword" component={ChangePassword}/>
+          <Route exact path="/otppage" component={OTPpage}/>
 
           <PrivatRoute  exact path="/home" component={Home}/>
           <PrivatRoute exact path="/Customer" component={Customer}/>
