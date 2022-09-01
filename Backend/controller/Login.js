@@ -18,15 +18,14 @@ const User_login = async (req, res) => {
             res.status(200).send({
                 status: "Success",
                 token: token,
-                result: result.recordset[0].org_db_name,
-                result2: result.recordset[0].user_name,
-                result3: result.recordset[0].org_name,
-                result4: result.recordset[0].user_id,
-                result5: result.recordset[0].user_profile_url,
-                result6: result1.recordset[0].fin_year,
-                result7: result1.recordset[0].year,
-
-
+                org_db_name: result.recordset[0].org_db_name,
+                user_name: result.recordset[0].user_name,
+                org_name: result.recordset[0].org_name,
+                user_id: result.recordset[0].user_id,
+                image: result.recordset[0].user_profile_url,
+                number: result.recordset[0].phone_no,
+                fin_year: result1.recordset[0].fin_year,
+                year: result1.recordset[0].year,
                 expiresIn: 5 * 24 * 60 * 60
             })
         } else {

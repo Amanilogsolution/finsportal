@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './login.css'
-import { UserLogin } from '../../api'
+import { UserLogin,OTPVerification } from '../../api'
 
 
 const Login = () => {
@@ -20,20 +20,23 @@ const Login = () => {
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
+        console.log(result.number)
         if (result.status == 'Success') {
             localStorage.setItem('Token', result.token)
             localStorage.setItem('ExpiredIn', result.expiresIn)
-            localStorage.setItem('Organisation', result.result)
-            localStorage.setItem('User_name', result.result2)
-            localStorage.setItem('Organisation Name', result.result3)
-            localStorage.setItem('User_id', result.result4)
-            localStorage.setItem('User_img', result.result5)
-            localStorage.setItem('fin_year', result.result6)
-            localStorage.setItem('year', result.result7)
+            localStorage.setItem('Organisation', result.org_db_name)
+            localStorage.setItem('User_name', result.user_name)
+            localStorage.setItem('Organisation Name', result.org_name)
+            localStorage.setItem('User_id', result.user_id)
+            localStorage.setItem('User_img', result.image)
+            localStorage.setItem('fin_year', result.fin_year)
+            localStorage.setItem('year', result.year)
 
+            // const OTP = Math.floor(Math.random()*1000000)
+            // const result1 = await OTPVerification(result.number,OTP)
+            // console.log(result1)
 
-
-            window.location.href = '/home'
+            // window.location.href = '/home'
         }
         else {
             setErrormsg(true);
@@ -88,17 +91,20 @@ const Login = () => {
 
 
                                 <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
-                                    <button type="submit" onClick={handleClick} className="btn btn-primary btn-block">Sign In</button>
-
+                                    <button type="submit" onClick={handleClick}  className="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             </div>
                         </form>
                         <p className="mb-1">
                             <a href="forgot-password.html">I forgot my password</a>
+                            <br/>
+                            <a href="otppage">Enter OTP</a>
+
                         </p>
                     </div>
                 </div>
             </div>
+     
         </div>
     )
 }

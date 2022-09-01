@@ -55,6 +55,7 @@ function Invoices() {
     const [chargecodes, setChargeCode] = useState([])
 
 
+
     const [allInvoiceData, setAllInvoiceData] = useState({
         Activity: "",
         TaxInvoice: "",
@@ -77,6 +78,7 @@ function Invoices() {
 
     useEffect(() => {
         const fetchdata = async () => {
+            load()
 
             document.getElementById('subtotalbtn').disabled = true;
             document.getElementById('savebtn').disabled = true;
@@ -109,12 +111,16 @@ function Invoices() {
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
 
-
-
-
         }
         fetchdata()
     }, [])
+
+
+    const load = ()=>{
+         setTimeout(() => {
+      return  (                    <div className="spinner-border" role="status"> </div>
+      )
+    },5000) }
 
     const Todaydate = () => {
         var date = new Date();
@@ -414,9 +420,6 @@ function Invoices() {
 
         }
 
-
-
-
         console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
             paymentterm, Duedate, User_id)
@@ -454,12 +457,9 @@ function Invoices() {
                         <div className="row pt-3" >
                             <div className="col">
                                 <div className="card">
-                                    <article
-                                        className="card-body"
-                                    >
+                                    <article className="card-body">
                                         <h3 className="text-left"> New Invoice</h3>
                                         <br />
-
                                         <form autoComplete="off">
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>

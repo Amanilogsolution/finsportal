@@ -1177,4 +1177,8 @@ export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, 
 
   // ############################For InvoiceSub api END #################################
 
+  export const OTPVerification = async (phoneno,otp) => {
+    const url = `http://localhost:3008/sendotp`
+    return axios.post(url,{phoneno,otp}).then(response => response.data).catch(error => console.log(error));
+}
 
