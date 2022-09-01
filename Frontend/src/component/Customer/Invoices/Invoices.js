@@ -3,9 +3,11 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import { ActiveCustomer, ActivePaymentTerm, 
+import {
+    ActiveCustomer, ActivePaymentTerm,
     // ActiveUser
-     SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount } from '../../../api/index'
+    SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount
+} from '../../../api/index'
 
 
 function Invoices() {
@@ -75,6 +77,7 @@ function Invoices() {
 
     useEffect(() => {
         const fetchdata = async () => {
+
             document.getElementById('subtotalbtn').disabled = true;
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
@@ -94,11 +97,20 @@ function Invoices() {
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
 
+            const localdata = localStorage.getItem('gststatus');
+            if (localdata === 'true') {
+                console.log("helloo")
+                document.getElementById('cgstlocal').style.display = 'none';
+            }
+
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
 
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
+
+
+
 
         }
         fetchdata()
@@ -290,7 +302,7 @@ function Invoices() {
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
         console.log(val)
-        
+
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
@@ -699,7 +711,7 @@ function Invoices() {
                                                                 <td>{totalamout}</td>
                                                             </tr>
 
-                                                            <tr >
+                                                            <tr id='cgstlocal' >
                                                                 <td>CGST</td>
                                                                 <td>
                                                                     <div className="input-group mb-1" >
@@ -785,8 +797,8 @@ function Invoices() {
                                                     <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' >
                                                         Post
                                                     </button>
-                                                    <button id="clear" onClick={(e) => {e.preventDefault(); window.location.href = '/home'}} 
-                                                    name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
+                                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                                        name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
                                                     <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
                                                     </button>
 
