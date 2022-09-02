@@ -51,13 +51,14 @@ const EditCrm = () => {
         const crmtype = crmtypeval;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value ? custvendval.value : data.cust_vend;
+        const from_date= document.getElementById("from_date").value
 
         if (!crmtype || !person_name || !cust_vend_name) {
             alert('Enter data')
         }
         else {
-            const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'));
-            if (result === "updated") {
+            const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'),from_date);
+            if (result === "Updated") {
                 alert('Data updated');
                 localStorage.removeItem('CrmmasterSno');
                 window.location.href = '/ShowCrm'
@@ -74,6 +75,9 @@ const EditCrm = () => {
     const handlechangename = (e) => {
         setData({ ...data, user_name: e.target.value })
     }
+    const handleChangeDate = (e) => {
+        setData({ ...data, Joindate: e.target.value })
+      }
 
     const handletype = (e) => {
         if (e.target.value === 'Customer') {
@@ -160,6 +164,14 @@ const EditCrm = () => {
                                                                     placeholder={data.cust_vend}
                                                                 />
                                                         }
+                                                    </div>
+                                                </div>
+                                                <div className="form-row">
+                                                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Date</label>
+                                                    <div className="col form-group">
+                                                        <input type="Date" className="form-control col-md-4" id='from_date' value={data.Joindate} 
+                                                                                      onChange={(e) => handleChangeDate(e)}
+                                                                                      />
                                                     </div>
                                                 </div>
                                                 <div className="border-top card-body">

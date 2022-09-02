@@ -20,6 +20,11 @@ const columns = [
     sortable: true
   },
   {
+    name: 'Date',
+    selector: row => row.Joindate,
+    sortable: true
+  },
+  {
     name: 'Customer/Vendor name',
     selector: row => row.cust_vend,
     sortable: true
@@ -68,6 +73,7 @@ const ShowCrm = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const result = await TotalCrm(localStorage.getItem('Organisation'))
+      console.log(result)
       setData(result)
     }
 

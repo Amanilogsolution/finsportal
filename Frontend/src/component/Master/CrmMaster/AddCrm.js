@@ -31,13 +31,24 @@ const AddCrm = () => {
         const crmtypes = typeselect;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value;
+        const from_date = document.getElementById('from_date').value;
+
+        const to_date = new Date(from_date);
+        to_date.setDate(to_date.getDate() - 1);
+        var day = to_date.getDate();
+        var month = to_date.getMonth() + 1;
+        var year = to_date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        let formatted_date = year + "-" + month + "-" + day;
+        // let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" + to_date.getDate()
 
 
         if (!crmtypes || !person_name || !cust_vend_name) {
             alert('Enter data')
         }
         else {
-            const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'));
+            const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'),from_date,formatted_date);
             if (result === "Added") {
                 alert('Data Added')
                 window.location.href = '/ShowCrm'
@@ -137,6 +148,12 @@ const AddCrm = () => {
                                                                 />
 
                                                         }
+                                                    </div>
+                                                </div>
+                                                <div className="form-row">
+                                                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Date</label>
+                                                    <div className="col form-group">
+                                                        <input type="Date" className="form-control col-md-4" id='from_date' />
                                                     </div>
                                                 </div>
                                                 <div className="border-top card-body">

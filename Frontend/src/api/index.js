@@ -1124,9 +1124,9 @@ export const ActivePaymentTerm = async (org) => {
 // ###########################  CRM Master api Start ############################
 
 
-export const InsertCrm = async (org, user_name, type, cust_vend, User_id) => {
+export const InsertCrm = async (org, user_name, type, cust_vend, User_id,from_date,to_date) => {
     const url = `http://localhost:3008/api/insertcrm`
-    return axios.post(url, { org, user_name, type, cust_vend, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, user_name, type, cust_vend, User_id,from_date,to_date }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const TotalCrm = async (org) => {
@@ -1146,9 +1146,9 @@ export const GetCrm = async (org, sno) => {
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateCrm = async (sno, org, user_name, type, cust_vend, User_id) => {
+export const UpdateCrm = async (sno, org, user_name, type, cust_vend, User_id,from_date) => {
     const url = `http://localhost:3008/api/updatecrm`
-    return axios.post(url, { sno, org, user_name, type, cust_vend, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, org, user_name, type, cust_vend, User_id,from_date }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ###########################  CRM Master api END ############################
