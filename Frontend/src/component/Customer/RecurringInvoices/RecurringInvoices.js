@@ -7,7 +7,6 @@ function RecurringInvoices() {
     const [totalValues, setTotalValues] = useState([1])
     const [amount,setAmount]= useState()
     const handleChange = (e) => {
-        console.log(e.target.value)
         var desktop = e.target.value
         if (desktop === 'Desktop') {
             document.getElementById("Upload").click()
@@ -22,8 +21,6 @@ function RecurringInvoices() {
     const handleBlur = ()=> {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
-        console.log(quality,rate)
-        console.log(quality*rate)
         setAmount(quality*rate)
     }
 
@@ -36,8 +33,7 @@ function RecurringInvoices() {
     const handleRemove = (e) => {
         e.preventDefault()
         var newvalue = [...totalValues]
-        console.log(newvalue.length)
-        if (newvalue.length == 1) {
+        if (newvalue.length === 1) {
             setTotalValues(newvalue)
 
         } else {
@@ -76,7 +72,7 @@ function RecurringInvoices() {
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Choose</option>
+                                                        <option value='' hidden>Choose</option>
 
                                                     </select>
                                                     <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
@@ -105,7 +101,7 @@ function RecurringInvoices() {
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Week</option>
+                                                        <option value='' hidden>Week</option>
 
                                                     </select>
                                                 </div>
@@ -133,7 +129,7 @@ function RecurringInvoices() {
                                                         className="form-control"
                                                     // onChange={handleAccountType}
                                                     >
-                                                        <option defaultValue hidden>Date on Receipt</option>
+                                                        <option value='' hidden>Date on Receipt</option>
                                                         <option >Net 15</option>
                                                         <option >Net 30</option>
                                                         <option >Net 45</option>
@@ -150,7 +146,7 @@ function RecurringInvoices() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Sales Person </label>
                                                 <div className="d-flex col-md-4">
                                                     <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Select</option>
+                                                        <option value='' hidden>Select</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -257,7 +253,7 @@ function RecurringInvoices() {
                                                     <div style={{ marginLeft: "10px" }}>
                                                         <buttton onClick={(e) => { e.preventDefault(); document.getElementById("Upload").click() }}>Upload</buttton>
                                                         <select onChange={handleChange}>
-                                                            <option hidden defaultValue>Upload File</option>
+                                                            <option hidden value=''>Upload File</option>
                                                             <option value="Desktop">Attach from Desktop</option>
                                                             <option>Attach from Cloud</option>
                                                         </select>
