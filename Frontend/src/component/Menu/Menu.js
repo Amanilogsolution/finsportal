@@ -421,14 +421,14 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul> */}
-                <ul className="nav nav-treeview">
+                {/* <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/Showcompliances" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Compliances</p>
                     </a>
                   </li>
-                </ul>
+                </ul> */}
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowcompliancesType" className="nav-link active">
@@ -437,14 +437,14 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
+                {/* <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowAccountInfo" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Item Account Info</p>
                     </a>
                   </li>
-                </ul>
+                </ul> */}
 
 
                 <ul className="nav nav-treeview">

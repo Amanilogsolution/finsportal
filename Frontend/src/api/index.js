@@ -924,41 +924,42 @@ export const ActiveAccountname = async (org) => {
 //  ########################## Charge Code master api End ###############################
 
 // ###########################  AccountInfo api start ############################
-export const AllAccountInfo = async (org) => {
-    const url = `http://localhost:3008/api/allaccountinfo`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
-}
 
-export const AllAccountsalesInfo = async (org) => {
-    const url = `http://localhost:3008/api/allaccountsalesinfo`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
-}
+// export const AllAccountInfo = async (org) => {
+//     const url = `http://localhost:3008/api/allaccountinfo`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// }
 
-export const AllAccountpurchaseInfo = async (org) => {
-    const url = `http://localhost:3008/api/allaccountpurchaseinfo`
-    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
-}
-export const AccountInfoStatus = async (org, status, sno) => {
-    const url = `http://localhost:3008/api/accountinfostatus`
-    return axios.post(url, { org, status, sno }).then(response => response.data).catch(error => console.log(error));
-}
-export const InsertAccountInfo = async (org, account_info_name, account_info_type, User_id) => {
-    const url = `http://localhost:3008/api/insertaccountinfo`
-    return axios.post(url, { org, account_info_name, account_info_type, User_id }).then(response => response.data).catch(error => console.log(error));
-}
-export const SelectAccountInfo = async (org, sno) => {
-    const url = `http://localhost:3008/api/selectaccountinfo`
-    return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
-}
-export const UpdateAccountInfo = async (org, sno, account_info_name, account_info_type, User_id) => {
-    const url = `http://localhost:3008/api/updateaccountinfo`
-    return axios.post(url, { org, sno, account_info_name, account_info_type, User_id }).then(response => response.data).catch(error => console.log(error));
-}
+// export const AllAccountsalesInfo = async (org) => {
+//     const url = `http://localhost:3008/api/allaccountsalesinfo`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// }
 
-export const Importaccountinfo = async (datas, org, User_id) => {
-    const url = `http://localhost:3008/api/importaccountinfo`
-    return axios.post(url, { datas, org, User_id }).then(response => response.data).catch(error => console.log(error));
-}
+// export const AllAccountpurchaseInfo = async (org) => {
+//     const url = `http://localhost:3008/api/allaccountpurchaseinfo`
+//     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+// }
+// export const AccountInfoStatus = async (org, status, sno) => {
+//     const url = `http://localhost:3008/api/accountinfostatus`
+//     return axios.post(url, { org, status, sno }).then(response => response.data).catch(error => console.log(error));
+// }
+// export const InsertAccountInfo = async (org, account_info_name, account_info_type, User_id) => {
+//     const url = `http://localhost:3008/api/insertaccountinfo`
+//     return axios.post(url, { org, account_info_name, account_info_type, User_id }).then(response => response.data).catch(error => console.log(error));
+// }
+// export const SelectAccountInfo = async (org, sno) => {
+//     const url = `http://localhost:3008/api/selectaccountinfo`
+//     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
+// }
+// export const UpdateAccountInfo = async (org, sno, account_info_name, account_info_type, User_id) => {
+//     const url = `http://localhost:3008/api/updateaccountinfo`
+//     return axios.post(url, { org, sno, account_info_name, account_info_type, User_id }).then(response => response.data).catch(error => console.log(error));
+// }
+
+// export const Importaccountinfo = async (datas, org, User_id) => {
+//     const url = `http://localhost:3008/api/importaccountinfo`
+//     return axios.post(url, { datas, org, User_id }).then(response => response.data).catch(error => console.log(error));
+// }
 
 // ###########################  AccountInfo api end ############################
 

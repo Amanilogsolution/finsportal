@@ -424,20 +424,7 @@ const Newdb = async (req, res) => {
                 status varchar(10) NULL
             );
             
-            CREATE TABLE ${dbname}.dbo.tbl_account_info (
-                sno bigint IDENTITY(1,1) NOT NULL,
-                account_info_name varchar(100) NULL,
-                account_info_type varchar(50) NULL,
-                add_user_name varchar(30) NULL,
-                add_system_name varchar(50) NULL,
-                add_ip_address varchar(30) NULL,
-                add_date_time datetime NULL,
-                update_user_name varchar(50) NULL,
-                update_system_name varchar(50) NULL,
-                update_ip_address varchar(30) NULL,
-                update_date_time datetime NULL,
-                status varchar(20) NULL
-            );
+      
             
             CREATE TABLE ${dbname}.dbo.tbl_gl_sub (
                 sno bigint IDENTITY(1,1) NOT NULL,
@@ -499,6 +486,8 @@ const Newdb = async (req, res) => {
                      user_name  varchar(100) NULL,
                      type varchar(30) NULL,
                      cust_vend varchar(100) NULL,
+                     from_date date NULL,
+                     to_date date NULL,
                      add_date_time datetime NULL,
                      add_user_name varchar(50) NULL,
                      add_system_name varchar(50) NULL,
@@ -676,4 +665,19 @@ module.exports = { Newdb }
 //     update_ip_address varchar(30) NULL,
 //     update_date_time datetime NULL,
 //     status varchar(30) NULL
+// );
+
+// CREATE TABLE ${dbname}.dbo.tbl_account_info (
+//     sno bigint IDENTITY(1,1) NOT NULL,
+//     account_info_name varchar(100) NULL,
+//     account_info_type varchar(50) NULL,
+//     add_user_name varchar(30) NULL,
+//     add_system_name varchar(50) NULL,
+//     add_ip_address varchar(30) NULL,
+//     add_date_time datetime NULL,
+//     update_user_name varchar(50) NULL,
+//     update_system_name varchar(50) NULL,
+//     update_ip_address varchar(30) NULL,
+//     update_date_time datetime NULL,
+//     status varchar(20) NULL
 // );
