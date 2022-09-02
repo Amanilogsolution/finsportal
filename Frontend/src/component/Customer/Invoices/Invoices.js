@@ -11,7 +11,7 @@ import {
 
 
 function Invoices() {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const [totalValues, setTotalValues] = useState([1])
     const [activecustomer, setActiveCustomer] = useState([])
@@ -85,10 +85,14 @@ function Invoices() {
                 setLoading(true)
                 const localdata = localStorage.getItem('gststatus');
                 if (localdata == 'false') {
-                    document.getElementById('cgstlocal').style.display = 'none';
+                    document.getElementById('cgstinp').style.display = 'none';
+                    document.getElementById('sgstinp').style.display = 'none';
+                    document.getElementById('igstinp').style.display = 'none';
+                    document.getElementById('tgstinp').style.display = 'none';
                 }
 
-            }, 2000);
+            },2000);
+
             document.getElementById('subtotalbtn').disabled = true;
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
@@ -666,6 +670,7 @@ function Invoices() {
                                                                                 <td className='col-md-2 pl-0 pr-0'>
                                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                                         const quantity = e.target.value
+                                                                                       
                                                                                         setQuantity(quantity)
                                                                                     }} /></td>
 
@@ -716,8 +721,8 @@ function Invoices() {
                                                                                 <td></td>
                                                                                 <td>{totalamout}</td>
                                                                             </tr>
-
-                                                                            <tr id='cgstlocal' >
+                                                                           
+                                                                            <tr id='cgstinp' >
                                                                                 <td>CGST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
@@ -731,7 +736,7 @@ function Invoices() {
                                                                                 </td>
 
                                                                             </tr>
-                                                                            <tr >
+                                                                            <tr id='sgstinp'>
                                                                                 <td>SGST/UTGST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
@@ -743,7 +748,7 @@ function Invoices() {
                                                                                 </td>
 
                                                                             </tr>
-                                                                            <tr >
+                                                                            <tr id='igstinp'>
                                                                                 <td>IGST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
@@ -754,7 +759,7 @@ function Invoices() {
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
-                                                                            <tr >
+                                                                            <tr id='tgstinp'>
                                                                                 <td>Total GST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
@@ -766,6 +771,7 @@ function Invoices() {
                                                                                 </td>
                                                                                 <td id="Totalvaluerd"> {gstvalue}</td>
                                                                             </tr>
+                                                                        
                                                                             <tr>
                                                                                 <td>
                                                                                     Currency
