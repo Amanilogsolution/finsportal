@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import './login.css'
-import { UserLogin,OTPVerification } from '../../api'
+import { UserLogin, OTPVerification } from '../../api'
 
 
 const Login = () => {
     const [passwordshow, setPasswordshow] = useState(false);
     const [errormsg, setErrormsg] = useState(false);
+    const [otps, setOpts] = useState()
+    const [phones, setPhones] = useState()
+    const [count, setCount] = useState(0)
 
     const handleClickToogle = (e) => {
         e.preventDefault()
@@ -20,7 +23,6 @@ const Login = () => {
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
-        console.log(result.number)
         if (result.status == 'Success') {
             localStorage.setItem('Token', result.token)
             localStorage.setItem('ExpiredIn', result.expiresIn)
@@ -32,16 +34,39 @@ const Login = () => {
             localStorage.setItem('fin_year', result.fin_year)
             localStorage.setItem('year', result.year)
 
-            // const OTP = Math.floor(Math.random()*1000000)
-            // const result1 = await OTPVerification(result.number,OTP)
-            // console.log(result1)
-
+            setPhones(result.number)
+            const OTP = Math.floor(Math.random() * 1000000)
+            setOpts(OTP)
+            const result1 = await OTPVerification(result.number, OTP)
             // window.location.href = '/home'
         }
         else {
             setErrormsg(true);
-            // alert("Invalid Email & Password")
+            alert("Invalid Email & Password")
         }
+    }
+
+    const handleClickResendOtp = async (e) => {
+        e.preventDefault()
+        const result1 = await OTPVerification(phones, otps)
+    }
+
+    const handleClickOTP = (e) => {
+        e.preventDefault()
+        const otpinput = document.getElementById('Otp').value
+        if (otpinput == otps) {
+            alert("Athorized successfully")
+            window.location.href = '/home'
+        } else {
+            setCount(count + 1)
+            alert("Invalid Otp")
+            if (count >= 2) {
+                alert("You are not User")
+                window.location.href = '/'
+            }
+
+        }
+
     }
 
     return (
@@ -52,7 +77,6 @@ const Login = () => {
                         <a href="../../index2.html" className="h1"><b>FINS</b></a>
                     </div>
                     <div className="card-body">
-
                         <h1 className="login-box-msg">Login</h1>
                         {
                             errormsg ? (
@@ -88,23 +112,41 @@ const Login = () => {
                                         </label>
                                     </div>
                                 </div> */}
-
-
                                 <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
-                                    <button type="submit" onClick={handleClick}  className="btn btn-primary btn-block">Sign In</button>
+                                    <button type="submit" onClick={handleClick} data-toggle="modal" data-target="#exampleModalCenter" className="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             </div>
                         </form>
                         <p className="mb-1">
                             <a href="forgot-password.html">I forgot my password</a>
-                            <br/>
+                            <br />
                             <a href="otppage">Enter OTP</a>
-
                         </p>
                     </div>
                 </div>
             </div>
-     
+
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Enter OTP</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="number" className="form-control" placeholder="Enter OTP" id="Otp" required />
+                            <a href="#" onClick={handleClickResendOtp} id="resendotp">Resend OTP</a>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" onClick={handleClickOTP} class="btn btn-primary">Verify User</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

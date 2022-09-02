@@ -22,7 +22,6 @@ app.post('/sendotp',async function (req,res){
   const otp = req.body.otp;
   try{
          const result = axios.post(`http://www.alertwings.in/sendhttp.php?user=erpnto&password=erpnto123&mobiles=${phoneno}&message=${otp} is your One Time Password to log on to SWIM WMS.
-
           If not requested , Call IT.  2022-08-29 10:57:52&sender=OTPWMS&route=4&DLT_TE_ID=1207160975223863495`)
           .then(response => { res.send(response.data)})
           .catch(error => console.log(error))
