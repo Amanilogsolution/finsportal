@@ -52,12 +52,12 @@ function ChartOfAccount() {
   const handleAccountType = async (e) => {
     const account_type = e.target.value;
     setaccount_type(account_type)
-    const result = await ChartOfAccountParentAccount(account_type,localStorage.getItem('Organisation'));
-    console.log(result)
+    const org =localStorage.getItem('Organisation');
+    const result = await ChartOfAccountParentAccount(account_type,org);
     setaccount_name(result)
 
-    const number = await ParentAccountNumber(account_type, account_name,localStorage.getItem('Organisation'));
-    console.log('Result',number)
+    const number = await ParentAccountNumber(account_type, account_name,org);
+   
     if(!number.result){
       setAccountno(account_type+'01')
     }
@@ -76,7 +76,7 @@ function ChartOfAccount() {
 
   const handleParentAccount = async (e) => {
     const account_name = e.target.value;
-    console.log('Account',account_name)
+  
     setaccount_type(account_name)
 
     const number = await ParentAccountNumber(account_type, account_name);
@@ -111,8 +111,6 @@ function ChartOfAccount() {
     if (account_type.length === 3) {
       setaccount_type(accountsubno)
     }
-
-
   }
 
   return (
@@ -146,7 +144,7 @@ function ChartOfAccount() {
                           className="form-control"
                           onChange={handleAccountType}
                         >
-                          <option selected hidden>Choose</option>
+                          <option value='' hidden>Choose</option>
                           {
                             chartofaccount.map((item, index) => {
                               return (
@@ -171,23 +169,19 @@ function ChartOfAccount() {
                       Make this a sub-account
                       <input type="checkbox"
                         id="checkboxgst"
-
                         onClick={handleClick}
                         style={{ float: "right" }}
                       />
                     </p>
 
-
                     <div className="form-group" id="parent" style={{ display: 'none' }}>
                       <label>Parent Account <span style={{ color: "red" }}>*</span> </label>
-
-
                       <select
                         id="parentaccount"
                         className="form-control"
                         onChange={handleParentAccount}
                       >
-                        <option selected default hidden >Choose</option>
+                        <option value='' default hidden >Choose</option>
                         {
                           account_name.map((item, index) => {
                             return (
@@ -198,14 +192,10 @@ function ChartOfAccount() {
                         }
                       </select>
                     </div>
-
-
                     <div className="form-group">
                       <label>Account Code  </label>
-
-                      <input type="text" defaultValue={account_type} className="form-control" id="Accountnamecode" />
+                      <input type="text" value={account_type} className="form-control" id="Accountnamecode" />
                     </div>
-
                     <div className="form-group">
                       <label>Description  </label>
                       <textarea name="text" className="form-control" id="description" cols="10" rows="3"></textarea>
