@@ -80,9 +80,9 @@ import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust
 
 import Items from './component/Master/ItemMaster/AddItem';
 
-import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
-import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
-import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
+// import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
+// import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
+// import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
 
 import RecurringExpenses from './component/Vendor/RecurringExpenses/RecurringExpenses';
 
@@ -230,10 +230,10 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <PrivatRoute exact path="/ShowAccountname" component={ShowAccountname}/>
           <PrivatRoute exact path="/EditAccountname" component={EditAccountname}/>
           <PrivatRoute exact path="/Items" component={Items}/>
-
+{/* 
           <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
           <PrivatRoute exact path="/AddAccountInfo" component={AddAccountInfo}/>
-          <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/>
+          <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/> */}
 
           <PrivatRoute exact path="/RecurringExpenses" component={RecurringExpenses}/>
           <PrivatRoute exact path="/AddSubCode" component={AddSubCode}/>

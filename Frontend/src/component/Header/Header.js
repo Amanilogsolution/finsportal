@@ -265,6 +265,9 @@ const Header = () => {
                   <b>Payment Terms</b> </li></a>
                 <a href="/ShowCrm"> <li className="list-group-item"><i className="fa fa-user-plus text-dark" aria-hidden="true"></i>&nbsp;&nbsp;
                   <b>CRM Master</b> </li></a>
+                <a href="/Showcompliances"> <li className="list-group-item"><i className="fa fa-user-plus text-dark" aria-hidden="true"></i>
+                &nbsp;&nbsp;
+                  <b>Compliances</b> </li></a>
               </ul>
 
 
