@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
+import InvoicePreviewWithGst from './PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm,
     // ActiveUser
@@ -799,7 +800,13 @@ function Invoices() {
 
                                                                 </div>
                                                             </div>
+                                                            { 
+                                                        localStorage.getItem('gststatus') == true?
                                                             <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
+                                                            :
+                                                            <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} />
+}
+
                                                             <div className="form-group">
                                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                                 <div className="col-md-20" style={{ width: "100%" }} >
@@ -811,8 +818,7 @@ function Invoices() {
                                                                     </button>
                                                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                                         name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
-                                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice
-                                                                    </button>
+                                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice </button>
 
                                                                 </div>
                                                             </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './login.css'
-import { UserLogin, OTPVerification } from '../../api'
+import { UserLogin, OTPVerification,LoginLogs } from '../../api'
 
 
 const Login = () => {
@@ -39,6 +39,7 @@ const Login = () => {
             setOpts(OTP)
             const result1 = await OTPVerification(result.number, OTP)
             // window.location.href = '/home'
+            const loginlogs = await LoginLogs(result.user_id,result.user_name,result.org_name,result.org_db_name)
         }
         else {
             setErrormsg(true);

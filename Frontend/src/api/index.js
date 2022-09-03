@@ -67,9 +67,9 @@ export const showOrganisation = async (org_name) => {
     return axios.post(url, { org_name }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id) => {
+export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id,uploadimage) => {
     const url = `http://localhost:3008/api/UpdateOrganisation`
-    return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For create  Db End #################################
@@ -1182,4 +1182,15 @@ export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, 
     const url = `http://localhost:3008/sendotp`
     return axios.post(url,{phoneno,otp}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const LoginLogs = async (user_id,user_name,comp_name,org_db_name) => {
+    const url = `http://localhost:3008/api/loginlogs`
+    return axios.post(url, { user_id,user_name,comp_name,org_db_name }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const LogoutLogs = async (user_id,org_db_name) => {
+    const url = `http://localhost:3008/api/logoutlogs`
+    return axios.post(url, { user_id,org_db_name }).then(response => response.data).catch(error => console.log(error));
+}
+
 

@@ -1,7 +1,8 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { showOrganisation,TotalOrganistion, UserLogout } from '../../api'
+import { showOrganisation,TotalOrganistion, UserLogout,LogoutLogs } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
+import profileimg from '../../images/profile.png'
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -16,6 +17,15 @@ const Header = () => {
     const fetchdata = async () => {
       const organisation = await TotalOrganistion()
       setData(organisation)
+
+      const result1 = await showOrganisation(localStorage.getItem('Organisation'))
+      if(result1.org_logo.length>0){
+      localStorage.setItem('Orglogo',result1.org_logo)
+      }else{
+        localStorage.removeItem('Orglogo')
+
+      }
+      
 
       const result = await showOrganisation(localStorage.getItem('Organisation Name'))
       console.log(result.org_gst)
@@ -33,6 +43,7 @@ const Header = () => {
 
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
+    const result1 = await LogoutLogs(localStorage.getItem('User_id'),localStorage.getItem('Organisation'))
 
     if (result.status === 'Logout') {
       localStorage.clear()
@@ -200,7 +211,7 @@ const Header = () => {
                 }
 
               }}>
-                <img src={localStorage.getItem("User_img")} className="img-circle mr-4" alt="User Image" style={{ border: "1px solid black" }} />
+                <img src={localStorage.getItem("User_img")|| profileimg} className="img-circle mr-4" alt="User Image" style={{ border: "1px solid black" }} />
               </div>
             </div>
           </li>
@@ -215,7 +226,7 @@ const Header = () => {
 
               <div className="card-body">
                 <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShow(!show); }}></i>
-                <img className="card-img-top " src={OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+                <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
               </div>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item"><b>My Orgaisation</b>
@@ -274,14 +285,13 @@ const Header = () => {
             </div>
           </>) : null
         }
-
         {
           showprofile ? (
             <>
               <div className="profilcard card" >
                 <div className="card-body">
                   <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
-                  <img className="card-img-top " src={localStorage.getItem("User_img")} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+                  <img className="card-img-top " src={localStorage.getItem("User_img") || profileimg} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
                     <a href="/LoginDetails">Profile</a> |
