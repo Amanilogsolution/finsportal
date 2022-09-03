@@ -19,7 +19,7 @@ const Header = () => {
       setData(organisation)
 
       const result1 = await showOrganisation(localStorage.getItem('Organisation'))
-      if(result1.org_logo.length>0){
+      if(result1.org_logo){
       localStorage.setItem('Orglogo',result1.org_logo)
       }else{
         localStorage.removeItem('Orglogo')
