@@ -13,6 +13,7 @@ function EditOrgAddress() {
     const fetchdata = async () => {
       const result = await locationAddress(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
       setData(result)
+      console.log(result)
 
       const city = await getCity(result.location_state);
       setCitylist(city)
