@@ -81,14 +81,15 @@ const UpdateOrganisation = async (req, res) => {
     const report_basic = req.body.report_basic;
     const company_id = req.body.company_id;
     const tax_id = req.body.tax_id;
-    console.log(industry_type,fins_year,report_basic,company_id,tax_id)
+    const uploadimage = req.body.uploadimage
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.organisation set org_contact_name='${org_contact_name}', org_contact_phone ='${org_contact_phone}',org_contact_email='${org_contact_email}',
-                org_street='${org_street}',org_city='${org_city}',org_pincode='${org_pincode}',org_gst ='${org_gst}',org_logo='' ,update_ip_address='${req.ip}',update_date_time=getdate(),
-                update_user_name='${User_id}',update_system_name ='${os.hostname()}',industry_type='${industry_type}',fins_year_month='${fins_year}',report_basic='${report_basic}',company_id='${company_id}',tax_id='${tax_id}' where org_name ='${org_name}';
+                org_street='${org_street}',org_city='${org_city}',org_pincode='${org_pincode}',org_gst ='${org_gst}',update_ip_address='${req.ip}',update_date_time=getdate(),
+                update_user_name='${User_id}',update_system_name ='${os.hostname()}',industry_type='${industry_type}',fins_year_month='${fins_year}',report_basic='${report_basic}',company_id='${company_id}',tax_id='${tax_id}',org_logo='${uploadimage}' where org_name ='${org_name}';
                 `)
-        res.send(result.recordset[0])
+        res.send(result)
 
     }
     catch (err) {

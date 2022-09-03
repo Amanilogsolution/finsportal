@@ -36,6 +36,7 @@ const PaymentTermController = require('../controller/paymentMaster')
 const CRMController = require('../controller/crmMaster')
 const InvoiceController = require('../controller/Invoice')
 const InvoiceSubController = require('../controller/subinvoice')
+const LoginLogsController = require('../controller/LoginLOgs')
 
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
@@ -307,6 +308,11 @@ router.post('/activecrm',CRMController.Activecrm)
 
 router.post('/insertinvoice',InvoiceController.InsertInvoice)
 router.post('/insertsubinvoice',InvoiceSubController.InsertSubInvoice)
+
+
+router.post('/loginlogs',LoginLogsController.LoginLogs)
+router.post('/logoutlogs',LoginLogsController.LogoutLogs)
+
 
 
 
