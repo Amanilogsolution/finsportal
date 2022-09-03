@@ -168,8 +168,8 @@ function ShowChartAccount() {
                 <Menu />
                 <div>
                     <div className="content-wrapper">
-                        {/* <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./InsertAccountType" }} className="btn btn-primary">Add Account Name</button> */}
-                        <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                        <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./ChartOfAccount" }} className="btn btn-primary">Add Chart Of Account</button>
+                        <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
 
                         <div className="container-fluid">

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalUser } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deleteUser, ImportUser } from '../../../api';
+import { deleteUser, ImportUser, TotalUser } from '../../../api';
 import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
 
@@ -33,11 +32,6 @@ const columns = [
     selector: row => row.user_id,
     sortable: true
   },
-  // {
-  //   name: 'Password',
-  //   selector: 'password',
-  //   sortable: true
-  // },
   {
     name: 'Email Id',
     selector: row => row.email_id,
@@ -48,27 +42,6 @@ const columns = [
     selector: row => row.phone,
     sortable: true
   },
- 
-  // {
-  //   name:'Active',
-  //   selector: 'null',
-  //   cell: (row) => [
-  //       <input type='checkbox' checked={row.status== 'Active'}  onClick={async(e) =>
-  //         {
-  //           if(row.status == 'Active'){
-  //             const checkvalue ='Deactive'
-  //             await deleteUser(row.sno,checkvalue)
-  //                 window.location.href='ShowUser'
-
-  //           }
-  //           else{
-  //             const checkvalue ='Active'
-  //             await deleteUser(row.sno,checkvalue)
-  //                 window.location.href='ShowUser'
-  //           }
-  //          }} />
-  //   ]
-  // },
   {
     name: 'Operate Mode',
     selector: row => row.operate_mode,
@@ -106,9 +79,7 @@ const columns = [
           window.location.href = 'ShowUser'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
-
-
+          <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -150,7 +121,6 @@ const ShowUser = () => {
     })
 
     if (errorno > 0) {
-
       alert("Please! fill the mandatory data");
       document.getElementById("showdataModal").style.display = "none";
       window.location.reload()
@@ -177,7 +147,6 @@ const ShowUser = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    console.log('dates', datas)
     setImportdata(datas);
 
   };
@@ -212,10 +181,13 @@ const ShowUser = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(async () => {
-    const result = await TotalUser()
-    setData(result)
-    // console.log(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await TotalUser()
+      setData(result)
+    }
+
+    fetchdata()
   }, [])
 
   const tableData = {
@@ -263,8 +235,7 @@ const ShowUser = () => {
         </div>
         <Footer />
 
-        {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
+        {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
           id="exampleModal"
@@ -358,7 +329,6 @@ const ShowUser = () => {
                     &times;</span>
                 </button>
               </div>
-              {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
                 {
 
@@ -375,21 +345,18 @@ const ShowUser = () => {
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d) => (
+                            duplicateData.map((d, index) => (
 
-                              <tr style={{ border: "1px solid black" }}>
-
+                              <tr key={index} style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.user_name}</td>
                                 <td style={{ border: "1px solid black" }}>{d.email_id}</td>
                                 <td style={{ border: "1px solid black" }}>{d.phone}</td>
-
                               </tr>
                             ))
                           }
                         </tbody>
-                        <tfoot></tfoot>
-                        <br /><br />
                       </table>
+                      <br /><br />
                     </>
                     : null
                 }
@@ -413,8 +380,8 @@ const ShowUser = () => {
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
+                      importdata.map((d, index) => (
+                        <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.employee_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.role}</td>
                           <td style={{ border: "1px solid black" }}>{d.warehouse}</td>
@@ -427,15 +394,12 @@ const ShowUser = () => {
                           <td style={{ border: "1px solid black" }}>{d.reporting_to}</td>
                           <td style={{ border: "1px solid black" }}>{d.designation}</td>
                           <td style={{ border: "1px solid black" }}>{d.user_profile_url}</td>
-
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
-            {/* </div> */}
             <div className="modal-footer" style={{ background: "white" }}>
               <button
                 type="button"

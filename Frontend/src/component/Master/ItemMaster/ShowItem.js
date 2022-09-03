@@ -72,7 +72,6 @@ const columns = [
         <select onChange={async (e) => {
           const status = e.target.value;
           const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
-          console.log(result)
           window.location.href = 'ShowChargecode'
         }
         }>
@@ -134,7 +133,7 @@ const columns = [
               <h3 className="text-left ml-5">Total Items</h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <DataTableExtensions

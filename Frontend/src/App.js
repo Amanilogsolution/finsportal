@@ -71,6 +71,9 @@ import ShowFincialyear from './component/Master/fincialyear/Showfincialyear';
 import Updatefincialyear from './component/Master/fincialyear/Updatefinancialyear'
 
 import ChartOfAccount from './component/Accountant/ChartOfAccount/ChartOfAccount';
+import ShowChartAccount from './component/Accountant/ChartOfAccount/ShowChartAccount'
+import EditChartAccount from './component/Accountant/ChartOfAccount/EditChartAccount'
+
 import InsertAccountType from './component/Accountant/ChartOfAccount/InsertAccountType';
 import ShowAccountname from './component/Master/AccountNameMaster/ShowAccountname';
 import EditAccountname from './component/Master/AccountNameMaster/EditAccountname';
@@ -107,8 +110,7 @@ import VendorCredits from './component/Vendor/VendorCredits/VendorCredits'
 import ShowAccountMinorCode from './component/Master/ShowAccountMinorCode/ShowAccountMinorCode';
 import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAccountMinorCode';
 
-import ShowChartAccount from './component/Master/ChartOfAccountMaster/ShowChartAccount'
-import EditChartAccount from './component/Master/ChartOfAccountMaster/EditChartAccount'
+
 
 import BillPayment from './component/Vendor/PaymentMade/BillPayment'
 import PaymentMade from './component/Vendor/PaymentMade/PaymentMade';

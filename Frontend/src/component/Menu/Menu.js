@@ -6,7 +6,7 @@ const Menu = () => {
 
   return (
     <div>
-      <aside className="main-sidebar sidebar-light-primary elevation-4">
+      <aside className="main-sidebar sidebar-light-primary elevation-4" style={{height:"100%",position:"fixed"}}>
         <a href="/home" className="brand-link">
           <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
           <span className="brand-text " style={{ color: "red" }}>{currentorg}</span>
@@ -325,7 +325,7 @@ const Menu = () => {
 
                     <ul className="nav nav-treeview">
                       <li className="nav-item">
-                        <a href="/ChartOfAccount" className="nav-link active">
+                        <a href="/ShowChartAccount" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
                           <p> Chart OF Account </p>
                         </a>
@@ -447,14 +447,14 @@ const Menu = () => {
                 </ul> */}
 
 
-                <ul className="nav nav-treeview">
+                {/* <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowChartAccount" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Show Chart Account</p>
                     </a>
                   </li>
-                </ul>
+                </ul> */}
 
 
                 <ul className="nav nav-treeview">
