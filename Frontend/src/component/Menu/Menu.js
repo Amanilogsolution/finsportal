@@ -481,14 +481,14 @@ const Menu = () => {
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
+                <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="/ShowCrm" className="nav-link active">
+                    <a href="/Reportdata" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
-                      <p>CRM Master</p>
+                      <p>Reports</p>
                     </a>
                   </li>
-                </ul> */}
+                </ul>
                 
 
               </li>
