@@ -129,6 +129,8 @@ import ShowCrm from './component/Master/CrmMaster/ShowCrm'
 
 import OTPpage from './component/Login/OTP'
 
+import ResponseTable from './component/Response/response'
+
 
 
 
@@ -271,7 +273,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <PrivatRoute exact path="/AddCrm" component={AddCrm}/>
           <PrivatRoute exact path="/EditCrm" component={EditCrm}/>
           <PrivatRoute exact path="/ShowCrm" component={ShowCrm}/>
-          
+          <PrivatRoute exact path="/Response" component={ResponseTable}/>
 
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

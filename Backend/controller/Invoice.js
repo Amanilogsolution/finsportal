@@ -54,4 +54,20 @@ const InsertInvoice = async (req, res) => {
     }
 }
 
+const filterInvoice = async (req,res) =>{
+
+
+    try {
+        await sql.connect(sqlConfig)
+         const result = await sql.query(` `)
+        res.send('Added')
+        
+       
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
 module.exports = {InsertInvoice}

@@ -44,7 +44,6 @@ const Header = () => {
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
     const result1 = await LogoutLogs(localStorage.getItem('User_id'),localStorage.getItem('Organisation'))
-
     if (result.status === 'Logout') {
       localStorage.clear()
       window.location.href = '/'
@@ -258,9 +257,7 @@ const Header = () => {
 
         {orgdetails ? (
           <>
-
             <div className="orgcard card"  >
-
               <div className="card-body" style={{ display: "flex" }}>
                 <span style={{ fontSize: "20px" }}>Setting</span>
                 <i className="fa fa-times position-absolute" aria-hidden="true" style={{ right: "25px" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
