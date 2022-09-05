@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-// import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
-// import Footer from "../../Footer/Footer";
-// import { Totalcity } from '../../../api';
+
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 
 
-const InvoiceReport = () => {
+const InvoiceReport = (props) => {
   const [data, setData] = useState([])
 
   const columns = [
@@ -33,10 +30,7 @@ const InvoiceReport = () => {
       name: 'City ID',
       selector: 'city_id',
       sortable: true
-    },
-  
-   
-  
+    }
   ]
   
 

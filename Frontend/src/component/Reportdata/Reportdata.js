@@ -24,8 +24,7 @@ const Reportdata = () => {
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <form>
-                <InvoiceReport/>
-
+                       <InvoiceReport/>
                       </form>
                     </article>
 
