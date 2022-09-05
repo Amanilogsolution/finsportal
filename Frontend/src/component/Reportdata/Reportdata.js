@@ -51,7 +51,7 @@ const Reportdata = () => {
                      
                       <form>
                         {
-                       data?<InvoiceReport displaydata={data}/>:<h1>Hello</h1>
+                       data?<InvoiceReport displaydata={data}/>:<h3 className='text-center'>Filter for show data</h3>
                       
                         }
                       </form>
@@ -68,16 +68,24 @@ const Reportdata = () => {
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">Filter</h5>
+                  <h5 className="modal-title" id="exampleModalLabel"><i class="fa fa-filter" aria-hidden="true"></i> Filter</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div className="modal-body">
 
+                <div className="form-row" >
+                    <label htmlFor="report_type" className="col-md-2 col-form-label font-weight-normal">Report Type</label>
+                    <div className="col form-group" >
+                      <select className="form-control col" id='report_type' >
+                        <option value='' hidden>Select Type</option>
+                      </select>
+                    </div>
+                  </div>
                   <div className="form-row" >
                     <label htmlFor="location" className="col-md-2 col-form-label font-weight-normal">Location</label>
-                    <div className="col form-group" f>
+                    <div className="col form-group" >
                       <select type="text" className="form-control col" id='location' >
                         <option value='' hidden>Select Loaction</option>
                         {
