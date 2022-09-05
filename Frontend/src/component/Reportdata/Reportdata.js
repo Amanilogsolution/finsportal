@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
+import InvoiceReport from './Reports/InvoiceReport';
 
 const Reportdata = () => {
   return (
@@ -23,7 +24,7 @@ const Reportdata = () => {
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <form>
-
+                <InvoiceReport/>
 
                       </form>
                     </article>

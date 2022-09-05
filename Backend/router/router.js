@@ -307,6 +307,8 @@ router.post('/activecrm',CRMController.Activecrm)
 
 
 router.post('/insertinvoice',InvoiceController.InsertInvoice)
+router.post('/filterinvoice',InvoiceController.filterInvoice)
+
 router.post('/insertsubinvoice',InvoiceSubController.InsertSubInvoice)
 
 
