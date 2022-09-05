@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { showOrganisation,TotalOrganistion, UserLogout,LogoutLogs } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 import profileimg from '../../images/profile.png'
+import Menu from '../Menu/Menu'
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -55,6 +56,7 @@ const Header = () => {
 
   return (
     <div>
+    {/* <Menu/> */}
       <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         <ul className="navbar-nav">
           <li className="nav-item">

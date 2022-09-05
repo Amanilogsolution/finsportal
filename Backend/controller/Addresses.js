@@ -68,6 +68,7 @@ const SelectCustAddress = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT DISTINCT cust_id,cust_name FROM ${org}.dbo.tbl_cust_addresses with (nolock) WHERE cust_name LIKE '%${cust_name}%';`)
         res.send(result.recordset)
+        
     }
     catch (err) {
         res.send(err)

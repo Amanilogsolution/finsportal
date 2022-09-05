@@ -7,8 +7,8 @@ const Menu = () => {
   return (
     <div>
       <aside className="main-sidebar sidebar-light-primary elevation-4" style={{height:"100%",position:"fixed"}}>
-        <a href="/home" className="brand-link">
-          <img src={localStorage.getItem('Orglogo')} alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
+        <a href="/home" className="brand-link" >
+          <img src={localStorage.getItem('Orglogo')} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8',height:"50px",width:"50px",borderRadius:"50%" ,overflow:"hidden"}} />
           <span className="brand-text " style={{ color: "red" }}>{currentorg}</span>
         </a>
 

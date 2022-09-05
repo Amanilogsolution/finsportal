@@ -167,11 +167,10 @@ const TotalCustAddress = () => {
 
   const handleChange = async (e) => {
     e.preventDefault();
-    const cust_entered_name = document.getElementById('cust_entered_id').value;
+    const cust_entered_name = e.target.value;
     if (cust_entered_name.length > 2) {
       const result = await SelectCustAddress(cust_entered_name, localStorage.getItem("Organisation"))
       setSelectedCustname(result)
-
     }
     else {
       setSelectedCustname([])
@@ -217,7 +216,7 @@ const TotalCustAddress = () => {
               </form>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
                       <DataTableExtensions
