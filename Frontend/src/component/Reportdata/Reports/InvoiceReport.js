@@ -41,7 +41,7 @@ const InvoiceReport = (props) => {
             setData(props.displaydata)
         }
         fetchdata()
-    }, [])
+    },[])
 
     const tableData = {
         columns, data
@@ -49,8 +49,9 @@ const InvoiceReport = (props) => {
 
     return (
         <div>
+
             <div>
-                <h4>InvoiceReport</h4>
+                <h4 className='text-center'>Invoice Report</h4>
                 <Table Tabledta={tableData} />
             </div>
         </div>

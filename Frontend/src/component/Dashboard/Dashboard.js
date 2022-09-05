@@ -12,7 +12,8 @@ const Dashboard = () => {
   //  },9000)
 
 
-  useEffect(async () => {
+  useEffect(() => {
+    const fetchData=async()=>{
     const due_date = await Compliancesduedate(localStorage.getItem("Organisation"))
 
     var today = new Date();
@@ -35,7 +36,8 @@ const Dashboard = () => {
     }
 
     );
-
+  }
+  fetchData();
   }, [])
 
 
