@@ -12,7 +12,7 @@ const Menu = () => {
           <span className="brand-text " style={{ color: "red" }}>{currentorg}</span>
         </a>
 
-        <div className="sidebar">
+        <div className="sidebar pb-3 " >
           {/* <div className="user-panel mt-3 pb-3 mb-3 d-flex">
         <div className="image">
           <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
@@ -32,7 +32,7 @@ const Menu = () => {
             </div>
           </div>
 
-          <nav className="mt-2">
+          <nav className="mt-2 pb-5" >
             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li className="nav-item ">
                 <a href="/home" className="nav-link active">
