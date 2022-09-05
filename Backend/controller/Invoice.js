@@ -60,14 +60,12 @@ const filterInvoice = async (req,res) =>{
     const lastDate = req.body.lastDate;
     const custid = req.body.custid;
     const locationid = req.body.locationid;
-    console.log(org,startDate,lastDate,custid,locationid)
-
+ 
     try {
         await sql.connect(sqlConfig)
-         const result = await sql.query(`select * from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
+         const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
          and '${lastDate}' and custid='${custid}' and location ='${locationid}' and status='Active'`)
-         console.log(result)
-        res.send('Added')   
+        res.send(result.recordset)   
     }
     catch (err) {
         res.send(err)

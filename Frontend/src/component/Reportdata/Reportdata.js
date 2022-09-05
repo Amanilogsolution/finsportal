@@ -6,7 +6,7 @@ import InvoiceReport from './Reports/InvoiceReport';
 import {FilterInvoice,ActiveCustomer,ActiveLocationAddress} from '../../api'
 
 const Reportdata = () => {
-  const [data,setData] = useState([])
+  const [data,setData] = useState()
   const [customerlist,setCustomerlist] = useState([])
   const [locationlist,setLocationlist] = useState([])
 
@@ -18,7 +18,7 @@ const Reportdata = () => {
           setLocationlist(location)
        }
        fetchData()
-  },[])
+  },[data])
 
   const handleapply=async()=>{
     const org = localStorage.getItem('Organisation');
@@ -26,7 +26,8 @@ const Reportdata = () => {
     const todate= document.getElementById('to_date').value;
     const Customerid= document.getElementById('customer').value;
     const locationid= document.getElementById('location').value;
-    const result =await FilterInvoice();
+    const result =await FilterInvoice(org,fromdate,todate,Customerid,locationid);
+    setData(result)
   }
   return (
     <div>
@@ -47,10 +48,12 @@ const Reportdata = () => {
                 <div className="col">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
+                     
                       <form>
-                       <InvoiceReport/>
-
-
+                        {
+                       data?<InvoiceReport displaydata={data}/>:<h1>Hello</h1>
+                      
+                        }
                       </form>
                     </article>
 
@@ -112,7 +115,7 @@ const Reportdata = () => {
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" onClick={handleapply}>Apply</button>
+                    <button type="button" className="btn btn-primary"  data-dismiss="modal"  onClick={handleapply}>Apply</button>
                   </div>
                 </div>
               </div>

@@ -11,32 +11,37 @@ const InvoiceReport = (props) => {
   const columns = [
     {
       name: 'Country Name',
-      selector: 'country_name',
+      selector: 'consignee',
       sortable: true
     },
   
     {
-      name: 'State Code',
-      selector: 'state_name',
+      name: 'Invoice NO',
+      selector: 'invoice_no',
       sortable: true
     },
   
     {
-      name: 'City Name',
-      selector: 'city_name',
+      name: 'Invoice Date',
+      selector: 'Joindate',
       sortable: true
     },
     {
-      name: 'City ID',
-      selector: 'city_id',
+      name: 'Invoice Amount',
+      selector: 'invoice_amt',
       sortable: true
-    }
+    },
+    {
+        name: 'Branch',
+        selector: 'location_name',
+        sortable: true
+      }
   ]
   
 
   useEffect(() => {
     async function fetchdata() {
-    
+        setData(props.displaydata)
     }
     fetchdata()
   }, [])
