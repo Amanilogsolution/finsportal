@@ -113,7 +113,7 @@ const Dashboard = () => {
             </div>
             <div className="row">
               <section className="col-lg-7 connectedSortable">
-                <div className="card">
+                {/* <div className="card">
                   <div className="card-header">
                     <h3 className="card-title">
                       <i className="fas fa-chart-pie mr-1" />
@@ -140,8 +140,8 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="card direct-chat direct-chat-primary">
+                </div> */}
+                {/* <div className="card direct-chat direct-chat-primary">
                   <div className="card-header">
                     <h3 className="card-title">Direct Chat</h3>
                     <div className="card-tools">
@@ -287,8 +287,8 @@ const Dashboard = () => {
                       </div>
                     </form>
                   </div>
-                </div>
-                <div className="card">
+                </div> */}
+                {/* <div className="card">
                   <div className="card-header">
                     <h3 className="card-title">
                       <i className="ion ion-clipboard mr-1" />
@@ -407,11 +407,11 @@ const Dashboard = () => {
                   <div className="card-footer clearfix">
                     <button type="button" className="btn btn-primary float-right"><i className="fas fa-plus" /> Add item</button>
                   </div>
-                </div>
+                </div> */}
               </section>
               <section className="col-lg-5 connectedSortable">
                 <div className="card bg-gradient-primary">
-                  <div className="card-header border-0">
+                  {/* <div className="card-header border-0">
                     <h3 className="card-title">
                       <i className="fas fa-map-marker-alt mr-1" />
                       Visitors
@@ -424,11 +424,11 @@ const Dashboard = () => {
                         <i className="fas fa-minus" />
                       </button>
                     </div>
-                  </div>
-                  <div className="card-body">
+                  </div> */}
+                  {/* <div className="card-body">
                     <div id="world-map" style={{ height: 250, width: '100%' }} />
-                  </div>
-                  <div className="card-footer bg-transparent">
+                  </div> */}
+                  {/* <div className="card-footer bg-transparent">
                     <div className="row">
                       <div className="col-4 text-center">
                         <div id="sparkline-1" />
@@ -443,10 +443,10 @@ const Dashboard = () => {
                         <div className="text-white">Sales</div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="card bg-gradient-info">
-                  <div className="card-header border-0">
+                  {/* <div className="card-header border-0">
                     <h3 className="card-title">
                       <i className="fas fa-th mr-1" />
                       Sales Graph
@@ -459,10 +459,10 @@ const Dashboard = () => {
                         <i className="fas fa-times" />
                       </button>
                     </div>
-                  </div>
-                  <div className="card-body">
+                  </div> */}
+                  {/* <div className="card-body">
                     <canvas className="chart" id="line-chart" style={{ minHeight: 250, height: 250, maxHeight: 250, maxWidth: '100%' }} />
-                  </div>
+                  </div> */}
                   {/* <div className="card-footer bg-transparent">
                 <div className="row">
                   <div className="col-4 text-center">
@@ -480,7 +480,7 @@ const Dashboard = () => {
                 </div>
               </div> */}
                 </div>
-                <div className="card bg-gradient-success">
+                {/* <div className="card bg-gradient-success">
                   <div className="card-header border-0">
                     <h3 className="card-title">
                       <i className="far fa-calendar-alt" />
@@ -509,7 +509,7 @@ const Dashboard = () => {
                   <div className="card-body pt-0">
                     <div id="calendar" style={{ width: '100%' }} />
                   </div>
-                </div>
+                </div> */}
               </section>
             </div>
           </div>
@@ -521,14 +521,12 @@ const Dashboard = () => {
             <button type="button" className="close text-white " data-dismiss="alert" aria-label="Close" >
               <span aria-hidden="true" >&times;</span>
             </button>
-            {/* <marquee direction="up"> */}
             <div className="alert alert-success alert-dismissible fade show" role="alert">
               <strong>Some Compliances are pending... </strong>
               <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            {/* </marquee> */}
             <button className='btn btn-primary float-right' onClick={() => { window.location.href = "./Panding-Compliances" }}>Compliances done</button>
           </div>
           : null}

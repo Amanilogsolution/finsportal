@@ -318,8 +318,9 @@ function Invoices() {
     const handlechnageaddress = async (e) => {
         e.preventDefault();
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
-        const [billadd, id] = e.target.value.split(' ')
+        const [billadd, id] = e.target.value.split(',')
         setLocationid(id)
+        console.log(id)
         const billing_add = billadd;
         setBillingAddress(billadd)
         const invoicepefix = fin_year[0].invoice_ser;
@@ -440,6 +441,7 @@ function Invoices() {
         })
         if (result) {
             alert('Added')
+            window.location.reload();
         }
 
     }
@@ -523,7 +525,7 @@ function Invoices() {
                                                                         <option value='' hidden>Select Address</option>
                                                                         {
                                                                             locationstate.map((item, index) =>
-                                                                                <option key={index} value={`${item.location_state} ${item.location_id}`}>{item.location_add1}</option>
+                                                                                <option key={index} value={`${item.location_state},${item.location_id}`}>{item.location_add1}</option>
                                                                             )
                                                                         }
                                                                     </select>
