@@ -1167,6 +1167,10 @@ export const InsertInvoice = async (org, fin_year, invoice_no, squence_no, invoi
     }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const FilterInvoice = async (org,startDate,lastDate,custid,locationid) => {
+    const url = `http://localhost:3008/api/filterinvoice`
+    return axios.post(url, {org,startDate,lastDate,custid,locationid}).then(response => response.data).catch(error => console.log(error));
+}
 // ###########################  For Invoice api End ############################
 
 // ############################ For InvoiceSub api Start #################################

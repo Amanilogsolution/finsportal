@@ -55,14 +55,19 @@ const InsertInvoice = async (req, res) => {
 }
 
 const filterInvoice = async (req,res) =>{
-
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const custid = req.body.custid;
+    const locationid = req.body.locationid;
+    console.log(org,startDate,lastDate,custid,locationid)
 
     try {
         await sql.connect(sqlConfig)
-         const result = await sql.query(` `)
-        res.send('Added')
-        
-       
+         const result = await sql.query(`select * from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
+         and '${lastDate}' and custid='${custid}' and location ='${locationid}' and status='Active'`)
+         console.log(result)
+        res.send('Added')   
     }
     catch (err) {
         res.send(err)
@@ -70,4 +75,4 @@ const filterInvoice = async (req,res) =>{
 
 }
 
-module.exports = {InsertInvoice}
+module.exports = {InsertInvoice,filterInvoice}
