@@ -53,7 +53,7 @@ const InvoiceReport = (props) => {
   return (
     <div>
         <div>
-            <h4>InvoiceReport</h4>
+            <h4 className='text-center'>InvoiceReport</h4>
                       <DataTableExtensions
                         {...tableData}
                       >
