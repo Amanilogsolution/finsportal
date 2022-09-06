@@ -78,7 +78,7 @@ const TotalCustomer = () => {
   const [year, setYear] = useState();
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
-
+  const themeval = localStorage.getItem('themetype')
 
   //##########################  Upload data start  #################################
 
@@ -256,7 +256,7 @@ const TotalCustomer = () => {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
             <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
@@ -265,7 +265,7 @@ const TotalCustomer = () => {
               <br />
               <div className="row ">
                 <div className="col ml-0">
-                  <div className="card" style={{ width: "100%" }}>
+                  <div className={`card bg-${themeval}`} style={{ width: "100%" }}>
                     <article className="card-body">
                       <DataTableExtensions
                         {...tableData}>
@@ -275,6 +275,7 @@ const TotalCustomer = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themeval}
                         />
                       </DataTableExtensions>
                     </article>
@@ -284,8 +285,8 @@ const TotalCustomer = () => {
             </div>
           </div>
         </div>
-        <Footer />
-        {/* ------------------ Modal start -----------------------------*/}\
+        <Footer theme={themeval} />
+        {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"

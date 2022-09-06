@@ -6,7 +6,7 @@ import { ShowCustomer, UpdateCustomer } from '../../api';
 
 const EditCustomer = () => {
   const [data, setData] = useState({});
-
+  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetdata = async () => {
@@ -1075,7 +1075,7 @@ const EditCustomer = () => {
             <br />
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )

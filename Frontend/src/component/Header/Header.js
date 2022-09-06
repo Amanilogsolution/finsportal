@@ -1,31 +1,27 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs, UpdateFincialyear } from '../../api'
+import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 import profileimg from '../../images/profile.png'
 import Menu from '../Menu/Menu'
 
+
 const Header = () => {
-  const [themeval, setThemeval] = useState('light');
-  const [btntheme, setBtntheme] = useState('primary');
+  // const [themeval, setThemeval] = useState('light');
+  // const [btntheme, setBtntheme] = useState('primary');
   const [show, setShow] = useState(false);
   const [showprofile, setShowprofile] = useState(false);
   const [orgdetails, setOrgDeatils] = useState(false);
-
   const [data, setData] = useState([])
 
+  const themeval = localStorage.getItem('themetype') ||'light';
+  const btntheme = localStorage.getItem('themebtncolor') ||'primary';
+  console.log(btntheme)
 
 
-  useEffect(() => { 
-    const fetchdata = async () => {
-      const themvalue=localStorage.getItem('themetype')
-      setThemeval(themvalue);
-      if(themvalue === 'dark'){
-        console.log(themvalue)
-        const njnk=document.getElementById('switchbtn').checked=true;
-        console.log(njnk)
-      }
-      
+  useEffect(() => {
+    const fetchdata = async (e) => {
+    
 
       const organisation = await TotalOrganistion()
       setData(organisation)
@@ -40,7 +36,6 @@ const Header = () => {
 
 
       const result = await showOrganisation(localStorage.getItem('Organisation Name'))
-      console.log(result.org_gst)
       if (!result.org_gst) {
         localStorage.setItem('gststatus', 'false')
 
@@ -51,7 +46,7 @@ const Header = () => {
     }
     fetchdata()
 
-  },[])
+  }, [])
 
 
 
@@ -81,14 +76,16 @@ const Header = () => {
 
   }
 
-  const handlebtncolor=(e)=>{
-    setBtntheme(e.target.value)
+  const handlebtncolor = (e) => {
+    // setBtntheme(e.target.value)
+    localStorage.setItem('themebtncolor', e.target.value)
+    window.location.reload();
   }
 
   return (
     <div>
-    
-      <Menu theme={themeval} btncolor={btntheme}/>
+
+      <Menu theme={themeval} btncolor={btntheme} />
 
       <nav className={`main-header navbar navbar-expand navbar-${themeval}`}>
         <ul className='navbar-nav'>
@@ -102,17 +99,11 @@ const Header = () => {
               Home
             </a>
           </li>
-          {/* <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">
-              Contact
-            </a>
-          </li> */}
         </ul>
 
-
         <ul className="navbar-nav ml-auto" style={{ position: "relative" }}>
-          <li className="nav-item" >
-            <a
+          <li className="nav-item dropdown" >
+            {/* <a
               className="nav-link"
               role="button"
               onClick={() => {
@@ -133,10 +124,49 @@ const Header = () => {
               }}
             >
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
+            </a> */}
+
+            <a className="nav-link" data-toggle="dropdown">
+              <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
+
+              <div className="orgcard card " >
+
+                <div className={`card-body bg-${themeval}`}>
+                  <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo} 
+                  alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
+                </div>
+                <ul className="list-group list-group-flush">
+                  <li className={`list-group-item bg-${themeval}`}><b >My Orgaisation</b>
+                    <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
+                  </li>
+                  {
+                    data.map((item, index) => (
+
+                      <li key={index} className={`list-group-item bg-${themeval}`}>
+                        <a href="#" style={{ color: "blue", }}>
+                          <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp;
+                          <span className="orgnamehover" onClick={() => {
+                            localStorage.setItem('Organisation', item.org_db_name);
+                            localStorage.setItem('Organisation Name', item.org_name);
+                            window.location.reload()
+                          }
+                          }>{item.org_name}</span>
+                        </a>
+                        <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right", cursor: "pointer" }}>
+                          <i className={`fas fa-cog text-${btntheme}`} ></i> Manage</a>
+                      </li>
+                    ))
+                  }
+                </ul>
+
+              </div>
+
+            </div>
           </li>
-          <li className="nav-item" >
-            <a
+          <li className="nav-item dropdown" >
+            {/* <a
               className="nav-link"
               role="button"
               onClick={() => {
@@ -156,7 +186,35 @@ const Header = () => {
               }}
             >
               <i className="fas fa-cog"></i>
+            </a> */}
+
+            <a className="nav-link" data-toggle="dropdown" href="#">
+              <i className="fas fa-cog"></i>
             </a>
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
+              <div className={`orgcard card bg-${themeval}`}  >
+                <div className="card-body" style={{ display: "flex" }}>
+                  <span style={{ fontSize: "20px" }}>Setting</span>
+                </div>
+                <ul className="list-group list-group-flush ">
+                  <a href="/EditOrganisation"> <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
+                    <b>Orgaisation profile</b> </li></a>
+                  <a href="ShowFincialyear"><li className={`list-group-item bg-${themeval}`}><i className={`fa fa-calendar text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                    <b>Fincial Year</b> </li></a>
+                  <a href="/TotalLocation"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                    <b>Branches</b> </li></a>
+                  <a href="/ShowPaymentTerm"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                    <b>Payment Terms</b> </li></a>
+                  <a href="/ShowCrm"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-user-plus text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                    <b>CRM Master</b> </li></a>
+                  <a href="/Showcompliances"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
+                    &nbsp;&nbsp;
+                    <b>Compliances</b> </li></a>
+                </ul>
+
+
+              </div>
+            </div>
           </li>
 
           {/* <li className="nav-item" >
@@ -192,12 +250,12 @@ const Header = () => {
             </div>
           </li> */}
 
-          <li className="nav-item dropdown">
+          <li className="nav-item dropdown ">
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="far fa-bell"></i>
               <span className={`badge badge-${btntheme} navbar-badge`}>15</span>
             </a>
-            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
               <span className="dropdown-item dropdown-header">
                 15 Notifications
               </span>
@@ -228,8 +286,8 @@ const Header = () => {
             </a>
           </li>
 
-          <li className="nav-item profilediv"  >
-            <div className="user-panel mr-7">
+          <li className="nav-item profilediv dropdown"  >
+            {/* <div className="user-panel mr-7">
               <div className="image" onClick={() => {
 
                 if (show === true) {
@@ -248,7 +306,53 @@ const Header = () => {
               }}>
                 <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4" alt="User Image" style={{ border: "1px solid #fff" }} />
               </div>
-            </div>
+            </div> */}
+
+            <a className="nav-link" data-toggle="dropdown" href="#">
+            <div className="user-panel mr-7">
+              <div className="image" >
+            <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4" 
+            alt="User Image" style={{ border: "1px solid #fff" }} /></div></div>
+            </a>
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
+            <div className={`profilcard card bg-${themeval}`} >
+                <div className="card-body">
+                  <img className="card-img-top " src={localStorage.getItem("User_img") || profileimg} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid #fff" }} />
+                  <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
+                  <div className='text-center  font-weight-bold'>
+                    <a href="/LoginDetails">Profile</a> |
+                    <a href="/ChangePassword" style={{ color: "green" }}> Change Password</a><br />
+                    <a href="#" onClick={handleClick} style={{ color: "red" }}> Logout</a>
+                  </div>
+                  <hr />
+                  <div className='theme'>Button Color
+                    <div className='color-option'>
+                      <button className='colordiv bg-light' onClick={handlebtncolor} value="light"></button>
+                      <button className='colordiv bg-primary' onClick={handlebtncolor} value="primary"></button>
+                      <button className='colordiv bg-success' onClick={handlebtncolor} value="success"></button>
+                      <button className='colordiv bg-dark' onClick={handlebtncolor} value="dark"></button>
+                      <button className='colordiv bg-info' onClick={handlebtncolor} value="info"></button>
+                      <button className='colordiv bg-warning' onClick={handlebtncolor} value="warning"></button>
+                      <button className='colordiv bg-danger' onClick={handlebtncolor} value="danger"></button>
+                    </div><br />
+                    <div className='switchdiv'>
+                      <label>Light</label>
+                      <label className="switch">
+                        {
+                          themeval === 'dark' ?
+                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} checked /> :
+                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} />
+                        }
+
+                        <span className="slider round"></span>
+                      </label>
+                      <label>Dark</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+
           </li>
           {/*------ Profile end ---------------*/}
 
@@ -257,7 +361,7 @@ const Header = () => {
         {show ? (
           <>
 
-            <div className="orgcard card " >
+            {/* <div className="orgcard card " >
 
               <div className={`card-body bg-${themeval}`}>
                 <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShow(!show); }}></i>
@@ -265,7 +369,7 @@ const Header = () => {
               </div>
               <ul className="list-group list-group-flush">
                 <li className={`list-group-item bg-${themeval}`}><b >My Orgaisation</b>
-                  <a href='/org' style={{float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
+                  <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
                 </li>
                 {
                   data.map((item, index) => (
@@ -287,13 +391,13 @@ const Header = () => {
                 }
               </ul>
 
-            </div>
+            </div> */}
           </>) : null
         }
 
         {orgdetails ? (
           <>
-            <div className={`orgcard card bg-${themeval}`}  >
+            {/* <div className={`orgcard card bg-${themeval}`}  >
               <div className="card-body" style={{ display: "flex" }}>
                 <span style={{ fontSize: "20px" }}>Setting</span>
                 <i className="fa fa-times position-absolute" aria-hidden="true" style={{ right: "25px" }} onClick={() => { setOrgDeatils(!orgdetails); }}></i>
@@ -315,13 +419,13 @@ const Header = () => {
               </ul>
 
 
-            </div>
+            </div> */}
           </>) : null
         }
         {
           showprofile ? (
             <>
-              <div className={`profilcard card bg-${themeval}`} >
+              {/* <div className={`profilcard card bg-${themeval}`} >
                 <div className="card-body">
                   <i className="fa fa-times" aria-hidden="true" style={{ display: "flex", flexDirection: "row-reverse" }} onClick={() => { setShowprofile(!showprofile); }}></i>
                   <img className="card-img-top " src={localStorage.getItem("User_img") || profileimg} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid #fff" }} />
@@ -333,26 +437,31 @@ const Header = () => {
                   </div>
                   <hr />
                   <div className='theme'>
-                    <div className='color-option'> 
-                      <button className='colordiv bg-light'  onClick={handlebtncolor} value="light"></button>
+                    <div className='color-option'>
+                      <button className='colordiv bg-light' onClick={handlebtncolor} value="light"></button>
                       <button className='colordiv bg-primary' onClick={handlebtncolor} value="primary"></button>
                       <button className='colordiv bg-success' onClick={handlebtncolor} value="success"></button>
-                      <button className='colordiv bg-dark' onClick={handlebtncolor}  value="dark"></button>
+                      <button className='colordiv bg-dark' onClick={handlebtncolor} value="dark"></button>
                       <button className='colordiv bg-info' onClick={handlebtncolor} value="info"></button>
                       <button className='colordiv bg-warning' onClick={handlebtncolor} value="warning"></button>
                       <button className='colordiv bg-danger' onClick={handlebtncolor} value="danger"></button>
-                    </div><br/>
+                    </div><br />
                     <div className='switchdiv'>
                       <label>Light</label>
                       <label className="switch">
-                        <input type="checkbox" id="switchbtn" onClick={handleswitchdata}  />
+                        {
+                          themeval === 'dark' ?
+                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} checked /> :
+                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} />
+                        }
+
                         <span className="slider round"></span>
                       </label>
                       <label>Dark</label>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </>) : null
         }
       </nav>

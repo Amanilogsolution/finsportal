@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Home.css';
 import Header from '../Header/Header';
 import Menu from '../Menu/Menu';
@@ -6,12 +6,8 @@ import Dashboard from '../Dashboard/Dashboard';
 import Footer from '../Footer/Footer';
 
 function Home() {
-  const [themeval, setThemval] = useState('light')
+  const themecolor = localStorage.getItem('themetype') || 'light';
 
-  useEffect(() => {
-    const themecolor = localStorage.getItem('themetype')
-    setThemval(themecolor)
-  }, [])
   return (
     <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
@@ -20,8 +16,8 @@ function Home() {
       </div>
       <Header />
       {/* <Menu/> */}
-      <Dashboard theme={themeval}/>
-      <Footer theme={themeval} />
+      <Dashboard theme={themecolor}/>
+      <Footer theme={themecolor} />
     </div>
   );
 }
