@@ -40,9 +40,6 @@ const Dashboard = () => {
   fetchData();
   }, [])
 
-
-
-
   return (
     <div>
       <div className="content-wrapper">

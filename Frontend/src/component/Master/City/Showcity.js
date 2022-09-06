@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Totalcity } from '../../../api';
 import DataTable from 'react-data-table-component';
@@ -166,7 +166,7 @@ const Showcity = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Addcity" }} className="btn btn-primary">Add City</button>

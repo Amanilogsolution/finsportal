@@ -1,5 +1,5 @@
 import Header from '../../Header/Header';
-import Menu from '../../Menu/Menu';
+// import Menu from '../../Menu/Menu';
 import Footer from '../../Footer/Footer';
 import './currencyadjustment.css'
 import React, { useState } from 'react';
@@ -40,7 +40,7 @@ function CurrencyAdjust() {
                         <div className="spinner-border" role="status"> </div>
                     </div>
                     <Header />
-                    <Menu />
+                    {/* <Menu /> */}
 
                     <div className="content-wrapper">
 

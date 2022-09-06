@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Addfincialyear } from '../../../api'
 
@@ -64,7 +64,7 @@ const Fincialyear = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">

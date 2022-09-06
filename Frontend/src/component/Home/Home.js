@@ -13,7 +13,7 @@ function Home() {
 </div>
 </div>
       <Header />
-      <Menu/>
+      {/* <Menu/> */}
       <Dashboard/>
       <Footer/> 
     </div>

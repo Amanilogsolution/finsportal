@@ -132,11 +132,6 @@ import ShowCrm from './component/Master/CrmMaster/ShowCrm'
 import OTPpage from './component/Login/OTP'
 
 import Reportdata from './component/Reportdata/Reportdata'
-
-
-
-
-
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
 

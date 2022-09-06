@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { TotalItems, deleteItems } from '../../../api';
 import DataTable from 'react-data-table-component';
@@ -122,7 +122,7 @@ const columns = [
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
@@ -134,7 +134,7 @@ const columns = [
               <br />
               <div className="row ">
                 <div className="col">
-                  <div className="card" style={{ width: "100%" }}>
+                  <div className="card " style={{ width: "100%" }}>
                     <article className="card-body">
                       <DataTableExtensions
                         {...tableData}

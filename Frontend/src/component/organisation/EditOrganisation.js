@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
+// import Menu from "../Menu/Menu";
 import { showOrganisation, updateOrganisation, UploadData } from "../../api/index";
 
 
@@ -110,7 +110,7 @@ function EditOrganisation() {
         </div>
 
         <Header />
-        <Menu />
+        {/* <Menu /> */}
       <div className="orgcontainer">
         <br />
         <div className="row justify-content-center " style={{ width: "100%" }}>
