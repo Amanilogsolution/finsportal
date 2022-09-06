@@ -1,14 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Footer extends Component {
-  render() {
+ const Footer =(props)=> {
+  
     return (
-      <footer className="main-footer">
+      <footer className={`main-footer bg-${props.theme}`}>
+      {console.log(props)}
         <strong>
           Copyright © 2022-2023 <a href="#">{localStorage.getItem('Organisation Name')}</a>.
         </strong>
         All rights reserved.
       </footer>
     );
-  }
+
 }
+
+export default Footer;

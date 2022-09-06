@@ -6,7 +6,6 @@ const Menu = (props) => {
 
   return (
     <div>
-    {console.log(props)}
       <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{height:"100%",position:"fixed"}}>
         <a href="/home" className="brand-link" >
           <img src={localStorage.getItem('Orglogo')} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8',height:"50px",width:"50px",borderRadius:"50%" ,overflow:"hidden"}} />

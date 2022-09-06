@@ -1,6 +1,6 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs } from '../../api'
+import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs, UpdateFincialyear } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 import profileimg from '../../images/profile.png'
 import Menu from '../Menu/Menu'
@@ -16,8 +16,17 @@ const Header = () => {
 
 
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchdata = async () => {
+      const themvalue=localStorage.getItem('themetype')
+      setThemeval(themvalue);
+      if(themvalue === 'dark'){
+        console.log(themvalue)
+        const njnk=document.getElementById('switchbtn').checked=true;
+        console.log(njnk)
+      }
+      
+
       const organisation = await TotalOrganistion()
       setData(organisation)
 
@@ -42,7 +51,9 @@ const Header = () => {
     }
     fetchdata()
 
-  }, [])
+  },[])
+
+
 
   const handleClick = async () => {
     const result = await UserLogout(localStorage.getItem('User_name'));
@@ -57,12 +68,15 @@ const Header = () => {
   const handleswitchdata = (e) => {
     const vanj = document.getElementById('switchbtn').checked;
     if (vanj === true) {
-      setThemeval('dark')
+      // setThemeval('dark')
       localStorage.setItem('themetype', 'dark')
+      window.location.reload();
     }
     else {
-      setThemeval('light')
+      // setThemeval('light')
       localStorage.setItem('themetype', 'light')
+      window.location.reload();
+
     }
 
   }
@@ -331,7 +345,7 @@ const Header = () => {
                     <div className='switchdiv'>
                       <label>Light</label>
                       <label className="switch">
-                        <input type="checkbox" id="switchbtn" onClick={handleswitchdata} />
+                        <input type="checkbox" id="switchbtn" onClick={handleswitchdata}  />
                         <span className="slider round"></span>
                       </label>
                       <label>Dark</label>
