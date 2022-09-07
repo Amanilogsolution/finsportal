@@ -26,7 +26,7 @@ const Menu = (props) => {
         </div>
       </div> */}
           <div className="form-inline mt-3 pb-3 mb-3 d-flex">
-            <div className="input-group" data-widget="sidebar-search">
+            <div className="input-group " data-widget="sidebar-search">
               <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
               <div className="input-group-append">
                 <button className="btn btn-sidebar">
@@ -315,7 +315,7 @@ const Menu = (props) => {
                   </li>*/}
                   <li className="nav-item">
                     <a href="/Currency-Adjustment" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p> Currency Adjustments </p>
                     </a>
                   </li>
@@ -387,8 +387,8 @@ const Menu = (props) => {
                 </ul>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="/ShowCurrency" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                    <a href="/ShowCurrency" className="nav-link active">&nbsp;
+                      <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p>Currency</p>
                     </a>
                   </li>
@@ -481,6 +481,7 @@ const Menu = (props) => {
                   <li className="nav-item">
                     <a href="/ShowItem" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
+                      
                       <p>Item Master</p>
                     </a>
                   </li>
