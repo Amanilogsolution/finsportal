@@ -175,10 +175,11 @@ const ShowCountry = () => {
               <br />
               <div className="row ">
                 <div className="col ml-5">
-                  <div className="card" style={{ width: "100%" }}>
+                  <div className="card bg-dark" style={{ width: "100%" }}>
                     <article className="card-body">
 
                       <DataTableExtensions
+                        // theme="dark"
                         {...tableData}
                       >
                         <DataTable
@@ -187,6 +188,7 @@ const ShowCountry = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme="dark"
                         />
                       </DataTableExtensions>
 

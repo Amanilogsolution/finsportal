@@ -9,10 +9,7 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const [showprofile, setShowprofile] = useState(false);
   const [orgdetails, setOrgDeatils] = useState(false);
-
   const [data, setData] = useState([])
-
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -56,7 +53,7 @@ const Header = () => {
   return (
     <div>
     {/* <Menu/> */}
-      <nav className="main-header navbar navbar-expand navbar-white navbar-light">
+      <nav className="main-header navbar navbar-expand navbar-light">
         <ul className="navbar-nav">
           <li className="nav-item">
             <a className="nav-link" data-widget="pushmenu" href="#" role="button">
@@ -94,8 +91,6 @@ const Header = () => {
                 else {
                   setShow(!show);
                 }
-
-
               }}
             >
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
@@ -113,7 +108,6 @@ const Header = () => {
                 else if (show === true) {
                   setShow(!show);
                   setOrgDeatils(!orgdetails);
-
                 }
                 else {
                   setOrgDeatils(!orgdetails);
