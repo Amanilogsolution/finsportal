@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
+// import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import { ShowCustomer, UpdateCustomer } from '../../api';
 
 const EditCustomer = () => {
   const [data, setData] = useState({});
-
+  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetdata = async () => {
@@ -154,7 +154,7 @@ const EditCustomer = () => {
           </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
@@ -1075,7 +1075,7 @@ const EditCustomer = () => {
             <br />
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )

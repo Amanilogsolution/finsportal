@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
+// import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
 import {FilterInvoice,ActiveCustomer,ActiveLocationAddress} from '../../api'
@@ -36,7 +36,7 @@ const Reportdata = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">

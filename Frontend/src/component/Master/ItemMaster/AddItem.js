@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../../api";
 
@@ -10,8 +10,8 @@ const AddItem = () => {
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
     const [type, setType] = useState();
     const [unitdata, setUnitdata] = useState([]);
-    const [gstvaluecount, setGstvaluecount] = useState()
-
+    const [gstvaluecount, setGstvaluecount] = useState();
+    const themeval = localStorage.getItem('themetype')
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -95,14 +95,14 @@ const AddItem = () => {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                <Menu />
+                {/* <Menu /> */}
                 <div>
                     <div className="content-wrapper">
                         <div className="container-fluid">
                             <br /> <h3 className="text-left ml-5">Add Item</h3>
                             <div className="row ">
-                                <div className="col ml-5">
-                                    <div className="card" style={{ width: "100%" }}>
+                                <div className="col ">
+                                    <div className="card" >
                                         <article className="card-body">
                                             <form>
                                                 <div className="form-row" >
@@ -236,7 +236,7 @@ const AddItem = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themeval}/>
             </div>
         </div>
     )

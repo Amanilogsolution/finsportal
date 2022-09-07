@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import './TotalAddress.css';
 import DataTable from 'react-data-table-component';
@@ -186,7 +186,7 @@ const TotalVendAddress = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary">Add Address</button>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Showfincialyear, Statusfincialyear } from '../../../api';
 import DataTable from 'react-data-table-component';
@@ -93,7 +93,7 @@ const ShowFincialyear = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Year</button>

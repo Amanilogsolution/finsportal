@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Compliancesduedate } from '../../api/index'
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [alertdiv, setAlertdiv] = useState(false);
 
   // const Tokentime = localStorage.getItem('ExpiredIn')
@@ -14,6 +14,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData=async()=>{
+   
     const due_date = await Compliancesduedate(localStorage.getItem("Organisation"))
 
     var today = new Date();
@@ -40,12 +41,9 @@ const Dashboard = () => {
   fetchData();
   }, [])
 
-
-
-
   return (
     <div>
-      <div className="content-wrapper">
+      <div className={`content-wrapper bg-${props.theme}`}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row mb-2">

@@ -1,14 +1,18 @@
 import React from 'react';
+import Finslogo from '../../images/finslogo.png'
 
 
-const Menu = () => {
+const Menu = (props) => {
   const currentorg = localStorage.getItem('Organisation Name');
+
+ 
 
   return (
     <div>
-      <aside className="main-sidebar sidebar-light-info elevation-4" style={{height:"100%",position:"fixed"}}>
+
+      <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{height:"100%",position:"fixed"}}>
         <a href="/home" className="brand-link" >
-          <img src={localStorage.getItem('Orglogo')} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8',height:"50px",width:"50px",borderRadius:"50%" ,overflow:"hidden"}} />
+          <img src={localStorage.getItem('Orglogo') || Finslogo } alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8',height:"50px",width:"50px",borderRadius:"50%" ,overflow:"hidden"}} />
           <span className="brand-text " style={{ color: "red" }}>{currentorg}</span>
         </a>
 
@@ -58,13 +62,13 @@ const Menu = () => {
 
                   <li className="nav-item">
                     <a href="/TotalCustomer" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                    <i class="fa fa-user nav-icon" aria-hidden="true"></i>
                       <p> Customer</p>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/TotalCustAddress" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-address-book nav-icon" />
                       <p>Addresses</p>
                     </a>
                   </li>
@@ -88,7 +92,7 @@ const Menu = () => {
                   </li>
                   <li className="nav-item">
                     <a href="/Invoices" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-file nav-icon" />
                       <p>Invoices</p>
                     </a>
                   </li>
@@ -100,13 +104,13 @@ const Menu = () => {
                   </li>
                   <li className="nav-item">
                     <a href="/RecurringInvoices" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-file nav-icon" />
                       <p>Recurring Invoices</p>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/CreditNotes" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-credit-card nav-icon" />
                       <p>CreditNotes</p>
                     </a>
                   </li>
@@ -190,19 +194,19 @@ const Menu = () => {
 
                   <li className="nav-item">
                     <a href="/Showvendor" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-user nav-icon" />
                       <p> Vendor</p>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/TotalVendAddress" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-address-book nav-icon" />
                       <p>Address</p>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/RecurringExpenses" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-circle nav-icon"  aria-hidden="true"/>
                       <p>Recurring Expenses</p>
                     </a>
                   </li>
@@ -214,19 +218,19 @@ const Menu = () => {
                   </li>
                   <li className="nav-item">
                     <a href="/Bills" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-file nav-icon" />
                       <p>Bills</p>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/RecurringBills" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-file nav-icon" />
                       <p>Recurring Bills</p>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/VendorCredits" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-credit-card nav-icon" />
                       <p>Vendor Credits</p>
                     </a>
                   </li>
@@ -360,7 +364,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowCountry" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-globe nav-icon" />
                       <p> Country</p>
                     </a>
                   </li>
@@ -368,7 +372,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowState" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-globe nav-icon" />
                       <p> State</p>
                     </a>
                   </li>
@@ -376,7 +380,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/Showcity" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-globe nav-icon" />
                       <p> City</p>
                     </a>
                   </li>
@@ -400,7 +404,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/TotalBank" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-university nav-icon" />
                       <p>Bank</p>
                     </a>
                   </li>
@@ -408,7 +412,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowUser" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-user nav-icon" />
                       <p>User</p>
                     </a>
                   </li>
@@ -432,7 +436,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowcompliancesType" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="fa fa-tasks nav-icon" />
                       <p>Compliance Type</p>
                     </a>
                   </li>
@@ -484,7 +488,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/Reportdata" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
+                      <i className="far fa-file nav-icon" />
                       <p>Reports</p>
                     </a>
                   </li>

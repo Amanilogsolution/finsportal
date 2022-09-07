@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
+// import Menu from "../Menu/Menu";
 import "./Customer.css";
 import Footer from "../Footer/Footer";
 import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, ActivePaymentTerm, AddCustomer, ActiveCurrency } from '../../api';
@@ -30,7 +30,7 @@ const Customer = () => {
   const [billing_address_city, setBilling_address_city] = useState();
   const [generatedmcust, setGeneratedmcust] = useState();
   const [generatedcust, setGeneratedcust] = useState();
-
+  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
 
@@ -224,7 +224,7 @@ const Customer = () => {
           </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
@@ -1192,7 +1192,7 @@ const Customer = () => {
             <br />
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval}/>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-import Menu from "../../Menu/Menu";
+// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import {showstate} from '../../../api/index.js'
 import {updateState,Activecountries} from '../../../api/index.js'
@@ -80,7 +80,7 @@ import {updateState,Activecountries} from '../../../api/index.js'
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <Menu />
+        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
