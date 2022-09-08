@@ -5,13 +5,13 @@ import Finslogo from '../../images/finslogo.png'
 const Menu = (props) => {
   const currentorg = localStorage.getItem('Organisation Name');
 
- 
+
 
   return (
     <div>
-      <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{height:"100%",position:"fixed"}}>
+      <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
         <a href="/home" className="brand-link" >
-          <img src={localStorage.getItem('Orglogo') || Finslogo } alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8',height:"50px",width:"50px",borderRadius:"50%" ,overflow:"hidden"}} />
+          <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
           <span className="brand-text " style={{ color: "red" }}>{currentorg}</span>
         </a>
 
@@ -61,7 +61,7 @@ const Menu = (props) => {
 
                   <li className="nav-item">
                     <a href="/TotalCustomer" className="nav-link active">
-                    <i class="fa fa-user nav-icon" aria-hidden="true"></i>
+                      <i class="fa fa-user nav-icon" aria-hidden="true"></i>
                       <p> Customer</p>
                     </a>
                   </li>
@@ -205,7 +205,7 @@ const Menu = (props) => {
                   </li>
                   <li className="nav-item">
                     <a href="/RecurringExpenses" className="nav-link active">
-                      <i className="far fa-circle nav-icon"  aria-hidden="true"/>
+                      <i className="far fa-circle nav-icon" aria-hidden="true" />
                       <p>Recurring Expenses</p>
                     </a>
                   </li>
@@ -314,7 +314,7 @@ const Menu = (props) => {
                   </li>*/}
                   <li className="nav-item">
                     <a href="/Currency-Adjustment" className="nav-link active">
-                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
+                      <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p> Currency Adjustments </p>
                     </a>
                   </li>
@@ -479,8 +479,10 @@ const Menu = (props) => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowItem" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      
+                      {/* <i className="far fa-circle nav-icon" /> */}
+                      <span className="material-symbols-outlined nav-icon">
+                        category
+                      </span>
                       <p>Item Master</p>
                     </a>
                   </li>
@@ -493,7 +495,7 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
-                
+
 
               </li>
 

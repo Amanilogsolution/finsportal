@@ -191,12 +191,12 @@ const Header = () => {
             </a>
           </li>
 
-          <li className="nav-item profilediv dropdown"  >
-            <a className="nav-link" data-toggle="dropdown" href="#">
-              <div className="user-panel mr-7">
-                <div className="image" >
-                  <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4"
-                    alt="User Image" style={{ border: "1px solid #fff" }} /></div></div>
+          <li className="nav-item profilediv dropdown p-0" >
+            <a className="nav-link p-0" data-toggle="dropdown" href="#" >
+              <div className="user-panel mr-7 p-0" >
+                <div className="image mr-3" style={{height:"40px",width:"40px",position:"relative",padding:"0%"}}>
+                  <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4 "
+                    alt="User Image" style={{border:"2px solid #fff", width:"100%",height:"100%" }} /></div></div>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
               <div className={`profilcard card bg-${themeval}`} >
