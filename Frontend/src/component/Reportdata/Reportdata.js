@@ -80,6 +80,8 @@ const Reportdata = () => {
                     <div className="col form-group" >
                       <select className="form-control col" id='report_type' >
                         <option value='' hidden>Select Type</option>
+                        <option value='' >Invoice</option>
+
                       </select>
                     </div>
                   </div>

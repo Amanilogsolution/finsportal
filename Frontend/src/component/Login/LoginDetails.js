@@ -2,35 +2,37 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 // import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { showUserLogin ,UploadData,updateImage} from '../../api'
+import { showUserLogin, UploadData, updateImage } from '../../api'
 import './login.css'
+import { authenticator } from "@otplib/preset-default";
+
 
 const LoginDetails = () => {
     const [data, setData] = useState({})
-    const [file,setFile] = useState('')
-    const [imagelink,setImageLink] = useState('')
+    const [file, setFile] = useState('')
+    const [imagelink, setImageLink] = useState('')
 
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
         setData(result)
     }, [])
 
-    const handleUpdate = async (e) =>{
+    const handleUpdate = async (e) => {
         e.preventDefault()
-        const result = await updateImage(localStorage.getItem('User_id'),imagelink)
-        if(result){
+        const result = await updateImage(localStorage.getItem('User_id'), imagelink)
+        if (result) {
             window.location.href = './home'
-        localStorage.setItem('User_img',imagelink)
+            localStorage.setItem('User_img', imagelink)
         }
 
     }
 
-    const handleSendFile =async(e)=>{
+    const handleSendFile = async (e) => {
         e.preventDefault()
         const data = new FormData();
-        data.append("images",file)
-       const UploadLink = await UploadData(data)
-       setImageLink(UploadLink)
+        data.append("images", file)
+        const UploadLink = await UploadData(data)
+        setImageLink(UploadLink)
     }
 
     return (
@@ -63,7 +65,7 @@ const LoginDetails = () => {
                                                         <input type="text" className="form-control col-md-4" id='employee_name' value={data.employee_name} disabled readonly />
                                                     </div>
                                                 </div>
-                                               
+
                                                 <div className="form-row">
                                                     <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
                                                     <div className="col form-group">
@@ -71,20 +73,20 @@ const LoginDetails = () => {
                                                     </div>
 
                                                 </div>
-                                               
+
                                                 <div className="form-row">
                                                     <label htmlFor="warehouse" className="col-md-2 col-form-label font-weight-normal">Warehouse</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='warehouse' value={data.warehouse} disabled readonly />
                                                     </div>
-                                                  
+
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="username" className="col-md-2 col-form-label font-weight-normal">Username</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='username' value={data.user_id} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
 
                                                 <div className="form-row">
@@ -92,14 +94,14 @@ const LoginDetails = () => {
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='email_id' value={data.email_id} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone</label>
                                                     <div className="col form-group">
                                                         <input type="number" className="form-control col-md-4" id='phone' value={data.phone} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
 
                                                 <div className="form-row">
@@ -107,42 +109,53 @@ const LoginDetails = () => {
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='operatemode' value={data.operate_mode} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='customer' value={data.customer} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting To</label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='reporting_to' value={data.reporting_to} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='designation' value={data.designation} disabled readonly />
                                                     </div>
-                                                   
+
                                                 </div>
+
+                                                <p>
+                                                    Enable 2 Factor Authentication
+                                                    <input type="checkbox"
+                                                        id="checkboxgst"
+                                                        placeholder=''
+                                                        // onClick={handleClick}
+                                                        style={{ marginLeft : "10px"}}
+                                                    />
+                                                </p>
+
                                             </form>
                                         </article>
-                                       
+
                                         <div className="border-top card-body">
                                             <button className="btn btn-success" onClick={handleUpdate} >Update</button>
                                             <button className="btn btn-light ml-3" onClick={() => window.location.href = './home'}>Cancel</button>
                                         </div>
                                     </div>
-                                  
+
                                 </div>
-                              
+
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -165,8 +178,10 @@ const LoginDetails = () => {
                                     <input
                                         type="file"
                                         className=""
-                                        onChange={event=>{ const document = event.target.files[0];
-                                            setFile(document)}}   
+                                        onChange={event => {
+                                            const document = event.target.files[0];
+                                            setFile(document)
+                                        }}
                                         accept=".jpg, .jpeg, .png,.svg"
                                     />
 
