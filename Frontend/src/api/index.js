@@ -1200,11 +1200,11 @@ export const LogoutLogs = async (user_id,org_db_name) => {
 
 
 export const Login2fa = async (email,org) => {
-    const url = `http://192.168.146.136:3008/api/Twofa`
+    const url = `http://localhost:3008/api/Twofa`
     return axios.post(url,{email,org}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const Verify2fa = async (secret,otp,userid,org) => {
-    const url = `http://192.168.146.136:3008/api/VerifyTwo`
+    const url = `http://localhost:3008/api/VerifyTwo`
     return axios.post(url,{secret,otp,userid,org}).then(response => response.data).catch(error => console.log(error));
 }

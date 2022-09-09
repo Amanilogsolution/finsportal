@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './login.css'
-import { UserLogin, OTPVerification,LoginLogs } from '../../api'
+import { UserLogin, OTPVerification, LoginLogs } from '../../api'
 
 
 const Login = () => {
@@ -24,7 +24,16 @@ const Login = () => {
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
         console.log(result)
-        document.getElementById('exampleModalCenter').style.display="flex"
+        document.getElementById('verifybtn').style.display='flex';
+        document.getElementById('submitbtn').style.display='none';
+        if(result.Twofa){
+            document.getElementById('tokendiv').style.display='flex';
+            document.getElementById('otpdiv').style.display='none';
+        }
+        else{
+            document.getElementById('otpdiv').style.display='flex';
+            document.getElementById('tokendiv').style.display='none';
+        }
         // if (result.status == 'Success') {
         //     localStorage.setItem('Token', result.token)
         //     localStorage.setItem('ExpiredIn', result.expiresIn)
@@ -106,17 +115,27 @@ const Login = () => {
                                     </div>
                                 </div> */}
                             </div>
-                            <div className="row">
-                                {/* <div className="col-8">
-                                    <div className="icheck-primary">
-                                        <input type="checkbox" id="remember" />
-                                        <label htmlFor="remember">
-                                            Remember Me
-                                        </label>
+                            <div className="input-group mb-3" id='tokendiv' style={{display:"none"}}>
+                                <input type="number" className="form-control" placeholder="Enter Token" id="token" required />
+                                {/* <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-envelope" />
                                     </div>
                                 </div> */}
+                            </div>
+                            <div className="input-group mb-3" id='otpdiv' style={{display:"none"}}>
+                                <input type="number" className="form-control" placeholder="Enter OTP" id="otp" required />
+                                {/* <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-envelope" />
+                                    </div>
+                                </div> */}
+                            </div>
+                             
+                            <div className="row">
                                 <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
-                                    <button type="submit" onClick={handleClick}  className="btn btn-primary btn-block">Sign In</button>
+                                    <button type="submit" id='submitbtn' onClick={handleClick} className="btn btn-primary ">Sign In</button>
+                                    <button type="button" id='verifybtn' onClick={handleClick} className="btn btn-success" style={{display:"none"}}>Verify</button>
                                 </div>
                             </div>
                         </form>
@@ -129,7 +148,8 @@ const Login = () => {
                 </div>
             </div>
 
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal fade ">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -150,6 +170,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+        </div> */}
         </div>
     )
 }
