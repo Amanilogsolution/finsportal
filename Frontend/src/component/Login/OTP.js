@@ -28,6 +28,7 @@ const OTPpage = () => {
         console.log(Otp) 
         if(localStorage.getItem('otpFins') == Otp){
             alert('Success')
+            window.location.href = '/home'
         }else{
             alert('Fail')
         }
