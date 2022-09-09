@@ -15,10 +15,14 @@ const LoginDetails = () => {
     useEffect(async () => {
         const result = await showUserLogin(localStorage.getItem('User_id'));
         setData(result)
+        console.log(result)
         const org_name = localStorage.getItem('Organisation Name');
         const email = result.email_id;
         const tfadataapi = await Login2fa(email, org_name);
         setTfadata(tfadataapi)
+        if(result.two_factor_authentication ==='With TOTP'){
+            document.getElementById('ckeckboxtfa').checked =true;
+        }
     }, [])
 
     const handleUpdate = async (e) => {

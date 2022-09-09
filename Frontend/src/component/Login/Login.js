@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './login.css'
-import { UserLogin, OTPVerification, LoginLogs,Verify2fa } from '../../api'
+import { UserLogin, OTPVerification, LoginLogs, Verify2fa } from '../../api'
 
 
 const Login = () => {
@@ -9,8 +9,8 @@ const Login = () => {
     const [otps, setOpts] = useState()
     const [phones, setPhones] = useState()
     const [count, setCount] = useState(0)
-    const [twacheck,setTwacheck] = useState('msg')
-    const [logindetails,setLogindetails] = useState({})
+    const [twacheck, setTwacheck] = useState('msg')
+    const [logindetails, setLogindetails] = useState({})
 
     const handleClickToogle = (e) => {
         e.preventDefault()
@@ -26,74 +26,97 @@ const Login = () => {
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
         setLogindetails(result)
-        console.log(result)
-        document.getElementById('verifybtn').style.display='flex';
-        document.getElementById('submitbtn').style.display='none';
-        if(result.Twofa){
-            setTwacheck('Twofa')
-            document.getElementById('tokendiv').style.display='flex';
-            document.getElementById('otpdiv').style.display='none';
-        }
-        else{
-            document.getElementById('otpdiv').style.display='flex';
-            document.getElementById('tokendiv').style.display='none';
-
-            setPhones(result.number)
-            const OTP = Math.floor(Math.random() * 1000000)
-            setOpts(OTP)
-            const result1 = await OTPVerification(result.number, OTP)
-        }
         if (result.status == 'Success') {
-            localStorage.setItem('Token', result.token)
-            localStorage.setItem('ExpiredIn', result.expiresIn)
-            localStorage.setItem('Organisation', result.org_db_name)
-            localStorage.setItem('User_name', result.user_name)
-            localStorage.setItem('Organisation Name', result.org_name)
-            localStorage.setItem('User_id', result.user_id)
-            localStorage.setItem('User_img', result.image)
-            localStorage.setItem('fin_year', result.fin_year)
-            localStorage.setItem('year', result.year)
 
-            // setPhones(result.number)
-            // const OTP = Math.floor(Math.random() * 1000000)
-            // setOpts(OTP)
-            // const result1 = await OTPVerification(result.number, OTP)
-            // window.location.href = '/home'
-            const loginlogs = await LoginLogs(result.user_id,result.user_name,result.org_name,result.org_db_name)
+            document.getElementById('verifybtn').style.display = 'flex';
+            document.getElementById('submitbtn').style.display = 'none';
+            if (result.Twofa) {
+                setTwacheck('Twofa')
+                document.getElementById('tokendiv').style.display = 'flex';
+                document.getElementById('otpdiv').style.display = 'none';
+            }
+            else {
+                document.getElementById('otpdiv').style.display = 'flex';
+                document.getElementById('tokendiv').style.display = 'none';
+
+                setPhones(result.number)
+                const OTP = Math.floor(Math.random() * 1000000)
+                setOpts(OTP)
+                const result1 = await OTPVerification(result.number, OTP)
+            }
+
+            // localStorage.setItem('Token', result.token)
+            // localStorage.setItem('ExpiredIn', result.expiresIn)
+            // localStorage.setItem('Organisation', result.org_db_name)
+            // localStorage.setItem('User_name', result.user_name)
+            // localStorage.setItem('Organisation Name', result.org_name)
+            // localStorage.setItem('User_id', result.user_id)
+            // localStorage.setItem('User_img', result.image)
+            // localStorage.setItem('fin_year', result.fin_year)
+            // localStorage.setItem('year', result.year)
+
+            // // setPhones(result.number)
+            // // const OTP = Math.floor(Math.random() * 1000000)
+            // // setOpts(OTP)
+            // // const result1 = await OTPVerification(result.number, OTP)
+            // // window.location.href = '/home'
+            // const loginlogs = await LoginLogs(result.user_id, result.user_name, result.org_name, result.org_db_name)
         }
         else {
             setErrormsg(true);
-            alert("Invalid Email & Password")
         }
     }
-    const handleClickVerify = async () =>{
-        if(twacheck === 'msg'){
+    const handleClickVerify = async () => {
+        if (twacheck === 'msg') {
             const otpinput = document.getElementById('otp').value
             if (otpinput == otps) {
+                localStorage.setItem('Token', logindetails.token)
+                localStorage.setItem('ExpiredIn', logindetails.expiresIn)
+                localStorage.setItem('Organisation', logindetails.org_db_name)
+                localStorage.setItem('User_name', logindetails.user_name)
+                localStorage.setItem('Organisation Name', logindetails.org_name)
+                localStorage.setItem('User_id', logindetails.user_id)
+                localStorage.setItem('User_img', logindetails.image)
+                localStorage.setItem('fin_year', logindetails.fin_year)
+                localStorage.setItem('year', logindetails.year)
                 alert("Athorized successfully")
+                const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
                 window.location.href = '/home'
-            } else {
+            }
+            else {
                 setCount(count + 1)
                 alert("Invalid Otp")
                 if (count >= 2) {
                     alert("You are not User")
                     window.location.href = '/'
                 }
- 
+
+            }
         }
-    }
-        
-        else{
+
+        else {
             const token = document.getElementById('token').value
-            const result1 = await Verify2fa(logindetails.Twofa,token,logindetails.user_id,logindetails.org_name)
-            alert(result1)
-          window.location.href = '/home'
+            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name)
+            if (result1 === 'Verify') {
+                localStorage.setItem('Token', logindetails.token)
+                localStorage.setItem('ExpiredIn', logindetails.expiresIn)
+                localStorage.setItem('Organisation', logindetails.org_db_name)
+                localStorage.setItem('User_name', logindetails.user_name)
+                localStorage.setItem('Organisation Name', logindetails.org_name)
+                localStorage.setItem('User_id', logindetails.user_id)
+                localStorage.setItem('User_img', logindetails.image)
+                localStorage.setItem('fin_year', logindetails.fin_year)
+                localStorage.setItem('year', logindetails.year)
+                alert(result1)
 
+                const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
+                window.location.href = '/home'
+            }
+            else {
+                alert('Invalid Token')
+            }
         }
-    
-
     }
-
     const handleClickResendOtp = async (e) => {
         e.preventDefault()
         const result1 = await OTPVerification(phones, otps)
@@ -114,7 +137,6 @@ const Login = () => {
             }
 
         }
-
     }
 
     return (
@@ -145,46 +167,31 @@ const Login = () => {
                                 <div className="input-group-append">
                                     <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
                                 </div>
-                                {/* <div className="input-group-append">
-                                    <div className="input-group-text">
-                                        <span className="fas fa-lock" />
-                                    </div>
-                                </div> */}
                             </div>
-                            <div className="input-group mb-3" id='tokendiv' style={{display:"none"}}>
+                            <div className="input-group mb-3" id='tokendiv' style={{ display: "none" }}>
                                 <input type="number" className="form-control" placeholder="Enter Token" id="token" required />
-                                {/* <div className="input-group-append">
-                                    <div className="input-group-text">
-                                        <span className="fas fa-envelope" />
-                                    </div>
-                                </div> */}
                             </div>
-                            <div className="input-group mb-3" id='otpdiv' style={{display:"none"}}>
+                            <div className="input-group mb-3" id='otpdiv' style={{ display: "none" }}>
                                 <input type="number" className="form-control" placeholder="Enter OTP" id="otp" required />
-                                {/* <div className="input-group-append">
-                                    <div className="input-group-text">
-                                        <span className="fas fa-envelope" />
-                                    </div>
-                                </div> */}
                             </div>
-                             
+
                             <div className="row">
                                 <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
                                     <button type="submit" id='submitbtn' onClick={handleClick} className="btn btn-primary ">Sign In</button>
-                                    <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn btn-success" style={{display:"none"}}>Verify</button>
+                                    <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn btn-success" style={{ display: "none" }}>Verify</button>
                                 </div>
                             </div>
                         </form>
                         <p className="mb-1">
                             <a href="forgot-password.html">I forgot my password</a>
                             <br />
-                            <a href="otppage">Enter OTP</a>
+                            <a href="otppage">With OTP</a>
                         </p>
                     </div>
                 </div>
             </div>
 
-        {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal fade ">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">

@@ -5,7 +5,7 @@ import Footer from "../../Footer/Footer";
 import { InsertUser, insertUserLogin, UploadData, ActiveCustomer } from '../../../api';
 
 const AddUser = () => {
-  const [authentication, setAuthentication] = useState('with otp')
+  // const [authentication, setAuthentication] = useState(true)
   const [activecustomer, setActivecustomer] = useState([])
   const [numbercount, setNumbercount] = useState();
   const [passwordshow, setPasswordshow] = useState(false);
@@ -42,9 +42,9 @@ const AddUser = () => {
     const customer = document.getElementById('customer').value;
     const reporting_to = document.getElementById('reporting_to').value;
     const designation = document.getElementById('designation').value;
+    const authentication = 'with OTP'
 
-
-    if (!employee_name || !warehouse || !user_name || !password || !email_id || !phone || !customer) {
+    if (!employee_name || !warehouse || !user_name || !password || !email_id || !phone) {
       alert('Please! enter the data')
     }
     else {
@@ -52,19 +52,24 @@ const AddUser = () => {
         password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'));
 
       const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url)
-      if (result) {
-        window.location.href = '/ShowUser'
+      if (result === 'Added' && loginInsert === "Added") {
+        alert('Data Added')
+        window.location.href = '/ShowUser';
       }
+      else {
+        alert('Server Error')
+      }
+
     }
   }
   const handleClickToogle = (e) => {
     e.preventDefault()
     setPasswordshow(!passwordshow)
   }
-  const handleChange = (e) => {
-    let data = e.target.value
-    setAuthentication(data)
-  }
+  // const handleChange = (e) => {
+  //   const data = document.getElementById('auth').checked;
+  //   setAuthentication(data)
+  // }
 
   return (
     <div>
@@ -183,11 +188,7 @@ const AddUser = () => {
                           </div>
                         </div>
 
-
-                        <div className="form-row"
-                          onChange={handleChange}
-                        >
-                          <div className="col form-group" id='otpradiobtn'>
+                        {/* <div className=" form-row" >
                             <label
                               htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal"
@@ -197,23 +198,23 @@ const AddUser = () => {
 
                             <label className="form-check form-check-inline">
                               <input
-                                className="form-check-input" type="radio"
-                                name="taxpreference"
+                                className="form-check-input" type="checkbox"
+                                id="auth"
                                 defaultChecked
-                                value="With OTP"
+                                onChange={handleChange}
+                                style={{height:"20px",width:"20px"}}
                               />With OTP
                             </label>
-                            <label className="form-check form-check-inline">
+                             <label className="form-check form-check-inline">
                               <input
                                 className="form-check-input"
                                 type="radio"
                                 name="taxpreference"
-                                value="Without OTP"
-                              />Without OTP
+                                value="With TOTP"
+                              />With TOTP
 
-                            </label>
-                          </div>
-                        </div>
+                            </label> 
+                          </div>*/}
                         <div className="border-top card-body">
                           <button type="submit" className="btn btn-success" onClick={Toogle} >Save</button>
                           <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>

@@ -62,11 +62,11 @@ const columns = [
     selector: row => row.designation,
     sortable: true
   },
-  {
-    name: 'Two factor authentication',
-    selector: row => row.two_factor_authentication,
-    sortable: true
-  },
+  // {
+  //   name: 'Two factor authentication',
+  //   selector: row => row.two_factor_authentication,
+  //   sortable: true
+  // },
   {
     name: 'Status',
     selector: 'null',

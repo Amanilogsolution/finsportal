@@ -15,16 +15,7 @@ const EditUser = () => {
     const fetchdata = async () => {
       const result = await showuser(localStorage.getItem('userSno'));
       setData(result)
-
-      if (result.two_factor_authentication == 'With OTP') {
-        document.getElementById('otp').checked = true
-        setAuthentication('With OTP')
-      }
-      else {
-        document.getElementById('noOTP').checked = true
-        setAuthentication('Without OTP')
-      }
-
+      setAuthentication(result.two_factor_authentication)
       const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
       setActivecustomer(customer)
     }
@@ -110,13 +101,8 @@ const EditUser = () => {
   const handleChangedesignation = (e) => {
     setData({ ...data, designation: e.target.value })
   }
-  const handleChangetwo_factor_authentication = (e) => {
-    setData({ ...data, two_factor_authentication: e.target.value })
-  }
-  const handleChange = (e) => {
-    let state = e.target.value;
-    setAuthentication(state)
-  }
+
+
 
 
 
@@ -214,7 +200,7 @@ const EditUser = () => {
                           </div>
                         </div>
 
-                        <div className="form-row" onChange={handleChange}>
+                        {/* <div className="form-row" onChange={handleChange}>
                           <div className="col form-group">
                             <label
                               htmlFor="user_name"
@@ -230,6 +216,7 @@ const EditUser = () => {
                                 name="taxpreference"
                                 value="With OTP"
                                 id="otp"
+                                disabled
                               />With OTP
                             </label>
                             <label className="form-check form-check-inline">
@@ -238,12 +225,13 @@ const EditUser = () => {
                                 className="form-check-input"
                                 type="radio"
                                 name="taxpreference"
-                                value="Without OTP"
+                                value="With TOTP"
                                 id="noOTP"
-                              />Without OTP
+                                disabled
+                              />With TOTP
                             </label>
                           </div>
-                        </div>
+                        </div> */}
 
                         <div className="border-top card-body">
                           <button className="btn btn-success" onClick={handleClick}>Update</button>
