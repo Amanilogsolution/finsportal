@@ -1,0 +1,6 @@
+.pagenotfounfimage {
+    height: 400px;
+    width: 50%;
+    margin-left: 50%;
+    transform: translate(-50%);
+}

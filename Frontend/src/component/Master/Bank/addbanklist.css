@@ -1,0 +1,163 @@
+
+.imgrow{
+    height: 170px;
+    width: 100%;
+
+}
+.imgrow .imgrow1{
+    height: 80px;
+    width: 100%;
+    display: flex;
+}
+
+.imgrow .imgrow1 .col1{
+    height: 80px;
+    width: 30%;
+    position: relative;
+    margin: 0px auto;
+    
+}
+.imgrow .imgrow1 .col1 img{
+    height: 75%;
+    width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.imgrow .imgrow1 .col1 img:hover{
+    box-shadow: 2px 2px 10px gray;
+}
+
+
+
+.imgrow .imgrow2{
+    height: 80px;
+    width: 100%;
+    display: flex;
+}
+
+.imgrow .imgrow2 .col2{
+    height: 80px;
+    width: 30%;
+    position: relative;
+    margin: 0px auto;
+
+}
+.imgrow .imgrow2 .col2 img{
+    height: 75%;
+    width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.imgrow .imgrow2 .col2 img:hover{
+    box-shadow: 2px 2px 10px gray;
+}
+
+.imgrowsec2{
+    height: 120px;
+    width: 100%;
+}
+.imgrowsec2 .imgrow3{
+    height: 40px;
+    width: 100%;
+    display: flex;
+}
+
+.imgrowsec2 .imgrow3 .col3{
+    height: 40px;
+    width:25%;
+    position: relative;
+    margin: 0px auto;
+
+}
+.imgrowsec2 .imgrow3 .col3 img{
+    height: 75%;
+    width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.imgrowsec2 .imgrow3 .col3 img:hover{
+    box-shadow: 2px 2px 10px gray;
+}
+
+
+@media screen and (max-width:450px){
+  .imgrow{
+      height: 100%;
+      width: 100%;
+  }
+.imgrow .imgrow1{
+     height: 110px;
+    flex-direction: column;
+}
+.imgrow .imgrow1 .col1{
+    height: 110px;
+    width: 80%;
+}
+.imgrow .imgrow1 .col1 img{
+    height: 100%;
+      }
+
+.imgrow .imgrow2{
+    height: 110px;
+   flex-direction: column;
+   }
+.imgrow .imgrow2 .col2{
+   height: 110px;
+   width: 80%;
+    }
+.imgrow .imgrow2 .col2 img{
+   height: 100%;
+      }
+
+.imgrowsec2{
+    height: 100%;
+    width: 100%;
+    }
+
+.imgrowsec2 .imgrow3{
+   height: 75px;
+  flex-direction: column;
+    }
+
+.imgrowsec2 .imgrow3 .col3{
+  height: 75px;
+  width: 70%;
+  margin-bottom: 0px;
+     }
+
+.imgrowsec2 .imgrow3 .col3 img{
+  height: 100%;
+     }
+
+}
+
+
+
+/* modal style start  */
+
+
+.modalcards{
+    display:flex;
+    margin:5px 0px 2px 0px;
+}
+.modalcards .modalcard{
+     border-radius: 10px;
+     width: 38%;
+     margin-left:20px;
+     padding:10px;
+}
+
+.modalcards .modalcard:hover{
+    box-shadow:2px 2px 5px gray;
+
+}
+/* modal style end  */
