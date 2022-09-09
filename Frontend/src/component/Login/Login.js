@@ -90,7 +90,6 @@ const Login = () => {
                     alert("You are not User")
                     window.location.href = '/'
                 }
-
             }
         }
 
@@ -108,7 +107,6 @@ const Login = () => {
                 localStorage.setItem('fin_year', logindetails.fin_year)
                 localStorage.setItem('year', logindetails.year)
                 alert(result1)
-
                 const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
                 window.location.href = '/home'
             }
@@ -155,7 +153,7 @@ const Login = () => {
                         }
                         <form action="../../index3.html" method="post">
                             <div className="input-group mb-3">
-                                <input type="email" className="form-control" placeholder="Email" id="email" onChange={hidetext} required />
+                                <input type="text" className="form-control" placeholder="User ID" id="email" onChange={hidetext} required />
                                 <div className="input-group-append">
                                     <div className="input-group-text">
                                         <span className="fas fa-envelope" />

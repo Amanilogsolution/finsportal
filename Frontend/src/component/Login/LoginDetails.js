@@ -20,8 +20,8 @@ const LoginDetails = () => {
         const email = result.email_id;
         const tfadataapi = await Login2fa(email, org_name);
         setTfadata(tfadataapi)
-        if(result.two_factor_authentication ==='With TOTP'){
-            document.getElementById('ckeckboxtfa').checked =true;
+        if (result.two_factor_authentication === 'With TOTP') {
+            document.getElementById('ckeckboxtfa').checked = true;
         }
     }, [])
 
@@ -46,17 +46,17 @@ const LoginDetails = () => {
     const handletfatoggle = () => {
         const checkdata = document.getElementById('ckeckboxtfa').checked;
         if (checkdata === true) {
-            document.getElementById('tfadiv').style.display='flex';
+            document.getElementById('tfadiv').style.display = 'flex';
         }
         else {
-            document.getElementById('tfadiv').style.display='none';
+            document.getElementById('tfadiv').style.display = 'none';
         }
     }
 
     const handleverify = async (e) => {
         e.preventDefault()
         const inputtoken = document.getElementById('tokeninp').value;
-        const vetfytokendata = await Verify2fa(tfadata.secret, inputtoken,data.user_id, localStorage.getItem('Organisation Name'))
+        const vetfytokendata = await Verify2fa(tfadata.secret, inputtoken, data.user_id, localStorage.getItem('Organisation Name'))
         if (vetfytokendata === 'Verify') {
             setVerify(true)
         }
@@ -175,16 +175,20 @@ const LoginDetails = () => {
 
                                                 </div>
 
-                                                <div className="form-row" id="tfadiv" style={{display:"none"}}>
+                                                <div className="form-row" id="tfadiv" style={{ display: "none" }}>
                                                     <div className="col-md-2 form-group" >
                                                     </div>
                                                     <div className="col-md-3 form-group" >
-                                                        <img src={tfadata.qr} alt='' /><br />
-                                                        <input type='number' id='tokeninp' placeholder='Enter Token' />
-                                                        <button className='btn btn-success' onClick={handleverify}>Verify</button>
-                                                        {verify === true ? <h5 style={{ color: "green" }}>Verify</h5> :
-                                                            verify === false ? <h5 style={{ color: "red" }}>Wrong Token</h5>
-                                                                : <p></p>}
+                                                        <img src={tfadata.qr} alt='' /><br/>
+                                                        <div className="col form-row mt-2"  >
+                                                            <input type='number' id='tokeninp' className="form-control col-md-9"
+                                                                placeholder='Enter Token' />
+                                                            <button className='btn btn-success' onClick={handleverify}>Verify</button>
+                                                            {verify === true ?
+                                                                <h5 style={{ color: "green" }}>Verify</h5>
+                                                                : verify === false ? <h5 style={{ color: "red" }}>Wrong Token</h5>
+                                                                    : <p></p>}
+                                                        </div>
                                                     </div>
 
                                                 </div>
