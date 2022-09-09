@@ -38,6 +38,8 @@ const InvoiceController = require('../controller/Invoice')
 const InvoiceSubController = require('../controller/subinvoice')
 const LoginLogsController = require('../controller/LoginLOgs')
 
+const Twofa = require('../controller/2faAuthentication/Twofa')
+
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
 router.post('/deletestate', statesController.deleteState);
@@ -314,6 +316,10 @@ router.post('/insertsubinvoice',InvoiceSubController.InsertSubInvoice)
 
 router.post('/loginlogs',LoginLogsController.LoginLogs)
 router.post('/logoutlogs',LoginLogsController.LogoutLogs)
+
+router.post('/Twofa',Twofa.GenerateTwofa)
+router.post('/VerifyTwo',Twofa.VerifyTwofa)
+
 
 
 

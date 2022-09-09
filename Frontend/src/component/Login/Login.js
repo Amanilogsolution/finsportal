@@ -23,28 +23,30 @@ const Login = () => {
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
-        if (result.status == 'Success') {
-            localStorage.setItem('Token', result.token)
-            localStorage.setItem('ExpiredIn', result.expiresIn)
-            localStorage.setItem('Organisation', result.org_db_name)
-            localStorage.setItem('User_name', result.user_name)
-            localStorage.setItem('Organisation Name', result.org_name)
-            localStorage.setItem('User_id', result.user_id)
-            localStorage.setItem('User_img', result.image)
-            localStorage.setItem('fin_year', result.fin_year)
-            localStorage.setItem('year', result.year)
+        console.log(result)
+        document.getElementById('exampleModalCenter').style.display="flex"
+        // if (result.status == 'Success') {
+        //     localStorage.setItem('Token', result.token)
+        //     localStorage.setItem('ExpiredIn', result.expiresIn)
+        //     localStorage.setItem('Organisation', result.org_db_name)
+        //     localStorage.setItem('User_name', result.user_name)
+        //     localStorage.setItem('Organisation Name', result.org_name)
+        //     localStorage.setItem('User_id', result.user_id)
+        //     localStorage.setItem('User_img', result.image)
+        //     localStorage.setItem('fin_year', result.fin_year)
+        //     localStorage.setItem('year', result.year)
 
-            setPhones(result.number)
-            const OTP = Math.floor(Math.random() * 1000000)
-            setOpts(OTP)
-            const result1 = await OTPVerification(result.number, OTP)
-            // window.location.href = '/home'
-            const loginlogs = await LoginLogs(result.user_id,result.user_name,result.org_name,result.org_db_name)
-        }
-        else {
-            setErrormsg(true);
-            alert("Invalid Email & Password")
-        }
+        //     setPhones(result.number)
+        //     const OTP = Math.floor(Math.random() * 1000000)
+        //     setOpts(OTP)
+        //     const result1 = await OTPVerification(result.number, OTP)
+        //     // window.location.href = '/home'
+        //     const loginlogs = await LoginLogs(result.user_id,result.user_name,result.org_name,result.org_db_name)
+        // }
+        // else {
+        //     setErrormsg(true);
+        //     alert("Invalid Email & Password")
+        // }
     }
 
     const handleClickResendOtp = async (e) => {
@@ -114,7 +116,7 @@ const Login = () => {
                                     </div>
                                 </div> */}
                                 <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
-                                    <button type="submit" onClick={handleClick} data-toggle="modal" data-target="#exampleModalCenter" className="btn btn-primary btn-block">Sign In</button>
+                                    <button type="submit" onClick={handleClick}  className="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             </div>
                         </form>
@@ -127,7 +129,7 @@ const Login = () => {
                 </div>
             </div>
 
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
