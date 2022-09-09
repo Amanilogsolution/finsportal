@@ -156,17 +156,13 @@ const LoginDetails = () => {
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='reporting_to' value={data.reporting_to} disabled readonly />
                                                     </div>
-
                                                 </div>
                                                 <div className="form-row">
                                                     <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
                                                     <div className="col form-group">
                                                         <input type="text" className="form-control col-md-4" id='designation' value={data.designation} disabled readonly />
                                                     </div>
-
                                                 </div>
-
-
                                                 <div className="form-row">
                                                     <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">2 Factor Authentication </label>
                                                     <div className="col form-group">
@@ -195,19 +191,14 @@ const LoginDetails = () => {
 
                                                 <div className="border-top card-body">
                                                     <button className="btn btn-success" onClick={handleUpdate} >Update</button>
-                                                    <button className="btn btn-light ml-3" onClick={() => window.location.href = './home'}>Cancel</button>
+                                                    <button className="btn btn-light ml-3" onClick={(e) =>{e.preventDefault(); window.location.href = './home'}}>Cancel</button>
                                                 </div>
 
                                             </form>
                                         </article>
-
-
                                     </div>
-
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
