@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import {  InsertCrm,ActiveLocationAddress } from "../../../api";
+import {  InsertEmployee,ActiveLocationAddress } from "../../../api";
 
 const AddEmployee = () => {
   const [locationlist,setLocationlist] =useState([])
@@ -14,24 +14,31 @@ const AddEmployee = () => {
         fetchdata()
      },[])
 
+
     const handleClick = async (e) => {
         e.preventDefault();
-      
+      const emp_name = document.getElementById('emp_name').value;
+      const wh = document.getElementById('wh').value;
+
+      const id = emp_name.slice(0, 3)
+      const lastno = '' + Math.floor(Math.random() * 10000);
+      const emp_id = id.toUpperCase() + lastno;
 
 
-        // if (!crmtypes || !person_name || !cust_vend_name) {
-        //     alert('Enter data')
-        // }
-        // else {
-        //     const result = await InsertCrm(localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-        //     if (result === "Added") {
-        //         alert('Data Added')
-        //         window.location.href = '/ShowCrm'
-        //     }
-        //     else {
-        //         alert('Server not Response')
-        //     }
-        // }
+        if (!emp_name || !wh ) {
+            alert('Enter data')
+        }
+        else {
+            // org,emp_name,wh,emp_id,User_id
+            const result = await InsertEmployee(localStorage.getItem('Organisation'),emp_name,wh,emp_id, localStorage.getItem('User_id'));
+            if (result === "Added") {
+                alert('Data Added')
+                window.location.href = '/showemployee'
+            }
+            else {
+                alert('Server not Response')
+            }
+        }
 
     }
 
@@ -73,8 +80,8 @@ const AddEmployee = () => {
                                                     </div>
                                                 </div>
                                                 <div className="border-top card-body">
-                                                    <button type='submit' className="btn btn-success" >Add</button>
-                                                    <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCrm" }}>Cancel</button>
+                                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
+                                                    <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./showemployee" }}>Cancel</button>
                                                 </div>
                                             </form>
                                         </article>
