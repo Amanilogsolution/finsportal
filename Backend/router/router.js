@@ -38,6 +38,8 @@ const InvoiceController = require('../controller/Invoice')
 const InvoiceSubController = require('../controller/subinvoice')
 const LoginLogsController = require('../controller/LoginLOgs')
 
+const EmployeeController = require('../controller/EmployeeMaster/employee')
+
 const Twofa = require('../controller/2faAuthentication/Twofa')
 
 router.post('/newdb', NewdbController.Newdb);
@@ -319,6 +321,10 @@ router.post('/logoutlogs',LoginLogsController.LogoutLogs)
 
 router.post('/Twofa',Twofa.GenerateTwofa)
 router.post('/VerifyTwo',Twofa.VerifyTwofa)
+
+router.post('/totalemployee',EmployeeController.TotalEmployee)
+router.post('/deleteemployee',EmployeeController.deleteEmployee)
+
 
 
 

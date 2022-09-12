@@ -134,6 +134,8 @@ import OTPpage from './component/Login/OTP'
 import Reportdata from './component/Reportdata/Reportdata'
 import PageNotFound from './component/pagenotfound/pagenotfound';
 
+import ShowEmployee from './component/Master/EmployeeMaster/ShowEmployee';
+
 
  const App = () => {
 
@@ -271,6 +273,13 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
           <PrivatRoute exact path="/EditCrm" component={EditCrm}/>
           <PrivatRoute exact path="/ShowCrm" component={ShowCrm}/>
           <PrivatRoute exact path="/Reportdata" component={Reportdata}/>
+
+
+          <PrivatRoute exact path="/showemployee" component={ShowEmployee}/>
+
+
+          
+
 
           <Route exact path="*" component={PageNotFound}/>
           </Switch>

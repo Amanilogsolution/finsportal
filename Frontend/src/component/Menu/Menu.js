@@ -487,6 +487,15 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
+
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <a href="/showemployee" className="nav-link active">
+                      <i className="far fa-file nav-icon" />
+                      <p>Employee Master</p>
+                    </a>
+                  </li>
+                </ul>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/Reportdata" className="nav-link active">
@@ -495,6 +504,8 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
+
+
 
 
               </li>

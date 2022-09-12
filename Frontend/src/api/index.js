@@ -1208,3 +1208,17 @@ export const Verify2fa = async (secret,otp,userid,org) => {
     const url = `http://localhost:3008/api/VerifyTwo`
     return axios.post(url,{secret,otp,userid,org}).then(response => response.data).catch(error => console.log(error));
 }
+
+// ############################ For Employee api Start #################################
+
+
+export const TotalEmployee = async (org) => {
+    const url = `http://localhost:3008/api/totalemployee`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+export const deleteEmployee = async (org, sno, status) => {
+    const url = `http://localhost:3008/api/deleteemployee`
+    return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
+}
