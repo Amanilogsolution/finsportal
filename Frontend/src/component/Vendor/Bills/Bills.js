@@ -1,11 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
+import { ActiveVendor } from '../../../api'
 
 function Bills() {
     const [totalValues, setTotalValues] = useState([1])
     const [amount, setAmount] = useState()
+    const [vendorlist, setVendorlist] = useState([])
+
+    useEffect(() => {
+        const fetchdata = async () => {
+            const dataId = await ActiveVendor(localStorage.getItem('Organisation'))
+            setVendorlist(dataId)
+            console.log(dataId)
+        }
+        fetchdata();
+    }, [])
+
+
+
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -56,32 +70,28 @@ function Bills() {
                 {/* <Menu /> */}
                 <div className="content-wrapper">
                     <div className="container-fluid">
-                        <div className="row pt-3" >
-                            <div className="col">
+                        <br />
+                        <h3 className="text-left ml-5"> New Purchase Order</h3>
+                        <div className="row " >
+                            <div className="col ml-2 mr-2">
                                 <div className="card">
                                     <article
                                         className="card-body" >
-                                        <h3 className="text-left"> New Purchase Order</h3>
-                                        <br />
-
                                         <form autoComplete="off">
-                                        <div className="form-row mt-2">
+                                            <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
                                                         id="AccountType"
-                                                        className="form-control"
-                                                    // onChange={handleAccountType}
-                                                    >
-                                                        <option defaultValue hidden>Choose</option>
-
+                                                        className="form-control">
+                                                        <option value='' hidden>Choose</option>
+                                                        {
+                                                            vendorlist.map((item,index)=>
+                                                            <option key={index} value={item.vend_id}>{item.vend_name}</option>)
+                                                        }
                                                     </select>
-                                                    <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
                                                 </div>
                                             </div>
-                                            <hr/>
-                                            
-
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Bill#<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
