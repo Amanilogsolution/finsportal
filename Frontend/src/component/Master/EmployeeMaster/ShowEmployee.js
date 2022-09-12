@@ -86,7 +86,7 @@ const ShowEmployee = () => {
         {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Employee </button>
+            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./addemployee" }} className="btn btn-primary">Add Employee </button>
 
             <div className="container-fluid">
               <br />

@@ -1222,3 +1222,9 @@ export const deleteEmployee = async (org, sno, status) => {
     const url = `http://localhost:3008/api/deleteemployee`
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const InsertEmployee = async (org,emp_name,wh,emp_id,User_id) => {
+    const url = `http://localhost:3008/api/insertemployee`
+    return axios.post(url, { org,emp_name,wh,emp_id,User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
