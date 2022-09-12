@@ -324,6 +324,13 @@ router.post('/VerifyTwo',Twofa.VerifyTwofa)
 
 router.post('/totalemployee',EmployeeController.TotalEmployee)
 router.post('/deleteemployee',EmployeeController.deleteEmployee)
+router.post('/insertemployee',EmployeeController.insertemployee)
+router.post('/getemployee',EmployeeController.getemployee)
+router.post('/updateemployee',EmployeeController.updateemployee)
+
+
+
+
 
 
 
