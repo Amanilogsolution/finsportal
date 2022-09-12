@@ -25,7 +25,7 @@ const columns = [
   {
     name: 'Status',
     sortable: true,
-    selector: 'null',
+    selector: row => row.null,
     cell: (row) => [
       <div className='droplist'>
         <select onChange={async (e) => {
