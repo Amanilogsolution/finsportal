@@ -4,7 +4,6 @@ const os = require('os')
 
 const TotalEmployee = async (req, res) => {
     const org = req.body.org
-    console.log(org)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from  ${org}.dbo.tbl_emp`)
@@ -20,9 +19,7 @@ const insertemployee = async (req, res) => {
     const wh = req.body.wh;
     const emp_id = req.body.emp_id;
     const User_id= req.body.User_id;
-    console.log(org,emp_name,wh,emp_id,User_id)
  
-    console.log(org,user_name,type,cust_vend,User_id,from_date,to_date)
     try {
         await sql.connect(sqlConfig)
 
@@ -41,7 +38,6 @@ const deleteEmployee = async (req, res) => {
     const org = req.body.org
     const sno = req.body.sno;
     const status = req.body.status;
-    console.log(org,sno,status)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_emp set status='${status}' where sno='${sno}' `)
@@ -55,7 +51,6 @@ const deleteEmployee = async (req, res) => {
 const getemployee = async (req,res) => {
     const org = req.body.org
     const sno = req.body.sno;
-    console.log(org,sno)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from   ${org}.dbo.tbl_emp WHERE sno='${sno}'`)
@@ -74,7 +69,6 @@ const updateemployee = async (req, res) => {
     const wh = req.body.wh;
     const emp_id = req.body.emp_id;
     const User_id= req.body.User_id;
-    console.log(sno,org,emp_name,wh,emp_id,User_id,)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_emp set emp_name ='${emp_name}',wh='${wh}',emp_id ='${emp_id}',update_user_name='${User_id}',

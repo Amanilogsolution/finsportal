@@ -48,8 +48,8 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/EditCrm">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
+      <a title='View Document' href="/editemployee">
+        <button className="editbtn btn-success " onClick={() => localStorage.setItem('EmpmasterSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }
@@ -65,10 +65,8 @@ const ShowEmployee = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const result = await TotalEmployee(localStorage.getItem('Organisation'))
-      console.log(result)
       setData(result)
     }
-
     fetchdata();
   }, [])
 

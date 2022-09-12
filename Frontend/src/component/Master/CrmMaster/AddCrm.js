@@ -43,20 +43,20 @@ const AddCrm = () => {
         let formatted_date = year + "-" + month + "-" + day;
         // let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" + to_date.getDate()
 
-
-        if (!crmtypes || !person_name || !cust_vend_name) {
-            alert('Enter data')
-        }
-        else {
-            const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'),from_date,formatted_date);
-            if (result === "Added") {
-                alert('Data Added')
-                window.location.href = '/ShowCrm'
-            }
-            else {
-                alert('Server not Response')
-            }
-        }
+console.log(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'),from_date,formatted_date)
+        // if (!crmtypes || !person_name || !cust_vend_name) {
+        //     alert('Enter data')
+        // }
+        // else {
+        //     const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'),from_date,formatted_date);
+        //     if (result === "Added") {
+        //         alert('Data Added')
+        //         window.location.href = '/ShowCrm'
+        //     }
+        //     else {
+        //         alert('Server not Response')
+        //     }
+        // }
 
     }
 
@@ -127,23 +127,23 @@ const AddCrm = () => {
 
                                                     </div>
                                                 </div>
-                                                <div className="form-row">
+                                                <div className="form-row" >
                                                     <label htmlFor="short_name" className="col-md-2 col-form-label font-weight-normal">Customer/Vendor Name<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
+                                                    <div className="col form-group" >
                                                         {
                                                             crmtype ?
                                                                 <Select
                                                                     className="col-md-4"
                                                                     options={options}
-                                                                    isMulti={false}
+                                                                    isMulti={true}
                                                                     onChange={handleCustvendval}
                                                                 />
                                                                 :
 
                                                                 <Select
-                                                                    className="col-md-4 "
+                                                                    className="col-md-4 m-0 p-0"
                                                                     options={options2}
-                                                                    isMulti={false}
+                                                                    isMulti={true}
                                                                     onChange={handleCustvendval}
                                                                 />
 

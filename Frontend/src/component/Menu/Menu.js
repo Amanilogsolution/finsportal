@@ -61,7 +61,7 @@ const Menu = (props) => {
 
                   <li className="nav-item">
                     <a href="/TotalCustomer" className="nav-link active">
-                      <i class="fa fa-user nav-icon" aria-hidden="true"></i>
+                      <i className="fa fa-user nav-icon" aria-hidden="true"></i>
                       <p> Customer</p>
                     </a>
                   </li>
@@ -505,20 +505,8 @@ const Menu = (props) => {
                   </li>
                 </ul>
 
-
-
-
               </li>
 
-
-              <li className="nav-header"></li>
-              {/* <li className="nav-item">
-            <a onClick={handleClick} style={{cursor:"pointer"}}className="nav-link active">
-              <p>
-                Logout
-              </p>
-            </a>
-          </li> */}
             </ul>
           </nav>
         </div>

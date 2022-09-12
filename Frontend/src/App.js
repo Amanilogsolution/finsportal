@@ -136,6 +136,7 @@ import PageNotFound from './component/pagenotfound/pagenotfound';
 
 import ShowEmployee from './component/Master/EmployeeMaster/ShowEmployee';
 import AddEmployee from './component/Master/EmployeeMaster/AddEmployee';
+import EditEmployee from './component/Master/EmployeeMaster/EditEmployee';
 
 
  const App = () => {
@@ -278,7 +279,8 @@ import AddEmployee from './component/Master/EmployeeMaster/AddEmployee';
 
           <PrivatRoute exact path="/showemployee" component={ShowEmployee}/>
           <PrivatRoute exact path="/addemployee" component={AddEmployee}/>
-
+          <PrivatRoute exact path="/editemployee" component={EditEmployee}/>
+          
 
           
 

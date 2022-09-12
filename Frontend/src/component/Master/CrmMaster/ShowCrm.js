@@ -49,18 +49,18 @@ const columns = [
       </div>
     ]
   },
-  {
-    name: "Actions",
-    sortable: false,
+  // {
+  //   name: "Actions",
+  //   sortable: false,
 
-    selector: row => row.null,
-    cell: (row) => [
+  //   selector: row => row.null,
+  //   cell: (row) => [
 
-      <a title='View Document' href="/EditCrm">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
+  //     <a title='View Document' href="/EditCrm">
+  //       <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
 
-    ]
-  }
+  //   ]
+  // }
 
 
 ]
@@ -73,7 +73,6 @@ const ShowCrm = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const result = await TotalCrm(localStorage.getItem('Organisation'))
-      console.log(result)
       setData(result)
     }
 

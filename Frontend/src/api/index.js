@@ -68,7 +68,7 @@ export const showOrganisation = async (org_name) => {
     return axios.post(url, { org_name }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id,uploadimage) => {
+export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage) => {
     const url = `http://localhost:3008/api/UpdateOrganisation`
     return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage }).then(response => response.data).catch(error => console.log(error));
 }
@@ -1126,9 +1126,9 @@ export const ActivePaymentTerm = async (org) => {
 // ###########################  CRM Master api Start ############################
 
 
-export const InsertCrm = async (org, user_name, type, cust_vend, User_id,from_date,to_date) => {
+export const InsertCrm = async (org, user_name, type, cust_vend, User_id, from_date, to_date) => {
     const url = `http://localhost:3008/api/insertcrm`
-    return axios.post(url, { org, user_name, type, cust_vend, User_id,from_date,to_date }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, user_name, type, cust_vend, User_id, from_date, to_date }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const TotalCrm = async (org) => {
@@ -1148,9 +1148,9 @@ export const GetCrm = async (org, sno) => {
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateCrm = async (sno, org, user_name, type, cust_vend, User_id,from_date) => {
+export const UpdateCrm = async (sno, org, user_name, type, cust_vend, User_id, from_date) => {
     const url = `http://localhost:3008/api/updatecrm`
-    return axios.post(url, { sno, org, user_name, type, cust_vend, User_id,from_date }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, org, user_name, type, cust_vend, User_id, from_date }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ###########################  CRM Master api END ############################
@@ -1168,9 +1168,9 @@ export const InsertInvoice = async (org, fin_year, invoice_no, squence_no, invoi
     }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const FilterInvoice = async (org,startDate,lastDate,custid,locationid) => {
+export const FilterInvoice = async (org, startDate, lastDate, custid, locationid) => {
     const url = `http://localhost:3008/api/filterinvoice`
-    return axios.post(url, {org,startDate,lastDate,custid,locationid}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, startDate, lastDate, custid, locationid }).then(response => response.data).catch(error => console.log(error));
 }
 // ###########################  For Invoice api End ############################
 
@@ -1181,36 +1181,40 @@ export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, 
     return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
-  // ############################For InvoiceSub api END #################################
+// ############################ For InvoiceSub api END #################################
 
-  export const OTPVerification = async (phoneno,otp) => {
+
+// ############################ For 2FAuth api Start #################################
+
+export const OTPVerification = async (phoneno, otp) => {
     const url = `http://localhost:3008/sendotp`
-    return axios.post(url,{phoneno,otp}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { phoneno, otp }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const LoginLogs = async (user_id,user_name,comp_name,org_db_name) => {
+export const LoginLogs = async (user_id, user_name, comp_name, org_db_name) => {
     const url = `http://localhost:3008/api/loginlogs`
-    return axios.post(url, { user_id,user_name,comp_name,org_db_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { user_id, user_name, comp_name, org_db_name }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const LogoutLogs = async (user_id,org_db_name) => {
+export const LogoutLogs = async (user_id, org_db_name) => {
     const url = `http://localhost:3008/api/logoutlogs`
-    return axios.post(url, { user_id,org_db_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { user_id, org_db_name }).then(response => response.data).catch(error => console.log(error));
 }
 
 
-export const Login2fa = async (email,org) => {
+export const Login2fa = async (email, org) => {
     const url = `http://localhost:3008/api/Twofa`
-    return axios.post(url,{email,org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { email, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Verify2fa = async (secret,otp,userid,org) => {
+export const Verify2fa = async (secret, otp, userid, org) => {
     const url = `http://localhost:3008/api/VerifyTwo`
-    return axios.post(url,{secret,otp,userid,org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { secret, otp, userid, org }).then(response => response.data).catch(error => console.log(error));
 }
+
+// ############################ For 2FAuth api END #################################
 
 // ############################ For Employee api Start #################################
-
 
 export const TotalEmployee = async (org) => {
     const url = `http://localhost:3008/api/totalemployee`
@@ -1223,8 +1227,19 @@ export const deleteEmployee = async (org, sno, status) => {
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertEmployee = async (org,emp_name,wh,emp_id,User_id) => {
+export const InsertEmployee = async (org, emp_name, wh, emp_id, User_id) => {
     const url = `http://localhost:3008/api/insertemployee`
-    return axios.post(url, { org,emp_name,wh,emp_id,User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const GetEmployee = async (org, sno) => {
+    const url = `http://localhost:3008/api/getemployee`
+    return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) => {
+    const url = `http://localhost:3008/api/updateemployee`
+    return axios.post(url, { sno, org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+// ############################ For Employee api End #################################
