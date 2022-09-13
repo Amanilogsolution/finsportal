@@ -42,11 +42,6 @@ function Bills() {
         document.getElementById("voucher_date").value = today;
     }
 
-    const handleVendorSelect = async (e) => {
-        e.preventDefault();
-        console.log(e.target.value)
-    }
-
     const Duedate = (lastday) => {
         let last_days = lastday || 45;
         let myDate = new Date(new Date().getTime() + (last_days * 24 * 60 * 60 * 1000));
@@ -120,7 +115,7 @@ function Bills() {
                                                 <div className="d-flex col-md">
                                                     <select
                                                         id="ac_name"
-                                                        onChange={handleVendorSelect}
+                                                        onChange={handlevendorselect}
                                                         className="form-control col-md-4">
 
                                                         <option value='' hidden>select vendor</option>
