@@ -20,7 +20,6 @@ const User_login = async (req, res) => {
                 status: "Success",
                 token: token,
                 org_db_name: result.recordset[0].org_db_name,
-                status: result.recordset[0].status,
                 user_name: result.recordset[0].user_name,
                 org_name: result.recordset[0].org_name,
                 user_id: result.recordset[0].user_id,
@@ -29,6 +28,7 @@ const User_login = async (req, res) => {
                 fin_year: result1.recordset[0].fin_year,
                 year: result1.recordset[0].year,
                 Twofa: result.recordset[0].tfact_secretkey,
+                // status: result.recordset[0].status,
                 expiresIn: 5 * 24 * 60 * 60
             })
         } else {
