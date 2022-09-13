@@ -39,10 +39,10 @@ function Bills() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
-        document.getElementById("pjdate").value = today;
-    } 
+        document.getElementById("voucher_date").value = today;
+    }
 
-    const handleVendorSelect = async (e)=>{
+    const handleVendorSelect = async (e) => {
         e.preventDefault();
         console.log(e.target.value)
     }
@@ -114,34 +114,15 @@ function Bills() {
                                     <article
                                         className="card-body" >
                                         <form autoComplete="off">
-                                        <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >PJ Number<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="SO-00001" />
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal">PJ Date<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-5" id="pjdate" disabled/>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal">PJ Amount<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                <input type="text" className="form-control col-md-5" id="Accountname"/>
-                                                </div>
-                                            </div>
+                                     
                                             <div className="form-row mt-2">
                                                 <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
                                                     <select
-                                                        id="AccountType"
+                                                        id="ac_name"
                                                         onChange={handleVendorSelect}
-                                                        className="form-control">
-                                                
+                                                        className="form-control col-md-4">
+
                                                         <option value='' hidden>select vendor</option>
                                                         {
                                                             vendorlist.map((item, index) =>
@@ -168,7 +149,7 @@ function Bills() {
                                                 <div className="d-flex col-md-4" >
                                                     <input type="text" className="form-control col-md-10" id="voucher_no" placeholder="" disabled />
                                                 </div>
-                                                <label htmlFor='voucher_date' className="col-md-1 col-form-label font-weight-normal" >Voucher Date</label>
+                                                <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
                                                 <div className="d-flex col-md-4 " >
                                                     <input type="date" className="form-control col-md-10" id="voucher_date" disabled />
                                                 </div>
