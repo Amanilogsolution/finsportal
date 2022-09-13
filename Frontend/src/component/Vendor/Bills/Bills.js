@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor,ActiveSelectedVendor } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm } from '../../../api'
 
 function Bills() {
     const [gstmodaldiv, setGstmodaldiv] = useState(false);
@@ -10,18 +10,25 @@ function Bills() {
 
     const [totalValues, setTotalValues] = useState([1])
     const [vendorlist, setVendorlist] = useState([])
-    const [vendorselectedlist,setVendorselectedlist] = useState([])
+    const [unitlist, setUnitlist] = useState([])
+    const [paymenttermlist, setPaymenttermlist] = useState([])
+    const [vendorselectedlist, setVendorselectedlist] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
-            const dataId = await ActiveVendor(localStorage.getItem('Organisation'))
+            const org = localStorage.getItem('Organisation');
+            const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
+            const units = await Activeunit(org)
+            setUnitlist(units)
+            const payment = await ActivePaymentTerm(org)
+            setPaymenttermlist(payment)
         }
         fetchdata();
     }, [])
 
     const Duedate = (lastday) => {
-         let last_days= lastday || 45;
+        let last_days = lastday || 45;
         let myDate = new Date(new Date().getTime() + (last_days * 24 * 60 * 60 * 1000));
         console.log(myDate)
         let day = myDate.getDate();
@@ -39,17 +46,17 @@ function Bills() {
         Duedate(days)
     }
 
-    const handlevendorselect=async(e)=>{
-        const result= await ActiveSelectedVendor(localStorage.getItem('Organisation'),e.target.value);
+    const handlevendorselect = async (e) => {
+        const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result)
         // console.log(result)
         // console.log(result[0].payment_terms)
         Duedate(result[0].payment_terms)
 
-        
+
     }
 
- 
+
     const handleAdd = (e) => {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
@@ -165,11 +172,17 @@ function Bills() {
                                                     <select
                                                         id="payment_term"
                                                         className="form-control col-md-10">
+                                                        <option  hidden></option>
+                                                        {
+                                                            paymenttermlist.map((item, index) => (
+                                                                <option key={index} value={item.term_days}>{item.term}</option>
+                                                            ))
+                                                        }
                                                     </select>
                                                 </div>
                                                 <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
                                                 <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10" id="due_date" disabled/>
+                                                    <input type="date" className="form-control col-md-10" id="due_date" disabled />
                                                 </div>
                                             </div>
 
@@ -220,6 +233,10 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Unit</option>
+                                                                        {
+                                                                            unitlist.map((item, index) =>
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                        }
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -337,12 +354,12 @@ function Bills() {
                                                                     </a>
 
                                                                     {
-                                                                        tdsmodaldiv ? <div className=" dropdown-menu-lg bg-light " style={{ width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute",top:"0px", left: "-300px" }}>
+                                                                        tdsmodaldiv ? <div className=" dropdown-menu-lg bg-light " style={{ width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
                                                                             <div>
                                                                                 <div className="card-body" >
                                                                                     <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
 
-                                                                                    <div className="form-group" style={{marginBottom:"0px"}}>
+                                                                                    <div className="form-group" style={{ marginBottom: "0px" }}>
                                                                                         <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span style={{ color: "red" }}>*</span> </label>
                                                                                         <div className="form-row m-0">
                                                                                             <input type='checkbox' value='Cost' id='cost' />
@@ -354,7 +371,7 @@ function Bills() {
                                                                                             <input type='checkbox' value='Rent' id='rent' />
                                                                                             <label htmlFor='rent' className="col-form-label font-weight-normal" >Rent </label>
 
-                                                                                            <div className="form-group ml-1" style={{marginBottom:"0px"}}>
+                                                                                            <div className="form-group ml-1" style={{ marginBottom: "0px" }}>
                                                                                                 <div className="form-row">
                                                                                                     <input type='checkbox' value='Profit' id='Profit' />
                                                                                                     <label htmlFor='Profit' className="col-form-label font-weight-normal" >Profit </label>&nbsp;&nbsp;
@@ -371,21 +388,21 @@ function Bills() {
                                                                                     </div>
 
 
-                                                                                    <div className="form-row m-0" style={{marginTop:'0px',borderTop:"1px solid #000"}}>
-                                                                                        <input type="radio" id='company' name='comp_type'/>
+                                                                                    <div className="form-row m-0" style={{ marginTop: '0px', borderTop: "1px solid #000" }}>
+                                                                                        <input type="radio" id='company' name='comp_type' />
                                                                                         <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1" >Company</label>
 
-                                                                                        <input type="radio" id='non_company' name='comp_type'/>
+                                                                                        <input type="radio" id='non_company' name='comp_type' />
                                                                                         <label htmlFor='non_company' className="form-label font-weight-normal mt-1" >Non-Company</label>
 
                                                                                     </div>
                                                                                     <div className="form-row" >
                                                                                         <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span style={{ color: "red" }}>*</span> </label>
-                                                                                        <input type="number" className="form-control col-md-7" id='tds_amt'/>
+                                                                                        <input type="number" className="form-control col-md-7" id='tds_amt' />
                                                                                     </div>
                                                                                     <div className="form-row" >
                                                                                         <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span style={{ color: "red" }}>*</span> </label>
-                                                                                        <input type="number" className="form-control col-md-7" id='tds_per'/>
+                                                                                        <input type="number" className="form-control col-md-7" id='tds_per' />
                                                                                     </div>
                                                                                     <br />
                                                                                     <button className='btn btn-outline-primary float-right' onClick={handletds}>Submit</button>
