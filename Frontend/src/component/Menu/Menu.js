@@ -43,10 +43,13 @@ const Menu = (props) => {
                   <p> Dashboard </p>
                 </a>
               </li>
-              <li className="nav-item ">
-                <a href="/Items" className="nav-link active">
-                  <i className="fa fa-briefcase" aria-hidden="true"></i> &nbsp;
-                  <p> Items </p>
+              <li className="nav-item " >
+                <a href="/ShowItem" className="nav-link active p-1" >
+                  {/* <i className="fa fa-briefcase" aria-hidden="true"></i> &nbsp; */}
+                  <span className="material-symbols-outlined pt-1 pl-2">
+                    category
+                  </span>&nbsp;
+                  <p style={{marginTop:"-10px"}}> Items </p>
                 </a>
               </li>
               <li className="nav-item">
@@ -476,17 +479,16 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul> */}
-                <ul className="nav nav-treeview">
+                {/* <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowItem" className="nav-link active">
-                      {/* <i className="far fa-circle nav-icon" /> */}
                       <span className="material-symbols-outlined nav-icon">
                         category
                       </span>
                       <p>Item Master</p>
                     </a>
                   </li>
-                </ul>
+                </ul> */}
 
                 <ul className="nav nav-treeview">
                   <li className="nav-item">

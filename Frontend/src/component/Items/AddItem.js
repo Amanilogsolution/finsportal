@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Header from "../../Header/Header";
+import Header from "../Header/Header";
 // import Menu from "../../Menu/Menu";
-import Footer from "../../Footer/Footer";
-import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../../api";
+import Footer from "../Footer/Footer";
+import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../api";
 
 
 const AddItem = () => {
     const [data, setData] = useState([{}])
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
-    const [type, setType] = useState();
+    const [type, setType] = useState('Goods');
     const [unitdata, setUnitdata] = useState([]);
     const [gstvaluecount, setGstvaluecount] = useState();
     const themeval = localStorage.getItem('themetype')
@@ -67,7 +67,6 @@ const AddItem = () => {
         const gstrate = document.getElementById("gstrate").value;
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
-
 
         if (!Name || !unit || !major_code || !chartofaccount || !taxpreference) {
             alert('Please Enter the mandatory field')

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
-import Footer from "../../Footer/Footer";
-import { TotalItems, deleteItems } from '../../../api';
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import { TotalItems, deleteItems } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
