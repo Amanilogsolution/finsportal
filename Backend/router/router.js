@@ -40,6 +40,9 @@ const LoginLogsController = require('../controller/LoginLOgs')
 
 const EmployeeController = require('../controller/EmployeeMaster/employee')
 
+const VendorInvoiceController = require('../controller/vendorInvoice/invoice')
+const VendorInvoiceSubController = require('../controller/vendorInvoice/subinvoice')
+
 const Twofa = require('../controller/2faAuthentication/Twofa')
 
 router.post('/newdb', NewdbController.Newdb);
@@ -312,8 +315,12 @@ router.post('/activecrm',CRMController.Activecrm)
 
 router.post('/insertinvoice',InvoiceController.InsertInvoice)
 router.post('/filterinvoice',InvoiceController.filterInvoice)
+router.post('/getinvoice',InvoiceController.getInvoice)
+
 
 router.post('/insertsubinvoice',InvoiceSubController.InsertSubInvoice)
+router.post('/getsubinvoice',InvoiceSubController.getSubInvoice)
+
 
 
 router.post('/loginlogs',LoginLogsController.LoginLogs)
@@ -328,13 +335,8 @@ router.post('/insertemployee',EmployeeController.insertemployee)
 router.post('/getemployee',EmployeeController.getemployee)
 router.post('/updateemployee',EmployeeController.updateemployee)
 
-
-
-
-
-
-
-
+router.post('/insertvendorinvoice',VendorInvoiceController.inserinvoice)
+router.post('/insertvendorsubinvoice',VendorInvoiceSubController.inserSubInvoice)
 
 
 

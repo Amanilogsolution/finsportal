@@ -20,6 +20,7 @@ const User_login = async (req, res) => {
                 status: "Success",
                 token: token,
                 org_db_name: result.recordset[0].org_db_name,
+                status: result.recordset[0].status,
                 user_name: result.recordset[0].user_name,
                 org_name: result.recordset[0].org_name,
                 user_id: result.recordset[0].user_id,

@@ -73,4 +73,20 @@ const filterInvoice = async (req,res) =>{
 
 }
 
-module.exports = {InsertInvoice,filterInvoice}
+const getInvoice = async (req,res) =>{
+    const org = req.body.org;
+    const sno = req.body.sno;
+    console.log(org,sno)
+
+    try {
+        await sql.connect(sqlConfig)
+         const result = await sql.query(`select * from ${org}.dbo.tbl_invoice with (nolock) where invoice_no='${sno}' and status='Active'`)
+        res.send(result.recordset)   
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = {InsertInvoice,filterInvoice,getInvoice}

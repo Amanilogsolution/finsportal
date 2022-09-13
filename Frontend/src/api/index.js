@@ -1172,6 +1172,14 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
     const url = `http://localhost:3008/api/filterinvoice`
     return axios.post(url, { org, startDate, lastDate, custid, locationid }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const GetInvoice = async (org, sno) => {
+    const url = `http://localhost:3008/api/getinvoice`
+    return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
 // ###########################  For Invoice api End ############################
 
 // ############################ For InvoiceSub api Start #################################
@@ -1179,6 +1187,11 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
 export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, User_id) => {
     const url = `http://localhost:3008/api/insertsubinvoice`
     return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const GetSubInvoice = async (org, invoiceno) => {
+    const url = `http://localhost:3008/api/getsubinvoice`
+    return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For InvoiceSub api END #################################

@@ -14,9 +14,28 @@ function Bills() {
             const dataId = await ActiveVendor(localStorage.getItem('Organisation'))
             setVendorlist(dataId)
             console.log(dataId)
+            Todaydate()
+
         }
         fetchdata();
     }, [])
+
+    const Todaydate = () => {
+        var date = new Date();
+        // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("pjdate").value = today;
+    } 
+
+    const handleVendorSelect = async (e)=>{
+        e.preventDefault();
+        console.log(e.target.value)
+    }
 
 
 
@@ -78,11 +97,32 @@ function Bills() {
                                     <article
                                         className="card-body" >
                                         <form autoComplete="off">
+                                        <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >PJ Number<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="SO-00001" />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal">PJ Date<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="date" className="form-control col-md-5" id="pjdate" disabled/>
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal">PJ Amount<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                <input type="text" className="form-control col-md-5" id="Accountname"/>
+                                                </div>
+                                            </div>
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
                                                         id="AccountType"
+                                                        onChange={handleVendorSelect}
                                                         className="form-control">
                                                         <option value='' hidden>Choose</option>
                                                         {
