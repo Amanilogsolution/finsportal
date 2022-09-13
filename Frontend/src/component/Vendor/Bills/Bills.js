@@ -38,7 +38,6 @@ function Bills() {
         if (day < 10) day = "0" + day;
         let today = year + "-" + month + "-" + day;
         document.getElementById("due_date").value = today;
-        console.log(today)
     }
 
     const handleAccountTerm = (e) => {
@@ -49,11 +48,7 @@ function Bills() {
     const handlevendorselect = async (e) => {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result[0])
-        // console.log(result)
-        // console.log(result[0].payment_terms)
         Duedate(result[0].payment_terms)
-
-
     }
 
 
