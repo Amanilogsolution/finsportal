@@ -149,7 +149,7 @@ function Bills() {
                                             <div className="form-row mt-3">
                                                 <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="number" className="form-control col-md-4" id="bill_amt" placeholder="0" />
+                                                    <input type="number" className="form-control col-md-4" id="bill_amt" />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
@@ -169,7 +169,7 @@ function Bills() {
                                                 </div>
                                                 <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
                                                 <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10" id="due_date" />
+                                                    <input type="date" className="form-control col-md-10" id="due_date" disabled/>
                                                 </div>
                                             </div>
 

@@ -308,7 +308,7 @@ function Invoices() {
 console.log(cust_detail.payment_terms)
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
-
+ 
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
