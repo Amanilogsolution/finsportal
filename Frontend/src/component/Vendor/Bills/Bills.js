@@ -48,7 +48,7 @@ function Bills() {
 
     const handlevendorselect = async (e) => {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
-        setVendorselectedlist(result)
+        setVendorselectedlist(result[0])
         // console.log(result)
         // console.log(result[0].payment_terms)
         Duedate(result[0].payment_terms)
@@ -172,7 +172,7 @@ function Bills() {
                                                     <select
                                                         id="payment_term"
                                                         className="form-control col-md-10">
-                                                        <option  hidden></option>
+                                                        <option value='' hidden>{vendorselectedlist.payment_terms}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
