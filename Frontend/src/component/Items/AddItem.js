@@ -125,7 +125,7 @@ const AddItem = () => {
                                                             <option value='' hidden>Select Unit</option>
                                                             {
                                                                 unitdata.map((item, index) => (
-                                                                    <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
+                                                                    <option value={item.unit_name} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
                                                                 ))
                                                             }
                                                         </select>

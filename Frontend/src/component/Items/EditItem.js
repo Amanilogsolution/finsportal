@@ -17,6 +17,7 @@ const EditItem = () => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
             const result = await GetItems(org, localStorage.getItem('ItemsSno'))
+            console.log(result)
             setData(result)
             if (result.item_type === 'Goods') {
                 document.getElementById('typeGoods').checked = true
@@ -174,7 +175,7 @@ const EditItem = () => {
                                                     <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id="unit">
-                                                            <option value={data.item_type} hidden>{data.item_type}</option>
+                                                            <option value={data.item_unit} hidden>{data.item_unit}</option>
                                                             {
                                                                 unitdata.map((item, index) => (
                                                                     <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
