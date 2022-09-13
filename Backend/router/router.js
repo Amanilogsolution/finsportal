@@ -135,6 +135,8 @@ router.post('/updatevendor',vendorController.UpdateVendor)
 router.post('/importvendor',vendorController.ImportVendor)
 router.post('/vendormastid', vendorController.VendorMastid);
 router.post('/activevendor',vendorController.ActiveVendor)
+router.post('/activeselectedvendor',vendorController.ActiveSelectedVendor)
+
 
 
 router.post('/insertcustaddress', AddressController.InsertCustomerAddress);

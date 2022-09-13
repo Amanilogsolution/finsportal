@@ -305,7 +305,7 @@ function Invoices() {
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
-
+console.log(cust_detail.payment_terms)
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
 

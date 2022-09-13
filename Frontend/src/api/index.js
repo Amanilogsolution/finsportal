@@ -541,6 +541,13 @@ export const ActiveVendor = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const ActiveSelectedVendor = async (org,vend_id) => {
+    const url = `http://localhost:3008/api/activeselectedvendor`
+    return axios.post(url, { org,vend_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
 export const CustInsertAddress = async (org, User_id, custid, custname, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, custaddid) => {
 
     const url = 'http://localhost:3008/api/insertcustaddress'

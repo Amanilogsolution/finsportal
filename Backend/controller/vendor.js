@@ -246,7 +246,21 @@ const ActiveVendor =async (req,res)=>{
 
 }
 
+const ActiveSelectedVendor =async (req,res)=>{
+    const org = req.body.org;
+    const vend_id = req.body.vend_id;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT *  from ${org}.dbo.tbl_new_vendor tnc  with (nolock) where vend_id='${vend_id}'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
 module.exports = { InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor,VendorMastid,
     // TotalVendId, TotalVendor, Vendor_id
-    ImportVendor ,ActiveVendor}
+    ImportVendor ,ActiveVendor,ActiveSelectedVendor}
 
