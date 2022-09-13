@@ -17,7 +17,6 @@ const EditItem = () => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
             const result = await GetItems(org, localStorage.getItem('ItemsSno'))
-            console.log(result)
             setData(result)
             if (result.item_type === 'Goods') {
                 document.getElementById('typeGoods').checked = true
@@ -75,7 +74,6 @@ const EditItem = () => {
         const sno = localStorage.getItem('ItemsSno');
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
-        // console.log(sno, org, type, Name, Unit, saccode, hsncode, major_code_val, major_code, chartofaccount, taxpreference, Sales, Purchase, gstrate, user_id)
 
         if (!Name) {
             alert('Enter the Mandatory field...')
