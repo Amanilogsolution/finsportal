@@ -205,6 +205,18 @@ function Bills() {
     const handlegst_submit=(e)=>{
         e.preventDefault();
         document.getElementById('gstdiv').style.display='none';
+
+        const totalvalue = document.getElementById('totalamount').value
+        const gst = document.getElementById('gstTax').value
+        let tax = totalvalue*gst/100
+        tax = Math.round(tax)
+        const val = netTotal 
+        console.log(tax)
+        console.log(val+tax)
+
+        // setNetTotal(val)
+
+
     }
 
     const handletds = () => {
@@ -619,7 +631,7 @@ function Bills() {
                                                             <tr>
                                                                 <td><h4>Total</h4></td>
                                                                 <td></td>
-                                                                <td className='text-center' style={{ width: "150px" }}>0.00</td>
+                                                                <td className='text-center' style={{ width: "150px" }}>{netTotal}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
