@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm,SelectVendorAddress,Getfincialyearid ,InsertVendorInvoice, ActiveUser,ActiveLocationAddress} from '../../../api'
 
 function Bills() {
     const [gstmodaldiv, setGstmodaldiv] = useState(false);
@@ -13,6 +13,12 @@ function Bills() {
     const [unitlist, setUnitlist] = useState([])
     const [paymenttermlist, setPaymenttermlist] = useState([])
     const [vendorselectedlist, setVendorselectedlist] = useState([])
+    const [vendorlocation,setVendorLocation] = useState([])
+    const [activeuser, setActiveUser] = useState([])
+    const [locationstate, setLocationstate] = useState([])
+    const [amount,setAmount] = useState([])
+
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -26,6 +32,19 @@ function Bills() {
             setUnitlist(units)
             const payment = await ActivePaymentTerm(org)
             setPaymenttermlist(payment)
+
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+
+               const result2 = await ActiveUser()
+               console.log(result2)
+            setActiveUser(result2)
+            
+            const id = await Getfincialyearid(localStorage.getItem('Organisation'))
+            const lastno = Number(id[0].voucher_count)+1
+            console.log(Number(id[0].voucher_count)+1)
+            console.log(id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0'))
+            document.getElementById('voucher_no').value =  id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0') 
         }
         fetchdata();
     }, [])
@@ -45,7 +64,6 @@ function Bills() {
     const Duedate = (lastday) => {
         let last_days = lastday || 45;
         let myDate = new Date(new Date().getTime() + (last_days * 24 * 60 * 60 * 1000));
-        console.log(myDate)
         let day = myDate.getDate();
         let month = myDate.getMonth() + 1;
         let year = myDate.getFullYear();
@@ -64,6 +82,9 @@ function Bills() {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result[0])
         Duedate(result[0].payment_terms)
+        const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
+        setVendorLocation(result1)
+        console.log(result1)
     }
 
 
@@ -91,6 +112,35 @@ function Bills() {
         setTdsmodaldiv(!tdsmodaldiv)
     }
 
+    const handleChangeRate = (e) =>{
+        console.log(e.target.value)
+        const rate = document.getElementById("Rate").value
+        const total = rate*e.target.value;
+        // document.getElementById('Amount').value = total
+
+
+        setTimeout(() => {
+            setAmount([...amount, total])
+        }, 1000)
+
+    }
+
+    const handleClickAdd = (e) =>{
+        e.preventDefault()
+
+        const vendor_name = document.getElementById('vend_name').value
+        const Location = document.getElementById('location').value
+        const voucher_no = document.getElementById('voucher_no').value
+        const voucher_date = document.getElementById('voucher_date').value
+        const bill_no = document.getElementById('bill_no').value
+        const order_no =document.getElementById('order_no').value
+        const bill_amt = document.getElementById('bill_amt').value
+        const bill_date = document.getElementById('bill_date').value
+        const payment_term = document.getElementById('payment_term').value
+        const due_date = document.getElementById('due_date').value
+        
+    }
+
 
     return (
         <div>
@@ -114,7 +164,7 @@ function Bills() {
                                                 <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
                                                     <select
-                                                        id="ac_name"
+                                                        id="vend_name"
                                                         onChange={handlevendorselect}
                                                         className="form-control col-md-4">
 
@@ -133,6 +183,10 @@ function Bills() {
                                                         id="location"
                                                         className="form-control col-md-4">
                                                         <option value='' hidden>Select loction</option>
+                                                        {
+                                                            vendorlocation.map((item, index) =>
+                                                                <option key={index} value={item.billing_address_state}>{item.billing_address_attention}</option>)
+                                                        }
 
                                                     </select>
                                                 </div>
@@ -140,7 +194,7 @@ function Bills() {
 
 
                                             <div className="form-row mt-3" >
-                                                <label htmlFor='payment_term' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
+                                                <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
                                                 <div className="d-flex col-md-4" >
                                                     <input type="text" className="form-control col-md-10" id="voucher_no" placeholder="" disabled />
                                                 </div>
@@ -163,7 +217,7 @@ function Bills() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number</label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="Accountname" />
+                                                    <input type="text" className="form-control col-md-4" id="order_no" />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
@@ -184,7 +238,7 @@ function Bills() {
                                                 <div className="d-flex col-md-4" >
                                                     <select
                                                         id="payment_term"
-                                                        className="form-control col-md-10">
+                                                        className="form-control col-md-10" onChange={handleAccountTerm}>
                                                         <option value='' hidden>{vendorselectedlist.payment_terms}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
@@ -220,6 +274,12 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Location</option>
+                                                                        {
+                                                                            locationstate.map( (item)=>(
+                                                                                <option value={item.location_add1} >{item.location_add1}</option>
+
+                                                                            ))
+                                                                        }
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
@@ -231,17 +291,23 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Employee</option>
+                                                                        {
+                                                                            activeuser.map((items)=>(
+                                                                                <option value={items.employee_name} >{items.employee_name}</option>
+
+                                                                            ))
+                                                                        }
 
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' className="form-control" />
+                                                                    <input type='number' id="Quantity" className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' className="form-control" />
+                                                                    <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' className="form-control" />
+                                                                    <input type='number' id="Amount" value={amount[index]} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <select className="form-control ml-0">
@@ -452,7 +518,7 @@ function Bills() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger">
+                                                    <button id="save" name="save" className="btn btn-danger" onClick={handleClickAdd}>
                                                         Post
                                                     </button>
                                                     <button id="clear" onClick={(e) => {

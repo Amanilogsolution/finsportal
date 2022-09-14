@@ -150,6 +150,7 @@ router.post('/custaddress', AddressController.CustAddress);
 router.post('/updatecustaddress', AddressController.UpdateCustAddress);
 router.post('/selectcustaddress',AddressController.SelectCustAddress)
 router.post('/importcustaddress',AddressController.Importcustaddress)
+router.post('/selectvendoraddress',AddressController.getVendorAddress)
 
 
 

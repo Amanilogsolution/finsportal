@@ -57,6 +57,8 @@ function Invoices() {
     const [custAddgst, setCustAddGst] = useState('')
     const [chargecodes, setChargeCode] = useState([])
 
+    const [index,setIndex] = useState()
+
 
     const [allInvoiceData, setAllInvoiceData] = useState({
         Activity: "",
@@ -254,8 +256,10 @@ function Invoices() {
     const handleChangerate = (e) => {
         e.preventDefault();
         let Total = quantity * e.target.value
-        const [actgst, other] = document.getElementById('gstvalue').value.split(',')
-        let gst = Total * actgst / 100
+        // const [actgst, other] = document.getElementById('gstvalue').value.split(',')
+        let gst = Total * totalgst[index] / 100
+
+        console.log(index)
 
         let grandToatal = Total + Math.round(gst)
         setTimeout(() => {
@@ -673,6 +677,7 @@ console.log(cust_detail.payment_terms)
                                                                                 <td className='col-md-2 pl-0 pr-0'>
                                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                                         const quantity = e.target.value
+                                                                                        setIndex(index)
                                                                                        
                                                                                         setQuantity(quantity)
                                                                                     }} /></td>
