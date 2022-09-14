@@ -228,14 +228,6 @@ function Invoices() {
         Totalamountnew.map((item) => sum += item)
         setGrandTotal(sum)
 
-        setAllInvoiceData({
-            ...allInvoiceData, Activity: document.getElementById('Activity').value,
-            TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
-            GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
-            CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
-            Totalamounts: totalamout, OriginState: billingaddress, DestinationState: custaddress_state
-        })
-
 
         let gsttotal = 0
         gstvalues.map((item) => gsttotal += item)
@@ -254,6 +246,17 @@ function Invoices() {
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
         }
+
+        setAllInvoiceData({
+            ...allInvoiceData, Activity: document.getElementById('Activity').value,
+            TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
+            GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
+            CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
+            Totalamounts: totalamout, OriginState: billingaddress, DestinationState: custaddress_state
+        })
+
+
+    
     }
 
     const handleChangerate = (e) => {
@@ -817,9 +820,10 @@ console.log(cust_detail.payment_terms)
                                                             </div>
                                                             { 
                                                         localStorage.getItem('gststatus') == true?
+                                                        <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} />:
                                                             <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
-                                                            :
-                                                            <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} />
+                                                            
+                                                  
 }
 
                                                             <div className="form-group">
