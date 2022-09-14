@@ -1270,8 +1270,8 @@ export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) =>
 
 // ############################ For Employee api End #################################
 
-export const InsertVendorInvoice = async (org,pj_id,pj_date,ac_name,loation,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,tds_head,tds_ctype,tds_per,tds_amt,amt_booked,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid) => {
+export const InsertVendorInvoice = async (org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid) => {
     const url = `http://localhost:3008/api/insertvendorinvoice`
-    return axios.post(url, { org,pj_id,pj_date,ac_name,loation,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,tds_head,tds_ctype,tds_per,tds_amt,amt_booked,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid }).then(response => response.data).catch(error => console.log(error));
 }
 
