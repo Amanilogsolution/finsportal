@@ -6,9 +6,6 @@ import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, Sele
 
 
 function Bills() {
-    const [gstmodaldiv, setGstmodaldiv] = useState(false);
-    const [tdsmodaldiv, setTdsmodaldiv] = useState(false);
-
     const [totalValues, setTotalValues] = useState([1])
     const [vendorlist, setVendorlist] = useState([])
     const [unitlist, setUnitlist] = useState([])
@@ -19,8 +16,6 @@ function Bills() {
     const [locationstate, setLocationstate] = useState([])
     const [tdshead, setTdshead] = useState()
     const [tdscomp, setTdscomp] = useState('')
-    const [tdsper, setTdsper] = useState(0)
-    const [tdsamt, setTdsamt] = useState('')
 
     const [location, setLocation] = useState([])
     const [items, setItems] = useState([])
@@ -34,8 +29,6 @@ function Bills() {
 
 
     const [index, setIndex] = useState()
-
-
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -140,17 +133,18 @@ function Bills() {
 
     const handletogglegstdiv = () => {
 
-        setGstmodaldiv(!gstmodaldiv)
+        if(document.getElementById('gstdiv').style.display=='none'){
+            document.getElementById('gstdiv').style.display='block';
+        }
+        else{
+            document.getElementById('gstdiv').style.display='none';
+        }
     }
 
 
     const handleChangeRate = (e) => {
-        console.log(e.target.value)
         const quantitys = document.getElementById("Quantity").value
         const total = quantitys * e.target.value;
-
-        // document.getElementById('Amount').value = total
-        console.log(index)
 
         setTimeout(() => {
             setQuantity([...quantity, quantitys])
@@ -179,7 +173,8 @@ function Bills() {
         const amt_booked = '';
 
 
-        // const tds_per=document.getElementById('tds_per').value;
+        const tds_per=document.getElementById('tds_per').value || 0;
+        const tds_amt=document.getElementById('tds_amt').value || 0;
 
         const expense_amt = document.getElementById('expense_amt').value;
         const remarks = document.getElementById('remarks').value
@@ -194,21 +189,31 @@ function Bills() {
         const tds_head = 'Cost'
 
         console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
-            bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tdshead, tdscomp, tdsper, tdsamt,
+            bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
             taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
 
         //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,
         // bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,
         // taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
 
-        const result = await InsertVendorInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
-            bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tdshead, tdscomp, tdsper, tdsamt,
-            taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
-        console.log(result)
+        // const result = await InsertVendorInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
+            // bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
+            // taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
+        // console.log(result)
+    }
+
+    const handlegst_submit=(e)=>{
+        e.preventDefault();
+        document.getElementById('gstdiv').style.display='none';
     }
 
     const handletds = () => {
-        setTdsmodaldiv(!tdsmodaldiv)
+        if(document.getElementById('tdsdiv').style.display=='none'){
+            document.getElementById('tdsdiv').style.display='block';
+        }
+        else{
+            document.getElementById('tdsdiv').style.display='none';
+        }
     }
 
     const handletdsbtn = (e) => {
@@ -228,10 +233,10 @@ function Bills() {
         // document.querySelector('.result').textContent = JSON.stringify(result); // display result
 
         setTdshead(result)
-        setTdsmodaldiv(!tdsmodaldiv)
+        document.getElementById('tdsdiv').style.display='none';
 
-        setTdsper(document.getElementById('tds_per').value || 0)
-        setTdsamt(document.getElementById('tds_amt').value || 0)
+        // setTdsper()
+        // setTdsamt(document.getElementById('tds_amt').value || 0)
     }
 
     const handleTdscomp = (e) => {
@@ -479,10 +484,9 @@ function Bills() {
                                                                     </a>
 
 
-                                                                    {
-                                                                        gstmodaldiv ?
+                                                                 
 
-                                                                            <div className=" dropdown-menu-lg bg-light" style={{ width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-130px" }}>
+                                                                            <div className=" dropdown-menu-lg bg-light" id='gstdiv' style={{ width: "750px",display:"none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px",top:"20px" }}>
                                                                                 <div>
                                                                                     <div className="card-body p-2">
                                                                                         <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
@@ -508,13 +512,11 @@ function Bills() {
                                                                                             <input type="" className="form-control col-md-7" id="gstTax" />
                                                                                         </div>
                                                                                         <br />
-                                                                                        <button className='btn btn-outline-primary float-right' onClick={handletogglegstdiv}>Submit</button>
+                                                                                        <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            : null
-
-                                                                    }
+           
 
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
@@ -543,8 +545,7 @@ function Bills() {
                                                                     <a title='Click to Input TDS Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
                                                                     </a>
 
-                                                                    {
-                                                                        tdsmodaldiv ? <div className=" dropdown-menu-lg bg-light " style={{ width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
+                                                                     <div className=" dropdown-menu-lg bg-light " id='tdsdiv' style={{ display:"none",width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
                                                                             <div>
                                                                                 <div className="card-body" >
                                                                                     <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
@@ -598,8 +599,8 @@ function Bills() {
                                                                                     <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
                                                                                 </div>
                                                                             </div>
-                                                                        </div> : null
-                                                                    }
+                                                                        </div> 
+                                                                    
 
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
