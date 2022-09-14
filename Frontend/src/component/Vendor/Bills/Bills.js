@@ -139,6 +139,7 @@ function Bills() {
 
 
     const handletogglegstdiv = () => {
+
         setGstmodaldiv(!gstmodaldiv)
     }
 
@@ -500,11 +501,11 @@ function Bills() {
                                                                                         </div>
                                                                                         <div className="form-row">
                                                                                             <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span style={{ color: "red" }}>*</span> </label>
-                                                                                            <input type="" className="form-control col-md-7 bg-light" value={netTotal} />
+                                                                                            <input type="" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
                                                                                         </div>
                                                                                         <div className="form-row" >
                                                                                             <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span style={{ color: "red" }}>*</span> </label>
-                                                                                            <input type="" className="form-control col-md-7" />
+                                                                                            <input type="" className="form-control col-md-7" id="gstTax" />
                                                                                         </div>
                                                                                         <br />
                                                                                         <button className='btn btn-outline-primary float-right' onClick={handletogglegstdiv}>Submit</button>
