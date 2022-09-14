@@ -16,7 +16,10 @@ function Bills() {
     const [vendorlocation,setVendorLocation] = useState([])
     const [activeuser, setActiveUser] = useState([])
     const [locationstate, setLocationstate] = useState([])
+
+
     const [amount,setAmount] = useState([])
+    const [netvalue,setNetvalue] = useState([])
 
 
 
@@ -319,13 +322,20 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' className="form-control" />
+                                                                    <input type='number' onChange={(e) =>{
+                                                                        const value = e.target.value;
+                                                                        const net = amount[index]-value
+                                                                        setTimeout(()=>{
+                                                                            setNetvalue([...netvalue,net])
+
+                                                                        },1000)
+                                                                        }} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' className="form-control" />
+                                                                    <input type='number' className="form-control" value={netvalue[index]}/>
                                                                 </td>
                                                             </tr>
 

@@ -35,14 +35,14 @@ const inserinvoice = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
 
-        const result = await sql.query(`insert into ${org}.dbo.tbl_bill(vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,
-            bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,
-            tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,confirm_flag,cgst_amt,sgst_amt,igst_amt,
-            add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid)
-            values('${vourcher_no}','${voucher_date}','${vend_name}','${location}','${bill_no}','${bill_date}',
-            '${bill_amt}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}',
-            '${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}',
-            '${non_taxable_amt}','${expense_amt}','${remarks}','${fins_year}','confirm_flag','${cgst_amt}','${sgst_amt}','${igst_amt}','10','rupesh01','hp','::1',getDate(),'Active','')
+        const result = await sql.query(`insert into ${org}.dbo.tbl_bill(
+            vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,
+            amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
+            fins_year,confirm_flag,
+            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid)
+            values('${vourcher_no}','${voucher_date}','${vend_name}','${location}',
+            '${bill_no}','${bill_date}','2000','45','','2000','1000','2000','tds_head','tds_ctype','10','500','100','800',
+            'expense_amt','remark','2022-2023','flag','10','10','10','rupesh01','hp','::1',getDate(),'Active','')
           `)
         res.send('Added')  
     }
