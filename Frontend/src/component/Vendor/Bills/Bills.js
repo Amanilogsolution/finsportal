@@ -208,11 +208,8 @@ function Bills() {
         const gst = document.getElementById('gstTax').value
         let tax = totalvalue * gst / 100
         tax = Math.round(tax)
-        const val = netTotal
-        console.log(tax)
-        console.log(val + tax)
-
-        // setNetTotal(val)
+        const val = netTotal 
+        setNetTotal(val+tax)
 
 
     }
