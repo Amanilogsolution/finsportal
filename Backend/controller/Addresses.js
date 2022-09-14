@@ -265,5 +265,20 @@ const Importvendaddress = async (req, res) => {
     )
 }
 
+const getVendorAddress =async (req,res) =>{
+    const org = req.body.org;
+    const vendor_id = req.body.vendor_id;
 
-module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress }
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_vend_addresses where vend_id='${vendor_id}'`)
+        res.send(result.recordset)
+
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+
+module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress,getVendorAddress }

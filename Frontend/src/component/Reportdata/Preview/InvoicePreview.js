@@ -7,7 +7,11 @@ import {GetInvoice,GetSubInvoice} from '../../../api/index'
 
 const InvoicePreview = () => {
   const pdfRef = useRef(null);
-  const [data,setData] = useState({})
+  const [data,setData] = useState({
+    major:''
+
+
+  })
   const [subinv,setSubInv] = useState([])
 
   useEffect(()=>{
