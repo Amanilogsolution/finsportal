@@ -155,10 +155,13 @@ function Invoices() {
 
     const handleChangeItems = async (e) => {
         e.preventDefault();
+        console.log(e.target.value)
         const [actgst, chargecode] = e.target.value.split(',')
         setChargeCode([...chargecodes, chargecode])
+        console.log(actgst)
 
         const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'), chargecode)
+        console.log(result)
         setMinor([...minor, result.account_name_code])
         setGlCode([...glcode, result.account_sub_name_code])
 
@@ -255,7 +258,10 @@ function Invoices() {
         e.preventDefault();
         let Total = quantity * e.target.value
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
+console.log(document.getElementById('gstvalue').value.split(','))
+        console.log(actgst)
         let gst = Total * actgst / 100
+        console.log(gst)
 
         let grandToatal = Total + Math.round(gst)
         setTimeout(() => {
@@ -352,6 +358,7 @@ console.log(cust_detail.payment_terms)
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
+        console.log(result)
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }

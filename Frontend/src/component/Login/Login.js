@@ -26,6 +26,7 @@ const Login = () => {
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
         setLogindetails(result)
+        console.log(result.Loginstatus)
         if (result.status == 'Success') {
 
             document.getElementById('verifybtn').style.display = 'flex';

@@ -28,7 +28,7 @@ const User_login = async (req, res) => {
                 fin_year: result1.recordset[0].fin_year,
                 year: result1.recordset[0].year,
                 Twofa: result.recordset[0].tfact_secretkey,
-                // status: result.recordset[0].status,
+                Loginstatus: result.recordset[0].status,
                 expiresIn: 5 * 24 * 60 * 60
             })
         } else {
