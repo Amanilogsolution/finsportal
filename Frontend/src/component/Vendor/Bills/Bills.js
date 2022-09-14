@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress } from '../../../api'
+
+import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice } from '../../../api'
+
 
 function Bills() {
     const [gstmodaldiv, setGstmodaldiv] = useState(false);
@@ -20,8 +22,16 @@ function Bills() {
     const [tdsper, setTdsper] = useState(0)
     const [tdsamt, setTdsamt] = useState('')
 
+    const [location, setLocation] = useState([])
+    const [items, setItems] = useState([])
+    const [employee, setEmployee] = useState([]);
+    const [quantity, setQuantity] = useState([])
+    const [rate, setRate] = useState([])
     const [amount, setAmount] = useState([])
     const [netvalue, setNetvalue] = useState([])
+
+
+    const [index, setIndex] = useState()
 
 
 
@@ -92,6 +102,10 @@ function Bills() {
         // console.log(result1)
     }
 
+    const handleChangeLocation = (e) => {
+        setLocation([...location, e.target.value])
+    }
+
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -109,6 +123,11 @@ function Bills() {
         }
     }
 
+    const handleChangeEmployee = (e) => {
+        setEmployee([...employee, e.target.value])
+
+    }
+
 
     const handletogglegstdiv = () => {
         setGstmodaldiv(!gstmodaldiv)
@@ -117,12 +136,15 @@ function Bills() {
 
     const handleChangeRate = (e) => {
         console.log(e.target.value)
-        const rate = document.getElementById("Rate").value
-        const total = rate * e.target.value;
-        // document.getElementById('Amount').value = total
+        const quantitys = document.getElementById("Quantity").value
+        const total = quantitys * e.target.value;
 
+        // document.getElementById('Amount').value = total
+        console.log(index)
 
         setTimeout(() => {
+            setQuantity([...quantity, quantitys])
+            setRate([...rate, e.target.value])
             setAmount([...amount, total])
         }, 1000)
 
@@ -130,7 +152,6 @@ function Bills() {
 
     const handleClickAdd = async (e) => {
         e.preventDefault()
-
         const voucher_no = document.getElementById('voucher_no').value
         const voucher_date = document.getElementById('voucher_date').value
         const vendor_name = document.getElementById('vend_name').value
@@ -141,6 +162,7 @@ function Bills() {
         const order_no = document.getElementById('order_no').value
 
         const payment_term = document.getElementById('payment_term').value
+
         const due_date = document.getElementById('due_date').value;
         const amt_paid = '';
         const amt_balance = '';
@@ -206,6 +228,8 @@ function Bills() {
         e.preventDefault();
         console.log(e.target.value)
         setTdscomp(e.target.value)
+        const due_date = document.getElementById('due_date').value
+        //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
     }
 
 
@@ -339,7 +363,8 @@ function Bills() {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0">
+                                                                    <select className="form-control ml-0" onChange={handleChangeLocation}
+                                                                    >
                                                                         <option value='' hidden>Select Location</option>
                                                                         {
                                                                             locationstate.map((item) => (
@@ -356,7 +381,7 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0">
+                                                                    <select className="form-control ml-0" onChange={handleChangeEmployee}>
                                                                         <option value='' hidden>Select Employee</option>
                                                                         {
                                                                             activeuser.map((items) => (
@@ -368,7 +393,7 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id="Quantity" className="form-control" />
+                                                                    <input type='number' id="Quantity" onChange={() => setIndex(index)} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
@@ -388,12 +413,14 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' onChange={(e) => {
                                                                         const value = e.target.value;
+
                                                                         const net = amount[index] - value
                                                                         setTimeout(() => {
                                                                             setNetvalue([...netvalue, net])
 
                                                                         }, 1000)
-                                                                    }} className="form-control" />
+                                                                    }} />
+
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" />

@@ -6,45 +6,56 @@ const uuidv1 = require("uuid/v1");
 
 const inserSubInvoice = async (req, res) => {
     const org = req.body.org
-    const pj_id = req.body.pj_id;
+    const voucher_no = req.body.voucher_no;
+    const voucher_date = req.body.voucher_date;
     const bill_date = req.body.bill_date;
     const bill_no = req.body.bill_no;
+    const vend_id = req.body.vend_id;
+    const vend_name= req.body.vend_name;
+    const location = req.body.location;
+    const item_name = req.body.item_name;
+    const emp_name= req.body.emp_name;
     const glcode = req.body.glcode;
-    const samt = req.body.samt;
-    const deduction= req.body.deduction;
+    const samt= req.body.samt;
+    const qty = req.body.qty;
+    const rate= req.body.rate;
+    const amt= req.body.amt;
+    const unit= req.body.unit;
+    const file_no= req.body.file_no;
+    const deduction = req.body.deduction;
+    const gst_rate= req.body.gst_rate;
+    const sac_hsn = req.body.sac_hsn;
     const net_amt = req.body.net_amt;
     const remarks = req.body.remarks;
-    const file_no= req.body.file_no;
     const cost_centre = req.body.cost_centre;
-    const location= req.body.location;
-    const ac_name= req.body.ac_name;
-    const costgl_code = req.body.costgl_code;
-    const narration= req.body.narration;
-    const pod_voucher= req.body.pod_voucher;
-    const pass_amt= req.body.pass_amt;
-    const pj_date= req.body.pj_date;
-    const dr_amt = req.body.dr_amt;
-    const fin_year= req.body.fin_year;
-    const gst_rate = req.body.gst_rate;
-    const sac_hsn = req.body.sac_hsn;
-    const chrg_id = req.body.chrg_id;
-    const qty = req.body.qty;
-    const subcost_centre = req.body.subcost_centre;
+    const fin_year = req.body.fin_year;
+    const userid = req.body.userid;
 
- 
-    const userid = req.body.userid
+    console.log(org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
+        rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid)
  
     try {
         await sql.connect(sqlConfig)
 
-        const result = await sql.query(`insert into ${org}.dbo.tbl_sub_bill(pj_id,bill_date,bill_no,glcode,samt,deduction,
-            net_amt,remarks,file_no,cost_centre,location,ac_name,costgl_code,narration,pod_voucher,
-            pass_amt,pj_date,dr_amt,fin_year,gst_rate,sac_hsn,chrg_id,qty,subcost_centre,
-            add_user_name,add_system_name,add_ip_address,add_date_time,status,sub_bill_uuid)
-            values('${pj_id}','${bill_date}','${bill_no}','${glcode}','${samt}','${deduction}','${net_amt}','${remarks}',
-            '${file_no}','${cost_centre}','${location}','${ac_name}','${costgl_code}','${narration}','${pod_voucher}',
-            '${pass_amt}','${pj_date}','${dr_amt}','${fin_year}','${gst_rate}','${sac_hsn}','${chrg_id}','${qty}',
-            '${subcost_centre}','${userid}','${os.hostname()}','${req.ip}',getdate(),'Active','${uuidv1()}')`)
+        const result = await sql.query(`nsert into ${org}.dbo.tbl_sub_bill(
+            voucher_no ,voucher_date ,
+         bill_date  ,bill_no ,
+         vend_id ,vend_name ,
+         location,item_name,
+         emp_name ,glcode ,
+         samt ,qty ,
+         rate ,amt ,
+         unit ,file_no ,
+         deduction ,gst_rate,
+         sac_hsn ,net_amt ,
+         remarks,cost_centre ,
+         fin_year,add_user_name ,
+         add_system_name ,add_ip_address ,
+         add_date_time,status  
+         )
+         values ('${voucher_no}','${voucher_date}','${bill_date}','${bill_no}','${vend_id}','${vend_name}','${location}','${item_name}','${emp_name}','${glcode}',
+         '${samt}','${qty}','${rate}','${amt}','${unit}','${file_no}','${deduction}','${gst_rate}','${sac_hsn}','${net_amt}','${remarks}','${cost_centre}',
+         '${fin_year}','${userid}','${os.hostname()}','${req.ip}',getDate(),'Active')`)
         res.send('Added')  
     }
     catch (err) {

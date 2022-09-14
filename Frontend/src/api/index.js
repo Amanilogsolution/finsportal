@@ -1275,3 +1275,12 @@ export const InsertVendorInvoice = async (org,vourcher_no,voucher_date,vend_name
     return axios.post(url, { org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const InsertVendorSubInvoice = async (org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
+    rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid) => {
+    const url = `http://localhost:3008/api/insertvendorsubinvoice`
+    return axios.post(url, { org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
+        rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
