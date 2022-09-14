@@ -24,6 +24,8 @@ function Bills() {
     const [rate, setRate] = useState([])
     const [amount, setAmount] = useState([])
     const [netvalue, setNetvalue] = useState([])
+    const [unit,setUnit] =useState([])
+    const [netTotal,setNetTotal] = useState(0)
 
 
     const [index, setIndex] = useState()
@@ -118,6 +120,13 @@ function Bills() {
 
     const handleChangeEmployee = (e) => {
         setEmployee([...employee, e.target.value])
+
+    }
+    const handleChangeUnit = (e) =>{
+        setUnit([...unit,e.target.value])
+        var sum = 0
+        amount.map((item) => sum += item)
+        setNetTotal(sum)
 
     }
 
@@ -407,7 +416,7 @@ function Bills() {
                                                                     <input type='number' id="Amount" value={amount[index]} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0">
+                                                                    <select className="form-control ml-0" onChange={handleChangeUnit}>
                                                                         <option value='' hidden>Select Unit</option>
                                                                         {
                                                                             unitlist.map((item, index) =>
@@ -495,7 +504,7 @@ function Bills() {
                                                                                         </div>
                                                                                         <div className="form-row">
                                                                                             <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span style={{ color: "red" }}>*</span> </label>
-                                                                                            <input type="" className="form-control col-md-7 bg-light" />
+                                                                                            <input type="" className="form-control col-md-7 bg-light" value={netTotal} />
                                                                                         </div>
                                                                                         <div className="form-row" >
                                                                                             <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span style={{ color: "red" }}>*</span> </label>
