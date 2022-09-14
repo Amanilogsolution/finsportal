@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm,SelectVendorAddress,Getfincialyearid ,InsertVendorInvoice, ActiveUser,ActiveLocationAddress} from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress } from '../../../api'
 
 function Bills() {
     const [gstmodaldiv, setGstmodaldiv] = useState(false);
     const [tdsmodaldiv, setTdsmodaldiv] = useState(false);
+
     const [totalValues, setTotalValues] = useState([1])
     const [vendorlist, setVendorlist] = useState([])
     const [unitlist, setUnitlist] = useState([])
     const [paymenttermlist, setPaymenttermlist] = useState([])
     const [vendorselectedlist, setVendorselectedlist] = useState([])
-    const [vendorlocation,setVendorLocation] = useState([])
+    const [vendorlocation, setVendorLocation] = useState([])
     const [activeuser, setActiveUser] = useState([])
     const [locationstate, setLocationstate] = useState([])
+    const [tdshead, setTdshead] = useState()
+    const [tdscomp, setTdscomp] = useState('')
+    const [tdsper, setTdsper] = useState(0)
+    const [tdsamt, setTdsamt] = useState('')
 
-    const [amount,setAmount] = useState([])
-    const [netvalue,setNetvalue] = useState([])
+    const [amount, setAmount] = useState([])
+    const [netvalue, setNetvalue] = useState([])
 
 
 
@@ -25,7 +30,7 @@ function Bills() {
             const org = localStorage.getItem('Organisation');
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
-            console.log(dataId)
+            // console.log(dataId)
             Todaydate()
 
             const units = await Activeunit(org)
@@ -36,15 +41,15 @@ function Bills() {
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
 
-               const result2 = await ActiveUser()
-               console.log(result2)
+            const result2 = await ActiveUser()
+            console.log(result2)
             setActiveUser(result2)
-            
+
             const id = await Getfincialyearid(localStorage.getItem('Organisation'))
-            const lastno = Number(id[0].voucher_count)+1
-            console.log(Number(id[0].voucher_count)+1)
-            console.log(id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0'))
-            document.getElementById('voucher_no').value =  id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0') 
+            const lastno = Number(id[0].voucher_count) + 1
+            // console.log(Number(id[0].voucher_count)+1)
+            // console.log(id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0'))
+            document.getElementById('voucher_no').value = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
         }
         fetchdata();
     }, [])
@@ -84,7 +89,7 @@ function Bills() {
         Duedate(result[0].payment_terms)
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
-        console.log(result1)
+        // console.log(result1)
     }
 
 
@@ -108,14 +113,12 @@ function Bills() {
     const handletogglegstdiv = () => {
         setGstmodaldiv(!gstmodaldiv)
     }
-    const handletds = () => {
-        setTdsmodaldiv(!tdsmodaldiv)
-    }
 
-    const handleChangeRate = (e) =>{
+
+    const handleChangeRate = (e) => {
         console.log(e.target.value)
         const rate = document.getElementById("Rate").value
-        const total = rate*e.target.value;
+        const total = rate * e.target.value;
         // document.getElementById('Amount').value = total
 
 
@@ -125,21 +128,84 @@ function Bills() {
 
     }
 
-    const handleClickAdd = (e) =>{
+    const handleClickAdd = async (e) => {
         e.preventDefault()
 
-        const vendor_name = document.getElementById('vend_name').value
-        const Location = document.getElementById('location').value
         const voucher_no = document.getElementById('voucher_no').value
         const voucher_date = document.getElementById('voucher_date').value
+        const vendor_name = document.getElementById('vend_name').value
+        const Location = document.getElementById('location').value
         const bill_no = document.getElementById('bill_no').value
-        const order_no =document.getElementById('order_no').value
-        const bill_amt = document.getElementById('bill_amt').value
         const bill_date = document.getElementById('bill_date').value
+        const bill_amt = document.getElementById('bill_amt').value
+        const order_no = document.getElementById('order_no').value
+
         const payment_term = document.getElementById('payment_term').value
-        const due_date = document.getElementById('due_date').value
-        
-       console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
+        const due_date = document.getElementById('due_date').value;
+        const amt_paid = '';
+        const amt_balance = '';
+        const amt_booked = '';
+
+
+        // const tds_per=document.getElementById('tds_per').value;
+
+        const expense_amt = document.getElementById('expense_amt').value;
+        const remarks = document.getElementById('remarks').value
+        const fins_year = localStorage.getItem('fin_year')
+        const cgst_amt = document.getElementById('cgst-inp').value;
+        const sgst_amt = document.getElementById('sgst-inp').value;
+        const igst_amt = document.getElementById('igst-inp').value;
+        const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
+        const non_taxable_amt = ''
+        const userid = localStorage.getItem('User_id')
+        // const tds_head= tdshead;
+        const tds_head = 'Cost'
+
+        console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
+            bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tdshead, tdscomp, tdsper, tdsamt,
+            taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
+
+        //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,
+        // bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,
+        // taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
+
+        const result = await InsertVendorInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
+            bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tdshead, tdscomp, tdsper, tdsamt,
+            taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
+        console.log(result)
+    }
+
+    const handletds = () => {
+        setTdsmodaldiv(!tdsmodaldiv)
+    }
+
+    const handletdsbtn = (e) => {
+        e.preventDefault();
+        var itemForm = document.getElementById('tdshead');
+        var checkBoxes = itemForm.querySelectorAll('input[type="checkbox"]');
+        let result = [];
+
+        checkBoxes.forEach(item => { // loop all the checkbox item
+            if (item.checked) {  //if the check box is checked
+                let data = {    // create an object
+                    item: item.value,
+                }
+                result.push(item.value); //stored the objects to result array
+            }
+        })
+        // document.querySelector('.result').textContent = JSON.stringify(result); // display result
+
+        setTdshead(result)
+        setTdsmodaldiv(!tdsmodaldiv)
+
+        setTdsper(document.getElementById('tds_per').value || 0)
+        setTdsamt(document.getElementById('tds_amt').value || 0)
+    }
+
+    const handleTdscomp = (e) => {
+        e.preventDefault();
+        console.log(e.target.value)
+        setTdscomp(e.target.value)
     }
 
 
@@ -160,7 +226,7 @@ function Bills() {
                                     <article
                                         className="card-body" >
                                         <form autoComplete="off">
-                                     
+
                                             <div className="form-row mt-2">
                                                 <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
@@ -186,7 +252,7 @@ function Bills() {
                                                         <option value='' hidden>Select loction</option>
                                                         {
                                                             vendorlocation.map((item, index) =>
-                                                                <option key={index} value={item.billing_address_state}>{item.billing_address_attention}</option>)
+                                                                <option key={index} value={item.billing_address_attention}>{item.billing_address_attention}</option>)
                                                         }
 
                                                     </select>
@@ -276,7 +342,7 @@ function Bills() {
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Location</option>
                                                                         {
-                                                                            locationstate.map( (item)=>(
+                                                                            locationstate.map((item) => (
                                                                                 <option value={item.location_add1} >{item.location_add1}</option>
 
                                                                             ))
@@ -293,7 +359,7 @@ function Bills() {
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Employee</option>
                                                                         {
-                                                                            activeuser.map((items)=>(
+                                                                            activeuser.map((items) => (
                                                                                 <option value={items.employee_name} >{items.employee_name}</option>
 
                                                                             ))
@@ -320,20 +386,20 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' onChange={(e) =>{
+                                                                    <input type='number' onChange={(e) => {
                                                                         const value = e.target.value;
-                                                                        const net = amount[index]-value
-                                                                        setTimeout(()=>{
-                                                                            setNetvalue([...netvalue,net])
+                                                                        const net = amount[index] - value
+                                                                        setTimeout(() => {
+                                                                            setNetvalue([...netvalue, net])
 
-                                                                        },1000)
-                                                                        }} className="form-control" />
+                                                                        }, 1000)
+                                                                    }} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' className="form-control" value={netvalue[index]}/>
+                                                                    <input type='number' className="form-control" value={netvalue[index]} />
                                                                 </td>
                                                             </tr>
 
@@ -415,7 +481,7 @@ function Bills() {
 
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="" className="form-control col-md-6 ml-5" disabled />
+                                                                    <input type="" className="form-control col-md-6 ml-5" id='cgst-inp' disabled />
 
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.0</td>
@@ -423,7 +489,7 @@ function Bills() {
                                                             <tr>
                                                                 <td>Total SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
-                                                                    <input type="" className="form-control col-md-6 ml-5" disabled />
+                                                                    <input type="" className="form-control col-md-6 ml-5" id='sgst-inp' disabled />
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
@@ -431,7 +497,7 @@ function Bills() {
                                                                 <td>Total IGST Amt</td>
 
                                                                 <td className='form-control col-md p-0 bg-transparent ' >
-                                                                    <input type='number' className="form-control col-md-6 ml-5" disabled />
+                                                                    <input type='number' className="form-control col-md-6 ml-5" id='igst-inp' disabled />
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
@@ -446,7 +512,7 @@ function Bills() {
                                                                                 <div className="card-body" >
                                                                                     <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
 
-                                                                                    <div className="form-group" style={{ marginBottom: "0px" }}>
+                                                                                    <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
                                                                                         <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span style={{ color: "red" }}>*</span> </label>
                                                                                         <div className="form-row m-0">
                                                                                             <input type='checkbox' value='Cost' id='cost' />
@@ -475,11 +541,11 @@ function Bills() {
                                                                                     </div>
 
 
-                                                                                    <div className="form-row m-0" style={{ marginTop: '0px', borderTop: "1px solid #000" }}>
-                                                                                        <input type="radio" id='company' name='comp_type' />
-                                                                                        <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1" >Company</label>
+                                                                                    <div className="form-row m-0" style={{ marginTop: '0px', borderTop: "1px solid #000" }} onChange={handleTdscomp}>
+                                                                                        <input type="radio" id='tds_comp' name='comp_type' value='Company' />
+                                                                                        <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1"  >Company</label>
 
-                                                                                        <input type="radio" id='non_company' name='comp_type' />
+                                                                                        <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' />
                                                                                         <label htmlFor='non_company' className="form-label font-weight-normal mt-1" >Non-Company</label>
 
                                                                                     </div>
@@ -492,7 +558,7 @@ function Bills() {
                                                                                         <input type="number" className="form-control col-md-7" id='tds_per' />
                                                                                     </div>
                                                                                     <br />
-                                                                                    <button className='btn btn-outline-primary float-right' onClick={handletds}>Submit</button>
+                                                                                    <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div> : null
@@ -507,7 +573,7 @@ function Bills() {
                                                             <tr>
                                                                 <td>Expense Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-6 ml-5" disabled />
+                                                                    <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' />
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
