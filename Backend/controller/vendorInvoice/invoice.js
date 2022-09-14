@@ -28,9 +28,8 @@ const inserinvoice = async (req, res) => {
     const cgst_amt = req.body.cgst_amt;
     const sgst_amt = req.body.sgst_amt;
     const igst_amt = req.body.igst_amt;
-
     const userid = req.body.userid;
-    console.log(org,pj_id,pj_date,ac_name,loation,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,tds_head,tds_ctype,tds_per,tds_amt,amt_booked,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
+    console.log(org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
  
     try {
         await sql.connect(sqlConfig)
@@ -41,8 +40,8 @@ const inserinvoice = async (req, res) => {
             fins_year,confirm_flag,
             cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid)
             values('${vourcher_no}','${voucher_date}','${vend_name}','${location}',
-            '${bill_no}','${bill_date}','2000','45','','2000','1000','2000','tds_head','tds_ctype','10','500','100','800',
-            'expense_amt','remark','2022-2023','flag','10','10','10','rupesh01','hp','::1',getDate(),'Active','')
+            '${bill_no}','${bill_date}','${bill_amt}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
+            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os,os.hostname()}','${req.ip}',getDate(),'Active','')
           `)
         res.send('Added')  
     }

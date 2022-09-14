@@ -6,8 +6,6 @@ import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm,Selec
 function Bills() {
     const [gstmodaldiv, setGstmodaldiv] = useState(false);
     const [tdsmodaldiv, setTdsmodaldiv] = useState(false);
-
-
     const [totalValues, setTotalValues] = useState([1])
     const [vendorlist, setVendorlist] = useState([])
     const [unitlist, setUnitlist] = useState([])
@@ -16,7 +14,6 @@ function Bills() {
     const [vendorlocation,setVendorLocation] = useState([])
     const [activeuser, setActiveUser] = useState([])
     const [locationstate, setLocationstate] = useState([])
-
 
     const [amount,setAmount] = useState([])
     const [netvalue,setNetvalue] = useState([])
@@ -142,6 +139,7 @@ function Bills() {
         const payment_term = document.getElementById('payment_term').value
         const due_date = document.getElementById('due_date').value
         
+       console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
     }
 
 
