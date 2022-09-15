@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
 
 
 function Bills() {
@@ -12,6 +12,7 @@ function Bills() {
     const [paymenttermlist, setPaymenttermlist] = useState([])
     const [vendorselectedlist, setVendorselectedlist] = useState([])
     const [vendorlocation, setVendorLocation] = useState([])
+    const [vouchercount, setVouchercount] = useState(0)
     const [activeuser, setActiveUser] = useState([])
     const [locationstate, setLocationstate] = useState([])
     const [tdscomp, setTdscomp] = useState('')
@@ -51,6 +52,7 @@ function Bills() {
 
             const id = await Getfincialyearid(localStorage.getItem('Organisation'))
             const lastno = Number(id[0].voucher_count) + 1
+            setVouchercount(lastno)
             // console.log(Number(id[0].voucher_count)+1)
             // console.log(id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0'))
             document.getElementById('voucher_no').value = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
@@ -157,11 +159,17 @@ function Bills() {
         e.preventDefault()
         const voucher_no = document.getElementById('voucher_no').value
         const voucher_date = document.getElementById('voucher_date').value
-        const vendor_name = document.getElementById('vend_name').value
+        const vendor_detail = document.getElementById('vend_name');
+        const vendor_id = vendor_detail.value;
+        const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
+
+
+
         const Location = document.getElementById('location').value
         const bill_no = document.getElementById('bill_no').value
         const bill_date = document.getElementById('bill_date').value
         const bill_amt = document.getElementById('bill_amt').value
+        const total_bill_amt = document.getElementById('total_bill_amt').innerText;
         const order_no = document.getElementById('order_no').value
 
         const payment_term = document.getElementById('payment_term').value
@@ -171,7 +179,7 @@ function Bills() {
         const amt_balance = '';
         const amt_booked = '';
 
-        const tds_head= document.getElementById('tds_head').value;
+        const tds_head = document.getElementById('tds_head').value;
         const tds_per = document.getElementById('tds_per').value || 0;
         const tds_amt = document.getElementById('tds_amt').value || 0;
 
@@ -184,20 +192,42 @@ function Bills() {
         const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
-       
 
-        console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
-            bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-            taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
+
+        // console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
+        //     bill_date, bill_amt,total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
+        //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id)
 
         //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,
         // bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,
         // taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
 
-        // const result = await InsertVendorInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
-        // bill_date, bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-        // taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid)
-        // console.log(result)
+        if (!voucher_no) {
+            alert('Please Enter mandatory field')
+        }
+
+        else {
+            if (bill_amt == total_bill_amt) {
+                alert('Biil Amt and Total Amount must be same')
+
+            }
+            else {
+                // const org = localStorage.getItem('Organisation')
+                // const result = await InsertVendorInvoice(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
+                //     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
+                //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id)
+
+                // if (result == 'Added') {
+                //     const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
+                //     if (updatefintable == 'Updated') {
+                //         alert('Data Added')
+                //     }
+
+                // }
+
+            }
+        }
+
     }
 
     const handlegst_submit = (e) => {
@@ -208,8 +238,8 @@ function Bills() {
         const gst = document.getElementById('gstTax').value
         let tax = totalvalue * gst / 100
         tax = Math.round(tax)
-        const val = netTotal 
-        setNetTotal(val+tax)
+        const val = netTotal
+        setNetTotal(val + tax)
 
 
     }
@@ -381,7 +411,7 @@ function Bills() {
                                                                     >
                                                                         <option value='' hidden>Select Location</option>
                                                                         {
-                                                                            locationstate.map((item,index) => (
+                                                                            locationstate.map((item, index) => (
                                                                                 <option key={index} value={item.location_add1} >{item.location_add1}</option>
 
                                                                             ))
@@ -398,7 +428,7 @@ function Bills() {
                                                                     <select className="form-control ml-0" onChange={handleChangeEmployee}>
                                                                         <option value='' hidden>Select Employee</option>
                                                                         {
-                                                                            activeuser.map((items,index) => (
+                                                                            activeuser.map((items, index) => (
                                                                                 <option key={index} value={items.employee_name} >{items.employee_name}</option>
 
                                                                             ))
@@ -518,16 +548,25 @@ function Bills() {
 
 
                                                                 </td>
-                                                                <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="" className="form-control col-md-6 ml-5" id='cgst-inp' disabled />
-
+                                                                <td className='form-control col-md p-0 bg-transparent pb-1'>
+                                                                    <div className="input-group" >
+                                                                        <input type="number" className="form-control col-md-5 ml-5" id='cgst-inp' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.0</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Total SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
-                                                                    <input type="" className="form-control col-md-6 ml-5" id='sgst-inp' disabled />
+                                                                    <div className="input-group" >
+                                                                        <input type="" className="form-control col-md-5 ml-5" id='sgst-inp' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
@@ -535,7 +574,12 @@ function Bills() {
                                                                 <td>Total IGST Amt</td>
 
                                                                 <td className='form-control col-md p-0 bg-transparent ' >
-                                                                    <input type='number' className="form-control col-md-6 ml-5" id='igst-inp' disabled />
+                                                                    <div className="input-group" >
+                                                                        <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
@@ -628,7 +672,7 @@ function Bills() {
                                                             <tr>
                                                                 <td><h4>Total</h4></td>
                                                                 <td></td>
-                                                                <td className='text-center' style={{ width: "150px" }}>{netTotal}</td>
+                                                                <td className='text-center' style={{ width: "150px" }} id='total_bill_amt'>{netTotal}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
