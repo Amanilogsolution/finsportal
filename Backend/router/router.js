@@ -231,6 +231,8 @@ router.post('/deleteitems',ItemsController.deleteItems)
 router.post('/getItems',ItemsController.getItems)
 router.post('/updateItems',ItemsController.UpdateItems)
 router.post('/activeitems',ItemsController.ActiveItems)
+router.post('/activepurchesitems',ItemsController.ActivePurchesItems)
+
 
 router.post('/FileUpload',Multer,FileUpload)
 

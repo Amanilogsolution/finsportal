@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor,ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
 
 
 function Bills() {
@@ -14,11 +14,11 @@ function Bills() {
     const [vendorlocation, setVendorLocation] = useState([])
     const [vouchercount, setVouchercount] = useState(0)
     const [activeuser, setActiveUser] = useState([])
+    const [itemlist,setItemlist]= useState([])
     const [locationstate, setLocationstate] = useState([])
     const [tdscomp, setTdscomp] = useState('')
 
     const [location, setLocation] = useState([])
-    const [items, setItems] = useState([])
     const [employee, setEmployee] = useState([]);
     const [quantity, setQuantity] = useState([])
     const [rate, setRate] = useState([])
@@ -47,10 +47,11 @@ function Bills() {
             setLocationstate(locatonstateres)
 
             const result2 = await ActiveUser()
-            console.log(result2)
             setActiveUser(result2)
+            const items= await ActivePurchesItems(org)
+            setItemlist(items) 
 
-            const id = await Getfincialyearid(localStorage.getItem('Organisation'))
+            const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
             setVouchercount(lastno)
             // console.log(Number(id[0].voucher_count)+1)
@@ -421,7 +422,13 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Item</option>
+                                                                        
+                                                                        {
+                                                                            itemlist.map((items, index) => (
+                                                                                <option key={index} value={items.item_name} >{items.item_name}</option>
 
+                                                                            ))
+                                                                        }
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>

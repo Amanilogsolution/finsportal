@@ -858,6 +858,13 @@ export const ActiveItems = async (org, major_code) => {
     const url = `http://localhost:3008/api/activeitems`
     return axios.post(url, { org, major_code }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const ActivePurchesItems = async (org) => {
+    const url = `http://localhost:3008/api/activepurchesitems`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+}
+
+
 //  ########################## Item api End ###############################
 
 //  ########################## Charge Code master api Start ###############################
