@@ -49,7 +49,7 @@ const Menu = (props) => {
                   <span className="material-symbols-outlined pt-1 pl-2">
                     category
                   </span>&nbsp;
-                  <p style={{marginTop:"-10px"}}> Items </p>
+                  <p style={{ marginTop: "-10px" }}> Items </p>
                 </a>
               </li>
               <li className="nav-item">
@@ -501,7 +501,7 @@ const Menu = (props) => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/Reportdata" className="nav-link active">
-                      <i className="far fa-file nav-icon" />
+                      <i className="far ion-arrow-graph-up-right nav-icon" />
                       <p>Reports</p>
                     </a>
                   </li>

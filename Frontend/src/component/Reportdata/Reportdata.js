@@ -28,6 +28,8 @@ const Reportdata = () => {
   }, [data])
 
   const handleapply = async () => {
+    document.getElementById('report_type').disabled=true;
+    
     const org = localStorage.getItem('Organisation');
     const report_type = document.getElementById('report_type').value;
     const fromdate = document.getElementById('from_date').value;
