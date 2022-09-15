@@ -1,9 +1,9 @@
 const sql =require('mssql')
-const sqlConfig = require('../../config.js')
+const sqlConfig = require('../../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const inserinvoice = async (req, res) => {
+const InsertBill = async (req, res) => {
     const org = req.body.org
     const vourcher_no = req.body.vourcher_no;
     const voucher_date = req.body.voucher_date;
@@ -60,4 +60,27 @@ const inserinvoice = async (req, res) => {
     }
 }
 
-module.exports={inserinvoice}
+
+
+const FilterBillReport= async (req,res) =>{
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const vendid = req.body.vendid;
+
+    try {
+        await sql.connect(sqlConfig)
+         const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
+         convert(varchar(15),bill_date,121) as billdate
+         from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
+                  and '${lastDate}' and vend_id='${vendid}' and status='Active'`)
+        res.send(result.recordset)   
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+
+module.exports={InsertBill,FilterBillReport}

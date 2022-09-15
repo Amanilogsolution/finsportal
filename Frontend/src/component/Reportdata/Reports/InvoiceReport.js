@@ -6,7 +6,8 @@ import InvoicePreview from '../Preview/InvoicePreview';
 
 const InvoiceReport = (props) => {
     const [data, setData] = useState([])
-    const [sno,setSno] = useState()
+    const [sno, setSno] = useState()
+    const [tooglecomponent, setTooglecomponent] = useState(false)
 
     const columns = [
         {
@@ -43,9 +44,8 @@ const InvoiceReport = (props) => {
             selector: "null",
             cell: (row) => [
 
-                //   <a title='View Document' href="EditCity">
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview',row.invoice_no); setSno(row.sno)}} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
-                // {/* </a> */}
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.invoice_no); setSno(row.sno);setTooglecomponent(true) }} className="btn btn-success ml-2"
+                    data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
 
             ]
         }
@@ -55,7 +55,6 @@ const InvoiceReport = (props) => {
     useEffect(() => {
         async function fetchdata() {
             setData(props.displaydata)
-            console.log(props.displaydata)
         }
         fetchdata()
     }, [])
@@ -68,10 +67,15 @@ const InvoiceReport = (props) => {
         <div>
 
             <div>
-                <InvoicePreview/>
 
-                <h4 className='text-center'>Invoice Report</h4>
+                <h4 className='text-center'>Invoice Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
+
+                {
+                    tooglecomponent ? <InvoicePreview /> : null
+                }
+
+
             </div>
         </div>
     )

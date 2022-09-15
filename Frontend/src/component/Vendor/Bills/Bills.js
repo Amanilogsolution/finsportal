@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor,ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertVendorInvoice, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor,ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
 
 
 function Bills() {
@@ -35,7 +35,6 @@ function Bills() {
             const org = localStorage.getItem('Organisation');
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
-            // console.log(dataId)
             Todaydate()
 
             const units = await Activeunit(org)

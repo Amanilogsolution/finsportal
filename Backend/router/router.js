@@ -40,8 +40,8 @@ const LoginLogsController = require('../controller/LoginLOgs')
 
 const EmployeeController = require('../controller/EmployeeMaster/employee')
 
-const VendorInvoiceController = require('../controller/vendorInvoice/invoice')
-const VendorInvoiceSubController = require('../controller/vendorInvoice/subinvoice')
+const BillController = require('../controller/Purchases/Bill/Bill')
+const VendorInvoiceSubController = require('../controller/Purchases/Bill/subinvoice')
 
 const Twofa = require('../controller/2faAuthentication/Twofa')
 
@@ -340,8 +340,9 @@ router.post('/insertemployee',EmployeeController.insertemployee)
 router.post('/getemployee',EmployeeController.getemployee)
 router.post('/updateemployee',EmployeeController.updateemployee)
 
-router.post('/insertvendorinvoice',VendorInvoiceController.inserinvoice)
+router.post('/insertbill',BillController.InsertBill)
 router.post('/insertvendorsubinvoice',VendorInvoiceSubController.inserSubInvoice)
+router.post('/filterbillreport',BillController.FilterBillReport)
 
 
 

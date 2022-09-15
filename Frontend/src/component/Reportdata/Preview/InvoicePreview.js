@@ -1,34 +1,52 @@
-import React,{useRef,useEffect,useState} from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import {GetInvoice,GetSubInvoice} from '../../../api/index'
+import { GetInvoice, GetSubInvoice } from '../../../api/index'
 
 
 const InvoicePreview = () => {
   const pdfRef = useRef(null);
-  const [data,setData] = useState({
-    major:''
-
-
+  const [data, setData] = useState({
+    major: '',
+    invoice_no: '',
+    invoice_date: '',
+    invoice_amt: '',
+    location_name: '',
+    invoice_amt: '',
+    cgst_amt: '',
+    sgst_amt: '',
+    igst_amt: '',
+    total_tax: ''
   })
-  const [subinv,setSubInv] = useState([])
+  const [subinv, setSubInv] = useState([
+    {
+      major: '',
+      quantity: '',
+      rate: '',
+      tax: '',
+      unit: '',
+      amount: '',
+      Totalamount: ''
+    }
+  ])
 
-  useEffect(()=>{
-    const fetch = async() =>{
-      console.log(localStorage.getItem('preview'))
-      console.log(localStorage.getItem('Organisation'))
-      const result = await GetInvoice(localStorage.getItem('Organisation'), localStorage.getItem('preview'))
+  useEffect(() => {
+    const fetch = async () => {
+      const preview = localStorage.getItem('preview')
+      const org = localStorage.getItem('Organisation')
+      const result = await GetInvoice(org, preview)
       console.log(result)
       setData(result[0])
-      const result1 = await  GetSubInvoice(localStorage.getItem('Organisation'),localStorage.getItem('preview'))
+      console.log(data)
+      const result1 = await GetSubInvoice(org, preview)
       console.log(result1)
       setSubInv(result1)
 
     }
     fetch()
 
-  },[localStorage.getItem('preview')])
+  }, [localStorage.getItem('preview')])
 
   const print = (e) => {
     e.preventDefault();
@@ -36,25 +54,19 @@ const InvoicePreview = () => {
     const doc = new jsPDF();
     doc.html(content, {
       callback: function (doc) {
-          doc.save(`Invoice.pdf`);
+        doc.save(`Invoice.pdf`);
       },
       html2canvas: { scale: 0.21 },
-      margin:[5,0,0,5],
+      margin: [5, 0, 0, 5],
 
 
-  });
+    });
   };
   return (
-    <div className="modal fade bd-example-modal-lg"  id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
+    <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      {console.log(data)}
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
-          {/* <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLongTitle">Invoice</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div> */}
           <div className="modal-body" ref={pdfRef}>
             <div className="modalinvoice">
               <div className="topdiv">
@@ -85,13 +97,13 @@ const InvoicePreview = () => {
                   <p>
                   </p>
                   <h6><b>GST IN.</b>
-                   </h6>
+                  </h6>
                 </div>
                 <div className="inneraddduiv inneraddduiv2">
                   <h5><b>Place of Supply</b></h5>
                   {/* <h6>KELLEY MATERIAL HANDLING EQUIPMENT INDIA PVT. LTD.</h6> */}
                   <p>
-                      {data.location_name}
+                    {data.location_name}
                   </p>
                 </div>
               </div>
@@ -99,17 +111,17 @@ const InvoicePreview = () => {
 
               <div className="detail">
                 <table className="detailtable">
-                <tbody>
-                  <tr>
-                    <td><b>Gross WT.</b> </td>
-                    <td><b>Pcs.</b></td>
-                    <td><b>Origin :</b> </td>
-                  </tr>
-                  <tr>
-                    <td><b>Details Of Goods :</b></td>
-                    <td><b>Veh Type : Courier</b></td>
-                    <td><b>Destination : </b></td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td><b>Gross WT.</b> </td>
+                      <td><b>Pcs.</b></td>
+                      <td><b>Origin :</b> </td>
+                    </tr>
+                    <tr>
+                      <td><b>Details Of Goods :</b></td>
+                      <td><b>Veh Type : Courier</b></td>
+                      <td><b>Destination : </b></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -135,23 +147,23 @@ const InvoicePreview = () => {
                   </thead>
                   <tbody className='itembodysec'>
                     {
-                      subinv.map((item,index) =>(
-                            <tr className='itemtrsec'>
-                      <th>{index+1}</th>
-                      <td>{item.major}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.rate}</td>
-                      <td>{item.tax}</td>
-                      <td>{item.unit}</td>
-                      <td>{item.amount}</td>
-                      <td>{item.Totalamount}</td>
-                    </tr> 
+                      subinv.map((item, index) => (
+                        <tr className='itemtrsec'>
+                          <th>{index + 1}</th>
+                          <td>{item.major}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.rate}</td>
+                          <td>{item.tax}</td>
+                          <td>{item.unit}</td>
+                          <td>{item.amount}</td>
+                          <td>{item.Totalamount}</td>
+                        </tr>
                       ))
-                    }  
+                    }
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
-                    <th colSpan='6'>Total</th>
+                      <th colSpan='6'>Total</th>
                       <td></td>
                       <td></td>
                     </tr>
@@ -323,22 +335,22 @@ const InvoicePreview = () => {
               <div className="amounttax">
                 <h4><b>Amount Of Tax :</b></h4>
                 <table className="amounttaxtable">
-                <tbody>
-                  <tr className="amounttaxtr">
-                    <th colSpan="2" style={{ textAlign: "right" }}>
-                      CGST AMT
-                    </th>
-                    <th>SGST AMT</th>
-                    <th>IGST AMT</th>
-                    <th>Total</th>
-                  </tr>
-                  <tr className="amounttaxtr">
-                    <th className='amounttaxtrth'>Rs.</th>
-                    <td>{data.cgst_amt}</td>
-                    <td>{data.sgst_amt}</td>
-                    <td>{data.igst_amt}</td>
-                    <td>{data.total_tax} </td>
-                  </tr>
+                  <tbody>
+                    <tr className="amounttaxtr">
+                      <th colSpan="2" style={{ textAlign: "right" }}>
+                        CGST AMT
+                      </th>
+                      <th>SGST AMT</th>
+                      <th>IGST AMT</th>
+                      <th>Total</th>
+                    </tr>
+                    <tr className="amounttaxtr">
+                      <th className='amounttaxtrth'>Rs.</th>
+                      <td>{data.cgst_amt}</td>
+                      <td>{data.sgst_amt}</td>
+                      <td>{data.igst_amt}</td>
+                      <td>{data.total_tax} </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
