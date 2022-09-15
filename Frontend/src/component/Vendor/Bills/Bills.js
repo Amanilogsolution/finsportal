@@ -125,6 +125,7 @@ function Bills() {
         setUnit([...unit, e.target.value])
         var sum = 0
         amount.map((item) => sum += item)
+        console.log(sum)
         setNetTotal(sum)
 
     }
