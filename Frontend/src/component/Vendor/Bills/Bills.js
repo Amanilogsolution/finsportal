@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount,UploadData } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount, UploadData } from '../../../api'
 
 
 function Bills() {
@@ -25,13 +25,20 @@ function Bills() {
     const [amount, setAmount] = useState([])
     const [netvalue, setNetvalue] = useState([])
     const [unit, setUnit] = useState([])
-    const [deduction,setDeduction] = useState([])
-    const [fileno,setFileno] = useState([]);
-    const [items,setItems] = useState([]);
-    const [netTotal, setNetTotal] = useState(0)
+    const [deduction, setDeduction] = useState([])
+    const [fileno, setFileno] = useState([]);
+    const [items, setItems] = useState([]);
+    const [netTotal, setNetTotal] = useState(0);
+
+    const [cgstper, setCgstper] = useState(0)
+    const [sgstper, setSgstper] = useState(0)
+    const [igstper, setIgstper] = useState(0)
+    const [cgstval, setCgstval] = useState(0)
+    const [sgstval, setSgstval] = useState(0)
+    const [igstval, setIgstval] = useState(0)
 
     const [file, setFile] = useState('');
-    const [img,setimage] = useState('')
+    const [img, setimage] = useState('')
 
 
 
@@ -60,8 +67,6 @@ function Bills() {
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
             setVouchercount(lastno)
-            // console.log(Number(id[0].voucher_count)+1)
-            // console.log(id[0].voucher_ser + id[0].year + String(lastno).padStart(5,'0'))
             document.getElementById('voucher_no').value = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
         }
         fetchdata();
@@ -99,7 +104,9 @@ function Bills() {
     const handlevendorselect = async (e) => {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result[0])
-        Duedate(result[0].payment_terms)
+        let [val, Ter] = result[0].payment_terms.split(" ")
+        Duedate(Ter);
+
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
         // console.log(result1)
@@ -128,39 +135,39 @@ function Bills() {
 
     const handleChangeEmployee = (e) => {
         setEmployee([...employee, e.target.value])
-   
+
 
     }
     const handleChangeUnit = (e) => {
         setUnit([...unit, e.target.value])
-   
 
-        const deduct = document.getElementById(`deduction${index}`).value?document.getElementById(`deduction${index}`).value:''
+
+        const deduct = document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : ''
         console.log(deduct)
-        setDeduction([...deduction,deduct])
+        setDeduction([...deduction, deduct])
 
         console.log(document.getElementById(`deduction${index}`).value)
 
         // console.log(document.getElementById('deduction').value.length > 0)
-        if(document.getElementById(`deduction${index}`).value > 0){
+        if (document.getElementById(`deduction${index}`).value > 0) {
             console.log('Hlo')
             console.log(document.getElementById(`deduction${index}`).value)
             const net = amount[index] - document.getElementById(`deduction${index}`).value
             setNetvalue([...netvalue, net])
 
-        }else{
+        } else {
             console.log(amount[index])
             setNetvalue([...netvalue, amount[index]])
 
         }
 
 
-        const file = document.getElementById(`fileno${index}`).value?document.getElementById(`fileno${index}`).value:''
-        setFileno([...fileno,file])
+        const file = document.getElementById(`fileno${index}`).value ? document.getElementById(`fileno${index}`).value : ''
+        setFileno([...fileno, file])
     }
 
-    const handleChangeItems = (e) =>{
-        setItems([...items,e.target.value])
+    const handleChangeItems = (e) => {
+        setItems([...items, e.target.value])
 
     }
 
@@ -232,11 +239,11 @@ function Bills() {
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
 
-        console.log(location,employee,quantity,rate,amount,netvalue,unit,deduction,fileno,items)
+        console.log(location, employee, quantity, rate, amount, netvalue, unit, deduction, fileno, items)
 
-        amount.map(async (amt,index) =>{
-            const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'),voucher_no,voucher_date,bill_date,bill_no,vendor_id,vendor_name,location[index],items[index],employee[index],'glcode','samt',quantity[index],
-            rate[index],amt,unit[index],fileno[index],deduction[index],'gst_rate','sac_hsn',netvalue[index],remarks,'cost_centre',fins_year,userid)
+        amount.map(async (amt, index) => {
+            const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
+                rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
         })
 
 
@@ -281,13 +288,14 @@ function Bills() {
         const data = new FormData();
         data.append("images", file)
         const UploadLink = await UploadData(data)
-        // console.log(UploadLink)
         setimage(UploadLink)
-      }
+    }
 
     const handlegst_submit = (e) => {
         e.preventDefault();
         document.getElementById('gstdiv').style.display = 'none';
+
+        const gst_type = document.getElementById('gsttype').value;
 
         const totalvalue = document.getElementById('totalamount').value
         const gst = document.getElementById('gstTax').value
@@ -296,11 +304,28 @@ function Bills() {
         const val = netTotal
         setNetTotal(val + tax)
 
+        if (gst_type == 'Inter') {
+            setCgstval(0)
+            setSgstval(0)
+            setIgstval(tax)
 
+            setCgstper(0)
+            setSgstper(0)
+            setIgstper(gst)
+        }
+        else if (gst_type == 'Intra') {
+            setCgstval(Math.round(tax / 2))
+            setSgstval(Math.round(tax / 2))
+            setIgstval(0)
+
+            setCgstper(Math.round(gst/2))
+            setSgstper(Math.round(gst/2))
+            setIgstper(0)
+
+        }
     }
 
     const handletds = () => {
-
         if (document.getElementById('tdsdiv').style.display == 'none') {
             document.getElementById('tdsdiv').style.display = 'block';
         }
@@ -314,35 +339,18 @@ function Bills() {
 
         const TdsAmount = document.getElementById('tds_amt').value
         const TdsPer = document.getElementById('tds_per').value
-
-        const amount = TdsAmount*TdsPer/100
+console.log(TdsAmount ,' ',TdsPer)
+        const amount = TdsAmount * TdsPer / 100
         const value = netTotal
 
         setNetTotal(value + Math.round(amount))
         document.getElementById('tdsdiv').style.display = 'none';
 
-
-
-
-
-        // var itemForm = document.getElementById('tdshead');
-        // var checkBoxes = itemForm.querySelectorAll('input[type="checkbox"]');
-        // let result = [];
-
-        // checkBoxes.forEach(item => { // loop all the checkbox item
-        //     if (item.checked) {  //if the check box is checked
-        //         result.push(item.value); //stored the objects to result array
-        //     }
-        // })
-        // setTdshead(result)
     }
 
     const handleTdscomp = (e) => {
         e.preventDefault();
-        console.log(e.target.value)
         setTdscomp(e.target.value)
-        const due_date = document.getElementById('due_date').value
-        //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
     }
 
 
@@ -443,7 +451,7 @@ function Bills() {
                                                     <select
                                                         id="payment_term"
                                                         className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value='' hidden>{vendorselectedlist.payment_terms}</option>
+                                                        <option value={vendorselectedlist.payment_terms} hidden>{vendorselectedlist.payment_terms}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
@@ -466,9 +474,9 @@ function Bills() {
                                                     <th className='text-center' scope="col">Quantity</th>
                                                     <th className='text-center' scope="col">Rate</th>
                                                     <th className='text-center' scope="col">Amount</th>
-                                                    <th className='text-center' scope="col">Unit</th>
                                                     <th className='text-center' scope="col">Deduction</th>
                                                     <th className='text-center' scope="col">Refno/FIleno</th>
+                                                    <th className='text-center' scope="col">Unit</th>
                                                     <th className='text-center' scope="col">Net Amt</th>
                                                 </thead>
                                                 <tbody>
@@ -520,15 +528,7 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id="Amount" value={amount[index]} className="form-control" />
                                                                 </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={handleChangeUnit}>
-                                                                        <option value='' hidden>Select Unit</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
+
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' id={`deduction${index}`} className="form-control" onChange={(e) => {
                                                                         const value = e.target.value;
@@ -540,7 +540,16 @@ function Bills() {
 
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='text' className="form-control" id={`fileno${index}`}/>
+                                                                    <input type='text' className="form-control" id={`fileno${index}`} />
+                                                                </td>
+                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                    <select className="form-control ml-0" onChange={handleChangeUnit}>
+                                                                        <option value='' hidden>Select Unit</option>
+                                                                        {
+                                                                            unitlist.map((item, index) =>
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                        }
+                                                                    </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' className="form-control" value={netvalue[index]} />
@@ -567,9 +576,9 @@ function Bills() {
                                                     </div>
                                                     <div className='mt-3'>
                                                         <label className="font-weight-normal" >Attach file(s) to Estimate</label><br />
-                                                        <button  type="button" className='btn btn-success' data-toggle="modal" data-target="#exampleModal">
-                                                        <i className='ion-android-attach'></i> &nbsp;
-                                                        Attach File</button>
+                                                        <button type="button" className='btn btn-success' data-toggle="modal" data-target="#exampleModal">
+                                                            <i className='ion-android-attach'></i> &nbsp;
+                                                            Attach File</button>
                                                     </div>
                                                 </div>
                                                 <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
@@ -591,12 +600,12 @@ function Bills() {
                                                                             <div className="card-body p-2">
                                                                                 <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
                                                                                 <div className="form-group ">
-                                                                                    <label htmlFor='location' className="col-form-label font-weight-normal" >Select GST Type <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <div className="" >
+                                                                                    <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span style={{ color: "red" }}>*</span> </label>
+                                                                                    <div>
                                                                                         <select
-                                                                                            id="location"
+                                                                                            id="gsttype"
                                                                                             className="form-control col">
-                                                                                            <option value='' hidden>Select loction</option>
+                                                                                            <option value='' hidden>Select GST Type</option>
                                                                                             <option value='Intra'>Intra</option>
                                                                                             <option value='Inter' >Inter</option>
                                                                                         </select>
@@ -618,37 +627,37 @@ function Bills() {
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                                     <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-5 ml-5" id='cgst-inp' disabled />
+                                                                        <input type="number" className="form-control col-md-5 ml-5" id='cgst-inp' value={cgstper} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>0.0</td>
+                                                                <td className='text-center' style={{ width: "150px" }}>{cgstval}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Total SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
                                                                     <div className="input-group" >
-                                                                        <input type="" className="form-control col-md-5 ml-5" id='sgst-inp' disabled />
+                                                                        <input type="" className="form-control col-md-5 ml-5" id='sgst-inp' value={sgstper} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>0.00</td>
+                                                                <td className='text-center' style={{ width: "150px" }}>{sgstval}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Total IGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent ' >
                                                                     <div className="input-group" >
-                                                                        <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' disabled />
+                                                                        <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' value={igstper} disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>0.00</td>
+                                                                <td className='text-center' style={{ width: "150px" }}>{igstval}</td>
                                                             </tr>
                                                             <tr scope="row">
                                                                 <td style={{ width: "150px" }}>
@@ -780,10 +789,10 @@ function Bills() {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <input type='file'  onChange={event => {
-                          const document = event.target.files[0];
-                          setFile(document)
-                        }} />
+                            <input type='file' onChange={event => {
+                                const document = event.target.files[0];
+                                setFile(document)
+                            }} />
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
