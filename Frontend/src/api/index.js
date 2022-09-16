@@ -1277,9 +1277,9 @@ export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) =>
 
 // ############################ For Employee api End #################################
 
-export const InsertVendorInvoice = async (org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id) => {
-    const url = `http://localhost:3008/api/insertvendorinvoice`
-    return axios.post(url, { org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id }).then(response => response.data).catch(error => console.log(error));
+export const InsertBill = async (org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id,bill_url) => {
+    const url = `http://localhost:3008/api/insertbill`
+    return axios.post(url, { org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id,bill_url }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertVendorSubInvoice = async (org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
@@ -1289,5 +1289,9 @@ export const InsertVendorSubInvoice = async (org,voucher_no,voucher_date,bill_da
         rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid }).then(response => response.data).catch(error => console.log(error));
 }
 
-
+export const FilterBillReport = async (org,startDate,lastDate,vendid) => {
+console.log('api',org,startDate,lastDate,vendid)
+    const url = `http://localhost:3008/api/filterbillreport`
+    return axios.post(url, { org,startDate,lastDate,vendid }).then(response => response.data).catch(error => console.log(error));
+}
 

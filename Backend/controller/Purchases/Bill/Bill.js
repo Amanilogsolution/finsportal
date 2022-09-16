@@ -1,9 +1,9 @@
 const sql =require('mssql')
-const sqlConfig = require('../../config.js')
+const sqlConfig = require('../../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const inserinvoice = async (req, res) => {
+const InsertBill = async (req, res) => {
     const org = req.body.org
     const vourcher_no = req.body.vourcher_no;
     const voucher_date = req.body.voucher_date;
@@ -32,6 +32,7 @@ const inserinvoice = async (req, res) => {
     const igst_amt = req.body.igst_amt;
     const userid = req.body.userid;
     const vendor_id= req.body.vendor_id;
+    const bill_url = req.body.bill_url;
     const uuid = uuidv1()
 
     // console.log(org,vourcher_no,voucher_date,vend_name,location,
@@ -47,10 +48,10 @@ const inserinvoice = async (req, res) => {
             vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,
             amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
             fins_year,confirm_flag,
-            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid)
+            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url)
             values('${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',
             '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
-            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os,os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')
+            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os,os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}')
           `)
           console.log(result)
         res.send('Added')  
@@ -60,4 +61,27 @@ const inserinvoice = async (req, res) => {
     }
 }
 
-module.exports={inserinvoice}
+
+
+const FilterBillReport= async (req,res) =>{
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const vendid = req.body.vendid;
+
+    try {
+        await sql.connect(sqlConfig)
+         const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
+         convert(varchar(15),bill_date,121) as billdate
+         from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
+                  and '${lastDate}' and vend_id='${vendid}' and status='Active'`)
+        res.send(result.recordset)   
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+
+module.exports={InsertBill,FilterBillReport}
