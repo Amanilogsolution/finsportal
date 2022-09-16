@@ -27,6 +27,7 @@ const Login = () => {
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
+        
         setLogindetails(result);
         if (result) {
             setLoading(false);
