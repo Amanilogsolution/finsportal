@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount,UploadData } from '../../../api'
 
 
 function Bills() {
@@ -25,7 +25,14 @@ function Bills() {
     const [amount, setAmount] = useState([])
     const [netvalue, setNetvalue] = useState([])
     const [unit, setUnit] = useState([])
+    const [deduction,setDeduction] = useState([])
+    const [fileno,setFileno] = useState([]);
+    const [items,setItems] = useState([]);
     const [netTotal, setNetTotal] = useState(0)
+
+    const [file, setFile] = useState('');
+    const [img,setimage] = useState('')
+
 
 
     const [index, setIndex] = useState()
@@ -121,18 +128,49 @@ function Bills() {
 
     const handleChangeEmployee = (e) => {
         setEmployee([...employee, e.target.value])
+   
 
     }
     const handleChangeUnit = (e) => {
         setUnit([...unit, e.target.value])
-        var sum = 0
-        amount.map((item) => sum += item)
-        setNetTotal(sum)
+   
+
+        const deduct = document.getElementById(`deduction${index}`).value?document.getElementById(`deduction${index}`).value:''
+        console.log(deduct)
+        setDeduction([...deduction,deduct])
+
+        console.log(document.getElementById(`deduction${index}`).value)
+
+        // console.log(document.getElementById('deduction').value.length > 0)
+        if(document.getElementById(`deduction${index}`).value > 0){
+            console.log('Hlo')
+            console.log(document.getElementById(`deduction${index}`).value)
+            const net = amount[index] - document.getElementById(`deduction${index}`).value
+            setNetvalue([...netvalue, net])
+
+        }else{
+            console.log(amount[index])
+            setNetvalue([...netvalue, amount[index]])
+
+        }
+
+
+        const file = document.getElementById(`fileno${index}`).value?document.getElementById(`fileno${index}`).value:''
+        setFileno([...fileno,file])
+    }
+
+    const handleChangeItems = (e) =>{
+        setItems([...items,e.target.value])
 
     }
 
 
     const handletogglegstdiv = () => {
+
+        var sum = 0
+        netvalue.map((item) => sum += item)
+        console.log(sum)
+        setNetTotal(sum)
 
         if (document.getElementById('gstdiv').style.display == 'none') {
             document.getElementById('gstdiv').style.display = 'block';
@@ -144,7 +182,8 @@ function Bills() {
 
 
     const handleChangeRate = (e) => {
-        const quantitys = document.getElementById("Quantity").value
+        const quantitys = document.getElementById(`Quantity${index}`).value
+        console.log(quantitys)
         const total = quantitys * e.target.value;
 
         setTimeout(() => {
@@ -193,10 +232,17 @@ function Bills() {
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
 
+        console.log(location,employee,quantity,rate,amount,netvalue,unit,deduction,fileno,items)
+
+        amount.map(async (amt,index) =>{
+            const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'),voucher_no,voucher_date,bill_date,bill_no,vendor_id,vendor_name,location[index],items[index],employee[index],'glcode','samt',quantity[index],
+            rate[index],amt,unit[index],fileno[index],deduction[index],'gst_rate','sac_hsn',netvalue[index],remarks,'cost_centre',fins_year,userid)
+        })
+
 
         // console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
         //     bill_date, bill_amt,total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-        //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id)
+        //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
 
         //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,
         // bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,
@@ -215,7 +261,7 @@ function Bills() {
                 // const org = localStorage.getItem('Organisation')
                 // const result = await InsertVendorInvoice(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                 //     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id)
+                //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
 
                 // if (result == 'Added') {
                 //     const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
@@ -229,6 +275,15 @@ function Bills() {
         }
 
     }
+
+    const handleSendFile = async (e) => {
+        e.preventDefault()
+        const data = new FormData();
+        data.append("images", file)
+        const UploadLink = await UploadData(data)
+        // console.log(UploadLink)
+        setimage(UploadLink)
+      }
 
     const handlegst_submit = (e) => {
         e.preventDefault();
@@ -245,6 +300,7 @@ function Bills() {
     }
 
     const handletds = () => {
+
         if (document.getElementById('tdsdiv').style.display == 'none') {
             document.getElementById('tdsdiv').style.display = 'block';
         }
@@ -255,6 +311,20 @@ function Bills() {
 
     const handletdsbtn = (e) => {
         e.preventDefault();
+
+        const TdsAmount = document.getElementById('tds_amt').value
+        const TdsPer = document.getElementById('tds_per').value
+
+        const amount = TdsAmount*TdsPer/100
+        const value = netTotal
+
+        setNetTotal(value + Math.round(amount))
+        document.getElementById('tdsdiv').style.display = 'none';
+
+
+
+
+
         // var itemForm = document.getElementById('tdshead');
         // var checkBoxes = itemForm.querySelectorAll('input[type="checkbox"]');
         // let result = [];
@@ -265,7 +335,6 @@ function Bills() {
         //     }
         // })
         // setTdshead(result)
-        document.getElementById('tdsdiv').style.display = 'none';
     }
 
     const handleTdscomp = (e) => {
@@ -419,7 +488,7 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0">
+                                                                    <select className="form-control ml-0" onChange={handleChangeItems}>
                                                                         <option value='' hidden>Select Item</option>
 
                                                                         {
@@ -443,7 +512,7 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id="Quantity" onChange={() => setIndex(index)} className="form-control" />
+                                                                    <input type='number' id={`Quantity${index}`} onChange={() => setIndex(index)} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
@@ -461,19 +530,17 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' className="form-control" onChange={(e) => {
+                                                                    <input type='number' id={`deduction${index}`} className="form-control" onChange={(e) => {
                                                                         const value = e.target.value;
-
-                                                                        const net = amount[index] - value
-                                                                        setTimeout(() => {
-                                                                            setNetvalue([...netvalue, net])
-
-                                                                        }, 1000)
+                                                                        // const net = amount[index] - value
+                                                                        // setTimeout(() => {
+                                                                        //     setDeduction([...deduction,value])
+                                                                        // }, 1000)
                                                                     }} />
 
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='text' className="form-control" />
+                                                                    <input type='text' className="form-control" id={`fileno${index}`}/>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' className="form-control" value={netvalue[index]} />
@@ -519,10 +586,6 @@ function Bills() {
                                                                 <td style={{ width: "150px" }} >
                                                                     <a title='Click to Input GST Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv}>Total CGST Amt *
                                                                     </a>
-
-
-
-
                                                                     <div className=" dropdown-menu-lg bg-light" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
                                                                         <div>
                                                                             <div className="card-body p-2">
@@ -536,7 +599,6 @@ function Bills() {
                                                                                             <option value='' hidden>Select loction</option>
                                                                                             <option value='Intra'>Intra</option>
                                                                                             <option value='Inter' >Inter</option>
-
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
@@ -553,8 +615,6 @@ function Bills() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
-
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                                     <div className="input-group" >
@@ -580,7 +640,6 @@ function Bills() {
                                                             </tr>
                                                             <tr>
                                                                 <td>Total IGST Amt</td>
-
                                                                 <td className='form-control col-md p-0 bg-transparent ' >
                                                                     <div className="input-group" >
                                                                         <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' disabled />
@@ -595,7 +654,6 @@ function Bills() {
                                                                 <td style={{ width: "150px" }}>
                                                                     <a title='Click to Input TDS Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
                                                                     </a>
-
                                                                     <div className=" dropdown-menu-lg bg-light " id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
                                                                         <div>
                                                                             <div className="card-body" >
@@ -722,11 +780,14 @@ function Bills() {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <input type='file'/>
+                            <input type='file'  onChange={event => {
+                          const document = event.target.files[0];
+                          setFile(document)
+                        }} />
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-primary">Upload</button>
+                            <button type="button" className="btn btn-primary" onClick={handleSendFile}>Upload</button>
                         </div>
                     </div>
                 </div>

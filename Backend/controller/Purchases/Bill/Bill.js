@@ -32,6 +32,7 @@ const InsertBill = async (req, res) => {
     const igst_amt = req.body.igst_amt;
     const userid = req.body.userid;
     const vendor_id= req.body.vendor_id;
+    const bill_url = req.body.bill_url;
     const uuid = uuidv1()
 
     // console.log(org,vourcher_no,voucher_date,vend_name,location,
@@ -47,10 +48,10 @@ const InsertBill = async (req, res) => {
             vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,
             amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
             fins_year,confirm_flag,
-            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid)
+            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url)
             values('${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',
             '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
-            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os,os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')
+            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os,os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}')
           `)
           console.log(result)
         res.send('Added')  
