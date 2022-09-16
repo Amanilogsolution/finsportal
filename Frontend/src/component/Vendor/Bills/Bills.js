@@ -303,6 +303,7 @@ function Bills() {
         tax = Math.round(tax)
         const val = netTotal
         setNetTotal(val + tax)
+        
 
         if (gst_type == 'Inter') {
             setCgstval(0)
@@ -341,7 +342,9 @@ function Bills() {
         const TdsPer = document.getElementById('tds_per').value
         const amount = TdsAmount * TdsPer / 100
         const value = netTotal
+
         setNetTotal(value + Math.round(amount))
+
         document.getElementById('tdsdiv').style.display = 'none';
 
     }
