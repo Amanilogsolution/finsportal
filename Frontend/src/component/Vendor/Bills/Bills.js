@@ -241,19 +241,12 @@ function Bills() {
 
         console.log(location, employee, quantity, rate, amount, netvalue, unit, deduction, fileno, items)
 
-        amount.map(async (amt, index) => {
-            const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
-                rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
-        })
 
 
         // console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
         //     bill_date, bill_amt,total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
         //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
 
-        //    console.log( localStorage.getItem('Organisation'),voucher_no,voucher_date,vendor_name,Location,bill_no,
-        // bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,
-        // taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid)
 
         if (!voucher_no) {
             alert('Please Enter mandatory field')
@@ -266,11 +259,18 @@ function Bills() {
             }
             else {
                 // const org = localStorage.getItem('Organisation')
-                // const result = await InsertVendorInvoice(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
+                // const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                 //     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
                 //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
 
                 // if (result == 'Added') {
+
+
+                // amount.map(async (amt, index) => {
+                //     const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
+                //         rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
+                // })
+
                 //     const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
                 //     if (updatefintable == 'Updated') {
                 //         alert('Data Added')
@@ -296,14 +296,12 @@ function Bills() {
         document.getElementById('gstdiv').style.display = 'none';
 
         const gst_type = document.getElementById('gsttype').value;
-
         const totalvalue = document.getElementById('totalamount').value
         const gst = document.getElementById('gstTax').value
         let tax = totalvalue * gst / 100
         tax = Math.round(tax)
         const val = netTotal
         setNetTotal(val + tax)
-        
 
         if (gst_type == 'Inter') {
             setCgstval(0)
@@ -319,8 +317,8 @@ function Bills() {
             setSgstval(Math.round(tax / 2))
             setIgstval(0)
 
-            setCgstper(Math.round(gst/2))
-            setSgstper(Math.round(gst/2))
+            setCgstper(Math.round(gst / 2))
+            setSgstper(Math.round(gst / 2))
             setIgstper(0)
 
         }
@@ -337,24 +335,21 @@ function Bills() {
 
     const handletdsbtn = (e) => {
         e.preventDefault();
-
         const TdsAmount = document.getElementById('tds_amt').value
         const TdsPer = document.getElementById('tds_per').value
         const amount = TdsAmount * TdsPer / 100
         const value = netTotal
+        setNetTotal(value - Math.round(amount))
 
-        setNetTotal(value + Math.round(amount))
-
+        document.getElementById('tdsperinp').value=TdsPer;
+        document.getElementById('tdstagval').innerHTML=Math.round(amount);
+        
         document.getElementById('tdsdiv').style.display = 'none';
-
     }
-
     const handleTdscomp = (e) => {
         e.preventDefault();
         setTdscomp(e.target.value)
     }
-
-
     return (
         <div>
             <div className="wrapper">
@@ -733,9 +728,14 @@ function Bills() {
 
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-6 ml-5" disabled />
+                                                                <div className="input-group" >
+                                                                    <input type="text" className="form-control col-md-5 ml-5" id='tdsperinp' disabled />
+                                                                    <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                        </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>0.00</td>
+                                                                <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Expense Amt</td>
