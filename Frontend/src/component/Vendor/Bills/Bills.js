@@ -740,13 +740,13 @@ function Bills() {
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
                                                             </tr>
-                                                            <tr>
+                                                            {/* <tr>
                                                                 <td>Expense Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
                                                                     <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' />
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
-                                                            </tr>
+                                                            </tr> */}
 
                                                             <tr>
                                                                 <td><h4>Total</h4></td>
