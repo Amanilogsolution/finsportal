@@ -40,6 +40,7 @@ const Reportdata = () => {
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
       setVendcustname(Customer.options[Customer.selectedIndex].text)
+
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
       setData(result)
     }
@@ -47,6 +48,7 @@ const Reportdata = () => {
       const vend = document.getElementById('vendor');
       const vendid = vend.value;
       setVendcustname(vend.options[vend.selectedIndex].text)
+
       const result = await FilterBillReport(org, fromdate, todate, vendid)
       setData(result)
     }
@@ -55,6 +57,8 @@ const Reportdata = () => {
 
   const handleChangetype = (e) => {
     if (e.target.value == 'Bills') {
+      
+      document.getElementById('locationdiv').style.display = 'none';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
     }
@@ -99,7 +103,7 @@ const Reportdata = () => {
             </div>
           </div>
 
-          {/* Modal Start */}
+          {/* ######################## Modal Start ############################### */}
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -112,7 +116,7 @@ const Reportdata = () => {
                 <div className="modal-body">
 
                   <div className="form-row" >
-                    <label htmlFor="report_type" className="col-md-2 col-form-label font-weight-normal">Report Type</label>
+                    <label htmlFor="report_type" className="col-md-3 col-form-label font-weight-normal">Report Type<span style={{ color: "red" }}>*</span></label>
                     <div className="col form-group" >
                       <select className="form-control col" id='report_type' onChange={handleChangetype}>
                         <option value='' hidden>Select Type</option>
@@ -121,8 +125,8 @@ const Reportdata = () => {
                       </select>
                     </div>
                   </div>
-                  <div className="form-row" >
-                    <label htmlFor="location" className="col-md-2 col-form-label font-weight-normal">Location</label>
+                  <div className="form-row" id='locationdiv'>
+                    <label htmlFor="location" className="col-md-3 col-form-label font-weight-normal">Location</label>
                     <div className="col form-group" >
                       <select type="text" className="form-control col" id='location' >
                         <option value='' hidden>Select Loaction</option>
@@ -136,7 +140,7 @@ const Reportdata = () => {
 
 
                   <div className="form-row" id='customerdiv'>
-                    <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
+                    <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Customer</label>
                     <div className="col form-group" >
                       <select className="form-control col" id='customer' >
                         <option value='all'>All</option>
@@ -149,7 +153,7 @@ const Reportdata = () => {
                   </div>
 
                   <div className="form-row" style={{ display: "none" }} id='vendordiv'>
-                    <label htmlFor="vendor" className="col-md-2 col-form-label font-weight-normal">Vendor</label>
+                    <label htmlFor="vendor" className="col-md-3 col-form-label font-weight-normal">Vendor</label>
                     <div className="col form-group" >
                       <select className="form-control col" id='vendor' >
                         <option value='all'>All</option>
@@ -164,14 +168,14 @@ const Reportdata = () => {
 
 
                   <div className="form-row" >
-                    <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From</label>
+                    <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
                     <div className="col form-group" >
                       <input type="date" className="form-control col" id='from_date' />
 
                     </div>
                   </div>
                   <div className="form-row" >
-                    <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">TO</label>
+                    <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span style={{ color: "red" }}>*</span></label>
                     <div className="col form-group" >
                       <input type="date" className="form-control col" id='to_date' />
 
@@ -186,9 +190,9 @@ const Reportdata = () => {
             </div>
           </div>
 
-          {/* Modal End */}
+          {/* ########################## Modal End ###################################3 */}
         </div>
-        <Footer />
+        <Footer /> 
 
       </div>
     </div>

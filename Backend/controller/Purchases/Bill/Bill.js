@@ -58,7 +58,7 @@ const InsertBill = async (req, res) => {
           `)
             res.send('Added')
         }
-        else{
+        else {
             res.send('Already');
         }
 
@@ -79,11 +79,24 @@ const FilterBillReport = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
-         convert(varchar(15),bill_date,121) as billdate
-         from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
-                  and '${lastDate}' and vend_id='${vendid}' and status='Active'`)
-        res.send(result.recordset)
+
+        if (vendid === 'all') {
+            const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
+            convert(varchar(15),bill_date,121) as billdate
+            from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
+                     and '${lastDate}'`)
+            res.send(result.recordset)
+        }
+        else {
+
+            const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
+                convert(varchar(15),bill_date,121) as billdate
+                from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
+                         and '${lastDate}' and vend_id='${vendid}' `)
+            res.send(result.recordset)
+
+        }
+
     }
     catch (err) {
         res.send(err)
