@@ -295,6 +295,7 @@ function Bills() {
         tax = Math.round(tax)
         const val = netTotal
         setNetTotal(val + tax)
+        
 
 
     }
@@ -318,7 +319,7 @@ function Bills() {
         const amount = TdsAmount*TdsPer/100
         const value = netTotal
 
-        setNetTotal(value + Math.round(amount))
+        setNetTotal(value - Math.round(amount))
         document.getElementById('tdsdiv').style.display = 'none';
 
 
