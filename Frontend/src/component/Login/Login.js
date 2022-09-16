@@ -4,6 +4,7 @@ import { UserLogin, OTPVerification, LoginLogs, Verify2fa } from '../../api'
 
 
 const Login = () => {
+    const [loading, setLoading] = useState(false);
     const [passwordshow, setPasswordshow] = useState(false);
     const [errormsg, setErrormsg] = useState(false);
     const [otps, setOpts] = useState()
@@ -21,12 +22,15 @@ const Login = () => {
     }
 
     const handleClick = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        setLoading(true)
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const result = await UserLogin(email, password)
-        setLogindetails(result)
-        console.log(result.Loginstatus)
+        setLogindetails(result);
+        if (result) {
+            setLoading(false);
+        }
         if (result.status == 'Success') {
 
             document.getElementById('verifybtn').style.display = 'flex';
@@ -39,7 +43,6 @@ const Login = () => {
             else {
                 document.getElementById('otpdiv').style.display = 'flex';
                 document.getElementById('tokendiv').style.display = 'none';
-
                 setPhones(result.number)
                 const OTP = Math.floor(Math.random() * 1000000)
                 setOpts(OTP)
@@ -152,7 +155,7 @@ const Login = () => {
                                 <h5 style={{ color: "red", textAlign: "center" }}>Please! enter valid Id & Password.</h5>
                             ) : null
                         }
-                        <form action="../../index3.html" method="post">
+                        <form >
                             <div className="input-group mb-3">
                                 <input type="text" className="form-control" placeholder="User ID" id="email" onChange={hidetext} required />
                                 <div className="input-group-append">
@@ -167,11 +170,11 @@ const Login = () => {
                                     <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
                                 </div>
                             </div>
-                            <div className="input-group mb-3" id='tokendiv' style={{ display: "none" }}>
-                                <input type="number" className="form-control" placeholder="Enter Token" id="token" required />
+                            <div className="input-group mb-3" id='tokendiv' style={{ display: "none" }} >
+                                <input type="number" className="form-control" placeholder="Enter Token" id="token" autoComplete='off' required />
                             </div>
                             <div className="input-group mb-3" id='otpdiv' style={{ display: "none" }}>
-                                <input type="number" className="form-control" placeholder="Enter OTP" id="otp" required />
+                                <input type="number" className="form-control" placeholder="Enter OTP" id="otp" autoComplete='off' required />
                             </div>
 
                             <div className="row">
@@ -182,13 +185,29 @@ const Login = () => {
                             </div>
                         </form>
                         <p className="mb-1">
-                            <a href="forgot-password.html">I forgot my password</a>
-                            <br />
-                            <a href="otppage">With OTP</a>
+                            {/* <a href="forgot-password.html">I forgot my password</a> */}
+                            {/* <br /> */}
+                            <a href="otppage">Login via OTP</a>
                         </p>
                     </div>
                 </div>
             </div>
+
+            {/* #############  Loading Section Start ########################### */}
+            {loading
+                ?
+                <div id='outerloadingdiv'>
+                    <div id='innerloadingdiv' >
+                        <div className="lds-spinner">
+                            <div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div></div>
+                        <h1>Wait a sec.</h1>
+                    </div>
+                </div>
+                : null}
+            {/* #############  Loading Section ENd ############################# */}
+
 
             {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal fade ">
