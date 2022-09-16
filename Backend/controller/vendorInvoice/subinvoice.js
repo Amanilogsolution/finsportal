@@ -37,7 +37,7 @@ const inserSubInvoice = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
 
-        const result = await sql.query(`nsert into ${org}.dbo.tbl_sub_bill(
+        const result = await sql.query(`insert into ${org}.dbo.tbl_sub_bill(
             voucher_no ,voucher_date ,
          bill_date  ,bill_no ,
          vend_id ,vend_name ,
@@ -51,11 +51,12 @@ const inserSubInvoice = async (req, res) => {
          remarks,cost_centre ,
          fin_year,add_user_name ,
          add_system_name ,add_ip_address ,
-         add_date_time,status  
+         add_date_time,status,sub_bill_uuid  
          )
          values ('${voucher_no}','${voucher_date}','${bill_date}','${bill_no}','${vend_id}','${vend_name}','${location}','${item_name}','${emp_name}','${glcode}',
          '${samt}','${qty}','${rate}','${amt}','${unit}','${file_no}','${deduction}','${gst_rate}','${sac_hsn}','${net_amt}','${remarks}','${cost_centre}',
-         '${fin_year}','${userid}','${os.hostname()}','${req.ip}',getDate(),'Active')`)
+         '${fin_year}','${userid}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuidv1()}')`)
+         console.log(result)
         res.send('Added')  
     }
     catch (err) {
