@@ -251,31 +251,34 @@ function Bills() {
         if (!voucher_no) {
             alert('Please Enter mandatory field')
         }
-
         else {
             if (bill_amt == total_bill_amt) {
                 alert('Biil Amt and Total Amount must be same')
-
             }
             else {
-                // const org = localStorage.getItem('Organisation')
+                const org = localStorage.getItem('Organisation')
                 // const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                 //     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
+                //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img)
 
                 // if (result == 'Added') {
+                    // amount.map(async (amt, index) => {
+                    //     const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
+                    //         rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
+                    // })
+                    // const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
+                    // if (updatefintable == 'Updated') {
+                    //     alert('Data Added')
+                    //     // window.location.href='./home';
+                    // }
+                // }
 
+                // else if (result === 'Already') {
+                //     alert('Bill no Already exists');
+                // }
 
-                // amount.map(async (amt, index) => {
-                //     const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
-                //         rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
-                // })
-
-                //     const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
-                //     if (updatefintable == 'Updated') {
-                //         alert('Data Added')
-                //     }
-
+                // else {
+                //     alert('Server Not Response')
                 // }
 
             }
@@ -341,9 +344,9 @@ function Bills() {
         const value = netTotal
         setNetTotal(value - Math.round(amount))
 
-        document.getElementById('tdsperinp').value=TdsPer;
-        document.getElementById('tdstagval').innerHTML=Math.round(amount);
-        
+        document.getElementById('tdsperinp').value = TdsPer;
+        document.getElementById('tdstagval').innerHTML = Math.round(amount);
+
         document.getElementById('tdsdiv').style.display = 'none';
     }
     const handleTdscomp = (e) => {
@@ -728,12 +731,12 @@ function Bills() {
 
                                                                 </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                <div className="input-group" >
-                                                                    <input type="text" className="form-control col-md-5 ml-5" id='tdsperinp' disabled />
-                                                                    <div className="input-group-append">
+                                                                    <div className="input-group" >
+                                                                        <input type="text" className="form-control col-md-5 ml-5" id='tdsperinp' disabled />
+                                                                        <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
-                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
                                                             </tr>
