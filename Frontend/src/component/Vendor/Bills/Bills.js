@@ -339,10 +339,8 @@ function Bills() {
 
         const TdsAmount = document.getElementById('tds_amt').value
         const TdsPer = document.getElementById('tds_per').value
-console.log(TdsAmount ,' ',TdsPer)
         const amount = TdsAmount * TdsPer / 100
         const value = netTotal
-
         setNetTotal(value + Math.round(amount))
         document.getElementById('tdsdiv').style.display = 'none';
 
