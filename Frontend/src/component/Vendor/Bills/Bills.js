@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor,ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount } from '../../../api'
 
 
 function Bills() {
@@ -14,7 +14,7 @@ function Bills() {
     const [vendorlocation, setVendorLocation] = useState([])
     const [vouchercount, setVouchercount] = useState(0)
     const [activeuser, setActiveUser] = useState([])
-    const [itemlist,setItemlist]= useState([])
+    const [itemlist, setItemlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
     const [tdscomp, setTdscomp] = useState('')
 
@@ -47,8 +47,8 @@ function Bills() {
 
             const result2 = await ActiveUser()
             setActiveUser(result2)
-            const items= await ActivePurchesItems(org)
-            setItemlist(items) 
+            const items = await ActivePurchesItems(org)
+            setItemlist(items)
 
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
@@ -421,7 +421,7 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                     <select className="form-control ml-0">
                                                                         <option value='' hidden>Select Item</option>
-                                                                        
+
                                                                         {
                                                                             itemlist.map((items, index) => (
                                                                                 <option key={index} value={items.item_name} >{items.item_name}</option>
@@ -500,7 +500,9 @@ function Bills() {
                                                     </div>
                                                     <div className='mt-3'>
                                                         <label className="font-weight-normal" >Attach file(s) to Estimate</label><br />
-                                                        <button className='btn btn-success'>Attach File</button>
+                                                        <button  type="button" className='btn btn-success' data-toggle="modal" data-target="#exampleModal">
+                                                        <i className='ion-android-attach'></i> &nbsp;
+                                                        Attach File</button>
                                                     </div>
                                                 </div>
                                                 <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
@@ -708,6 +710,30 @@ function Bills() {
                 </div>
                 <Footer />
             </div>
+
+            {/* ----------------------- Attach File  Modal  Start --------------*/}
+            <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Attach Bill</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <input type='file'/>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-primary">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* ----------------------- Attach File  Modal  End --------------*/}
+
         </div>
     )
 }
