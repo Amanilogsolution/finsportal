@@ -36,6 +36,8 @@ const uuidv1 = require("uuid/v1");
       const result = twofactor.verifyToken(secret, otp);
       if(result && result.delta === 0){
         const Twofa = await sql.query(`update FINSDB.dbo.tbl_Login set twofauth='true',tfact_secretkey='${secret}' WHERE user_id = '${userid}' and comp_name='${org}'`)
+        const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${userid}'`)
+
         console.log(Twofa)
         res.send("Verify")
       }else{

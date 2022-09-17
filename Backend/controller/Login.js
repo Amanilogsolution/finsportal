@@ -12,8 +12,9 @@ const User_login = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_Login with (nolock) where user_id='${user_id}' and user_password = '${user_password}'`)
         const result1 = await sql.query(`select fin_year,year  from ilogsolution.dbo.tbl_fin_year tfy with (nolock) where status='Active'`)
+
         if (result.recordset.length) {
-            const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`)
+            // const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`)
             const token = jwt.sign({ user_id, user_password }, process.env.JWT_KEY, { expiresIn: 5 * 24 * 60 * 60 })
             res.status(200).send({
                 status: "Success",
@@ -24,6 +25,7 @@ const User_login = async (req, res) => {
                 user_id: result.recordset[0].user_id,
                 image: result.recordset[0].user_profile_url,
                 number: result.recordset[0].phone_no,
+                user_ip: result.recordset[0].comp_ip,
                 fin_year: result1.recordset[0].fin_year,
                 year: result1.recordset[0].year,
                 Twofa: result.recordset[0].tfact_secretkey,

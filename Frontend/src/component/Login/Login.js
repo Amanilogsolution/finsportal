@@ -26,11 +26,15 @@ const Login = () => {
         setLoading(true)
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
-        const result = await UserLogin(email, password)
-        
+
+        const result = await UserLogin(email, password);
+
         setLogindetails(result);
         if (result) {
             setLoading(false);
+        }
+        if(result.Loginstatus){
+            alert('You are Already Login in Some Device')
         }
         if (result.status == 'Success') {
 
