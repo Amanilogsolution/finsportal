@@ -363,7 +363,7 @@ function Bills() {
                 <div className="content-wrapper">
                     <div className="container-fluid">
                         <br />
-                        <h3 className="text-left ml-5"> New Purchase Order</h3>
+                        <h3 className="text-left ml-5"> New Bill</h3>
                         <div className="row " >
                             <div className="col ml-2 mr-2">
                                 <div className="card">
