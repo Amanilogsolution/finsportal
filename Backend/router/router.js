@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const statesController = require('../controller/state');
-const countryController = require('../controller/country');
-const currencyController = require('../controller/currency');
-const cityController = require('../controller/city');
-const unitController = require('../controller/unit');
-const bankController = require('../controller/Bank');
-const userController = require('../controller/user');
+const statesController = require('../controller/Master/state');
+const countryController = require('../controller/Master/country');
+const currencyController = require('../controller/Master/currency');
+const cityController = require('../controller/Master/city');
+const unitController = require('../controller/Master/unit');
+const bankController = require('../controller/Master/Bank');
+const userController = require('../controller/Master/user');
+const EmployeeController = require('../controller/Master/employee')
+const SubCodeController = require('../controller/Master/SubCode')
+
+
 const customerController = require('../controller/Customer');
 const vendorController = require('../controller/vendor');
 const AddressController = require('../controller/Addresses');
@@ -27,7 +31,6 @@ const ChartOfAccountController = require('../controller/ChartOfAccount')
 const AccountnameController = require('../controller/AccountName')
 const ItemsController = require('../controller/Items')
 // const AccountinfoController = require('../controller/Account-Info')
-const SubCodeController = require('../controller/SubCode')
 const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
 const CurrencyAdjustmentController = require('../controller/Currencyadjustment')
@@ -38,7 +41,6 @@ const InvoiceController = require('../controller/Invoice')
 const InvoiceSubController = require('../controller/subinvoice')
 const LoginLogsController = require('../controller/LoginLOgs')
 
-const EmployeeController = require('../controller/EmployeeMaster/employee')
 
 const BillController = require('../controller/Purchases/Bill/Bill')
 const VendorInvoiceSubController = require('../controller/Purchases/Bill/subinvoice')
