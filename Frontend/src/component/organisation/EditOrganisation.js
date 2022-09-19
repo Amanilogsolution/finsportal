@@ -7,8 +7,8 @@ import { showOrganisation, updateOrganisation, UploadData } from "../../api/inde
 function EditOrganisation() {
   const [data, setData] = useState({})
   const [file, setFile] = useState('')
-  const [report_basic,setReportBasic] = useState('')
-  const[uploadimage,setUploadImage] = useState('')
+  const [report_basic, setReportBasic] = useState('')
+  const [uploadimage, setUploadImage] = useState('')
 
 
   const Orgdetails = async (e) => {
@@ -25,10 +25,10 @@ function EditOrganisation() {
     const Fins_year = document.getElementById('fins_year').value
     const Company_Id = document.getElementById('company_id').value
     const Tax_id = document.getElementById('tax_id').value
-    console.log(Industry_Type,Fins_year,Company_Id,Tax_id,report_basic,uploadimage)
+    console.log(Industry_Type, Fins_year, Company_Id, Tax_id, report_basic, uploadimage)
 
 
-    const result = await updateOrganisation(localStorage.getItem('Organisation'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id,Industry_Type,Fins_year,report_basic,Company_Id,Tax_id,uploadimage)
+    const result = await updateOrganisation(localStorage.getItem('Organisation'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, Industry_Type, Fins_year, report_basic, Company_Id, Tax_id, uploadimage)
     if (result) {
       alert('Updated')
       window.location.href = '/home';
@@ -49,7 +49,7 @@ function EditOrganisation() {
     setData({ ...data, org_contact_name: e.target.value })
   }
   const handleChangeContactPhone = (e) => {
-    if(e.target.value.length === 11) return false;
+    if (e.target.value.length === 11) return false;
     setData({ ...data, org_contact_phone: e.target.value })
   }
   const handleChangeContactEmail = (e) => {
@@ -62,7 +62,7 @@ function EditOrganisation() {
     setData({ ...data, org_city: e.target.value })
   }
   const handleChangePin = (e) => {
-    if(e.target.value.length === 7) return false
+    if (e.target.value.length === 7) return false
     setData({ ...data, org_pincode: e.target.value })
   }
   const handleChangeGst = (e) => {
@@ -71,14 +71,14 @@ function EditOrganisation() {
   const handleChangeIndustrytype = (e) => {
     setData({ ...data, industry_type: e.target.value })
   }
-  const handleChangeCompanyId = (e) =>{
+  const handleChangeCompanyId = (e) => {
     setData({ ...data, company_id: e.target.value })
   }
-  const handleChangeTaxId = (e) =>{
+  const handleChangeTaxId = (e) => {
     setData({ ...data, tax_id: e.target.value })
   }
 
-  const handleChange= (e) =>{
+  const handleChange = (e) => {
     console.log(e.target.value)
     setReportBasic(e.target.value)
   }
@@ -89,10 +89,10 @@ function EditOrganisation() {
       console.log(result)
       setData(result)
       console.log(result.report_basic)
-      if(result.report_basic==='Accural'){
+      if (result.report_basic === 'Accural') {
         document.getElementById('Accural').checked = true
         setReportBasic('Accural')
-      }else{
+      } else {
         document.getElementById('Cash').checked = true
         setReportBasic('Cash')
 
@@ -105,12 +105,12 @@ function EditOrganisation() {
 
   return (
     <>      <div className="wrapper">
-     <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
 
-        <Header />
-        {/* <Menu /> */}
+      <Header />
+      {/* <Menu /> */}
       <div className="orgcontainer">
         <br />
         <div className="row justify-content-center " style={{ width: "100%" }}>
@@ -126,9 +126,9 @@ function EditOrganisation() {
                 <br />
 
                 <form autoComplete="off">
-                  <div className="form-group" style={{ marginLeft:"40%"}}>
-                    <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%",  position: "relative", }}>
-                      <img src={data.org_logo} alt="Org_logo" style={{ height: "100%", width: "100%",borderRadius: "50%", }} />
+                  <div className="form-group" style={{ marginLeft: "40%" }}>
+                    <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "relative", }}>
+                      <img src={data.org_logo} alt="Org_logo" style={{ height: "100%", width: "100%", borderRadius: "50%", }} />
                       <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "blue" }}></i>
                     </div>
                   </div>
@@ -141,7 +141,7 @@ function EditOrganisation() {
                     </div>
                     <div className="col form-group">
                       <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
-                      <input type="text" className="form-control" id="industry_type"  value={data.industry_type}  onChange={(e) => handleChangeIndustrytype(e)}/>
+                      <input type="text" className="form-control" id="industry_type" value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
                     </div>
                   </div>
                   <div className="form-row">
@@ -268,7 +268,7 @@ function EditOrganisation() {
 
                       </select>
                     </div>
-                    <div className=" form-group col"onChange={handleChange}>
+                    <div className=" form-group col" onChange={handleChange}>
                       <label> Report Basic </label>
                       <label className="form-check form-check-inline">
 
@@ -280,7 +280,7 @@ function EditOrganisation() {
                         />Accural
                       </label>
                       <div className="form-group col ml-6" >
-                        <label className="form-check form-check "style={{marginLeft:"90px"}}>
+                        <label className="form-check form-check " style={{ marginLeft: "90px" }}>
 
                           <input
                             className="form-check-input "
@@ -331,14 +331,14 @@ function EditOrganisation() {
                       <label>
                         Company ID<span style={{ color: "red" }}>*</span>
                       </label>
-                      <input type="text" className="form-control" placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)}/>
+                      <input type="text" className="form-control" placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
                     </div>
                     <div className="form-group col-md-6">
                       <label>
                         Tax ID
                         <span style={{ color: "red" }}>*</span>
                       </label>
-                      <input type="text" className="form-control" placeholder id="tax_id"  value={data.tax_id}  onChange={(e) => handleChangeTaxId(e)}
+                      <input type="text" className="form-control" placeholder id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
                       />
                     </div>
                   </div>
@@ -408,7 +408,7 @@ function EditOrganisation() {
                     const document = event.target.files[0];
                     setFile(document)
                   }}
-                  // accept=".jpg, .jpeg, .png,.svg"
+                // accept=".jpg, .jpeg, .png,.svg"
                 />
 
               </div>
@@ -420,7 +420,7 @@ function EditOrganisation() {
           </div>
         </div>
       </div>
-      </div>
+    </div>
     </>
   )
 }
