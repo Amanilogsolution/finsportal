@@ -51,8 +51,8 @@ const Menu = (props) => {
                   <p > Items </p>
                 </a>
               </li>
-              
-            
+
+
 
               <li className="nav-item">
                 <a href="#" className="nav-link active">
@@ -509,11 +509,11 @@ const Menu = (props) => {
                   </li>
                 </ul> */}
                 <li className="nav-item " >
-                <a href="/Reportdata" className="nav-link active" >
-                <i className="far ion-arrow-graph-up-right nav-icon" />
-                  <p >Report </p>
-                </a>
-              </li>
+                  <a href="/Reportdata" className="nav-link active" >
+                    <i className="far ion-arrow-graph-up-right nav-icon" />
+                    <p >Report </p>
+                  </a>
+                </li>
 
               </li>
 
