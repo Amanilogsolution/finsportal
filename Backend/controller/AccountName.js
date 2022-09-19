@@ -89,9 +89,6 @@ const ImportAccountName = (req, res) => {
     const org = req.body.org;
     const User_id = req.body.User_id;
 
-    console.log(org)
-   
-
     sql.connect(sqlConfig).then(() => {
 
         sql.query(`select * from ${org}.dbo.tbl_account_type where account_type_code in ('${datas.map(data => data.account_type_code).join("', '")}') OR account_type in ('${datas.map(data => data.account_type).join("', '")}')`)
