@@ -10,10 +10,25 @@ const bankController = require('../controller/Master/Bank');
 const userController = require('../controller/Master/user');
 const EmployeeController = require('../controller/Master/employee')
 const SubCodeController = require('../controller/Master/SubCode')
+const ComplianceTypeController = require('../controller/Master/ComplianceType')
 
 
-const customerController = require('../controller/Customer');
-const vendorController = require('../controller/vendor');
+const ComplianceController = require('../controller/AppSetting/Compliance')
+const FincialyearController = require('../controller/AppSetting/Fincialyear')
+const CRMController = require('../controller/AppSetting/crmMaster')
+const PaymentTermController = require('../controller/AppSetting/paymentMaster')
+const LocationController = require('../controller/AppSetting/Location')
+
+
+const customerController = require('../controller/Sales/Customer');
+const InvoiceController = require('../controller/Sales/Invoice')
+const InvoiceSubController = require('../controller/Sales/subinvoice')
+
+
+const BillController = require('../controller/Purchases/Bill/Bill')
+const VendorInvoiceSubController = require('../controller/Purchases/Bill/subinvoice')
+const vendorController = require('../controller/Purchases/vendor');
+
 const AddressController = require('../controller/Addresses');
 const LoginController = require('../controller/Login')
 const checkAuth = require("../Middleware/checkAuth")
@@ -21,12 +36,9 @@ const Token = require('../controller/Token')
 const OrganisationController = require('../controller/Org')
 const NewdbController = require('../controller/Newdb')
 const OrgTableController = require('../controller/Org_table')
-const LocationController = require('../controller/Location')
 const FileUpload = require('../controller/FileUpload')
 const Multer = require('../Middleware/multer')
-const ComplianceController = require('../controller/Compliance')
-const ComplianceTypeController = require('../controller/ComplianceType')
-const FincialyearController = require('../controller/Fincialyear')
+
 const ChartOfAccountController = require('../controller/ChartOfAccount')
 const AccountnameController = require('../controller/AccountName')
 const ItemsController = require('../controller/Items')
@@ -34,18 +46,13 @@ const ItemsController = require('../controller/Items')
 const AccountMinorCodeController = require('../controller/AccountMinorCode')
 const ChartOfAccountMasterController =require('../controller/ChartOfAccountMaster')
 const CurrencyAdjustmentController = require('../controller/Currencyadjustment')
-const PaymentTermController = require('../controller/paymentMaster')
 // const ChargeCodeController = require('../controller/ChargeCode')
-const CRMController = require('../controller/crmMaster')
-const InvoiceController = require('../controller/Invoice')
-const InvoiceSubController = require('../controller/subinvoice')
 const LoginLogsController = require('../controller/LoginLOgs')
 
 
-const BillController = require('../controller/Purchases/Bill/Bill')
-const VendorInvoiceSubController = require('../controller/Purchases/Bill/subinvoice')
-
 const Twofa = require('../controller/2faAuthentication/Twofa')
+
+
 
 router.post('/newdb', NewdbController.Newdb);
 router.get('/totalstate', statesController.TotalStates);
