@@ -84,7 +84,7 @@ const EditItem = () => {
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
 
-        if (!Name) {
+        if (!Name || !major_code || !chartofaccount_id || !taxpreference) {
             alert('Enter the Mandatory field...')
         }
         else {
@@ -162,7 +162,7 @@ const EditItem = () => {
                                 <div className="col ml-5">
                                     <div className="card" style={{ width: "100%" }}>
                                         <article className="card-body">
-                                            <form>
+                                            <form autoComplete='off'>
                                                 <div className="form-row" >
                                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
                                                     <div className="col form-group " onChange={handletype} >

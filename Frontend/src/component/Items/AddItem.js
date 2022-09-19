@@ -71,7 +71,7 @@ const AddItem = () => {
         const user_id = localStorage.getItem('User_id');
 
 
-        if (!Name || !major_code || !chartofaccount || !taxpreference) {
+        if (!Name || !major_code || !chartofaccount_id || !taxpreference) {
             alert('Please Enter the mandatory field')
         }
         else {
@@ -106,7 +106,7 @@ const AddItem = () => {
                                 <div className="col ">
                                     <div className="card" >
                                         <article className="card-body">
-                                            <form>
+                                            <form autoComplete='off'>
                                                 <div className="form-row" >
                                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group " onChange={handletype} >
