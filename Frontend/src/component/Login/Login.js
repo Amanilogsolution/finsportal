@@ -33,7 +33,7 @@ const Login = () => {
         if (result) {
             setLoading(false);
         }
-        if(result.Loginstatus){
+        if(result.Loginstatus==='Login'){
             alert('You are Already Login in Some Device')
         }
         if (result.status == 'Success') {
