@@ -16,8 +16,10 @@ const EditItem = () => {
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
+
             const result = await GetItems(org, localStorage.getItem('ItemsSno'))
             setData(result)
+
             if (result.item_type === 'Goods') {
                 document.getElementById('typeGoods').checked = true
                 setType('Goods')
@@ -41,10 +43,13 @@ const EditItem = () => {
                 document.getElementById('defaulttax').style.display = "none";
             }
 
-            const result2 = await ActiveAccountname(localStorage.getItem('Organisation'))
+            const result2 = await ActiveAccountname(org)
             setMajorcodelist(result2)
 
-            const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
+            const chartofaccount = await SelectSubAccountname(org,result.major_code_id)
+            setChartofaccountlist(chartofaccount)
+
+            const result1 = await TotalActiveUnit(org);
             setUnitdata(result1)
         }
         fetchdata()
@@ -66,7 +71,11 @@ const EditItem = () => {
         const major_code1 = document.getElementById("major_code");
         const major_code = major_code1.options[major_code1.selectedIndex].textContent;
         const major_code_val = major_code1.value
-        const chartofaccount = document.getElementById('chartofaccount').value;
+        const chartofacc = document.getElementById('chartofaccount');
+
+        const chartofaccount_id = chartofacc.value;
+        const chartofaccount =  chartofacc.options[chartofacc.selectedIndex].textContent;
+
         const taxpreference = document.getElementById("taxpreference").value;
         const Purchase = document.getElementById("item_name_purchase").checked === true ? 'Purchase' : '';
         const Sales = document.getElementById("item_name_sales").checked === true ? 'Sales' : '';
@@ -79,7 +88,7 @@ const EditItem = () => {
             alert('Enter the Mandatory field...')
         }
         else {
-            const result = await UpdateItems(sno, org, type, Name, Unit, saccode, hsncode, major_code_val, major_code, chartofaccount, taxpreference, Sales, Purchase, gstrate, user_id);
+            const result = await UpdateItems(sno, org, type, Name, Unit, saccode, hsncode, major_code_val, major_code, chartofaccount,chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id);
             if (result === "updated") {
                 alert('Data Updated')
                 localStorage.removeItem('ItemsSno');
@@ -212,10 +221,10 @@ const EditItem = () => {
                                                     <label htmlFor="chartofaccount" className="col-md-2 col-form-label font-weight-normal">Chart of Account</label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id='chartofaccount'   >
-                                                            <option value={data.chart_of_account} hidden>{data.chart_of_account}</option>
+                                                            <option value={data.chart_of_acct_id} hidden>{data.chart_of_account}</option>
                                                             {
                                                                 chartofaccountlist.map((item, index) =>
-                                                                    <option key={index} value={item.account_sub_name}>{item.account_sub_name}</option>)
+                                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
                                                             }
                                                         </select>
                                                     </div>

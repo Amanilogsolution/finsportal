@@ -26,6 +26,7 @@ const AddItem = () => {
     const handlegetchartofaccount = async (e) => {
         const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), e.target.value)
         setChartofaccountlist(chartofaccount)
+        console.log(chartofaccount)
     }
 
     const handletype = (e) => {
@@ -59,7 +60,9 @@ const AddItem = () => {
         const major_code1 = document.getElementById('major_code');
         const major_code = major_code1.options[major_code1.selectedIndex].textContent;
         const major_code_val = major_code1.value;
-        const chartofaccount = document.getElementById('chartof_account').value;
+        const chartofacct = document.getElementById('chartof_account');
+        const chartofaccount_id = chartofacct.value;
+        const chartofaccount =  chartofacct.options[chartofacct.selectedIndex].textContent;
         const taxpreference = document.getElementById("taxpreference").value;
         const Purchase = document.getElementById("item_name_purchase").checked === true ? 'Purchase' : '';
         const Sales = document.getElementById("item_name_sales").checked === true ? 'Sales' : '';
@@ -67,11 +70,12 @@ const AddItem = () => {
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
 
-        if (!Name || !unit || !major_code || !chartofaccount || !taxpreference) {
+
+        if (!Name || !major_code || !chartofaccount || !taxpreference) {
             alert('Please Enter the mandatory field')
         }
         else {
-            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, taxpreference, Sales, Purchase, gstrate, user_id);
+            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount,chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id);
             if (result === "Added") {
                 alert('Data Added')
                 localStorage.removeItem('ChargecodeSno');
@@ -118,7 +122,7 @@ const AddItem = () => {
                                                     </div>
                                                 </div>
                                                 <div className="form-row" >
-                                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit<span style={{ color: "red" }}>*</span></label>
+                                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
                                                     <div className="col form-group">
                                                         <select className="form-control col-md-4" id="unit">
                                                             <option value='' hidden>Select Unit</option>
@@ -168,7 +172,7 @@ const AddItem = () => {
                                                             <option value='' hidden>Select the Chart of Account</option>
                                                             {
                                                                 chartofaccountlist.map((item, index) =>
-                                                                    <option key={index} value={item.account_sub_name}>{item.account_sub_name}</option>)
+                                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
                                                             }
                                                         </select>
                                                     </div>

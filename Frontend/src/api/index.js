@@ -832,9 +832,9 @@ export const UpdatefinancialTwocount = async (org, countkey, countvalue, countke
 
 //  ########################## Item api start ###############################
 
-export const InsertItems = async (org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
+export const InsertItems = async (org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
     const url = `http://localhost:3008/api/insertitems`
-    return axios.post(url, { org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 export const TotalItems = async (org) => {
     const url = `http://localhost:3008/api/totalitems`
@@ -850,9 +850,9 @@ export const deleteItems = async (org, sno, status) => {
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateItems = async (sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
+export const UpdateItems = async (sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
     const url = `http://localhost:3008/api/updateItems`
-    return axios.post(url, { sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveItems = async (org, major_code) => {
     const url = `http://localhost:3008/api/activeitems`
