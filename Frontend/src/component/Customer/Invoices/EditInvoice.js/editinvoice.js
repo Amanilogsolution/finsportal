@@ -3,17 +3,21 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import InvoicePreview from '.././PreviewInvoice';
 import InvoicePreviewWithGst from '.././PreviewInvoicewithoutGST'
-import { GetInvoice } from '../../../../api/index'
+import { GetInvoice,GetSubInvoice } from '../../../../api/index'
 
 
 function EditInvoice() {
     const [invoice_detail, setInvoice_detail] = useState({})
+    const [invoicesub,setInvoicesub] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
-            const Invoiceresult = await GetInvoice(localStorage.getItem('Organisation'), localStorage.getItem('invoiceNo'))
-            console.log(Invoiceresult[0])
+            const org=localStorage.getItem('Organisation')
+            const invoice_no= localStorage.getItem('invoiceNo')
+            const Invoiceresult = await GetInvoice(org,invoice_no )
             setInvoice_detail(Invoiceresult[0])
+            const result1 = await GetSubInvoice(org, invoice_no)
+            setInvoicesub(result1)
 
         }
         fetchdata()

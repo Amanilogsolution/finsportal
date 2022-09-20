@@ -158,14 +158,14 @@ function Invoices() {
     const handleChangeItems = async (e) => {
         e.preventDefault();
         console.log(e.target.value)
-        const [actgst, chargecode] = e.target.value.split(',')
+        const [actgst, chargecode,glcodes] = e.target.value.split(',')
         setChargeCode([...chargecodes, chargecode])
-        console.log(actgst)
+        setGlCode([...glcode,glcodes])
 
-        const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'), chargecode)
-        console.log(result)
-        setMinor([...minor, result.account_name_code])
-        setGlCode([...glcode, result.account_sub_name_code])
+        // const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'), chargecode)
+        // console.log(result)
+        // // setMinor([...minor, result.account_name_code])
+        // setGlCode([...glcode, result.account_sub_name_code])
 
         if (actgst > 0) {
             setTaxable([...taxable, 'Yes'])
@@ -378,12 +378,14 @@ function Invoices() {
 
     const handlesavebtn = async (e) => {
         e.preventDefault();
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
         let invoiceids = "";
         let squ_nos = ""
         const btn_type = e.target.value;
         const fin_year = localStorage.getItem('fin_year')
         if (btn_type === 'save') {
-            invoiceids = 'Inv001';
+            invoiceids ='Random'+ Math.floor(Math.random() * 10000) + 1;
             squ_nos = ""
         }
         else {
@@ -455,7 +457,6 @@ function Invoices() {
         }
 
         amount.map(async (amt, index) => {
-            console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
         })
@@ -639,7 +640,7 @@ function Invoices() {
                                                                                             <option value='' hidden > Select item</option>
                                                                                             {
                                                                                                 activechargecode.map((item, index) => (
-                                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name}`} >{item.item_name}</option>
+                                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
                                                                                                 ))
                                                                                             }
                                                                                         </select>

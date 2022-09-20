@@ -21,6 +21,7 @@ const Reportdata = () => {
       setCustomerlist(customer)
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
+    
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
@@ -40,6 +41,7 @@ const Reportdata = () => {
       const Customer = document.getElementById('customer');
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
+      console.log(locationid)
       setVendcustname(Customer.options[Customer.selectedIndex].text)
 
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
