@@ -1194,6 +1194,7 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
 }
 
 export const GetInvoice = async (org, sno) => {
+    console.log(org,sno)
     const url = `http://localhost:3008/api/getinvoice`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
