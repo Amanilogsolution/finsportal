@@ -446,7 +446,7 @@ console.log(invoice_destination,invoice_origin)
         const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
             squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            paymentterm, Duedate, User_id,custaddrs,custAddgst,custaddress_state,invoice_destination,invoice_origin)
+            paymentterm, Duedate, User_id,custaddrs,custAddgst,invoice_destination,invoice_origin)
 
         // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
 
