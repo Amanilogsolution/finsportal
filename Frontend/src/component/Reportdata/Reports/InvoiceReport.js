@@ -43,9 +43,9 @@ const InvoiceReport = (props) => {
 
             selector: "null",
             cell: (row) => [
-
+                row.flagsave=='post'?
                 <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.invoice_no); setSno(row.sno);setTooglecomponent(true) }} className="btn btn-success ml-2"
-                    data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                    data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>: <button  type="button" className="btn btn-danger ml-2" >Edit</button>
 
             ]
         }

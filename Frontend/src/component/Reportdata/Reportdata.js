@@ -21,6 +21,7 @@ const Reportdata = () => {
       setCustomerlist(customer)
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
+
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
     }
@@ -42,6 +43,7 @@ const Reportdata = () => {
       setVendcustname(Customer.options[Customer.selectedIndex].text)
 
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
+      console.log(result)
       setData(result)
     }
     else if (report_type == 'Bills') {
