@@ -30,6 +30,8 @@ const User_login = async (req, res) => {
                 year: result1.recordset[0].year,
                 Twofa: result.recordset[0].tfact_secretkey,
                 Loginstatus: result.recordset[0].status,
+                ThemeButton:result.recordset[0].theme_btn_color,
+                Theme:result.recordset[0].theme_type,
                 expiresIn: 5 * 24 * 60 * 60
             })
         } else {
