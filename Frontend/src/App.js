@@ -97,6 +97,7 @@ import Estimates from './component/Customer/Estimates/Estimates';
 import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
 import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChallans';
 import Invoices from './component/Customer/Invoices/Invoices';
+import EditInvoice from './component/Customer/Invoices/EditInvoice.js/editinvoice'
 
 import RecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
 import CreditNotes from './component/Customer/CreditNotes/CreditNotes';
@@ -247,6 +248,10 @@ const App = () => {
           <PrivatRoute exact path="/SalesOrder" component={SalesOrder} />
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
           <PrivatRoute exact path="/Invoices" component={Invoices} />
+          <PrivatRoute exact path="/EditInvoice" component={EditInvoice} />
+
+
+          
           <PrivatRoute exact path="/RecurringInvoices" component={RecurringInvoices} />
           <PrivatRoute exact path="/CreditNotes" component={CreditNotes} />
           <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived} />
