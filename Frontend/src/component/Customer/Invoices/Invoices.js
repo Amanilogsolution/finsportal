@@ -419,8 +419,8 @@ function Invoices() {
 
         let custaddrs = document.getElementById('custaddr')
         custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
-        const invoice_destination=custaddress_state;
-        const invoice_origin=billingaddress;
+        const invoice_destination = custaddress_state;
+        const invoice_origin = billingaddress;
 
         let cgstamount = 0;
         let sgstamount = 0;
@@ -441,24 +441,28 @@ function Invoices() {
         // console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
         //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
         //     paymentterm, Duedate, User_id)
-console.log(invoice_destination,invoice_origin)
 
         const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
             squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+
             paymentterm, Duedate, User_id,custaddrs,custAddgst,invoice_destination,invoice_origin)
 
-        // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
 
-        // amount.map(async (amt, index) => {
-        //     console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
-        //     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
-        // })
-        // if (result) {
-        //     alert('Added')
-        //     // window.location.reload();
-        // }
+        if (btn_type !== 'save') {
+            const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+        }
+
+        amount.map(async (amt, index) => {
+            console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
+            const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
+
+        })
+        if (result) {
+            alert('Added')
+            window.location.reload();
+        }
 
     }
 
@@ -471,24 +475,19 @@ console.log(invoice_destination,invoice_origin)
                                 <div className="spinner-border" role="status"> </div>
                             </div> */}
                     <Header />
-                    {/* <Menu /> */}
 
                     <div className="content-wrapper" >
                         <div className="container-fluid" >
-
                             <div className="row pt-3" >
                                 <div className="col">
                                     {
-
                                         loading ?
                                             (
                                                 <div className="card" >
                                                     <article
-                                                        className="card-body"
-                                                    >
+                                                        className="card-body">
                                                         <h3 className="text-left"> New Invoice</h3>
                                                         <br />
-
                                                         <form autoComplete="off">
                                                             <div className="form-row mt-2">
                                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
@@ -496,20 +495,16 @@ console.log(invoice_destination,invoice_origin)
                                                                     <select
                                                                         id="custname"
                                                                         className="form-control"
-                                                                        onChange={handleCustname}
-                                                                    >
+                                                                        onChange={handleCustname}>
                                                                         <option value='' hidden>Select Customer</option>
                                                                         {
                                                                             activecustomer.map((items, index) => (
                                                                                 <option key={index} value={items.cust_id} >{items.cust_name}</option>
                                                                             ))
                                                                         }
-
                                                                     </select>
-                                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
                                                                 </div>
                                                             </div>
-
 
                                                             <div className="form-row mt-2">
                                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span style={{ color: "red" }}>*</span> </label>
@@ -517,8 +512,8 @@ console.log(invoice_destination,invoice_origin)
                                                                     <select
                                                                         id="custaddr"
                                                                         className="form-control"
-                                                                        onChange={handleChangeCustomerAdd}
-                                                                    >
+                                                                        onChange={handleChangeCustomerAdd}>
+
                                                                         <option value='' hidden>Select Address</option>
                                                                         {
                                                                             cutomerAddress.map((items, index) => (
@@ -527,7 +522,6 @@ console.log(invoice_destination,invoice_origin)
                                                                         }
 
                                                                     </select>
-                                                                    {/* <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button> */}
                                                                 </div>
                                                             </div>
 
@@ -596,40 +590,6 @@ console.log(invoice_destination,invoice_origin)
                                                                 </div>
                                                             </div>
 
-
-
-                                                            {/* 
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 " > </label>
-                                                <div className="d-flex col-md-4">
-                                                    <small>To create transaction dated before 01/07/2017</small>
-                                                </div>
-                                            </div> */}
-
-
-
-                                                            {/* <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Contact Person </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select id="salesperson" className="form-control">
-                                                        <option value={custdetail.contact_person_name} hidden>{custdetail.contact_person_name}</option>
-                                                        {
-                                                            activeuser.map((items) => (
-                                                                <option key={items.employee_name} value={items.employee_name}>{items.employee_name}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div> */}
-                                                            {/* <hr /> */}
-
-                                                            {/* <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
-                                                <div className="d-flex col-md">
-                                                    <textarea className="form-control col-md-7" id="subject" rows='4' placeholder="Let your customer know what this invoice is for" style={{ resize: 'none' }}></textarea>
-
-                                                </div>
-                                            </div> */}
                                                             <hr />
                                                             <div className="form-row mt-2">
                                                                 <label className="col-md-2 col-form-label font-weight-normal" >Activity <span style={{ color: "red" }}>*</span></label>
@@ -654,7 +614,6 @@ console.log(invoice_destination,invoice_origin)
                                                                     <input type="date" className="form-control col-md-6" id="todate" />
                                                                 </div>
                                                             </div>
-                                                            {/* <hr /> */}
                                                             <br />
 
 
@@ -690,7 +649,6 @@ console.log(invoice_destination,invoice_origin)
                                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                                         const quantity = e.target.value
                                                                                         setIndex(index)
-
                                                                                         setQuantity(quantity)
                                                                                     }} /></td>
 

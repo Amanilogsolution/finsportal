@@ -85,7 +85,7 @@ const InvoicePreview = () => {
                   <div className="secondinvoicediv" >
                     <b>TAX INVOICE NO :</b>&nbsp; {data.invoice_no} &nbsp;
                   </div>
-                  <div className="thirdinvoicediv"> &nbsp;{data.invoice_date} &nbsp;</div>
+                  <div className="thirdinvoicediv"> &nbsp;{data.startdate} &nbsp;</div>
                   <div className="forthinvoicediv"><b> Rs.</b>{data.invoice_amt}</div>
                 </div>
               </div>
@@ -114,12 +114,12 @@ const InvoicePreview = () => {
                     <tr>
                       <td><b>Gross WT.</b> </td>
                       <td><b>Pcs.</b></td>
-                      <td><b>Origin :</b> </td>
+                      <td><b>Origin :{data.origin}</b> </td>
                     </tr>
                     <tr>
                       <td><b>Details Of Goods :</b></td>
                       <td><b>Veh Type : Courier</b></td>
-                      <td><b>Destination : </b></td>
+                      <td><b>Destination : {data.destination}</b></td>
                     </tr>
                   </tbody>
                 </table>
