@@ -445,7 +445,6 @@ function Invoices() {
         const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
             squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-
             paymentterm, Duedate, User_id,custaddrs,custAddgst,invoice_destination,invoice_origin)
 
 
