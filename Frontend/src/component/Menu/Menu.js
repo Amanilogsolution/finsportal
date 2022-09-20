@@ -52,11 +52,9 @@ const Menu = (props) => {
                 </a>
               </li>
 
-
-
               <li className="nav-item">
                 <a href="#" className="nav-link active">
-                  <i className="nav-icon material-icons" >shopping_cart</i>
+                  <i className="nav-icon material-icons" style={{marginLeft:"-5px"}}>shopping_cart</i>
                   <p >
                     Sales
                     <i className="right fas fa-angle-left" />
@@ -473,24 +471,6 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowPaymentTerm" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Terms Master</p>
-                    </a>
-                  </li>
-                </ul> */}
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowItem" className="nav-link active">
-                      <span className="material-symbols-outlined nav-icon">
-                        category
-                      </span>
-                      <p>Item Master</p>
-                    </a>
-                  </li>
-                </ul> */}
 
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
@@ -500,21 +480,13 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/Reportdata" className="nav-link active">
-                      <i className="far ion-arrow-graph-up-right nav-icon" />
-                      <p>Reports</p>
-                    </a>
-                  </li>
-                </ul> */}
-                <li className="nav-item " >
-                  <a href="/Reportdata" className="nav-link active" >
-                    <i className="far ion-arrow-graph-up-right nav-icon" />
-                    <p >Report </p>
-                  </a>
-                </li>
+              </li>
 
+              <li className="nav-item " >
+                <a href="/Reportdata" className="nav-link active">
+                <i className="far ion-arrow-graph-up-right nav-icon" style={{marginLeft:"-5px"}}/>
+                  <p > Report </p>
+                </a>
               </li>
 
             </ul>
