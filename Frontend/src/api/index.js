@@ -1197,10 +1197,10 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
     return axios.post(url, { org, startDate, lastDate, custid, locationid }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const GetInvoice = async (org, sno) => {
-    console.log(org,sno)
+export const GetInvoice = async (org, invoiceno) => {
+    console.log(org,invoiceno)
     const url = `http://localhost:3008/api/getinvoice`
-    return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
 
 

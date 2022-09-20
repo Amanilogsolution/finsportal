@@ -65,17 +65,17 @@ const filterInvoice = async (req, res) => {
     const lastDate = req.body.lastDate;
     const custid = req.body.custid;
     const locationid = req.body.locationid;
-
+console.log(locationid)
     try {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and location ='${locationid}' and status='Active'`)
+            and '${lastDate}' and location ='${locationid}' `)
             res.send(result.recordset)
         }
         else {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and custid='${custid}' and location ='${locationid}' and status='Active'`)
+            and '${lastDate}' and custid='${custid}' and location ='${locationid}'`)
             res.send(result.recordset)
         }
     }
@@ -87,11 +87,11 @@ const filterInvoice = async (req, res) => {
 
 const getInvoice = async (req, res) => {
     const org = req.body.org;
-    const sno = req.body.sno;
-    console.log(org,sno)
+    const invoiceno = req.body.invoiceno;
+    console.log(org,invoiceno)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_invoice with (nolock) where invoice_no='${sno}' and status='Active'`)
+        const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as startdate,convert(varchar(15),due_date,121) as lastdate from ${org}.dbo.tbl_invoice with (nolock) where invoice_no='${invoiceno}'`)
         res.send(result.recordset)
     }
     catch (err) {
