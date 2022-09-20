@@ -37,7 +37,7 @@ const Header = () => {
 
 
   const handleClick = async () => {
-    const result = await UserLogout(localStorage.getItem('User_name'));
+    const result = await UserLogout(localStorage.getItem('User_id'),localStorage.getItem('User_name'),localStorage.getItem('themebtncolor'),localStorage.getItem('themetype'));
     const result1 = await LogoutLogs(localStorage.getItem('User_id'), localStorage.getItem('Organisation'))
     if (result.status === 'Logout') {
       localStorage.clear()

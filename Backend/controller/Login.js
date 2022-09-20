@@ -71,9 +71,14 @@ const InsertUserLogin = async (req, res) => {
 
 const User_logout = async (req, res) => {
     const user_id = req.body.user_id;
+    const user_name = req.body.user_name;
+    const btntheme= req.body.btntheme;
+    const themetype= req.body.themetype;
+    
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout'  WHERE user_name = '${user_id}'`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout',
+        theme_btn_color='${btntheme}',theme_type='${themetype}'  WHERE user_id = '${user_id}' and user_name = '${user_name}'`)
         res.status(200).send({
             status: "Logout"
         })

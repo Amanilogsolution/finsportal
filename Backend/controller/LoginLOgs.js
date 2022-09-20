@@ -27,11 +27,12 @@ const LoginLogs = async (req, res) => {
 const LogoutLogs = async (req, res) => {
     const user_id = req.body.user_id;
     const org_db_name = req.body.org_db_name;
+    
   
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update FINSDB.dbo.tbl_login_logs  set logout_time =GETDATE(),status='Logout' 
-        WHERE user_id ='${user_id}' and status ='Login' and  org_db_name='${org_db_name}' ;`)
+        const result = await sql.query(`update FINSDB.dbo.tbl_login_logs  set logout_time =GETDATE(),status='Logout'
+        WHERE org_db_name='${org_db_name}' and user_id ='${user_id}' and status ='Login';`)
         res.send('Added')
     }
     catch (err) {
