@@ -93,15 +93,14 @@ const InvoicePreview = () => {
               <div className="addressmaindiv">
                 <div className="inneraddduiv inneraddduiv1">
                   <h5><b>Bill To</b></h5>
-                  {/* <h6>Kelley Material Handling Equipment India Pvt Ltd</h6> */}
+                  <p>{data.cust_location_add}</p>
                   <p>
                   </p>
                   <h6><b>GST IN.</b>
-                  </h6>
+                  </h6>{data.cust_location_gst}
                 </div>
                 <div className="inneraddduiv inneraddduiv2">
                   <h5><b>Place of Supply</b></h5>
-                  {/* <h6>KELLEY MATERIAL HANDLING EQUIPMENT INDIA PVT. LTD.</h6> */}
                   <p>
                     {data.location_name}
                   </p>

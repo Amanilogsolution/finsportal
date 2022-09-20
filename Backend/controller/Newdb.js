@@ -576,6 +576,8 @@ const Newdb = async (req, res) => {
                 currency_type nvarchar(100) NULL,
                 payment_term nvarchar(100) NULL,
                 due_date date NULL, 
+                origin nvarchar(100) NULL,
+                destination nvarchar(100) NULL,
                 add_date_time datetime NULL,
                 add_user_name nvarchar(50) NULL,
                 add_system_name nvarchar(50) NULL,

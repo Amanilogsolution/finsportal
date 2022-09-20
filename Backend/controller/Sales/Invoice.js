@@ -35,16 +35,21 @@ const InsertInvoice = async (req, res) => {
     const payment_term = req.body.payment_term;
     const due_date = req.body.due_date;
     const User_id = req.body.User_id;
+    const cust_location_addrs = req.body.custaddrs;
+    const cust_location_gst = req.body.custAddgst;
+    const destination= req.body.destination;
+    const origin= req.body.origin;
+    
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_invoice(fin_year,invoice_no,squence_no ,invoice_date ,order_no ,invoice_amt,
-            doe,user_id,periodfrom,periodto,major,location,custid,billsubtotal,total_tax,cust_locationid,remark,flagsave ,
-            location_name ,consignee ,cust_family,cgst_amt,sgst_amt,utgst_amt ,igst_amt,taxable_amt,currency_type,sales_person,payment_term,due_date,add_date_time,add_user_name ,add_system_name ,
+            doe,user_id,periodfrom,periodto,major,location,custid,billsubtotal,total_tax,cust_locationid,cust_location_add,cust_location_gst,remark,flagsave ,
+            location_name ,consignee ,cust_family,cgst_amt,sgst_amt,utgst_amt ,igst_amt,taxable_amt,currency_type,sales_person,payment_term,due_date,origin,destination,add_date_time,add_user_name ,add_system_name ,
             add_ip_address ,status)
             values('${fin_year}','${invoice_no}','${squence_no}','${invoice_date}','${order_no}','${invoice_amt}',getdate(),'${user_id}','${periodfrom}','${periodto}',
-            '${major}','${location}','${custid}','${billsubtotal}','${total_tax}','${cust_locationid}','${remark}','${flagsave}','${location_name}','${consignee}','${cust_family}',
-            '${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}','${taxable_amt}','${currency_type}','${sales_person}','${payment_term}','${due_date}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
+            '${major}','${location}','${custid}','${billsubtotal}','${total_tax}','${cust_locationid}','${cust_location_addrs}','${cust_location_gst}','${remark}','${flagsave}','${location_name}','${consignee}','${cust_family}',
+            '${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}','${taxable_amt}','${currency_type}','${sales_person}','${payment_term}','${due_date}','${origin}','${destination}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
         res.send('Added')
 
 

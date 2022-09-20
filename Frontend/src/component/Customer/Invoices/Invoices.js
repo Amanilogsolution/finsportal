@@ -57,7 +57,7 @@ function Invoices() {
     const [custAddgst, setCustAddGst] = useState('')
     const [chargecodes, setChargeCode] = useState([])
 
-    const [index,setIndex] = useState()
+    const [index, setIndex] = useState()
 
 
     const [allInvoiceData, setAllInvoiceData] = useState({
@@ -94,7 +94,7 @@ function Invoices() {
                     document.getElementById('tgstinp').style.display = 'none';
                 }
 
-            },2000);
+            }, 2000);
 
             document.getElementById('subtotalbtn').disabled = true;
             document.getElementById('savebtn').disabled = true;
@@ -256,7 +256,7 @@ function Invoices() {
         })
 
 
-    
+
     }
 
     const handleChangerate = (e) => {
@@ -319,14 +319,13 @@ function Invoices() {
         const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
-console.log(cust_detail.payment_terms)
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
- 
+
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
-
+        console.log(cust_add)
     }
 
     const handlechnageaddress = async (e) => {
@@ -334,7 +333,7 @@ console.log(cust_detail.payment_terms)
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
         const [billadd, id] = e.target.value.split(',')
         setLocationid(id)
-        console.log(id)
+        console.log(billadd)
         const billing_add = billadd;
         setBillingAddress(billadd)
         const invoicepefix = fin_year[0].invoice_ser;
@@ -352,6 +351,7 @@ console.log(cust_detail.payment_terms)
 
     const handleChangeCustomerAdd = (e) => {
         e.preventDefault();
+        console.log(e.target.value);
         const [state, address_id, custaddgst] = e.target.value.split(' ')
         setCustaddstate(state)
         setLocationCustAddid(address_id)
@@ -407,8 +407,6 @@ console.log(cust_detail.payment_terms)
         let consignee = document.getElementById('custname')
         consignee = consignee.options[consignee.selectedIndex].text;
         const currency_type = document.getElementById('currency').value
-        // const salesperson = document.getElementById('salesperson').value;
-        // const subject = document.getElementById('subject').value;
         const paymentterm = document.getElementById('paymentterm').value;
         const Duedate = document.getElementById('Duedate').value;
         const cgst = document.getElementById('cgstipt').value;
@@ -418,6 +416,11 @@ console.log(cust_detail.payment_terms)
         const Major = document.getElementById('Activity').value;
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
+
+        let custaddrs = document.getElementById('custaddr')
+        custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+        const invoice_destination=custaddress_state;
+        const invoice_origin=billingaddress;
 
         let cgstamount = 0;
         let sgstamount = 0;
@@ -435,29 +438,27 @@ console.log(cust_detail.payment_terms)
 
         }
 
+        // console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+        //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+        //     paymentterm, Duedate, User_id)
+console.log(invoice_destination,invoice_origin)
 
-
-
-        console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+        const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+            squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            paymentterm, Duedate, User_id)
+            paymentterm, Duedate, User_id,custaddrs,custAddgst,custaddress_state,invoice_destination,invoice_origin)
 
+        // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
 
-        const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            paymentterm, Duedate, User_id)
+        // amount.map(async (amt, index) => {
+        //     console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
+        //     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
-        const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
-
-        amount.map(async (amt, index) => {
-            console.log(amt, Quantitys[index], rate[index], unit[index], minor[index], glcode[index])
-            const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
-
-        })
-        if (result) {
-            alert('Added')
-            window.location.reload();
-        }
+        // })
+        // if (result) {
+        //     alert('Added')
+        //     // window.location.reload();
+        // }
 
     }
 
@@ -521,7 +522,7 @@ console.log(cust_detail.payment_terms)
                                                                         <option value='' hidden>Select Address</option>
                                                                         {
                                                                             cutomerAddress.map((items, index) => (
-                                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>{items.billing_address_attention}</option>
+                                                                                <option key={index} value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>{items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</option>
                                                                             ))
                                                                         }
 
@@ -540,7 +541,7 @@ console.log(cust_detail.payment_terms)
                                                                         <option value='' hidden>Select Address</option>
                                                                         {
                                                                             locationstate.map((item, index) =>
-                                                                                <option key={index} value={`${item.location_state},${item.location_id}`}>{item.location_add1}</option>
+                                                                                <option key={index} value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</option>
                                                                             )
                                                                         }
                                                                     </select>
@@ -689,7 +690,7 @@ console.log(cust_detail.payment_terms)
                                                                                     <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                                         const quantity = e.target.value
                                                                                         setIndex(index)
-                                                                                       
+
                                                                                         setQuantity(quantity)
                                                                                     }} /></td>
 
@@ -740,7 +741,7 @@ console.log(cust_detail.payment_terms)
                                                                                 <td></td>
                                                                                 <td>{totalamout}</td>
                                                                             </tr>
-                                                                           
+
                                                                             <tr id='cgstinp' >
                                                                                 <td>CGST</td>
                                                                                 <td>
@@ -790,7 +791,7 @@ console.log(cust_detail.payment_terms)
                                                                                 </td>
                                                                                 <td id="Totalvaluerd"> {gstvalue}</td>
                                                                             </tr>
-                                                                        
+
                                                                             <tr>
                                                                                 <td>
                                                                                     Currency
@@ -818,13 +819,13 @@ console.log(cust_detail.payment_terms)
 
                                                                 </div>
                                                             </div>
-                                                            { 
-                                                        localStorage.getItem('gststatus') == true?
-                                                        <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} />:
-                                                            <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
-                                                            
-                                                  
-}
+                                                            {
+                                                                localStorage.getItem('gststatus') == true ?
+                                                                    <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} /> :
+                                                                    <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
+
+
+                                                            }
 
                                                             <div className="form-group">
                                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
