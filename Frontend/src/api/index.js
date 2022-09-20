@@ -17,9 +17,9 @@ export const showUserLogin = async (user_id) => {
     return axios.post(url, { user_id }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UserLogout = async (user_id) => {
+export const UserLogout = async (user_id,user_name,btntheme,themetype) => {
     const url = 'http://localhost:3008/api/userlogout'
-    return axios.post(url, { user_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { user_id,user_name,btntheme,themetype }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const insertUserLogin = async (user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url) => {

@@ -28,6 +28,10 @@ const Login = () => {
         const password = document.getElementById('password').value
 
         const result = await UserLogin(email, password);
+        localStorage.setItem('themebtncolor',result.ThemeButton)
+        localStorage.setItem('themetype',result.Theme)
+
+        console.log(result)
 
         setLogindetails(result);
         if (result) {
