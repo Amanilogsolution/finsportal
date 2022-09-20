@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
 import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount, UploadData } from '../../../api'
+import PreviewBill from './PreviewBill/PreviewBill';
 
 
 function Bills() {
@@ -247,7 +248,7 @@ function Bills() {
                     const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
                     if (updatefintable == 'Updated') {
                         alert('Data Added')
-                        window.location.href='./home';
+                        window.location.href = './home';
                     }
                 }
 
@@ -735,17 +736,23 @@ function Bills() {
 
                                                 </div>
                                             </div>
-
+                                            <PreviewBill />
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
                                                     <button id="save" name="save" className="btn btn-danger" onClick={handleClickAdd}>
+                                                        Save
+                                                    </button>
+                                                    <button id="save" name="save" className="btn btn-primary ml-2" onClick={handleClickAdd}>
                                                         Post
                                                     </button>
                                                     <button id="clear" onClick={(e) => {
                                                         e.preventDefault(); window.location.href = '/home'
                                                     }} name="clear" className="btn ml-2">
                                                         Cancel
+                                                    </button>
+                                                    <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >
+                                                        Preview Bill
                                                     </button>
                                                 </div>
                                             </div>
