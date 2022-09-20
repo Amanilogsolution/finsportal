@@ -3,6 +3,8 @@ const sql = require('mssql')
 const sqlConfig = require('../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
+// var useragent = require('express-useragent');
+
 
 
 
@@ -28,7 +30,9 @@ const uuidv1 = require("uuid/v1");
     const secret = req.body.secret;
     const otp = req.body.otp;
     const userid = req.body.userid;
-    const org = req.body.org
+    const org = req.body.org;
+    const userAgent = req.body.userAgent
+    console.log(userAgent)
 
     console.log(secret,otp,userid,org)
     try{
@@ -36,7 +40,7 @@ const uuidv1 = require("uuid/v1");
       const result = twofactor.verifyToken(secret, otp);
       if(result && result.delta === 0){
         const Twofa = await sql.query(`update FINSDB.dbo.tbl_Login set twofauth='true',tfact_secretkey='${secret}' WHERE user_id = '${userid}' and comp_name='${org}'`)
-        const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id ='${userid}',user_sysadmin='${navigator.userAgent}'`)
+        const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login',user_system='${userAgent}'  WHERE user_id ='${userid}'`)
 
         console.log(Twofa)
         res.send("Verify")

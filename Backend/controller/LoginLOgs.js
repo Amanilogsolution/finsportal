@@ -11,10 +11,10 @@ const LoginLogs = async (req, res) => {
     const comp_name = req.body.comp_name;
     const org_db_name = req.body.org_db_name;
 
-    console.log(`insert into FINSDB.dbo.tbl_login_logs(user_id,user_name,comp_name,org_db_name,login_time,status)
-    values ('${user_id}','${user_name}','${comp_name}','${org_db_name}',GETDATE(),'Login')`)
+
     try {
         await sql.connect(sqlConfig)
+        const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`)
         const result = await sql.query(`insert into FINSDB.dbo.tbl_login_logs(user_id,user_name,comp_name,org_db_name,login_time,status)
             values ('${user_id}','${user_name}','${comp_name}','${org_db_name}',GETDATE(),'Login')`)
         res.send('Added')
@@ -27,7 +27,6 @@ const LoginLogs = async (req, res) => {
 const LogoutLogs = async (req, res) => {
     const user_id = req.body.user_id;
     const org_db_name = req.body.org_db_name;
-    console.log(user_id,org_db_name)
   
     try {
         await sql.connect(sqlConfig)

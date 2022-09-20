@@ -40,8 +40,6 @@ function Bills() {
     const [file, setFile] = useState('');
     const [img, setimage] = useState('')
 
-
-
     const [index, setIndex] = useState()
 
     useEffect(() => {
@@ -109,7 +107,6 @@ function Bills() {
 
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
-        // console.log(result1)
     }
 
     const handleChangeLocation = (e) => {
@@ -135,32 +132,22 @@ function Bills() {
 
     const handleChangeEmployee = (e) => {
         setEmployee([...employee, e.target.value])
-
-
     }
+
     const handleChangeUnit = (e) => {
         setUnit([...unit, e.target.value])
 
-
         const deduct = document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : ''
-        console.log(deduct)
         setDeduction([...deduction, deduct])
 
-        console.log(document.getElementById(`deduction${index}`).value)
-
-        // console.log(document.getElementById('deduction').value.length > 0)
         if (document.getElementById(`deduction${index}`).value > 0) {
-            console.log('Hlo')
-            console.log(document.getElementById(`deduction${index}`).value)
             const net = amount[index] - document.getElementById(`deduction${index}`).value
             setNetvalue([...netvalue, net])
 
         } else {
-            console.log(amount[index])
             setNetvalue([...netvalue, amount[index]])
 
         }
-
 
         const file = document.getElementById(`fileno${index}`).value ? document.getElementById(`fileno${index}`).value : ''
         setFileno([...fileno, file])
@@ -171,12 +158,9 @@ function Bills() {
 
     }
 
-
     const handletogglegstdiv = () => {
-
         var sum = 0
         netvalue.map((item) => sum += item)
-        console.log(sum)
         setNetTotal(sum)
 
         if (document.getElementById('gstdiv').style.display == 'none') {
@@ -187,10 +171,8 @@ function Bills() {
         }
     }
 
-
     const handleChangeRate = (e) => {
         const quantitys = document.getElementById(`Quantity${index}`).value
-        console.log(quantitys)
         const total = quantitys * e.target.value;
 
         setTimeout(() => {
@@ -208,8 +190,6 @@ function Bills() {
         const vendor_detail = document.getElementById('vend_name');
         const vendor_id = vendor_detail.value;
         const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
-
-
 
         const Location = document.getElementById('location').value
         const bill_no = document.getElementById('bill_no').value
@@ -241,12 +221,9 @@ function Bills() {
 
         console.log(location, employee, quantity, rate, amount, netvalue, unit, deduction, fileno, items)
 
-
-
         // console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
         //     bill_date, bill_amt,total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
         //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
-
 
         if (!voucher_no) {
             alert('Please Enter mandatory field')
@@ -257,30 +234,30 @@ function Bills() {
             }
             else {
                 const org = localStorage.getItem('Organisation')
-                // const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
-                //     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img)
 
-                // if (result == 'Added') {
-                    // amount.map(async (amt, index) => {
-                    //     const result1 = await InsertVendorSubInvoice(localStorage.getItem('Organisation'), voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
-                    //         rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
-                    // })
-                    // const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
-                    // if (updatefintable == 'Updated') {
-                    //     alert('Data Added')
-                    //     // window.location.href='./home';
-                    // }
-                // }
+                const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
+                    bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
+                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img)
 
-                // else if (result === 'Already') {
-                //     alert('Bill no Already exists');
-                // }
+                if (result == 'Added') {
+                    amount.map(async (amt, index) => {
+                        const result1 = await InsertVendorSubInvoice(org, voucher_no, voucher_date, bill_date, bill_no, vendor_id, vendor_name, location[index], items[index], employee[index], 'glcode', 'samt', quantity[index],
+                            rate[index], amt, unit[index], fileno[index], deduction[index], 'gst_rate', 'sac_hsn', netvalue[index], remarks, 'cost_centre', fins_year, userid)
+                    })
+                    const updatefintable = await Updatefinancialcount(org, 'voucher_count', vouchercount)
+                    if (updatefintable == 'Updated') {
+                        alert('Data Added')
+                        window.location.href='./home';
+                    }
+                }
 
-                // else {
-                //     alert('Server Not Response')
-                // }
+                else if (result === 'Already') {
+                    alert('Bill no Already exists');
+                }
 
+                else {
+                    alert('Server Not Response')
+                }
             }
         }
 
@@ -353,6 +330,8 @@ function Bills() {
         e.preventDefault();
         setTdscomp(e.target.value)
     }
+
+
     return (
         <div>
             <div className="wrapper">
@@ -363,7 +342,7 @@ function Bills() {
                 <div className="content-wrapper">
                     <div className="container-fluid">
                         <br />
-                        <h3 className="text-left ml-5"> New Purchase Order</h3>
+                        <h3 className="text-left ml-5"> New Bill</h3>
                         <div className="row " >
                             <div className="col ml-2 mr-2">
                                 <div className="card">
@@ -402,7 +381,6 @@ function Bills() {
                                                     </select>
                                                 </div>
                                             </div>
-
 
                                             <div className="form-row mt-3" >
                                                 <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
@@ -612,11 +590,11 @@ function Bills() {
                                                                                 </div>
                                                                                 <div className="form-row">
                                                                                     <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <input type="" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
+                                                                                    <input type="number" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
                                                                                 </div>
                                                                                 <div className="form-row" >
                                                                                     <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <input type="" className="form-control col-md-7" id="gstTax" />
+                                                                                    <input type="text" className="form-control col-md-7" id="gstTax" />
                                                                                 </div>
                                                                                 <br />
                                                                                 <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
@@ -699,7 +677,6 @@ function Bills() {
 
                                                                                                 </div>
                                                                                             </div> */}
-
 
                                                                                     </div>
 

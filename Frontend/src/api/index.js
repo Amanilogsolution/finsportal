@@ -1240,9 +1240,9 @@ export const Login2fa = async (email, org) => {
     return axios.post(url, { email, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Verify2fa = async (secret, otp, userid, org) => {
+export const Verify2fa = async (secret, otp, userid, org,userAgent) => {
     const url = `http://localhost:3008/api/VerifyTwo`
-    return axios.post(url, { secret, otp, userid, org }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { secret, otp, userid, org,userAgent }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For 2FAuth api END #################################

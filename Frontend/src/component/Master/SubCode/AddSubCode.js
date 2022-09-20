@@ -59,7 +59,7 @@ function AddSubCode() {
                             className="form-control col-md-4"
                             onChange={handleChange}
                           >
-                            <option defaultValue  hidden >gl code</option>
+                            <option value='' hidden >Select GL Code</option>
                             {
                                 glcode.map((data,index) => (
                                     <option  key={index} value={data.account_sub_name_code}>{data.account_sub_name_code} , {data.account_sub_name}</option>

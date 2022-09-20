@@ -26,11 +26,15 @@ const Login = () => {
         setLoading(true)
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
+
         const result = await UserLogin(email, password);
-        console.log(result)
+
         setLogindetails(result);
         if (result) {
             setLoading(false);
+        }
+        if(result.Loginstatus==='Login'){
+            alert('You are Already Login in Some Device')
         }
         if (result.status == 'Success') {
 
@@ -100,7 +104,7 @@ const Login = () => {
 
         else {
             const token = document.getElementById('token').value
-            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name)
+            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name,navigator.userAgent)
             if (result1 === 'Verify') {
                 localStorage.setItem('Token', logindetails.token)
                 localStorage.setItem('ExpiredIn', logindetails.expiresIn)
