@@ -104,7 +104,7 @@ const Login = () => {
 
         else {
             const token = document.getElementById('token').value
-            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name)
+            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name,navigator.userAgent)
             if (result1 === 'Verify') {
                 localStorage.setItem('Token', logindetails.token)
                 localStorage.setItem('ExpiredIn', logindetails.expiresIn)
