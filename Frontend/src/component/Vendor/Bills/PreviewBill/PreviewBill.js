@@ -81,14 +81,17 @@ const PreviewBill = () => {
 
                                 </div>
 
-                                <div className='bill-items pb-3' >
+                                <div className='bill-items' >
                                     <table className='table'>
                                         <tr>
                                             <th>SNO.</th>
-                                            <th>GL Code</th>
-                                            <th>GL Description</th>
-                                            <th>Description</th>
+                                            <th>Item</th>
+                                            <th>Quantity</th>
+                                            <th>Rate</th>
                                             <th>Amount</th>
+                                            <th>Deduction</th>
+                                            <th>Unit</th>
+                                            <th>Net Amt</th>
                                         </tr>
                                         <tr>
                                             <td>1</td>
@@ -96,6 +99,10 @@ const PreviewBill = () => {
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>230000.00</td>
+                                            <td>Deduction</td>
+                                            <td>Box</td>
+                                            <td>230000.00</td>
+
                                         </tr>
                                         <tr>
                                             <td>1</td>
@@ -103,6 +110,10 @@ const PreviewBill = () => {
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>230000.00</td>
+                                            <td>Deduction</td>
+                                            <td>Box</td>
+                                            <td>230000.00</td>
+
                                         </tr>
                                         <tr>
                                             <td>1</td>
@@ -110,6 +121,10 @@ const PreviewBill = () => {
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>230000.00</td>
+                                            <td>Deduction</td>
+                                            <td>Box</td>
+                                            <td>230000.00</td>
+
                                         </tr>
                                     </table>
 
