@@ -81,9 +81,9 @@ const PreviewBill = () => {
 
                                 </div>
 
-                                <div className='bill-items' >
-                                    <table className='table items-table'>
-                                        <tr>
+                                <div className='bill-items '>
+                                    <table className='table items-table table-borderless m-0' >
+                                        <tr className='billitemrow'>
                                             <th className='first-col billitem'>SNO.</th>
                                             <th className='second-col billitem'>Item</th>
                                             <th className='third-col billitem'>Quantity</th>
@@ -93,7 +93,7 @@ const PreviewBill = () => {
                                             <th className='seven-col billitem'>Unit</th>
                                             <th className='eight-col billitem'>Net Amt</th>
                                         </tr>
-                                        <tr>
+                                        <tr  className='billitemrow'>
                                             <td className='first-col billitem'>1</td>
                                             <td className='second-col billitem'>70101001</td>
                                             <td className='third-col billitem'>15</td>
@@ -104,7 +104,7 @@ const PreviewBill = () => {
                                             <td className='eight-col billitem'>230000.00</td>
 
                                         </tr>
-                                        <tr >
+                                        <tr  className='billitemrow' >
                                             <td className='first-col billitem'>1</td>
                                             <td className='second-col billitem'>70101001</td>
                                             <td className='third-col billitem'>15</td>
@@ -129,7 +129,7 @@ const PreviewBill = () => {
                                     </table>
 
                                 </div>
-                                <hr className='m-0' />
+                                {/* <hr className='m-0' /> */}
 
                                 <div className='bill-bottomdetail d-flex justify-content-end' >
 

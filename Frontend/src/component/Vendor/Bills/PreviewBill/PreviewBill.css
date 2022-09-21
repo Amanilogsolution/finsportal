@@ -8,7 +8,7 @@
     width: 60vw;
     transform: translate(-10%);
 }
-
+/*  */
 .modalbill .bill-orgname {
     border-bottom: 1px solid rgb(184, 182, 182);
     padding: 10px 0px 5px 0px;
@@ -49,7 +49,7 @@
 
 .modalbill .bill-bottomdetail table {
     width: 45%;
-    border-top: 1px solid #000;
+    /* border-top: 1px solid #000; */
 }
 
 .modalbill .bill-bottomdetail table #billborderbottom {
@@ -65,24 +65,34 @@
     width: 200px;
 }
 
+.modalbill .bill-items .items-table{
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.modalbill .bill-items .items-table .billitemrow{
+    border-bottom: 1px solid rgb(174, 172, 172);
+}
+
 .modalbill .bill-items .items-table tr .first-col {
     width: 5%;
     text-align: center;
     padding: 5px 0 0px 0px;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-bottom: 1px solid rgb(174, 172, 172); */
+    /* border-right: 1px solid rgb(174, 172, 172); */
 
 }
 
 .modalbill .bill-items .items-table tr .second-col {
     width: 30%;
     text-align: center;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-right: 1px solid rgb(174, 172, 172); */
 }
 
 .modalbill .bill-items .items-table tr .third-col {
     width: 5%;
     text-align: center;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-right: 1px solid rgb(174, 172, 172); */
 
 }
 
@@ -90,28 +100,28 @@
 .modalbill .bill-items .items-table tr .four-col {
     width: 5%;
     text-align: center;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-right: 1px solid rgb(174, 172, 172); */
 
 }
 
 .modalbill .bill-items .items-table tr .five-col {
     width: 5%;
     text-align: center;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-right: 1px solid rgb(174, 172, 172); */
 
 }
 
 .modalbill .bill-items .items-table tr .six-col {
     width: 5%;
     text-align: center;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-right: 1px solid rgb(174, 172, 172); */
 
 }
 
 .modalbill .bill-items .items-table tr .seven-col {
     width: 5%;
     text-align: center;
-    border-right: 1px solid rgb(174, 172, 172);
+    /* border-right: 1px solid rgb(174, 172, 172); */
 
 }
 
