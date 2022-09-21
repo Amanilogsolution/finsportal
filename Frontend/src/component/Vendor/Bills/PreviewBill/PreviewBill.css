@@ -12,8 +12,8 @@
     margin: 10px 0px 0px 20px;
  }
  
-.bill-detail .left-bill-detail table tr td:nth-child(1){
-    width:180px;
+.bill-detail .left-bill-detail table tr th:nth-child(1){
+    width:210px;
 }
 .bill-detail .right-bill-detail table {
     width: 100%;

@@ -31,7 +31,7 @@ const PreviewBill = () => {
 
                         <div className="modal-body" ref={pdfRef}>
                             <div className="modalbill">
-                                <div className="bill-orgname" style={{ borderBottom: "2px dotted Black", padding: "10px 0px" }}>
+                                <div className="bill-orgname" style={{ borderBottom: "2px dotted Black", padding: "10px 0px 0px 0px" }}>
                                     <div className="toporgname" style={{ textAlign: "center", width: "60%", margin: "auto" }}>
                                         <h5>AWL India PVT Ltd.</h5>
                                         <p>
@@ -45,15 +45,15 @@ const PreviewBill = () => {
                                     <div className='left-bill-detail' style={{ width: "49%" }}>
                                         <table>
                                             <tr >
-                                                <td >Purchase Voucher No :</td>
+                                                <th >Purchase Voucher No :</th>
                                                 <td >PJ230001980</td>
                                             </tr>
                                             <tr >
-                                                <td >Dated :</td>
+                                                <th >Dated :</th>
                                                 <td >2022-09-07</td>
                                             </tr>
                                             <tr >
-                                                <td >Pay To M/s :</td>
+                                                <th >Pay To M/s :</th>
                                                 <td >GOPAL INFRACON PROJECT PRIVATE LIMITED</td>
                                             </tr>
                                         </table>
@@ -63,11 +63,11 @@ const PreviewBill = () => {
                                         <table >
 
                                             <tr >
-                                                <td >Vide/Cash/Cheque/DD: </td>
+                                                <th >Vide/Cash/Cheque/DD: </th>
                                                 <td >GIP173/22-23/024</td>
                                             </tr>
                                             <tr >
-                                                <td >Invoice Date:</td>
+                                                <th >Invoice Date:</th>
                                                 <td > 2022-09-01</td>
                                             </tr>
                                         </table>
@@ -92,52 +92,63 @@ const PreviewBill = () => {
                                             <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>230000.00</td>
                                         </tr>
-                                    </table>
-
-                                </div>
-                                <hr />
-
-                                <div className='bill-bottomdetail' style={{ border: "2px solid red" }}>
-                                    <table className='table table-borderless'>
                                         <tr>
-                                            <th>Net Amount</th>
+                                            <td>1</td>
+                                            <td>70101001</td>
+                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
+                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
                                             <td>230000.00</td>
                                         </tr>
                                         <tr>
-                                            <th>CGST</th>
-                                            <td>20700.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>SGST</th>
-                                            <td>20700.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>IGST</th>
-                                            <td>0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Invoice Amount</th>
-                                            <td>271400.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>TDS@ 10%</th>
-                                            <td>23000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Total Booked Amt</th>
-                                            <td>23000.00</td>
+                                            <td>1</td>
+                                            <td>70101001</td>
+                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
+                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
+                                            <td>230000.00</td>
                                         </tr>
                                     </table>
 
                                 </div>
+                                <hr className='m-0' />
 
+                                <div className='bill-bottomdetail d-flex ' style={{justifyContent:"right"}}>
 
+                                    <table className='table table-borderless m-0' style={{ width: "37%",borderTop: "1px solid #000"  }}>
+                                        <tr style={{ borderBottom: "1px solid #000" }}>
+                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000" }} >Net Amount</th>
+                                            <td  className='text-center' style={{ width: "200px" }}>230000.00</td>
+                                        </tr>
+                                        <tr style={{lineHeight:"16px"}}>
+                                            <th className='text-right ' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >CGST</th>
+                                            <td  className='text-center'>20700.00</td>
+                                        </tr>
+                                        <tr style={{lineHeight:"16px"}}>
+                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000" }} >SGST</th>
+                                            <td  className='text-center'>20700.00</td>
+                                        </tr>
+                                        <tr style={{ borderBottom: "1px solid #000",lineHeight:"16px" }} >
+                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >IGST</th>
+                                            <td  className='text-center'>0.00</td>
+                                        </tr>
+                                        <tr style={{ borderBottom: "1px solid #000" }} >
+                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >Invoice Amount</th>
+                                            <td  className='text-center'>271400.00</td>
+                                        </tr>
+                                        <tr style={{ borderBottom: "1px solid #000" }}>
+                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >TDS@ 10%</th>
+                                            <td  className='text-center'>23000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <th className='text-right' style={{ borderRight: "1px solid #000" ,borderLeft: "1px solid #000" }} >Total Booked Amt</th>
+                                            <td  className='text-center'>23000.00</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div className='bill-footerdiv d-flex pt-3 pl-3' style={{ borderTop: "1px solid #000" }}>
+                                    <h4>Naration: </h4>
+                                    <h5> Being Inv No.GIP173/22-23/024 booked</h5>
 
-
-
-
-
-
+                                </div>
                             </div>
                         </div>
                         <div className="modal-footer">
