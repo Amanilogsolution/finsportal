@@ -36,7 +36,7 @@ const PreviewBill = () => {
                                     <div>
                                         <img className='billorglogo' src={localStorage.getItem('Orglogo')} alt='' />
                                     </div>
-                                    <div className="toporgname text-center " style={{ width: "60%" }}>
+                                    <div className="toporgname text-center " >
                                         <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                                         <p>
                                             AWL INDIA PVT LTD
@@ -50,7 +50,7 @@ const PreviewBill = () => {
                                     <div className='left-bill-detail' style={{ width: "49%" }}>
                                         <table>
                                             <tr >
-                                                <th >Purchase Voucher No :</th>
+                                                <th >Voucher No :</th>
                                                 <td >PJ230001980</td>
                                             </tr>
                                             <tr >
@@ -58,7 +58,7 @@ const PreviewBill = () => {
                                                 <td >2022-09-07</td>
                                             </tr>
                                             <tr >
-                                                <th >Pay To M/s :</th>
+                                                <th >Pay To :</th>
                                                 <td >GOPAL INFRACON PROJECT PRIVATE LIMITED</td>
                                             </tr>
                                         </table>
@@ -82,48 +82,48 @@ const PreviewBill = () => {
                                 </div>
 
                                 <div className='bill-items' >
-                                    <table className='table'>
+                                    <table className='table items-table'>
                                         <tr>
-                                            <th>SNO.</th>
-                                            <th>Item</th>
-                                            <th>Quantity</th>
-                                            <th>Rate</th>
-                                            <th>Amount</th>
-                                            <th>Deduction</th>
-                                            <th>Unit</th>
-                                            <th>Net Amt</th>
+                                            <th className='first-col billitem'>SNO.</th>
+                                            <th className='second-col billitem'>Item</th>
+                                            <th className='third-col billitem'>Quantity</th>
+                                            <th className='four-col billitem'>Rate</th>
+                                            <th className='five-col billitem'>Amount</th>
+                                            <th className='six-col billitem'>Deduction</th>
+                                            <th className='seven-col billitem'>Unit</th>
+                                            <th className='eight-col billitem'>Net Amt</th>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
-                                            <td>70101001</td>
-                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
-                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
-                                            <td>230000.00</td>
-                                            <td>Deduction</td>
-                                            <td>Box</td>
-                                            <td>230000.00</td>
+                                            <td className='first-col billitem'>1</td>
+                                            <td className='second-col billitem'>70101001</td>
+                                            <td className='third-col billitem'>15</td>
+                                            <td className='four-col billitem'>15</td>
+                                            <td className='five-col billitem'>230000.00</td>
+                                            <td className='six-col billitem'>Deduction</td>
+                                            <td className='seven-col billitem'>Box</td>
+                                            <td className='eight-col billitem'>230000.00</td>
+
+                                        </tr>
+                                        <tr >
+                                            <td className='first-col billitem'>1</td>
+                                            <td className='second-col billitem'>70101001</td>
+                                            <td className='third-col billitem'>15</td>
+                                            <td className='four-col billitem'>15</td>
+                                            <td className='five-col billitem'>230000.00</td>
+                                            <td className='six-col billitem'>Deduction</td>
+                                            <td className='seven-col billitem'>Box</td>
+                                            <td className='eight-col billitem'>230000.00</td>
 
                                         </tr>
                                         <tr>
-                                            <td>1</td>
-                                            <td>70101001</td>
-                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
-                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
-                                            <td>230000.00</td>
-                                            <td>Deduction</td>
-                                            <td>Box</td>
-                                            <td>230000.00</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>70101001</td>
-                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
-                                            <td>STORAGE & WAREHOUSING  CHARGES</td>
-                                            <td>230000.00</td>
-                                            <td>Deduction</td>
-                                            <td>Box</td>
-                                            <td>230000.00</td>
+                                            <td className='first-col billitem'>1</td>
+                                            <td className='second-col billitem'>70101001</td>
+                                            <td className='third-col billitem'>15</td>
+                                            <td className='four-col billitem'>15</td>
+                                            <td className='five-col billitem'>230000.00</td>
+                                            <td className='six-col billitem'>Deduction</td>
+                                            <td className='seven-col billitem'>Box</td>
+                                            <td className='eight-col billitem'>230000.00</td>
 
                                         </tr>
                                     </table>
