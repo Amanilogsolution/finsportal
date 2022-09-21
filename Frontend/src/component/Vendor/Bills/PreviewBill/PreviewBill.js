@@ -31,17 +31,22 @@ const PreviewBill = () => {
 
                         <div className="modal-body" ref={pdfRef}>
                             <div className="modalbill">
-                                <div className="bill-orgname" style={{ borderBottom: "2px dotted Black", padding: "10px 0px 0px 0px" }}>
-                                    <div className="toporgname" style={{ textAlign: "center", width: "60%", margin: "auto" }}>
-                                        <h5>AWL India PVT Ltd.</h5>
+
+                                <div className="bill-orgname d-flex justify-content-around align-items-center" >
+                                    <div>
+                                        <img className='billorglogo' src={localStorage.getItem('Orglogo')} alt='' />
+                                    </div>
+                                    <div className="toporgname text-center " style={{ width: "60%" }}>
+                                        <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                                         <p>
                                             AWL INDIA PVT LTD
                                             ADDRESS-GROUND FLOOR,TOWER B,VATIKA ATRIUM <br />GOLF COURSE  ROAD SECTOR 53,GURGOAN
                                         </p>
-                                        <div className="billorgbottomdiv"><b>Purchase Voucher</b></div>
+
                                     </div>
                                 </div>
-                                <div className='bill-detail' style={{ display: 'flex' }}>
+                                <div className="billorgbottomdiv text-center"><h5 className='m-0 font-weight-bold'>Purchase Voucher</h5></div>
+                                <div className='bill-detail d-flex'>
                                     <div className='left-bill-detail' style={{ width: "49%" }}>
                                         <table>
                                             <tr >
@@ -111,36 +116,36 @@ const PreviewBill = () => {
                                 </div>
                                 <hr className='m-0' />
 
-                                <div className='bill-bottomdetail d-flex ' style={{justifyContent:"right"}}>
+                                <div className='bill-bottomdetail d-flex justify-content-end' >
 
-                                    <table className='table table-borderless m-0' style={{ width: "37%",borderTop: "1px solid #000"  }}>
-                                        <tr style={{ borderBottom: "1px solid #000" }}>
-                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000" }} >Net Amount</th>
-                                            <td  className='text-center' style={{ width: "200px" }}>230000.00</td>
+                                    <table className='table table-borderless m-0' >
+                                        <tr id='billborderbottom'>
+                                            <th className='text-right'  >Net Amount</th>
+                                            <td className='text-center'>230000.00</td>
                                         </tr>
-                                        <tr style={{lineHeight:"16px"}}>
-                                            <th className='text-right ' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >CGST</th>
-                                            <td  className='text-center'>20700.00</td>
+                                        <tr style={{ lineHeight: "16px" }}>
+                                            <th className='text-right '  >CGST</th>
+                                            <td className='text-center'>20700.00</td>
                                         </tr>
-                                        <tr style={{lineHeight:"16px"}}>
-                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000" }} >SGST</th>
-                                            <td  className='text-center'>20700.00</td>
+                                        <tr style={{ lineHeight: "16px" }}>
+                                            <th className='text-right'  >SGST</th>
+                                            <td className='text-center'>20700.00</td>
                                         </tr>
-                                        <tr style={{ borderBottom: "1px solid #000",lineHeight:"16px" }} >
-                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >IGST</th>
-                                            <td  className='text-center'>0.00</td>
+                                        <tr id='billborderbottom' style={{ lineHeight: "16px" }} >
+                                            <th className='text-right'  >IGST</th>
+                                            <td className='text-center'>0.00</td>
                                         </tr>
-                                        <tr style={{ borderBottom: "1px solid #000" }} >
-                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >Invoice Amount</th>
-                                            <td  className='text-center'>271400.00</td>
+                                        <tr id='billborderbottom' >
+                                            <th className='text-right'>Invoice Amount</th>
+                                            <td className='text-center'>271400.00</td>
                                         </tr>
-                                        <tr style={{ borderBottom: "1px solid #000" }}>
-                                            <th className='text-right' style={{ borderRight: "1px solid #000",borderLeft: "1px solid #000"  }} >TDS@ 10%</th>
-                                            <td  className='text-center'>23000.00</td>
+                                        <tr id='billborderbottom'>
+                                            <th className='text-right' >TDS@ 10%</th>
+                                            <td className='text-center'>23000.00</td>
                                         </tr>
                                         <tr>
-                                            <th className='text-right' style={{ borderRight: "1px solid #000" ,borderLeft: "1px solid #000" }} >Total Booked Amt</th>
-                                            <td  className='text-center'>23000.00</td>
+                                            <th className='text-right' >Total Booked Amt</th>
+                                            <td className='text-center'>23000.00</td>
                                         </tr>
                                     </table>
                                 </div>
