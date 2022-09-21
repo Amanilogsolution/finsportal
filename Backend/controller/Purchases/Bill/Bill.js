@@ -105,5 +105,18 @@ const FilterBillReport = async (req, res) => {
 
 }
 
+const getSaveBill = async (req, res) => {
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate, convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) where flagsave='save'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
 
-module.exports = { InsertBill, FilterBillReport }
+}
+
+
+module.exports = { InsertBill, FilterBillReport,getSaveBill }

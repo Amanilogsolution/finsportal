@@ -1300,3 +1300,8 @@ console.log('api',org,startDate,lastDate,vendid)
     return axios.post(url, { org,startDate,lastDate,vendid }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const GetSaveBill = async (org) => {
+    const url = `http://localhost:3008/api/GetSaveBill`
+    return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
+}
+

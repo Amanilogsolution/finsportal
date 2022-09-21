@@ -219,7 +219,7 @@ const Menu = (props) => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="/Bills" className="nav-link active">
+                    <a href="/SaveBillReport" className="nav-link active">
                       <i className="fa fa-file nav-icon" />
                       <p>Bills</p>
                     </a>

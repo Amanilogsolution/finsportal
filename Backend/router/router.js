@@ -354,6 +354,8 @@ router.post('/updateemployee',EmployeeController.updateemployee)
 router.post('/insertbill',BillController.InsertBill)
 router.post('/insertvendorsubinvoice',VendorInvoiceSubController.inserSubInvoice)
 router.post('/filterbillreport',BillController.FilterBillReport)
+router.post('/GetSaveBill',BillController.getSaveBill)
+
 
 
 
