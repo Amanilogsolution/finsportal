@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React, { useRef } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
@@ -13,30 +13,28 @@ const InvoicePreview = (props) => {
     const doc = new jsPDF();
     doc.html(content, {
       callback: function (doc) {
-          doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
+        doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
       },
       html2canvas: { scale: 0.21 },
-      margin:[5,0,0,5],
+      margin: [5, 0, 0, 5],
 
 
-  });
+    });
   };
   return (
-    <div className="modal fade bd-example-modal-lg"  id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
-          {/* <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLongTitle">Invoice</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div> */}
+
           <div className="modal-body" ref={pdfRef}>
             <div className="modalinvoice">
-              <div className="topdiv">
-                <div className="topinnerdiv">
-                  <h5>AWL India PVT Ltd.</h5>
+              <div className="topdiv d-flex">
+                <div className='invoiceorglogodiv'>
+                  <img className='orgpreviewlogo' src={localStorage.getItem('Orglogo')} alt=''/>
+                </div>
+                <div className="topinnerdiv ">
+                  <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                   <p>
                     Dashmesh Complex, Nadal Village,Old Pune Mumbai Highway, Khalapur,
                     Distt Raigad,Maharastra-410203 India
@@ -58,7 +56,6 @@ const InvoicePreview = (props) => {
               <div className="addressmaindiv">
                 <div className="inneraddduiv inneraddduiv1">
                   <h5><b>Bill To</b></h5>
-                  {/* <h6>Kelley Material Handling Equipment India Pvt Ltd</h6> */}
                   <p>
                     {props.Allinvoicedata.BillTo}
                   </p>
@@ -66,7 +63,6 @@ const InvoicePreview = (props) => {
                 </div>
                 <div className="inneraddduiv inneraddduiv2">
                   <h5><b>Place of Supply</b></h5>
-                  {/* <h6>KELLEY MATERIAL HANDLING EQUIPMENT INDIA PVT. LTD.</h6> */}
                   <p>
                     {props.Allinvoicedata.SupplyTo}
 
@@ -77,17 +73,17 @@ const InvoicePreview = (props) => {
 
               <div className="detail">
                 <table className="detailtable">
-                <tbody>
-                  <tr>
-                    <td><b>Gross WT.</b> </td>
-                    <td><b>Pcs.</b></td>
-                    <td><b>Origin :</b> {props.Allinvoicedata.OriginState}</td>
-                  </tr>
-                  <tr>
-                    <td><b>Details Of Goods :</b></td>
-                    <td><b>Veh Type : Courier</b></td>
-                    <td><b>Destination : </b>{props.Allinvoicedata.DestinationState}</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td><b>Gross WT.</b> </td>
+                      <td><b>Pcs.</b></td>
+                      <td><b>Origin :</b> {props.Allinvoicedata.OriginState}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Details Of Goods :</b></td>
+                      <td><b>Veh Type : Courier</b></td>
+                      <td><b>Destination : </b>{props.Allinvoicedata.DestinationState}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -113,23 +109,23 @@ const InvoicePreview = (props) => {
                   </thead>
                   <tbody className='itembodysec'>
                     {
-                      props.Allitems.map((item,index) =>(
-                            <tr className='itemtrsec'>
-                      <th>{index+1}</th>
-                      <td>{item.itemsvalue}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.rate}</td>
-                      <td>{item.tax}</td>
-                      <td>{item.unit}</td>
-                      <td>{item.amount}</td>
-                      <td>{item.Totalamount}</td>
-                    </tr> 
+                      props.Allitems.map((item, index) => (
+                        <tr className='itemtrsec'>
+                          <th>{index + 1}</th>
+                          <td>{item.itemsvalue}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.rate}</td>
+                          <td>{item.tax}</td>
+                          <td>{item.unit}</td>
+                          <td>{item.amount}</td>
+                          <td>{item.Totalamount}</td>
+                        </tr>
                       ))
-                    }  
+                    }
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
-                    <th colSpan='6'>Total</th>
+                      <th colSpan='6'>Total</th>
                       <td>{props.Allinvoicedata.Totalamounts}</td>
                       <td>{props.Allinvoicedata.GrandTotal}</td>
                     </tr>
@@ -301,22 +297,22 @@ const InvoicePreview = (props) => {
               <div className="amounttax">
                 <h4><b>Amount Of Tax :</b></h4>
                 <table className="amounttaxtable">
-                <tbody>
-                  <tr className="amounttaxtr">
-                    <th colSpan="2" style={{ textAlign: "right" }}>
-                      CGST AMT
-                    </th>
-                    <th>SGST AMT</th>
-                    <th>IGST AMT</th>
-                    <th>Total</th>
-                  </tr>
-                  <tr className="amounttaxtr">
-                    <th className='amounttaxtrth'>Rs.</th>
-                    <td>{props.Allinvoicedata.CGST}</td>
-                    <td>{props.Allinvoicedata.SGST}</td>
-                    <td>{props.Allinvoicedata.IGST}</td>
-                    <td>{props.Allinvoicedata.TotalTaxamount} </td>
-                  </tr>
+                  <tbody>
+                    <tr className="amounttaxtr">
+                      <th colSpan="2" style={{ textAlign: "right" }}>
+                        CGST AMT
+                      </th>
+                      <th>SGST AMT</th>
+                      <th>IGST AMT</th>
+                      <th>Total</th>
+                    </tr>
+                    <tr className="amounttaxtr">
+                      <th className='amounttaxtrth'>Rs.</th>
+                      <td>{props.Allinvoicedata.CGST}</td>
+                      <td>{props.Allinvoicedata.SGST}</td>
+                      <td>{props.Allinvoicedata.IGST}</td>
+                      <td>{props.Allinvoicedata.TotalTaxamount} </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>

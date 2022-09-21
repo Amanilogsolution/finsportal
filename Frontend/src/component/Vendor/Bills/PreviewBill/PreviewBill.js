@@ -10,16 +10,16 @@ const PreviewBill = () => {
     const print = (e) => {
         e.preventDefault();
         const content = pdfRef.current;
-        //     const doc = new jsPDF();
-        //     doc.html(content, {
-        //       callback: function (doc) {
-        //           doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
-        //       },
-        //       html2canvas: { scale: 0.21 },
-        //       margin:[5,0,0,5],
+            const doc = new jsPDF();
+            doc.html(content, {
+              callback: function (doc) {
+                  doc.save(`Purchases Vouchers.pdf`);
+              },
+              html2canvas: { scale: 0.21 },
+              margin:[5,0,0,6],
 
 
-        //   });
+          });
     };
 
     return (
@@ -166,7 +166,7 @@ const PreviewBill = () => {
                                 </div>
                                 <div className='bill-footerdiv d-flex pt-3 pl-3' style={{ borderTop: "1px solid #000" }}>
                                     <h4>Naration: </h4>
-                                    <h5> Being Inv No.GIP173/22-23/024 booked</h5>
+                                    <h5 className='mt-1'>Being Inv No.GIP173/22-23/024 booked</h5>
 
                                 </div>
                             </div>
