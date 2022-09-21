@@ -796,7 +796,7 @@ function Invoices() {
                                                                     </button>
                                                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                                         name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
-                                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice </button>
+                                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
 
                                                                 </div>
                                                             </div>

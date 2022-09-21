@@ -1,0 +1,130 @@
+.modalbill {
+    font-family: sans-serif;
+    border: 1px solid #000;
+    padding-bottom: 10px;
+}
+
+.modelbillcard {
+    width: 60vw;
+    transform: translate(-10%);
+}
+
+.modalbill .bill-orgname {
+    border-bottom: 2px dotted Black;
+    padding: 10px 0px 0px 0px;
+}
+
+.modalbill .bill-orgname div {
+    width: 30%;
+    height: 90px;
+    border: none;
+    overflow: hidden;
+}
+
+.modalbill .bill-orgname div .billorglogo {
+    height: 100%;
+    width: 60%;
+    margin: 0px 50%;
+    transform: translate(-50%);
+    border: none;
+    border:2px solid red;
+    box-shadow: none;
+}
+
+.bill-detail .left-bill-detail table {
+    margin: 10px 0px 0px 20px;
+}
+
+.bill-detail .left-bill-detail table tr th:nth-child(1) {
+    width: 210px;
+}
+
+.bill-detail .right-bill-detail table {
+    width: 100%;
+    margin: 20px 0px 0px 20px;
+}
+
+.bill-detail .right-bill-detail table tr td:nth-child(1) {
+    width: 180px;
+}
+
+.modalbill .bill-bottomdetail table {
+    width: 37%;
+    border-top: 1px solid #000;
+}
+
+.modalbill .bill-bottomdetail table #billborderbottom {
+    border-bottom: 1px solid #000;
+}
+
+.modalbill .bill-bottomdetail table tr th:nth-child(1) {
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+}
+
+.modalbill .bill-bottomdetail table tr td:nth-child(2) {
+    width: 200px;
+}
+
+@media screen and (max-width:1350px) {
+    .modelbillcard {
+        width: 80vw;
+        transform: translate(-10%);
+    }
+
+}
+
+@media screen and (max-width:1000px) {
+    .modelbillcard {
+        width: 90vw;
+        transform: translate(-20%);
+    }
+
+}
+
+@media screen and (max-width:995px) {
+    .modelbillcard {
+        width: 90vw;
+        transform: translate(0%);
+    }
+}
+
+@media screen and (max-width:985px) {
+    .modelbillcard {
+        width: 90vw;
+        transform: translate(-20%);
+    }
+}
+
+@media screen and (max-width:850px) {
+    .modelbillcard {
+        width: 90vw;
+        transform: translate(-18%);
+    }
+
+
+
+
+}
+
+@media screen and (max-width:800px) {
+    .modelbillcard {
+        margin-top: 10px;
+        width: 100vw;
+        transform: translate(-17%);
+    }
+
+
+}
+
+@media screen and (max-width:720px) {
+    .modelbillcard {
+        transform: translate(-13%);
+    }
+}
+
+@media screen and (max-width:650px) {
+    .modelbillcard {
+        transform: translate(-10%);
+    }
+}
