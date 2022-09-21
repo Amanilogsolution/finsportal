@@ -185,7 +185,21 @@ function Bills() {
 
     const handleClickAdd = async (e) => {
         e.preventDefault()
-        const voucher_no = document.getElementById('voucher_no').value
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
+        const btn_type = e.target.value;
+        let voucher_no = "";
+
+        if (btn_type === 'save') {
+            voucher_no ='VOUCHER'+ Math.floor(Math.random() * 10000) + 1;
+        }
+        else {
+             voucher_no = document.getElementById('voucher_no').value
+        }
+
+
+
+        // const voucher_no = document.getElementById('voucher_no').value
         const voucher_date = document.getElementById('voucher_date').value
         const vendor_detail = document.getElementById('vend_name');
         const vendor_id = vendor_detail.value;
@@ -237,7 +251,7 @@ function Bills() {
 
                 const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img)
+                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img,btn_type)
 
                 if (result == 'Added') {
                     amount.map(async (amt, index) => {
@@ -717,14 +731,13 @@ function Bills() {
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
                                                             </tr>
-                                                            {/* <tr>
+                                                            <tr>
                                                                 <td>Expense Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
                                                                     <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' />
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
-                                                            </tr> */}
-
+                                                            </tr>
                                                             <tr>
                                                                 <td><h4>Total</h4></td>
                                                                 <td></td>
@@ -739,7 +752,10 @@ function Bills() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger" onClick={handleClickAdd}>
+                                                <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>
+                                                                        Save
+                                                                    </button>
+                                                    <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>
                                                         Post
                                                     </button>
                                                     <button id="clear" onClick={(e) => {
