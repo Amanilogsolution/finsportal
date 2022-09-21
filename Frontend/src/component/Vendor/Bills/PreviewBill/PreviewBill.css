@@ -10,7 +10,7 @@
 }
 
 .modalbill .bill-orgname {
-    border-bottom: 2px dotted Black;
+    border-bottom: 1px solid rgb(184, 182, 182);
     padding: 10px 0px 5px 0px;
 }
 

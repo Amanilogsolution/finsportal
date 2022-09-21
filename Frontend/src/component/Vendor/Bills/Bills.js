@@ -67,6 +67,9 @@ function Bills() {
             const lastno = Number(id[0].voucher_count) + 1
             setVouchercount(lastno)
             document.getElementById('voucher_no').value = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+
+            document.getElementById('savebtn').disabled=true;
+            document.getElementById('postbtn').disabled=true;
         }
         fetchdata();
     }, [])
@@ -673,26 +676,6 @@ function Bills() {
                                                                                             <option value='Brokerage'>Brokerage</option>
 
                                                                                         </select>
-                                                                                        {/* <input type='checkbox' value='Cost' id='cost' />
-                                                                                            <label htmlFor='cost' className="col-form-label font-weight-normal" >Cost </label>&nbsp;
-
-                                                                                            <input type='checkbox' value='Salary' id='salary' />
-                                                                                            <label htmlFor='salary' className="col-form-label font-weight-normal" >Salary </label>&nbsp;&nbsp;
-
-                                                                                            <input type='checkbox' value='Rent' id='rent' />
-                                                                                            <label htmlFor='rent' className="col-form-label font-weight-normal" >Rent </label>
-
-                                                                                            <div className="form-group ml-1" style={{ marginBottom: "0px" }}>
-                                                                                                <div className="form-row">
-                                                                                                    <input type='checkbox' value='Profit' id='Profit' />
-                                                                                                    <label htmlFor='Profit' className="col-form-label font-weight-normal" >Profit </label>&nbsp;&nbsp;
-
-                                                                                                    <input type='checkbox' value='Brokerage' id='Brokerage' />
-                                                                                                    <label htmlFor='Brokerage' className="col-form-label font-weight-normal" >Brokerage </label>&nbsp;
-
-                                                                                                </div>
-                                                                                            </div> */}
-
                                                                                     </div>
 
                                                                                 </div>
@@ -764,7 +747,7 @@ function Bills() {
                                                     }} name="clear" className="btn ml-2">
                                                         Cancel
                                                     </button>
-                                                    <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >
+                                                    <button type='button'  className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >
                                                         Preview Bill
                                                     </button>
                                                 </div>
