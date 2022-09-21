@@ -70,12 +70,12 @@ console.log(locationid)
         await sql.connect(sqlConfig)
         if (custid === 'all') {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and location ='${locationid}' `)
+            and '${lastDate}' and location ='${locationid}' and flagsave='post'`)
             res.send(result.recordset)
         }
         else {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and custid='${custid}' and location ='${locationid}'`)
+            and '${lastDate}' and custid='${custid}' and location ='${locationid}' and flagsave='post'`)
             res.send(result.recordset)
         }
     }
@@ -100,4 +100,17 @@ const getInvoice = async (req, res) => {
 
 }
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice }
+const getSaveInvoice = async (req, res) => {
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate ,convert(varchar(15),due_date,121) as lastdate from ${org}.dbo.tbl_invoice with (nolock) where flagsave='save'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = { InsertInvoice, filterInvoice, getInvoice,getSaveInvoice }
