@@ -93,7 +93,7 @@ const Menu = (props) => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="/Invoices" className="nav-link active">
+                    <a href="/SaveInvoice" className="nav-link active">
                       <i className="far fa-file nav-icon" />
                       <p>Invoices</p>
                     </a>
