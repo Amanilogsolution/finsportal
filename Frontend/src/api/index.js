@@ -628,9 +628,9 @@ export const Checkmidvalid = async (importdata, org, tbl_name) => {
 
 //  ########################## Location api start ###############################
 
-export const totalLocation = async (org, fins_year) => {
+export const totalLocation = async (org) => {
     const url = `http://localhost:3008/api/totallocation`
-    return axios.post(url, { org, fins_year }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const addLocation = async (org, Location_id, location_name, gstin_no, contact_name1, contact_name2, contact_phone_no1, contact_phone_no2, User_id, fins_year, country, state) => {
     const url = `http://localhost:3008/api/addlocation`

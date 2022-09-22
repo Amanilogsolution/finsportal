@@ -5,10 +5,9 @@ const uuidv1 = require("uuid/v1");
 
 const TotalLocation = async (req, res) => {
     const org = req.body.org;
-    const fins_year = req.body.fins_year;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master with (nolock) where fins_year='${fins_year}' order by sno desc`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_location_master with (nolock) order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -205,8 +204,7 @@ const ImportLocationMaster = (req, res) => {
             contact_name2,contact_phone_no1,contact_phone_no2,
             add_date_time,add_user_name,add_system_name,add_ip_address,status,country,state) 
                     VALUES ${datas.map(item => `('${item.location_name}','${item.gstin_no}','${item.location_id}','${item.contact_name1}','${item.contact_name2}',
-                    '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${country}','${state}')`).join(', ')}
-                    `)
+                    '${item.contact_phone_no1}','${item.contact_phone_no2}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${item.country}','${item.state}')`).join(', ')}`)
         res.send("Data Added")
 
     })

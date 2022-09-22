@@ -128,7 +128,7 @@ const Newdb = async (req, res) => {
                 sno bigint IDENTITY(1,1) NOT NULL,
                 vend_id varchar(30) NULL,
                 vend_name varchar(150) NULL,
-                vend_addressid varchar(100) NULL,
+                vend_addressid varchar(50) NULL,
                 gst_no  varchar(30) NULL,
                 billing_address_attention varchar(100) NULL,
                 billing_address_country varchar(50) NULL,
