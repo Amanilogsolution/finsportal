@@ -39,7 +39,7 @@ const PreviewBill = () => {
                                     <div className="toporgname text-center " >
                                         <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                                         <p>
-                                            AWL INDIA PVT LTD
+                                        {localStorage.getItem('Organisation Name').toLocaleUpperCase()} &nbsp;
                                             ADDRESS-GROUND FLOOR,TOWER B,VATIKA ATRIUM <br />GOLF COURSE  ROAD SECTOR 53,GURGOAN
                                         </p>
 
