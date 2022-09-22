@@ -35,7 +35,6 @@ app.post('/sendotp',async function (req,res){
 app.post('/Twofa',async function(req,res){
   try{
     const newSecret = twofactor.generateSecret({ name: "Aman", account: "aman@ilogsolution" });
-    
     res.send(newSecret)
   }  catch (err) {
       console.log(err)
