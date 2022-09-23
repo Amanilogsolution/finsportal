@@ -12,32 +12,29 @@ import * as XLSX from "xlsx";
 const columns = [
   {
     name: 'Unit Name',
-    selector: row=>row.unit_name,
+    selector: 'unit_name',
     sortable: true
   },
   {
     name: 'Unit Symbol',
-    selector: row=>row.unit_symbol,
+    selector: 'unit_symbol',
     sortable: true
   },
 
   {
     name: 'Status',
-    selector: row=>row.null,
+    selector: 'null',
     cell: (row) => [
 
       <div className='droplist'>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUnit(row.sno, status,localStorage.getItem('Organisation'))
-          console.log(row.status)
           window.location.href = 'ShowUnit'
           
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
-
-
+          <option value={row.status}  hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -49,8 +46,7 @@ const columns = [
   {
     name: "Actions",
     sortable: false,
-
-    selector: row=>row.null,
+    selector: "null",
     cell: (row) => [
 
       <a title='View Document' href="EditUnit">
@@ -75,7 +71,6 @@ const ShowUnit = () => {
 
     document.getElementById("uploadbtn").disabled = true;
     importdata.map((d) => {
-      // console.log(d.unit_name)
       if (!d.unit_name || !d.unit_symbol) {
         setErrorno(errorno++);
       }
@@ -88,7 +83,6 @@ const ShowUnit = () => {
     }
     else {
       const result = await ImportUnit(importdata, localStorage.getItem('Organisation'),localStorage.getItem('User_id'));
-      console.log('result', result.length)
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -107,7 +101,6 @@ const ShowUnit = () => {
   //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
-    console.log(importdata.length)
     if (importdata.length == 0) {
       alert("please select the file")
       window.location.reload();
@@ -152,7 +145,6 @@ const ShowUnit = () => {
   useEffect(async () => {
     const Token = localStorage.getItem('Token')
     const result = await TotalUnit(Token, localStorage.getItem('Organisation'))
-    console.log(result)
     setData(result)
   }, [])
 
@@ -196,11 +188,8 @@ const ShowUnit = () => {
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>

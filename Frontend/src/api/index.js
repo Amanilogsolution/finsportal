@@ -137,7 +137,7 @@ export const updatecountry = async (sno, User_id, country_name, country_id, coun
     return axios.post(url, { sno, User_id, country_name, country_id, country_code, country_phonecode }).then(response => response.data).catch(error => console.log(error));
 }
 export const deletecountry = async (sno, status) => {
-    const url = `http://192.168.146.103:3008/api/deletecountry`
+    const url = `http://localhost:3008/api/deletecountry`
     return axios.post(url, { sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
