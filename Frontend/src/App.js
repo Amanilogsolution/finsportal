@@ -142,6 +142,9 @@ import AddEmployee from './component/Master/EmployeeMaster/AddEmployee';
 import EditEmployee from './component/Master/EmployeeMaster/EditEmployee';
 
 
+import AddRoles from './component/ProjectSetting/Roles/AddRoles';
+
+
 const App = () => {
 
   //  setTimeout(() => {
@@ -293,6 +296,8 @@ const App = () => {
 
 
 
+
+          <PrivatRoute exact path="/addroles" component={AddRoles} />
 
 
           <Route exact path="*" component={PageNotFound} />
