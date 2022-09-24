@@ -4,7 +4,6 @@ import Footer from "../../Footer/Footer";
 
 const AddRoles = () => {
     const themeval = localStorage.getItem('themetype')
-    const themebtncolor = localStorage.getItem('themebtncolor')
 
     const checkboxstyle = {
         height:"17px",
@@ -43,7 +42,7 @@ const AddRoles = () => {
                                                         </div>
                                                     </div>
                                                     <div className="form-row col-md-10"  >
-                                                        <table class="table table-borderless text-center">
+                                                        <table className="table table-borderless text-center">
                                                             <thead>
                                                                 <tr className="table-active">
                                                                     <th scope="col" className="text-left"></th>
@@ -88,7 +87,7 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' style={checkboxstyle} /></td>
                                                                 </tr>
                                                                 <tr className={`table-active `}>
-                                                                    <th scope="row" style={{ fontSize: "18px" }} colspan="6">Sales</th>
+                                                                    <th scope="row" style={{ fontSize: "18px" }} colSpan="6">Sales</th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Invoices</th>
@@ -99,7 +98,7 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' style={checkboxstyle} /></td>
                                                                 </tr>
                                                                 <tr className="table-active">
-                                                                    <th scope="row" style={{ fontSize: "18px" }} colspan="6">Purchases</th>
+                                                                    <th scope="row" style={{ fontSize: "18px" }} colSpan="6">Purchases</th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Bills</th>
@@ -111,7 +110,7 @@ const AddRoles = () => {
                                                                 </tr>
 
                                                                 <tr className="table-active ">
-                                                                    <th scope="row" style={{ fontSize: "18px" }} colspan="6">Accountant</th>
+                                                                    <th scope="row" style={{ fontSize: "18px" }} colSpan="6">Accountant</th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Chart of Accounts</th>
@@ -123,7 +122,7 @@ const AddRoles = () => {
                                                                 </tr>
 
                                                                 <tr className="table-active ">
-                                                                    <th scope="row" style={{ fontSize: "18px" }} colspan="6">Settings</th>
+                                                                    <th scope="row" style={{ fontSize: "18px" }} colSpan="6">Settings</th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Users</th>
