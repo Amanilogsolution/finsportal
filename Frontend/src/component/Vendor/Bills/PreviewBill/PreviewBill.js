@@ -4,9 +4,10 @@ import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
 
 
-const PreviewBill = () => {
+const PreviewBill = (props) => {
     const pdfRef = useRef(null);
 
+     console.log(' data',props.data)
     const print = (e) => {
         e.preventDefault();
         const content = pdfRef.current;
@@ -51,15 +52,15 @@ const PreviewBill = () => {
                                         <table>
                                             <tr >
                                                 <th >Voucher No :</th>
-                                                <td >PJ230001980</td>
+                                                <td >{props.data.voucher_no}</td>
                                             </tr>
                                             <tr >
                                                 <th >Dated :</th>
-                                                <td >2022-09-07</td>
+                                                <td >{props.data.voucher_date}</td>
                                             </tr>
                                             <tr >
                                                 <th >Pay To :</th>
-                                                <td >GOPAL INFRACON PROJECT PRIVATE LIMITED</td>
+                                                <td >{props.data.pay_to}</td>
                                             </tr>
                                         </table>
 
@@ -73,7 +74,7 @@ const PreviewBill = () => {
                                             </tr>
                                             <tr >
                                                 <th >Invoice Date:</th>
-                                                <td > 2022-09-01</td>
+                                                <td > {props.data.invoice_date}</td>
                                             </tr>
                                         </table>
 
@@ -136,37 +137,37 @@ const PreviewBill = () => {
                                     <table className='table table-borderless m-0' >
                                         <tr id='billborderbottom'>
                                             <th className='text-right'  >Net Amount</th>
-                                            <td className='text-center'>230000.00</td>
+                                            <td className='text-center'>{props.data.net_amt}</td>
                                         </tr>
                                         <tr style={{ lineHeight: "16px" }}>
                                             <th className='text-right '  >CGST</th>
-                                            <td className='text-center'>20700.00</td>
+                                            <td className='text-center'>{props.data.cgst_amt}</td>
                                         </tr>
                                         <tr style={{ lineHeight: "16px" }}>
                                             <th className='text-right'  >SGST</th>
-                                            <td className='text-center'>20700.00</td>
+                                            <td className='text-center'>{props.data.sgst_amt}</td>
                                         </tr>
                                         <tr id='billborderbottom' style={{ lineHeight: "16px" }} >
                                             <th className='text-right'  >IGST</th>
-                                            <td className='text-center'>0.00</td>
+                                            <td className='text-center'>{props.data.igst_amt}</td>
                                         </tr>
                                         <tr id='billborderbottom' >
                                             <th className='text-right'>Invoice Amount</th>
-                                            <td className='text-center'>271400.00</td>
+                                            <td className='text-center'>{props.data.invoice_amt}</td>
                                         </tr>
                                         <tr id='billborderbottom'>
-                                            <th className='text-right' >TDS@ 10%</th>
-                                            <td className='text-center'>23000.00</td>
+                                            <th className='text-right' >TDS@ {props.data.tds_per}%</th>
+                                            <td className='text-center'>{props.data.tds_amt}</td>
                                         </tr>
                                         <tr>
                                             <th className='text-right' >Total Booked Amt</th>
-                                            <td className='text-center'>23000.00</td>
+                                            <td className='text-center'>{props.data.net_amt}</td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div className='bill-footerdiv d-flex pt-3 pl-3' style={{ borderTop: "1px solid #000" }}>
                                     <h4>Naration: </h4>
-                                    <h5 className='mt-1'>Being Inv No.GIP173/22-23/024 booked</h5>
+                                    <h5 className='mt-1'>{props.data.remarks}</h5>
 
                                 </div>
                             </div>
