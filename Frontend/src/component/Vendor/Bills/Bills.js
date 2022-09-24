@@ -41,7 +41,23 @@ function Bills() {
     const [file, setFile] = useState('');
     const [img, setimage] = useState('')
 
-    const [index, setIndex] = useState()
+    const [index, setIndex] = useState();
+
+    const [billalldetail, setBillalldetail] = useState({
+        voucher_no: '',
+        voucher_date: '',
+        invoice_date: '',
+        pay_to: '',
+        net_amt: '',
+        cgst_amt: '',
+        sgst_amt: '',
+        igst_amt: '',
+        invoice_amt: '',
+        tds_per: '',
+        tds_amt: '',
+        remarks: ''
+    })
+    const [vouchersitem,setVoucheritems] =useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -68,8 +84,8 @@ function Bills() {
             setVouchercount(lastno)
             document.getElementById('voucher_no').value = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
 
-            document.getElementById('savebtn').disabled=true;
-            document.getElementById('postbtn').disabled=true;
+            document.getElementById('savebtn').disabled = true;
+            document.getElementById('postbtn').disabled = true;
         }
         fetchdata();
     }, [])
@@ -155,6 +171,10 @@ function Bills() {
 
         const file = document.getElementById(`fileno${index}`).value ? document.getElementById(`fileno${index}`).value : ''
         setFileno([...fileno, file])
+
+        setVoucheritems([...vouchersitem,{
+           items:items[items-1],
+        }])
     }
 
     const handleChangeItems = (e) => {
@@ -173,6 +193,16 @@ function Bills() {
         else {
             document.getElementById('gstdiv').style.display = 'none';
         }
+        const vendor_detail = document.getElementById('vend_name');
+        const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
+        setBillalldetail({
+            ...billalldetail,
+            voucher_no: document.getElementById('voucher_no').value,
+            voucher_date: document.getElementById('voucher_date').value,
+            pay_to: vendor_name,
+            invoice_date: document.getElementById('bill_date').value,
+            invoice_amt: document.getElementById('bill_amt').value
+        })
     }
 
     const handleChangeRate = (e) => {
@@ -195,10 +225,10 @@ function Bills() {
         let voucher_no = "";
 
         if (btn_type === 'save') {
-            voucher_no ='VOUCHER'+ Math.floor(Math.random() * 10000) + 1;
+            voucher_no = 'VOUCHER' + Math.floor(Math.random() * 10000) + 1;
         }
         else {
-             voucher_no = document.getElementById('voucher_no').value
+            voucher_no = document.getElementById('voucher_no').value
         }
 
 
@@ -255,7 +285,7 @@ function Bills() {
 
                 const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                     bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img,btn_type)
+                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type)
 
                 if (result == 'Added') {
                     amount.map(async (amt, index) => {
@@ -329,6 +359,14 @@ function Bills() {
         else {
             document.getElementById('tdsdiv').style.display = 'none';
         }
+
+        setBillalldetail({
+            ...billalldetail,
+            cgst_amt: document.getElementById('cgstamt').innerHTML,
+            sgst_amt: document.getElementById('sgstamt').innerHTML,
+            igst_amt: document.getElementById('igstamt').innerHTML,
+
+        })
     }
 
     const handletdsbtn = (e) => {
@@ -347,6 +385,27 @@ function Bills() {
     const handleTdscomp = (e) => {
         e.preventDefault();
         setTdscomp(e.target.value)
+    }
+
+    const handlesetalldata = (e) => {
+        e.preventDefault();
+
+        setBillalldetail({
+            ...billalldetail,
+            tds_per: document.getElementById('tdsperinp').value,
+            tds_amt: document.getElementById('tdstagval').innerHTML,
+            net_amt: document.getElementById('total_bill_amt').innerHTML
+        })
+    }
+    const handlesetremark = (e) => {
+        e.preventDefault();
+
+        setBillalldetail({
+            ...billalldetail,
+            remarks: document.getElementById('remarks').value,
+            net_amt: document.getElementById('total_bill_amt').innerHTML
+
+        })
     }
 
 
@@ -565,7 +624,7 @@ function Bills() {
                                                     <div className="form mt-2">
                                                         <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="5" id="remarks" placeholder="Remarks" style={{ resize: "none" }}></textarea>
+                                                            <textarea type="text" className="form-control " rows="5" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
                                                         </div>
 
                                                     </div>
@@ -588,7 +647,7 @@ function Bills() {
                                                         <tbody style={{ position: "relative" }}>
                                                             <tr scope="row">
                                                                 <td style={{ width: "150px" }} >
-                                                                    <a title='Click to Input GST Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv}>Total CGST Amt *
+                                                                    <a title='Click to Input GST Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
                                                                     </a>
                                                                     <div className=" dropdown-menu-lg bg-light" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
                                                                         <div>
@@ -628,7 +687,7 @@ function Bills() {
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>{cgstval}</td>
+                                                                <td className='text-center' style={{ width: "150px" }} id='cgstamt'>{cgstval}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Total SGST Amt</td>
@@ -640,7 +699,7 @@ function Bills() {
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>{sgstval}</td>
+                                                                <td className='text-center' style={{ width: "150px" }} id='sgstamt'>{sgstval}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Total IGST Amt</td>
@@ -652,7 +711,7 @@ function Bills() {
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>{igstval}</td>
+                                                                <td className='text-center' style={{ width: "150px" }} id='igstamt'>{igstval}</td>
                                                             </tr>
                                                             <tr scope="row">
                                                                 <td style={{ width: "150px" }}>
@@ -718,7 +777,7 @@ function Bills() {
                                                             <tr>
                                                                 <td>Expense Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' />
+                                                                    <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' onBlur={handlesetalldata} />
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
@@ -732,13 +791,13 @@ function Bills() {
 
                                                 </div>
                                             </div>
-                                            <PreviewBill />
+                                            <PreviewBill data={billalldetail} />
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
-                                                <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>
-                                                                        Save
-                                                                    </button>
+                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>
+                                                        Save
+                                                    </button>
                                                     <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>
                                                         Post
                                                     </button>
@@ -747,7 +806,7 @@ function Bills() {
                                                     }} name="clear" className="btn ml-2">
                                                         Cancel
                                                     </button>
-                                                    <button type='button'  className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >
+                                                    <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >
                                                         Preview Bill
                                                     </button>
                                                 </div>

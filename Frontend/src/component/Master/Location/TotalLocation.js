@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddress, Getfincialyearid } from '../../../api';
+import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddress } from '../../../api';
 import DataTable from 'react-data-table-component';
 import Addbtn from '../../../images/add-btn.png'
 import Editbtn from '../../../images/edit.png'
@@ -86,8 +86,7 @@ const columns = [
 
       <a title='Edit Location' href="EditLocation">
         <button className="editbtn btn"
-          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
-        >
+          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
         <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
         </button></a>,
       <a title='View Document' href="AddOrgAddress">
@@ -180,7 +179,7 @@ const TotalLocation = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
     setImportdata(datas);
-
+     console.log(importdata)
   };
   //##########################  for convert array to json end  #################################
 
@@ -216,10 +215,9 @@ const TotalLocation = () => {
 
   useEffect(() => {
     async function fetchdata() {
-      const response = await Getfincialyearid(localStorage.getItem('Organisation'))
-      const fins_year = response[0].year
-      const result = await totalLocation(localStorage.getItem('Organisation'), fins_year)
+      const result = await totalLocation(localStorage.getItem('Organisation'))
       setData(result)
+      console.log(result)
     }
     fetchdata();
   }, [])
@@ -249,7 +247,7 @@ const TotalLocation = () => {
               <h3 className="text-left ml-5">Location</h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ">
                   <div className="card" style={{ width: "100%" }}>
                     <article className="card-body">
 
@@ -378,6 +376,7 @@ const TotalLocation = () => {
                   <table >
                     <thead>
                       <tr>
+                        <th style={{ border: "1px solid black" }}>Country</th>
                         <th style={{ border: "1px solid black" }}>location_name</th>
                         <th style={{ border: "1px solid black" }}>gstin_no</th>
                         <th style={{ border: "1px solid black" }}>location_id</th>
@@ -392,6 +391,7 @@ const TotalLocation = () => {
                       {
                         importdata.map((d) => (
                           <tr style={{ border: "1px solid black" }}>
+                            <td style={{ border: "1px solid black" }}>{d.country}</td>
                             <td style={{ border: "1px solid black" }}>{d.location_name}</td>
                             <td style={{ border: "1px solid black" }}>{d.gstin_no}</td>
                             <td style={{ border: "1px solid black" }}>{d.location_id}</td>
