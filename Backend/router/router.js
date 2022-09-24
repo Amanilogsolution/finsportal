@@ -52,6 +52,8 @@ const LoginLogsController = require('../controller/LoginLOgs')
 
 const Twofa = require('../controller/2faAuthentication/Twofa')
 
+const UserRightsController = require('../controller/UserRolePermission/userRoll')
+
 
 
 router.post('/newdb', NewdbController.Newdb);
@@ -354,6 +356,10 @@ router.post('/updateemployee',EmployeeController.updateemployee)
 router.post('/insertbill',BillController.InsertBill)
 router.post('/insertvendorsubinvoice',VendorInvoiceSubController.inserSubInvoice)
 router.post('/filterbillreport',BillController.FilterBillReport)
+router.post('/GetSaveBill',BillController.getSaveBill)
+
+router.post('/adduserrole',UserRightsController.AddUserRole)
+
 
 
 

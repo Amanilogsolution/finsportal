@@ -12,26 +12,21 @@ const BillReport = (props) => {
             selector: 'vourcher_no',
             sortable: true
         },
-
         {
             name: 'Voucher Date',
             selector: 'voudate',
             sortable: true
         },
-
         {
             name: 'Bill No',
             selector: 'bill_no',
             sortable: true
         },
-
         {
             name: 'Bill Date',
             selector: 'billdate',
             sortable: true
         },
-
-
         {
             name: 'Vendor',
             selector: 'vend_name',

@@ -92,6 +92,8 @@ const Login = () => {
                 localStorage.setItem('User_img', logindetails.image)
                 localStorage.setItem('fin_year', logindetails.fin_year)
                 localStorage.setItem('year', logindetails.year)
+                localStorage.setItem('Organisation_details',logindetails.org_name)
+
                 alert("Athorized successfully")
                 const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
                 window.location.href = '/home'
@@ -119,6 +121,8 @@ const Login = () => {
                 localStorage.setItem('User_img', logindetails.image)
                 localStorage.setItem('fin_year', logindetails.fin_year)
                 localStorage.setItem('year', logindetails.year)
+                localStorage.setItem('Organisation_details',logindetails.org_name)
+
                 alert(result1)
                 const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
                 window.location.href = '/home'
