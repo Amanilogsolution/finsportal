@@ -43,12 +43,12 @@ const Showvendor = () => {
             cell: (row) => [
 
                 <div className='droplist'>
-                    <select onChange={async (e) => {
+                    <select className={` bg-${themeval}`} onChange={async (e) => {
                         const status = e.target.value;
                         await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
                         window.location.href = 'ShowVendor'
                     }}>
-                        <option selected disabled hidden> {row.status}</option>
+                        <option  value={row.status} hidden> {row.status}</option>
                         <option value='Active'>Active</option>
                         <option value='Deactive' >Deactive</option>
                     </select>
@@ -61,7 +61,7 @@ const Showvendor = () => {
             selector: "null",
             cell: (row) => [
                 <a title='View Document' href="Editvendor">
-                    <button className="editbtn btn-success " onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit</button></a>
+                    <button className=" editbtn btn-success " onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit Vendor</button></a>
 
             ]
         }
@@ -76,6 +76,8 @@ const Showvendor = () => {
     const [finsyear, setFinsyear] = useState(0);
     const [mvendid, setMvendid] = useState(0);
     const [vendid, setVendid] = useState(0);
+
+    const themeval = localStorage.getItem('themetype')
 
 
     //##########################  Upload data start  #################################
@@ -251,7 +253,7 @@ const Showvendor = () => {
                 <Header />
                 {/* <Menu /> */}
                 <div>
-                    <div className="content-wrapper">
+                    <div className={`content-wrapper bg-${themeval}`}>
                         <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary">Add Vendor</button>
                         <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
                         <div className="container-fluid">
@@ -259,9 +261,9 @@ const Showvendor = () => {
                             <h3 className="text-left ml-5">Vendor</h3>
                             <br />
                             <div className="row ">
-                                <div className="col ml-5">
-                                    <div className="card" style={{ width: "100%" }}>
-                                        <article className="card-body">
+                                <div className="col">
+                                    <div className="card" >
+                                        <article className={`card-body bg-${themeval}`}>
 
                                             <DataTableExtensions
                                                 {...tableData}
@@ -272,6 +274,7 @@ const Showvendor = () => {
                                                     defaultSortAsc={false}
                                                     pagination
                                                     highlightOnHover
+                                                    theme={themeval}
                                                 />
                                             </DataTableExtensions>
 
@@ -282,18 +285,18 @@ const Showvendor = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themeval}/>
 
                 {/* ------------------ Modal start -----------------------------*/}
                 <div
-                    className="modal fade"
+                    className="modal fade "
                     id="exampleModal"
                     tabIndex="-1"
                     role="dialog"
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div className="modal-dialog" role="document">
-                        <div className="modal-content">
+                        <div className={`modal-content bg-${themeval}`}>
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">
                                     Import excel file
@@ -318,7 +321,7 @@ const Showvendor = () => {
                                         <input
                                             type="file"
                                             onChange={onChange}
-                                            className="form-control "
+                                            className={`form-control bg-${themeval}`}
                                             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                                     </div><br />
                                     <span style={{ color: "red" }}>
@@ -346,15 +349,16 @@ const Showvendor = () => {
                 </div>
                 {/* ------------------ Modal end -----------------------------*/}
                 {/* ------------------ Data show Modal start -----------------------------*/}
-                <div className="modal fade bd-example-modal-lg "
+                <div className="modal fade bd-example-modal-lg"
                     id="showdataModal"
                     tabIndex="-1"
                     role="dialog"
                     aria-labelledby="myLargeModalLabel"
                     aria-hidden="true"
+                    
                 >
-                    <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-                        <div className="modal-content">
+                    <div className=" " style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+                        <div className={`modal-content bg-${themeval}`}>
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                                     Uploaded Excel file
@@ -492,7 +496,7 @@ const Showvendor = () => {
                                 </table>
                             </div>
                         </div>
-                        <div className="modal-footer" style={{ background: "white" }}>
+                        <div className={`modal-footer bg-${themeval}`} >
                             <button
                                 type="button"
                                 className="btn btn-secondary"
