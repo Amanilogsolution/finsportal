@@ -172,9 +172,35 @@ function Bills() {
         const file = document.getElementById(`fileno${index}`).value ? document.getElementById(`fileno${index}`).value : ''
         setFileno([...fileno, file])
 
-        setVoucheritems([...vouchersitem,{
-           items:items[items-1],
-        }])
+
+        // setTimeout(() => {
+            if (document.getElementById(`deduction${index}`).value > 0) {
+                const net = amount[index] - document.getElementById(`deduction${index}`).value
+                setVoucheritems([...vouchersitem,{
+                    items:items[index],quantity:quantity[index],
+                    rate:rate[index],amount:amount[index],
+                    deduction:document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
+                    unit:e.target.value,
+                    netvalue:net
+                 }])    
+            } else {
+                setVoucheritems([...vouchersitem,{
+                    items:items[index],quantity:quantity[index],
+                    rate:rate[index],amount:amount[index],
+                    deduction:document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
+                    unit:e.target.value,
+                    netvalue:amount[index]
+                 }])      
+            }
+
+        // setVoucheritems([...vouchersitem,{
+        //    items:items[index],quantity:quantity[index],
+        //    rate:rate[index],amount:amount[index],
+        //    deduction:document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
+        //    unit:e.target.value,
+        //    netvalue:netvalue[index]
+        // }])
+    // },1000)
     }
 
     const handleChangeItems = (e) => {
@@ -791,7 +817,7 @@ function Bills() {
 
                                                 </div>
                                             </div>
-                                            <PreviewBill data={billalldetail} />
+                                            <PreviewBill data={billalldetail} Allitems={vouchersitem}/>
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
