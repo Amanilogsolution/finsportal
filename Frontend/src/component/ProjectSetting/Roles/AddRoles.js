@@ -13,7 +13,10 @@ const AddRoles = () => {
 
     const handlesubmitdata = async (e) => {
         e.preventDefault();
+      
+
         const role = document.getElementById('role').value;
+        let role_id=role+ Math.floor(Math.random() * 100000);
         const description = document.getElementById('description').value;
         const cust_view = document.getElementById('cust_view').checked === true ? 'true' : 'false';
         const cust_create = document.getElementById('cust_create').checked === true ? 'true' : 'false';
@@ -59,14 +62,22 @@ const AddRoles = () => {
         const paymentTerm_create = document.getElementById('paymentTerm_create').checked === true ? 'true' : 'false';
         const paymentTerm_edit = document.getElementById('paymentTerm_edit').checked === true ? 'true' : 'false';
         const paymentTerm_delete = document.getElementById('paymentTerm_delete').checked === true ? 'true' : 'false';
+        const user_id = localStorage.getItem('User_id');
+        const org = localStorage.getItem('Organisation');
 
-        // console.log(role,description,cust_view,cust_create)
-
-        const submitdata = await AddUserRole(role, description, cust_view, cust_create, cust_edit, cust_delete,
+        console.log(org,role, description, cust_view, cust_create, cust_edit, cust_delete,
             vend_view, vend_create, vend_edit, vend_delete, items_view, items_create, items_edit, items_delete,
             banking_view, banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete,
             bills_view, bills_create, bills_edit, bills_delete, chartacct_view, chartacct_create, chartacct_edit, chartacct_delete,
-            users_view, users_create, users_edit, users_delete, paymentTerm_view, paymentTerm_create, paymentTerm_edit, paymentTerm_delete)
+            users_view, users_create, users_edit, users_delete, paymentTerm_view, paymentTerm_create, paymentTerm_edit, paymentTerm_delete, user_id)
+
+
+
+        const submitdata = await AddUserRole(org,role, description, cust_view, cust_create, cust_edit, cust_delete,
+            vend_view, vend_create, vend_edit, vend_delete, items_view, items_create, items_edit, items_delete,
+            banking_view, banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete,
+            bills_view, bills_create, bills_edit, bills_delete, chartacct_view, chartacct_create, chartacct_edit, chartacct_delete,
+            users_view, users_create, users_edit, users_delete, paymentTerm_view, paymentTerm_create, paymentTerm_edit, paymentTerm_delete, user_id)
 
         console.log(submitdata)
     }
