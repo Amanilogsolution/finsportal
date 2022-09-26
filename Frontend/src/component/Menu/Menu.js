@@ -1,9 +1,16 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Finslogo from '../../images/finslogo.png'
+import {getUserRole} from '../../api/index'
 
 
 const Menu = (props) => {
   const currentorg = localStorage.getItem('Organisation Name');
+
+  useEffect(async() => {
+    const result = await getUserRole(localStorage.getItem('Organisation Name'),localStorage.getItem('Role'))
+    console.log(result)
+
+  },[])
 
 
 
