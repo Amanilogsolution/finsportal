@@ -7,6 +7,7 @@ const uuidv1 = require("uuid/v1");
 const AddUserRole = async (req, res) => {
     const org = req.body.org
     const roles = req.body.roles;
+    const role_id = req.body.role_id;
     const description = req.body.description;
     const customer_view = req.body.customer_view;
     const customer_create = req.body.customer_create;
@@ -54,9 +55,10 @@ const AddUserRole = async (req, res) => {
         await sql.connect(sqlConfig)
 
         const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${roles}'`)
+        console.log(duplicate)
         if(!duplicate.recordset.length){
         const result = await sql.query(`
-        insert into ${org}.dbo.user_roles(roles,description,customer_view,customer_create,
+        insert into ${org}.dbo.user_roles(roles,role_id,description,customer_view,customer_create,
             customer_edit,customer_delete,vendor_view,vendor_create,
             vendor_edit,vendor_delete,items_view,items_create,
             items_edit,items_delete,banking_view,banking_create,
@@ -67,7 +69,7 @@ const AddUserRole = async (req, res) => {
            users_edit , users_delete ,payment_terms_view ,payment_terms_create ,
              payment_terms_edit ,payment_terms_delete,add_user_name,add_system_name,
              add_ip_address,add_date_time,status,roles_uuid)
-            values('${roles}','${description}','${customer_view}','${customer_create}', 
+            values('${roles}','${role_id}','${description}','${customer_view}','${customer_create}', 
            '${customer_edit}','${customer_delete}','${vendor_view}','${vendor_create}',
            '${vendor_edit}','${vendor_delete}','${items_view}','${items_create}',
            '${items_edit}','${items_delete}','${banking_view}','${banking_create}',
@@ -78,8 +80,10 @@ const AddUserRole = async (req, res) => {
            '${users_edit}','${users_delete}','${payment_terms_view}','${payment_terms_create}',
            '${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
            '${req.ip}',getDate(),'Active','${uuidv1()}')`)
+           console.log('if')
                  res.send('Added')
         }else{
+            console.log('else')
             res.send('Role Already')
         }
 
