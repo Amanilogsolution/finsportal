@@ -32,6 +32,7 @@ const User_login = async (req, res) => {
                 Loginstatus: result.recordset[0].status,
                 ThemeButton:result.recordset[0].theme_btn_color,
                 Theme:result.recordset[0].theme_type,
+                UserRole:result.recordset[0].UserRole,
                 expiresIn: 5 * 24 * 60 * 60
             })
         } else {
@@ -55,15 +56,16 @@ const InsertUserLogin = async (req, res) => {
     const comp_name = req.body.comp_name;
     const user_password = req.body.user_password;
     const org_db_name = req.body.org_db_name;
-    const user_profile_url = req.body.user_profile_url
+    const user_profile_url = req.body.user_profile_url;
+    const UserRole = req.body.UserRole
 
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into FINSDB.dbo.tbl_Login(user_id,user_name,location,comp_name,comp_ip,
-            user_password,login_uuid,org_name ,org_db_name,user_profile_url)
-            values ('${user_id}','${user_name}','${location}','${comp_name}','${req.ip}','${user_password}','${uuid}','${comp_name}','${org_db_name}','${user_profile_url}')`)
+            user_password,login_uuid,org_name ,org_db_name,user_profile_url,UserRole)
+            values ('${user_id}','${user_name}','${location}','${comp_name}','${req.ip}','${user_password}','${uuid}','${comp_name}','${org_db_name}','${user_profile_url}','${UserRole}')`)
         res.send('Added')
     }
     catch (err) {

@@ -52,6 +52,9 @@ const AddUserRole = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
+
+        const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${roles}'`)
+        if(!duplicate.recordset.length){
         const result = await sql.query(`
         insert into ${org}.dbo.user_roles(roles,description,customer_view,customer_create,
             customer_edit,customer_delete,vendor_view,vendor_create,
@@ -76,6 +79,9 @@ const AddUserRole = async (req, res) => {
            '${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
            '${req.ip}',getDate(),'Active','${uuidv1()}')`)
                  res.send('Added')
+        }else{
+            res.send('Role Already')
+        }
 
     }
     catch (err) {
@@ -85,13 +91,14 @@ const AddUserRole = async (req, res) => {
 
 const getUserRole = async(req,res)=>{
     const org = req.body.org;
+    const role = req.body.role
     try{
         await sql.connect(sqlConfig)
-        
-
-
+        const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${role}'`)
+        res.send(duplicate.recordset[0])
     }
     catch(err){
+        res.send(err)
 
     }
 
@@ -99,4 +106,4 @@ const getUserRole = async(req,res)=>{
 
 
 
-module.exports = { AddUserRole }
+module.exports = { AddUserRole,getUserRole }
