@@ -1316,17 +1316,17 @@ export const GetSaveBill = async (org) => {
 // ############################ For Role api Start #################################
 
 
-export const AddUserRole = async (org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+export const AddUserRole = async (org, roles,role_id, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
     banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
     chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id) => {
 
-    console.log(org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+    console.log(org, roles,role_id, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
         banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
         chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id)
-        
+
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
-        org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+        org, roles,role_id, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
         banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
         chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id
     }).then(response => response.data).catch(error => console.log(error));
