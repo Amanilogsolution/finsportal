@@ -91,10 +91,12 @@ const AddUserRole = async (req, res) => {
 
 const getUserRole = async(req,res)=>{
     const org = req.body.org;
-    const role = req.body.role
+    const role = req.body.role;
+    console.log(`select * from ${org}.dbo.user_roles where roles='${role}'`)
     try{
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${role}'`)
+        console.log(duplicate)
         res.send(duplicate.recordset[0])
     }
     catch(err){
