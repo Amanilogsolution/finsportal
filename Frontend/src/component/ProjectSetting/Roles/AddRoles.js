@@ -65,7 +65,7 @@ const AddRoles = () => {
         const user_id = localStorage.getItem('User_id');
         const org = localStorage.getItem('Organisation');
 
-        console.log(org,role, description, cust_view, cust_create, cust_edit, cust_delete,
+        console.log(org,role,role_id, description, cust_view, cust_create, cust_edit, cust_delete,
             vend_view, vend_create, vend_edit, vend_delete, items_view, items_create, items_edit, items_delete,
             banking_view, banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete,
             bills_view, bills_create, bills_edit, bills_delete, chartacct_view, chartacct_create, chartacct_edit, chartacct_delete,
@@ -73,7 +73,7 @@ const AddRoles = () => {
 
 
 
-        const submitdata = await AddUserRole(org,role, description, cust_view, cust_create, cust_edit, cust_delete,
+        const submitdata = await AddUserRole(org,role,role_id, description, cust_view, cust_create, cust_edit, cust_delete,
             vend_view, vend_create, vend_edit, vend_delete, items_view, items_create, items_edit, items_delete,
             banking_view, banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete,
             bills_view, bills_create, bills_edit, bills_delete, chartacct_view, chartacct_create, chartacct_edit, chartacct_delete,
