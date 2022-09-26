@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { showuser, UpdateUser, ActiveCustomer } from '../../../api/index.js'
+import { showuser, UpdateUser, ActiveCustomer, ActiveUserRole } from '../../../api/index.js'
 
 const EditUser = () => {
   const [data, setData] = useState({})
   const [authentication, setAuthentication] = useState('')
   const [passwordshow, setPasswordshow] = useState(false);
   const [activecustomer, setActivecustomer] = useState([])
+  const [useroleslist, setUserroleslist] = useState([])
+
 
 
   useEffect(async () => {
     const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
       const result = await showuser(localStorage.getItem('userSno'));
       setData(result)
       setAuthentication(result.two_factor_authentication)
-      const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
+      const customer = await ActiveCustomer(org)
       setActivecustomer(customer)
+      const roles = await ActiveUserRole(org)
+      setUserroleslist(roles)
     }
     fetchdata()
 
@@ -104,8 +108,6 @@ const EditUser = () => {
 
 
 
-
-
   return (
     <div>
       <div className="wrapper">
@@ -113,7 +115,6 @@ const EditUser = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
@@ -132,7 +133,13 @@ const EditUser = () => {
                         <div className="form-row">
                           <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='role' value={data.role} onChange={(e) => handleChangerole(e)} />
+                            <select className="form-control col-md-4" id='role'  onChange={(e) => handleChangerole(e)} >
+                            <option value={data.role} hidden>{data.role}</option>
+                              {
+                                useroleslist.map((item, index) =>
+                                  <option key={index} value={item.role}>{item.roles}</option>)
+                              }
+                              </select>
                           </div>
                         </div>
                         <div className="form-row">

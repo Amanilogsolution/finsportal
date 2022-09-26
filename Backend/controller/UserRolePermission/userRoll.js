@@ -56,8 +56,8 @@ const AddUserRole = async (req, res) => {
 
         const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${roles}'`)
         console.log(duplicate)
-        if(!duplicate.recordset.length){
-        const result = await sql.query(`
+        if (!duplicate.recordset.length) {
+            const result = await sql.query(`
         insert into ${org}.dbo.user_roles(roles,role_id,description,customer_view,customer_create,
             customer_edit,customer_delete,vendor_view,vendor_create,
             vendor_edit,vendor_delete,items_view,items_create,
@@ -80,9 +80,9 @@ const AddUserRole = async (req, res) => {
            '${users_edit}','${users_delete}','${payment_terms_view}','${payment_terms_create}',
            '${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
            '${req.ip}',getDate(),'Active','${uuidv1()}')`)
-           console.log('if')
-                 res.send('Added')
-        }else{
+            console.log('if')
+            res.send('Added')
+        } else {
             console.log('else')
             res.send('Role Already')
         }
@@ -93,23 +93,37 @@ const AddUserRole = async (req, res) => {
     }
 }
 
-const getUserRole = async(req,res)=>{
+const getUserRole = async (req, res) => {
     const org = req.body.org;
     const role = req.body.role;
     console.log(`select * from ${org}.dbo.user_roles where roles='${role}'`)
-    try{
+    try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${role}'`)
         console.log(duplicate)
         res.send(duplicate.recordset[0])
     }
-    catch(err){
+    catch (err) {
         res.send(err)
 
+    }
+
+
+}
+
+const ActiveUserRole = async (req, res) => {
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const role = await sql.query(`select roles from ${org}.dbo.user_roles where status='Active'`)
+        res.send(role.recordset)
+    }
+    catch (err) {
+        res.send(err)
     }
 
 }
 
 
 
-module.exports = { AddUserRole,getUserRole }
+module.exports = { AddUserRole, getUserRole, ActiveUserRole }

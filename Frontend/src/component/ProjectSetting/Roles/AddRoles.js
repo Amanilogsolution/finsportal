@@ -472,7 +472,8 @@ const AddRoles = () => {
                 users_view, users_create, users_edit, users_delete, paymentTerm_view, paymentTerm_create, paymentTerm_edit, paymentTerm_delete, user_id)
 
             if (submitdata === 'Role Already') {
-                setAlreadyrole(false)
+                setAlreadyrole(true)
+                // alert("Data Already")
             }
             else if (submitdata === 'Added') {
                 alert("Data Added")

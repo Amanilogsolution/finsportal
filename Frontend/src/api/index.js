@@ -1337,4 +1337,10 @@ export const getUserRole = async (org,role) => {
     return axios.post(url, { org,role }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const ActiveUserRole = async (org) => {
+    const url = `http://localhost:3008/api/activeuserrole`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+
 // ############################ For Role api Start #################################
