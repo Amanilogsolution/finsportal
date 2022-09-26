@@ -474,6 +474,7 @@ const AddRoles = () => {
                 }
                 else if (submitdata === 'Added') {
                     alert("Data Added")
+                    window.location.reload();
                 }
             }
 

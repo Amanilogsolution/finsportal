@@ -55,6 +55,7 @@ const AddUserRole = async (req, res) => {
         await sql.connect(sqlConfig)
 
         const duplicate = await sql.query(`select * from ${org}.dbo.user_roles where roles='${roles}'`)
+        console.log(duplicate)
         if(!duplicate.recordset.length){
         const result = await sql.query(`
         insert into ${org}.dbo.user_roles(roles,role_id,description,customer_view,customer_create,
@@ -79,8 +80,10 @@ const AddUserRole = async (req, res) => {
            '${users_edit}','${users_delete}','${payment_terms_view}','${payment_terms_create}',
            '${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
            '${req.ip}',getDate(),'Active','${uuidv1()}')`)
+           console.log('if')
                  res.send('Added')
         }else{
+            console.log('else')
             res.send('Role Already')
         }
 
