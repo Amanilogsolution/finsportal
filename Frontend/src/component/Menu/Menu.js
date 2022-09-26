@@ -9,31 +9,60 @@ const Menu = (props) => {
   useEffect(async() => {
     const result = await getUserRole(localStorage.getItem('Organisation Name'),localStorage.getItem('Role'))
     console.log(result)
+    console.log(result.bills_view)
 
-    if(result.customer_view == "true"){
+
+    if(result.customer_view === "true"){
       document.getElementById('CustomerMenu').style.display="block"
       localStorage.setItem('customerAdd',true)
+    }else{
+      document.getElementById('CustomerMenu').style.display="none"
     }
-   if(result.vendor_view == "true"){
+
+   if(result.vendor_view === "true"){
       document.getElementById('VendorMenu').style.display="block"
+    }else{
+      document.getElementById('VendorMenu').style.display="none"
     }
-     if(result.items_view == "true"){
+
+     if(result.items_view === "true"){
       document.getElementById('itemsmenu').style.display="block"
+    }else{
+      document.getElementById('itemsmenu').style.display="none"
+
     }
-     if(result.bills_view == "true"){
+     if(result.banking_view === "true"){
+      console.log(result.bills_view)
       document.getElementById('bankMenu').style.display="block"
+    }else{
+      document.getElementById('bankMenu').style.display="none"
+
     }
-     if(result.invoice_view == "true"){
+     if(result.invoice_view === "true"){
       document.getElementById('Invoicemenu').style.display="block"
+    }else{
+      document.getElementById('Invoicemenu').style.display="none"
+
     }
-    if(result.bills_view == "true"){
+    if(result.bills_view === "true"){
       document.getElementById('BillsMenu').style.display="block"
+    }else{
+      document.getElementById('BillsMenu').style.display="none"
+
     }
+
     if(result.chartof_accounts_view == "true"){
       document.getElementById('COAMenu').style.display="block"
+    }else{
+      document.getElementById('COAMenu').style.display="none"
+
     }
-    if(result.users_view == "true"){
+
+    if(result.users_view === "true"){
       document.getElementById('usermenu').style.display="block"
+    }else{
+      document.getElementById('usermenu').style.display="none"
+
     }
 
   },[])
@@ -437,7 +466,7 @@ const Menu = (props) => {
                   </li>
                 </ul>
                 <ul className="nav nav-treeview" >
-                  <li className="nav-item"style={{display:"none"}} id="bankMenu">
+                  <li className="nav-item" style={{display:"none"}} id="bankMenu">
                     <a href="/TotalBank" className="nav-link active">
                       <i className="fa fa-university nav-icon" />
                       <p>Bank</p>
