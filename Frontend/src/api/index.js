@@ -832,9 +832,9 @@ export const UpdatefinancialTwocount = async (org, countkey, countvalue, countke
 
 //  ########################## Item api start ###############################
 
-export const InsertItems = async (org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
+export const InsertItems = async (org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name,glname,glcode) => {
     const url = `http://localhost:3008/api/insertitems`
-    return axios.post(url, { org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name,glname,glcode }).then(response => response.data).catch(error => console.log(error));
 }
 export const TotalItems = async (org) => {
     const url = `http://localhost:3008/api/totalitems`
@@ -1330,6 +1330,11 @@ export const AddUserRole = async (org, roles,role_id, description, customer_view
         banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
         chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id
     }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const getUserRole = async (org,role) => {
+    const url = `http://localhost:3008/api/getuserrole`
+    return axios.post(url, { org,role }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For Role api Start #################################

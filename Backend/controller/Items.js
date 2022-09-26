@@ -20,14 +20,16 @@ const InsertItems = async (req, res) => {
     const purchase_account = req.body.purchase_account;
     const gst_rate = req.body.gst_rate;
     const add_user_name = req.body.add_user_name;
+    const glname = req.body.glname;
+    const glcode = req.body.glcode;
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(` INSERT into ${org}.dbo.tbl_items_account
         (item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,major_code,chart_of_account,chart_of_acct_id,tax_preference,sales_account,purchase_account,gst_rate,
-       add_user_name,add_system_name ,add_ip_address ,add_date_time,status,item_uuid )
+       add_user_name,add_system_name ,add_ip_address ,add_date_time,status,item_uuid,glname,glcode )
        values('${item_type}','${item_name}','${item_unit}','${sac_code}','${hsn_code}','${major_code_id}','${major_code}','${chart_of_account}','${chartofaccount_id}','${tax_preference}','${sales_account}','${purchase_account}','${gst_rate}','${add_user_name}','${os.hostname()}','${req.ip}',getdate(),'Active',
-       '${uuidv1()}')`)
+       '${uuidv1()}','${glname}','${glcode}')`)
 
         if (result.rowsAffected[0] > 0) {
             res.send('Added')

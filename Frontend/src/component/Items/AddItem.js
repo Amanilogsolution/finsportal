@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../api";
+import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit, ShowGlCode } from "../../api";
 
 
 const AddItem = () => {
@@ -11,6 +11,8 @@ const AddItem = () => {
     const [unitdata, setUnitdata] = useState([]);
     const [gstvaluecount, setGstvaluecount] = useState();
     const themeval = localStorage.getItem('themetype')
+    const [glcode, setglcode] = useState([]);
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -18,6 +20,10 @@ const AddItem = () => {
             setData(result)
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
+
+            const result2 = await ShowGlCode(localStorage.getItem("Organisation"));
+            console.log(result2)
+            setglcode(result2)
         }
         fetchdata()
     }, [])
@@ -51,6 +57,18 @@ const AddItem = () => {
         }
     }
 
+    const handleSubgl = (e) => {
+        console.log(document.getElementById('checkboxgst').checked)
+        if (document.getElementById('checkboxgst').checked == true) {
+            document.getElementById('gldiv').style.display = 'flex'
+        }
+        else {
+            document.getElementById('gldiv').style.display = 'none'
+
+        }
+
+    }
+
     const handleClick = async (e) => {
         e.preventDefault();
         const Name = document.getElementById("name").value;
@@ -62,20 +80,22 @@ const AddItem = () => {
         const major_code_val = major_code1.value;
         const chartofacct = document.getElementById('chartof_account');
         const chartofaccount_id = chartofacct.value;
-        const chartofaccount =  chartofacct.options[chartofacct.selectedIndex].textContent;
+        const chartofaccount = chartofacct.options[chartofacct.selectedIndex].textContent;
         const taxpreference = document.getElementById("taxpreference").value;
         const Purchase = document.getElementById("item_name_purchase").checked === true ? 'Purchase' : '';
         const Sales = document.getElementById("item_name_sales").checked === true ? 'Sales' : '';
         const gstrate = document.getElementById("gstrate").value;
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
+        const [glcode,glname] = document.getElementById('glcode').value.split(',')
+        console.log(glcode,glname)
 
 
-        if (!Name || !major_code || !chartofaccount_id || !taxpreference) {
+        if (!Name || !major_code  || !taxpreference) {
             alert('Please Enter the mandatory field')
         }
         else {
-            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount,chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id);
+            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id,glname,glcode);
             if (result === "Added") {
                 alert('Data Added')
                 localStorage.removeItem('ChargecodeSno');
@@ -121,6 +141,38 @@ const AddItem = () => {
                                                         <input type="text" className="form-control col-md-4" id='name' />
                                                     </div>
                                                 </div>
+
+                                                <div className="form-row">
+                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
+                                                    <div className="col form-group">
+                                                        <span style={{ color: "red" }}>Make this a sub-account</span>
+                                                        <input type="checkbox"
+                                                            id="checkboxgst"
+                                                            onClick={handleSubgl}
+                                                            style={{ marginLeft: "150px" }}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="form-row" id="gldiv" style={{ display: "none" }}>
+                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Sub GL<span style={{ color: "red" }}>*</span></label>
+                                                    <div className="col form-group">
+                                                        <select
+                                                            id="glcode"
+                                                            className="form-control col-md-4"
+                                                        // onChange={handleChange}
+                                                        >
+                                                            <option value='' hidden >Select GL Code</option>
+                                                            {
+                                                                glcode.map((data, index) => (
+                                                                    <option key={index} value={`${data.account_sub_name_code},${data.account_sub_name}`}>{data.account_sub_name_code} , {data.account_sub_name}</option>
+                                                                ))
+                                                            }
+
+                                                        </select>                                                    </div>
+                                                </div>
+
+
                                                 <div className="form-row" >
                                                     <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
                                                     <div className="col form-group">
@@ -220,14 +272,14 @@ const AddItem = () => {
                                                     <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
-                                                            if (e.target.value >100) return false;
+                                                            if (e.target.value > 100) return false;
                                                             setGstvaluecount(e.target.value)
                                                         }} />
                                                     </div>
                                                 </div>
                                                 <div className="border-top card-body">
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                                                    <button className="btn btn-light ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
+                                                    <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
                                                 </div>
                                             </form>
                                         </article>
@@ -238,7 +290,7 @@ const AddItem = () => {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themeval}/>
+                <Footer theme={themeval} />
             </div>
         </div>
     )
