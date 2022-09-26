@@ -16,18 +16,18 @@ const AddUserRole = async (req, res) => {
     const vendor_create = req.body.vendor_create
     const vendor_edit = req.body.vendor_edit;
     const vendor_delete = req.body.vendor_delete;
-    const items_view= req.body.items_view;
+    const items_view = req.body.items_view;
     const items_create = req.body.items_create;
     const items_edit = req.body.items_edit;
     const items_delete = req.body.items_delete;
     const banking_view = req.body.banking_view;
     const banking_create = req.body.banking_create;
-    const banking_edit= req.body.banking_edit;
-    const banking_delete= req.body.banking_delete;
-    const invoice_view= req.body.invoice_view;
+    const banking_edit = req.body.banking_edit;
+    const banking_delete = req.body.banking_delete;
+    const invoice_view = req.body.invoice_view;
     const invoice_create = req.body.invoice_create;
     const invoice_edit = req.body.invoice_edit;
-    const invoice_delete= req.body.invoice_delete;
+    const invoice_delete = req.body.invoice_delete;
     const bills_view = req.body.bills_view;
     const bills_create = req.body.bills_create;
     const bills_edit = req.body.bills_edit;
@@ -37,22 +37,21 @@ const AddUserRole = async (req, res) => {
     const chartof_accounts_edit = req.body.chartof_accounts_edit;
     const chartof_accounts_delete = req.body.chartof_accounts_delete;
     const users_view = req.body.users_view;
-    const users_create= req.body.users_create;
+    const users_create = req.body.users_create;
     const users_edit = req.body.users_edit;
     const users_delete = req.body.users_delete;
-    const payment_terms_view= req.body.payment_terms_view;
+    const payment_terms_view = req.body.payment_terms_view;
     const payment_terms_create = req.body.payment_terms_create;
     const payment_terms_edit = req.body.payment_terms_edit;
-    const payment_terms_delete= req.body.payment_terms_delete;
-    const user_id=req.body.user_id
-    console.log(org,roles,description,customer_view,customer_create,customer_edit,customer_delete,vendor_view,vendor_create,vendor_edit,vendor_delete,items_view,items_create,items_edit,items_delete,banking_view,
-        banking_create,banking_edit,banking_delete,invoice_view,invoice_create,invoice_edit,invoice_delete,bills_view,bills_create,bills_edit,bills_delete,chartof_accounts_view,chartof_accounts_create,chartof_accounts_edit,
-        chartof_accounts_delete,users_view,users_create,users_edit,users_delete,payment_terms_view,payment_terms_create,payment_terms_edit,payment_terms_delete,user_id)
+    const payment_terms_delete = req.body.payment_terms_delete;
+    const user_id = req.body.user_id
+    console.log(org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+        banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
+        chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id)
 
 
     try {
         await sql.connect(sqlConfig)
-
         const result = await sql.query(`
         insert into ${org}.dbo.user_roles(roles,description,customer_view,customer_create,
             customer_edit,customer_delete,vendor_view,vendor_create,
@@ -65,18 +64,18 @@ const AddUserRole = async (req, res) => {
            users_edit , users_delete ,payment_terms_view ,payment_terms_create ,
              payment_terms_edit ,payment_terms_delete,add_user_name,add_system_name,
              add_ip_address,add_date_time,status,roles_uuid)
-values('${roles}','${description}','${customer_view}','${customer_create}',
-'${customer_edit}','${customer_delete}','${vendor_view}','${vendor_create}',
-'${vendor_edit}','${vendor_delete}','${items_view}','${items_create}',
-'${items_edit}','${items_delete}','${banking_view}','${banking_create}',
-'${banking_edit}','${banking_delete}','${invoice_view}','${invoice_create}',
-'${invoice_edit}','${invoice_delete}','${bills_view}','${bills_create}',
-'${bills_edit}','${bills_delete}','${chartof_accounts_view}','${chartof_accounts_create}',
-'${chartof_accounts_edit}','${chartof_accounts_delete}','${users_view}','${users_create}',
-'${users_edit}','${users_delete}','${payment_terms_view}','${payment_terms_create}',
-'${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
-'${req.ip}',getDate(),'Active','${uuidv1()}')`)
-        res.send('Added')
+            values('${roles}','${description}','${customer_view}','${customer_create}', 
+           '${customer_edit}','${customer_delete}','${vendor_view}','${vendor_create}',
+           '${vendor_edit}','${vendor_delete}','${items_view}','${items_create}',
+           '${items_edit}','${items_delete}','${banking_view}','${banking_create}',
+           '${banking_edit}','${banking_delete}','${invoice_view}','${invoice_create}',
+           '${invoice_edit}','${invoice_delete}','${bills_view}','${bills_create}',
+           '${bills_edit}','${bills_delete}','${chartof_accounts_view}','${chartof_accounts_create}',
+           '${chartof_accounts_edit}','${chartof_accounts_delete}','${users_view}','${users_create}',
+           '${users_edit}','${users_delete}','${payment_terms_view}','${payment_terms_create}',
+           '${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
+           '${req.ip}',getDate(),'Active','${uuidv1()}')`)
+                 res.send('Added')
 
     }
     catch (err) {
@@ -84,4 +83,20 @@ values('${roles}','${description}','${customer_view}','${customer_create}',
     }
 }
 
-module.exports={AddUserRole}
+const getUserRole = async(req,res)=>{
+    const org = req.body.org;
+    try{
+        await sql.connect(sqlConfig)
+        
+
+
+    }
+    catch(err){
+
+    }
+
+}
+
+
+
+module.exports = { AddUserRole }
