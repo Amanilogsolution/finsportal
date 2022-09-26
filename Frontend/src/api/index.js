@@ -17,9 +17,9 @@ export const showUserLogin = async (user_id) => {
     return axios.post(url, { user_id }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UserLogout = async (user_id,user_name,btntheme,themetype) => {
+export const UserLogout = async (user_id, user_name, btntheme, themetype) => {
     const url = 'http://localhost:3008/api/userlogout'
-    return axios.post(url, { user_id,user_name,btntheme,themetype }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { user_id, user_name, btntheme, themetype }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const insertUserLogin = async (user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url) => {
@@ -541,9 +541,9 @@ export const ActiveVendor = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ActiveSelectedVendor = async (org,vend_id) => {
+export const ActiveSelectedVendor = async (org, vend_id) => {
     const url = `http://localhost:3008/api/activeselectedvendor`
-    return axios.post(url, { org,vend_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vend_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -586,9 +586,9 @@ export const SelectCustAddress = async (cust_name, org) => {
     return axios.post(url, { cust_name, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const SelectVendorAddress = async (org,vendor_id) => {
+export const SelectVendorAddress = async (org, vendor_id) => {
     const url = 'http://localhost:3008/api/selectvendoraddress'
-    return axios.post(url, { org,vendor_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vendor_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -832,9 +832,9 @@ export const UpdatefinancialTwocount = async (org, countkey, countvalue, countke
 
 //  ########################## Item api start ###############################
 
-export const InsertItems = async (org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
+export const InsertItems = async (org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
     const url = `http://localhost:3008/api/insertitems`
-    return axios.post(url, { org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 export const TotalItems = async (org) => {
     const url = `http://localhost:3008/api/totalitems`
@@ -850,9 +850,9 @@ export const deleteItems = async (org, sno, status) => {
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateItems = async (sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
+export const UpdateItems = async (sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name) => {
     const url = `http://localhost:3008/api/updateItems`
-    return axios.post(url, { sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account,chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, org, item_type, item_name, item_unit, sac_code, hsn_code, major_code_id, major_code, chart_of_account, chartofaccount_id, tax_preference, sales_account, purchase_account, gst_rate, add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveItems = async (org, major_code) => {
     const url = `http://localhost:3008/api/activeitems`
@@ -861,7 +861,7 @@ export const ActiveItems = async (org, major_code) => {
 
 export const ActivePurchesItems = async (org) => {
     const url = `http://localhost:3008/api/activepurchesitems`
-    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -1179,12 +1179,12 @@ export const UpdateCrm = async (sno, org, user_name, type, cust_vend, User_id, f
 
 export const InsertInvoice = async (org, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
     total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
-    payment_term, due_date, User_id,custaddrs,custAddgst,destination,origin) => {
+    payment_term, due_date, User_id, custaddrs, custAddgst, destination, origin) => {
     const url = `http://localhost:3008/api/insertinvoice`
     return axios.post(url, {
         org, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
         total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
-        payment_term, due_date, User_id,custaddrs,custAddgst,destination,origin
+        payment_term, due_date, User_id, custaddrs, custAddgst, destination, origin
     }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1194,13 +1194,13 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
 }
 
 export const GetInvoice = async (org, invoiceno) => {
-    console.log(org,invoiceno)
+    console.log(org, invoiceno)
     const url = `http://localhost:3008/api/getinvoice`
     return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetSaveInvoice = async (org) => {
     const url = `http://localhost:3008/api/getsaveinvoice`
-    return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 
@@ -1245,9 +1245,9 @@ export const Login2fa = async (email, org) => {
     return axios.post(url, { email, org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Verify2fa = async (secret, otp, userid, org,userAgent) => {
+export const Verify2fa = async (secret, otp, userid, org, userAgent) => {
     const url = `http://localhost:3008/api/VerifyTwo`
-    return axios.post(url, { secret, otp, userid, org,userAgent }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { secret, otp, userid, org, userAgent }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For 2FAuth api END #################################
@@ -1282,35 +1282,54 @@ export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) =>
 
 // ############################ For Employee api End #################################
 
-export const InsertBill = async (org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id,bill_url,flagsave) => {
+
+// ############################ For Purchases Bill api Start #################################
+
+export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave) => {
     const url = `http://localhost:3008/api/insertbill`
-    return axios.post(url, { org,vourcher_no,voucher_date,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id,bill_url,flagsave }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertVendorSubInvoice = async (org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
-    rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid) => {
+export const InsertVendorSubInvoice = async (org, voucher_no, voucher_date, bill_date, bill_no, vend_id, vend_name, location, item_name, emp_name, glcode, samt, qty,
+    rate, amt, unit, file_no, deduction, gst_rate, sac_hsn, net_amt, remarks, cost_centre, fin_year, userid) => {
     const url = `http://localhost:3008/api/insertvendorsubinvoice`
-    return axios.post(url, { org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
-        rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {
+        org, voucher_no, voucher_date, bill_date, bill_no, vend_id, vend_name, location, item_name, emp_name, glcode, samt, qty,
+        rate, amt, unit, file_no, deduction, gst_rate, sac_hsn, net_amt, remarks, cost_centre, fin_year, userid
+    }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const FilterBillReport = async (org,startDate,lastDate,vendid) => {
-console.log('api',org,startDate,lastDate,vendid)
+export const FilterBillReport = async (org, startDate, lastDate, vendid) => {
+    console.log('api', org, startDate, lastDate, vendid)
     const url = `http://localhost:3008/api/filterbillreport`
-    return axios.post(url, { org,startDate,lastDate,vendid }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, startDate, lastDate, vendid }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetSaveBill = async (org) => {
     const url = `http://localhost:3008/api/GetSaveBill`
-    return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const AddUserRole = async (org,roles,description,customer_view,customer_create,customer_edit,customer_delete,vendor_view,vendor_create,vendor_edit,vendor_delete,items_view,items_create,items_edit,items_delete,banking_view,
-    banking_create,banking_edit,banking_delete,invoice_view,invoice_create,invoice_edit,invoice_delete,bills_view,bills_create,bills_edit,bills_delete,chartof_accounts_view,chartof_accounts_create,chartof_accounts_edit,
-    chartof_accounts_delete,users_view,users_create,users_edit,users_delete,payment_terms_view,payment_terms_create,payment_terms_edit,payment_terms_delete,user_id) => {
+// ############################ For Purchases Bill api End #################################
+
+
+// ############################ For Role api Start #################################
+
+
+export const AddUserRole = async (org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+    banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
+    chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id) => {
+
+    console.log(org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+        banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
+        chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id)
+        
     const url = `http://localhost:3008/api/adduserrole`
-    return axios.post(url, {org,roles,description,customer_view,customer_create,customer_edit,customer_delete,vendor_view,vendor_create,vendor_edit,vendor_delete,items_view,items_create,items_edit,items_delete,banking_view,
-        banking_create,banking_edit,banking_delete,invoice_view,invoice_create,invoice_edit,invoice_delete,bills_view,bills_create,bills_edit,bills_delete,chartof_accounts_view,chartof_accounts_create,chartof_accounts_edit,
-        chartof_accounts_delete,users_view,users_create,users_edit,users_delete,payment_terms_view,payment_terms_create,payment_terms_edit,payment_terms_delete,user_id}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {
+        org, roles, description, customer_view, customer_create, customer_edit, customer_delete, vendor_view, vendor_create, vendor_edit, vendor_delete, items_view, items_create, items_edit, items_delete, banking_view,
+        banking_create, banking_edit, banking_delete, invoice_view, invoice_create, invoice_edit, invoice_delete, bills_view, bills_create, bills_edit, bills_delete, chartof_accounts_view, chartof_accounts_create, chartof_accounts_edit,
+        chartof_accounts_delete, users_view, users_create, users_edit, users_delete, payment_terms_view, payment_terms_create, payment_terms_edit, payment_terms_delete, user_id
+    }).then(response => response.data).catch(error => console.log(error));
 }
 
+// ############################ For Role api Start #################################

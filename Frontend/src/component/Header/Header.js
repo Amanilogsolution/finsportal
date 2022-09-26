@@ -148,6 +148,9 @@ const Header = () => {
                   <a href="/Showcompliances"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>Compliances</b> </li></a>
+                    <a href="/AddRoles"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
+                    &nbsp;&nbsp;
+                    <b>Roles</b> </li></a>
                 </ul>
 
 
