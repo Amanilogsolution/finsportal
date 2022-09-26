@@ -13,6 +13,9 @@ const Reportdata = () => {
   const [vendcustname,setVendcustname] = useState('')
   const [locationlist, setLocationlist] = useState([])
 
+  const themeval = localStorage.getItem('themetype')
+  const themebtncolor = localStorage.getItem('themebtncolor')
+
   useEffect(() => {
     const fetchData = async () => {
       const org = localStorage.getItem('Organisation')
@@ -79,7 +82,7 @@ const Reportdata = () => {
         </div>
         <Header />
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
               <i className="fa fa-filter" aria-hidden="true"></i> Filter</button>
 
@@ -88,13 +91,13 @@ const Reportdata = () => {
               <div className="row ">
                 <div className="col">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
 
                       <form>
                         {
                           data ? (
                             (document.getElementById('report_type').value == 'Invoice') ?
-                              <InvoiceReport displaydata={data} name={vendcustname}/> : (document.getElementById('report_type').value == 'Bills')
+                              <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
                                 ? <BillReport displaydata={data} name={vendcustname}/> : null)
                             : <h3 className='text-center'>Filter for show data</h3>
                         }
@@ -196,7 +199,7 @@ const Reportdata = () => {
 
           {/* ########################## Modal End ###################################3 */}
         </div>
-        <Footer /> 
+        <Footer theme={themeval}/> 
 
       </div>
     </div>

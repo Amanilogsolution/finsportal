@@ -34,7 +34,8 @@ const Vendor = () => {
   const [incremvend, setIncremvend] = useState();
   const [currencylist, setCurrencylist] = useState([])
 
-
+  const themeval = localStorage.getItem('themetype')
+  const themebtncolor = localStorage.getItem('themebtncolor')
 
 
   //######################-------UseEffect Start-----------------####################
@@ -222,12 +223,12 @@ const Vendor = () => {
         {/* <Menu /> */}
 
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">New Vendor</h3>
               <div className="row ">
                 <div className="col ml-5">
-                  <div className="card" style={{ width: "100%" }}>
+                  <div className={`card bg-${themeval}`} style={{ width: "100%" }}>
                     <article className="card-body">
                       <form>
                         <div className="form-row">
@@ -508,7 +509,7 @@ const Vendor = () => {
                             />
                           </div>
                         </div>
-                        <div className="form-row bg-light">
+                        <div className="form-row ">
                           <div className="col-md-2 form-group">
                             <button
                               className="btn btn-link"
@@ -1007,8 +1008,8 @@ const Vendor = () => {
                               name="text"
                               className="col-md-9"
                               id="remark"
-                              cols="30"
                               rows="5"
+                              style={{resize:"none"}}
                             ></textarea>
                           </div>
                         </div>
@@ -1095,7 +1096,7 @@ const Vendor = () => {
             <br />
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   );
