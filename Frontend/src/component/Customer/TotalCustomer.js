@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
-// import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, Checkmidvalid, UpdatefinancialTwocount,getUserRolePermission } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, Checkmidvalid, UpdatefinancialTwocount, getUserRolePermission } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -59,11 +58,12 @@ const TotalCustomer = () => {
 
     {
       name: "Actions",
+      id: 'editactionbtns',
       sortable: false,
       selector: "null",
       cell: (row) => [
-        <a title='View Document' href="EditCustomer">
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
+        <a title='View Document' id='editactionbtns' href="EditCustomer">
+          <button  className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ]
@@ -84,24 +84,22 @@ const TotalCustomer = () => {
 
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
-    // importdata.map((d) => {
+    importdata.map((d) => {
 
-    //   if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
-    //     setErrorno(errorno++);
-    //   }
-    //   return 0;
-    // })
+      if (!d.existing || !d.cust_type || !d.cust_name || !d.company_name || !d.cust_email || !d.cust_work_phone || !d.cust_phone || !d.gst_treatment || !d.pan_no || !d.place_of_supply || !d.tax_preference || !d.currency) {
+        setErrorno(errorno++);
+      }
+      return 0;
+    })
 
     let arry = [];
-    //######################## Push master id in arry
+    //######################## Push master id in arry ##########################
     importdata.map((d) => {
       if (d.existing === 'y') {
         arry.push(d.mast_id)
       }
       return 0;
     })
-
-
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -112,7 +110,7 @@ const TotalCustomer = () => {
     else {
 
       const org = localStorage.getItem('Organisation');
-      const result = await Checkmidvalid(arry, org,'tbl_new_customer');
+      const result = await Checkmidvalid(arry, org, 'tbl_new_customer');
 
       // ######## Check which Master id does not exist    ##########
       const duplicate = (arry, result) => {
@@ -175,7 +173,7 @@ const TotalCustomer = () => {
         const result = await ImportCustomer(importdata, org, localStorage.getItem("User_id"));
 
         if (!(result === "Data Added")) {
-          setBackenddata(true);  
+          setBackenddata(true);
           setDuplicateDate(result)
         }
         else if (result === "Data Added") {
@@ -236,10 +234,23 @@ const TotalCustomer = () => {
       setNewcountid(getids[0].cust_count)
 
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
+      console.log(result)
       setData(result)
 
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation Name'),localStorage.getItem('Role'),'customer')
-      console.log(UserRights) 
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'), 'customer')
+      // console.log(UserRights)
+
+      for(let i=0;i>result.length;i++){
+        console.log('Hlo',i)
+      }
+      
+      document.getElementById('editactionbtns').style.display = "none";
+
+      if (UserRights.customer_create === 'false') {
+        document.getElementById('addcustbtn').style.display = "none";
+        document.getElementById('excelcustbtn').style.display = "none";
+      }
+
     }
     fetchdata();
 
@@ -257,11 +268,10 @@ const TotalCustomer = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addcustbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
+            <button type="button" id='excelcustbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">Total Customer</h3>

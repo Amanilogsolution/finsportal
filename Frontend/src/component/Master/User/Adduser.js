@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { InsertUser, insertUserLogin, UploadData, ActiveCustomer } from '../../../api';
+import { InsertUser, insertUserLogin, UploadData, ActiveCustomer, ActiveUserRole } from '../../../api';
 
 const AddUser = () => {
   // const [authentication, setAuthentication] = useState(true)
   const [activecustomer, setActivecustomer] = useState([])
+  const [useroleslist, setUserroleslist] = useState([])
   const [numbercount, setNumbercount] = useState();
   const [passwordshow, setPasswordshow] = useState(false);
   const [file, setFile] = useState('')
@@ -15,8 +15,11 @@ const AddUser = () => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const customer = await ActiveCustomer(localStorage.getItem('Organisation'))
+      const org = localStorage.getItem('Organisation')
+      const customer = await ActiveCustomer(org)
       setActivecustomer(customer)
+      const roles = await ActiveUserRole(org)
+      setUserroleslist(roles)
     }
     fetchdata()
   }, [])
@@ -44,14 +47,15 @@ const AddUser = () => {
     const designation = document.getElementById('designation').value;
     const authentication = 'with OTP'
 
-    if (!employee_name || !warehouse || !user_name || !password || !email_id || !phone) {
+
+    if (!employee_name || !role || !warehouse || !user_name || !password || !email_id || !phone) {
       alert('Please! enter the data')
     }
     else {
       const result = await InsertUser(employee_name, role, warehouse, user_name,
         password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'));
 
-      const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url,role)
+      const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url, role)
       if (result === 'Added' && loginInsert === "Added") {
         alert('Data Added')
         window.location.href = '/ShowUser';
@@ -78,7 +82,6 @@ const AddUser = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
@@ -99,7 +102,13 @@ const AddUser = () => {
                         <div className="form-row">
                           <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='role' placeholder="role" />
+                            <select type="text" className="form-control col-md-4" id='role'>
+                              <option value='' hidden>Select Role</option>
+                              {
+                                useroleslist.map((item, index) =>
+                                  <option key={index} value={item.role}>{item.roles}</option>)
+                              }
+                            </select>
                           </div>
                         </div>
 
