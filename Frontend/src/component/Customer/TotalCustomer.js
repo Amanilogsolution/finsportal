@@ -49,7 +49,7 @@ const TotalCustomer = () => {
             window.location.href = 'TotalCustomer'
           }
           }>
-            <option selected disabled hidden> {row.status}</option>
+            <option selected disabled hidden> {row.sno}</option>
             <option value='Active'>Active</option>
             <option value='Deactive' >Deactive</option>
           </select>
