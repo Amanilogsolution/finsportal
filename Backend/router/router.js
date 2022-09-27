@@ -360,6 +360,7 @@ router.post('/GetSaveBill',BillController.getSaveBill)
 
 router.post('/adduserrole',UserRightsController.AddUserRole)
 router.post('/getuserrole',UserRightsController.getUserRole)
+router.post('/getuserrolepermission',UserRightsController.getUserRolePermission)
 
 
 

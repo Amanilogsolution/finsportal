@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../Header/Header";
 // import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
-import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, Checkmidvalid, UpdatefinancialTwocount } from '../../api';
+import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, Checkmidvalid, UpdatefinancialTwocount,getUserRolePermission } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -237,6 +237,9 @@ const TotalCustomer = () => {
 
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation Name'),localStorage.getItem('Role'),'customer')
+      console.log(UserRights) 
     }
     fetchdata();
 

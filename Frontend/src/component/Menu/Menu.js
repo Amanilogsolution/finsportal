@@ -9,12 +9,11 @@ const Menu = (props) => {
   useEffect(async() => {
     const result = await getUserRole(localStorage.getItem('Organisation Name'),localStorage.getItem('Role'))
     console.log(result)
-    console.log(result.bills_view)
+  
 
 
     if(result.customer_view === "true"){
       document.getElementById('CustomerMenu').style.display="block"
-      localStorage.setItem('customerAdd',true)
     }else{
       document.getElementById('CustomerMenu').style.display="none"
     }
@@ -36,19 +35,17 @@ const Menu = (props) => {
       document.getElementById('bankMenu').style.display="block"
     }else{
       document.getElementById('bankMenu').style.display="none"
-
     }
-     if(result.invoice_view === "true"){
+
+    if(result.invoice_view === "true"){
       document.getElementById('Invoicemenu').style.display="block"
     }else{
       document.getElementById('Invoicemenu').style.display="none"
-
     }
     if(result.bills_view === "true"){
       document.getElementById('BillsMenu').style.display="block"
     }else{
       document.getElementById('BillsMenu').style.display="none"
-
     }
 
     if(result.chartof_accounts_view == "true"){
