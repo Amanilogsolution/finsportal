@@ -110,10 +110,6 @@ const getUserRole = async (req, res) => {
     }
 }
 
-
-
-
-
 const ActiveUserRole = async (req, res) => {
     const org = req.body.org;
     try {
@@ -143,7 +139,4 @@ const getUserRolePermission = async(req,res)=>{
 }
 
 
-
-
 module.exports = { AddUserRole, getUserRole, ActiveUserRole,getUserRolePermission }
-
