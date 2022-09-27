@@ -199,7 +199,7 @@ function ShowChartAccount() {
               <h3 className="text-left ml-5">Chart Of Account</h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
                     <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
