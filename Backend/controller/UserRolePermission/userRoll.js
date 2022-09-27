@@ -108,9 +108,11 @@ const getUserRole = async (req, res) => {
         res.send(err)
 
     }
-
-
 }
+
+
+
+
 
 const ActiveUserRole = async (req, res) => {
     const org = req.body.org;
@@ -122,9 +124,26 @@ const ActiveUserRole = async (req, res) => {
     catch (err) {
         res.send(err)
     }
+}
+
+const getUserRolePermission = async(req,res)=>{
+    const org = req.body.org;
+    const role = req.body.role;
+    const type = req.body.type;
+    try{
+        await sql.connect(sqlConfig)
+        const duplicate = await sql.query(`select ${type}_create,${type}_edit,${type}_delete  from ${org}.dbo.user_roles where roles='${role}'`)
+        res.send(duplicate.recordset[0])
+    }
+    catch(err){
+        res.send(err)
+
+    }
 
 }
 
 
 
-module.exports = { AddUserRole, getUserRole, ActiveUserRole }
+
+module.exports = { AddUserRole, getUserRole, ActiveUserRole,getUserRolePermission }
+
