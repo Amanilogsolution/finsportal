@@ -41,14 +41,14 @@ const TotalCustomer = () => {
       sortable: true,
       selector: 'null',
       cell: (row) => [
-        <div className='droplist'>
+        <div className='droplist' id={`droplist${row.sno}`}>
           <select onChange={async (e) => {
             const status = e.target.value;
             await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
             window.location.href = 'TotalCustomer'
           }
           }>
-            <option selected disabled hidden> {row.sno}</option>
+            <option selected disabled hidden> {row.status}</option>
             <option value='Active'>Active</option>
             <option value='Deactive' >Deactive</option>
           </select>
@@ -62,7 +62,7 @@ const TotalCustomer = () => {
       sortable: false,
       selector: "null",
       cell: (row) => [
-        <a title='View Document' id='editactionbtns' href="EditCustomer">
+        <a title='View Document' id={`editactionbtns${row.sno}`} href="EditCustomer">
           <button  className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
@@ -238,11 +238,23 @@ const TotalCustomer = () => {
       setData(result)
 
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'), 'customer')
-      // console.log(UserRights)
+      console.log(UserRights)
 
-      for(let i=0;i>result.length;i++){
-        console.log('Hlo',i)
-      }
+      
+
+      for(let i=0;i<=result.length;i++){
+        if (UserRights.customer_edit === 'false') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+          document.getElementById(`droplist${result[i].sno}`).style.display = "none";
+
+        }  
+       }
+       for(let i=0;i<=result.length;i++){
+        if (UserRights.customer_delete === 'false') {
+          document.getElementById(`droplist${result[i].sno}`).style.display = "none";
+
+        }  
+       }
       
       document.getElementById('editactionbtns').style.display = "none";
 
