@@ -1,64 +1,67 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Finslogo from '../../images/finslogo.png'
-import {getUserRole} from '../../api/index'
+import { getUserRole } from '../../api/index'
 
 
 const Menu = (props) => {
   const currentorg = localStorage.getItem('Organisation Name');
 
-  useEffect(async() => {
-    const result = await getUserRole(localStorage.getItem('Organisation Name'),localStorage.getItem('Role'))
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await getUserRole(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'))
 
-    if(result.customer_view === "true"){
-      document.getElementById('CustomerMenu').style.display="block"
-    }else{
-      document.getElementById('CustomerMenu').style.display="none"
+      if (result.customer_view === "true") {
+        document.getElementById('CustomerMenu').style.display = "block"
+      } else {
+        document.getElementById('CustomerMenu').style.display = "none"
+      }
+
+      if (result.vendor_view === "true") {
+        document.getElementById('VendorMenu').style.display = "block"
+      } else {
+        document.getElementById('VendorMenu').style.display = "none"
+      }
+
+      if (result.items_view === "true") {
+        document.getElementById('itemsmenu').style.display = "block"
+      } else {
+        document.getElementById('itemsmenu').style.display = "none"
+
+      }
+      if (result.banking_view === "true") {
+        document.getElementById('bankMenu').style.display = "block"
+      } else {
+        document.getElementById('bankMenu').style.display = "none"
+      }
+
+      if (result.invoice_view === "true") {
+        document.getElementById('Invoicemenu').style.display = "block"
+      } else {
+        document.getElementById('Invoicemenu').style.display = "none"
+      }
+      if (result.bills_view === "true") {
+        document.getElementById('BillsMenu').style.display = "block"
+      } else {
+        document.getElementById('BillsMenu').style.display = "none"
+      }
+
+      if (result.chartof_accounts_view === "true") {
+        document.getElementById('COAMenu').style.display = "block"
+      } else {
+        document.getElementById('COAMenu').style.display = "none"
+
+      }
+
+      if (result.users_view === "true") {
+        document.getElementById('usermenu').style.display = "block"
+      } else {
+        document.getElementById('usermenu').style.display = "none"
+
+      }
     }
+    fetchdata()
 
-   if(result.vendor_view === "true"){
-      document.getElementById('VendorMenu').style.display="block"
-    }else{
-      document.getElementById('VendorMenu').style.display="none"
-    }
-
-     if(result.items_view === "true"){
-      document.getElementById('itemsmenu').style.display="block"
-    }else{
-      document.getElementById('itemsmenu').style.display="none"
-
-    }
-     if(result.banking_view === "true"){
-      document.getElementById('bankMenu').style.display="block"
-    }else{
-      document.getElementById('bankMenu').style.display="none"
-    }
-
-    if(result.invoice_view === "true"){
-      document.getElementById('Invoicemenu').style.display="block"
-    }else{
-      document.getElementById('Invoicemenu').style.display="none"
-    }
-    if(result.bills_view === "true"){
-      document.getElementById('BillsMenu').style.display="block"
-    }else{
-      document.getElementById('BillsMenu').style.display="none"
-    }
-
-    if(result.chartof_accounts_view === "true"){
-      document.getElementById('COAMenu').style.display="block"
-    }else{
-      document.getElementById('COAMenu').style.display="none"
-
-    }
-
-    if(result.users_view === "true"){
-      document.getElementById('usermenu').style.display="block"
-    }else{
-      document.getElementById('usermenu').style.display="none"
-
-    }
-
-  },[])
+  }, [])
 
 
 
@@ -67,7 +70,7 @@ const Menu = (props) => {
       <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
         <a href="/home" className="brand-link" >
           <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
-          <span className="brand-text " style={{ color: "red",fontSize:"18px" }}>{currentorg}</span>
+          <span className="brand-text " style={{ color: "red", fontSize: "18px" }}>{currentorg}</span>
         </a>
 
         <div className="sidebar pb-3 " >
@@ -98,7 +101,7 @@ const Menu = (props) => {
                   <p> Dashboard </p>
                 </a>
               </li>
-              <li className="nav-item" style={{display:"none"}} id="itemsmenu">
+              <li className="nav-item" style={{ display: "none" }} id="itemsmenu">
                 <a href="/ShowItem" className="nav-link active p-1" >
                   <span className="material-symbols-outlined pt-1 pl-2">
                     category
@@ -109,7 +112,7 @@ const Menu = (props) => {
 
               <li className="nav-item">
                 <a href="#" className="nav-link active">
-                  <i className="nav-icon material-icons" style={{marginLeft:"-5px"}}>shopping_cart</i>
+                  <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
                   <p >
                     Sales
                     <i className="right fas fa-angle-left" />
@@ -117,13 +120,13 @@ const Menu = (props) => {
                 </a>
                 <ul className="nav nav-treeview">
 
-                  <li className="nav-item" style={{display:"none"}} id="CustomerMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="CustomerMenu">
                     <a href="/TotalCustomer" className="nav-link active">
                       <i className="fa fa-user nav-icon" aria-hidden="true"></i>
                       <p> Customer</p>
                     </a>
                   </li>
-                  <li className="nav-item" style={{display:"none"}} id="VendorMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="VendorMenu">
                     <a href="/TotalCustAddress" className="nav-link active">
                       <i className="fa fa-address-book nav-icon" />
                       <p>Addresses</p>
@@ -147,7 +150,7 @@ const Menu = (props) => {
                       <p>Delivery Challans</p>
                     </a>
                   </li>
-                  <li className="nav-item" style={{display:"none"}} id="Invoicemenu">
+                  <li className="nav-item" style={{ display: "none" }} id="Invoicemenu">
                     <a href="/SaveInvoice" className="nav-link active">
                       <i className="far fa-file nav-icon" />
                       <p>Invoices</p>
@@ -273,7 +276,7 @@ const Menu = (props) => {
                       <p>Purchase Order</p>
                     </a>
                   </li>
-                  <li className="nav-item"style={{display:"none"}} id="BillsMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="BillsMenu">
                     <a href="/SaveBillReport" className="nav-link active">
                       <i className="fa fa-file nav-icon" />
                       <p>Bills</p>
@@ -355,7 +358,7 @@ const Menu = (props) => {
 
                 </ul>
               </li>
-              <li className="nav-item" style={{display:"none"}} id="COAMenu">
+              <li className="nav-item" style={{ display: "none" }} id="COAMenu">
                 <a href="/Customer" className="nav-link active">
                   <i className="fa fa-user-plus" aria-hidden="true"></i>
                   <p >
@@ -459,7 +462,7 @@ const Menu = (props) => {
                   </li>
                 </ul>
                 <ul className="nav nav-treeview" >
-                  <li className="nav-item" style={{display:"none"}} id="bankMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="bankMenu">
                     <a href="/TotalBank" className="nav-link active">
                       <i className="fa fa-university nav-icon" />
                       <p>Bank</p>
@@ -467,7 +470,7 @@ const Menu = (props) => {
                   </li>
                 </ul>
                 <ul className="nav nav-treeview" >
-                  <li className="nav-item"style={{display:"none"}} id="usermenu">
+                  <li className="nav-item" style={{ display: "none" }} id="usermenu">
                     <a href="/ShowUser" className="nav-link active">
                       <i className="far fa-user nav-icon" />
                       <p>User</p>
@@ -539,7 +542,7 @@ const Menu = (props) => {
 
               <li className="nav-item" >
                 <a href="/Reportdata" className="nav-link active">
-                <i className="far ion-arrow-graph-up-right nav-icon" style={{marginLeft:"-5px"}}/>
+                  <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
                   <p > Report </p>
                 </a>
               </li>

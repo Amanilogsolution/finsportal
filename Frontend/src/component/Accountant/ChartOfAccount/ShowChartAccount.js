@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalChartOfAccount, ChartOfAccountStatus,ImportChartofAccount } from '../../../api';
+import { TotalChartOfAccount, ChartOfAccountStatus, ImportChartofAccount, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -11,62 +10,62 @@ import * as XLSX from "xlsx";
 
 
 const columns = [
-    {
-        name: 'Account Type Code',
-        selector: row => row.account_type_code,
-        sortable: true
-    },
-    {
-        name: 'Account Name Code',
-        selector: row => row.account_name_code,
-        sortable: true
-    },
-    {
-        name: 'Account Sub Name',
-        selector: row => row.account_sub_name,
-        sortable: true
-    },
-    {
-        name: 'Account Sub Name Code',
-        selector: row => row.account_sub_name_code,
-        sortable: true
-    },
-  
-    {
-        name: 'Status',
-        sortable: true,
-        selector: row => row.null,
-        cell: (row) => [
-            <div className='droplist'>
-                <select onChange={async (e) => {
-                    const org = localStorage.getItem("Organisation")
-                    const status = e.target.value;
-                    await ChartOfAccountStatus(org, status, row.sno)
-                    window.location.href = 'ShowChartAccount'
-                }
-                }>
-                    <option hidden selected={row.status}> {row.status}</option>
-                    <option >Active</option>
-                    <option >Deactive</option>
-                </select>
-            </div>
-        ]
-    },
+  {
+    name: 'Account Type Code',
+    selector: row => row.account_type_code,
+    sortable: true
+  },
+  {
+    name: 'Account Name Code',
+    selector: row => row.account_name_code,
+    sortable: true
+  },
+  {
+    name: 'Account Sub Name',
+    selector: row => row.account_sub_name,
+    sortable: true
+  },
+  {
+    name: 'Account Sub Name Code',
+    selector: row => row.account_sub_name_code,
+    sortable: true
+  },
 
-    {
-        name: "Actions",
-        sortable: false,
+  {
+    name: 'Status',
+    sortable: true,
+    selector: row => row.null,
+    cell: (row) => [
+      <div className='droplist' id={`deleteselect${row.sno}`}>
+        <select onChange={async (e) => {
+          const org = localStorage.getItem("Organisation")
+          const status = e.target.value;
+          await ChartOfAccountStatus(org, status, row.sno)
+          window.location.href = 'ShowChartAccount'
+        }
+        }>
+          <option hidden value={row.status}> {row.status}</option>
+          <option value='Active' >Active</option>
+          <option value='Deactive' >Deactive</option>
+        </select>
+      </div>
+    ]
+  },
 
-        selector: row => row.null,
-        cell: (row) => [
+  {
+    name: "Actions",
+    sortable: false,
 
-            <a title='View Document' href="EditChartAccount">
-                <button className="editbtn btn-success "
-                    onClick={() => localStorage.setItem('ChartAccountsno', `${row.sno}`)}
-                >Edit</button> </a>
+    selector: row => row.null,
+    cell: (row) => [
 
-        ]
-    }
+      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditChartAccount">
+        <button className="editbtn btn-success "
+          onClick={() => localStorage.setItem('ChartAccountsno', `${row.sno}`)}
+        >Edit</button> </a>
+
+    ]
+  }
 
 
 ]
@@ -74,136 +73,159 @@ const columns = [
 
 function ShowChartAccount() {
 
-    const [data, setData] = useState([])
-    const [importdata, setImportdata] = useState([]);
-    let [errorno, setErrorno] = useState(0);
-  
-  
-    //##########################  Upload data start  #################################
-  
-    const uploaddata = async () => {
-      importdata.map((d) => {
-        if (!d.account_type_code || !d.account_name_code || !d.account_sub_name || !d.account_sub_name_code) {
-          setErrorno(errorno++);
-        }
-      })
-  
-      if (errorno > 0) {
-        alert("Please! fill the mandatory data");
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const themetype = localStorage.getItem('themetype')
+
+
+  //##########################  Upload data start  #################################
+
+  const uploaddata = async () => {
+    importdata.map((d) => {
+      if (!d.account_type_code || !d.account_name_code || !d.account_sub_name || !d.account_sub_name_code) {
+        setErrorno(errorno++);
+      }
+    })
+
+    if (errorno > 0) {
+      alert("Please! fill the mandatory data");
+      document.getElementById("showdataModal").style.display = "none";
+      window.location.reload()
+    }
+    else {
+      const result = await ImportChartofAccount(importdata, localStorage.getItem('Organisation'), localStorage.getItem("User_id"));
+      if (result === "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
+        alert("Data Added")
         window.location.reload()
       }
       else {
-        const result = await ImportChartofAccount(importdata,localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
-        if (result == "Data Added") {
-          document.getElementById("showdataModal").style.display = "none";
-          alert("Data Added")
-          window.location.reload()
-        }
-        else {
-          alert("something are Wrong")
-        }
-  
-  
+        alert("something are Wrong")
       }
-  
-    };
-    //##########################   Upload data end  #################################
-  
-    //##########################  for convert array to json start  #################################
-  
-    const handleClick = () => {
-      const array = JSON.stringify(importdata)
-      const datas = JSON.parse(array)
-      setImportdata(datas);
-  
-    };
-    //##########################  for convert array to json end  #################################
-  
-    //##########################  for convert excel to array start  #################################
-    const onChange = (e) => {
-      const [file] = e.target.files;
-      const reader = new FileReader();
-  
-      reader.onload = (evt) => {
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        var lines = data.split("\n");
-        var result = [];
-        var headers = lines[0].split(",");
-        for (var i = 1; i < lines.length - 1; i++) {
-          var obj = {};
-          var currentline = lines[i].split(",");
-          for (var j = 0; j < headers.length; j++) {
-            obj[headers[j]] = currentline[j];
-          }
-          result.push(obj);
-        }
-        setImportdata(result);
-      };
-      reader.readAsBinaryString(file);
-    };
-    //##########################  for convert excel to array end #################################
-  
 
-    useEffect(async () => {
-        const result = await TotalChartOfAccount(localStorage.getItem('Organisation'))
-        setData(result)
-    }, [])
 
-    const tableData = {
-        columns, data
     }
 
-    return (
+  };
+  //##########################   Upload data end  #################################
+
+  //##########################  for convert array to json start  #################################
+
+  const handleClick = () => {
+    const array = JSON.stringify(importdata)
+    const datas = JSON.parse(array)
+    setImportdata(datas);
+
+  };
+  //##########################  for convert array to json end  #################################
+
+  //##########################  for convert excel to array start  #################################
+  const onChange = (e) => {
+    const [file] = e.target.files;
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+      var lines = data.split("\n");
+      var result = [];
+      var headers = lines[0].split(",");
+      for (var i = 1; i < lines.length - 1; i++) {
+        var obj = {};
+        var currentline = lines[i].split(",");
+        for (var j = 0; j < headers.length; j++) {
+          obj[headers[j]] = currentline[j];
+        }
+        result.push(obj);
+      }
+      setImportdata(result);
+    };
+    reader.readAsBinaryString(file);
+  };
+  //##########################  for convert excel to array end #################################
+
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+      const result = await TotalChartOfAccount(org)
+      setData(result)
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
+      if (UserRights.chartof_accounts_create === 'false') {
+        document.getElementById('addchartofacct').style.display = "none"
+        // document.getElementById('excelchartofacct').style.display = "none"
+
+      }
+
+      for (let i = 0; i <= result.length; i++) {
+        if (UserRights.chartof_accounts_edit === 'false') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+        }
+        if (UserRights.chartof_accounts_delete === 'false') {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "none";
+
+        }
+      }
+    }
+    fetchdata()
+  }, [])
+
+  const tableData = {
+    columns, data
+  }
+  const styleborder = {
+    border: "1px solid black"
+  }
+
+  return (
+    <div>
+      <div className="wrapper">
+        <div className="preloader flex-column justify-content-center align-items-center">
+          <div className="spinner-border" role="status"> </div>
+        </div>
+        <Header />
         <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='addchartofacct' style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./ChartOfAccount" }} className="btn btn-primary">Add Chart Of Account</button>
+            <button type="button" id='excelchartofacct' style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+
+            <div className="container-fluid">
+              <br />
+              <h3 className="text-left ml-5">Chart Of Account</h3>
+              <br />
+              <div className="row ">
+                <div className="col ml-5">
+                  <div className="card" style={{ width: "100%" }}>
+                    <article className={`card-body bg-${themetype}`}>
+                      <DataTableExtensions
+                        {...tableData}
+                      >
+                        <DataTable
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          pagination
+                          highlightOnHover
+                          theme={themetype}
+                        />
+                      </DataTableExtensions>
+
+                    </article>
+
+                  </div>
                 </div>
-                <Header />
-                {/* <Menu /> */}
-                <div>
-                    <div className="content-wrapper">
-                        <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./ChartOfAccount" }} className="btn btn-primary">Add Chart Of Account</button>
-                        <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-
-                        <div className="container-fluid">
-                            <br />
-
-                            <h3 className="text-left ml-5">Chart Of Account</h3>
-                            <br />
-                            <div className="row ">
-                                <div className="col ml-5">
-                                    <div className="card" style={{ width: "100%" }}>
-                                        <article className="card-body">
-                                            <DataTableExtensions
-                                                {...tableData}
-                                            >
-                                                <DataTable
-                                                    noHeader
-                                                    defaultSortField="id"
-                                                    defaultSortAsc={false}
-                                                    pagination
-                                                    highlightOnHover
-                                                />
-                                            </DataTableExtensions>
-
-                                        </article>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               
-                <Footer />
-                {/* ------------------ Modal start -----------------------------*/}
+        <Footer theme={themetype} />
+        {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
           id="exampleModal"
@@ -213,7 +235,7 @@ function ShowChartAccount() {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -241,7 +263,7 @@ function ShowChartAccount() {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -280,7 +302,7 @@ function ShowChartAccount() {
         >
 
           <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -304,24 +326,24 @@ function ShowChartAccount() {
 
                 <table >
                   <thead><tr>
-                    <th style={{ border: "1px solid black" }}>account_type_code</th>
-                    <th style={{ border: "1px solid black" }}>account_name_code</th>
-                    <th style={{ border: "1px solid black" }}>account_sub_name</th>
-                    <th style={{ border: "1px solid black" }}>account_sub_name_code</th>
-                    <th style={{ border: "1px solid black" }}>account_description</th>
-           
+                    <th style={styleborder}>account_type_code</th>
+                    <th style={styleborder}>account_name_code</th>
+                    <th style={styleborder}>account_sub_name</th>
+                    <th style={styleborder}>account_sub_name_code</th>
+                    <th style={styleborder}>account_description</th>
+
                   </tr>
                   </thead>
                   <tbody>
                     {
                       importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.account_type_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.account_name_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.account_sub_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.account_sub_name_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.account_description}</td>
-                          
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.account_type_code}</td>
+                          <td style={styleborder}>{d.account_name_code}</td>
+                          <td style={styleborder}>{d.account_sub_name}</td>
+                          <td style={styleborder}>{d.account_sub_name_code}</td>
+                          <td style={styleborder}>{d.account_description}</td>
+
                         </tr>
                       ))
                     }</tbody>
@@ -329,17 +351,14 @@ function ShowChartAccount() {
                 </table>
               </div>
             </div>
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} >
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
                   document.getElementById("showdataModal").style.display = "none";
                   window.location.reload()
-                }}
-              >
-                Cancel
-              </button>
+                }} >Cancel </button>
               <button type="button"
                 onClick={uploaddata}
                 className="btn btn-primary"
@@ -350,9 +369,9 @@ function ShowChartAccount() {
           </div>
         </div>
         {/* ------------------ Modal end -----------------------------*/}
-            </div>
-        </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default ShowChartAccount

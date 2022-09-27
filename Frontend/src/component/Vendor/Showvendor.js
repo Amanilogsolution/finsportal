@@ -41,12 +41,11 @@ const Showvendor = () => {
             selector: 'null',
             cell: (row) => [
 
-                <div className='droplist'>
-                    <select className={` bg-${themeval}`} onChange={async (e) => {
+                <div className='droplist' id={`deletselect${row.sno}`} >
+                    <select className={` bg-${themeval}`}  onChange={async (e) => {
                         const status = e.target.value;
                         await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
-                        window.location.href = 'ShowVendor'
-                    }}>
+                        window.location.href = 'ShowVendor'}}>
                         <option value={row.status} hidden> {row.status}</option>
                         <option value='Active'>Active</option>
                         <option value='Deactive' >Deactive</option>
@@ -59,7 +58,7 @@ const Showvendor = () => {
             sortable: false,
             selector: "null",
             cell: (row) => [
-                <a title='View Document' href="Editvendor">
+                <a title='View Document' id={`editactionbtns${row.sno}`} href="Editvendor">
                     <button className=" editbtn btn-success " onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit Vendor</button></a>
 
             ]
@@ -215,6 +214,27 @@ const Showvendor = () => {
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation')
+
+            const result = await Vendor(org)
+            setData(result)
+
+            const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+            if (UserRights.vendor_create === 'false') {
+
+                document.getElementById('addvendbtn').style.display = "none"
+                document.getElementById('excelvendbtn').style.display = "none"
+            }
+
+            for (let i = 0; i <= result.length; i++) {
+                if (UserRights.vendor_edit === 'false') {
+                    document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+                }
+                if (UserRights.vendor_delete === 'false') {
+                    document.getElementById(`deletselect${result[i].sno}`).style.display = "none";
+
+                }
+            }
+          
             const financialyear = await Getfincialyearid(org)
             setFinsyear(financialyear[0].year)
             const mvendid = parseInt(financialyear[0].mvend_count);
@@ -222,15 +242,6 @@ const Showvendor = () => {
             setMvendid(mvendid)
             setVendid(vendid)
             const year = financialyear[0].year;
-            const result = await Vendor(org)
-            setData(result)
-            const UserRights = await getUserRolePermission(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'), 'vendor')
-            console.log(UserRights)
-            if (UserRights.vendor_create === 'false') {
-
-                document.getElementById('addvendbtn').style.display = "none"
-                document.getElementById('excelvendbtn').style.display = "none"
-            }
         }
         fetchdata();
 
@@ -239,8 +250,8 @@ const Showvendor = () => {
     const tableData = {
         columns, data
     };
-    const styleborder={
-        border:"1px solid black"
+    const styleborder = {
+        border: "1px solid black"
     }
     return (
         <div>
