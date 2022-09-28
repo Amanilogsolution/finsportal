@@ -141,8 +141,9 @@ import ShowEmployee from './component/Master/EmployeeMaster/ShowEmployee';
 import AddEmployee from './component/Master/EmployeeMaster/AddEmployee';
 import EditEmployee from './component/Master/EmployeeMaster/EditEmployee';
 
-
 import AddRoles from './component/ProjectSetting/Roles/AddRoles';
+
+import ChartOfAccount2 from './component/Accountant/ChartOfAccount/ChartOfAccount2';
 
 
 const App = () => {
@@ -298,6 +299,10 @@ const App = () => {
 
 
           <PrivatRoute exact path="/addroles" component={AddRoles} />
+          <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} />
+
+
+          
 
 
           <Route exact path="*" component={PageNotFound} />

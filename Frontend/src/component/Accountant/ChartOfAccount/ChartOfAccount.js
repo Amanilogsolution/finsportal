@@ -80,6 +80,7 @@ function ChartOfAccount() {
     setaccount_type(account_name)
 
     const number = await ParentAccountNumber(account_type, account_name);
+    console.log(number)
     const accountnamenum = parseInt(number.result.account_name_code) + 1;
     const accountnamenum1 = String(accountnamenum).padStart(2, '0');
     setAccountno(accountnamenum1)
@@ -108,7 +109,7 @@ function ChartOfAccount() {
     if (account_type.length === 1) {
       setaccount_type(accountno)
     }
-    if (account_type.length === 3) {
+    if (account_type.length >= 3) {
       setaccount_type(accountsubno)
     }
   }

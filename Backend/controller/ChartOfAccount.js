@@ -49,6 +49,7 @@ const ParentAccountNumber = async (req, res) => {
     const org = req.body.org;
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
+    console.log(org,account_type_code,account_name_code)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT top 1 account_name_code from ${org}.dbo.tbl_account_name WHERE status='Active'  and account_type_code='${account_type_code}' order by sno desc;`)
