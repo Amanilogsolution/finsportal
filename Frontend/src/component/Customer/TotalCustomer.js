@@ -63,7 +63,7 @@ const TotalCustomer = () => {
       selector: "null",
       cell: (row) => [
         <a title='View Document' id={`editactionbtns${row.sno}`} href="EditCustomer">
-          <button  className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ]
@@ -228,40 +228,30 @@ const TotalCustomer = () => {
   useEffect(() => {
 
     const fetchdata = async () => {
-      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
-      setYear(getids[0].year);
-      setNewmcountid(getids[0].mcust_count)
-      setNewcountid(getids[0].cust_count)
-
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
-      console.log(result)
       setData(result)
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'), 'customer')
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'customer')
       console.log(UserRights)
-
-      
-
-      for(let i=0;i<=result.length;i++){
-        if (UserRights.customer_edit === 'false') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
-          document.getElementById(`droplist${result[i].sno}`).style.display = "none";
-
-        }  
-       }
-       for(let i=0;i<=result.length;i++){
-        if (UserRights.customer_delete === 'false') {
-          document.getElementById(`droplist${result[i].sno}`).style.display = "none";
-
-        }  
-       }
-      
-      document.getElementById('editactionbtns').style.display = "none";
-
       if (UserRights.customer_create === 'false') {
         document.getElementById('addcustbtn').style.display = "none";
         document.getElementById('excelcustbtn').style.display = "none";
       }
+
+      for (let i = 0; i <= result.length; i++) {
+        if (UserRights.customer_edit === 'false') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+        }
+        if (UserRights.customer_delete === 'false') {
+          document.getElementById(`droplist${result[i].sno}`).style.display = "none";
+
+        }
+      }
+
+
+      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
+      setYear(getids[0].year);
+      setNewmcountid(getids[0].mcust_count)
+      setNewcountid(getids[0].cust_count)
 
     }
     fetchdata();

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deleteUser, ImportUser, TotalUser } from '../../../api';
+import { deleteUser, ImportUser, TotalUser, getUserRolePermission } from '../../../api';
 import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
 
@@ -72,7 +71,7 @@ const columns = [
     selector: 'null',
     cell: (row) => [
 
-      <div className='droplist'>
+      <div className='droplist' id={`deleteselect${row.sno}`}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUser(row.sno, status)
@@ -94,7 +93,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="EditUser">
+      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditUser">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('userSno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -108,6 +107,8 @@ const ShowUser = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+
+  const themetype = localStorage.getItem('themetype')
 
 
   //##########################  Upload data start  #################################
@@ -185,6 +186,22 @@ const ShowUser = () => {
     const fetchdata = async () => {
       const result = await TotalUser()
       setData(result)
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'users')
+      if (UserRights.users_create === 'false') {
+        document.getElementById('adduserbtn').style.display = "none"
+        document.getElementById('exceluserbtn').style.display = "none"
+      }
+
+      for (let i = 0; i <= result.length; i++) {
+        if (UserRights.users_edit === 'false') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+        }
+        if (UserRights.users_delete === 'false') {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "none";
+
+        }
+      }
     }
 
     fetchdata()
@@ -193,6 +210,10 @@ const ShowUser = () => {
   const tableData = {
     columns, data
   };
+
+  const styleborder = {
+    border: "1px solid black"
+  }
   return (
     <div>
       <div className="wrapper">
@@ -202,9 +223,9 @@ const ShowUser = () => {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
+            <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">User</h3>
@@ -212,7 +233,7 @@ const ShowUser = () => {
               <div className="row ">
                 <div className="col">
                   <div className="card" >
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
 
                       <DataTableExtensions
                         {...tableData}
@@ -223,7 +244,7 @@ const ShowUser = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
-
+                          theme={themetype}
                         />
                       </DataTableExtensions>
                     </article>
@@ -233,7 +254,7 @@ const ShowUser = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype} />
 
         {/* ------------------ Modal start -----------------------------*/}
         <div
@@ -245,7 +266,7 @@ const ShowUser = () => {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -273,7 +294,7 @@ const ShowUser = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -310,7 +331,7 @@ const ShowUser = () => {
         >
 
           <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -338,19 +359,19 @@ const ShowUser = () => {
                       <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
                         <thead>
                           <tr>
-                            <th style={{ border: "1px solid black" }}>user_name</th>
-                            <th style={{ border: "1px solid black" }}>email_id</th>
-                            <th style={{ border: "1px solid black" }}>phone</th>
+                            <th style={styleborder}>user_name</th>
+                            <th style={styleborder}>email_id</th>
+                            <th style={styleborder}>phone</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
                             duplicateData.map((d, index) => (
 
-                              <tr key={index} style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.user_name}</td>
-                                <td style={{ border: "1px solid black" }}>{d.email_id}</td>
-                                <td style={{ border: "1px solid black" }}>{d.phone}</td>
+                              <tr key={index} style={styleborder}>
+                                <td style={styleborder}>{d.user_name}</td>
+                                <td style={styleborder}>{d.email_id}</td>
+                                <td style={styleborder}>{d.phone}</td>
                               </tr>
                             ))
                           }
@@ -363,44 +384,44 @@ const ShowUser = () => {
                 <table >
                   <thead>
                     <tr>
-                      <th style={{ border: "1px solid black" }}>employee_name</th>
-                      <th style={{ border: "1px solid black" }}>role</th>
-                      <th style={{ border: "1px solid black" }}>warehouse</th>
-                      <th style={{ border: "1px solid black" }}>user_name</th>
-                      <th style={{ border: "1px solid black" }}>password</th>
-                      <th style={{ border: "1px solid black" }}>email_id</th>
-                      <th style={{ border: "1px solid black" }}>phone</th>
-                      <th style={{ border: "1px solid black" }}>operate_mode</th>
-                      <th style={{ border: "1px solid black" }}>customer</th>
-                      <th style={{ border: "1px solid black" }}>reporting_to</th>
-                      <th style={{ border: "1px solid black" }}>designation</th>
-                      <th style={{ border: "1px solid black" }}>user_profile_url</th>
+                      <th style={styleborder}>employee_name</th>
+                      <th style={styleborder}>role</th>
+                      <th style={styleborder}>warehouse</th>
+                      <th style={styleborder}>user_name</th>
+                      <th style={styleborder}>password</th>
+                      <th style={styleborder}>email_id</th>
+                      <th style={styleborder}>phone</th>
+                      <th style={styleborder}>operate_mode</th>
+                      <th style={styleborder}>customer</th>
+                      <th style={styleborder}>reporting_to</th>
+                      <th style={styleborder}>designation</th>
+                      <th style={styleborder}>user_profile_url</th>
                     </tr>
 
                   </thead>
                   <tbody>
                     {
                       importdata.map((d, index) => (
-                        <tr key={index} style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.employee_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.role}</td>
-                          <td style={{ border: "1px solid black" }}>{d.warehouse}</td>
-                          <td style={{ border: "1px solid black" }}>{d.user_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.password}</td>
-                          <td style={{ border: "1px solid black" }}>{d.email_id}</td>
-                          <td style={{ border: "1px solid black" }}>{d.phone}</td>
-                          <td style={{ border: "1px solid black" }}>{d.operate_mode}</td>
-                          <td style={{ border: "1px solid black" }}>{d.customer}</td>
-                          <td style={{ border: "1px solid black" }}>{d.reporting_to}</td>
-                          <td style={{ border: "1px solid black" }}>{d.designation}</td>
-                          <td style={{ border: "1px solid black" }}>{d.user_profile_url}</td>
+                        <tr key={index} style={styleborder}>
+                          <td style={styleborder}>{d.employee_name}</td>
+                          <td style={styleborder}>{d.role}</td>
+                          <td style={styleborder}>{d.warehouse}</td>
+                          <td style={styleborder}>{d.user_name}</td>
+                          <td style={styleborder}>{d.password}</td>
+                          <td style={styleborder}>{d.email_id}</td>
+                          <td style={styleborder}>{d.phone}</td>
+                          <td style={styleborder}>{d.operate_mode}</td>
+                          <td style={styleborder}>{d.customer}</td>
+                          <td style={styleborder}>{d.reporting_to}</td>
+                          <td style={styleborder}>{d.designation}</td>
+                          <td style={styleborder}>{d.user_profile_url}</td>
                         </tr>
                       ))
                     }</tbody>
                 </table>
               </div>
             </div>
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} >
               <button
                 type="button"
                 className="btn btn-secondary"

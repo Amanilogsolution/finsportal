@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
-import { GetSaveInvoice } from '../../../../api';
+import { GetSaveInvoice,getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
@@ -42,7 +42,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-       <button  type="button" onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
+       <button  type="button"  id={`editactionbtns${row.sno}`} onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
 
     ]
   }
@@ -52,14 +52,27 @@ const columns = [
 
 const InvoiceSave = () => {
   const [data, setData] = useState([])
-
+  const themetype= localStorage.getItem('themetype')
 
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await GetSaveInvoice(localStorage.getItem('Organisation'))
+      const org = localStorage.getItem('Organisation')
+
+      const result = await GetSaveInvoice(org)
       setData(result)
-      console.log(result)
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
+      console.log(UserRights)
+      if (UserRights.invoice_create === 'false') {
+        document.getElementById('addivoicebtn').style.display = "none"
+      }
+
+      for (let i = 0; i <= result.length; i++) {
+        if (UserRights.invoice_edit === 'false') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+        }
+      }
     }
 
     fetchdata();
@@ -78,8 +91,8 @@ const InvoiceSave = () => {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Invoices" }} className="btn btn-primary">Add Invoice </button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Invoices" }} className="btn btn-primary">Add Invoice </button>
 
             <div className="container-fluid">
               <br />
@@ -87,9 +100,9 @@ const InvoiceSave = () => {
               <h3 className="text-left ml-5"> Save Invoice </h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className='col ml-2' >
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -99,6 +112,7 @@ const InvoiceSave = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
@@ -110,7 +124,7 @@ const InvoiceSave = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype} />
       </div>
     </div>
   )

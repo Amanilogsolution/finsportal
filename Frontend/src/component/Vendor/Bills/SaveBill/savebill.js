@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
-import { GetSaveBill } from '../../../../api';
+import { GetSaveBill,getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
@@ -67,14 +67,21 @@ const columns = [
 
 const BillSave = () => {
   const [data, setData] = useState([])
-
+  const themetype=localStorage.getItem('themetype')
 
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await GetSaveBill(localStorage.getItem('Organisation'))
+      const org = localStorage.getItem('Organisation')
+
+      const result = await GetSaveBill(org)
       setData(result)
-      console.log(result)
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bills')
+      if (UserRights.bills_create === 'false') {
+        document.getElementById('addbillbtn').style.display = "none"
+      }
+
+    
     }
 
     fetchdata();
@@ -91,20 +98,18 @@ const BillSave = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Bills" }} className="btn btn-primary">Add Bill </button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button " id='addbillbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Bills" }} className="btn btn-primary">Add Bill </button>
 
             <div className="container-fluid">
               <br />
-
               <h3 className="text-left ml-5"> Save Bill </h3>
               <br />
-              <div className="row ">
-                <div className="col ml-5">
+              <div className="row p-0" style={{width: "100%"}}>
+                <div className="col ">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -114,6 +119,7 @@ const BillSave = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
@@ -125,7 +131,7 @@ const BillSave = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

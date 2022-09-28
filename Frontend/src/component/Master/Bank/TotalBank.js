@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { totalBank, deleteBank, ImportBank } from '../../../api';
+import { totalBank, deleteBank, ImportBank, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -10,7 +9,6 @@ import Excelfile from '../../../excelformate/Bank_formate.xlsx';
 import * as XLSX from "xlsx";
 
 const columns = [
-
   {
     name: 'Bank Name',
     selector: 'bank_name',
@@ -53,38 +51,36 @@ const columns = [
     sortable: true
   },
   {
+    name: 'Account Type',
+    selector: 'ac_type',
+    sortable: true
+  },
+  {
     name: 'Status',
     sortable: true,
     selector: 'null',
     cell: (row) => [
-      <div className='droplist'>
+      <div className='droplist' id={`deleteselect${row.sno}`}>
         <select onChange={async (e) => {
           const status = e.target.value;
-          await deleteBank(row.sno, status,localStorage.getItem("Organisation"))
+          await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
           window.location.href = 'TotalBank'
         }
         }>
-          <option selected disabled hidden> {row.status}</option>
+          <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
   },
-
-  {
-    name: 'Account Type',
-    selector: 'ac_type',
-    sortable: true
-  },
   {
     name: "Actions",
     sortable: false,
-
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' href="EditBank">
+      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditBank">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
       </a>
 
@@ -98,16 +94,17 @@ const TotalBank = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const themetype = localStorage.getItem('themetype')
 
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
     document.getElementById("uploadbtn").disabled = true;
-    // importdata.map((d) => {
-    //   if (!d.bank_name  || !d.branch || !d.country ||!d.state || !d.city || !d.pincode || !d.ifsc_code || !d.ac_type || !d.acname) {
-    //     setErrorno(errorno++);
-    //   }
-    // })
+    importdata.map((d) => {
+      if (!d.bank_name || !d.branch || !d.country || !d.state || !d.city || !d.pincode || !d.ifsc_code || !d.ac_type || !d.acname) {
+        setErrorno(errorno++);
+      }
+    })
 
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
@@ -116,7 +113,7 @@ const TotalBank = () => {
     }
     else {
 
-      const result = await ImportBank(importdata, localStorage.getItem('Organisation'),localStorage.getItem("User_id"));
+      const result = await ImportBank(importdata, localStorage.getItem('Organisation'), localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -170,10 +167,31 @@ const TotalBank = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect( () => {
-    const fetchdata=async()=>{
-    const result = await totalBank(localStorage.getItem('Organisation'));
-    setData(result)}
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+
+      const result = await totalBank(org);
+      setData(result)
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'banking')
+      if (UserRights.banking_create === 'false') {
+        document.getElementById('addbankbtn').style.display = "none";
+        document.getElementById('excelbankbtn').style.display = "none";
+      }
+
+      for (let i = 0; i <= result.length; i++) {
+        if (UserRights.banking_edit === 'false') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+        }
+        if (UserRights.banking_delete === 'false') {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "none";
+
+        }
+      }
+
+    }
+
     fetchdata();
   }, [])
 
@@ -182,26 +200,26 @@ const TotalBank = () => {
   }
 
   return (
+
     <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
+            <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
 
               <h3 className="text-left ml-5">Banks</h3>
               <br />
               <div className="row ">
-                <div className="col ml-0">
+                <div className="col">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -211,34 +229,33 @@ const TotalBank = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
-        <Footer />
 
-        {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
+        <Footer theme={themetype} />
+
+
+        {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
           id="exampleModal"
           tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
+          aria-hidden="true">
+
+          <div className="modal-dialog " role="document">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -266,7 +283,7 @@ const TotalBank = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -299,11 +316,10 @@ const TotalBank = () => {
           tabIndex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
-          aria-hidden="true"
-        >
+          aria-hidden="true">
 
           <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -322,10 +338,8 @@ const TotalBank = () => {
                     &times;</span>
                 </button>
               </div>
-              {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
                 {
-
                   backenddata ?
                     <>
                       <h5 style={{ margin: "auto" }}>This data already exist</h5>
@@ -397,12 +411,11 @@ const TotalBank = () => {
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
             {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} style={{ background: "white" }}>
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -427,6 +440,7 @@ const TotalBank = () => {
         {/* ------------------ Modal end -----------------------------*/}
       </div>
     </div>
+
   )
 
 }

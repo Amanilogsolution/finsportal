@@ -1,6 +1,6 @@
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { AddUserRole } from '../../../api'
 
@@ -13,400 +13,108 @@ const AddRoles = () => {
         width: "17px"
     };
 
-    const fullaccess = (fullaccesstype) => {
+    useEffect(() => {
+        document.getElementById('setting_inp').checked = 'true'
+        document.getElementById('master_inp').checked = 'true'
+    }, [])
 
-        switch (fullaccesstype) {
-            case 'cust': {
-                const cust_full = document.getElementById('cust_full').checked === true ? 'true' : 'false'
-                if (cust_full == 'true') {
-                    document.getElementById('cust_create').disabled = false;
-                    document.getElementById('cust_edit').disabled = false;
-                    document.getElementById('cust_delete').disabled = false;
+    const fullaccess = (fullaccess, view, create, edit, deletecheck) => {
+        const fullval = document.getElementById(fullaccess).checked === true ? 'true' : 'false';
+        if (fullval == 'true') {
+            document.getElementById(create).disabled = false;
+            document.getElementById(edit).disabled = false;
+            document.getElementById(deletecheck).disabled = false;
 
-                    document.getElementById('cust_view').checked = true;
-                    document.getElementById('cust_create').checked = true;
-                    document.getElementById('cust_edit').checked = true;
-                    document.getElementById('cust_delete').checked = true;
-                }
-                else {
-                    document.getElementById('cust_create').disabled = true;
-                    document.getElementById('cust_edit').disabled = true;
-                    document.getElementById('cust_delete').disabled = true;
+            document.getElementById(view).checked = true;
+            document.getElementById(create).checked = true;
+            document.getElementById(edit).checked = true;
+            document.getElementById(deletecheck).checked = true;
+        }
+        else {
+            document.getElementById(create).disabled = true;
+            document.getElementById(edit).disabled = true;
+            document.getElementById(deletecheck).disabled = true;
 
-                    document.getElementById('cust_view').checked = false;
-                    document.getElementById('cust_create').checked = false;
-                    document.getElementById('cust_edit').checked = false;
-                    document.getElementById('cust_delete').checked = false;
-                }
+            document.getElementById(view).checked = false;
+            document.getElementById(create).checked = false;
+            document.getElementById(edit).checked = false;
+            document.getElementById(deletecheck).checked = false;
+        }
+    }
 
-            }
-            case 'vend': {
-                const vend_full = document.getElementById('vend_full').checked === true ? 'true' : 'false';
-                if (vend_full == 'true') {
-                    document.getElementById('vend_create').disabled = false;
-                    document.getElementById('vend_edit').disabled = false;
-                    document.getElementById('vend_delete').disabled = false;
+    const viewoff = (full, view, create, edit, deletecheck) => {
+        const view_val = document.getElementById(view).checked === true ? 'true' : 'false'
+        if (view_val == 'false') {
+            document.getElementById(create).disabled = true;
+            document.getElementById(edit).disabled = true;
+            document.getElementById(deletecheck).disabled = true;
 
-                    document.getElementById('vend_view').checked = true;
-                    document.getElementById('vend_create').checked = true;
-                    document.getElementById('vend_edit').checked = true;
-                    document.getElementById('vend_delete').checked = true;
-                }
-                else {
-                    document.getElementById('vend_create').disabled = true;
-                    document.getElementById('vend_edit').disabled = true;
-                    document.getElementById('vend_delete').disabled = true;
+            document.getElementById(full).checked = false;
+            document.getElementById(create).checked = false;
+            document.getElementById(edit).checked = false;
+            document.getElementById(deletecheck).checked = false;
+        }
+        else {
+            document.getElementById(create).disabled = false;
+            document.getElementById(edit).disabled = false;
+            document.getElementById(deletecheck).disabled = false;
+        }
+    }
 
-                    document.getElementById('vend_view').checked = false;
-                    document.getElementById('vend_create').checked = false;
-                    document.getElementById('vend_edit').checked = false;
-                    document.getElementById('vend_delete').checked = false;
-                }
-            }
+    const handlesettinginp = () => {
+        const setting_arry = ['paymentTerm', 'org', 'financial', 'branch', 'crm', 'compliance', 'roles']
+        const setting_inp = document.getElementById('setting_inp').checked === true ? 'true' : 'false';
+        if (setting_inp === 'false') {
+            setting_arry.map((item) => {
+                document.getElementById(`${item}_full`).checked = false
+                document.getElementById(`${item}_view`).checked = false
+                document.getElementById(`${item}_create`).checked = false
+                document.getElementById(`${item}_edit`).checked = false
+                document.getElementById(`${item}_delete`).checked = false
 
-            case 'item': {
-                const items_full = document.getElementById('items_full').checked === true ? 'true' : 'false';
-                if (items_full == 'true') {
-                    document.getElementById('items_create').disabled = false;
-                    document.getElementById('items_edit').disabled = false;
-                    document.getElementById('items_delete').disabled = false;
-
-                    document.getElementById('items_view').checked = true;
-                    document.getElementById('items_create').checked = true;
-                    document.getElementById('items_edit').checked = true;
-                    document.getElementById('items_delete').checked = true;
-                }
-                else {
-                    document.getElementById('items_create').disabled = true;
-                    document.getElementById('items_edit').disabled = true;
-                    document.getElementById('items_delete').disabled = true;
-
-                    document.getElementById('items_view').checked = false;
-                    document.getElementById('items_create').checked = false;
-                    document.getElementById('items_edit').checked = false;
-                    document.getElementById('items_delete').checked = false;
-                }
-            }
-
-
-            case 'banking': {
-                const banking_full = document.getElementById('banking_full').checked === true ? 'true' : 'false';
-                if (banking_full == 'true') {
-                    document.getElementById('banking_create').disabled = false;
-                    document.getElementById('banking_edit').disabled = false;
-                    document.getElementById('banking_delete').disabled = false;
-
-                    document.getElementById('banking_view').checked = true;
-                    document.getElementById('banking_create').checked = true;
-                    document.getElementById('banking_edit').checked = true;
-                    document.getElementById('banking_delete').checked = true;
-                }
-                else {
-                    document.getElementById('banking_create').disabled = true;
-                    document.getElementById('banking_edit').disabled = true;
-                    document.getElementById('banking_delete').disabled = true;
-
-                    document.getElementById('banking_view').checked = false;
-                    document.getElementById('banking_create').checked = false;
-                    document.getElementById('banking_edit').checked = false;
-                    document.getElementById('banking_delete').checked = false;
-                }
-            }
-
-            case 'invoice': {
-                const invoice_full = document.getElementById('invoice_full').checked === true ? 'true' : 'false';
-                if (invoice_full == 'true') {
-                    document.getElementById('invoice_create').disabled = false;
-                    document.getElementById('invoice_edit').disabled = false;
-                    document.getElementById('invoice_delete').disabled = false;
-
-                    document.getElementById('invoice_view').checked = true;
-                    document.getElementById('invoice_create').checked = true;
-                    document.getElementById('invoice_edit').checked = true;
-                    document.getElementById('invoice_delete').checked = true;
-                }
-                else {
-                    document.getElementById('invoice_create').disabled = true;
-                    document.getElementById('invoice_edit').disabled = true;
-                    document.getElementById('invoice_delete').disabled = true;
-
-                    document.getElementById('invoice_view').checked = false;
-                    document.getElementById('invoice_create').checked = false;
-                    document.getElementById('invoice_edit').checked = false;
-                    document.getElementById('invoice_delete').checked = false;
-                }
-            }
-
-            case 'bill': {
-                const bills_full = document.getElementById('bills_full').checked === true ? 'true' : 'false';
-                if (bills_full == 'true') {
-                    document.getElementById('bills_create').disabled = false;
-                    document.getElementById('bills_edit').disabled = false;
-                    document.getElementById('bills_delete').disabled = false;
-
-                    document.getElementById('bills_view').checked = true;
-                    document.getElementById('bills_create').checked = true;
-                    document.getElementById('bills_edit').checked = true;
-                    document.getElementById('bills_delete').checked = true;
-                }
-                else {
-                    document.getElementById('bills_create').disabled = true;
-                    document.getElementById('bills_edit').disabled = true;
-                    document.getElementById('bills_delete').disabled = true;
-
-                    document.getElementById('bills_view').checked = false;
-                    document.getElementById('bills_create').checked = false;
-                    document.getElementById('bills_edit').checked = false;
-                    document.getElementById('bills_delete').checked = false;
-                }
-            }
-            case 'chartofaccount': {
-                const chartacct_full = document.getElementById('chartacct_full').checked === true ? 'true' : 'false';
-                if (chartacct_full == 'true') {
-                    document.getElementById('chartacct_create').disabled = false;
-                    document.getElementById('chartacct_edit').disabled = false;
-                    document.getElementById('chartacct_delete').disabled = false;
-
-                    document.getElementById('chartacct_view').checked = true;
-                    document.getElementById('chartacct_create').checked = true;
-                    document.getElementById('chartacct_edit').checked = true;
-                    document.getElementById('chartacct_delete').checked = true;
-                }
-                else {
-                    document.getElementById('chartacct_create').disabled = true;
-                    document.getElementById('chartacct_edit').disabled = true;
-                    document.getElementById('chartacct_delete').disabled = true;
-
-                    document.getElementById('chartacct_view').checked = false;
-                    document.getElementById('chartacct_create').checked = false;
-                    document.getElementById('chartacct_edit').checked = false;
-                    document.getElementById('chartacct_delete').checked = false;
-                }
-            }
-
-            case 'users': {
-                const users_full = document.getElementById('users_full').checked === true ? 'true' : 'false';
-                if (users_full == 'true') {
-                    document.getElementById('users_create').disabled = false;
-                    document.getElementById('users_edit').disabled = false;
-                    document.getElementById('users_delete').disabled = false;
-
-                    document.getElementById('users_view').checked = true;
-                    document.getElementById('users_create').checked = true;
-                    document.getElementById('users_edit').checked = true;
-                    document.getElementById('users_delete').checked = true;
-                }
-                else {
-                    document.getElementById('users_create').disabled = true;
-                    document.getElementById('users_edit').disabled = true;
-                    document.getElementById('users_delete').disabled = true;
-
-                    document.getElementById('users_view').checked = false;
-                    document.getElementById('users_create').checked = false;
-                    document.getElementById('users_edit').checked = false;
-                    document.getElementById('users_delete').checked = false;
-                }
-            }
-
-            case 'payment_term': {
-                const paymentTerm_full = document.getElementById('paymentTerm_full').checked === true ? 'true' : 'false';
-                if (paymentTerm_full == 'true') {
-                    document.getElementById('paymentTerm_create').disabled = false;
-                    document.getElementById('paymentTerm_edit').disabled = false;
-                    document.getElementById('paymentTerm_delete').disabled = false;
-
-                    document.getElementById('paymentTerm_view').checked = true;
-                    document.getElementById('paymentTerm_create').checked = true;
-                    document.getElementById('paymentTerm_edit').checked = true;
-                    document.getElementById('paymentTerm_delete').checked = true;
-                }
-                else {
-                    document.getElementById('paymentTerm_create').disabled = true;
-                    document.getElementById('paymentTerm_edit').disabled = true;
-                    document.getElementById('paymentTerm_delete').disabled = true;
-
-                    document.getElementById('paymentTerm_view').checked = false;
-                    document.getElementById('paymentTerm_create').checked = false;
-                    document.getElementById('paymentTerm_edit').checked = false;
-                    document.getElementById('paymentTerm_delete').checked = false;
-                }
-            }
+                document.getElementById(`${item}_full`).disabled = true;
+                document.getElementById(`${item}_view`).disabled = true;
+                document.getElementById(`${item}_create`).disabled = true;
+                document.getElementById(`${item}_edit`).disabled = true;
+                document.getElementById(`${item}_delete`).disabled = true;
+            })
+        }
+        else {
+            setting_arry.map((item) => {
+                document.getElementById(`${item}_full`).disabled = false;
+                document.getElementById(`${item}_view`).disabled = false;
+            })
         }
 
     }
 
 
-    const viewoff = (viewofftype) => {
+    const handlemasterinp = () => {
+        const master_arry = ['users', 'country', 'state', 'city', 'currency', 'unit', 'comptype', 'empmaster']
+        const master_inp = document.getElementById('master_inp').checked === true ? 'true' : 'false';
+        if (master_inp === 'false') {
+            master_arry.map((item) => {
+                document.getElementById(`${item}_full`).checked = false
+                document.getElementById(`${item}_view`).checked = false
+                document.getElementById(`${item}_create`).checked = false
+                document.getElementById(`${item}_edit`).checked = false
+                document.getElementById(`${item}_delete`).checked = false
 
-        switch (viewofftype) {
-            case 'cust': {
-                const cust_view = document.getElementById('cust_view').checked === true ? 'true' : 'false'
-                if (cust_view == 'false') {
-                    document.getElementById('cust_create').disabled = true;
-                    document.getElementById('cust_edit').disabled = true;
-                    document.getElementById('cust_delete').disabled = true;
-
-                    document.getElementById('cust_full').checked = false;
-                    document.getElementById('cust_create').checked = false;
-                    document.getElementById('cust_edit').checked = false;
-                    document.getElementById('cust_delete').checked = false;
-                }
-                else {
-                    document.getElementById('cust_create').disabled = false;
-                    document.getElementById('cust_edit').disabled = false;
-                    document.getElementById('cust_delete').disabled = false;
-                }
-            }
-
-            case 'vend': {
-                const vend_view = document.getElementById('vend_view').checked === true ? 'true' : 'false'
-                if (vend_view == 'false') {
-                    document.getElementById('vend_create').disabled = true;
-                    document.getElementById('vend_edit').disabled = true;
-                    document.getElementById('vend_delete').disabled = true;
-
-                    document.getElementById('vend_full').checked = false;
-                    document.getElementById('vend_create').checked = false;
-                    document.getElementById('vend_edit').checked = false;
-                    document.getElementById('vend_delete').checked = false;
-                }
-                else {
-                    document.getElementById('vend_create').disabled = false;
-                    document.getElementById('vend_edit').disabled = false;
-                    document.getElementById('vend_delete').disabled = false;
-                }
-            }
-            case 'item': {
-                const items_view = document.getElementById('items_view').checked === true ? 'true' : 'false'
-                if (items_view == 'false') {
-                    document.getElementById('items_create').disabled = true;
-                    document.getElementById('items_edit').disabled = true;
-                    document.getElementById('items_delete').disabled = true;
-
-                    document.getElementById('items_full').checked = false;
-                    document.getElementById('items_create').checked = false;
-                    document.getElementById('items_edit').checked = false;
-                    document.getElementById('items_delete').checked = false;
-                }
-                else {
-                    document.getElementById('items_create').disabled = false;
-                    document.getElementById('items_edit').disabled = false;
-                    document.getElementById('items_delete').disabled = false;
-                }
-            }
-            case 'banking': {
-                const banking_view = document.getElementById('banking_view').checked === true ? 'true' : 'false'
-                if (banking_view == 'false') {
-                    document.getElementById('banking_create').disabled = true;
-                    document.getElementById('banking_edit').disabled = true;
-                    document.getElementById('banking_delete').disabled = true;
-
-                    document.getElementById('banking_full').checked = false;
-                    document.getElementById('banking_create').checked = false;
-                    document.getElementById('banking_edit').checked = false;
-                    document.getElementById('banking_delete').checked = false;
-                }
-                else {
-                    document.getElementById('banking_create').disabled = false;
-                    document.getElementById('banking_edit').disabled = false;
-                    document.getElementById('banking_delete').disabled = false;
-                }
-            }
-            case 'invoice': {
-                const invoice_view = document.getElementById('invoice_view').checked === true ? 'true' : 'false'
-                if (invoice_view == 'false') {
-                    document.getElementById('invoice_create').disabled = true;
-                    document.getElementById('invoice_edit').disabled = true;
-                    document.getElementById('invoice_delete').disabled = true;
-
-                    document.getElementById('invoice_full').checked = false;
-                    document.getElementById('invoice_create').checked = false;
-                    document.getElementById('invoice_edit').checked = false;
-                    document.getElementById('invoice_delete').checked = false;
-                }
-                else {
-                    document.getElementById('invoice_create').disabled = false;
-                    document.getElementById('invoice_edit').disabled = false;
-                    document.getElementById('invoice_delete').disabled = false;
-                }
-            }
-
-            case 'bill': {
-                const bills_view = document.getElementById('bills_view').checked === true ? 'true' : 'false'
-                if (bills_view == 'false') {
-                    document.getElementById('bills_create').disabled = true;
-                    document.getElementById('bills_edit').disabled = true;
-                    document.getElementById('bills_delete').disabled = true;
-
-                    document.getElementById('bills_full').checked = false;
-                    document.getElementById('bills_create').checked = false;
-                    document.getElementById('bills_edit').checked = false;
-                    document.getElementById('bills_delete').checked = false;
-                }
-                else {
-                    document.getElementById('bills_create').disabled = false;
-                    document.getElementById('bills_edit').disabled = false;
-                    document.getElementById('bills_delete').disabled = false;
-                }
-            }
-            case 'chartofaccount': {
-                const chartacct_view = document.getElementById('chartacct_view').checked === true ? 'true' : 'false'
-                if (chartacct_view == 'false') {
-                    document.getElementById('chartacct_create').disabled = true;
-                    document.getElementById('chartacct_edit').disabled = true;
-                    document.getElementById('chartacct_delete').disabled = true;
-
-                    document.getElementById('chartacct_full').checked = false;
-                    document.getElementById('chartacct_create').checked = false;
-                    document.getElementById('chartacct_edit').checked = false;
-                    document.getElementById('chartacct_delete').checked = false;
-                }
-                else {
-                    document.getElementById('chartacct_create').disabled = false;
-                    document.getElementById('chartacct_edit').disabled = false;
-                    document.getElementById('chartacct_delete').disabled = false;
-                }
-            }
-
-            case 'users': {
-                const users_view = document.getElementById('users_view').checked === true ? 'true' : 'false'
-                if (users_view == 'false') {
-                    document.getElementById('users_create').disabled = true;
-                    document.getElementById('users_edit').disabled = true;
-                    document.getElementById('users_delete').disabled = true;
-
-                    document.getElementById('users_full').checked = false;
-                    document.getElementById('users_create').checked = false;
-                    document.getElementById('users_edit').checked = false;
-                    document.getElementById('users_delete').checked = false;
-                }
-                else {
-                    document.getElementById('users_create').disabled = false;
-                    document.getElementById('users_edit').disabled = false;
-                    document.getElementById('users_delete').disabled = false;
-                }
-            }
-            case 'payment_term': {
-                const paymentTerm_view = document.getElementById('paymentTerm_view').checked === true ? 'true' : 'false'
-                if (paymentTerm_view == 'false') {
-                    document.getElementById('paymentTerm_create').disabled = true;
-                    document.getElementById('paymentTerm_edit').disabled = true;
-                    document.getElementById('paymentTerm_delete').disabled = true;
-
-                    document.getElementById('paymentTerm_full').checked = false;
-                    document.getElementById('paymentTerm_create').checked = false;
-                    document.getElementById('paymentTerm_edit').checked = false;
-                    document.getElementById('paymentTerm_delete').checked = false;
-                }
-                else {
-                    document.getElementById('paymentTerm_create').disabled = false;
-                    document.getElementById('paymentTerm_edit').disabled = false;
-                    document.getElementById('paymentTerm_delete').disabled = false;
-                }
-            }
+                document.getElementById(`${item}_full`).disabled = true;
+                document.getElementById(`${item}_view`).disabled = true;
+                document.getElementById(`${item}_create`).disabled = true;
+                document.getElementById(`${item}_edit`).disabled = true;
+                document.getElementById(`${item}_delete`).disabled = true;
+            })
         }
-    }
+        else {
+            master_arry.map((item) => {
+                document.getElementById(`${item}_full`).disabled = false;
+                document.getElementById(`${item}_view`).disabled = false;
+            })
+        }
 
+    }
 
 
     const handlesubmitdata = async (e) => {
@@ -449,15 +157,96 @@ const AddRoles = () => {
         const chartacct_edit = document.getElementById('chartacct_edit').checked === true ? 'true' : 'false';
         const chartacct_delete = document.getElementById('chartacct_delete').checked === true ? 'true' : 'false';
 
+        //  ########################################### Master #########################################
+        const master_inp = document.getElementById('master_inp').checked === true ? 'true' : 'false';
+
         const users_view = document.getElementById('users_view').checked === true ? 'true' : 'false';
         const users_create = document.getElementById('users_create').checked === true ? 'true' : 'false';
         const users_edit = document.getElementById('users_edit').checked === true ? 'true' : 'false';
         const users_delete = document.getElementById('users_delete').checked === true ? 'true' : 'false';
 
+        const country_view = document.getElementById('country_view').checked === true ? 'true' : 'false';
+        const country_create = document.getElementById('country_create').checked === true ? 'true' : 'false';
+        const country_edit = document.getElementById('country_edit').checked === true ? 'true' : 'false';
+        const country_delete = document.getElementById('country_delete').checked === true ? 'true' : 'false';
+
+        const state_view = document.getElementById('state_view').checked === true ? 'true' : 'false';
+        const state_create = document.getElementById('state_create').checked === true ? 'true' : 'false';
+        const state_edit = document.getElementById('state_edit').checked === true ? 'true' : 'false';
+        const state_delete = document.getElementById('state_delete').checked === true ? 'true' : 'false';
+
+        const city_view = document.getElementById('city_view').checked === true ? 'true' : 'false';
+        const city_create = document.getElementById('city_create').checked === true ? 'true' : 'false';
+        const city_edit = document.getElementById('city_edit').checked === true ? 'true' : 'false';
+        const city_delete = document.getElementById('city_delete').checked === true ? 'true' : 'false';
+
+        const currency_view = document.getElementById('currency_view').checked === true ? 'true' : 'false';
+        const currency_create = document.getElementById('currency_create').checked === true ? 'true' : 'false';
+        const currency_edit = document.getElementById('currency_edit').checked === true ? 'true' : 'false';
+        const currency_delete = document.getElementById('currency_delete').checked === true ? 'true' : 'false';
+
+        const unit_view = document.getElementById('unit_view').checked === true ? 'true' : 'false';
+        const unit_create = document.getElementById('unit_create').checked === true ? 'true' : 'false';
+        const unit_edit = document.getElementById('unit_edit').checked === true ? 'true' : 'false';
+        const unit_delete = document.getElementById('unit_delete').checked === true ? 'true' : 'false';
+
+        const comptype_view = document.getElementById('comptype_view').checked === true ? 'true' : 'false';
+        const comptype_create = document.getElementById('comptype_create').checked === true ? 'true' : 'false';
+        const comptype_edit = document.getElementById('comptype_edit').checked === true ? 'true' : 'false';
+        const comptype_delete = document.getElementById('comptype_delete').checked === true ? 'true' : 'false';
+
+        const empmaster_view = document.getElementById('empmaster_view').checked === true ? 'true' : 'false';
+        const empmaster_create = document.getElementById('empmaster_create').checked === true ? 'true' : 'false';
+        const empmaster_edit = document.getElementById('empmaster_edit').checked === true ? 'true' : 'false';
+        const empmaster_delete = document.getElementById('empmaster_delete').checked === true ? 'true' : 'false';
+
+        //  ########################################### Setting #########################################
+
+        const setting_inp = document.getElementById('setting_inp').checked === true ? 'true' : 'false';
+
         const paymentTerm_view = document.getElementById('paymentTerm_view').checked === true ? 'true' : 'false';
         const paymentTerm_create = document.getElementById('paymentTerm_create').checked === true ? 'true' : 'false';
         const paymentTerm_edit = document.getElementById('paymentTerm_edit').checked === true ? 'true' : 'false';
         const paymentTerm_delete = document.getElementById('paymentTerm_delete').checked === true ? 'true' : 'false';
+
+        const org_view = document.getElementById('org_view').checked === true ? 'true' : 'false';
+        const org_create = document.getElementById('org_create').checked === true ? 'true' : 'false';
+        const org_edit = document.getElementById('org_edit').checked === true ? 'true' : 'false';
+        const org_delete = document.getElementById('org_delete').checked === true ? 'true' : 'false';
+
+        const financial_view = document.getElementById('financial_view').checked === true ? 'true' : 'false';
+        const financial_create = document.getElementById('financial_create').checked === true ? 'true' : 'false';
+        const financial_edit = document.getElementById('financial_edit').checked === true ? 'true' : 'false';
+        const financial_delete = document.getElementById('financial_delete').checked === true ? 'true' : 'false';
+
+
+        const branch_view = document.getElementById('branch_view').checked === true ? 'true' : 'false';
+        const branch_create = document.getElementById('branch_create').checked === true ? 'true' : 'false';
+        const branch_edit = document.getElementById('branch_edit').checked === true ? 'true' : 'false';
+        const branch_delete = document.getElementById('branch_delete').checked === true ? 'true' : 'false';
+
+        const crm_view = document.getElementById('crm_view').checked === true ? 'true' : 'false';
+        const crm_create = document.getElementById('crm_create').checked === true ? 'true' : 'false';
+        const crm_edit = document.getElementById('crm_edit').checked === true ? 'true' : 'false';
+        const crm_delete = document.getElementById('crm_delete').checked === true ? 'true' : 'false';
+
+        const compliance_view = document.getElementById('compliance_view').checked === true ? 'true' : 'false';
+        const compliance_create = document.getElementById('compliance_create').checked === true ? 'true' : 'false';
+        const compliance_edit = document.getElementById('compliance_edit').checked === true ? 'true' : 'false';
+        const compliance_delete = document.getElementById('compliance_delete').checked === true ? 'true' : 'false';
+
+        const roles_view = document.getElementById('roles_view').checked === true ? 'true' : 'false';
+        const roles_create = document.getElementById('roles_create').checked === true ? 'true' : 'false';
+        const roles_edit = document.getElementById('roles_edit').checked === true ? 'true' : 'false';
+        const roles_delete = document.getElementById('roles_delete').checked === true ? 'true' : 'false';
+
+
+        //  ########################################### Reports #########################################
+        const reports_view = document.getElementById('reports_view').checked === true ? 'true' : 'false';
+        const reports_create = document.getElementById('reports_create').checked === true ? 'true' : 'false';
+        const reports_edit = document.getElementById('reports_edit').checked === true ? 'true' : 'false';
+        const reports_delete = document.getElementById('reports_delete').checked === true ? 'true' : 'false';
+
         const user_id = localStorage.getItem('User_id');
         const org = localStorage.getItem('Organisation');
 
@@ -473,7 +262,7 @@ const AddRoles = () => {
 
             if (submitdata === 'Role Already') {
                 setAlreadyrole(true)
-                // alert("Data Already")
+                alert("Data Already")
             }
             else if (submitdata === 'Added') {
                 alert("Data Added")
@@ -482,6 +271,7 @@ const AddRoles = () => {
         }
 
     }
+
 
     return (
         <>
@@ -529,32 +319,32 @@ const AddRoles = () => {
                                                             <tbody>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Customers</th>
-                                                                    <td><input type='checkbox' id='cust_full' style={checkboxstyle} onClick={() => fullaccess('cust')} /></td>
-                                                                    <td><input type='checkbox' id='cust_view' style={checkboxstyle} onClick={() => viewoff('cust')} /></td>
+                                                                    <td><input type='checkbox' id='cust_full' style={checkboxstyle} onClick={() => fullaccess('cust_full', 'cust_view', 'cust_create', 'cust_edit', 'cust_delete')} /></td>
+                                                                    <td><input type='checkbox' id='cust_view' style={checkboxstyle} onClick={() => viewoff('cust_full', 'cust_view', 'cust_create', 'cust_edit', 'cust_delete')} /></td>
                                                                     <td><input type='checkbox' id='cust_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='cust_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='cust_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Vendors</th>
-                                                                    <td><input type='checkbox' id='vend_full' style={checkboxstyle} onClick={() => fullaccess('vend')} /></td>
-                                                                    <td><input type='checkbox' id='vend_view' style={checkboxstyle} onClick={() => viewoff('vend')} /></td>
+                                                                    <td><input type='checkbox' id='vend_full' style={checkboxstyle} onClick={() => fullaccess('vend_full', 'vend_view', 'vend_create', 'vend_edit', 'vend_delete')} /></td>
+                                                                    <td><input type='checkbox' id='vend_view' style={checkboxstyle} onClick={() => viewoff('vend_full', 'vend_view', 'vend_create', 'vend_edit', 'vend_delete')} /></td>
                                                                     <td><input type='checkbox' id='vend_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='vend_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='vend_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Item</th>
-                                                                    <td><input type='checkbox' id='items_full' style={checkboxstyle} onClick={() => fullaccess('item')} /></td>
-                                                                    <td><input type='checkbox' id='items_view' style={checkboxstyle} onClick={() => viewoff('item')} /></td>
+                                                                    <td><input type='checkbox' id='items_full' style={checkboxstyle} onClick={() => fullaccess('items_full', 'items_view', 'items_create', 'items_edit', 'items_delete')} /></td>
+                                                                    <td><input type='checkbox' id='items_view' style={checkboxstyle} onClick={() => viewoff('items_full', 'items_view', 'items_create', 'items_edit', 'items_delete')} /></td>
                                                                     <td><input type='checkbox' id='items_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='items_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='items_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Banking</th>
-                                                                    <td><input type='checkbox' id='banking_full' style={checkboxstyle} onClick={() => fullaccess('banking')} /></td>
-                                                                    <td><input type='checkbox' id='banking_view' style={checkboxstyle} onClick={() => viewoff('banking')} /></td>
+                                                                    <td><input type='checkbox' id='banking_full' style={checkboxstyle} onClick={() => fullaccess('banking_full', 'banking_view', 'banking_create', 'banking_edit', 'banking_delete')} /></td>
+                                                                    <td><input type='checkbox' id='banking_view' style={checkboxstyle} onClick={() => viewoff('banking_full', 'banking_view', 'banking_create', 'banking_edit', 'banking_delete')} /></td>
                                                                     <td><input type='checkbox' id='banking_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='banking_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='banking_delete' style={checkboxstyle} disabled /></td>
@@ -564,8 +354,8 @@ const AddRoles = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Invoices</th>
-                                                                    <td><input type='checkbox' id='invoice_full' style={checkboxstyle} onClick={() => fullaccess('invoice')} /></td>
-                                                                    <td><input type='checkbox' id='invoice_view' style={checkboxstyle} onClick={() => viewoff('invoice')} /></td>
+                                                                    <td><input type='checkbox' id='invoice_full' style={checkboxstyle} onClick={() => fullaccess('invoice_full', 'invoice_view', 'invoice_create', 'invoice_edit', 'invoice_delete')} /></td>
+                                                                    <td><input type='checkbox' id='invoice_view' style={checkboxstyle} onClick={() => viewoff('invoice_full', 'invoice_view', 'invoice_create', 'invoice_edit', 'invoice_delete')} /></td>
                                                                     <td><input type='checkbox' id='invoice_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='invoice_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='invoice_delete' style={checkboxstyle} disabled /></td>
@@ -575,8 +365,8 @@ const AddRoles = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Bills</th>
-                                                                    <td><input type='checkbox' id='bills_full' style={checkboxstyle} onClick={() => fullaccess('bill')} /></td>
-                                                                    <td><input type='checkbox' id='bills_view' style={checkboxstyle} onClick={() => viewoff('bill')} /></td>
+                                                                    <td><input type='checkbox' id='bills_full' style={checkboxstyle} onClick={() => fullaccess('bills_full', 'bills_view', 'bills_create', 'bills_edit', 'bills_delete')} /></td>
+                                                                    <td><input type='checkbox' id='bills_view' style={checkboxstyle} onClick={() => viewoff('bills_full', 'bills_view', 'bills_create', 'bills_edit', 'bills_delete')} /></td>
                                                                     <td><input type='checkbox' id='bills_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='bills_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='bills_delete' style={checkboxstyle} disabled /></td>
@@ -587,31 +377,159 @@ const AddRoles = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Chart of Accounts</th>
-                                                                    <td><input type='checkbox' id='chartacct_full' style={checkboxstyle} onClick={() => fullaccess('chartofaccount')} /></td>
-                                                                    <td><input type='checkbox' id='chartacct_view' style={checkboxstyle} onClick={() => viewoff('chartofaccount')} /></td>
+                                                                    <td><input type='checkbox' id='chartacct_full' style={checkboxstyle} onClick={() => fullaccess('chartacct_full', 'chartacct_view', 'chartacct_create', 'chartacct_edit', 'chartacct_delete')} /></td>
+                                                                    <td><input type='checkbox' id='chartacct_view' style={checkboxstyle} onClick={() => viewoff('chartacct_full', 'chartacct_view', 'chartacct_create', 'chartacct_edit', 'chartacct_delete')} /></td>
                                                                     <td><input type='checkbox' id='chartacct_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='chartacct_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='chartacct_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
+                                                                {/* #############################  Setting #################################################### */}
 
                                                                 <tr className="table-active ">
-                                                                    <th scope="row" style={{ fontSize: "18px" }} colSpan="6">Settings</th>
+                                                                    <th scope="row" className="text-left" style={{ fontSize: "18px", paddingLeft: "5%" }} >
+                                                                        <input type='checkbox' id='setting_inp' style={checkboxstyle} onClick={handlesettinginp} /></th>
+                                                                    <th scope="row" style={{ fontSize: "18px", textAlign: 'left', paddingLeft: "15%" }} colSpan="5">Setting</th>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Payment Terms</th>
+                                                                    <td><input type='checkbox' id='paymentTerm_full' style={checkboxstyle} onClick={() => fullaccess('paymentTerm_full', 'paymentTerm_view', 'paymentTerm_create', 'paymentTerm_edit', 'paymentTerm_delete')} /></td>
+                                                                    <td><input type='checkbox' id='paymentTerm_view' style={checkboxstyle} onClick={() => viewoff('paymentTerm_full', 'paymentTerm_view', 'paymentTerm_create', 'paymentTerm_edit', 'paymentTerm_delete')} /></td>
+                                                                    <td><input type='checkbox' id='paymentTerm_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='paymentTerm_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='paymentTerm_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Organisatio Profile </th>
+                                                                    <td><input type='checkbox' id='org_full' style={checkboxstyle} onClick={() => fullaccess('org_full', 'org_view', 'org_create', 'org_edit', 'org_delete')} /></td>
+                                                                    <td><input type='checkbox' id='org_view' style={checkboxstyle} onClick={() => viewoff('org_full', 'org_view', 'org_create', 'org_edit', 'org_delete')} /></td>
+                                                                    <td><input type='checkbox' id='org_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='org_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='org_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Financial year</th>
+                                                                    <td><input type='checkbox' id='financial_full' style={checkboxstyle} onClick={() => fullaccess('financial_full', 'financial_view', 'financial_create', 'financial_edit', 'financial_delete')} /></td>
+                                                                    <td><input type='checkbox' id='financial_view' style={checkboxstyle} onClick={() => viewoff('financial_full', 'financial_view', 'financial_create', 'financial_edit', 'financial_delete')} /></td>
+                                                                    <td><input type='checkbox' id='financial_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='financial_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='financial_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Branch</th>
+                                                                    <td><input type='checkbox' id='branch_full' style={checkboxstyle} onClick={() => fullaccess('branch_full', 'branch_view', 'branch_create', 'branch_edit', 'branch_delete')} /></td>
+                                                                    <td><input type='checkbox' id='branch_view' style={checkboxstyle} onClick={() => viewoff('branch_full', 'branch_view', 'branch_create', 'branch_edit', 'branch_delete')} /></td>
+                                                                    <td><input type='checkbox' id='branch_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='branch_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='branch_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Crm Master</th>
+                                                                    <td><input type='checkbox' id='crm_full' style={checkboxstyle} onClick={() => fullaccess('crm_full', 'crm_view', 'crm_create', 'crm_edit', 'crm_delete')} /></td>
+                                                                    <td><input type='checkbox' id='crm_view' style={checkboxstyle} onClick={() => viewoff('crm_full', 'crm_view', 'crm_create', 'crm_edit', 'crm_delete')} /></td>
+                                                                    <td><input type='checkbox' id='crm_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='crm_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='crm_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Compliance</th>
+                                                                    <td><input type='checkbox' id='compliance_full' style={checkboxstyle} onClick={() => fullaccess('compliance_full', 'compliance_view', 'compliance_create', 'compliance_edit', 'compliance_delete')} /></td>
+                                                                    <td><input type='checkbox' id='compliance_view' style={checkboxstyle} onClick={() => viewoff('compliance_full', 'compliance_view', 'compliance_create', 'compliance_edit', 'compliance_delete')} /></td>
+                                                                    <td><input type='checkbox' id='compliance_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='compliance_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='compliance_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">User Roles</th>
+                                                                    <td><input type='checkbox' id='roles_full' style={checkboxstyle} onClick={() => fullaccess('roles_full', 'roles_view', 'roles_create', 'roles_edit', 'roles_delete')} /></td>
+                                                                    <td><input type='checkbox' id='roles_view' style={checkboxstyle} onClick={() => viewoff('roles_full', 'roles_view', 'roles_create', 'roles_edit', 'roles_delete')} /></td>
+                                                                    <td><input type='checkbox' id='roles_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='roles_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='roles_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                {/* #############################  Master #################################################### */}
+                                                                <tr className="table-active ">
+                                                                    <th scope="row" className="text-left" style={{ fontSize: "18px", paddingLeft: "5%" }} >
+                                                                        <input type='checkbox' id='master_inp' style={checkboxstyle} onClick={handlemasterinp} /></th>
+                                                                    <th scope="row" style={{ fontSize: "18px", textAlign: 'left', paddingLeft: "15%" }} colSpan="5">Master</th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row" className="text-left">Users</th>
-                                                                    <td><input type='checkbox' id='users_full' style={checkboxstyle} onClick={() => fullaccess('users')} /></td>
-                                                                    <td><input type='checkbox' id='users_view' style={checkboxstyle} onClick={() => viewoff('users')} /></td>
+                                                                    <td><input type='checkbox' id='users_full' style={checkboxstyle} onClick={() => fullaccess('users_full', 'users_view', 'users_create', 'users_edit', 'users_delete')} /></td>
+                                                                    <td><input type='checkbox' id='users_view' style={checkboxstyle} onClick={() => viewoff('users_full', 'users_view', 'users_create', 'users_edit', 'users_delete')} /></td>
                                                                     <td><input type='checkbox' id='users_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='users_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='users_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
+
                                                                 <tr>
-                                                                    <th scope="row" className="text-left">Payment Terms</th>
-                                                                    <td><input type='checkbox' id='paymentTerm_full' style={checkboxstyle} onClick={() => fullaccess('payment_term')} /></td>
-                                                                    <td><input type='checkbox' id='paymentTerm_view' style={checkboxstyle} onClick={() => viewoff('payment_term')} /></td>
-                                                                    <td><input type='checkbox' id='paymentTerm_create' style={checkboxstyle} disabled /></td>
-                                                                    <td><input type='checkbox' id='paymentTerm_edit' style={checkboxstyle} disabled /></td>
-                                                                    <td><input type='checkbox' id='paymentTerm_delete' style={checkboxstyle} disabled /></td>
+                                                                    <th scope="row" className="text-left">Country</th>
+                                                                    <td><input type='checkbox' id='country_full' style={checkboxstyle} onClick={() => fullaccess('country_full', 'country_view', 'country_create', 'country_edit', 'country_delete')} /></td>
+                                                                    <td><input type='checkbox' id='country_view' style={checkboxstyle} onClick={() => viewoff('country_full', 'country_view', 'country_create', 'country_edit', 'country_delete')} /></td>
+                                                                    <td><input type='checkbox' id='country_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='country_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='country_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">State</th>
+                                                                    <td><input type='checkbox' id='state_full' style={checkboxstyle} onClick={() => fullaccess('state_full', 'state_view', 'state_create', 'state_edit', 'state_delete')} /></td>
+                                                                    <td><input type='checkbox' id='state_view' style={checkboxstyle} onClick={() => viewoff('state_full', 'state_view', 'state_create', 'state_edit', 'state_delete')} /></td>
+                                                                    <td><input type='checkbox' id='state_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='state_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='state_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">City</th>
+                                                                    <td><input type='checkbox' id='city_full' style={checkboxstyle} onClick={() => fullaccess('city_full', 'city_view', 'city_create', 'city_edit', 'city_delete')} /></td>
+                                                                    <td><input type='checkbox' id='city_view' style={checkboxstyle} onClick={() => viewoff('city_full', 'city_view', 'city_create', 'city_edit', 'city_delete')} /></td>
+                                                                    <td><input type='checkbox' id='city_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='city_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='city_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Curreny</th>
+                                                                    <td><input type='checkbox' id='currency_full' style={checkboxstyle} onClick={() => fullaccess('currency_full', 'currency_view', 'currency_create', 'currency_edit', 'currency_delete')} /></td>
+                                                                    <td><input type='checkbox' id='currency_view' style={checkboxstyle} onClick={() => viewoff('currency_full', 'currency_view', 'currency_create', 'currency_edit', 'currency_delete')} /></td>
+                                                                    <td><input type='checkbox' id='currency_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='currency_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='currency_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Unit</th>
+                                                                    <td><input type='checkbox' id='unit_full' style={checkboxstyle} onClick={() => fullaccess('unit_full', 'unit_view', 'unit_create', 'unit_edit', 'unit_delete')} /></td>
+                                                                    <td><input type='checkbox' id='unit_view' style={checkboxstyle} onClick={() => viewoff('unit_full', 'unit_view', 'unit_create', 'unit_edit', 'unit_delete')} /></td>
+                                                                    <td><input type='checkbox' id='unit_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='unit_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='unit_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Compliance Type</th>
+                                                                    <td><input type='checkbox' id='comptype_full' style={checkboxstyle} onClick={() => fullaccess('comptype_full', 'comptype_view', 'comptype_create', 'comptype_edit', 'comptype_delete')} /></td>
+                                                                    <td><input type='checkbox' id='comptype_view' style={checkboxstyle} onClick={() => viewoff('comptype_full', 'comptype_view', 'comptype_create', 'comptype_edit', 'comptype_delete')} /></td>
+                                                                    <td><input type='checkbox' id='comptype_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='comptype_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='comptype_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Employee Master</th>
+                                                                    <td><input type='checkbox' id='empmaster_full' style={checkboxstyle} onClick={() => fullaccess('empmaster_full', 'empmaster_view', 'empmaster_create', 'empmaster_edit', 'empmaster_delete')} /></td>
+                                                                    <td><input type='checkbox' id='empmaster_view' style={checkboxstyle} onClick={() => viewoff('empmaster_full', 'empmaster_view', 'empmaster_create', 'empmaster_edit', 'empmaster_delete')} /></td>
+                                                                    <td><input type='checkbox' id='empmaster_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='empmaster_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='empmaster_delete' style={checkboxstyle} disabled /></td>
+                                                                </tr>
+
+                                                                <tr className="table-active ">
+                                                                    <th scope="row" style={{ fontSize: "18px" }} colSpan="6">Reports</th>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <th scope="row" className="text-left">Reports</th>
+                                                                    <td><input type='checkbox' id='reports_full' style={checkboxstyle} onClick={() => fullaccess('reports_full', 'reports_view', 'reports_create', 'reports_edit', 'reports_delete')} /></td>
+                                                                    <td><input type='checkbox' id='reports_view' style={checkboxstyle} onClick={() => viewoff('reports_full', 'reports_view', 'reports_create', 'reports_edit', 'reports_delete')} /></td>
+                                                                    <td><input type='checkbox' id='reports_create' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='reports_edit' style={checkboxstyle} disabled /></td>
+                                                                    <td><input type='checkbox' id='reports_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
