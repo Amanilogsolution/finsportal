@@ -27,25 +27,34 @@ function ChartOfAccount2() {
         e.preventDefault();
         const AccountType = document.getElementById('AccountType').value;
         const Accountname = document.getElementById('Accountname').value;
+        const AccountNameSelect = document.getElementById('AccountnameSelect').value
         const Accountnamecode = document.getElementById('Accountnamecode').value;
         const description = document.getElementById('description').value;
         const parentaccount = document.getElementById('parentaccount').value;
 
 
-        if (Accountnamecode.length === 3) {
+        if (check === true) {
+            console.log('true')
+                const result = await AddNewSubAccountName(parentaccount, Accountnamecode, description, AccountType, AccountNameSelect, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+    }else{
             const result = await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-            const data = await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
-        }
-        else if (Accountnamecode.length === 6) {
-            if (check === true) {
+    }
 
-                const Update = await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
-            }
-            else {
-                const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
 
-            }
-        }
+        // if (Accountnamecode.length === 3) {
+        //     const result = await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
+        //     const data = await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
+        // }
+        // else if (Accountnamecode.length === 6) {
+        //     if (check === true) {
+
+        //         const Update = await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        //     }
+        //     else {
+        //         const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+
+        //     }
+        // }
     }
 
 
@@ -54,9 +63,12 @@ function ChartOfAccount2() {
         setaccount_type(account_type)
         const org = localStorage.getItem('Organisation');
         const result = await ChartOfAccountParentAccount(account_type, org);
+        console.log(result)
         setaccount_name(result)
 
         const number = await ParentAccountNumber(account_type, account_name, org);
+
+        console.log(number)
 
         if (!number.result) {
             setAccountno(account_type + '01')
@@ -67,9 +79,9 @@ function ChartOfAccount2() {
             const accountnamenum1 = String(accountnamenum).padStart(2, '0');
             setAccountno(accountnamenum1)
 
-            const accountsubnum = parseInt(number.result1.account_sub_name_code) + 1;
-            const accountsubnum1 = String(accountsubnum).padStart(3, '0');
-            setAccountsubno(accountsubnum1)
+            // const accountsubnum = parseInt(number.result1.account_sub_name_code) + 1;
+            // const accountsubnum1 = String(accountsubnum).padStart(3, '0');
+            // setAccountsubno(accountsubnum1)
         }
 
     }
@@ -77,21 +89,22 @@ function ChartOfAccount2() {
     const handleParentAccount = async (e) => {
         const account_name = e.target.value;
 
-        setaccount_type(account_name)
+        // setaccount_type(account_name)
 
-        const number = await ParentAccountNumber(account_type, account_name, localStorage.getItem('Orgainsation'));
-        const accountnamenum = parseInt(number.result.account_name_code) + 1;
+        const number = await ParentAccountNumber(account_type, account_name, localStorage.getItem('Organisation'));
+        console.log(number)
+        const accountnamenum = parseInt(number.result1.account_name_code) + 1;
         const accountnamenum1 = String(accountnamenum).padStart(2, '0');
         setAccountno(accountnamenum1)
 
         if (!number.result1) {
-            setAccountsubno(number.result.account_name_code + '001')
-            setCheck(true)
+            setAccountno(number.result.account_name_code + '001')
+             setCheck(true)
 
         } else {
             const accountsubnum = parseInt(number.result1.account_sub_name_code) + 1;
             const accountsubnum1 = String(accountsubnum).padStart(3, '0');
-            setAccountsubno(accountsubnum1)
+            setAccountno(accountsubnum1)
 
         }
 
@@ -100,17 +113,21 @@ function ChartOfAccount2() {
     const handleClick = () => {
         // console.log(document.getElementById('checkboxgst').checked)
         if(document.getElementById('checkboxgst').checked == true){
+            document.getElementById('AccountnameSelect').style.display = 'block';
             document.getElementById('parent').style.display = 'block';
-            document.getElementById('parentaccount').style.display = 'block';
             document.getElementById('Accountname').style.display = 'none';
 
+            setCheck(true)
+
+        
         }else{
-            document.getElementById('parent').style.display = 'none';
+            document.getElementById('AccountnameSelect').style.display = 'none';
             document.getElementById('Accountname').style.display = 'block';
-            document.getElementById('parentaccount').style.display = 'none';
+            document.getElementById('parent').style.display = 'none';
+            setCheck(false)
+
         }
 
-    
       };
 
 
@@ -163,12 +180,10 @@ function ChartOfAccount2() {
                                         <div className="form-group">
                                             <label>Account Name <span style={{ color: "red" }}>*</span> </label>
 
-                                            <input type="text" className="form-control" id="Accountname"
-                                            //   onFocus={handleChange} 
-                                            />
+                                            <input type="text" className="form-control" id="Accountname"                                            />
 
                                             <select
-                                                id="parentaccount"
+                                                id="AccountnameSelect"
                                                 className="form-control"
                                                 style={{ display:"none"}}
                                                 onChange={handleParentAccount}
@@ -198,12 +213,12 @@ function ChartOfAccount2() {
                                             <label>Sub Code <span style={{ color: "red" }}>*</span> </label>
                                       
                                             <input type="text" className="form-control" id="parentaccount"
-                                            //   onFocus={handleChange} 
+        
                                             />
                                         </div>
                                         <div className="form-group">
                                             <label>Account Code  </label>
-                                            <input type="text" value={account_type} className="form-control" id="Accountnamecode" />
+                                            <input type="text" disabled value={accountno} className="form-control" id="Accountnamecode" />
                                         </div>
                                         <div className="form-group">
                                             <label>Description  </label>
@@ -214,7 +229,7 @@ function ChartOfAccount2() {
                                             <label className="col-md-4 control-label" htmlFor="save"></label>
                                             <div className="col-md-20" style={{ width: "100%" }}>
                                                 <button id="save" name="save" className="btn btn-danger"
-                                                // onClick={handleSubmit}
+                                                onClick={handleSubmit}
                                                 >
                                                     Save
                                                 </button>
