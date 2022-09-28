@@ -763,6 +763,80 @@ const Newdb = async (req, res) => {
                 payment_terms_edit nvarchar(20) NULL,
                 payment_terms_delete nvarchar(20) NULL,
 
+                master_all nvarchar(20) NULL, 
+
+                country_view nvarchar(20) NULL,   
+                country_create nvarchar(20) NULL,   
+                country_edit nvarchar(20) NULL,   
+                country_delete nvarchar(20) NULL,
+
+                state_view nvarchar(20) NULL,   
+                state_create nvarchar(20) NULL,   
+                state_edit nvarchar(20) NULL;   
+                state_delete nvarchar(20) NULL, 
+
+                city_view nvarchar(20) NULL,   
+                city_create nvarchar(20) NULL,   
+                city_edit nvarchar(20) NULL,   
+                city_delete nvarchar(20) NULL,  
+
+                currency_view nvarchar(20) NULL,   
+                currency_create nvarchar(20) NULL,   
+                currency_edit nvarchar(20) NULL,   
+                currency_delete nvarchar(20) NULL,  
+
+                unit_view nvarchar(20) NULL,   
+                unit_create nvarchar(20) NULL,   
+                unit_edit nvarchar(20) NULL,   
+                unit_delete nvarchar(20) NULL,  
+
+                comp_type_view nvarchar(20) NULL,   
+                comp_type_create nvarchar(20) NULL,   
+                comp_type_edit nvarchar(20) NULL,   
+                comp_type_delete nvarchar(20) NULL,
+
+                employee_view nvarchar(20) NULL,   
+                employee_create nvarchar(20) NULL,   
+                employee_edit nvarchar(20) NULL,   
+                employee_delete nvarchar(20) NULL,
+
+                setting_all nvarchar(20) NULL, 
+
+                org_profile_view nvarchar(20) NULL,   
+                org_profile_create nvarchar(20) NULL,   
+                org_profile_edit nvarchar(20) NULL,   
+                org_profile_delete nvarchar(20) NULL,  
+
+                fincialyear_view nvarchar(20) NULL,   
+                fincialyear_create nvarchar(20) NULL,   
+                fincialyear_edit nvarchar(20) NULL,   
+                fincialyear_delete nvarchar(20) NULL, 
+
+                branches_view nvarchar(20) NULL,   
+                branches_create nvarchar(20) NULL,   
+                branches_edit nvarchar(20) NULL,   
+                branches_delete nvarchar(20) NULL, 
+
+                crm_mast_view nvarchar(20) NULL,   
+                crm_mast_create nvarchar(20) NULL,   
+                crm_mast_edit nvarchar(20) NULL,   
+                crm_mast_delete nvarchar(20) NULL, 
+
+                compliance_view nvarchar(20) NULL,   
+                compliance_create nvarchar(20) NULL,   
+                compliance_edit nvarchar(20) NULL,   
+                compliance_delete nvarchar(20) NULL, 
+
+                user_roles_view nvarchar(20) NULL,   
+                user_roles_create nvarchar(20) NULL,   
+                user_roles_edit nvarchar(20) NULL,   
+                user_roles_delete nvarchar(20) NULL, 
+
+                reports_all nvarchar(20) NULL, 
+
+                reports_bill_view nvarchar(20) NULL, 
+                reports_invoice_view nvarchar(20) NULL,
+
                 add_user_name nvarchar(50) NULL,
                 add_system_name nvarchar(100) NULL,
                 add_ip_address nvarchar(30) NULL,

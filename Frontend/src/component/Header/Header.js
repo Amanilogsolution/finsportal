@@ -138,7 +138,7 @@ const Header = () => {
                   <a href="/EditOrganisation"> <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
                     <b>Orgaisation profile</b> </li></a>
                   <a href="ShowFincialyear"><li className={`list-group-item bg-${themeval}`}><i className={`fa fa-calendar text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
-                    <b>Fincial Year</b> </li></a>
+                    <b>Financial Year</b> </li></a>
                   <a href="/TotalLocation"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Branches</b> </li></a>
                   <a href="/ShowPaymentTerm"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
