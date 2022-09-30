@@ -71,7 +71,12 @@ const AddUserRole = async (req, res) => {
             chartof_accounts_edit  ,chartof_accounts_delete  ,users_view  ,users_create  ,
            users_edit , users_delete ,payment_terms_view ,payment_terms_create ,
              payment_terms_edit ,payment_terms_delete,add_user_name,add_system_name,
-             add_ip_address,add_date_time,status,roles_uuid)
+             add_ip_address,add_date_time,status,roles_uuid,master_all,country_view,country_create,country_edit,country_delete,state_view,state_create,state_edit,state_delete,
+             city_view,city_create,city_edit,city_delete,currency_view,currency_create,currency_edit,currency_delete,unit_view,unit_create,unit_edit,unit_delete
+             ,comp_type_view,comp_type,create,comp_type_edit,comp_type_delete,employee_view,employee_create,employee_edit,employee_delete,setting_all,org_profile_view,
+             org_profile_create,org_profile_edit,org_profile_delete,fincialyear_view,fincialyear_create,fincialyear_edit,fincialyear_delete,branches_view,branches_create,branches_edit,
+             branches_delete,crm_mast_view,crm_mast_create,crm_mast_edit,crm_mast_delete,compliance_view,compliance_create,compliance_edit,compliance_delete,
+             user_roles_view,user_roles_create,user_roles_edit,user_roles_delete,reports_all,reports_bill_view,reports)
             values('${roles}','${role_id}','${description}','${customer_view}','${customer_create}', 
            '${customer_edit}','${customer_delete}','${vendor_view}','${vendor_create}',
            '${vendor_edit}','${vendor_delete}','${items_view}','${items_create}',
@@ -83,11 +88,9 @@ const AddUserRole = async (req, res) => {
            '${users_edit}','${users_delete}','${payment_terms_view}','${payment_terms_create}',
            '${payment_terms_edit}','${payment_terms_delete}','${user_id}','${os.hostname()}',
            '${req.ip}',getDate(),'Active','${uuidv1()}')`)
-
             res.send('Added')
         } 
       
-
     }
     catch (err) {
         res.send(err)

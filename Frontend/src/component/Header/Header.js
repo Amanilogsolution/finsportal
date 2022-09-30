@@ -1,6 +1,6 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs } from '../../api'
+import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs,GetfincialyearNavbar } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 import profileimg from '../../images/profile.png'
 import Menu from '../Menu/Menu'
@@ -8,6 +8,7 @@ import Menu from '../Menu/Menu'
 
 const Header = () => {
   const [data, setData] = useState([])
+  const [financialyeardata,setFinancialYearData] = useState([])
   const themeval = localStorage.getItem('themetype') || 'light';
   const btntheme = localStorage.getItem('themebtncolor') || 'primary';
 
@@ -15,7 +16,12 @@ const Header = () => {
   useEffect(() => {
     const fetchdata = async (e) => {
       const organisation = await TotalOrganistion()
+      console.log(organisation)
       setData(organisation)
+
+      const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
+      setFinancialYearData(financialyear)
+      console.log(financialyear)
 
       const result1 = await showOrganisation(localStorage.getItem('Organisation'))
       if (result1.org_logo) {
@@ -85,6 +91,44 @@ const Header = () => {
         </ul>
 
         <ul className="navbar-nav ml-auto" style={{ position: "relative" }}>
+
+        <li className="nav-item dropdown" >
+            <a className="nav-link" data-toggle="dropdown">
+              <b> Financial Year {localStorage.getItem('fin_year')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
+            </a>
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right"  style={{ border:"none"}}>
+
+              <div className="orgcard card" style={{width:"50%"}}>
+                
+                <ul className="list-group list-group-flush">
+    
+                  {
+                    financialyeardata.map((item, index) => (
+
+                      <li key={index} className={`list-group-item bg-${themeval}`}>
+                        <a href="#" style={{ color: "blue", }}>
+                          {/* <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp; */}
+                          <span className="orgnamehover" onClick={() => {
+                            localStorage.setItem('fin_year', item.fin_year);
+                            localStorage.setItem('year', item.year);
+
+                          
+                            window.location.reload()
+                          }
+                          }>{item.fin_year}</span>
+                        </a>
+                      
+                      </li>
+                    ))
+                  }
+                </ul>
+
+              </div>
+
+            </div>
+          </li>
+
+
           <li className="nav-item dropdown" >
             <a className="nav-link" data-toggle="dropdown">
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
@@ -92,12 +136,14 @@ const Header = () => {
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
 
               <div className="orgcard card " >
+                
 
                 <div className={`card-body bg-${themeval}`}>
                   <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo}
                     alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                 </div>
                 <ul className="list-group list-group-flush">
+                  
                   <li className={`list-group-item bg-${themeval}`}><b >My Orgaisation</b>
                     <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
                   </li>
