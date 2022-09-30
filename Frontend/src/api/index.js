@@ -817,6 +817,11 @@ export const Getfincialyearid = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const GetfincialyearNavbar = async (org) => {
+    const url = `http://localhost:3008/api/getfincialyearnavbar`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
 export const Updatefinancialcount = async (org, countkey, countvalue) => {
     const url = `http://localhost:3008/api/updatefinancialcount`
     return axios.post(url, { org, countkey, countvalue }).then(response => response.data).catch(error => console.log(error));
@@ -884,6 +889,7 @@ export const SelectSubAccountname = async (org, account_type_code) => {
 }
 
 export const ParentAccountNumber = async (account_type_code, account_name_code, org) => {
+    console.log(account_type_code,account_name_code,org)
     const url = `http://localhost:3008/api/parentaccountNumber`
     return axios.post(url, { account_type_code, account_name_code, org }).then(response => response.data).catch(error => console.log(error));
 }
