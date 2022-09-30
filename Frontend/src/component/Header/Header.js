@@ -1,6 +1,6 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs } from '../../api'
+import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs, getUserRole } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 import profileimg from '../../images/profile.png'
 import Menu from '../Menu/Menu'
@@ -14,18 +14,30 @@ const Header = () => {
 
   useEffect(() => {
     const fetchdata = async (e) => {
+      const org = localStorage.getItem('Organisation')
+      const user_role = localStorage.getItem('Role')
+
+      const role = await getUserRole(org, user_role)
+      console.log(role)
+      const setting_all = 'true'
+
+      if (role.setting_all === 'true') {
+        document.getElementById('setting_all').style.display = "block"
+      }
+      else {
+        document.getElementById('setting_all').style.display = "none"
+      }
+
       const organisation = await TotalOrganistion()
       setData(organisation)
-
-      const result1 = await showOrganisation(localStorage.getItem('Organisation'))
+      const result1 = await showOrganisation(org)
       if (result1.org_logo) {
         localStorage.setItem('Orglogo', result1.org_logo)
       } else {
         localStorage.removeItem('Orglogo')
-
       }
-      const result = await showOrganisation(localStorage.getItem('Organisation Name'))
-      if (!result.org_gst) {
+      // const result = await showOrganisation(localStorage.getItem('Organisation Name'))
+      if (!result1.org_gst) {
         localStorage.setItem('gststatus', 'false')
       } else {
         localStorage.setItem('gststatus', 'true')
@@ -37,13 +49,13 @@ const Header = () => {
 
 
   const handleClick = async () => {
-    const result = await UserLogout(localStorage.getItem('User_id'),localStorage.getItem('User_name'),localStorage.getItem('themebtncolor'),localStorage.getItem('themetype'));
-    const result1 = await LogoutLogs(localStorage.getItem('User_id'), localStorage.getItem('Organisation'))
+    const User_id = localStorage.getItem('User_id')
+    const result = await UserLogout(User_id, localStorage.getItem('User_name'), localStorage.getItem('themebtncolor'), localStorage.getItem('themetype'));
+    const result1 = await LogoutLogs(User_id, localStorage.getItem('Organisation'))
     if (result.status === 'Logout') {
       localStorage.clear()
       window.location.href = '/'
     }
-
   }
 
   const handleswitchdata = (e) => {
@@ -69,7 +81,7 @@ const Header = () => {
     <div>
 
       <Menu theme={themeval} btncolor={btntheme} />
-  
+
       <nav className={`main-header navbar navbar-expand navbar-${themeval}`}>
         <ul className='navbar-nav'>
           <li className="nav-item">
@@ -85,14 +97,13 @@ const Header = () => {
         </ul>
 
         <ul className="navbar-nav ml-auto" style={{ position: "relative" }}>
-          <li className="nav-item dropdown" >
+          {/*########################## All Organisation Start ################################# */}
+          <li className="nav-item dropdown" id='org_all' style={{ display: 'none' }}>
             <a className="nav-link" data-toggle="dropdown">
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
-
               <div className="orgcard card " >
-
                 <div className={`card-body bg-${themeval}`}>
                   <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo}
                     alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
@@ -103,7 +114,6 @@ const Header = () => {
                   </li>
                   {
                     data.map((item, index) => (
-
                       <li key={index} className={`list-group-item bg-${themeval}`}>
                         <a href="#" style={{ color: "blue", }}>
                           <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp;
@@ -111,8 +121,7 @@ const Header = () => {
                             localStorage.setItem('Organisation', item.org_db_name);
                             localStorage.setItem('Organisation Name', item.org_name);
                             window.location.reload()
-                          }
-                          }>{item.org_name}</span>
+                          }}>{item.org_name}</span>
                         </a>
                         <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right", cursor: "pointer" }}>
                           <i className={`fas fa-cog text-${btntheme}`} ></i> Manage</a>
@@ -125,7 +134,10 @@ const Header = () => {
 
             </div>
           </li>
-          <li className="nav-item dropdown" >
+          {/*########################## All Organisation Start ################################# */}
+
+          {/* ######################## Setting  Start #################################*/}
+          <li id='setting_all' className="nav-item dropdown" style={{ display: 'none' }}>
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="fas fa-cog"></i>
             </a>
@@ -148,17 +160,18 @@ const Header = () => {
                   <a href="/Showcompliances"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>Compliances</b> </li></a>
-                    <a href="/AddRoles"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-users text-${btntheme}`} aria-hidden="true"></i>
+                  <a href="/AddRoles"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-users text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>User Roles</b> </li></a>
                 </ul>
-
-
               </div>
             </div>
           </li>
 
-          <li className="nav-item dropdown ">
+          {/* ######################## Setting  END #################################*/}
+
+
+          <li className="nav-item dropdown " >
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="far fa-bell"></i>
               <span className={`badge badge-${btntheme} navbar-badge`}>15</span>
@@ -197,9 +210,9 @@ const Header = () => {
           <li className="nav-item profilediv dropdown p-0" >
             <a className="nav-link p-0" data-toggle="dropdown" href="#" >
               <div className="user-panel mr-7 p-0" >
-                <div className="image mr-3" style={{height:"40px",width:"40px",position:"relative",padding:"0%"}}>
+                <div className="image mr-3" style={{ height: "40px", width: "40px", position: "relative", padding: "0%" }}>
                   <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4 "
-                    alt="User Image" style={{border:"2px solid #fff", width:"100%",height:"100%" }} /></div></div>
+                    alt="User Image" style={{ border: "2px solid #fff", width: "100%", height: "100%" }} /></div></div>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
               <div className={`profilcard card bg-${themeval}`} >
@@ -227,7 +240,7 @@ const Header = () => {
                       <label className="switch">
                         {
                           themeval === 'dark' ?
-                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} checked /> :
+                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} defaultChecked /> :
                             <input type="checkbox" id="switchbtn" onClick={handleswitchdata} />
                         }
 

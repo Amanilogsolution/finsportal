@@ -8,19 +8,54 @@ const Menu = (props) => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await getUserRole(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'))
+      const result = await getUserRole(localStorage.getItem('Organisation'), localStorage.getItem('Role'))
+      console.log(result)
 
-      if (result.customer_view === "true") {
-        document.getElementById('CustomerMenu').style.display = "block"
-      } else {
-        document.getElementById('CustomerMenu').style.display = "none"
+      if (result.sales_all === 'true') {
+        if (result.customer_view === "true") {
+          document.getElementById('CustomerMenu').style.display = "block"
+        } else {
+          document.getElementById('CustomerMenu').style.display = "none"
+        }
+        if (result.invoice_view === "true") {
+          document.getElementById('Invoicemenu').style.display = "block"
+        } else {
+          document.getElementById('Invoicemenu').style.display = "none"
+        }
       }
 
-      if (result.vendor_view === "true") {
-        document.getElementById('VendorMenu').style.display = "block"
-      } else {
-        document.getElementById('VendorMenu').style.display = "none"
+      if (result.purchases_all === 'true') {
+        if (result.vendor_view === "true") {
+          document.getElementById('VendorMenu').style.display = "block"
+        } else {
+          document.getElementById('VendorMenu').style.display = "none"
+        }
+
+        if (result.bills_view === "true") {
+          document.getElementById('BillsMenu').style.display = "block"
+        } else {
+          document.getElementById('BillsMenu').style.display = "none"
+        }
       }
+
+      if (result.accountant_all === 'true') {
+        if (result.chartof_accounts_view === "true") {
+          document.getElementById('COAMenu').style.display = "block"
+        } else {
+          document.getElementById('COAMenu').style.display = "none"
+
+        }
+
+        if (result.currency_addj_view === "true") {
+          document.getElementById('BillsMenu').style.display = "block"
+        } else {
+          document.getElementById('BillsMenu').style.display = "none"
+        }
+      }
+
+
+
+
 
       if (result.items_view === "true") {
         document.getElementById('itemsmenu').style.display = "block"
@@ -34,23 +69,10 @@ const Menu = (props) => {
         document.getElementById('bankMenu').style.display = "none"
       }
 
-      if (result.invoice_view === "true") {
-        document.getElementById('Invoicemenu').style.display = "block"
-      } else {
-        document.getElementById('Invoicemenu').style.display = "none"
-      }
-      if (result.bills_view === "true") {
-        document.getElementById('BillsMenu').style.display = "block"
-      } else {
-        document.getElementById('BillsMenu').style.display = "none"
-      }
 
-      if (result.chartof_accounts_view === "true") {
-        document.getElementById('COAMenu').style.display = "block"
-      } else {
-        document.getElementById('COAMenu').style.display = "none"
 
-      }
+
+
 
       if (result.users_view === "true") {
         document.getElementById('usermenu').style.display = "block"
@@ -74,14 +96,6 @@ const Menu = (props) => {
         </a>
 
         <div className="sidebar pb-3 " >
-          {/* <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div className="image">
-          <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
-        </div>
-        <div className="info">
-          <a href="#" className="d-block">{ username}</a>
-        </div>
-      </div> */}
           <div className="form-inline mt-3 pb-3 mb-3 d-flex">
             <div className="input-group " data-widget="sidebar-search">
               <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
@@ -175,71 +189,6 @@ const Menu = (props) => {
                     </a>
                   </li>
 
-
-                  <li className="nav-item">
-                    {/* <a href="#" className="nav-link active">
-                      &nbsp; &nbsp; &nbsp;
-                      <p> Customer</p>
-                      <i className="right fas fa-angle-left" />
-                    </a> */}
-
-                    {/* <ul className="nav nav-treeview">
-                      <li className="nav-item">
-                        <a href="/TotalCustomer" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Customer</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/TotalCustAddress" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Addresses</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Estimates" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Estimates</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/SalesOrder" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Sales Order</p>
-                        </a>
-                      </li>     
-                      <li className="nav-item">
-                        <a href="/DeliveryChallans" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Delivery Challans</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Invoices" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Invoices</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/PaymentsReceived" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Payments Received</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringInvoices" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Invoices</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/CreditNotes" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>CreditNotes</p>
-                        </a>
-                      </li>
-                    </ul> */}
-                  </li>
                 </ul>
               </li>
               <li className="nav-item">
@@ -295,67 +244,6 @@ const Menu = (props) => {
                     </a>
                   </li>
 
-
-
-                  <li className="nav-item">
-                    {/* <a href="#" className="nav-link active">
-
-                      <p> Vendor</p>
-                      <i className="right fas fa-angle-left" />
-                    </a> */}
-                    {/* <ul className="nav nav-treeview">
-                      <li className="nav-item">
-                        <a href="/Showvendor" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Vendor</p>
-                        </a>
-                      </li>  
-                      <li className="nav-item">
-                        <a href="/TotalVendAddress" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Address</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringExpenses" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Expenses</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/PurchaseOrder" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Purchase Order</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Bills" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Bills</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringBills" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Bills</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/BillPayment" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Payment Made</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/VendorCredits" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Vendor Credits</p>
-                        </a>
-                      </li>
-                    </ul> */}
-
-                  </li>
-
                 </ul>
               </li>
               <li className="nav-item" style={{ display: "none" }} id="COAMenu">
@@ -367,19 +255,13 @@ const Menu = (props) => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-                  {/* <li className="nav-item">
-                    <a href="/ChartOfAccount" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p> Chart OF Account </p>
-                    </a>
-                  </li>*/}
+
                   <li className="nav-item">
                     <a href="/Currency-Adjustment" className="nav-link active">
                       <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p> Currency Adjustments </p>
                     </a>
                   </li>
-
 
                   <li className="nav-item ">
                     <a href="#" className="nav-link active bg-success">
@@ -401,7 +283,6 @@ const Menu = (props) => {
                           <p>Account Major code</p>
                         </a>
                       </li>
-
 
                       <li className="nav-item">
                         <a href="/ShowAccountMinorCode" className="nav-link active">
@@ -477,22 +358,7 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/TotalLocation" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Location</p>
-                    </a>
-                  </li>
-                </ul> */}
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/Showcompliances" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Compliances</p>
-                    </a>
-                  </li>
-                </ul> */}
+
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <a href="/ShowcompliancesType" className="nav-link active">
@@ -501,25 +367,6 @@ const Menu = (props) => {
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowAccountInfo" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Item Account Info</p>
-                    </a>
-                  </li>
-                </ul> */}
-
-
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowChartAccount" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Show Chart Account</p>
-                    </a>
-                  </li>
-                </ul> */}
-
 
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
@@ -552,7 +399,6 @@ const Menu = (props) => {
         </div>
       </aside>
     </div>
-
   )
 }
 
