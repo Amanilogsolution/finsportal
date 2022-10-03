@@ -10,7 +10,7 @@ const AddUserRole = async (req, res) => {
     const role_id = req.body.role_id;
     const description = req.body.description;
 
-    const sales_all = req.body.customer_view;
+    const sales_all = req.body.sales_all;
 
     const customer_view = req.body.customer_view;
     const customer_create = req.body.customer_create;
@@ -22,7 +22,7 @@ const AddUserRole = async (req, res) => {
     const invoice_edit = req.body.invoice_edit;
     const invoice_delete = req.body.invoice_delete;
 
-    const purchases_all = req.body.vendor_view;
+    const purchases_all = req.body.purchases_all;
 
     const vendor_view = req.body.vendor_view;
     const vendor_create = req.body.vendor_create
@@ -34,24 +34,24 @@ const AddUserRole = async (req, res) => {
     const bills_edit = req.body.bills_edit;
     const bills_delete = req.body.bills_delete;
 
-    const accountant_all = req.body.chartof_accounts_view;
+    const accountant_all = req.body.accountant_all;
 
     const chartof_accounts_view = req.body.chartof_accounts_view;
     const chartof_accounts_create = req.body.chartof_accounts_create;
     const chartof_accounts_edit = req.body.chartof_accounts_edit;
     const chartof_accounts_delete = req.body.chartof_accounts_delete;
 
-    const currency_addj_view = req.body.chartof_accounts_view;
-    const currency_addj_create = req.body.chartof_accounts_create;
-    const currency_addj_edit = req.body.chartof_accounts_edit;
-    const currency_addj_delete = req.body.chartof_accounts_delete;
+    const currency_addj_view = req.body.currency_addj_view;
+    const currency_addj_create = req.body.currency_addj_create;
+    const currency_addj_edit = req.body.currency_addj_edit;
+    const currency_addj_delete = req.body.currency_addj_delete;
 
 
-    const setting_all = req.body.chartof_accounts_view;
+    const setting_all = req.body.setting_all;
 
-    const org_profile_view = req.body.chartof_accounts_view;
-    const org_profile_create = req.body.chartof_accounts_create;
-    const org_profile_edit = req.body.chartof_accounts_edit;
+    const org_profile_view = req.body.org_profile_view;
+    const org_profile_create = req.body.org_profile_create;
+    const org_profile_edit = req.body.org_profile_edit;
     const org_profile_delete = req.body.org_profile_delete;
 
     const payment_terms_view = req.body.payment_terms_view;
@@ -150,7 +150,7 @@ const AddUserRole = async (req, res) => {
 
     const user_id = req.body.user_id
     const uuid = uuidv1()
-
+  
     try {
         await sql.connect(sqlConfig)
 

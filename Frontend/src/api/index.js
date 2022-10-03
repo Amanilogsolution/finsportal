@@ -1351,34 +1351,10 @@ export const AddUserRole = async ( org ,roles ,role_id ,description ,
     reports_all ,reports_bill_view ,reports_bill_create ,reports_bill_edit ,reports_bill_delete ,
     reports_invoice_view ,reports_invoice_create ,reports_invoice_edit ,reports_invoice_delete , user_id ) => {
 
-    console.log( org ,roles ,role_id ,description ,
-        sales_all ,customer_view ,customer_create ,customer_edit ,customer_delete ,
-        invoice_view ,invoice_create ,invoice_edit ,invoice_delete ,
-        purchases_all ,
-        vendor_view ,vendor_create ,vendor_edit ,vendor_delete ,
-        bills_view ,bills_create ,bills_edit ,bills_delete ,
-        accountant_all ,
-        chartof_accounts_view ,chartof_accounts_create ,chartof_accounts_edit ,chartof_accounts_delete ,
-        currency_addj_view ,currency_addj_create ,currency_addj_edit ,currency_addj_delete ,
-        setting_all ,
-        org_profile_view ,org_profile_create ,org_profile_edit ,org_profile_delete ,
-        payment_terms_view ,payment_terms_create ,payment_terms_edit ,payment_terms_delete ,
-        fincial_year_view ,fincial_year_create ,fincial_year_edit ,fincial_year_delete ,
-        branch_view ,branch_create ,branch_edit , branch_delete ,
-        crm_view ,crm_create ,crm_edit ,crm_delete ,
-        compliances_view ,compliances_create ,compliances_edit ,compliances_delete ,
-        roles_view ,roles_create ,roles_edit ,roles_delete ,
-        items_view ,items_create ,items_edit ,items_delete ,
-        master_all ,country_view ,country_create ,country_edit ,country_delete , 
-        state_view , state_create ,state_edit ,state_delete , 
-        city_view , city_create , city_edit , city_delete , currency_view , currency_create ,currency_edit ,currency_delete ,
-        unit_view ,unit_create ,unit_edit ,unit_delete ,
-        banking_view ,banking_create ,banking_edit ,banking_delete ,
-        comp_type_view ,comp_type_create ,comp_type_edit ,comp_type_delete ,users_view ,users_create ,users_edit ,users_delete ,
-        employee_view ,employee_create ,employee_edit ,employee_delete ,
-        reports_all ,reports_bill_view ,reports_bill_create ,reports_bill_edit ,reports_bill_delete ,
-        reports_invoice_view ,reports_invoice_create ,reports_invoice_edit ,reports_invoice_delete , user_id )
-
+        // console.log('purchases_all', purchases_all)
+        // console.log('accountant_all',accountant_all)
+        // console.log('setting_all',setting_all)
+        // console.log('master_all',master_all)
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
         org ,roles ,role_id ,description ,

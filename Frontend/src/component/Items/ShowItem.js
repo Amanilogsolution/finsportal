@@ -109,6 +109,7 @@ const ShowItem = () => {
       setData(result)
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
+      console.log(UserRights)
       if (UserRights.items_create === 'false') {
         document.getElementById('additemsbtn').style.display = "none"
       }

@@ -87,15 +87,15 @@ const AddItem = () => {
         const gstrate = document.getElementById("gstrate").value;
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
-        const [glcode,glname] = document.getElementById('glcode').value.split(',')
-        console.log(glcode,glname)
+        const [glcode, glname] = document.getElementById('glcode').value.split(',')
+        console.log(glcode, glname)
 
 
-        if (!Name || !major_code  || !taxpreference) {
+        if (!Name || !major_code || !taxpreference) {
             alert('Please Enter the mandatory field')
         }
         else {
-            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id,glname,glcode);
+            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id, glname, glcode);
             if (result === "Added") {
                 alert('Data Added')
                 localStorage.removeItem('ChargecodeSno');
@@ -165,11 +165,12 @@ const AddItem = () => {
                                                             <option value='' hidden >Select GL Code</option>
                                                             {
                                                                 glcode.map((data, index) => (
-                                                                    <option key={index} value={`${data.account_sub_name_code},${data.account_sub_name}`}>{data.account_sub_name_code} , {data.account_sub_name}</option>
+                                                                    <option key={index} value={`${data.account_sub_name_code},${data.account_sub_name}`}>{data.account_sub_name},{data.account_sub_name_code}</option>
                                                                 ))
                                                             }
 
-                                                        </select>                                                    </div>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
 
