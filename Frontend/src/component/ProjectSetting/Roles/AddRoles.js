@@ -7,13 +7,10 @@ import { AddUserRole } from '../../../api'
 const AddRoles = () => {
     const [transition, setTransition] = useState(false)
     const [mastertoggle, setMastertoggle] = useState(false)
-    const [innermastertoggle, setInnermastertoggle] = useState(false)
-    const [innertransitiontoggle, setInnertransitiontoggle] = useState(false)
     const [reporttoggle, setReporttoggle] = useState(false)
     const [alreadyrole, setAlreadyrole] = useState(false);
 
     const themeval = localStorage.getItem('themetype')
-
     const checkboxstyle = {
         height: "17px",
         width: "17px"
@@ -25,8 +22,6 @@ const AddRoles = () => {
         fontSize: "18px",
         cursor: "pointer"
     }
-
-
 
 
     const fullaccess = (fullaccess, view, create, edit, deletecheck) => {
@@ -71,11 +66,6 @@ const AddRoles = () => {
             document.getElementById(deletecheck).disabled = false;
         }
     }
-
-
-
-
-
 
     const handlesubmitdata = async (e) => {
         e.preventDefault();
@@ -165,7 +155,7 @@ const AddRoles = () => {
         const roles_delete = document.getElementById('roles_delete').checked === true ? true : false;
 
         let setting_all = org_profile_view || paymentTerm_view || financial_view || branch_view || crm_view || compliance_view || roles_view;
-      
+
         // Items
 
         const items_view = document.getElementById('items_view').checked === true ? true : false;
@@ -237,7 +227,7 @@ const AddRoles = () => {
         const reports_invoice_delete = document.getElementById('reports_invoice_delete').checked === true ? true : false;
 
         const reports_all = reports_bills_view || reports_invoice_view;
-      
+
         const user_id = localStorage.getItem('User_id');
         const org = localStorage.getItem('Organisation');
 
@@ -287,7 +277,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['sales', 'purchase', 'accountant'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -296,32 +286,29 @@ const AddRoles = () => {
         else {
 
             for (let i = 0; i < innertransition.length; i++) {
-                document.getElementById(innertransition[i]).style.display = 'flex'
-                document.getElementById(innertransition[i]).style.paddingLeft = '10%'
+                document.getElementById(innertransition[i]).style.display = 'table-row'
             }
         }
         setTransition(!transition)
     }
-    const handlemaster = () => {
-        const innermaster = ['setting', 'items', 'master'];
 
+    const handlemaster = () => {
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow'];
         if (mastertoggle) {
             for (let i = 0; i < innermaster.length; i++) {
                 document.getElementById(innermaster[i]).style.display = 'none'
             }
         }
         else {
-
             for (let i = 0; i < innermaster.length; i++) {
-                document.getElementById(innermaster[i]).style.display = 'flex'
-                document.getElementById(innermaster[i]).style.paddingLeft = '10%'
+                document.getElementById(innermaster[i]).style.display = 'table-row'
             }
         }
         setMastertoggle(!mastertoggle)
     }
+
     const handlereport = () => {
         const innerreport = ['reportbill', 'reportinvoice'];
-
         if (reporttoggle) {
             for (let i = 0; i < innerreport.length; i++) {
                 document.getElementById(innerreport[i]).style.display = 'none'
@@ -333,60 +320,6 @@ const AddRoles = () => {
             }
         }
         setReporttoggle(!reporttoggle)
-    }
-
-    const handleinnerMaster = (type) => {
-        const subinnermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee'];
-        const subinnersetting = ['orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow'];
-        const subinneritem = ['itemsrow'];
-
-        let dynamic;
-
-        if (type === 'master') { dynamic = subinnermaster }
-        else if (type === 'items') { dynamic = subinneritem }
-        else if (type === 'setting') { dynamic = subinnersetting }
-        if (innermastertoggle) {
-            for (let i = 0; i < dynamic.length; i++) {
-                document.getElementById(dynamic[i]).style.display = 'none'
-                document.getElementById(`${type}_icon2`).style.display = 'none'
-                document.getElementById(`${type}_icon1`).style.display = 'inline'
-            }
-        }
-        else {
-            for (let i = 0; i < dynamic.length; i++) {
-                document.getElementById(dynamic[i]).style.display = 'table-row'
-                document.getElementById(`${type}_icon1`).style.display = 'none'
-                document.getElementById(`${type}_icon2`).style.display = 'inline'
-            }
-        }
-        setInnermastertoggle(!innermastertoggle)
-    }
-
-    const handleinnerTransition = (type) => {
-        const subinnersales = ['customer', 'invoise'];
-        const subinnerpurchases = ['vendor', 'bills'];
-        const subinneraccountant = ['chartofaccount', 'currency_adjustment'];
-
-        let dynamic;
-
-        if (type === 'sales') { dynamic = subinnersales }
-        else if (type === 'purchases') { dynamic = subinnerpurchases }
-        else if (type === 'accountant') { dynamic = subinneraccountant }
-        if (innertransitiontoggle) {
-            for (let i = 0; i < dynamic.length; i++) {
-                document.getElementById(dynamic[i]).style.display = 'none'
-                document.getElementById(`${type}_icon2`).style.display = 'none'
-                document.getElementById(`${type}_icon1`).style.display = 'inline'
-            }
-        }
-        else {
-            for (let i = 0; i < dynamic.length; i++) {
-                document.getElementById(dynamic[i]).style.display = 'table-row'
-                document.getElementById(`${type}_icon1`).style.display = 'none'
-                document.getElementById(`${type}_icon2`).style.display = 'inline'
-            }
-        }
-        setInnertransitiontoggle(!innertransitiontoggle)
     }
 
 
@@ -446,13 +379,7 @@ const AddRoles = () => {
                                                                         &nbsp;<span style={{ color: "red" }}>Transition</span>&nbsp;
                                                                     </th>
                                                                 </tr>
-                                                                <tr id='sales' style={displaynone}>
-                                                                    <th className="text-left" colSpan="6" style={{ fontSize: "18px", cursor: "pointer" }} onClick={() => { handleinnerTransition('sales') }}>
-                                                                        <i id='sales_icon1' className="ion-arrow-right-b"></i>
-                                                                        <i id="sales_icon2" className="ion-arrow-down-b" style={{ display: "none" }}></i>
-                                                                        &nbsp;<span className="text-info">Sales</span>
-                                                                    </th>
-                                                                </tr>
+
                                                                 <tr id='customer' style={displaynone}>
                                                                     <th className="text-left">Customers</th>
                                                                     <td><input type='checkbox' id='cust_full' style={checkboxstyle} onClick={() => fullaccess('cust_full', 'cust_view', 'cust_create', 'cust_edit', 'cust_delete')} /></td>
@@ -469,13 +396,7 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' id='invoice_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='invoice_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
-                                                                <tr id='purchase' style={displaynone}>
-                                                                    <th className="text-left" colSpan="6" style={{ fontSize: "18px", cursor: "pointer" }} onClick={() => { handleinnerTransition('purchases') }}>
-                                                                        <i id="purchases_icon1" className="ion-arrow-right-b"></i>
-                                                                        <i id="purchases_icon2" className="ion-arrow-down-b" style={displaynone}></i>
-                                                                        &nbsp;<span className="text-info">Purchase</span>
-                                                                    </th>
-                                                                </tr>
+
                                                                 <tr id='vendor' style={displaynone}>
                                                                     <th className="text-left">Vendors</th>
                                                                     <td><input type='checkbox' id='vend_full' style={checkboxstyle} onClick={() => fullaccess('vend_full', 'vend_view', 'vend_create', 'vend_edit', 'vend_delete')} /></td>
@@ -491,13 +412,6 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' id='bills_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='bills_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='bills_delete' style={checkboxstyle} disabled /></td>
-                                                                </tr>
-                                                                <tr id='accountant' style={displaynone}>
-                                                                    <th className="text-left" colSpan="6" style={{ fontSize: "18px", cursor: "pointer" }} onClick={() => { handleinnerTransition('accountant') }}>
-                                                                        <i id="accountant_icon1" className="ion-arrow-right-b"></i>
-                                                                        <i id="accountant_icon2" className="ion-arrow-down-b" style={{ display: "none" }}></i>
-                                                                        &nbsp;<span className="text-info">Accountant</span>
-                                                                    </th>
                                                                 </tr>
 
                                                                 <tr id='chartofaccount' style={displaynone}>
@@ -527,13 +441,6 @@ const AddRoles = () => {
                                                                     </th>
                                                                 </tr>
 
-                                                                <tr id='setting' style={displaynone}>
-                                                                    <th className="text-left" colSpan="6" style={fontandcursor} onClick={() => { handleinnerMaster('setting') }}>
-                                                                        <i id='setting_icon1' className="ion-arrow-right-b"></i>
-                                                                        <i id='setting_icon2' className="ion-arrow-down-b" style={displaynone}></i>
-                                                                        &nbsp;<span className="text-info">Setting</span>
-                                                                    </th>
-                                                                </tr>
                                                                 <tr id='orgprofile' style={displaynone}>
                                                                     <th className="text-left">Organisatio Profile </th>
                                                                     <td><input type='checkbox' id='org_full' style={checkboxstyle} onClick={() => fullaccess('org_full', 'org_view', 'org_create', 'org_edit', 'org_delete')} /></td>
@@ -591,13 +498,6 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' id='roles_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='roles_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
-                                                                <tr id='items' style={displaynone}>
-                                                                    <th className="text-left" colSpan="6" style={fontandcursor} onClick={() => { handleinnerMaster('items') }}>
-                                                                        <i id='items_icon1' className="ion-arrow-right-b"></i>
-                                                                        <i id='items_icon2' className="ion-arrow-down-b" style={displaynone}></i>
-                                                                        &nbsp;<span className="text-info">Items</span>
-                                                                    </th>
-                                                                </tr>
                                                                 <tr id='itemsrow' style={displaynone}>
                                                                     <th className="text-left">Item</th>
                                                                     <td><input type='checkbox' id='items_full' style={checkboxstyle} onClick={() => fullaccess('items_full', 'items_view', 'items_create', 'items_edit', 'items_delete')} /></td>
@@ -605,13 +505,6 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' id='items_create' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='items_edit' style={checkboxstyle} disabled /></td>
                                                                     <td><input type='checkbox' id='items_delete' style={checkboxstyle} disabled /></td>
-                                                                </tr>
-                                                                <tr id='master' style={displaynone}>
-                                                                    <th className="text-left" colSpan="6" style={fontandcursor} onClick={() => { handleinnerMaster('master') }}>
-                                                                        <i id='master_icon1' className="ion-arrow-right-b"></i>
-                                                                        <i id='master_icon2' className="ion-arrow-down-b" style={displaynone}></i>
-                                                                        &nbsp;<span className="text-info">Master</span>
-                                                                    </th>
                                                                 </tr>
 
                                                                 <tr id='country' style={displaynone}>
@@ -687,15 +580,12 @@ const AddRoles = () => {
                                                                     <td><input type='checkbox' id='empmaster_delete' style={checkboxstyle} disabled /></td>
                                                                 </tr>
 
-
                                                                 {/* #############################  Reports #################################################### */}
 
                                                                 <tr>
                                                                     <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handlereport}>
-
                                                                         {reporttoggle ? <i className="ion-arrow-down-b"></i> :
                                                                             <i className="ion-arrow-right-b"></i>}
-
                                                                         &nbsp;<span style={{ color: "red" }}>Reports</span>
                                                                     </th>
                                                                 </tr>
@@ -719,8 +609,6 @@ const AddRoles = () => {
                                                             </tbody>
                                                         </table>
                                                     </div>
-
-
                                                     <div className="border-top card-body">
                                                         <button type='submit' className="btn btn-success" onClick={handlesubmitdata} >Add</button>
                                                         <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>

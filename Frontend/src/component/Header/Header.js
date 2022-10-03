@@ -217,7 +217,7 @@ const Header = () => {
           {/*########################## All Organisation Start ################################# */}
 
           {/* ######################## Setting  Start #################################*/}
-          <li id='setting_all' className="nav-item dropdown" >
+          <li id='setting_all' className="nav-item dropdown" style={{display:"none"}}>
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="fas fa-cog"></i>
             </a>
