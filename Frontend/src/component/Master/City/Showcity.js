@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Totalcity } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deleteCity, ImportCity } from '../../../api';
+import { deleteCity, ImportCity, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
 
@@ -39,7 +38,7 @@ const columns = [
     sortable: true,
     selector: 'null',
     cell: (row) => [
-      <div className='droplist'>
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteCity(row.sno, status)
@@ -60,7 +59,7 @@ const columns = [
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' href="EditCity">
+      <a title='View Document' href="EditCity" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -152,6 +151,22 @@ const Showcity = () => {
     async function fetchdata() {
       const result = await Totalcity()
       setData(result)
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'city')
+      if (UserRights.city_create === 'true') {
+        document.getElementById('addcitybtn').style.display = "block";
+        document.getElementById('uploadcitybtn').style.display = "block";
+      }
+      if (UserRights.city_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.city_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
     }
     fetchdata()
   }, [])
@@ -167,11 +182,10 @@ const Showcity = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Addcity" }} className="btn btn-primary">Add City</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcity" }} className="btn btn-primary">Add City</button>
+            <button type="button" id='uploadcitybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
             <div className="container-fluid">
               <br />
@@ -197,16 +211,13 @@ const Showcity = () => {
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
         <Footer />
-        {/* ------------------ Modal start -----------------------------*/}\
+        {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"
@@ -322,7 +333,7 @@ const Showcity = () => {
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d,index) => (
+                            duplicateData.map((d, index) => (
                               <tr key={index} style={{ border: "1px solid black" }}>
 
                                 <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_id}</td>
@@ -350,7 +361,7 @@ const Showcity = () => {
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d,index) => (
+                      importdata.map((d, index) => (
                         <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.country_name}</td>
                           <td style={{ border: "1px solid black" }}>{d.state_name}</td>

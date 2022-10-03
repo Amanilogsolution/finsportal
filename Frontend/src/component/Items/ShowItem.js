@@ -72,8 +72,7 @@ const ShowItem = () => {
             const status = e.target.value;
             const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
             window.location.href = 'ShowItem'
-          }
-          }>
+          }}>
             <option value={row.status} hidden> {row.status}</option>
             <option value='Active'>Active</option>
             <option value='Deactive' >Deactive</option>

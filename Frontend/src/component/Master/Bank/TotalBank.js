@@ -60,7 +60,7 @@ const columns = [
     sortable: true,
     selector: 'null',
     cell: (row) => [
-      <div className='droplist' id={`deleteselect${row.sno}`}>
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
@@ -80,7 +80,7 @@ const columns = [
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditBank">
+      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditBank" style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
       </a>
 
@@ -175,20 +175,23 @@ const TotalBank = () => {
       setData(result)
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'banking')
-      if (UserRights.banking_create === 'false') {
-        document.getElementById('addbankbtn').style.display = "none";
-        document.getElementById('excelbankbtn').style.display = "none";
+      if (UserRights.banking_create === 'true') {
+        document.getElementById('addbankbtn').style.display = "block";
+        document.getElementById('excelbankbtn').style.display = "block";
       }
 
-      for (let i = 0; i <= result.length; i++) {
-        if (UserRights.banking_edit === 'false') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
-        }
-        if (UserRights.banking_delete === 'false') {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "none";
-
+      if (UserRights.banking_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
         }
       }
+
+      if (UserRights.banking_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
+
 
     }
 
@@ -209,8 +212,8 @@ const TotalBank = () => {
         <Header />
         <div>
           <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
-            <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
+            <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
 

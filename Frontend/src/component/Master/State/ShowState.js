@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { getstates } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deletestate, ImportState } from '../../../api';
+import { deletestate, ImportState, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_states.xlsx';
 
@@ -44,18 +43,16 @@ const columns = [
     sortable: true,
     selector: 'null',
     cell: (row) => [
-      <div className='droplist'>
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deletestate(row.sno, status)
           window.location.href = 'ShowState'
-        }
-        }>
-          <option selected disabled hidden> {row.status}</option>
-
+        }}>
+          <option value={row.status} hidden> {row.status}</option>
 
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
@@ -66,9 +63,8 @@ const columns = [
 
     selector: "null",
     cell: (row) => [
-      <a title='View Document' href="EditState">
+      <a title='View Document' href="EditState" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
-
     ]
   }
 ];
@@ -77,7 +73,7 @@ const columns = [
 const ShowState = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
-  let   [errorno, setErrorno] = useState(0);
+  let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
 
@@ -96,7 +92,7 @@ const ShowState = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportState(importdata,localStorage.getItem('User_id'));
+      const result = await ImportState(importdata, localStorage.getItem('User_id'));
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -157,12 +153,25 @@ const ShowState = () => {
 
   useEffect(async () => {
     const result = await getstates();
-    setData(result)
-  }, [])
+    setData(result);
 
-  const handleClick = (e) => {
-    e.preventDefault()
-  }
+    const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
+    console.log(UserRights)
+    if (UserRights.state_create === 'true') {
+      document.getElementById('addstatebtn').style.display = "block";
+      document.getElementById('uploadstatebtn').style.display = "block";
+    }
+    if (UserRights.state_edit === 'true') {
+      for (let i = 0; i < result.length; i++) {
+        document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+      }
+    }
+    if (UserRights.state_delete === 'true') {
+      for (let i = 0; i < result.length; i++) {
+        document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+      }
+    }
+  }, [])
 
   const tableData = {
     columns, data
@@ -179,8 +188,8 @@ const ShowState = () => {
         {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./StateMaster" }} className="btn btn-primary">Add State</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '3%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addstatebtn' style={{ float: "right", marginRight: '10%', marginTop: '3%', display: "none" }} onClick={() => { window.location.href = "./StateMaster" }} className="btn btn-primary">Add State</button>
+            <button type="button" id='uploadstatebtn' style={{ float: "right", marginRight: '2%', marginTop: '3%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
             <div className="container-fluid">
               <br />

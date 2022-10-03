@@ -6,7 +6,7 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_countries.xlsx';
-import { deletecountry, ImportCountry ,Totalcountry} from '../../../api';
+import { deletecountry, ImportCountry, Totalcountry, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 
 
@@ -36,14 +36,14 @@ const columns = [
     sortable: true,
     selector: 'null',
     cell: (row) => [
-      <div className='droplist'>
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{display:"none"}}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deletecountry(row.sno, status)
           window.location.href = 'ShowCountry'
         }
         }>
-          <option value={row.status}  hidden> {row.status}</option>
+          <option value={row.status} hidden> {row.status}</option>
 
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
@@ -57,7 +57,7 @@ const columns = [
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' href="EditCountry">
+      <a title='View Document' href="EditCountry"  id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -77,7 +77,7 @@ const ShowCountry = () => {
 
   const uploaddata = async () => {
     importdata.map((d) => {
-      if (!d.country_code ||  !d.country_name ) {
+      if (!d.country_code || !d.country_name) {
         setErrorno(errorno++);
       }
     })
@@ -88,7 +88,7 @@ const ShowCountry = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportCountry(importdata,localStorage.getItem("User_id"));
+      const result = await ImportCountry(importdata, localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -143,13 +143,32 @@ const ShowCountry = () => {
     reader.readAsBinaryString(file);
   };
   //##########################  for convert excel to array end #################################
-  useEffect( () => {
-    const fetchdata=async()=>{
-    const result = await Totalcountry()
-    setData(result)}
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org= localStorage.getItem('Organisation')
+      const result = await Totalcountry()
+      setData(result)
+
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
+      if (UserRights.country_create === 'true') {
+        document.getElementById('addcountrybtn').style.display = "block";
+        document.getElementById('uploadcountrybtn').style.display = "block";
+      }
+      if (UserRights.country_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.country_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
+    }
     fetchdata();
   }, [])
- 
+
   const tableData = {
     columns, data
   };
@@ -163,11 +182,10 @@ const ShowCountry = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddCountry" }} className="btn btn-primary">Add Country</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addcountrybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%',display:"none" }} onClick={() => { window.location.href = "./AddCountry" }} className="btn btn-primary">Add Country</button>
+            <button type="button" id='uploadcountrybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">Country</h3>
@@ -307,16 +325,16 @@ const ShowCountry = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
-                        <tr>
-                          <th style={{ border: "1px solid black" }}>country_code</th>
-                          <th style={{ border: "1px solid black" }}>country_id</th>
-                          <th style={{ border: "1px solid black" }}>country_name</th>
-                          <th style={{ border: "1px solid black" }}>country_phonecode</th>
+                          <tr>
+                            <th style={{ border: "1px solid black" }}>country_code</th>
+                            <th style={{ border: "1px solid black" }}>country_id</th>
+                            <th style={{ border: "1px solid black" }}>country_name</th>
+                            <th style={{ border: "1px solid black" }}>country_phonecode</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d,index) => (
+                            duplicateData.map((d, index) => (
 
                               <tr key={index} style={{ border: "1px solid black" }}>
                                 <td style={{ border: "1px solid black" }}>{d.country_code}</td>
@@ -340,11 +358,11 @@ const ShowCountry = () => {
                     <th style={{ border: "1px solid black" }}>country_id</th>
                     <th style={{ border: "1px solid black" }}>country_name</th>
                     <th style={{ border: "1px solid black" }}>country_phonecode</th>
-                    </tr>
+                  </tr>
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d,index) => (
+                      importdata.map((d, index) => (
                         <tr key={index} style={{ border: "1px solid black" }}>
                           <td style={{ border: "1px solid black" }}>{d.country_code}</td>
                           <td style={{ border: "1px solid black" }}>{d.country_id}</td>
