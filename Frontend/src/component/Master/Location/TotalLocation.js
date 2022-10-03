@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddress } from '../../../api';
+import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddress, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import Addbtn from '../../../images/add-btn.png'
 import Editbtn from '../../../images/edit.png'
@@ -13,104 +12,99 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_location_master.xlsx';
 import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
 
-
-const columns = [
-
-  {
-    name: 'Country',
-    selector: 'country',
-    sortable: true
-  }, {
-    name: 'State',
-    selector: 'state',
-    sortable: true
-  },
-  {
-    name: 'Location Name',
-    selector: 'location_name',
-    sortable: true
-  },
-  {
-    name: 'GST Number',
-    selector: 'gstin_no',
-    sortable: true
-  },
-  {
-    name: 'Contact Name1',
-    selector: 'contact_name1',
-    sortable: true
-  },
-  {
-    name: 'Contact Phone1',
-    selector: 'contact_phone_no1',
-    sortable: true
-  },
-
-  {
-    name: 'Contact Name2',
-    selector: 'contact_name2',
-    sortable: true
-  },
-
-  {
-    name: 'Contact Phone2',
-    selector: 'contact_phone_no2',
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const org = localStorage.getItem("Organisation");
-          const status = e.target.value;
-          await Locationstatus(org, row.location_id, status)
-          window.location.href = 'TotalLocation'
-        }
-        }>
-          <option value={row.status} hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive'>Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  {
-    name: "Actions",
-    sortable: false,
-    selector: "null",
-    cell: (row) => [
-
-      <a title='Edit Location' href="EditLocation">
-        <button className="editbtn btn"
-          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-        <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-        </button></a>,
-      <a title='View Document' href="AddOrgAddress">
-        <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
-          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-          <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-        </button></a>,
-      <a title='View Document' href="EditOrgAddress">
-        <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
-          onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-          <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
-        </button></a>
-
-  
-    ]
-  }
-]
-
-
 const TotalLocation = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [btntype, setBtntype] = useState(true);
+
+  const themeval = localStorage.getItem('themetype')
+
+
+  const styleborder = {
+    border: "1px solid black"
+  }
+
+  const columns = [
+
+    {
+      name: 'Country',
+      selector: 'country',
+      sortable: true
+    }, {
+      name: 'State',
+      selector: 'state',
+      sortable: true
+    },
+    {
+      name: 'Location Name',
+      selector: 'location_name',
+      sortable: true
+    },
+    {
+      name: 'GST Number',
+      selector: 'gstin_no',
+      sortable: true
+    },
+    {
+      name: 'Contact Name1',
+      selector: 'contact_name1',
+      sortable: true
+    },
+    {
+      name: 'Contact Phone1',
+      selector: 'contact_phone_no1',
+      sortable: true
+    },
+
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => [
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+          <select className={`bg-${themeval}`} onChange={async (e) => {
+            const org = localStorage.getItem("Organisation");
+            const status = e.target.value;
+            await Locationstatus(org, row.location_id, status)
+            window.location.href = 'TotalLocation'
+          }
+          }>
+            <option value={row.status} hidden> {row.status}</option>
+            <option value='Active'>Active</option>
+            <option value='Deactive'>Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+
+    {
+      name: "Actions",
+      sortable: false,
+      selector: "null",
+      cell: (row) => [
+        <div id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+          <a title='Edit Location' href="EditLocation">
+            <button className="editbtn btn"
+              onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+              <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
+            </button></a>,
+          <a title='View Document' href="AddOrgAddress">
+            <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
+              onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+              <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
+            </button></a>,
+          <a title='View Document' href="EditOrgAddress">
+            <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
+              onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+              <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
+            </button></a>
+        </div>
+
+      ]
+    }
+  ]
+
 
 
 
@@ -179,7 +173,6 @@ const TotalLocation = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
     setImportdata(datas);
-     console.log(importdata)
   };
   //##########################  for convert array to json end  #################################
 
@@ -217,7 +210,25 @@ const TotalLocation = () => {
     async function fetchdata() {
       const result = await totalLocation(localStorage.getItem('Organisation'))
       setData(result)
-      console.log(result)
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'branch')
+      if (UserRights.branch_create === 'true') {
+        document.getElementById('addbranchbtn').style.display = "block";
+        document.getElementById('uploadlocabtn').style.display = "block";
+        document.getElementById('uploadlocaddbtn').style.display = "block";
+      }
+
+      if (UserRights.branch_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "flex";
+        }
+      }
+
+      if (UserRights.branch_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
     }
     fetchdata();
   }, [])
@@ -235,21 +246,20 @@ const TotalLocation = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary">Add Location</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
+          <div className={`content-wrapper bg-${themeval}`}>
+            <button type="button" id='addbranchbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary">Add Location</button>
+            <button type="button" id='uploadlocabtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
+            <button type="button" id='uploadlocaddbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
 
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">Location</h3>
-              <br />
+              {/* <br /> */}
               <div className="row ">
                 <div className="col ">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
 
                       <DataTableExtensions
                         {...tableData}
@@ -260,6 +270,7 @@ const TotalLocation = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themeval}
                         />
                       </DataTableExtensions>
 
@@ -271,7 +282,7 @@ const TotalLocation = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
         {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
@@ -376,29 +387,29 @@ const TotalLocation = () => {
                   <table >
                     <thead>
                       <tr>
-                        <th style={{ border: "1px solid black" }}>Country</th>
-                        <th style={{ border: "1px solid black" }}>location_name</th>
-                        <th style={{ border: "1px solid black" }}>gstin_no</th>
-                        <th style={{ border: "1px solid black" }}>location_id</th>
-                        <th style={{ border: "1px solid black" }}>contact_name1</th>
-                        <th style={{ border: "1px solid black" }}>contact_name2</th>
-                        <th style={{ border: "1px solid black" }}>contact_phone_no1</th>
-                        <th style={{ border: "1px solid black" }}>contact_phone_no2</th>
+                        <th style={styleborder}>Country</th>
+                        <th style={styleborder}>location_name</th>
+                        <th style={styleborder}>gstin_no</th>
+                        <th style={styleborder}>location_id</th>
+                        <th style={styleborder}>contact_name1</th>
+                        <th style={styleborder}>contact_name2</th>
+                        <th style={styleborder}>contact_phone_no1</th>
+                        <th style={styleborder}>contact_phone_no2</th>
                       </tr>
 
                     </thead>
                     <tbody>
                       {
                         importdata.map((d) => (
-                          <tr style={{ border: "1px solid black" }}>
-                            <td style={{ border: "1px solid black" }}>{d.country}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_name}</td>
-                            <td style={{ border: "1px solid black" }}>{d.gstin_no}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_id}</td>
-                            <td style={{ border: "1px solid black" }}>{d.contact_name1}</td>
-                            <td style={{ border: "1px solid black" }}>{d.contact_name2}</td>
-                            <td style={{ border: "1px solid black" }}>{d.contact_phone_no1}</td>
-                            <td style={{ border: "1px solid black" }}>{d.contact_phone_no2}</td>
+                          <tr style={styleborder}>
+                            <td style={styleborder}>{d.country}</td>
+                            <td style={styleborder}>{d.location_name}</td>
+                            <td style={styleborder}>{d.gstin_no}</td>
+                            <td style={styleborder}>{d.location_id}</td>
+                            <td style={styleborder}>{d.contact_name1}</td>
+                            <td style={styleborder}>{d.contact_name2}</td>
+                            <td style={styleborder}>{d.contact_phone_no1}</td>
+                            <td style={styleborder}>{d.contact_phone_no2}</td>
 
                           </tr>
                         ))
@@ -409,35 +420,35 @@ const TotalLocation = () => {
                   <table >
                     <thead>
                       <tr>
-                        <th style={{ border: "1px solid black" }}>location_id</th>
-                        <th style={{ border: "1px solid black" }}>location_name</th>
-                        <th style={{ border: "1px solid black" }}>gstin_no</th>
-                        <th style={{ border: "1px solid black" }}>location_add1</th>
-                        <th style={{ border: "1px solid black" }}>location_add2</th>
-                        <th style={{ border: "1px solid black" }}>location_city</th>
-                        <th style={{ border: "1px solid black" }}>location_state</th>
-                        <th style={{ border: "1px solid black" }}>location_pin</th>
-                        <th style={{ border: "1px solid black" }}>location_country</th>
-                        <th style={{ border: "1px solid black" }}>from_date</th>
-                        <th style={{ border: "1px solid black" }}>to_date</th>
+                        <th style={styleborder}>location_id</th>
+                        <th style={styleborder}>location_name</th>
+                        <th style={styleborder}>gstin_no</th>
+                        <th style={styleborder}>location_add1</th>
+                        <th style={styleborder}>location_add2</th>
+                        <th style={styleborder}>location_city</th>
+                        <th style={styleborder}>location_state</th>
+                        <th style={styleborder}>location_pin</th>
+                        <th style={styleborder}>location_country</th>
+                        <th style={styleborder}>from_date</th>
+                        <th style={styleborder}>to_date</th>
                       </tr>
 
                     </thead>
                     <tbody>
                       {
                         importdata.map((d) => (
-                          <tr style={{ border: "1px solid black" }}>
-                            <td style={{ border: "1px solid black" }}>{d.location_id}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_name}</td>
-                            <td style={{ border: "1px solid black" }}>{d.gstin_no}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_add1}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_add2}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_city}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_state}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_pin}</td>
-                            <td style={{ border: "1px solid black" }}>{d.location_country}</td>
-                            <td style={{ border: "1px solid black" }}>{d.from_date}</td>
-                            <td style={{ border: "1px solid black" }}>{d.to_date}</td>
+                          <tr style={styleborder}>
+                            <td style={styleborder}>{d.location_id}</td>
+                            <td style={styleborder}>{d.location_name}</td>
+                            <td style={styleborder}>{d.gstin_no}</td>
+                            <td style={styleborder}>{d.location_add1}</td>
+                            <td style={styleborder}>{d.location_add2}</td>
+                            <td style={styleborder}>{d.location_city}</td>
+                            <td style={styleborder}>{d.location_state}</td>
+                            <td style={styleborder}>{d.location_pin}</td>
+                            <td style={styleborder}>{d.location_country}</td>
+                            <td style={styleborder}>{d.from_date}</td>
+                            <td style={styleborder}>{d.to_date}</td>
 
                           </tr>
                         ))
@@ -457,8 +468,7 @@ const TotalLocation = () => {
                 }}>Cancel</button>
               <button type="button"
                 onClick={uploaddata}
-                className="btn btn-primary"
-              >
+                className="btn btn-primary">
                 Upload
               </button>
             </div>

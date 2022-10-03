@@ -1,72 +1,72 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalCrm, DeleteCrm } from '../../../api';
+import { TotalCrm, DeleteCrm,getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
 
-const columns = [
-  {
-    name: 'Person name',
-    selector: row => row.user_name,
-    sortable: true
-  },
-
-  {
-    name: 'Type',
-    selector: row => row.type,
-    sortable: true
-  },
-  {
-    name: 'Date',
-    selector: row => row.Joindate,
-    sortable: true
-  },
-  {
-    name: 'Customer/Vendor name',
-    selector: row => row.cust_vend,
-    sortable: true
-  },
-
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
-          window.location.href = '/ShowCrm'
-        }
-        }>
-          <option value={row.status} hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-  // {
-  //   name: "Actions",
-  //   sortable: false,
-
-  //   selector: row => row.null,
-  //   cell: (row) => [
-
-  //     <a title='View Document' href="/EditCrm">
-  //       <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
-
-  //   ]
-  // }
-
-
-]
-
 const ShowCrm = () => {
   const [data, setData] = useState([])
+
+  const themeval = localStorage.getItem('themetype')
+
+  const columns = [
+    {
+      name: 'Person name',
+      selector: row => row.user_name,
+      sortable: true
+    },
+
+    {
+      name: 'Type',
+      selector: row => row.type,
+      sortable: true
+    },
+    {
+      name: 'Date',
+      selector: row => row.Joindate,
+      sortable: true
+    },
+    {
+      name: 'Customer/Vendor name',
+      selector: row => row.cust_vend,
+      sortable: true
+    },
+
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => [
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+          <select className={`bg-${themeval}`} onChange={async (e) => {
+            const status = e.target.value;
+            await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
+            window.location.href = '/ShowCrm'
+          }}>
+            <option value={row.status} hidden> {row.status}</option>
+            <option value='Active'>Active</option>
+            <option value='Deactive' >Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+    // {
+    //   name: "Actions",
+    //   sortable: false,
+
+    //   selector: row => row.null,
+    //   cell: (row) => [
+
+    //     <a title='View Document' href="/EditCrm">
+    //       <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
+
+    //   ]
+    // }
+
+
+  ]
 
 
 
@@ -74,6 +74,18 @@ const ShowCrm = () => {
     const fetchdata = async () => {
       const result = await TotalCrm(localStorage.getItem('Organisation'))
       setData(result)
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'crm')
+      if (UserRights.crm_create === 'true') {
+        document.getElementById('addcrmbtn').style.display = "block";
+      }
+
+      if (UserRights.crm_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
+  
     }
 
     fetchdata();
@@ -90,20 +102,18 @@ const ShowCrm = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
-
+          <div className={`content-wrapper bg-${themeval}`}>
+            <button type="button " id='addcrmbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
             <div className="container-fluid">
               <br />
 
               <h3 className="text-left ml-5"> CRM Master </h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -113,6 +123,7 @@ const ShowCrm = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themeval}
                         />
                       </DataTableExtensions>
 
@@ -124,7 +135,7 @@ const ShowCrm = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )
