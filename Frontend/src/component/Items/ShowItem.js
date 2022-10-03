@@ -67,7 +67,7 @@ const ShowItem = () => {
       sortable: true,
       selector: 'null',
       cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`}>
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{display:"none"}}>
           <select onChange={async (e) => {
             const status = e.target.value;
             const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
@@ -86,10 +86,8 @@ const ShowItem = () => {
       sortable: false,
       selector: row => row.null,
       cell: (row) => [
-
-        <a title='View Document' id={`editactionbtns${row.sno}`} href="/EditItem">
+        <a title='View Document' id={`editactionbtns${row.sno}`} href="/EditItem" style={{ display: "none" }}>
           <button className="editbtn btn-success " onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
-
       ]
     }
 
@@ -98,7 +96,7 @@ const ShowItem = () => {
 
 
   const [data, setData] = useState([])
-  const themetype= localStorage.getItem('themetype')
+  const themetype = localStorage.getItem('themetype')
 
 
   useEffect(() => {
@@ -109,18 +107,18 @@ const ShowItem = () => {
       setData(result)
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
-      console.log(UserRights)
-      if (UserRights.items_create === 'false') {
-        document.getElementById('additemsbtn').style.display = "none"
+      if (UserRights.items_create === 'true') {
+        document.getElementById('additemsbtn').style.display = "block"
       }
 
-      for (let i = 0; i <= result.length; i++) {
-        if (UserRights.items_edit === 'false') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+      if (UserRights.items_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
         }
-        if (UserRights.items_delete === 'false') {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "none";
-
+      }
+      if (UserRights.items_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
         }
       }
     }
@@ -139,10 +137,10 @@ const ShowItem = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-       
+
         <div>
           <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button " id='additemsbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
+            <button type="button " id='additemsbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
 
             <div className="container-fluid">
               <br />
@@ -175,7 +173,7 @@ const ShowItem = () => {
           </div>
         </div>
 
-        <Footer theme={themetype}/>
+        <Footer theme={themetype} />
       </div>
     </div>
   )

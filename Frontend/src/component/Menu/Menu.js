@@ -12,7 +12,6 @@ const Menu = (props) => {
       Rolefunction(result)
     }
     fetchdata()
-
   }, [])
 
 

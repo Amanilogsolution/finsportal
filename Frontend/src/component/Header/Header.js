@@ -20,58 +20,58 @@ const Header = () => {
 
       const role = await getUserRole(org, user_role)
 
-      // if (role.setting_all === true) {
-      //   document.getElementById('setting_all').style.display = "block"
+      if (role.setting_all === 'true') {
+        document.getElementById('setting_all').style.display = "block"
 
-      //   if (role.org_profile_view === true) {
-      //     document.getElementById('org_profile').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('org_profile').style.display = "none"
-      //   }
+        if (role.org_profile_view === 'true') {
+          document.getElementById('org_profile').style.display = "block"
+        }
+        else {
+          document.getElementById('org_profile').style.display = "none"
+        }
 
-      //   if (role.fincial_year_view === true) {
-      //     document.getElementById('fincial_year_view').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('fincial_year_view').style.display = "none"
-      //   }
+        if (role.fincial_year_view === 'true') {
+          document.getElementById('fincial_year_view').style.display = "block"
+        }
+        else {
+          document.getElementById('fincial_year_view').style.display = "none"
+        }
 
-      //   if (role.branch_view === true) {
-      //     document.getElementById('branchs').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('branchs').style.display = "none"
-      //   }
+        if (role.branch_view === 'true') {
+          document.getElementById('branchs').style.display = "block"
+        }
+        else {
+          document.getElementById('branchs').style.display = "none"
+        }
 
-      //   if (role.payment_terms_view === true) {
-      //     document.getElementById('payment_term').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('payment_term').style.display = "none"
-      //   }
-      //   if (role.crm_view === true) {
-      //     document.getElementById('crm_data').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('crm_data').style.display = "none"
-      //   }
-      //   if (role.compliances_view === true) {
-      //     document.getElementById('compliances').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('compliances').style.display = "none"
-      //   }
-      //   if (role.roles_view === true) {
-      //     document.getElementById('roles').style.display = "block"
-      //   }
-      //   else {
-      //     document.getElementById('roles').style.display = "none"
-      //   }
-      // }
-      // else {
-      //   document.getElementById('setting_all').style.display = "none"
-      // }
+        if (role.payment_terms_view === 'true') {
+          document.getElementById('payment_term').style.display = "block"
+        }
+        else {
+          document.getElementById('payment_term').style.display = "none"
+        }
+        if (role.crm_view === 'true') {
+          document.getElementById('crm_data').style.display = "block"
+        }
+        else {
+          document.getElementById('crm_data').style.display = "none"
+        }
+        if (role.compliances_view === 'true') {
+          document.getElementById('compliances').style.display = "block"
+        }
+        else {
+          document.getElementById('compliances').style.display = "none"
+        }
+        if (role.roles_view === 'true') {
+          document.getElementById('roles').style.display = "block"
+        }
+        else {
+          document.getElementById('roles').style.display = "none"
+        }
+      }
+      else {
+        document.getElementById('setting_all').style.display = "none"
+      }
 
       const organisation = await TotalOrganistion()
       setData(organisation)
@@ -227,20 +227,20 @@ const Header = () => {
                   <span style={{ fontSize: "20px" }}>Setting</span>
                 </div>
                 <ul className="list-group list-group-flush ">
-                  <a href="/EditOrganisation" > <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
+                  <a href="/EditOrganisation" id='org_profile' > <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
                     <b>Orgaisation profile</b> </li></a>
                   <a href="ShowFincialyear" id='fincial_year_view'><li className={`list-group-item bg-${themeval}`}><i className={`fa fa-calendar text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Financial Year</b> </li></a>
-                  <a href="/TotalLocation" id='branchs'> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/TotalLocation" id='branchs' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Branches</b> </li></a>
-                  <a href="/ShowPaymentTerm" id='payment_term'> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/ShowPaymentTerm" id='payment_term' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Payment Terms</b> </li></a>
-                  <a href="/ShowCrm" id='crm_data'> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-link text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/ShowCrm" id='crm_data' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-link text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>CRM Master</b> </li></a>
-                  <a href="/Showcompliances" id='compliances'> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
+                  <a href="/Showcompliances" id='compliances' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>Compliances</b> </li></a>
-                  <a href="/AddRoles" id='roles'> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-users text-${btntheme}`} aria-hidden="true"></i>
+                  <a href="/AddRoles" id='roles' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-users text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>User Roles</b> </li></a>
                 </ul>

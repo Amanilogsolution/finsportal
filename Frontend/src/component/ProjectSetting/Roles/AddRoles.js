@@ -155,6 +155,7 @@ const AddRoles = () => {
         const roles_delete = document.getElementById('roles_delete').checked === true ? true : false;
 
         let setting_all = org_profile_view || paymentTerm_view || financial_view || branch_view || crm_view || compliance_view || roles_view;
+        console.log(setting_all)
 
         // Items
 
