@@ -33,7 +33,7 @@ const Updatefincialyear = () => {
       if (result[0] > 0) {
         alert("Updated")
         localStorage.removeItem('FinsyearSno');
-        window.location.href = "./showfincialyear"
+        window.location.href = "./ShowFinancialyear"
 
       }
       else {
@@ -65,7 +65,7 @@ const Updatefincialyear = () => {
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Fincial Year</h3>
+              <br /> <h3 className="text-left ml-5">Financial Year</h3>
               <div className="row ">
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
@@ -113,7 +113,7 @@ const Updatefincialyear = () => {
                       <button className="btn btn-success" onClick={handelsave}>Save</button>
                       <button className="btn btn-light ml-3" onClick={() => {
                         localStorage.removeItem('FinsyearSno');
-                        window.location.href = "./showfincialyear"
+                        window.location.href = "./ShowFinancialyear"
                       }}>Cancel</button>
                     </div>
                   </div>

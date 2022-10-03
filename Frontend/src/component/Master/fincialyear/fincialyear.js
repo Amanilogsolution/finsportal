@@ -47,7 +47,7 @@ const Fincialyear = () => {
 
       if (result.rowsAffected[0] > 0) {
         alert("Data Added");
-        window.location.href = "./showfincialyear"
+        window.location.href = "./ShowFinancialyear"
       }
       else {
         alert("Server error !")
@@ -64,11 +64,10 @@ const Fincialyear = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Fincial Year</h3>
+              <br /> <h3 className="text-left ml-5">Financial Year</h3>
               <div className="row ">
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
@@ -115,7 +114,7 @@ const Fincialyear = () => {
 
                         <div className="border-top card-body">
                           <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
-                          <button className="btn btn-light ml-3" onClick={(e)=>{e.preventDefault(); window.location.href='./Home'}}>Cancel</button>
+                          <button className="btn btn-light ml-3" onClick={(e)=>{e.preventDefault(); window.location.href='./ShowFinancialyear'}}>Cancel</button>
                         </div>
                       </form>
                     </article>
