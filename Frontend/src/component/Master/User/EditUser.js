@@ -10,6 +10,7 @@ const EditUser = () => {
   const [activecustomer, setActivecustomer] = useState([])
   const [useroleslist, setUserroleslist] = useState([])
 
+  const themetype = localStorage.getItem('themetype')
 
 
   useEffect(async () => {
@@ -116,13 +117,13 @@ const EditUser = () => {
         </div>
         <Header />
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit User</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee Name</label>
@@ -207,40 +208,7 @@ const EditUser = () => {
                           </div>
                         </div>
 
-                        {/* <div className="form-row" onChange={handleChange}>
-                          <div className="col form-group">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              Select Type
-                            </label>
-
-                            <label className="form-check form-check-inline">
-
-                              <input
-                                className="form-check-input" type="radio"
-                                name="taxpreference"
-                                value="With OTP"
-                                id="otp"
-                                disabled
-                              />With OTP
-                            </label>
-                            <label className="form-check form-check-inline">
-
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="taxpreference"
-                                value="With TOTP"
-                                id="noOTP"
-                                disabled
-                              />With TOTP
-                            </label>
-                          </div>
-                        </div> */}
-
-                        <div className="border-top card-body">
+                        <div className={`border-top card-footer bg-${themetype}`}>
                           <button className="btn btn-success" onClick={handleClick}>Update</button>
                           <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
                         </div>
@@ -253,7 +221,7 @@ const EditUser = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

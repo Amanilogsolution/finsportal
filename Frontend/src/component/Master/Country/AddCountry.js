@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { InsertCountry } from '../../../api';
 
 const AddCountry = () => {
   const [phonenumerr, setPhonenumerr] = useState('')
+  const themetype = localStorage.getItem('themetype')
+
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -32,23 +33,20 @@ const AddCountry = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Compliance Type</h3>
               <div className="row ">
-                <div className="col ml-5">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                <div className="col ml-2">
+                  <div className="card">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
-
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='Country_name' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -56,7 +54,6 @@ const AddCountry = () => {
                           <div className="col form-group">
                             <input type="number" className="form-control col-md-4" id='country_id' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -82,7 +79,7 @@ const AddCountry = () => {
                         </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
+                    <div className={`border-top card-body bg-${themetype}`}>
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCountry" }}>Cancel</button>
                     </div>
@@ -92,7 +89,7 @@ const AddCountry = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype} />
       </div>
     </div>
   )

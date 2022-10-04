@@ -12,6 +12,9 @@ const EditCity = () => {
   const [selectState, setSelectState] = useState([]);
   const [country, setCountry] = useState()
 
+  const themetype = localStorage.getItem('themetype')
+
+
   useEffect( () => {
     const fetchdata = async () => {
       const result = await showCity(localStorage.getItem('citySno'));
@@ -71,15 +74,14 @@ const EditCity = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit City</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
@@ -135,7 +137,7 @@ const EditCity = () => {
                         </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themetype}`}>
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
                       <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('citySno'); window.location.href = "./ShowState" }}>Cancel</button>
                     </div>
@@ -145,7 +147,7 @@ const EditCity = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

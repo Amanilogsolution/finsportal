@@ -9,6 +9,16 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/unit Formate.xlsx';
 import * as XLSX from "xlsx";
 
+
+const ShowUnit = () => {
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+
+  const themetype = localStorage.getItem('themetype')
+
 const columns = [
   {
     name: 'Unit Name',
@@ -27,7 +37,7 @@ const columns = [
     cell: (row) => [
 
       <div className='droplist' id={`deletebtn${row.sno}`} style={{ display: "none" }}>
-        <select onChange={async (e) => {
+        <select className={`bg-${themetype}`} onChange={async (e) => {
           const status = e.target.value;
           await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
           window.location.href = 'ShowUnit'
@@ -56,12 +66,8 @@ const columns = [
 ]
 
 
-const ShowUnit = () => {
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
+
+
 
 
   //##########################  Upload data start  #################################
@@ -169,6 +175,9 @@ const ShowUnit = () => {
   const tableData = {
     columns, data
   };
+  const styleborder = {
+    border: "1px solid black"
+  }
 
   return (
     <div>
@@ -178,7 +187,7 @@ const ShowUnit = () => {
         </div>
         <Header />
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <button type="button" id='addunitbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary">Add Unit</button>
             <button type="button" id='uploadunitbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
@@ -188,7 +197,7 @@ const ShowUnit = () => {
               <div className="row ">
                 <div className="col">
                   <div className="card">
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}>
                         <DataTable
@@ -197,6 +206,7 @@ const ShowUnit = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
                     </article>
@@ -206,7 +216,7 @@ const ShowUnit = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
         {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
@@ -218,7 +228,7 @@ const ShowUnit = () => {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -232,7 +242,7 @@ const ShowUnit = () => {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
+              <div className={`modal-body bg-${themetype}`}>
 
                 <div className=" ">
                   <label
@@ -245,8 +255,8 @@ const ShowUnit = () => {
                     <input
                       id=""
                       type="file"
+                      className={`form-control bg-${themetype}`}
                       onChange={onChange}
-                      className="form-control "
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -283,7 +293,7 @@ const ShowUnit = () => {
         >
 
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -319,16 +329,13 @@ const ShowUnit = () => {
                         <tbody>
                           {
                             duplicateData.map((d) => (
-
-                              <tr style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.unit_name}</td>
-                                <td style={{ border: "1px solid black" }}>{d.unit_symbol}</td>
-
+                              <tr style={styleborder}>
+                                <td style={styleborder}>{d.unit_name}</td>
+                                <td style={styleborder}>{d.unit_symbol}</td>
                               </tr>
                             ))
                           }
                         </tbody>
-                        <tfoot></tfoot>
                         <br /><br />
                       </table>
                     </>
@@ -344,27 +351,23 @@ const ShowUnit = () => {
                   <tbody>
                     {
                       importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.unit_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.unit_symbol}</td>
-
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.unit_name}</td>
+                          <td style={styleborder}>{d.unit_symbol}</td>
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
-            {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} style={{ background: "white" }}>
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
                   document.getElementById("showdataModal").style.display = "none";
                   window.location.reload()
-                }}
-              >
+                }}>
                 Cancel
               </button>
               <button type="button"

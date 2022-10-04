@@ -8,6 +8,16 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_currency.xlsx';
 import * as XLSX from "xlsx";
 
+
+const ShowCurrency = () => {
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+
+  const themetype = localStorage.getItem('themetype')
+
 const columns = [
   {
     name: 'Country Code',
@@ -35,7 +45,7 @@ const columns = [
     selector: "null",
     cell: (row) => [
       <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-        <select onChange={async (e) => {
+        <select className={themetype} onChange={async (e) => {
           const status = e.target.value;
           await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
           window.location.href = 'ShowCurrency'
@@ -60,12 +70,6 @@ const columns = [
   }
 ]
 
-const ShowCurrency = () => {
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
 
 
   //##########################  Upload data start  #################################
@@ -169,6 +173,9 @@ const ShowCurrency = () => {
   const tableData = {
     columns, data
   }
+  const styleborder = {
+    border: "1px solid black"
+  }
 
   return (
     <div>
@@ -178,17 +185,16 @@ const ShowCurrency = () => {
         </div>
         <Header />
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%',display:"none" }} onClick={() => { window.location.href = "./AddCurrency" }} className="btn btn-primary">Add Currency</button>
             <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">Currency</h3>
-              <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body" >
+                    <article className={`card-body bg-${themetype}`} >
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -199,22 +205,20 @@ const ShowCurrency = () => {
                           pagination
                           highlightOnHover
                           dense
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
-        <Footer />
-        {/* ------------------ Modal start -----------------------------*/}\
+        <Footer theme={themetype}/>
+        {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"
@@ -225,7 +229,7 @@ const ShowCurrency = () => {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -239,7 +243,7 @@ const ShowCurrency = () => {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
+              <div className={`modal-body bg-${themetype}`}>
 
                 <div className=" ">
                   <label
@@ -253,7 +257,7 @@ const ShowCurrency = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -261,7 +265,7 @@ const ShowCurrency = () => {
                   </span><br />
                 </div>
               </div>
-              <div className="modal-footer">
+              <div className={`modal-footer bg-${themetype}`}>
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -290,7 +294,7 @@ const ShowCurrency = () => {
         >
 
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -309,7 +313,6 @@ const ShowCurrency = () => {
                     &times;</span>
                 </button>
               </div>
-              {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
                 {
 
@@ -319,26 +322,25 @@ const ShowCurrency = () => {
                       <table style={{ color: "red" }}>
                         <thead>
                           <tr>
-                            <th style={{ border: "1px solid black" }}>country_code</th>
-                            <th style={{ border: "1px solid black" }}>country_id</th>
-                            <th style={{ border: "1px solid black" }}>country_name</th>
-                            <th style={{ border: "1px solid black" }}>country_phonecode</th>
+                            <th style={styleborder}>country_code</th>
+                            <th style={styleborder}>country_id</th>
+                            <th style={styleborder}>country_name</th>
+                            <th style={styleborder}>country_phonecode</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
                             duplicateData.map((d) => (
 
-                              <tr style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.country_code}</td>
-                                <td style={{ border: "1px solid black" }}>{d.country_id}</td>
-                                <td style={{ border: "1px solid black" }}>{d.country_name}</td>
-                                <td style={{ border: "1px solid black" }}>{d.country_phonecode}</td>
+                              <tr style={styleborder}>
+                                <td style={styleborder}>{d.country_code}</td>
+                                <td style={styleborder}>{d.country_id}</td>
+                                <td style={styleborder}>{d.country_name}</td>
+                                <td style={styleborder}>{d.country_phonecode}</td>
                               </tr>
                             ))
                           }
                         </tbody>
-                        <tfoot></tfoot>
                         <br /><br />
                       </table>
                     </>
@@ -347,31 +349,29 @@ const ShowCurrency = () => {
                 <table >
                   <thead>
                     <tr>
-                      <th style={{ border: "1px solid black" }}>country_code</th>
-                      <th style={{ border: "1px solid black" }}>country_name</th>
-                      <th style={{ border: "1px solid black" }}>currency_code</th>
-                      <th style={{ border: "1px solid black" }}>currency_name</th>
+                      <th style={styleborder}>country_code</th>
+                      <th style={styleborder}>country_name</th>
+                      <th style={styleborder}>currency_code</th>
+                      <th style={styleborder}>currency_name</th>
                     </tr>
 
                   </thead>
                   <tbody>
                     {
                       importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.country_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.country_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.currency_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.currency_name}</td>
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.country_code}</td>
+                          <td style={styleborder}>{d.country_name}</td>
+                          <td style={styleborder}>{d.currency_code}</td>
+                          <td style={styleborder}>{d.currency_name}</td>
 
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
-            {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} >
               <button
                 type="button"
                 className="btn btn-secondary"

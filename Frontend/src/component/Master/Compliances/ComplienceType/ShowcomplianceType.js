@@ -6,55 +6,55 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 
-
-const columns = [
-  {
-    name: 'Compliance Type',
-    selector: row => row.compliance_type,
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: row => row.null,
-    cell: (row) => [
-      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-        <select onChange={async (e) => {
-          const org = localStorage.getItem("Organisation")
-          const status = e.target.value;
-          await Compliancesstatus(org, row.sno, status)
-          window.location.href = 'ShowcompliancesType'
-        }
-        }>
-          <option hidden value={row.status}> {row.status}</option>
-          <option >Active</option>
-          <option >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  {
-    name: "Actions",
-    sortable: false,
-
-    selector: row => row.null,
-    cell: (row) => [
-
-      <a title='View Document' href="EditComplianceType" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-        <button className="editbtn btn-success "
-          onClick={() => localStorage.setItem('ComplianceSnoType', `${row.sno}`)}
-        >Edit</button></a>
-
-    ]
-  }
-]
-
-
 function ShowcomplianceType() {
 
   const [data, setData] = useState([])
   const themeval = localStorage.getItem('themetype')
+
+  const columns = [
+    {
+      name: 'Compliance Type',
+      selector: row => row.compliance_type,
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: row => row.null,
+      cell: (row) => [
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+          <select onChange={async (e) => {
+            const org = localStorage.getItem("Organisation")
+            const status = e.target.value;
+            await Compliancesstatus(org, row.sno, status)
+            window.location.href = 'ShowcompliancesType'
+          }
+          }>
+            <option hidden value={row.status}> {row.status}</option>
+            <option >Active</option>
+            <option >Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+
+    {
+      name: "Actions",
+      sortable: false,
+
+      selector: row => row.null,
+      cell: (row) => [
+
+        <a title='View Document' href="EditComplianceType" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+          <button className="editbtn btn-success "
+            onClick={() => localStorage.setItem('ComplianceSnoType', `${row.sno}`)}
+          >Edit</button></a>
+
+      ]
+    }
+  ]
+
+
 
 
   useEffect(async () => {

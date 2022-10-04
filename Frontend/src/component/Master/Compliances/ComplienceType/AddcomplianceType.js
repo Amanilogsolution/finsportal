@@ -1,10 +1,12 @@
 import React from 'react'
 import Header from "../../../Header/Header";
-// import Menu from "../../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
 import { InsertcomplianceType } from '../../../../api';
 
 function AddcomplianceType() {
+  const themeval = localStorage.getItem('themetype')
+
+
   const handleClick = async (e) => {
     e.preventDefault();
     const compliance_Type = document.getElementById('compliance_Type').value;
@@ -29,13 +31,13 @@ function AddcomplianceType() {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Add Compliance</h3>
+              <br /> <h3 className="text-left ml-5">Add Compliance</h3><br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
 
                         <div className="form-row">
@@ -46,7 +48,7 @@ function AddcomplianceType() {
                         </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themeval}`}>
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowcompliancesType" }}>Cancel</button>
                     </div>
@@ -56,7 +58,7 @@ function AddcomplianceType() {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval}/>
       </div>
     </div>
   )

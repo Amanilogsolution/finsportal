@@ -1,6 +1,5 @@
 import './addbanklist.css'
 import Header from '../../Header/Header';
-// import Menu from '../../Menu/Menu';
 import Footer from '../../Footer/Footer';
 import Image1 from '../../../images/bg1.jpg'
 import Sbilogo from '../../../images/sbilogo.jpg'
@@ -16,6 +15,9 @@ import Paytmlogo from '../../../images/paytmlogo.png'
 import Centrallogo from '../../../images/centrallogo.jpg'
 
 function AddBankList() {
+
+  const themetype = localStorage.getItem('themetype')
+
   return (
     <>
       <div>
@@ -24,22 +26,21 @@ function AddBankList() {
             <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
-          {/* <Menu /> */}
           <div>
-            <div className="content-wrapper">
+            <div className={`content-wrapper bg-${themetype}`}>
               <div className="container-fluid">
                 <br /> <h3 className="text-left ml-5">Connect your bank</h3>
                 <div className="row ">
-                  <div className="col ml-5">
+                  <div className="col ml-2">
                     <div className="card" style={{ width: "100%" }}>
-                      <article className="card-body">
+                      <article className={`card-body bg-${themetype}`}>
                         <form>
                           <div className="form-row">
                             <div className="col form-group">
                               <select
                                 id="gsttreatment"
-                                className="form-control col-md-6 pr-2">
-                                <option selected disabled>Find your Bank</option>
+                                className="form-control col-md-4 pr-2">
+                                <option value='' hidden>Find your Bank</option>
                                 <option>Allahabad Bank</option>
                                 <option>Andhra Bank</option>
                                 <option>Bank of Baroda</option>
@@ -63,7 +64,7 @@ function AddBankList() {
                                 <img src={Kotaklogo} alt="kotak bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col1">
-                                <img src={Idbilogo} alt="idbi bank" data-toggle="modal" data-target="#exampleModalCenter"/>
+                                <img src={Idbilogo} alt="idbi bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                             </div>
                             <div className="imgrow2">
@@ -71,7 +72,7 @@ function AddBankList() {
                                 <img src={Iciclogo} alt="icic bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col2">
-                                <img src={Canralogo} alt="canra bank" data-toggle="modal" data-target="#exampleModalCenter"/>
+                                <img src={Canralogo} alt="canra bank" data-toggle="modal" data-target="#exampleModalCenter" />
                               </div>
                               <div className="col2">
                                 <img src={Pnblogo} alt="pnb bank" data-toggle="modal" data-target="#exampleModalCenter" />
@@ -107,7 +108,7 @@ function AddBankList() {
                           </div>
                         </div>
                       </article>
-                      <div className="border-top card-body">
+                      <div className={`border-top card-footer bg-${themetype}`}>
                         <button className="btn btn-danger" onClick={() => window.location.href = 'AddBank'}>Add Bank Manually</button>
                         <button className="btn btn-light ml-3" onClick={() => window.location.href = 'TotalBank'}>Cancel</button>
                       </div>
@@ -119,12 +120,12 @@ function AddBankList() {
               </div>
             </div>
           </div>
-          <Footer />
+          <Footer theme={themetype}/>
         </div>
-                {/*########################### Modal Start ################################*/}
-                <div className="modal fade " id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        {/*########################### Modal Start ################################*/}
+        <div className="modal fade " id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLongTitle">Select Account Type</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">

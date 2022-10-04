@@ -9,6 +9,8 @@ const Addcity = () => {
   const [selectState, setSelectState] = useState([]);
   const [cityidno,setCityidno]= useState();
 
+  const themetype = localStorage.getItem('themetype')
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -57,13 +59,13 @@ const Addcity = () => {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add City</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
@@ -119,7 +121,7 @@ const Addcity = () => {
                             <input type="text" className="form-control col-md-4" id='city_name' />
                           </div>
                         </div>
-                        <div className="border-top card-body">
+                        <div className={`border-top card-footer bg-${themetype}`}>
                           <button type='submit' className="btn btn-success" onClick={handleClick} >Save</button>
                           <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                         </div>
@@ -132,7 +134,7 @@ const Addcity = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

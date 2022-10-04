@@ -10,70 +10,75 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
 
 
-const columns = [
-  {
-    name: 'Country Name',
-    selector: 'country_name',
-    sortable: true
-  },
-
-  {
-    name: 'State Code',
-    selector: 'state_name',
-    sortable: true
-  },
-
-  {
-    name: 'City Name',
-    selector: 'city_name',
-    sortable: true
-  },
-  {
-    name: 'City ID',
-    selector: 'city_id',
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await deleteCity(row.sno, status)
-          window.location.href = 'ShowCity'
-        }
-        }>
-          <option value={row.status} hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-  {
-    name: "Actions",
-    sortable: false,
-
-    selector: "null",
-    cell: (row) => [
-
-      <a title='View Document' href="EditCity" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
-
-    ]
-  }
-
-
-]
-
 const Showcity = () => {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+
+  const themetype = localStorage.getItem('themetype')
+
+
+  const columns = [
+    {
+      name: 'Country Name',
+      selector: 'country_name',
+      sortable: true
+    },
+
+    {
+      name: 'State Code',
+      selector: 'state_name',
+      sortable: true
+    },
+
+    {
+      name: 'City Name',
+      selector: 'city_name',
+      sortable: true
+    },
+    {
+      name: 'City ID',
+      selector: 'city_id',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => [
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+          <select className={`bg-${themetype}`} onChange={async (e) => {
+            const status = e.target.value;
+            await deleteCity(row.sno, status)
+            window.location.href = 'ShowCity'
+          }
+          }>
+            <option value={row.status} hidden> {row.status}</option>
+            <option value='Active'>Active</option>
+            <option value='Deactive' >Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+    {
+      name: "Actions",
+      sortable: false,
+
+      selector: "null",
+      cell: (row) => [
+
+        <a title='View Document' href="EditCity" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+          <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
+
+      ]
+    }
+
+
+  ]
+
+
 
   //##########################  Upload data start  #################################
 
@@ -175,6 +180,9 @@ const Showcity = () => {
     columns, data
   }
 
+  const styleborder = {
+    border: "1px solid black"
+  }
   return (
     <div>
       <div className="wrapper">
@@ -183,7 +191,7 @@ const Showcity = () => {
         </div>
         <Header />
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcity" }} className="btn btn-primary">Add City</button>
             <button type="button" id='uploadcitybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
@@ -193,9 +201,9 @@ const Showcity = () => {
               <h3 className="text-left ml-5">City</h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -205,6 +213,7 @@ const Showcity = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
@@ -216,7 +225,7 @@ const Showcity = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype} />
         {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
@@ -227,7 +236,7 @@ const Showcity = () => {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -242,7 +251,6 @@ const Showcity = () => {
                 </button>
               </div>
               <div className="modal-body">
-
                 <div className=" ">
                   <label
                     htmlFor="user_name"
@@ -255,7 +263,7 @@ const Showcity = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control"
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                       required="required"
                     />
@@ -295,9 +303,8 @@ const Showcity = () => {
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
         >
-
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -316,10 +323,8 @@ const Showcity = () => {
                     &times;</span>
                 </button>
               </div>
-              {/* <div className="modal-body"> */}
               <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
                 {
-
                   backenddata ?
                     <>
                       <h5>This data already exist</h5>
@@ -327,22 +332,21 @@ const Showcity = () => {
                         <thead>
                           <tr>
 
-                            <th style={{ border: "1px solid black" }}>city_id</th>
-                            <th style={{ border: "1px solid black" }}>city_name</th>
+                            <th style={styleborder}>city_id</th>
+                            <th style={styleborder}>city_name</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
                             duplicateData.map((d, index) => (
-                              <tr key={index} style={{ border: "1px solid black" }}>
+                              <tr key={index} style={styleborder}>
 
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_id}</td>
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.city_name}</td>
+                                <td className='text-center' style={styleborder}>{d.city_id}</td>
+                                <td className='text-center' style={styleborder}>{d.city_name}</td>
                               </tr>
                             ))
                           }
                         </tbody>
-                        <tfoot></tfoot>
                         <br /><br />
                       </table>
                     </>
@@ -352,31 +356,29 @@ const Showcity = () => {
                 <table >
                   <thead>
                     <tr>
-                      <th style={{ border: "1px solid black" }}>country_name</th>
-                      <th style={{ border: "1px solid black" }}>state_name</th>
-                      <th style={{ border: "1px solid black" }}>city_id</th>
-                      <th style={{ border: "1px solid black" }}>city_name</th>
+                      <th style={styleborder}>country_name</th>
+                      <th style={styleborder}>state_name</th>
+                      <th style={styleborder}>city_id</th>
+                      <th style={styleborder}>city_name</th>
                     </tr>
 
                   </thead>
                   <tbody>
                     {
                       importdata.map((d, index) => (
-                        <tr key={index} style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.country_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.state_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.city_id}</td>
-                          <td style={{ border: "1px solid black" }}>{d.city_name}</td>
+                        <tr key={index} style={styleborder}>
+                          <td style={styleborder}>{d.country_name}</td>
+                          <td style={styleborder}>{d.state_name}</td>
+                          <td style={styleborder}>{d.city_id}</td>
+                          <td style={styleborder}>{d.city_name}</td>
 
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
-            {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} >
               <button
                 type="button"
                 className="btn btn-secondary"

@@ -13,6 +13,9 @@ const AddItem = () => {
     const themeval = localStorage.getItem('themetype')
     const [glcode, setglcode] = useState([]);
 
+    const themetype = localStorage.getItem('themetype')
+
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -22,7 +25,6 @@ const AddItem = () => {
             setUnitdata(result1)
 
             const result2 = await ShowGlCode(localStorage.getItem("Organisation"));
-            console.log(result2)
             setglcode(result2)
         }
         fetchdata()
@@ -32,7 +34,6 @@ const AddItem = () => {
     const handlegetchartofaccount = async (e) => {
         const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), e.target.value)
         setChartofaccountlist(chartofaccount)
-        console.log(chartofaccount)
     }
 
     const handletype = (e) => {
@@ -58,7 +59,6 @@ const AddItem = () => {
     }
 
     const handleSubgl = (e) => {
-        console.log(document.getElementById('checkboxgst').checked)
         if (document.getElementById('checkboxgst').checked == true) {
             document.getElementById('gldiv').style.display = 'flex'
         }
@@ -88,8 +88,6 @@ const AddItem = () => {
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
         const [glcode, glname] = document.getElementById('glcode').value.split(',')
-        console.log(glcode, glname)
-
 
         if (!Name || !major_code || !taxpreference) {
             alert('Please Enter the mandatory field')
@@ -117,15 +115,14 @@ const AddItem = () => {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                {/* <Menu /> */}
                 <div>
-                    <div className="content-wrapper">
+                    <div className={`content-wrapper bg-${themetype}`}>
                         <div className="container-fluid">
                             <br /> <h3 className="text-left ml-5">Add Item</h3>
                             <div className="row ">
                                 <div className="col ">
                                     <div className="card" >
-                                        <article className="card-body">
+                                        <article className={`card-body bg-${themetype}`}>
                                             <form autoComplete='off'>
                                                 <div className="form-row" >
                                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
@@ -200,12 +197,7 @@ const AddItem = () => {
                                                         <input className="form-control col-md-4" type="text" id="saccode" />
                                                     </div>
                                                 </div>
-                                                {/* <div className="form-row">
-                                                    <label htmlFor="nature" className="col-md-2 col-form-label font-weight-normal">Nature<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='nature' />
-                                                    </div>
-                                                </div> */}
+
                                                 <div className="form-row">
                                                     <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
@@ -257,18 +249,7 @@ const AddItem = () => {
                                                     </div>
 
                                                 </div>
-                                                {/* <div className="form-row">
-                                                    <label htmlFor="activity" className="col-md-2 col-form-label font-weight-normal">Activity<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='activity' />
-                                                    </div>
-                                                </div> */}
-                                                {/* <div className="form-row">
-                                                    <label htmlFor="sacHsncoe" className="col-md-2 col-form-label font-weight-normal">SAC/HSN Code<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='sacHsncode' />
-                                                    </div>
-                                                </div> */}
+
                                                 <div className="form-row" id="defaulttax" style={{ display: "none" }}>
                                                     <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">

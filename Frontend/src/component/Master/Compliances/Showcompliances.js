@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { showcompliances, Compliancestatus,ImportCompliances } from '../../../api';
+import { showcompliances, Compliancestatus, ImportCompliances, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -11,91 +10,92 @@ import * as XLSX from "xlsx";
 
 
 
-const columns = [
-  {
-    name: 'Compliance Type',
-    selector: row => row.compliance_type,
-    sortable: true
-  },
-  {
-    name: 'Nature',
-    selector: row => row.nature,
-    sortable: true
-  },
-  {
-    name: 'Period',
-    selector: row => row.period,
-    sortable: true
-  },
-  {
-    name: 'Period name ',
-    selector: row => row.period_name,
-    sortable: true
-  },
-  {
-    name: 'To Date',
-    selector: row => row.to_month,
-    sortable: true
-  },
-  {
-    name: 'From Date',
-    selector: row => row.from_month,
-    sortable: true
-  },
-  {
-    name: 'Due Date',
-    selector: row => row.due_date,
-    sortable: true
-  },
-  {
-    name: 'Extended Date',
-    selector: row => row.extended_date,
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: row => row.null,
-    cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const org = localStorage.getItem("Organisation")
-          const status = e.target.value;
-          await Compliancestatus(org, row.sno, status)
-          window.location.href = 'Showcompliances'
-        }
-        }>
-          <option hidden selected value={row.status}> {row.status}</option>
-          <option >Active</option>
-          <option >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  {
-    name: "Actions",
-    sortable: false,
-
-    selector: row => row.null,
-    cell: (row) => [
-
-      <a title='View Document' href="Editcompliances">
-        <button className="editbtn btn-success "
-        onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)}
-        >Edit</button></a>,
-
-    ]
-  }
-
-
-]
-
-
 function Showcompliances() {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
+
+  const themetype = localStorage.getItem('themetype')
+
+
+  const columns = [
+
+    {
+      name: 'Compliance Type',
+      selector: row => row.compliance_type,
+      sortable: true
+    },
+    {
+      name: 'Nature',
+      selector: row => row.nature,
+      sortable: true
+    },
+    {
+      name: 'Period',
+      selector: row => row.period,
+      sortable: true
+    },
+    {
+      name: 'Period name ',
+      selector: row => row.period_name,
+      sortable: true
+    },
+    {
+      name: 'To Date',
+      selector: row => row.to_month,
+      sortable: true
+    },
+    {
+      name: 'From Date',
+      selector: row => row.from_month,
+      sortable: true
+    },
+    {
+      name: 'Due Date',
+      selector: row => row.due_date,
+      sortable: true
+    },
+    {
+      name: 'Extended Date',
+      selector: row => row.extended_date,
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: row => row.null,
+      cell: (row) => [
+        <div className='droplist'  >
+          <select className={`bg-${themetype}`} id={`deleteselect${row.sno}`} disabled onChange={async (e) => {
+            const org = localStorage.getItem("Organisation")
+            const status = e.target.value;
+            await Compliancestatus(org, row.sno, status)
+            window.location.href = 'Showcompliances'
+          }}>
+            <option hidden value={row.status}> {row.status}</option>
+            <option >Active</option>
+            <option >Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+
+    {
+      name: "Actions",
+      sortable: false,
+      selector: row => row.null,
+      cell: (row) => [
+
+        <a title='View Document' href="Editcompliances" id={`editactionbtns${row.sno}`} style={{ display: "none" }} >
+          <button className="editbtn btn-success "
+            onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)}
+          >Edit</button></a>
+
+      ]
+    }
+
+
+  ]
 
 
   //##########################  Upload data start  #################################
@@ -113,7 +113,7 @@ function Showcompliances() {
       window.location.reload()
     }
     else {
-      const result = await ImportCompliances(importdata,localStorage.getItem("User_id"),localStorage.getItem('Organisation'));
+      const result = await ImportCompliances(importdata, localStorage.getItem("User_id"), localStorage.getItem('Organisation'));
       if (result == "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
@@ -167,16 +167,38 @@ function Showcompliances() {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect( () => {
-    const fetchdata =async ()=>{
-    const result = await showcompliances(localStorage.getItem('Organisation'))
-    setData(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+      const result = await showcompliances(org)
+      setData(result)
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
+      if (UserRights.compliances_create === 'true') {
+        document.getElementById('addcompbtn').style.display = "block"
+        document.getElementById('uploadcompbtn').style.display = "block"
+      }
+      if (UserRights.compliances_edit === 'true') {
+        for (var i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.compliances_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).disabled= false
+
+        }
+      }
     }
     fetchdata();
   }, [])
 
   const tableData = {
     columns, data
+  }
+
+  const styleborder = {
+    border: "1px solid black"
   }
 
   return (
@@ -186,52 +208,41 @@ function Showcompliances() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
+            <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
 
             <div className="container-fluid">
               <br />
-
-              <h3 className="text-left ml-5">Compliances</h3>
-              <br />
+              <h3 className="text-left ml-5" >Compliances</h3>
               <div className="row ">
-                <div className="col ml-3">
+                <div className="col">
                   <div className="card" style={{ width: "100%" }}>
-
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
-                        {...tableData}
-                      >
+                        {...tableData}>
                         <DataTable
                           noHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
                     </article>
-
-
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
-
         </div>
 
 
-        <Footer />
+        <Footer theme={themetype} />
         {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
@@ -242,7 +253,7 @@ function Showcompliances() {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -270,7 +281,7 @@ function Showcompliances() {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -309,7 +320,7 @@ function Showcompliances() {
         >
 
           <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -330,37 +341,36 @@ function Showcompliances() {
               </div>
               <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
 
-
                 <table >
                   <thead><tr>
-                    <th style={{ border: "1px solid black" }}>compliance_type</th>
-                    <th style={{ border: "1px solid black" }}>nature</th>
-                    <th style={{ border: "1px solid black" }}>period</th>
-                    <th style={{ border: "1px solid black" }}>period_name</th>
-                    <th style={{ border: "1px solid black" }}>from_month</th>
-                    <th style={{ border: "1px solid black" }}>to_month</th>
-                    <th style={{ border: "1px solid black" }}>from_applicable</th>
-                    <th style={{ border: "1px solid black" }}>due_date</th>
-                    <th style={{ border: "1px solid black" }}>extended_date</th>
-                    <th style={{ border: "1px solid black" }}>document_url</th>
-                    <th style={{ border: "1px solid black" }}>remark</th>
+                    <th style={styleborder}>compliance_type</th>
+                    <th style={styleborder}>nature</th>
+                    <th style={styleborder}>period</th>
+                    <th style={styleborder}>period_name</th>
+                    <th style={styleborder}>from_month</th>
+                    <th style={styleborder}>to_month</th>
+                    <th style={styleborder}>from_applicable</th>
+                    <th style={styleborder}>due_date</th>
+                    <th style={styleborder}>extended_date</th>
+                    <th style={styleborder}>document_url</th>
+                    <th style={styleborder}>remark</th>
                   </tr>
                   </thead>
                   <tbody>
                     {
                       importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.compliance_type}</td>
-                          <td style={{ border: "1px solid black" }}>{d.nature}</td>
-                          <td style={{ border: "1px solid black" }}>{d.period}</td>
-                          <td style={{ border: "1px solid black" }}>{d.period_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.from_month}</td>
-                          <td style={{ border: "1px solid black" }}>{d.to_month}</td>
-                          <td style={{ border: "1px solid black" }}>{d.from_applicable}</td>
-                          <td style={{ border: "1px solid black" }}>{d.due_date}</td>
-                          <td style={{ border: "1px solid black" }}>{d.extended_date}</td>
-                          <td style={{ border: "1px solid black" }}>{d.document_url}</td>
-                          <td style={{ border: "1px solid black" }}>{d.remark}</td>
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.compliance_type}</td>
+                          <td style={styleborder}>{d.nature}</td>
+                          <td style={styleborder}>{d.period}</td>
+                          <td style={styleborder}>{d.period_name}</td>
+                          <td style={styleborder}>{d.from_month}</td>
+                          <td style={styleborder}>{d.to_month}</td>
+                          <td style={styleborder}>{d.from_applicable}</td>
+                          <td style={styleborder}>{d.due_date}</td>
+                          <td style={styleborder}>{d.extended_date}</td>
+                          <td style={styleborder}>{d.document_url}</td>
+                          <td style={styleborder}>{d.remark}</td>
                         </tr>
                       ))
                     }</tbody>
@@ -368,15 +378,14 @@ function Showcompliances() {
                 </table>
               </div>
             </div>
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`}>
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
                   document.getElementById("showdataModal").style.display = "none";
                   window.location.reload()
-                }}
-              >
+                }}>
                 Cancel
               </button>
               <button type="button"
