@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { TotalPaymentTerm, DeletePaymentTerm, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ActiveVendor, InsertCrm, ActiveUser } from "../../../api";
+import { ActiveCustomer, ActiveVendor, InsertCrm } from "../../../api";
 import Select from 'react-select';
 
 const AddCrm = () => {
@@ -10,8 +9,10 @@ const AddCrm = () => {
     const [customerlist, setCustomerlist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
-    const [userlist, setUserlist] = useState([]);
     const [typeselect, setTypeSelect] = useState('Vendor')
+
+    const themeval = localStorage.getItem('themetype')
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -20,8 +21,6 @@ const AddCrm = () => {
             setCustomerlist(customer)
             const vendor = await ActiveVendor(org)
             setVendorlist(vendor)
-            const User = await ActiveUser()
-            setUserlist(User)
 
         }
         fetchdata()
@@ -43,20 +42,19 @@ const AddCrm = () => {
         let formatted_date = year + "-" + month + "-" + day;
         // let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" + to_date.getDate()
 
-console.log(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'),from_date,formatted_date)
-        // if (!crmtypes || !person_name || !cust_vend_name) {
-        //     alert('Enter data')
-        // }
-        // else {
-        //     const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'),from_date,formatted_date);
-        //     if (result === "Added") {
-        //         alert('Data Added')
-        //         window.location.href = '/ShowCrm'
-        //     }
-        //     else {
-        //         alert('Server not Response')
-        //     }
-        // }
+        if (!crmtypes || !person_name || !cust_vend_name) {
+            alert('Enter data')
+        }
+        else {
+            const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'), from_date, formatted_date);
+            if (result === "Added") {
+                alert('Data Added')
+                window.location.href = '/ShowCrm'
+            }
+            else {
+                alert('Server not Response')
+            }
+        }
 
     }
 
@@ -93,15 +91,14 @@ console.log(localStorage.getItem('Organisation'), person_name, crmtypes, cust_ve
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                {/* <Menu /> */}
                 <div>
-                    <div className="content-wrapper">
+                    <div className={`content-wrapper bg-${themeval}`}>
                         <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Add CRM </h3>
+                            <br /> <h3 className="text-left ml-5">Add CRM </h3><br />
                             <div className="row ">
-                                <div className="col ml-5">
+                                <div className="col ml-2">
                                     <div className="card" style={{ width: "100%" }}>
-                                        <article className="card-body">
+                                        <article className={`card-body bg-${themeval}`}>
                                             <form>
 
                                                 <div className="form-row">
@@ -116,14 +113,6 @@ console.log(localStorage.getItem('Organisation'), person_name, crmtypes, cust_ve
                                                     <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type='text' className="form-control col-md-4" id='person_name' required />
-
-                                                        {/* <select className="form-control col-md-4" id='person_name' >
-                                                            <option hidden>Select the Person name</option>
-                                                            {
-                                                                userlist.map((item, index) =>
-                                                                    <option key={index}>{item.employee_name}</option>)
-                                                            }
-                                                        </select> */}
 
                                                     </div>
                                                 </div>
@@ -156,7 +145,7 @@ console.log(localStorage.getItem('Organisation'), person_name, crmtypes, cust_ve
                                                         <input type="Date" className="form-control col-md-4" id='from_date' />
                                                     </div>
                                                 </div>
-                                                <div className="border-top card-body">
+                                                <div className={`border-top card-footer bg-${themeval}`}>
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
                                                     <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCrm" }}>Cancel</button>
                                                 </div>
@@ -169,7 +158,7 @@ console.log(localStorage.getItem('Organisation'), person_name, crmtypes, cust_ve
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themeval} />
             </div>
         </div>
     )

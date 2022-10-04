@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor, ActiveUser } from "../../../api";
 import Select from 'react-select';
@@ -9,10 +8,12 @@ const EditCrm = () => {
     const [crmtype, setCrmType] = useState(false)
     const [crmtypeval, setCrmtypeval] = useState('');
     const [data, setData] = useState([])
-    const [userlist, setUserlist] = useState([])
     const [customerlist, setCustomerlist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
+
+    const themeval = localStorage.getItem('themetype')
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -22,8 +23,6 @@ const EditCrm = () => {
             const vendor = await ActiveVendor(org)
             setVendorlist(vendor)
 
-            const User = await ActiveUser()
-            setUserlist(User)
 
             const result = await GetCrm(org, localStorage.getItem('CrmmasterSno'))
             setData(result)
@@ -51,13 +50,13 @@ const EditCrm = () => {
         const crmtype = crmtypeval;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value ? custvendval.value : data.cust_vend;
-        const from_date= document.getElementById("from_date").value
+        const from_date = document.getElementById("from_date").value
 
         if (!crmtype || !person_name || !cust_vend_name) {
             alert('Enter data')
         }
         else {
-            const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'),from_date);
+            const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'), from_date);
             if (result === "Updated") {
                 alert('Data updated');
                 localStorage.removeItem('CrmmasterSno');
@@ -77,7 +76,7 @@ const EditCrm = () => {
     }
     const handleChangeDate = (e) => {
         setData({ ...data, Joindate: e.target.value })
-      }
+    }
 
     const handletype = (e) => {
         if (e.target.value === 'Customer') {
@@ -110,15 +109,14 @@ const EditCrm = () => {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                {/* <Menu /> */}
                 <div>
-                    <div className="content-wrapper">
+                    <div className={`content-wrapper bg-${themeval}`}>
                         <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Edit CRM Master</h3>
+                            <br /> <h3 className="text-left ml-5">Edit CRM Master</h3><br />
                             <div className="row ">
-                                <div className="col ml-5">
+                                <div className="col ml-2">
                                     <div className="card" style={{ width: "100%" }}>
-                                        <article className="card-body">
+                                        <article className={`card-body bg-${themeval}`}>
                                             <form>
 
                                                 <div className="form-row">
@@ -133,13 +131,7 @@ const EditCrm = () => {
                                                     <label htmlFor="person_name" className="col-md-2 col-form-label font-weight-normal">Person Name<span style={{ color: "red" }}>*</span></label>
                                                     <div className="col form-group">
                                                         <input type='text' className="form-control col-md-4" id='person_name' onChange={handlechangename} value={data.user_name} required />
-                                                        {/* <select className="form-control col-md-4" id='person_name' onChange={handlechangename} >
-                                                            <option value={data.user_name} hidden>{data.user_name}</option>
-                                                            {
-                                                                userlist.map((item, index) =>
-                                                                    <option key={index} value={item.employee_name}>{item.employee_name}</option>)
-                                                            }
-                                                        </select> */}
+                                                       
                                                     </div>
                                                 </div>
                                                 <div className="form-row">
@@ -169,12 +161,12 @@ const EditCrm = () => {
                                                 <div className="form-row">
                                                     <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Date</label>
                                                     <div className="col form-group">
-                                                        <input type="Date" className="form-control col-md-4" id='from_date' value={data.Joindate} 
-                                                                                      onChange={(e) => handleChangeDate(e)}
-                                                                                      />
+                                                        <input type="Date" className="form-control col-md-4" id='from_date' value={data.Joindate}
+                                                            onChange={(e) => handleChangeDate(e)}
+                                                        />
                                                     </div>
                                                 </div>
-                                                <div className="border-top card-body">
+                                                <div className={`border-top card-body bg-${themeval}`}>
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
                                                     <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('CrmmasterSno'); window.location.href = "./ShowCrm" }}>Cancel</button>
                                                 </div>
@@ -187,7 +179,7 @@ const EditCrm = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themeval} />
             </div>
         </div>
     )
