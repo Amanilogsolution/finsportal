@@ -1,69 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_countries.xlsx';
-import { deletecountry, ImportCountry ,Totalcountry} from '../../../api';
+import { deletecountry, ImportCountry, Totalcountry, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
-
-
-const columns = [
-  {
-    name: 'Country Name',
-    selector: 'country_name',
-    sortable: true
-  },
-  {
-    name: 'Country Code',
-    selector: 'country_code',
-    sortable: true
-  },
-  {
-    name: 'Country Id',
-    selector: 'country_id',
-    sortable: true
-  },
-  {
-    name: 'Country phone code',
-    selector: 'country_phonecode',
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await deletecountry(row.sno, status)
-          window.location.href = 'ShowCountry'
-        }
-        }>
-          <option value={row.status}  hidden> {row.status}</option>
-
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-  {
-    name: "Actions",
-    sortable: false,
-    selector: "null",
-    cell: (row) => [
-
-      <a title='View Document' href="EditCountry">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
-
-    ]
-  }
-]
-
 
 const ShowCountry = () => {
   const [data, setData] = useState([])
@@ -72,12 +15,70 @@ const ShowCountry = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
 
+  const themetype = localStorage.getItem('themetype')
+
+  const columns = [
+    {
+      name: 'Country Name',
+      selector: 'country_name',
+      sortable: true
+    },
+    {
+      name: 'Country Code',
+      selector: 'country_code',
+      sortable: true
+    },
+    {
+      name: 'Country Id',
+      selector: 'country_id',
+      sortable: true
+    },
+    {
+      name: 'Country phone code',
+      selector: 'country_phonecode',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => [
+        <div className='droplist'>
+          <select className={`bg-${themetype}`} id={`deleteselect${row.sno}`} disabled onChange={async (e) => {
+            const status = e.target.value;
+            await deletecountry(row.sno, status)
+            window.location.href = 'ShowCountry'
+          }
+          }>
+            <option value={row.status} hidden> {row.status}</option>
+
+            <option value='Active'>Active</option>
+            <option value='Deactive' >Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+    {
+      name: "Actions",
+      sortable: false,
+      selector: "null",
+      cell: (row) => [
+        <a title='View Document' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+          <button className="editbtn btn-success " onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
+
+      ]
+    }
+  ]
+
+
+
+
 
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
     importdata.map((d) => {
-      if (!d.country_code ||  !d.country_name ) {
+      if (!d.country_code || !d.country_name) {
         setErrorno(errorno++);
       }
     })
@@ -88,7 +89,7 @@ const ShowCountry = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportCountry(importdata,localStorage.getItem("User_id"));
+      const result = await ImportCountry(importdata, localStorage.getItem("User_id"));
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -143,16 +144,38 @@ const ShowCountry = () => {
     reader.readAsBinaryString(file);
   };
   //##########################  for convert excel to array end #################################
-  useEffect( () => {
-    const fetchdata=async()=>{
-    const result = await Totalcountry()
-    setData(result)}
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+      const result = await Totalcountry()
+      setData(result)
+
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
+      if (UserRights.country_create === 'true') {
+        document.getElementById('addcountrybtn').style.display = "block";
+        document.getElementById('uploadcountrybtn').style.display = "block";
+      }
+      if (UserRights.country_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.country_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).disabled = false;
+        }
+      }
+    }
     fetchdata();
   }, [])
- 
+
   const tableData = {
     columns, data
   };
+  const styleborder = {
+    border: "1px solid black"
+  }
 
   return (
 
@@ -163,20 +186,17 @@ const ShowCountry = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./AddCountry" }} className="btn btn-primary">Add Country</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='addcountrybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddCountry" }} className="btn btn-primary">Add Country</button>
+            <button type="button" id='uploadcountrybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">Country</h3>
-              <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
-
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -186,23 +206,20 @@ const ShowCountry = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
 
                     </article>
 
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
-        <Footer />
-        {/* ------------------ Modal start -----------------------------*/}\
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
+        <Footer theme={themetype} />
+        {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
           id="exampleModal"
@@ -212,7 +229,7 @@ const ShowCountry = () => {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -240,7 +257,7 @@ const ShowCountry = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -279,7 +296,7 @@ const ShowCountry = () => {
         >
 
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -307,22 +324,22 @@ const ShowCountry = () => {
                       <h5>This data already exist</h5>
                       <table style={{ color: "red" }}>
                         <thead>
-                        <tr>
-                          <th style={{ border: "1px solid black" }}>country_code</th>
-                          <th style={{ border: "1px solid black" }}>country_id</th>
-                          <th style={{ border: "1px solid black" }}>country_name</th>
-                          <th style={{ border: "1px solid black" }}>country_phonecode</th>
+                          <tr>
+                            <th style={styleborder}>country_code</th>
+                            <th style={styleborder}>country_id</th>
+                            <th style={styleborder}>country_name</th>
+                            <th style={styleborder}>country_phonecode</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
-                            duplicateData.map((d,index) => (
+                            duplicateData.map((d, index) => (
 
-                              <tr key={index} style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.country_code}</td>
-                                <td style={{ border: "1px solid black" }}>{d.country_id}</td>
-                                <td style={{ border: "1px solid black" }}>{d.country_name}</td>
-                                <td style={{ border: "1px solid black" }}>{d.country_phonecode}</td>
+                              <tr key={index} style={styleborder}>
+                                <td style={styleborder}>{d.country_code}</td>
+                                <td style={styleborder}>{d.country_id}</td>
+                                <td style={styleborder}>{d.country_name}</td>
+                                <td style={styleborder}>{d.country_phonecode}</td>
                               </tr>
                             ))
                           }
@@ -336,20 +353,20 @@ const ShowCountry = () => {
 
                 <table >
                   <thead><tr>
-                    <th style={{ border: "1px solid black" }}>country_code</th>
-                    <th style={{ border: "1px solid black" }}>country_id</th>
-                    <th style={{ border: "1px solid black" }}>country_name</th>
-                    <th style={{ border: "1px solid black" }}>country_phonecode</th>
-                    </tr>
+                    <th style={styleborder}>country_code</th>
+                    <th style={styleborder}>country_id</th>
+                    <th style={styleborder}>country_name</th>
+                    <th style={styleborder}>country_phonecode</th>
+                  </tr>
                   </thead>
                   <tbody>
                     {
-                      importdata.map((d,index) => (
-                        <tr key={index} style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.country_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.country_id}</td>
-                          <td style={{ border: "1px solid black" }}>{d.country_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.country_phonecode}</td>
+                      importdata.map((d, index) => (
+                        <tr key={index} style={styleborder}>
+                          <td style={styleborder}>{d.country_code}</td>
+                          <td style={styleborder}>{d.country_id}</td>
+                          <td style={styleborder}>{d.country_name}</td>
+                          <td style={styleborder}>{d.country_phonecode}</td>
                         </tr>
                       ))
                     }</tbody>
@@ -357,7 +374,7 @@ const ShowCountry = () => {
                 </table>
               </div>
             </div>
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} >
               <button
                 type="button"
                 className="btn btn-secondary"

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../../Header/Header";
-// import Menu from "../../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
-import { showLocation, InsertLocationAddress ,getCity} from '../../../../api'
+import { showLocation, InsertLocationAddress, getCity } from '../../../../api'
 
 
 function AddOrgAddress() {
-  const [pincount,setPincount] =useState();
+  const [pincount, setPincount] = useState();
   const [data, setData] = useState({});
-  const [citylist,setCitylist] =useState([])
+  const [citylist, setCitylist] = useState([])
+
+  const themeval = localStorage.getItem('themetype')
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -39,20 +41,21 @@ function AddOrgAddress() {
     to_date.setDate(to_date.getDate() - 1);
     let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" + to_date.getDate()
 
-    if(!location_city || !location_pin ||location_pin.length>6 ){
-    alert('Please Fill the mandatory field');
+    if (!location_city || !location_pin || location_pin.length > 6) {
+      alert('Please Fill the mandatory field');
     }
-    else{
+    else {
       const result = await InsertLocationAddress(localStorage.getItem('Organisation'), data.location_name, data.gstin_no, location_add1, location_add2, location_city, location_state, location_country, from_date, localStorage.getItem('location_id'), location_pin, formatted_date, User_id)
       if (result) {
         alert('Data Added')
+        localStorage.removeItem('location_id');
         window.location.href = '/TotalLocation'
       }
-      else{
+      else {
         alert('Server Error')
       }
     }
-   
+
   }
 
   return (
@@ -62,27 +65,26 @@ function AddOrgAddress() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Address</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_country' value={data.country} disabled/>
+                            <input type="text" className="form-control col-md-4" id='location_country' value={data.country} disabled />
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_state' value={data.state} disabled/>
+                            <input type="text" className="form-control col-md-4" id='location_state' value={data.state} disabled />
                           </div>
                         </div>
 
@@ -106,11 +108,11 @@ function AddOrgAddress() {
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
                           <div className="col form-group">
                             <select className="form-control col-md-4" id='location_city' >
-                            <option value='' hidden>Select City</option>
-                            {
-                              citylist.map((item,index)=>
-                              <option key={index} value={item.city_name}>{item.city_name}</option>)
-                            }
+                              <option value='' hidden>Select City</option>
+                              {
+                                citylist.map((item, index) =>
+                                  <option key={index} value={item.city_name}>{item.city_name}</option>)
+                              }
                             </select>
                           </div>
                         </div>
@@ -120,7 +122,6 @@ function AddOrgAddress() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='location_add1' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -128,16 +129,15 @@ function AddOrgAddress() {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='location_add2' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
                           <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='location_pin' 
+                            <input type="number" className="form-control col-md-4" id='location_pin'
                               value={pincount}
-                              onChange={(e)=>{
-                                if(e.target.value.length === 7) return false;
+                              onChange={(e) => {
+                                if (e.target.value.length === 7) return false;
                                 setPincount(e.target.value);
                               }}
                             />
@@ -155,18 +155,15 @@ function AddOrgAddress() {
                     </article>
                     <div className="border-top card-body">
                       <button className="btn btn-success" onClick={handleClick}>Add</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )

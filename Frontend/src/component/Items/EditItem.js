@@ -11,6 +11,7 @@ const EditItem = () => {
     const [type, setType] = useState();
     const [unitdata, setUnitdata] = useState([]);
 
+    const themetype = localStorage.getItem('themetype')
 
 
     useEffect(() => {
@@ -155,13 +156,13 @@ const EditItem = () => {
                 <Header />
                 {/* <Menu /> */}
                 <div>
-                    <div className="content-wrapper">
+                    <div className={`content-wrapper bg-${themetype}`}>
                         <div className="container-fluid">
                             <br /> <h3 className="text-left ml-5">Edit Item</h3>
                             <div className="row ">
-                                <div className="col ml-5">
+                                <div className="col ml-2">
                                     <div className="card" style={{ width: "100%" }}>
-                                        <article className="card-body">
+                                        <article className={`card-body bg-${themetype}`}>
                                             <form autoComplete='off'>
                                                 <div className="form-row" >
                                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
@@ -261,7 +262,7 @@ const EditItem = () => {
                                                         <input type="number" className="form-control col-md-4" id='gstrate' value={data.gst_rate} maxLength={3} onChange={handleGst_rate} />
                                                     </div>
                                                 </div>
-                                                <div className="border-top card-body">
+                                                <div className="border-top card-footer">
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
                                                     <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('ChargecodeSno'); window.location.href = "./ShowItem" }}>Cancel</button>
                                                 </div>
@@ -274,7 +275,7 @@ const EditItem = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themetype}/>
             </div>
         </div>
     )

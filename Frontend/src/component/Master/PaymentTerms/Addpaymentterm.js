@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { InsertPaymentTerm } from "../../../api";
 
 
 const AddPaymentTerm = () => {
+  const themeval = localStorage.getItem('themetype')
+
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -36,15 +37,14 @@ const AddPaymentTerm = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Payment Term</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
 
                         <div className="form-row">
@@ -61,7 +61,7 @@ const AddPaymentTerm = () => {
                           </div>
                         </div>
 
-                        <div className="border-top card-body">
+                        <div className={`border-top card-footer bg-${themeval}`}>
                           <button type='submit' className="btn btn-success" onClick={handleClick}>Save</button>
                           <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                         </div>
@@ -75,7 +75,7 @@ const AddPaymentTerm = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval}/>
       </div>
     </div>
   )

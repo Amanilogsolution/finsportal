@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { showBank, updateBank,Activecountries, showactivestate, getCity } from '../../../api'
 
@@ -10,6 +9,9 @@ const EditBank = () => {
   const [statelist,setStatelist]= useState([])
   const [citylist,setCitylist]= useState([])
   const [type, setType] = useState('')
+
+  const themetype = localStorage.getItem('themetype')
+
 
   useEffect(async () => {
     const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
@@ -125,13 +127,13 @@ const EditBank = () => {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit Bank</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
                         <div className="form-row" onChange={handleChange}>
                           <div className="col form-group" >
@@ -270,7 +272,7 @@ const EditBank = () => {
 
                       </form>
                     </article>
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themetype}`}>
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                     </div>
@@ -280,7 +282,7 @@ const EditBank = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

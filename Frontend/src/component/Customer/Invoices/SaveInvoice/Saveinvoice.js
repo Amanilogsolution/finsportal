@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
-import { GetSaveInvoice,getUserRolePermission } from '../../../../api';
+import { GetSaveInvoice, getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
@@ -33,8 +33,8 @@ const columns = [
     name: 'Branch',
     selector: 'location_name',
     sortable: true
-},
-  
+  },
+
   {
     name: "Actions",
     sortable: false,
@@ -42,7 +42,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-       <button  type="button"  id={`editactionbtns${row.sno}`} onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
+      <button type="button" id={`editactionbtns${row.sno}`} style={{ display: "none" }} onClick={() => { window.location.href = "EditInvoice"; localStorage.setItem('invoiceNo', row.invoice_no) }} className="btn btn-danger ml-3">Edit Invoice</button>
 
     ]
   }
@@ -52,25 +52,23 @@ const columns = [
 
 const InvoiceSave = () => {
   const [data, setData] = useState([])
-  const themetype= localStorage.getItem('themetype')
+  const themetype = localStorage.getItem('themetype')
 
 
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
-
+      
       const result = await GetSaveInvoice(org)
       setData(result)
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
-      console.log(UserRights)
-      if (UserRights.invoice_create === 'false') {
-        document.getElementById('addivoicebtn').style.display = "none"
+      if (UserRights.invoice_create === 'true') {
+        document.getElementById('addivoicebtn').style.display = "block"
       }
-
-      for (let i = 0; i <= result.length; i++) {
-        if (UserRights.invoice_edit === 'false') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+      if (UserRights.invoice_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
         }
       }
     }
@@ -89,14 +87,11 @@ const InvoiceSave = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Invoices" }} className="btn btn-primary">Add Invoice </button>
-
+            <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./Invoices" }} className="btn btn-primary">Add Invoice </button>
             <div className="container-fluid">
               <br />
-
               <h3 className="text-left ml-5"> Save Invoice </h3>
               <br />
               <div className="row ">
@@ -115,9 +110,7 @@ const InvoiceSave = () => {
                           theme={themetype}
                         />
                       </DataTableExtensions>
-
                     </article>
-
                   </div>
                 </div>
               </div>
@@ -128,7 +121,6 @@ const InvoiceSave = () => {
       </div>
     </div>
   )
-
 }
 
 export default InvoiceSave;

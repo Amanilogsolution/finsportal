@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { insertBank,Activecountries, showactivestate, getCity } from '../../../api';
 
@@ -10,6 +9,9 @@ const AddBank = () => {
   const [statelist,setStatelist] = useState([])
   const [citylist,setCitylist] = useState([])
   const [pincode, setPincode] = useState();
+
+  const themetype = localStorage.getItem('themetype')
+
 
   useEffect(()=>{
        const fetchdata=async()=>{
@@ -67,15 +69,14 @@ const AddBank = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Bank</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form autoComplete='off'>
                         <div className="form-row" onChange={handleChange}>
                           <div className="col form-group" >
@@ -85,8 +86,7 @@ const AddBank = () => {
                               <input
                                 className="form-check-input" type="radio"
                                 name="taxpreference"
-                                value="Bank"
-                              />Bank
+                                value="Bank"/>Bank
                             </label>
                             <label className="form-check form-check-inline">
                               <input
@@ -103,45 +103,37 @@ const AddBank = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='acname' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Code</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='account_code' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='account_no' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='bank_name' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='ifsc_code' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
-
-
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line1 </label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='address_line1' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -149,7 +141,6 @@ const AddBank = () => {
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='address_line2' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -188,7 +179,6 @@ const AddBank = () => {
                             }
                             </select>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -202,33 +192,27 @@ const AddBank = () => {
                               }}
                             />
                           </div>
-                          {/* form-group end.// */}
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Description</label>
                           <div className="col form-group">
                             <textarea className="form-control col-md-4" id="description" rows="3"></textarea>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                       </form>
                     </article>
-                    {/* card-body end .// */}
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themetype}`}>
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "AddBankList" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

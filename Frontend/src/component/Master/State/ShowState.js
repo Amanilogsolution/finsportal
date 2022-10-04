@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { getstates } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { deletestate, ImportState } from '../../../api';
+import { deletestate, ImportState, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_states.xlsx';
 
+const ShowState = () => {
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+
+  const themetype = localStorage.getItem('themetype')
 
 
 const columns = [
@@ -44,18 +51,16 @@ const columns = [
     sortable: true,
     selector: 'null',
     cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+        <select className={`bg-${themetype}`} onChange={async (e) => {
           const status = e.target.value;
           await deletestate(row.sno, status)
           window.location.href = 'ShowState'
-        }
-        }>
-          <option selected disabled hidden> {row.status}</option>
-
+        }}>
+          <option value={row.status} hidden> {row.status}</option>
 
           <option value='Active'>Active</option>
-          <option value='DeActive' >DeActive</option>
+          <option value='Deactive' >Deactive</option>
         </select>
       </div>
     ]
@@ -66,20 +71,14 @@ const columns = [
 
     selector: "null",
     cell: (row) => [
-      <a title='View Document' href="EditState">
+      <a title='View Document' href="EditState" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
-
     ]
   }
 ];
 
 
-const ShowState = () => {
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let   [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
+
 
   //##########################  Upload data start  #################################
 
@@ -96,7 +95,7 @@ const ShowState = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportState(importdata,localStorage.getItem('User_id'));
+      const result = await ImportState(importdata, localStorage.getItem('User_id'));
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -155,19 +154,36 @@ const ShowState = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(async () => {
-    const result = await getstates();
-    setData(result)
-  }, [])
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await getstates();
+      setData(result);
 
-  const handleClick = (e) => {
-    e.preventDefault()
-  }
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
+      if (UserRights.state_create === 'true') {
+        document.getElementById('addstatebtn').style.display = "block";
+        document.getElementById('uploadstatebtn').style.display = "block";
+      }
+      if (UserRights.state_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.state_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
+    }
+    fetchdata()
+  }, [])
 
   const tableData = {
     columns, data
   };
-
+  const styleborder = {
+    border: "1px solid black"
+  }
 
   return (
     <div>
@@ -176,20 +192,18 @@ const ShowState = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./StateMaster" }} className="btn btn-primary">Add State</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '3%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='addstatebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./StateMaster" }} className="btn btn-primary">Add State</button>
+            <button type="button" id='uploadstatebtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">State</h3>
-              <br />
               <div className="row " >
-                <div className="col ml-5" >
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                <div className="col ml-2" >
+                  <div className="card" >
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData} >
                         <DataTable
@@ -198,6 +212,7 @@ const ShowState = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
                     </article>
@@ -207,7 +222,7 @@ const ShowState = () => {
             </div>
           </div>
         </div>
-        {/* ------------------ Modal start -----------------------------*/}\
+        {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"
           id="exampleModal"
@@ -216,7 +231,7 @@ const ShowState = () => {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -243,7 +258,7 @@ const ShowState = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className="form-control "
+                      className={`form-control bg-${themetype}`}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -282,7 +297,7 @@ const ShowState = () => {
         >
 
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -310,26 +325,23 @@ const ShowState = () => {
                       <table style={{ color: "red", margin: "auto" }}>
                         <thead>
                           <tr>
-                            {/* <th style={{ border: "1px solid black" }}>country_name</th> */}
-                            <th style={{ border: "1px solid black" }}>state_name</th>
-                            <th style={{ border: "1px solid black" }}>state_code</th>
-                            <th style={{ border: "1px solid black" }}>state_short_name</th>
+                            <th style={styleborder}>state_name</th>
+                            <th style={styleborder}>state_code</th>
+                            <th style={styleborder}>state_short_name</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
                             duplicateData.map((d) => (
 
-                              <tr style={{ border: "1px solid black" }}>
-                                {/* <td style={{ border: "1px solid black" }}>{d.country_name}</td> */}
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.state_name}</td>
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.state_code}</td>
-                                <td style={{ border: "1px solid black", textAlign: "center" }}>{d.state_short_name}</td>
+                              <tr style={styleborder}>
+                                <td className='text-center' style={styleborder}>{d.state_name}</td>
+                                <td className='text-center' style={styleborder}>{d.state_code}</td>
+                                <td className='text-center' style={styleborder}>{d.state_short_name}</td>
                               </tr>
                             ))
                           }
                         </tbody>
-                        <tfoot></tfoot>
                         <br /><br />
                       </table>
                     </>
@@ -339,31 +351,30 @@ const ShowState = () => {
                 <table >
                   <thead>
                     <tr>
-                      <th style={{ border: "1px solid black" }}>country_name</th>
-                      <th style={{ border: "1px solid black" }}>state_name</th>
-                      <th style={{ border: "1px solid black" }}>state_code</th>
-                      <th style={{ border: "1px solid black" }}>state_short_name</th>
+                      <th style={styleborder}>country_name</th>
+                      <th style={styleborder}>state_name</th>
+                      <th style={styleborder}>state_code</th>
+                      <th style={styleborder}>state_short_name</th>
                     </tr>
 
                   </thead>
                   <tbody>
                     {
                       importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.country_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.state_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.state_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.state_short_name}</td>
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.country_name}</td>
+                          <td style={styleborder}>{d.state_name}</td>
+                          <td style={styleborder}>{d.state_code}</td>
+                          <td style={styleborder}>{d.state_short_name}</td>
 
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
             {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} >
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -384,7 +395,7 @@ const ShowState = () => {
           </div>
         </div>
         {/* ------------------ Modal end -----------------------------*/}
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { UpdateCurrency, showCurrency, Activecountries } from '../../../api';
 
 const EditCurrency = () => {
   const [data, setData] = useState([])
   const [selectCountry, setSelectCountry] = useState([])
+
+  const themetype = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -28,7 +29,7 @@ const EditCurrency = () => {
     const currency_name = document.getElementById('currency_name').value;
     const currency_code = document.getElementById('currency_code').value;
 
-    const result = await UpdateCurrency( localStorage.getItem("Organisation"), localStorage.getItem("User_id"),localStorage.getItem('CurrencySno'), country_name, country_code, currency_name, currency_code);
+    const result = await UpdateCurrency(localStorage.getItem("Organisation"), localStorage.getItem("User_id"), localStorage.getItem('CurrencySno'), country_name, country_code, currency_name, currency_code);
     if (result) {
       alert('Data Updated');
       localStorage.removeItem('CurrencySno')
@@ -55,15 +56,14 @@ const EditCurrency = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit Currency</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
 
                         <div className="form-row">
@@ -97,9 +97,9 @@ const EditCurrency = () => {
                       </form>
                     </article>
 
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themetype}`}>
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => {  localStorage.removeItem('CurrencySno');window.location.href = "./ShowCurrency" }}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('CurrencySno'); window.location.href = "./ShowCurrency" }}>Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -107,10 +107,11 @@ const EditCurrency = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype} />
       </div>
     </div>
   )
 
 }
+
 export default EditCurrency

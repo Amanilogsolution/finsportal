@@ -2,91 +2,87 @@ import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {addstates,Activecountries} from "../../../api";
+import { addstates, Activecountries } from "../../../api";
 
 
- const  StateMaster = () =>  {
-     const [select_type,setStateType] = useState();
-     const [selectCountry,setSelectCountry] = useState([]);
-     const [selectedCountry,setSelectedCountry] = useState('india');
+const StateMaster = () => {
+  const [select_type, setStateType] = useState();
+  const [selectCountry, setSelectCountry] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('india');
 
-     useEffect(async() => {
-       const result = await Activecountries()
-       setSelectCountry(result) 
-    }, [])
+  const themetype = localStorage.getItem('themetype')
 
-    const handleClick = async(e) => {
-        e.preventDefault();
-        const state_name = document.getElementById("State_name").value;
-        const state_code = document.getElementById("state_code").value;
-        const state_short_name = document.getElementById("State_Short_Name").value;
-      if(!state_name||!state_code||!state_short_name){
-        alert('Enter data')
-      }else{
-       const result =  await addstates(state_name,selectedCountry,state_code,state_short_name,select_type,localStorage.getItem('User_id'));
-       if(result == "Already"){
+
+  useEffect(async () => {
+    const result = await Activecountries()
+    setSelectCountry(result)
+  }, [])
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const state_name = document.getElementById("State_name").value;
+    const state_code = document.getElementById("state_code").value;
+    const state_short_name = document.getElementById("State_Short_Name").value;
+    if (!state_name || !state_code || !state_short_name) {
+      alert('Enter data')
+    } else {
+      const result = await addstates(state_name, selectedCountry, state_code, state_short_name, select_type, localStorage.getItem('User_id'));
+      if (result == "Already") {
         alert('Already')
-      }else{
+      } else {
         window.location.href = '/ShowState'
       }
     }
 
-    }
-    const handleChange = (e) => {
-        let data = e.target.value
-        setStateType(data)
-    }
-    const handleChangeCountry = (e) => {
-        let data = e.target.value
-        setSelectedCountry(data)
-    }
+  }
+  const handleChange = (e) => {
+    let data = e.target.value
+    setStateType(data)
+  }
+  const handleChangeCountry = (e) => {
+    let data = e.target.value
+    setSelectedCountry(data)
+  }
 
-    return (
-        <div>
+  return (
+    <div>
       <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add State</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
-                    
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-                            {/* <input type="text" className="form-control col-md-4" id='Country_name' placeholder /> */}
                             <select
                               id="inputState"
                               className="form-control col-md-4"
-                              onChange={handleChangeCountry}
-                            
-                            >
-                              <option selected default hidden value="India">India</option>
+                              onChange={handleChangeCountry} >
+                              <option  hidden value="India">India</option>
                               {
-                                selectCountry.map((data,index) => (
-                                    <option  key={index} value={data.country_name}>{data.country_name}</option>
+                                selectCountry.map((data, index) => (
+                                  <option key={index} value={data.country_name}>{data.country_name}</option>
                                 ))
-                                
+
                               }
                             </select>
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='State_name'   />
+                            <input type="text" className="form-control col-md-4" id='State_name' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -94,7 +90,6 @@ import {addstates,Activecountries} from "../../../api";
                           <div className="col form-group">
                             <input type="number" className="form-control col-md-4" id='state_code' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row">
@@ -102,56 +97,51 @@ import {addstates,Activecountries} from "../../../api";
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='State_Short_Name' />
                           </div>
-                          {/* form-group end.// */}
                         </div>
 
                         <div className="form-row" onChange={handleChange}>
-                              <div className="col form-group">
-                                <label
-                                  htmlFor="user_name"
-                                  className="col-md-2 col-form-label font-weight-normal"
-                                >
-                                    Select Type 
-                                </label>
+                          <div className="col form-group">
+                            <label
+                              htmlFor="user_name"
+                              className="col-md-2 col-form-label font-weight-normal"
+                            >
+                              Select Type
+                            </label>
 
-                                <label className="form-check form-check-inline">
-                                  <input
-                                    className="form-check-input"  type="radio"
-                                    name="taxpreference"
-                                    value="state"  
-                                  />State
-                                </label>
-                                <label className="form-check form-check-inline">
-                                  <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    name="taxpreference"
-                                    value="UT" 
-                                  />UT
-                                  
-                                </label>
-                              </div>
-                            </div>
+                            <label className="form-check form-check-inline">
+                              <input
+                                className="form-check-input" type="radio"
+                                name="taxpreference"
+                                value="state"
+                              />State
+                            </label>
+                            <label className="form-check form-check-inline">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="taxpreference"
+                                value="UT"
+                              />UT
+
+                            </label>
+                          </div>
+                        </div>
                       </form>
                     </article>
-                    {/* card-body end .// */}
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themetype}`}>
                       <button className="btn btn-success" onClick={handleClick}>Save</button>
-                      <button className="btn btn-light ml-3" onClick={()=>{window.location.href="./ShowState"}}>Cancel</button>
+                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                     </div>
                   </div>
-                  {/* card.// */}
                 </div>
-                {/* col.//*/}
               </div>
-              {/* row.//*/}
-            </div>   
+            </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype} />
       </div>
     </div>
-    )
+  )
 
 }
 

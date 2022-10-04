@@ -1,6 +1,6 @@
 import './header.css';
 import React, { useState, useEffect } from "react";
-import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs,GetfincialyearNavbar } from '../../api'
+import { showOrganisation, TotalOrganistion, UserLogout, LogoutLogs, getUserRole, GetfincialyearNavbar } from '../../api'
 import OrgLogo from "../../images/bg1.jpg";
 import profileimg from '../../images/profile.png'
 import Menu from '../Menu/Menu'
@@ -8,33 +8,88 @@ import Menu from '../Menu/Menu'
 
 const Header = () => {
   const [data, setData] = useState([])
-  const [financialyeardata,setFinancialYearData] = useState([])
+  const [financialyeardata, setFinancialYearData] = useState([])
   const themeval = localStorage.getItem('themetype') || 'light';
   const btntheme = localStorage.getItem('themebtncolor') || 'primary';
 
 
   useEffect(() => {
     const fetchdata = async (e) => {
+      const org = localStorage.getItem('Organisation')
+      const user_role = localStorage.getItem('Role')
+
+      const role = await getUserRole(org, user_role)
+
+      if (role.setting_all === 'true') {
+        document.getElementById('setting_all').style.display = "block"
+
+        if (role.org_profile_view === 'true') {
+          document.getElementById('org_profile').style.display = "block"
+        }
+        else {
+          document.getElementById('org_profile').style.display = "none"
+        }
+
+        if (role.fincial_year_view === 'true') {
+          document.getElementById('fincial_year_view').style.display = "block"
+        }
+        else {
+          document.getElementById('fincial_year_view').style.display = "none"
+        }
+
+        if (role.branch_view === 'true') {
+          document.getElementById('branchs').style.display = "block"
+        }
+        else {
+          document.getElementById('branchs').style.display = "none"
+        }
+
+        if (role.payment_terms_view === 'true') {
+          document.getElementById('payment_term').style.display = "block"
+        }
+        else {
+          document.getElementById('payment_term').style.display = "none"
+        }
+        if (role.crm_view === 'true') {
+          document.getElementById('crm_data').style.display = "block"
+        }
+        else {
+          document.getElementById('crm_data').style.display = "none"
+        }
+        if (role.compliances_view === 'true') {
+          document.getElementById('compliances').style.display = "block"
+        }
+        else {
+          document.getElementById('compliances').style.display = "none"
+        }
+        if (role.roles_view === 'true') {
+          document.getElementById('roles').style.display = "block"
+        }
+        else {
+          document.getElementById('roles').style.display = "none"
+        }
+      }
+      else {
+        document.getElementById('setting_all').style.display = "none"
+      }
+
       const organisation = await TotalOrganistion()
-      console.log(organisation)
       setData(organisation)
 
       const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
       setFinancialYearData(financialyear)
-      console.log(financialyear)
 
-      const result1 = await showOrganisation(localStorage.getItem('Organisation'))
+      const result1 = await showOrganisation(org)
       if (result1.org_logo) {
         localStorage.setItem('Orglogo', result1.org_logo)
       } else {
         localStorage.removeItem('Orglogo')
-
       }
-      const result = await showOrganisation(localStorage.getItem('Organisation Name'))
-      if (!result.org_gst) {
+      // const result = await showOrganisation(localStorage.getItem('Organisation Name'))
+      if (!result1.org_gst) {
         localStorage.setItem('gststatus', 'false')
       } else {
-        localStorage.setItem('gststatus', 'true')
+        localStorage.setItem('gststatus', true)
       }
     }
     fetchdata()
@@ -43,13 +98,13 @@ const Header = () => {
 
 
   const handleClick = async () => {
-    const result = await UserLogout(localStorage.getItem('User_id'),localStorage.getItem('User_name'),localStorage.getItem('themebtncolor'),localStorage.getItem('themetype'));
-    const result1 = await LogoutLogs(localStorage.getItem('User_id'), localStorage.getItem('Organisation'))
+    const User_id = localStorage.getItem('User_id')
+    const result = await UserLogout(User_id, localStorage.getItem('User_name'), localStorage.getItem('themebtncolor'), localStorage.getItem('themetype'));
+    const result1 = await LogoutLogs(User_id, localStorage.getItem('Organisation'))
     if (result.status === 'Logout') {
       localStorage.clear()
       window.location.href = '/'
     }
-
   }
 
   const handleswitchdata = (e) => {
@@ -75,7 +130,7 @@ const Header = () => {
     <div>
 
       <Menu theme={themeval} btncolor={btntheme} />
-  
+
       <nav className={`main-header navbar navbar-expand navbar-${themeval}`}>
         <ul className='navbar-nav'>
           <li className="nav-item">
@@ -91,33 +146,26 @@ const Header = () => {
         </ul>
 
         <ul className="navbar-nav ml-auto" style={{ position: "relative" }}>
-
-        <li className="nav-item dropdown" >
+          <li className="nav-item dropdown" >
             <a className="nav-link" data-toggle="dropdown">
               <b> Financial Year {localStorage.getItem('fin_year')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
-            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right"  style={{ border:"none"}}>
-
-              <div className="orgcard card" style={{width:"50%"}}>
-                
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right" style={{ border: "none" }}>
+              <div className="orgcard card" style={{ width: "50%" }}>
                 <ul className="list-group list-group-flush">
-    
                   {
                     financialyeardata.map((item, index) => (
-
                       <li key={index} className={`list-group-item bg-${themeval}`}>
                         <a href="#" style={{ color: "blue", }}>
                           {/* <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp; */}
                           <span className="orgnamehover" onClick={() => {
                             localStorage.setItem('fin_year', item.fin_year);
                             localStorage.setItem('year', item.year);
-
-                          
                             window.location.reload()
                           }
                           }>{item.fin_year}</span>
                         </a>
-                      
+
                       </li>
                     ))
                   }
@@ -128,28 +176,24 @@ const Header = () => {
             </div>
           </li>
 
-
+          {/*########################## All Organisation Start ################################# */}
           <li className="nav-item dropdown" >
             <a className="nav-link" data-toggle="dropdown">
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
-
               <div className="orgcard card " >
-                
-
                 <div className={`card-body bg-${themeval}`}>
                   <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo}
                     alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                 </div>
                 <ul className="list-group list-group-flush">
-                  
+
                   <li className={`list-group-item bg-${themeval}`}><b >My Orgaisation</b>
                     <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
                   </li>
                   {
                     data.map((item, index) => (
-
                       <li key={index} className={`list-group-item bg-${themeval}`}>
                         <a href="#" style={{ color: "blue", }}>
                           <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp;
@@ -157,8 +201,7 @@ const Header = () => {
                             localStorage.setItem('Organisation', item.org_db_name);
                             localStorage.setItem('Organisation Name', item.org_name);
                             window.location.reload()
-                          }
-                          }>{item.org_name}</span>
+                          }}>{item.org_name}</span>
                         </a>
                         <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right", cursor: "pointer" }}>
                           <i className={`fas fa-cog text-${btntheme}`} ></i> Manage</a>
@@ -171,7 +214,10 @@ const Header = () => {
 
             </div>
           </li>
-          <li className="nav-item dropdown" >
+          {/*########################## All Organisation Start ################################# */}
+
+          {/* ######################## Setting  Start #################################*/}
+          <li id='setting_all' className="nav-item dropdown" style={{display:"none"}}>
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="fas fa-cog"></i>
             </a>
@@ -181,30 +227,31 @@ const Header = () => {
                   <span style={{ fontSize: "20px" }}>Setting</span>
                 </div>
                 <ul className="list-group list-group-flush ">
-                  <a href="/EditOrganisation"> <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
+                  <a href="/EditOrganisation" id='org_profile' > <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
                     <b>Orgaisation profile</b> </li></a>
-                  <a href="ShowFincialyear"><li className={`list-group-item bg-${themeval}`}><i className={`fa fa-calendar text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/ShowFinancialyear" id='fincial_year_view'><li className={`list-group-item bg-${themeval}`}><i className={`fa fa-calendar text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Financial Year</b> </li></a>
-                  <a href="/TotalLocation"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/TotalLocation" id='branchs' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Branches</b> </li></a>
-                  <a href="/ShowPaymentTerm"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/ShowPaymentTerm" id='payment_term' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Payment Terms</b> </li></a>
-                  <a href="/ShowCrm"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-link text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                  <a href="/ShowCrm" id='crm_data' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-link text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>CRM Master</b> </li></a>
-                  <a href="/Showcompliances"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
+                  <a href="/Showcompliances" id='compliances' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>Compliances</b> </li></a>
-                    <a href="/AddRoles"> <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-users text-${btntheme}`} aria-hidden="true"></i>
+                  <a href="/AddRoles" id='roles' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-users text-${btntheme}`} aria-hidden="true"></i>
                     &nbsp;&nbsp;
                     <b>User Roles</b> </li></a>
                 </ul>
-
-
               </div>
             </div>
           </li>
 
-          <li className="nav-item dropdown ">
+          {/* ######################## Setting  END #################################*/}
+
+
+          <li className="nav-item dropdown " >
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="far fa-bell"></i>
               <span className={`badge badge-${btntheme} navbar-badge`}>15</span>
@@ -243,9 +290,9 @@ const Header = () => {
           <li className="nav-item profilediv dropdown p-0" >
             <a className="nav-link p-0" data-toggle="dropdown" href="#" >
               <div className="user-panel mr-7 p-0" >
-                <div className="image mr-3" style={{height:"40px",width:"40px",position:"relative",padding:"0%"}}>
+                <div className="image mr-3" style={{ height: "40px", width: "40px", position: "relative", padding: "0%" }}>
                   <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4 "
-                    alt="User Image" style={{border:"2px solid #fff", width:"100%",height:"100%" }} /></div></div>
+                    alt="User Image" style={{ border: "2px solid #fff", width: "100%", height: "100%" }} /></div></div>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
               <div className={`profilcard card bg-${themeval}`} >
@@ -273,7 +320,7 @@ const Header = () => {
                       <label className="switch">
                         {
                           themeval === 'dark' ?
-                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} checked /> :
+                            <input type="checkbox" id="switchbtn" onClick={handleswitchdata} defaultChecked /> :
                             <input type="checkbox" id="switchbtn" onClick={handleswitchdata} />
                         }
 

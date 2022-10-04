@@ -6,6 +6,8 @@ import { showcountry, updatecountry } from '../../../api'
 
 const EditCountry = () => {
   const [data, setData] = useState([])
+  const themetype = localStorage.getItem('themetype')
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -51,15 +53,14 @@ const EditCountry = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themetype}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit Country</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-1">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <form>
 
                         <div className="form-row">
@@ -89,7 +90,7 @@ const EditCountry = () => {
                             <input type="number" className="form-control col-md-4" id='country_phonecode' value={data.country_phonecode} onChange={(e) => handleChangeCp(e)} />
                           </div>
                         </div>
-                        <div className="border-top card-body">
+                        <div className={`border-top card-body bg-${themetype}`}>
                           <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
                           <button className="btn btn-light ml-3" onClick={() => {  localStorage.removeItem('countrySno');window.location.href = "./ShowState" }}>Cancel</button>
                         </div>
@@ -102,7 +103,7 @@ const EditCountry = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themetype}/>
       </div>
     </div>
   )

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { Showfincialyear, Statusfincialyear } from '../../../api';
+import { Showfincialyear, Statusfincialyear, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 
@@ -46,7 +45,7 @@ const columns = [
     selector: row => row.status,
     sortable: true,
     cell: (row) => [
-      <input type="checkbox" checked={row.status === 'Active' ? true : false} onChange={async () => {
+      <input type="checkbox" id={`deleteselect${row.sno}`} disabled checked={row.status === 'Active' ? true : false} onChange={async () => {
         const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
         if (result.rowsAffected[0]) { window.location.href = "./showfincialyear" }
       }} />
@@ -59,7 +58,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' href="/Updatefincialyear">
+      <a title='View Document' href="/Updatefincialyear" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -68,8 +67,9 @@ const columns = [
 
 ]
 
-const ShowFincialyear = () => {
+const ShowFinancialyear = () => {
   const [data, setData] = useState([{}])
+  const themetype = localStorage.getItem('themetype')
 
 
 
@@ -77,6 +77,21 @@ const ShowFincialyear = () => {
     const fetchdata = async () => {
       const result = await Showfincialyear(localStorage.getItem('Organisation'))
       setData(result)
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'fincial_year')
+      if (UserRights.fincial_year_create === 'true') {
+        document.getElementById('addfinsyearbtn').style.display = "block";
+      }
+      if (UserRights.fincial_year_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.fincial_year_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).disabled = false;
+        }
+      }
     }
 
     fetchdata();
@@ -93,20 +108,18 @@ const ShowFincialyear = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button " style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Year</button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button " id='addfinsyearbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary">New Financial Year</button>
 
             <div className="container-fluid">
               <br />
-
               <h3 className="text-left ml-5">Financial year</h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-1">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -116,11 +129,10 @@ const ShowFincialyear = () => {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
-
                     </article>
-
                   </div>
                 </div>
               </div>
@@ -128,11 +140,11 @@ const ShowFincialyear = () => {
           </div>
         </div>
 
-        <Footer />
+        <Footer theme={themetype} />
       </div>
     </div>
   )
 
 }
 
-export default ShowFincialyear
+export default ShowFinancialyear

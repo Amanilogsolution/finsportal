@@ -2,12 +2,22 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { TotalUnit, deleteUnit, ImportUnit } from '../../../api';
+import { TotalUnit, deleteUnit, ImportUnit, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/unit Formate.xlsx';
 import * as XLSX from "xlsx";
+
+
+const ShowUnit = () => {
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+
+  const themetype = localStorage.getItem('themetype')
 
 const columns = [
   {
@@ -26,15 +36,14 @@ const columns = [
     selector: 'null',
     cell: (row) => [
 
-      <div className='droplist'>
-        <select onChange={async (e) => {
+      <div className='droplist' id={`deletebtn${row.sno}`} style={{ display: "none" }}>
+        <select className={`bg-${themetype}`} onChange={async (e) => {
           const status = e.target.value;
-          await deleteUnit(row.sno, status,localStorage.getItem('Organisation'))
+          await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
           window.location.href = 'ShowUnit'
-          
         }
         }>
-          <option value={row.status}  hidden> {row.status}</option>
+          <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
         </select>
@@ -49,7 +58,7 @@ const columns = [
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' href="EditUnit">
+      <a title='View Document' id={`editbtn${row.sno}`} href="EditUnit" style={{ display: "none" }}>
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('unitSno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -57,12 +66,8 @@ const columns = [
 ]
 
 
-const ShowUnit = () => {
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
+
+
 
 
   //##########################  Upload data start  #################################
@@ -82,7 +87,7 @@ const ShowUnit = () => {
       window.location.reload()
     }
     else {
-      const result = await ImportUnit(importdata, localStorage.getItem('Organisation'),localStorage.getItem('User_id'));
+      const result = await ImportUnit(importdata, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
       if (!(result == "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
@@ -144,13 +149,35 @@ const ShowUnit = () => {
 
   useEffect(async () => {
     const Token = localStorage.getItem('Token')
-    const result = await TotalUnit(Token, localStorage.getItem('Organisation'))
+    const org = localStorage.getItem('Organisation');
+    const result = await TotalUnit(Token, org)
     setData(result)
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
+    if (UserRights.unit_create === 'true') {
+      document.getElementById('addunitbtn').style.display = "block"
+      document.getElementById('uploadunitbtn').style.display = "block"
+    }
+    if (UserRights.unit_edit === 'true') {
+      for (let i = 0; i < result.length; i++) {
+        document.getElementById(`editbtn${result[i].sno}`).style.display = "block"
+      }
+    }
+    if (UserRights.unit_delete === 'true') {
+      for (let i = 0; i < result.length; i++) {
+        document.getElementById(`deletebtn${result[i].sno}`).style.display = "block"
+      }
+    }
+
+
   }, [])
 
   const tableData = {
     columns, data
   };
+  const styleborder = {
+    border: "1px solid black"
+  }
 
   return (
     <div>
@@ -159,42 +186,38 @@ const ShowUnit = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary">Add Unit</button>
-            <button type="button" style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+          <div className={`content-wrapper bg-${themetype}`}>
+            <button type="button" id='addunitbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary">Add Unit</button>
+            <button type="button" id='uploadunitbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">Unit</h3>
               <br />
               <div className="row ">
-                <div className="col ml-5">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
-
+                <div className="col">
+                  <div className="card">
+                    <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
-                        {...tableData}
-                      >
+                        {...tableData}>
                         <DataTable
                           noHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
+                          theme={themetype}
                         />
                       </DataTableExtensions>
-
                     </article>
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <Footer />
-        {/* ------------------ Modal start -----------------------------*/}\
+        <Footer theme={themetype}/>
+        {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
         <div
           className="modal fade"
@@ -205,7 +228,7 @@ const ShowUnit = () => {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -219,7 +242,7 @@ const ShowUnit = () => {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
+              <div className={`modal-body bg-${themetype}`}>
 
                 <div className=" ">
                   <label
@@ -232,8 +255,8 @@ const ShowUnit = () => {
                     <input
                       id=""
                       type="file"
+                      className={`form-control bg-${themetype}`}
                       onChange={onChange}
-                      className="form-control "
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -270,7 +293,7 @@ const ShowUnit = () => {
         >
 
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
+            <div className={`modal-content bg-${themetype}`}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -306,16 +329,13 @@ const ShowUnit = () => {
                         <tbody>
                           {
                             duplicateData.map((d) => (
-
-                              <tr style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d.unit_name}</td>
-                                <td style={{ border: "1px solid black" }}>{d.unit_symbol}</td>
-
+                              <tr style={styleborder}>
+                                <td style={styleborder}>{d.unit_name}</td>
+                                <td style={styleborder}>{d.unit_symbol}</td>
                               </tr>
                             ))
                           }
                         </tbody>
-                        <tfoot></tfoot>
                         <br /><br />
                       </table>
                     </>
@@ -331,27 +351,23 @@ const ShowUnit = () => {
                   <tbody>
                     {
                       importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.unit_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.unit_symbol}</td>
-
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.unit_name}</td>
+                          <td style={styleborder}>{d.unit_symbol}</td>
                         </tr>
                       ))
                     }</tbody>
-                  <tfoot></tfoot>
                 </table>
               </div>
             </div>
-            {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className={`modal-footer bg-${themetype}`} style={{ background: "white" }}>
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
                   document.getElementById("showdataModal").style.display = "none";
                   window.location.reload()
-                }}
-              >
+                }}>
                 Cancel
               </button>
               <button type="button"

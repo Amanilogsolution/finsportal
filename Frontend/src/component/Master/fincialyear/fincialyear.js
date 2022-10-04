@@ -9,6 +9,9 @@ const Fincialyear = () => {
   const [from_date, setFromDate] = useState('YYYY')
   const [to_date, setToDate] = useState('YYYY')
 
+  const themeval = localStorage.getItem('themetype')
+
+
   const st = '' + to_date;
   const year = st.slice(2)
 
@@ -47,7 +50,7 @@ const Fincialyear = () => {
 
       if (result.rowsAffected[0] > 0) {
         alert("Data Added");
-        window.location.href = "./showfincialyear"
+        window.location.href = "./ShowFinancialyear"
       }
       else {
         alert("Server error !")
@@ -64,15 +67,14 @@ const Fincialyear = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Fincial Year</h3>
+              <br /> <h3 className="text-left ml-5">Financial Year</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
@@ -102,20 +104,20 @@ const Fincialyear = () => {
                           <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='invoiceser' maxLength={5} style={{ textTransform: "uppercase" }} />
-                            <small style={{ color: "red" }}>Invoice Series must be maximum 5 Character</small>
+                            <small >Invoice Series must be maximum 5 Character</small>
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
-                            <small style={{ color: "red" }}>Voucher Series must be maximum 4 Character</small>
+                            <small >Voucher Series must be maximum 4 Character</small>
                           </div>
                         </div>
 
                         <div className="border-top card-body">
                           <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
-                          <button className="btn btn-light ml-3" onClick={(e)=>{e.preventDefault(); window.location.href='./Home'}}>Cancel</button>
+                          <button className="btn btn-light ml-3" onClick={(e)=>{e.preventDefault(); window.location.href='./ShowFinancialyear'}}>Cancel</button>
                         </div>
                       </form>
                     </article>
@@ -126,7 +128,7 @@ const Fincialyear = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval}/>
       </div>
     </div>
   )

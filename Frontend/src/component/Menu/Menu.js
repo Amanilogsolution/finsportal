@@ -8,48 +8,107 @@ const Menu = (props) => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await getUserRole(localStorage.getItem('Organisation Name'), localStorage.getItem('Role'))
+      const result = await getUserRole(localStorage.getItem('Organisation'), localStorage.getItem('Role'))
+      Rolefunction(result)
+    }
+    fetchdata()
+  }, [])
 
+
+  const Rolefunction = (result) => {
+    console.log(result)
+    // ################  Items Roles #############
+    if (result.items_view === "true") {
+      document.getElementById('itemsmenu').style.display = "block"
+    }
+    else {
+      document.getElementById('itemsmenu').style.display = "none"
+    }
+    //  ###############  Sales ROle ###########
+    if (result.sales_all === 'true') {
+      document.getElementById('salesMenu').style.display = "block"
       if (result.customer_view === "true") {
         document.getElementById('CustomerMenu').style.display = "block"
+        document.getElementById('custaddressMenu').style.display = "block"
       } else {
         document.getElementById('CustomerMenu').style.display = "none"
+        document.getElementById('custaddressMenu').style.display = "none"
       }
-
-      if (result.vendor_view === "true") {
-        document.getElementById('VendorMenu').style.display = "block"
-      } else {
-        document.getElementById('VendorMenu').style.display = "none"
-      }
-
-      if (result.items_view === "true") {
-        document.getElementById('itemsmenu').style.display = "block"
-      } else {
-        document.getElementById('itemsmenu').style.display = "none"
-
-      }
-      if (result.banking_view === "true") {
-        document.getElementById('bankMenu').style.display = "block"
-      } else {
-        document.getElementById('bankMenu').style.display = "none"
-      }
-
       if (result.invoice_view === "true") {
         document.getElementById('Invoicemenu').style.display = "block"
       } else {
         document.getElementById('Invoicemenu').style.display = "none"
       }
-      if (result.bills_view === "true") {
-        document.getElementById('BillsMenu').style.display = "block"
+    }
+    else {
+      document.getElementById('salesMenu').style.display = "none"
+
+    }
+
+    // Purchase Menu ROle Start
+    if (result.purchases_all === 'true') {
+      document.getElementById('purchasesMenu').style.display = "block"
+      if (result.vendor_view === "true") {
+        document.getElementById('vendMenu').style.display = "block"
+        document.getElementById('vendaddMenu').style.display = "block"
       } else {
-        document.getElementById('BillsMenu').style.display = "none"
+        document.getElementById('vendMenu').style.display = "none"
+        document.getElementById('vendaddMenu').style.display = "none"
       }
 
-      if (result.chartof_accounts_view === "true") {
-        document.getElementById('COAMenu').style.display = "block"
+      if (result.bills_view === "true") {
+        document.getElementById('vendBillsMenu').style.display = "block"
       } else {
-        document.getElementById('COAMenu').style.display = "none"
+        document.getElementById('vendBillsMenu').style.display = "none"
+      }
+    }
+    else {
+      document.getElementById('purchasesMenu').style.display = "none"
+    }
+    // Purchase Menu ROle End
 
+    // Master Menu Roles Start
+    if (result.master_all === "true") {
+      document.getElementById('masterMenu').style.display = "block";
+
+      if (result.country_view === "true") {
+        document.getElementById('countrymenu').style.display = "block"
+      }
+      else {
+        document.getElementById('countrymenu').style.display = "none"
+      }
+
+      if (result.state_view === "true") {
+        document.getElementById('statemenu').style.display = "block"
+      }
+      else {
+        document.getElementById('statemenu').style.display = "none"
+      }
+      if (result.city_view === "true") {
+        document.getElementById('citymenu').style.display = "block"
+      }
+      else {
+        document.getElementById('citymenu').style.display = "none"
+      }
+      if (result.currency_view === "true") {
+        document.getElementById('currencymenu').style.display = "block"
+      }
+      else {
+        document.getElementById('currencymenu').style.display = "none"
+      }
+
+      if (result.unit_view === "true") {
+        document.getElementById('unitmenu').style.display = "block"
+      }
+      else {
+        document.getElementById('unitmenu').style.display = "none"
+      }
+
+
+      if (result.banking_view === "true") {
+        document.getElementById('bankMenu').style.display = "block"
+      } else {
+        document.getElementById('bankMenu').style.display = "none"
       }
 
       if (result.users_view === "true") {
@@ -58,10 +117,62 @@ const Menu = (props) => {
         document.getElementById('usermenu').style.display = "none"
 
       }
-    }
-    fetchdata()
 
-  }, [])
+      if (result.comp_type_view === "true") {
+        document.getElementById('comptypeMenu').style.display = "block"
+      }
+      else {
+        document.getElementById('comptypeMenu').style.display = "none"
+      }
+
+      if (result.employee_view === "true") {
+        document.getElementById('employeeMenu').style.display = "block"
+      }
+      else {
+        document.getElementById('employeeMenu').style.display = "none"
+      }
+
+    }
+    else {
+      document.getElementById('masterMenu').style.display = "none"
+    }
+    // Master Menu Roles End
+
+
+
+
+
+    // Accountant Menu ROle Start
+    if (result.accountant_all === 'true') {
+      document.getElementById('accountantMenu').style.display = "block";
+
+      if (result.currency_addj_view === "true") {
+        document.getElementById('currencyAdjMenu').style.display = "block"
+      } else {
+        document.getElementById('currencyAdjMenu').style.display = "none"
+      }
+
+      if (result.chartof_accounts_view === "true") {
+        document.getElementById('coacctMenu').style.display = "block"
+      } else {
+        document.getElementById('coacctMenu').style.display = "none"
+      }
+    }
+    else {
+      document.getElementById('accountantMenu').style.display = "none"
+
+    }
+    // Accountant Menu ROle End
+
+    // Report Menu Role Start
+    if (result.reports_all === "true") {
+      document.getElementById('reportMenu').style.display = "block"
+    } else {
+      document.getElementById('reportMenu').style.display = "none"
+    }
+
+    // Report Menu Role End
+  }
 
 
 
@@ -74,14 +185,6 @@ const Menu = (props) => {
         </a>
 
         <div className="sidebar pb-3 " >
-          {/* <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div className="image">
-          <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
-        </div>
-        <div className="info">
-          <a href="#" className="d-block">{ username}</a>
-        </div>
-      </div> */}
           <div className="form-inline mt-3 pb-3 mb-3 d-flex">
             <div className="input-group " data-widget="sidebar-search">
               <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
@@ -110,7 +213,8 @@ const Menu = (props) => {
                 </a>
               </li>
 
-              <li className="nav-item">
+              {/* ################# Sales Section Start ############## */}
+              <li className="nav-item" style={{ display: "none" }} id='salesMenu'>
                 <a href="#" className="nav-link active">
                   <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
                   <p >
@@ -119,32 +223,31 @@ const Menu = (props) => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-
                   <li className="nav-item" style={{ display: "none" }} id="CustomerMenu">
                     <a href="/TotalCustomer" className="nav-link active">
                       <i className="fa fa-user nav-icon" aria-hidden="true"></i>
                       <p> Customer</p>
                     </a>
                   </li>
-                  <li className="nav-item" style={{ display: "none" }} id="VendorMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="custaddressMenu">
                     <a href="/TotalCustAddress" className="nav-link active">
                       <i className="fa fa-address-book nav-icon" />
                       <p>Addresses</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='estimatesMenu'>
                     <a href="/Estimates" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Estimates</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='orderMenu'>
                     <a href="/SalesOrder" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Sales Order</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='deliverychallansmrnu'>
                     <a href="/DeliveryChallans" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Delivery Challans</p>
@@ -156,93 +259,29 @@ const Menu = (props) => {
                       <p>Invoices</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='pmtRecMenu'>
                     <a href="/PaymentsReceived" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Payments Received</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='recInvoiceMenu'>
                     <a href="/RecurringInvoices" className="nav-link active">
                       <i className="far fa-file nav-icon" />
                       <p>Recurring Invoices</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='creditNoteMenu'>
                     <a href="/CreditNotes" className="nav-link active">
                       <i className="fa fa-credit-card nav-icon" />
                       <p>CreditNotes</p>
                     </a>
                   </li>
 
-
-                  <li className="nav-item">
-                    {/* <a href="#" className="nav-link active">
-                      &nbsp; &nbsp; &nbsp;
-                      <p> Customer</p>
-                      <i className="right fas fa-angle-left" />
-                    </a> */}
-
-                    {/* <ul className="nav nav-treeview">
-                      <li className="nav-item">
-                        <a href="/TotalCustomer" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Customer</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/TotalCustAddress" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Addresses</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Estimates" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Estimates</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/SalesOrder" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Sales Order</p>
-                        </a>
-                      </li>     
-                      <li className="nav-item">
-                        <a href="/DeliveryChallans" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Delivery Challans</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Invoices" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Invoices</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/PaymentsReceived" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Payments Received</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringInvoices" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Invoices</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/CreditNotes" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>CreditNotes</p>
-                        </a>
-                      </li>
-                    </ul> */}
-                  </li>
                 </ul>
               </li>
-              <li className="nav-item">
+              {/* Purchases Menu Start */}
+              <li className="nav-item" style={{ display: "none" }} id='purchasesMenu'>
                 <a href="/Customer" className="nav-link active">
                   <i className="fa fa-shopping-bag" aria-hidden="true"></i>
                   <p >
@@ -251,114 +290,53 @@ const Menu = (props) => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-
-                  <li className="nav-item">
+                  <li className="nav-item" id='vendMenu' style={{ display: "none" }} >
                     <a href="/Showvendor" className="nav-link active">
                       <i className="far fa-user nav-icon" />
                       <p> Vendor</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" id='vendaddMenu' style={{ display: "none" }} >
                     <a href="/TotalVendAddress" className="nav-link active">
                       <i className="far fa-address-book nav-icon" />
                       <p>Address</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='vendRecurrMenu'>
                     <a href="/RecurringExpenses" className="nav-link active">
                       <i className="far fa-circle nav-icon" aria-hidden="true" />
                       <p>Recurring Expenses</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='purchaseOrderMenu'>
                     <a href="/PurchaseOrder" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Purchase Order</p>
                     </a>
                   </li>
-                  <li className="nav-item" style={{ display: "none" }} id="BillsMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="vendBillsMenu">
                     <a href="/SaveBillReport" className="nav-link active">
                       <i className="fa fa-file nav-icon" />
                       <p>Bills</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" id='vendrecbillMenu' style={{ display: "none" }}>
                     <a href="/RecurringBills" className="nav-link active">
                       <i className="far fa-file nav-icon" />
                       <p>Recurring Bills</p>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" id='vendcredMenu' style={{ display: "none" }}>
                     <a href="/VendorCredits" className="nav-link active">
                       <i className="fa fa-credit-card nav-icon" />
                       <p>Vendor Credits</p>
                     </a>
                   </li>
 
-
-
-                  <li className="nav-item">
-                    {/* <a href="#" className="nav-link active">
-
-                      <p> Vendor</p>
-                      <i className="right fas fa-angle-left" />
-                    </a> */}
-                    {/* <ul className="nav nav-treeview">
-                      <li className="nav-item">
-                        <a href="/Showvendor" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Vendor</p>
-                        </a>
-                      </li>  
-                      <li className="nav-item">
-                        <a href="/TotalVendAddress" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Address</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringExpenses" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Expenses</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/PurchaseOrder" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Purchase Order</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/Bills" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Bills</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/RecurringBills" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Recurring Bills</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/BillPayment" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Payment Made</p>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/VendorCredits" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Vendor Credits</p>
-                        </a>
-                      </li>
-                    </ul> */}
-
-                  </li>
-
                 </ul>
               </li>
-              <li className="nav-item" style={{ display: "none" }} id="COAMenu">
+              {/* Accountant Master */}
+              <li className="nav-item" style={{ display: "none" }} id="accountantMenu">
                 <a href="/Customer" className="nav-link active">
                   <i className="fa fa-user-plus" aria-hidden="true"></i>
                   <p >
@@ -367,21 +345,14 @@ const Menu = (props) => {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-                  {/* <li className="nav-item">
-                    <a href="/ChartOfAccount" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p> Chart OF Account </p>
-                    </a>
-                  </li>*/}
-                  <li className="nav-item">
+                  <li className="nav-item" style={{ display: "none" }} id='currencyAdjMenu'>
                     <a href="/Currency-Adjustment" className="nav-link active">
                       <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p> Currency Adjustments </p>
                     </a>
                   </li>
 
-
-                  <li className="nav-item ">
+                  <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
                     <a href="#" className="nav-link active bg-success">
                       <p className=""> Chart Of Accounts</p>
                       <i className="right fas fa-angle-left" />
@@ -402,7 +373,6 @@ const Menu = (props) => {
                         </a>
                       </li>
 
-
                       <li className="nav-item">
                         <a href="/ShowAccountMinorCode" className="nav-link active">
                           <i className="far fa-circle nav-icon" />
@@ -413,7 +383,8 @@ const Menu = (props) => {
                   </li>
                 </ul>
               </li>
-              <li className="nav-item">
+              {/* Master Menu */}
+              <li className="nav-item" style={{ display: "none" }}   id='masterMenu'>
                 <a href="/Customer" className="nav-link active">
                   <i className="fa fa-user-plus" aria-hidden="true"></i>
                   <p >
@@ -421,117 +392,83 @@ const Menu = (props) => {
                     <i className="right fas fa-angle-left" />
                   </p>
                 </a>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                <ul className="nav nav-treeview"  >
+                  <li className="nav-item" id='countrymenu' >
                     <a href="/ShowCountry" className="nav-link active">
                       <i className="fa fa-globe nav-icon" />
                       <p> Country</p>
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                <ul className="nav nav-treeview"  >
+                  <li className="nav-item" id='statemenu' >
                     <a href="/ShowState" className="nav-link active">
                       <i className="fa fa-globe nav-icon" />
                       <p> State</p>
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                <ul className="nav nav-treeview"  >
+                  <li className="nav-item" id='citymenu' >
                     <a href="/Showcity" className="nav-link active">
                       <i className="fa fa-globe nav-icon" />
                       <p> City</p>
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                <ul className="nav nav-treeview" >
+                  <li className="nav-item"  id='currencymenu' >
                     <a href="/ShowCurrency" className="nav-link active">&nbsp;
                       <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p>Currency</p>
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                <ul className="nav nav-treeview"  >
+                  <li className="nav-item"  id='unitmenu' >
                     <a href="/ShowUnit" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Unit</p>
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview" >
-                  <li className="nav-item" style={{ display: "none" }} id="bankMenu">
+                <ul className="nav nav-treeview"  >
+                  <li className="nav-item" id="bankMenu" >
                     <a href="/TotalBank" className="nav-link active">
                       <i className="fa fa-university nav-icon" />
                       <p>Bank</p>
                     </a>
                   </li>
                 </ul>
-                <ul className="nav nav-treeview" >
-                  <li className="nav-item" style={{ display: "none" }} id="usermenu">
+                <ul className="nav nav-treeview"  >
+                  <li className="nav-item" id="usermenu" >
                     <a href="/ShowUser" className="nav-link active">
                       <i className="far fa-user nav-icon" />
                       <p>User</p>
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/TotalLocation" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Location</p>
-                    </a>
-                  </li>
-                </ul> */}
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/Showcompliances" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Compliances</p>
-                    </a>
-                  </li>
-                </ul> */}
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+
+                <ul className="nav nav-treeview" >
+                  <li className="nav-item" id='comptypeMenu'>
                     <a href="/ShowcompliancesType" className="nav-link active">
                       <i className="fa fa-tasks nav-icon" />
                       <p>Compliance Type</p>
                     </a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowAccountInfo" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Item Account Info</p>
-                    </a>
-                  </li>
-                </ul> */}
 
-
-                {/* <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="/ShowChartAccount" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Show Chart Account</p>
-                    </a>
-                  </li>
-                </ul> */}
-
-
-                <ul className="nav nav-treeview">
+                {/* <ul className="nav nav-treeview" id='subcodeMenu' style={{display:"none"}}>
                   <li className="nav-item">
                     <a href="/TotalSubCode" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Sub Code</p>
                     </a>
                   </li>
-                </ul>
+                </ul> */}
 
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
+                <ul className="nav nav-treeview" id='employeeMenu'>
+                  <li className="nav-item"  style={{ display: "none" }} >
                     <a href="/showemployee" className="nav-link active">
                       <i className="far fa-file nav-icon" />
                       <p>Employee Master</p>
@@ -539,8 +476,8 @@ const Menu = (props) => {
                   </li>
                 </ul>
               </li>
-
-              <li className="nav-item" >
+              {/* Report Menu  */}
+              <li className="nav-item" id='reportMenu' style={{display:"none"}}>
                 <a href="/Reportdata" className="nav-link active">
                   <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
                   <p > Report </p>
@@ -552,7 +489,6 @@ const Menu = (props) => {
         </div>
       </aside>
     </div>
-
   )
 }
 

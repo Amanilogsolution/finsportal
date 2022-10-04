@@ -71,13 +71,12 @@ const columns = [
     selector: 'null',
     cell: (row) => [
 
-      <div className='droplist' id={`deleteselect${row.sno}`}>
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{display:"none"}}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUser(row.sno, status)
           window.location.href = 'ShowUser'
-        }
-        }>
+        }}>
           <option value={row.status} hidden> {row.status}</option>
           <option value='Active'>Active</option>
           <option value='Deactive' >Deactive</option>
@@ -93,7 +92,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditUser">
+      <a title='View Document' id={`editactionbtns${row.sno}`} style={{display:"none"}} href="EditUser">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('userSno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -188,17 +187,17 @@ const ShowUser = () => {
       setData(result)
 
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'users')
-      if (UserRights.users_create === 'false') {
-        document.getElementById('adduserbtn').style.display = "none"
-        document.getElementById('exceluserbtn').style.display = "none"
+      if (UserRights.users_create === 'true') {
+        document.getElementById('adduserbtn').style.display = "block"
+        document.getElementById('exceluserbtn').style.display = "block"
       }
 
       for (let i = 0; i <= result.length; i++) {
-        if (UserRights.users_edit === 'false') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+        if (UserRights.users_edit === 'true') {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
         }
-        if (UserRights.users_delete === 'false') {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "none";
+        if (UserRights.users_delete === 'true') {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
 
         }
       }
@@ -224,8 +223,8 @@ const ShowUser = () => {
         {/* <Menu /> */}
         <div>
           <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
-            <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
+            <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
             <div className="container-fluid">
               <br />
               <h3 className="text-left ml-5">User</h3>

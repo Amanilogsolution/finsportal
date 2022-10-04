@@ -226,7 +226,7 @@ const App = () => {
           <PrivatRoute exact path="/EditOrgAddress" component={EditOrgAddress} />
 
           <PrivatRoute exact path="/Fincialyear" component={Fincialyear} />
-          <PrivatRoute exact path="/ShowFincialyear" component={ShowFincialyear} />
+          <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
