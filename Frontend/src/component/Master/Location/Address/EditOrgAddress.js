@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../../Header/Header";
-// import Menu from "../../../Menu/Menu";
 import Footer from "../../../Footer/Footer";
-import { locationAddress, UpdateLocationAddress ,getCity} from '../../../../api'
+import { locationAddress, UpdateLocationAddress, getCity } from '../../../../api'
 
 
 function EditOrgAddress() {
   const [data, setData] = useState({})
-  const [citylist,setCitylist] =useState([])
+  const [citylist, setCitylist] = useState([])
+
+  const themeval = localStorage.getItem('themetype')
+
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await locationAddress(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
       setData(result)
-      console.log(result)
 
       const city = await getCity(result.location_state);
       setCitylist(city)
@@ -32,14 +33,14 @@ function EditOrgAddress() {
     const location_pin = document.getElementById('location_pin').value;
     const User_id = localStorage.getItem('User_id');
 
-    if (!location_city || !location_pin || location_pin.length < 6 ) {
+    if (!location_city || !location_pin || location_pin.length < 6) {
       alert('Please Fill the mandatory field or Invalid Data')
     }
     else {
       const result = await UpdateLocationAddress(localStorage.getItem('Organisation'), location_add1, location_add2, location_city, location_state, location_country, from_date, localStorage.getItem('location_id'), location_pin, User_id)
       if (result) {
         alert('Data Updated');
-        localStorage.removeItem('location_id')
+        localStorage.removeItem('location_id');
         window.location.href = '/TotalLocation'
       }
       else {
@@ -65,7 +66,7 @@ function EditOrgAddress() {
     setData({ ...data, location_add2: e.target.value })
   }
   const handleChangePin = (e) => {
-    if(e.target.value.length === 7) return false;
+    if (e.target.value.length === 7) return false;
     setData({ ...data, location_pin: e.target.value })
   }
   const handleChangeDate = (e) => {
@@ -82,17 +83,15 @@ function EditOrgAddress() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit Address</h3>
               <div className="row ">
                 <div className="col ml-5">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
-
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                           <div className="col form-group">
@@ -131,14 +130,14 @@ function EditOrgAddress() {
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
                           <div className="col form-group">
-                            <select  className="form-control col-md-4" id='location_city' 
+                            <select className="form-control col-md-4" id='location_city'
                               onChange={(e) => handleChangeCity(e)}>
                               <option value={data.location_city} hidden>{data.location_city}</option>
                               {
-                              citylist.map((item,index)=>
-                              <option key={index} value={item.city_name}>{item.city_name}</option>)
-                            }
-                              </select>
+                                citylist.map((item, index) =>
+                                  <option key={index} value={item.city_name}>{item.city_name}</option>)
+                              }
+                            </select>
                           </div>
                         </div>
 
@@ -177,20 +176,20 @@ function EditOrgAddress() {
                             />
                           </div>
                         </div>
-                        <div className="border-top card-body">
-                      <button className="btn btn-success" onClick={handleClick}>Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
-                    </div>
+                        <div className={`border-top card-footer bg-${themeval}`}>
+                          <button className="btn btn-success" onClick={handleClick}>Update</button>
+                          <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
+                        </div>
                       </form>
                     </article>
-                   
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )

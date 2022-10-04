@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Selectfincialyear, UpdateFincialyear } from '../../../api'
 
 
 const Updatefincialyear = () => {
   const [data, setData] = useState({})
+
+  const themeval = localStorage.getItem('themetype')
+
 
   useEffect(() => {
     const fetch = async () => {
@@ -61,15 +63,14 @@ const Updatefincialyear = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Financial Year</h3>
+              <br /> <h3 className="text-left ml-5">Financial Year</h3> <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
@@ -109,7 +110,7 @@ const Updatefincialyear = () => {
                         </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themeval}`}>
                       <button className="btn btn-success" onClick={handelsave}>Save</button>
                       <button className="btn btn-light ml-3" onClick={() => {
                         localStorage.removeItem('FinsyearSno');
@@ -122,7 +123,7 @@ const Updatefincialyear = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )

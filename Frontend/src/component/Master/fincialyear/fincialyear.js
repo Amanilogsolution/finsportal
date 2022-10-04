@@ -9,6 +9,9 @@ const Fincialyear = () => {
   const [from_date, setFromDate] = useState('YYYY')
   const [to_date, setToDate] = useState('YYYY')
 
+  const themeval = localStorage.getItem('themetype')
+
+
   const st = '' + to_date;
   const year = st.slice(2)
 
@@ -65,13 +68,13 @@ const Fincialyear = () => {
         </div>
         <Header />
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Financial Year</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
@@ -101,14 +104,14 @@ const Fincialyear = () => {
                           <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='invoiceser' maxLength={5} style={{ textTransform: "uppercase" }} />
-                            <small style={{ color: "red" }}>Invoice Series must be maximum 5 Character</small>
+                            <small >Invoice Series must be maximum 5 Character</small>
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
                           <div className="col form-group">
                             <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
-                            <small style={{ color: "red" }}>Voucher Series must be maximum 4 Character</small>
+                            <small >Voucher Series must be maximum 4 Character</small>
                           </div>
                         </div>
 
@@ -125,7 +128,7 @@ const Fincialyear = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval}/>
       </div>
     </div>
   )

@@ -12,6 +12,9 @@ function AddLocation() {
   const [locationcount, setLocationcount] = useState()
   const [fins_year, setFins_year] = useState();
 
+  const themeval = localStorage.getItem('themetype')
+
+
   useEffect(() => {
     const fetch = async () => {
       const totlcountry = await Activecountries();
@@ -78,13 +81,13 @@ function AddLocation() {
         <Header />
         {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Location</h3>
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form autoComplete='off'>
 
                         <div className="form-row">
@@ -166,7 +169,7 @@ function AddLocation() {
                         </div>
                       </form>
                     </article>
-                    <div className="border-top card-body">
+                    <div className={`border-top card-footer bg-${themeval}`}>
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
                     </div>
@@ -176,7 +179,7 @@ function AddLocation() {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval}/>
       </div>
     </div>
   )

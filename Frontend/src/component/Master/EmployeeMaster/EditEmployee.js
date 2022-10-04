@@ -7,6 +7,9 @@ const EditEmployee = () => {
     const [locationlist, setLocationlist] = useState([])
     const [data, setData] = useState([])
 
+
+  const themeval = localStorage.getItem('themetype')
+
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
@@ -57,13 +60,14 @@ const EditEmployee = () => {
                 </div>
                 <Header />
                 <div>
-                    <div className="content-wrapper">
+                    <div className={`content-wrapper bg-${themeval}`}>
                         <div className="container-fluid">
                             <br /> <h3 className="text-left ml-5">Edit Employee </h3>
+                            <br/>
                             <div className="row ">
-                                <div className="col ml-5">
+                                <div className="col ml-2">
                                     <div className="card" style={{ width: "100%" }}>
-                                        <article className="card-body">
+                                        <article className={`card-body bg-${themeval}`}>
                                             <form>
                                                 <div className="form-row">
                                                     <label htmlFor="emp_name" className="col-md-2 col-form-label font-weight-normal">Employee Name<span style={{ color: "red" }}>*</span></label>
@@ -85,7 +89,7 @@ const EditEmployee = () => {
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div className="border-top card-body">
+                                                <div className={`border-top card-footer bg-${themeval}`}>
                                                     <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
                                                     <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('EmpmasterSno'); window.location.href = "./showemployee" }}>Cancel</button>
                                                 </div>
@@ -98,7 +102,7 @@ const EditEmployee = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themeval}/>
             </div>
         </div>
     )

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { updatePaymentterm, ShowPaymentTerm } from "../../../api";
 
 
 const UpdatePaymentTerm = () => {
   const [data, setData] = useState({})
+
+  const themeval = localStorage.getItem('themetype')
+
 
   //############## API Call #################
   useEffect(() => {
@@ -17,7 +19,7 @@ const UpdatePaymentTerm = () => {
     fetchdata()
   }, []);
 
-// ################  Data Submit #####################
+  // ################  Data Submit #####################
   const handleClick = async (e) => {
     e.preventDefault();
     const paymentterm = document.getElementById("paymentterm").value;
@@ -57,15 +59,15 @@ const UpdatePaymentTerm = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Update Payment Term</h3>
+              <br />
               <div className="row ">
-                <div className="col ml-5">
+                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
+                    <article className={`card-body bg-${themeval}`}>
                       <form>
 
                         <div className="form-row">
@@ -82,7 +84,7 @@ const UpdatePaymentTerm = () => {
                           </div>
                         </div>
 
-                        <div className="border-top card-body">
+                        <div className={`border-top card-footer bg-${themeval}`}>
                           <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
                           <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                         </div>
@@ -95,7 +97,7 @@ const UpdatePaymentTerm = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer theme={themeval} />
       </div>
     </div>
   )
