@@ -366,9 +366,6 @@ router.post('/activeuserrole',UserRightsController.ActiveUserRole)
 router.post('/getuserrolepermission',UserRightsController.getUserRolePermission)
 
 
-
-
-
 module.exports = router;
 
 
