@@ -1,6 +1,6 @@
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { AddUserRole } from '../../../api'
 
@@ -26,7 +26,7 @@ const AddRoles = () => {
 
     const fullaccess = (fullaccess, view, create, edit, deletecheck) => {
         const fullval = document.getElementById(fullaccess).checked === true ? true : false;
-        if (fullval == true) {
+        if (fullval === true) {
             document.getElementById(create).disabled = false;
             document.getElementById(edit).disabled = false;
             document.getElementById(deletecheck).disabled = false;
@@ -50,7 +50,7 @@ const AddRoles = () => {
 
     const viewoff = (full, view, create, edit, deletecheck) => {
         const view_val = document.getElementById(view).checked === true ? true : false
-        if (view_val == false) {
+        if (view_val === false) {
             document.getElementById(create).disabled = true;
             document.getElementById(edit).disabled = true;
             document.getElementById(deletecheck).disabled = true;
@@ -155,7 +155,6 @@ const AddRoles = () => {
         const roles_delete = document.getElementById('roles_delete').checked === true ? true : false;
 
         let setting_all = org_profile_view || paymentTerm_view || financial_view || branch_view || crm_view || compliance_view || roles_view;
-        console.log(setting_all)
 
         // Items
 

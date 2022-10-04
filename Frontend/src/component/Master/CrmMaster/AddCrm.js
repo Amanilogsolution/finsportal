@@ -122,7 +122,7 @@ const AddCrm = () => {
                                                         {
                                                             crmtype ?
                                                                 <Select
-                                                                    className="col-md-4"
+                                                                    className="col-md-4 text-dark"
                                                                     options={options}
                                                                     isMulti={true}
                                                                     onChange={handleCustvendval}
@@ -130,10 +130,11 @@ const AddCrm = () => {
                                                                 :
 
                                                                 <Select
-                                                                    className="col-md-4 m-0 p-0"
+                                                                    className="col-md-4 m-0 p-0 text-dark"
                                                                     options={options2}
                                                                     isMulti={true}
                                                                     onChange={handleCustvendval}
+
                                                                 />
 
                                                         }
