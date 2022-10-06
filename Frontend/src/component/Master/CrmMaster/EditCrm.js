@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor, ActiveUser } from "../../../api";
+import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor } from "../../../api";
 import Select from 'react-select';
 
 const EditCrm = () => {
@@ -140,7 +140,7 @@ const EditCrm = () => {
                                                         {
                                                             crmtype ?
                                                                 <Select
-                                                                    className="col-md-4 "
+                                                                    className="col-md-4 text-dark"
                                                                     options={options}
                                                                     isMulti={false}
                                                                     onChange={handleCustvendval}
@@ -149,7 +149,7 @@ const EditCrm = () => {
                                                                 :
 
                                                                 <Select
-                                                                    className="col-md-4 "
+                                                                    className="col-md-4 text-dark"
                                                                     options={options2}
                                                                     isMulti={false}
                                                                     onChange={handleCustvendval}
