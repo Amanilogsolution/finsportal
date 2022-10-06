@@ -679,7 +679,7 @@ function Invoices() {
 
                                                                     </div>
                                                                 </div>
-                                                                <div className={`bg-${themetype}`} style={{ width: "55%", marginLeft: "3px", padding: "5px",border:"1px solid #eee",  borderRadius: "7px" }}>
+                                                                <div  style={{ width: "55%", marginLeft: "3px", padding: "5px",border:"1px solid #eee",background:"#eee",  borderRadius: "7px" }}>
                                                                     <table style={{ width: "100%" }}>
                                                                         <tbody>
                                                                             <tr>

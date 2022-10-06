@@ -341,7 +341,7 @@ const AddRoles = () => {
                                             <article className={`card-body bg-${themeval}`} style={{ border: "1px solid rgba(255,255,255,0.2)" }}>
                                                 <form autoComplete='off'>
                                                     <div className="form-row">
-                                                        <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role <span style={{ color: "red" }}>*</span></label>
+                                                        <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role </label>
                                                         <div className="col form-group">
                                                             <input type="text" className="form-control col-md-4" id='role' />
                                                             {alreadyrole ? <small style={{ color: "red" }}>Role Already Exist</small> : null}
@@ -349,7 +349,7 @@ const AddRoles = () => {
                                                     </div>
 
                                                     <div className="form-row">
-                                                        <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Description </label>
+                                                        <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Description <small>(Optional)</small> </label>
                                                         <div className="col form-group">
                                                             <textarea className="form-control col-md-4 " id='description' rows='3' style={{ resize: "none" }} />
                                                         </div>

@@ -8,8 +8,8 @@ import React from "react";
       <footer className={`main-footer bg-${themedata}`}>
         <strong>
           Copyright © 2022-2023 <a href="#">{localStorage.getItem('Organisation Name')}</a>.
-        </strong>
-        All rights reserved.
+        </strong>&nbsp;
+         All rights reserved.
       </footer>
     );
 
