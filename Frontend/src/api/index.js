@@ -1404,4 +1404,14 @@ export const getUserRolePermission = async (org,role,type) => {
     return axios.post(url, { org,role,type }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const TotalUserRole = async (org) => {
+    const url = `http://localhost:3008/api/totaluserrole`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+}
+export const DeleteUserRole = async (org,sno,status) => {
+    const url = `http://localhost:3008/api/deleteuserrole`
+    return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+
 // ############################ For Role api Start #################################

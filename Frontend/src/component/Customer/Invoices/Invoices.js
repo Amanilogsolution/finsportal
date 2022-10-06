@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
 import InvoicePreviewWithGst from './PreviewInvoicewithoutGST'
@@ -79,6 +78,7 @@ function Invoices() {
 
     const [items, setItems] = useState([])
 
+    const themetype = localStorage.getItem('themetype')
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -162,11 +162,6 @@ function Invoices() {
         setChargeCode([...chargecodes, chargecode])
         setGlCode([...glcode,glcodes])
 
-        // const result = await ActiveChartofAccountname(localStorage.getItem('Organisation'), chargecode)
-        // console.log(result)
-        // // setMinor([...minor, result.account_name_code])
-        // setGlCode([...glcode, result.account_sub_name_code])
-
         if (actgst > 0) {
             setTaxable([...taxable, 'Yes'])
         } else {
@@ -198,11 +193,6 @@ function Invoices() {
 
         document.getElementById('additembtm').disabled = true;
         document.getElementById('removeitembtm').disabled = true;
-        // document.getElementById('gstvalue').disabled=true;
-        // document.getElementById('Quality').disabled=true;
-        // document.getElementById('Rate').disabled=true;
-        // document.getElementById('unitdrop').disabled=true;
-        // document.getElementById('subtotalbtn').disabled=true;
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
         document.getElementById('previewbtn').disabled = false;
@@ -265,7 +255,6 @@ function Invoices() {
 
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
 
-        // const [actgst, other] = document.getElementById('gstvalue').value.split(',')
         let gst = Total * totalgst[index] / 100
 
         console.log(index)
@@ -476,7 +465,7 @@ function Invoices() {
                             </div> */}
                     <Header />
 
-                    <div className="content-wrapper" >
+                    <div className={`content-wrapper bg-${themetype}`} >
                         <div className="container-fluid" >
                             <div className="row pt-3" >
                                 <div className="col">
@@ -485,7 +474,7 @@ function Invoices() {
                                             (
                                                 <div className="card" >
                                                     <article
-                                                        className="card-body">
+                                                        className={`card-body bg-${themetype}`}>
                                                         <h3 className="text-left"> New Invoice</h3>
                                                         <br />
                                                         <form autoComplete="off">
@@ -494,7 +483,7 @@ function Invoices() {
                                                                 <div className="d-flex col-md-4">
                                                                     <select
                                                                         id="custname"
-                                                                        className="form-control"
+                                                                        className={`form-control bg-${themetype}`}
                                                                         onChange={handleCustname}>
                                                                         <option value='' hidden>Select Customer</option>
                                                                         {
@@ -511,7 +500,7 @@ function Invoices() {
                                                                 <div className="d-flex col-md-4">
                                                                     <select
                                                                         id="custaddr"
-                                                                        className="form-control"
+                                                                        className={`form-control bg-${themetype}`}
                                                                         onChange={handleChangeCustomerAdd}>
 
                                                                         <option value='' hidden>Select Address</option>
@@ -530,7 +519,7 @@ function Invoices() {
                                                                 <div className="d-flex col-md-4">
                                                                     <select
                                                                         id="locationadd"
-                                                                        className="form-control"
+                                                                        className={`form-control bg-${themetype}`}
                                                                         onChange={handlechnageaddress}>
                                                                         <option value='' hidden>Select Address</option>
                                                                         {
@@ -545,7 +534,7 @@ function Invoices() {
                                                             <div className="form-row mt-3">
                                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span style={{ color: "red" }}>*</span> </label>
                                                                 <div className="d-flex col-md">
-                                                                    <input type="text" className="form-control col-md-5" id="invoiceid" value={invoiceid} disabled />
+                                                                    <input type="text" className={`form-control col-md-5 bg-${themetype}`} id="invoiceid" value={invoiceid} disabled />
 
                                                                 </div>
                                                             </div>
@@ -553,7 +542,7 @@ function Invoices() {
                                                             <div className="form-row mt-3">
                                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                                 <div className="d-flex col-md">
-                                                                    <input type="text" className="form-control col-md-5" id="ordernumber" placeholder='Enter the order number' />
+                                                                    <input type="text" className={`form-control col-md-5 bg-${themetype}`} id="ordernumber" placeholder='Enter the order number' />
                                                                 </div>
                                                             </div>
 
@@ -562,7 +551,7 @@ function Invoices() {
                                                                 <div className="d-flex col-md-3">
                                                                     <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
 
-                                                                    <input type="date" className="form-control col-md-6" id="Invoicedate" disabled />
+                                                                    <input type="date" className={`form-control col-md-6 bg-${themetype}`} id="Invoicedate" disabled />
                                                                 </div>
 
 
@@ -571,7 +560,7 @@ function Invoices() {
 
                                                                     <select
                                                                         id="paymentterm"
-                                                                        className="col-md-6  mr-0 form-control"
+                                                                        className={`col-md-6  mr-0 form-control bg-${themetype}`}
                                                                         onChange={handleAccountTerm}
                                                                     >
                                                                         <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
@@ -585,7 +574,7 @@ function Invoices() {
 
                                                                 <div className="d-flex col-md-3" >
                                                                     <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                                    <input type="date" className="form-control col-md-6" id="Duedate" disabled />
+                                                                    <input type="date" className={`form-control col-md-6 bg-${themetype}`} id="Duedate" disabled />
 
                                                                 </div>
                                                             </div>
@@ -594,7 +583,7 @@ function Invoices() {
                                                             <div className="form-row mt-2">
                                                                 <label className="col-md-2 col-form-label font-weight-normal" >Activity <span style={{ color: "red" }}>*</span></label>
                                                                 <div className="d-flex col-md-4">
-                                                                    <select id="Activity" className="form-control" onChange={handleChangeActivity}>
+                                                                    <select id="Activity" className={`form-control bg-${themetype}`} onChange={handleChangeActivity}>
                                                                         <option value='' hidden>Select Activity</option>
                                                                         {
                                                                             Activeaccount.map((items, index) => (
@@ -607,11 +596,11 @@ function Invoices() {
                                                             <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
                                                                 <div className="d-flex col-md-3">
                                                                     <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                                                    <input type="date" className="form-control col-md-6" id="fromdate" />
+                                                                    <input type="date" className={`form-control col-md-6 bg-${themetype}`} id="fromdate" />
                                                                 </div>
                                                                 <div className="d-flex col-md-5">
                                                                     <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                                                    <input type="date" className="form-control col-md-6" id="todate" />
+                                                                    <input type="date" className={`form-control col-md-6 bg-${themetype}`} id="todate" />
                                                                 </div>
                                                             </div>
                                                             <br />
@@ -635,7 +624,7 @@ function Invoices() {
                                                                             <tr key={index}>
                                                                                 <div id='trdiv'>
                                                                                     <td className="col-md-2 pl-0 pr-0">
-                                                                                        <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md-">
+                                                                                        <select onChange={handleChangeItems} id="gstvalue" className={`form-control col-md-9 bg-${themetype}`}>
                                                                                             <option value='' hidden > Select item</option>
                                                                                             {
                                                                                                 activechargecode.map((item, index) => (
@@ -646,20 +635,20 @@ function Invoices() {
                                                                                     </td>
                                                                                 </div>
                                                                                 <td className='col-md-2 pl-0 pr-0'>
-                                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
+                                                                                    <input className={`form-control col-md-10 bg-${themetype}`}  type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                                         const quantity = e.target.value
                                                                                         setIndex(index)
                                                                                         setQuantity(quantity)
                                                                                     }} /></td>
 
                                                                                 <td className='col-md-2 pl-0 pr-0'>
-                                                                                    <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
+                                                                                    <input className={`form-control col-md-10 bg-${themetype}`} type="number" id="Rate" placeholder="0"
                                                                                         onChange={handleChangerate} />
                                                                                 </td>
-                                                                                <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
+                                                                                <td id="gst" className='col-md-1  bg-${themetype}'>{gstvalues[index]}</td>
 
                                                                                 <td className='pl-0 pr-0 col-md-2'>
-                                                                                    <select onChange={handleChangeUnit} className="form-control col-md" id='unitdrop'>
+                                                                                    <select onChange={handleChangeUnit} className={`form-control col-md-10 bg-${themetype}`} id='unitdrop'>
                                                                                         <option value='' hidden> Select Unit</option>
                                                                                         {
                                                                                             activeunit.map((item, index) => (
@@ -680,19 +669,18 @@ function Invoices() {
 
                                                             <hr />
 
-                                                            <div style={{ display: "flex" }}>
+                                                            <div className='d-flex'>
                                                                 <div style={{ width: "40%" }}>
                                                                     <div className="form mt-3">
                                                                         <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
                                                                         <div className="d-flex col-md">
-                                                                            <textarea type="text" className="form-control " rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
+                                                                            <textarea type="text" className={`form-control col-md-10 bg-${themetype}`} rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                                         </div>
 
                                                                     </div>
                                                                 </div>
-                                                                <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                                                <div className={`bg-${themetype}`} style={{ width: "55%", marginLeft: "3px", padding: "5px",border:"1px solid #eee",  borderRadius: "7px" }}>
                                                                     <table style={{ width: "100%" }}>
-                                                                        <thead></thead>
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
@@ -704,9 +692,7 @@ function Invoices() {
                                                                                 <td>CGST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
-                                                                                        <input type="number" className="form-control col-md-5" id='cgstipt'
-                                                                                            // onChange={handlechangegst} 
-                                                                                            disabled />
+                                                                                        <input type="number" className={`form-control col-md-5 bg-${themetype}`} id='cgstipt'disabled />
                                                                                         <div className="input-group-append">
                                                                                             <span className="input-group-text">%</span>
                                                                                         </div>
@@ -718,7 +704,7 @@ function Invoices() {
                                                                                 <td>SGST/UTGST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
-                                                                                        <input type="number" className="form-control col-md-5" id='sutgstipt' disabled />
+                                                                                        <input type="number" className={`form-control col-md-5 bg-${themetype}`} id='sutgstipt' disabled />
                                                                                         <div className="input-group-append">
                                                                                             <span className="input-group-text">%</span>
                                                                                         </div>
@@ -730,7 +716,7 @@ function Invoices() {
                                                                                 <td>IGST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
-                                                                                        <input type="number" className="form-control col-md-5 gstinpt" id='igstipt' disabled />
+                                                                                        <input type="number" className={`form-control col-md-5 gstinpt bg-${themetype}`} id='igstipt' disabled />
                                                                                         <div className="input-group-append">
                                                                                             <span className="input-group-text">%</span>
                                                                                         </div>
@@ -741,7 +727,7 @@ function Invoices() {
                                                                                 <td>Total GST</td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1" >
-                                                                                        <input type="number" className="form-control col-md-5" id='gstipt ' value={Math.max(...totalgst)} disabled />
+                                                                                        <input type="number" className={`form-control col-md-5 bg-${themetype}`} id='gstipt ' value={Math.max(...totalgst)} disabled />
                                                                                         <div className="input-group-append">
                                                                                             <span className="input-group-text">%</span>
                                                                                         </div>
@@ -756,7 +742,7 @@ function Invoices() {
                                                                                 </td>
                                                                                 <td>
                                                                                     <div className="input-group mb-1">
-                                                                                        <select className="form-control col-md-5" id="currency" >
+                                                                                        <select className={`form-control col-md-5 bg-${themetype}`} id="currency" >
                                                                                             <option value={custdetail.currency} hidden >{custdetail.currency}</option>
                                                                                             {
                                                                                                 currencylist.map((item, index) =>
@@ -813,7 +799,7 @@ function Invoices() {
                             </div>
                         </div>
                     </div>
-                    <Footer />
+                    <Footer theme={themetype}/>
                 </div>
             </div>
         </>

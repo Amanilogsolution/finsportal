@@ -142,6 +142,7 @@ import AddEmployee from './component/Master/EmployeeMaster/AddEmployee';
 import EditEmployee from './component/Master/EmployeeMaster/EditEmployee';
 
 import AddRoles from './component/ProjectSetting/Roles/AddRoles';
+import ShowRoles from './component/ProjectSetting/Roles/ShowRoles';
 
 import ChartOfAccount2 from './component/Accountant/ChartOfAccount/ChartOfAccount2';
 
@@ -299,6 +300,8 @@ const App = () => {
 
 
           <PrivatRoute exact path="/addroles" component={AddRoles} />
+          <PrivatRoute exact path="/showroles" component={ShowRoles} />
+          
           <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} />
 
 
