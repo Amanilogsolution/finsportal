@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
-// import Menu from "../Menu/Menu";
 import { showOrganisation, updateOrganisation, UploadData } from "../../api/index";
 
 
@@ -26,7 +25,6 @@ function EditOrganisation() {
     const Fins_year = document.getElementById('fins_year').value
     const Company_Id = document.getElementById('company_id').value
     const Tax_id = document.getElementById('tax_id').value
-    console.log(Industry_Type, Fins_year, Company_Id, Tax_id, report_basic, uploadimage)
 
 
     const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, Industry_Type, Fins_year, report_basic, Company_Id, Tax_id, uploadimage)
@@ -42,7 +40,6 @@ function EditOrganisation() {
     const data = new FormData();
     data.append("images", file)
     const UploadLink = await UploadData(data)
-    console.log(UploadLink)
     setUploadImage(UploadLink)
   }
 
@@ -80,16 +77,13 @@ function EditOrganisation() {
   }
 
   const handleChange = (e) => {
-    console.log(e.target.value)
     setReportBasic(e.target.value)
   }
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await showOrganisation(localStorage.getItem('Organisation_details'))
-      console.log(result)
       setData(result)
-      console.log(result.report_basic)
       if (result.report_basic === 'Accural') {
         document.getElementById('Accural').checked = true
         setReportBasic('Accural')
@@ -104,332 +98,316 @@ function EditOrganisation() {
 
   }, [])
 
-  const styleborder = {
-    border: "none",
-    borderBottom: "1px solid gray"
-  }
 
   return (
-    <>      <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"> </div>
-      </div>
+    <>
+      <div className="wrapper">
+        <div className="preloader flex-column justify-content-center align-items-center">
+          <div className="spinner-border" role="status"> </div>
+        </div>
 
-      <Header />
-      <div className={`orgcontainer bg-${themeval}`}>
-        <br />
-        <div className="row justify-content-center " style={{ width: "100%" }}>
-          <div className="col-md-6">
-            <div className="card">
-              <article
-                className={`card-body bg-${themeval}`}
-                style={{ borderTop: "3.5px solid darkblue" }}>
+        <Header />
+        <div className={`orgcontainer bg-${themeval}`}>
+          <br />
+          <div className="row justify-content-center " style={{ width: "100%" }}>
+            <div className="col-md-6">
+              <div className="card">
+                <article
+                  className={`card-body bg-${themeval}`}
+                  style={{ borderTop: "3.5px solid darkblue" }}>
 
-                <h3 style={{ textAlign: "left" }}>
-                  Edit your organization profile
-                </h3>
-                <br />
+                  <h3 style={{ textAlign: "left" }}>
+                    Edit your organization profile
+                  </h3>
+                  <br />
 
-                <form autoComplete="off">
-                  <div className="form-group" style={{ marginLeft: "40%" }}>
-                    <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "relative", }}>
-                      <img src={data.org_logo} alt="Org_logo" style={{ height: "100%", width: "100%", borderRadius: "50%", }} />
-                      <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "darkblue" }}></i>
-                    </div>
-                  </div>
-
-                  <div className="form-row">
-                    <div className="col form-group">
-                      <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
-
-                      <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={styleborder} />
-                    </div>
-                    <div className="col form-group">
-                      <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
-                      <input type="text" className={`form-control bg-${themeval}`} id="industry_type" style={styleborder} value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="col form-group">
-                      <label>
-                        Business Location<span style={{ color: "red" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className={`form-control bg-${themeval}`}
-                        value={data.org_country}
-                        id="org_country"
-                        required
-                        disabled
-                        style={styleborder}
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label>
-                        State/Union Territory
-                        <span style={{ color: "red" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className={`form-control bg-${themeval}`}
-                        placeholder
-                        value={data.org_state}
-                        id="org_country"
-
-                        disabled
-                        style={styleborder}
-                      />
-                    </div>
-                  </div>
-
-                  <div id="formallbox">
-                    <div className="form-row">
-                      <div className="col form-group">
-                        <input
-                          type="text"
-                          className={`form-control bg-${themeval}`}
-                          placeholder="Contact Person Name"
-                          id='org_contact_name'
-                          value={data.org_contact_name}
-                          onChange={(e) => handleChangeContactname(e)}
-                          style={styleborder}
-                        />
+                  <form autoComplete="off">
+                    <div className="form-group" style={{ marginLeft: "40%" }}>
+                      <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "relative", }}>
+                        <img src={data.org_logo} alt="Org_logo" style={{ height: "100%", width: "100%", borderRadius: "50%", }} />
+                        <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "darkblue" }}></i>
                       </div>
-                      <div className="form-group col-md-6">
-                        <input
-                          className={`form-control bg-${themeval}`}
-                          type="number" oninput="numberOnly(this.id);"
-                          maxlength="12"
-                          placeholder="Contact Mobile no."
-                          id='org_contact_phone'
-                          value={data.org_contact_phone}
-                          onChange={(e) => handleChangeContactPhone(e)}
-                          style={styleborder}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        className={`form-control bg-${themeval}`}
-                        placeholder="Contact Email"
-                        id='org_contact_email'
-                        value={data.org_contact_email}
-                        onChange={(e) => handleChangeContactEmail(e)}
-style={styleborder}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className={`form-control bg-${themeval}`}
-                        placeholder="Street"
-                        id='org_street'
-                        value={data.org_street}
-                        onChange={(e) => handleChangeStreet(e)}
-                        style={styleborder}
-                      />
                     </div>
 
                     <div className="form-row">
                       <div className="col form-group">
+                        <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
+
+                        <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={{ cursor: "not-allowed" }} />
+                      </div>
+                      <div className="col form-group">
+                        <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
+                        <input type="text" className={`form-control bg-${themeval}`} id="industry_type" value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="col form-group">
+                        <label>
+                          Business Location<span style={{ color: "red" }}>*</span>
+                        </label>
                         <input
                           type="text"
                           className={`form-control bg-${themeval}`}
-                          placeholder="City"
-                          id='org_city'
-                          value={data.org_city}
-                          onChange={(e) => handleChangeCity(e)}
-style={styleborder}
+                          value={data.org_country}
+                          id="org_country"
+                          required
+                          disabled
+                          style={{ cursor: "not-allowed" }}
                         />
                       </div>
                       <div className="form-group col-md-6">
+                        <label>
+                          State/Union Territory
+                          <span style={{ color: "red" }}>*</span>
+                        </label>
                         <input
-                          type="number"
-                          oninput="numberOnly(this.id);"
+                          type="text"
                           className={`form-control bg-${themeval}`}
-                          placeholder="Zip/Postal Code"
-                          id="org_pin"
-                          value={data.org_pincode}
-                          onChange={(e) => handleChangePin(e)}
-                          style={styleborder}
+                          placeholder
+                          value={data.org_state}
+                          id="org_country"
+                          disabled
+                          style={{ cursor: "not-allowed" }}
+                        />
+                      </div>
+                    </div>
+
+                    <div id="formallbox">
+                      <div className="form-row">
+                        <div className="col form-group">
+                          <input
+                            type="text"
+                            className={`form-control bg-${themeval}`}
+                            placeholder="Contact Person Name"
+                            id='org_contact_name'
+                            value={data.org_contact_name}
+                            onChange={(e) => handleChangeContactname(e)}
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <input
+                            className={`form-control bg-${themeval}`}
+                            type="number" oninput="numberOnly(this.id);"
+                            maxlength="12"
+                            placeholder="Contact Mobile no."
+                            id='org_contact_phone'
+                            value={data.org_contact_phone}
+                            onChange={(e) => handleChangeContactPhone(e)}
+
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="email"
+                          className={`form-control bg-${themeval}`}
+                          placeholder="Contact Email"
+                          id='org_contact_email'
+                          value={data.org_contact_email}
+                          onChange={(e) => handleChangeContactEmail(e)}
+
                         />
                       </div>
 
-                    </div>
-                  </div>
-                  <p className="regtext">REGIONAL SETTINGS</p>
-
-
-                  <div className="form-row">
-                    <div className="form-group col ">
-                      <label>Finacial year</label>
-
-                      <select
-                        id="fins_year"
-                        className={`form-control col-md-6 bg-${themeval}`}
-                       
-                      >
-                        <option value='' hidden >{data.fins_year_month}</option>
-                        <option value='January_Feburary' >January_Feburary</option>
-
-
-                      </select>
-                    </div>
-                    <div className=" form-group col" onChange={handleChange}>
-                      <label> Report Basic </label>
-                      <label className="form-check form-check-inline">
-
+                      <div className="form-group">
                         <input
-                          className="form-check-input ml-2" type="radio"
-                          name="taxpreference"
-                          value="Accural"
-                          id="Accural"
-                          style={styleborder}
-                        />Accural
-                      </label>
-                      <div className="form-group col ml-6" >
-                        <label className="form-check form-check " style={{ marginLeft: "90px" }}>
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          placeholder="Street"
+                          id='org_street'
+                          value={data.org_street}
+                          onChange={(e) => handleChangeStreet(e)}
+                        />
+                      </div>
+
+                      <div className="form-row">
+                        <div className="col form-group">
+                          <input
+                            type="text"
+                            className={`form-control bg-${themeval}`}
+                            placeholder="City"
+                            id='org_city'
+                            value={data.org_city}
+                            onChange={(e) => handleChangeCity(e)}
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <input
+                            type="number"
+                            oninput="numberOnly(this.id);"
+                            className={`form-control bg-${themeval}`}
+                            placeholder="Zip/Postal Code"
+                            id="org_pin"
+                            value={data.org_pincode}
+                            onChange={(e) => handleChangePin(e)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="regtext">REGIONAL SETTINGS</p>
+
+
+                    <div className="form-row">
+                      <div className="form-group col ">
+                        <label>Finacial year</label>
+                        <select
+                          id="fins_year"
+                          className={`form-control col-md-6 bg-${themeval}`}
+                        >
+                          <option value='' hidden >{data.fins_year_month}</option>
+                          <option value='January_Feburary' >January_Feburary</option>
+
+                        </select>
+                      </div>
+                      <div className=" form-group col" onChange={handleChange}>
+                        <label> Report Basic </label>
+                        <label className="form-check form-check-inline">
 
                           <input
-                            className="form-check-input "
-                            type="radio"
+                            className="form-check-input ml-2" type="radio"
                             name="taxpreference"
-                            value="Cash"
-                            id="Cash"
-                            style={styleborder}
-                          />Cash
-
+                            value="Accural"
+                            id="Accural"
+                          />Accural
                         </label>
+                        <div className="form-group col ml-6" >
+                          <label className="form-check form-check " style={{ marginLeft: "90px" }}>
+
+                            <input
+                              className="form-check-input "
+                              type="radio"
+                              name="taxpreference"
+                              value="Cash"
+                              id="Cash"
+                            />Cash
+
+                          </label>
+                        </div>
+                      </div>
+                      <div>
+
                       </div>
                     </div>
-                    <div>
 
+
+
+                    <div className="form-row">
+                      <div className="form-group col-md-6">
+                        <label>Currency</label>
+                        <input
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          value={data.org_currency}
+                          id="org_currency"
+                          placeholder
+                          disabled
+                          style={{ cursor: "not-allowed" }}
+                        />
+                      </div>
+                      <div className="form-group col-md-6">
+                        <label>Language</label>
+                        <input
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          value={data.org_lang}
+                          id="org_lang"
+                          placeholder
+                          disabled
+                          style={{ cursor: "not-allowed" }}
+                        />
+                      </div>
                     </div>
-                  </div>
-
-
-
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
-                      <label>Currency</label>
-                      <input
-                        type="text"
-                        className={`form-control bg-${themeval}`}
-                        value={data.org_currency}
-                        id="org_currency"
-                        placeholder
-                        disabled
-                        style={{ cursor: "not-allowed" }}
-                      />
+                    <div className="form-row">
+                      <div className="col form-group">
+                        <label>
+                          Company ID<span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
+                      </div>
+                      <div className="form-group col-md-6">
+                        <label>
+                          Tax ID
+                          <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
+                        />
+                      </div>
                     </div>
-                    <div className="form-group col-md-6">
-                      <label>Language</label>
-                      <input
-                        type="text"
-                        className={`form-control bg-${themeval}`}
-                        value={data.org_lang}
-                        id="org_lang"
-                        placeholder
-                        disabled
-                        style={{ cursor: "not-allowed" }}
-                      />
+                    <div className="form-row">
+                      <div className="form-group col-md-6">
+                        <label>GST No</label>
+
+                        <input
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          id="org_gst"
+                          placeholder="Enter Your GSTIN"
+                          value={data.org_gst}
+                          onChange={(e) => handleChangeGst(e)}
+                          style={{ fontSize: "15px" }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="col form-group">
-                      <label>
-                        Company ID<span style={{ color: "red" }}>*</span>
-                      </label>
-                      <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
+
+                    <hr />
+                    <div classNmae="form-group">
+                      <label className="col-md-4 control-label" htmlfor="save"></label>
+                      <div className="col-md-20" style={{ width: "100%" }}>
+                        <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
+                          Update
+                        </button>
+                        <button id="clear" onClick={(e) => {
+                          e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                        }} name="clear" className="btn btn-secondary ml-2">Cancel
+                        </button>
+                        <a href="#" style={{ float: "right" }}>
+                          Privacy Policy
+                        </a>
+
+                      </div>
                     </div>
-                    <div className="form-group col-md-6">
-                      <label>
-                        Tax ID
-                        <span style={{ color: "red" }}>*</span>
-                      </label>
-                      <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
-                      <label>GST No</label>
-
-                      <input
-                        type="text"
-                        className={`form-control bg-${themeval}`}
-                        id="org_gst"
-                        placeholder="Enter Your GSTIN"
-                        value={data.org_gst}
-                        onChange={(e) => handleChangeGst(e)}
-                        style={{ fontSize: "15px" }}
-                      />
-                    </div>
-                  </div>
-
-                  <hr />
-                  <div classNmae="form-group">
-                    <label className="col-md-4 control-label" htmlfor="save"></label>
-                    <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
-                        Update
-                      </button>
-                      <button id="clear" onClick={(e) => {
-                        e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
-                      }} name="clear" className="btn ml-2">
-                        Cancel
-                      </button>
-                      <a href="/#" style={{ float: "right" }}>
-                        Privacy Policy
-                      </a>
-
-                    </div>
-                  </div>
-                </form>
+                  </form>
 
 
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Modal */}
-      <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">Change Organisation Image</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="form-row">
-                <label className="col-sm-6 col-form-label">
-                  Select Organisation image
-                </label>
-                <input
-                  type="file"
-
-                  onChange={event => {
-                    const document = event.target.files[0];
-                    setFile(document)
-                  }}
-                // accept=".jpg, .jpeg, .png,.svg"
-                />
-
+                </article>
               </div>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal">Upload</button>
+          </div>
+        </div>
+        {/* Modal */}
+        <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className={`modal-content bg-${themeval}`}>
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Change Organisation Image</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="form-row">
+                  <label className="col-sm-6 col-form-label">
+                    Select Organisation image
+                  </label>
+                  <input
+                    type="file"
+                    onChange={event => {
+                      const document = event.target.files[0];
+                      setFile(document)
+                    }}
+                    accept=".jpg, .jpeg, .png,.svg"
+                  />
+
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal">Upload</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   )
 }
