@@ -16,7 +16,6 @@ const Menu = (props) => {
 
 
   const Rolefunction = (result) => {
-    console.log(result)
     // ################  Items Roles #############
     if (result.items_view === "true") {
       document.getElementById('itemsmenu').style.display = "block"
