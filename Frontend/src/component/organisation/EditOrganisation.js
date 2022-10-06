@@ -7,9 +7,10 @@ import { showOrganisation, updateOrganisation, UploadData } from "../../api/inde
 function EditOrganisation() {
   const [data, setData] = useState({})
   const [file, setFile] = useState('')
-  const [report_basic,setReportBasic] = useState('')
-  const[uploadimage,setUploadImage] = useState('')
+  const [report_basic, setReportBasic] = useState('')
+  const [uploadimage, setUploadImage] = useState('')
 
+  const themeval = localStorage.getItem('themetype') || 'light';
 
   const Orgdetails = async (e) => {
     e.preventDefault();
@@ -25,10 +26,10 @@ function EditOrganisation() {
     const Fins_year = document.getElementById('fins_year').value
     const Company_Id = document.getElementById('company_id').value
     const Tax_id = document.getElementById('tax_id').value
-    console.log(Industry_Type,Fins_year,Company_Id,Tax_id,report_basic,uploadimage)
+    console.log(Industry_Type, Fins_year, Company_Id, Tax_id, report_basic, uploadimage)
 
 
-    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id,Industry_Type,Fins_year,report_basic,Company_Id,Tax_id,uploadimage)
+    const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, Industry_Type, Fins_year, report_basic, Company_Id, Tax_id, uploadimage)
     if (result) {
       alert('Updated')
       window.location.href = '/home';
@@ -49,7 +50,7 @@ function EditOrganisation() {
     setData({ ...data, org_contact_name: e.target.value })
   }
   const handleChangeContactPhone = (e) => {
-    if(e.target.value.length === 11) return false;
+    if (e.target.value.length === 11) return false;
     setData({ ...data, org_contact_phone: e.target.value })
   }
   const handleChangeContactEmail = (e) => {
@@ -62,7 +63,7 @@ function EditOrganisation() {
     setData({ ...data, org_city: e.target.value })
   }
   const handleChangePin = (e) => {
-    if(e.target.value.length === 7) return false
+    if (e.target.value.length === 7) return false
     setData({ ...data, org_pincode: e.target.value })
   }
   const handleChangeGst = (e) => {
@@ -71,14 +72,14 @@ function EditOrganisation() {
   const handleChangeIndustrytype = (e) => {
     setData({ ...data, industry_type: e.target.value })
   }
-  const handleChangeCompanyId = (e) =>{
+  const handleChangeCompanyId = (e) => {
     setData({ ...data, company_id: e.target.value })
   }
-  const handleChangeTaxId = (e) =>{
+  const handleChangeTaxId = (e) => {
     setData({ ...data, tax_id: e.target.value })
   }
 
-  const handleChange= (e) =>{
+  const handleChange = (e) => {
     console.log(e.target.value)
     setReportBasic(e.target.value)
   }
@@ -89,10 +90,10 @@ function EditOrganisation() {
       console.log(result)
       setData(result)
       console.log(result.report_basic)
-      if(result.report_basic==='Accural'){
+      if (result.report_basic === 'Accural') {
         document.getElementById('Accural').checked = true
         setReportBasic('Accural')
-      }else{
+      } else {
         document.getElementById('Cash').checked = true
         setReportBasic('Cash')
 
@@ -103,33 +104,37 @@ function EditOrganisation() {
 
   }, [])
 
+  const styleborder = {
+    border: "none",
+    borderBottom: "1px solid gray"
+  }
+
   return (
     <>      <div className="wrapper">
-     <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
 
-        <Header />
-        {/* <Menu /> */}
-      <div className="orgcontainer">
+      <Header />
+      <div className={`orgcontainer bg-${themeval}`}>
         <br />
         <div className="row justify-content-center " style={{ width: "100%" }}>
           <div className="col-md-6">
             <div className="card">
               <article
-                className="card-body"
-                style={{ borderTop: "3.5px solid blue" }}
-              >
+                className={`card-body bg-${themeval}`}
+                style={{ borderTop: "3.5px solid darkblue" }}>
+
                 <h3 style={{ textAlign: "left" }}>
                   Edit your organization profile
                 </h3>
                 <br />
 
                 <form autoComplete="off">
-                  <div className="form-group" style={{ marginLeft:"40%"}}>
-                    <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%",  position: "relative", }}>
-                      <img src={data.org_logo} alt="Org_logo" style={{ height: "100%", width: "100%",borderRadius: "50%", }} />
-                      <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "blue" }}></i>
+                  <div className="form-group" style={{ marginLeft: "40%" }}>
+                    <div style={{ height: "100px", width: "100px", border: "2px solid black", borderRadius: "50%", position: "relative", }}>
+                      <img src={data.org_logo} alt="Org_logo" style={{ height: "100%", width: "100%", borderRadius: "50%", }} />
+                      <i className="fa fa-camera cameraicon" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ position: "absolute", bottom: "10%", color: "darkblue" }}></i>
                     </div>
                   </div>
 
@@ -137,11 +142,11 @@ function EditOrganisation() {
                     <div className="col form-group">
                       <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
 
-                      <input type="text" className="form-control " id="org_name" disabled value={data.org_name} />
+                      <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={styleborder} />
                     </div>
                     <div className="col form-group">
                       <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
-                      <input type="text" className="form-control" id="industry_type"  value={data.industry_type}  onChange={(e) => handleChangeIndustrytype(e)}/>
+                      <input type="text" className={`form-control bg-${themeval}`} id="industry_type" style={styleborder} value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
                     </div>
                   </div>
                   <div className="form-row">
@@ -151,12 +156,12 @@ function EditOrganisation() {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         value={data.org_country}
                         id="org_country"
                         required
                         disabled
-                        style={{ cursor: "not-allowed" }}
+                        style={styleborder}
                       />
                     </div>
                     <div className="form-group col-md-6">
@@ -166,13 +171,13 @@ function EditOrganisation() {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         placeholder
                         value={data.org_state}
                         id="org_country"
 
                         disabled
-                        style={{ cursor: "not-allowed" }}
+                        style={styleborder}
                       />
                     </div>
                   </div>
@@ -182,46 +187,48 @@ function EditOrganisation() {
                       <div className="col form-group">
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control bg-${themeval}`}
                           placeholder="Contact Person Name"
                           id='org_contact_name'
                           value={data.org_contact_name}
                           onChange={(e) => handleChangeContactname(e)}
+                          style={styleborder}
                         />
                       </div>
                       <div className="form-group col-md-6">
                         <input
-                          className="form-control"
-                          type="text" oninput="numberOnly(this.id);"
+                          className={`form-control bg-${themeval}`}
+                          type="number" oninput="numberOnly(this.id);"
                           maxlength="12"
                           placeholder="Contact Mobile no."
                           id='org_contact_phone'
                           value={data.org_contact_phone}
                           onChange={(e) => handleChangeContactPhone(e)}
-
+                          style={styleborder}
                         />
                       </div>
                     </div>
                     <div className="form-group">
                       <input
                         type="email"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         placeholder="Contact Email"
                         id='org_contact_email'
                         value={data.org_contact_email}
                         onChange={(e) => handleChangeContactEmail(e)}
-
+style={styleborder}
                       />
                     </div>
 
                     <div className="form-group">
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         placeholder="Street"
                         id='org_street'
                         value={data.org_street}
                         onChange={(e) => handleChangeStreet(e)}
+                        style={styleborder}
                       />
                     </div>
 
@@ -229,23 +236,24 @@ function EditOrganisation() {
                       <div className="col form-group">
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control bg-${themeval}`}
                           placeholder="City"
                           id='org_city'
                           value={data.org_city}
                           onChange={(e) => handleChangeCity(e)}
-
+style={styleborder}
                         />
                       </div>
                       <div className="form-group col-md-6">
                         <input
                           type="number"
                           oninput="numberOnly(this.id);"
-                          className="form-control"
+                          className={`form-control bg-${themeval}`}
                           placeholder="Zip/Postal Code"
                           id="org_pin"
                           value={data.org_pincode}
                           onChange={(e) => handleChangePin(e)}
+                          style={styleborder}
                         />
                       </div>
 
@@ -255,12 +263,13 @@ function EditOrganisation() {
 
 
                   <div className="form-row">
-                    <div className="form-group col">
+                    <div className="form-group col ">
                       <label>Finacial year</label>
 
                       <select
                         id="fins_year"
-                        className="form-control col-md-6"
+                        className={`form-control col-md-6 bg-${themeval}`}
+                       
                       >
                         <option value='' hidden >{data.fins_year_month}</option>
                         <option value='January_Feburary' >January_Feburary</option>
@@ -268,7 +277,7 @@ function EditOrganisation() {
 
                       </select>
                     </div>
-                    <div className=" form-group col"onChange={handleChange}>
+                    <div className=" form-group col" onChange={handleChange}>
                       <label> Report Basic </label>
                       <label className="form-check form-check-inline">
 
@@ -277,10 +286,11 @@ function EditOrganisation() {
                           name="taxpreference"
                           value="Accural"
                           id="Accural"
+                          style={styleborder}
                         />Accural
                       </label>
                       <div className="form-group col ml-6" >
-                        <label className="form-check form-check "style={{marginLeft:"90px"}}>
+                        <label className="form-check form-check " style={{ marginLeft: "90px" }}>
 
                           <input
                             className="form-check-input "
@@ -288,6 +298,7 @@ function EditOrganisation() {
                             name="taxpreference"
                             value="Cash"
                             id="Cash"
+                            style={styleborder}
                           />Cash
 
                         </label>
@@ -305,7 +316,7 @@ function EditOrganisation() {
                       <label>Currency</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         value={data.org_currency}
                         id="org_currency"
                         placeholder
@@ -317,7 +328,7 @@ function EditOrganisation() {
                       <label>Language</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         value={data.org_lang}
                         id="org_lang"
                         placeholder
@@ -331,14 +342,14 @@ function EditOrganisation() {
                       <label>
                         Company ID<span style={{ color: "red" }}>*</span>
                       </label>
-                      <input type="text" className="form-control" placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)}/>
+                      <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
                     </div>
                     <div className="form-group col-md-6">
                       <label>
                         Tax ID
                         <span style={{ color: "red" }}>*</span>
                       </label>
-                      <input type="text" className="form-control" placeholder id="tax_id"  value={data.tax_id}  onChange={(e) => handleChangeTaxId(e)}
+                      <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
                       />
                     </div>
                   </div>
@@ -348,12 +359,11 @@ function EditOrganisation() {
 
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control bg-${themeval}`}
                         id="org_gst"
                         placeholder="Enter Your GSTIN"
                         value={data.org_gst}
                         onChange={(e) => handleChangeGst(e)}
-
                         style={{ fontSize: "15px" }}
                       />
                     </div>
@@ -374,7 +384,6 @@ function EditOrganisation() {
                       <a href="/#" style={{ float: "right" }}>
                         Privacy Policy
                       </a>
-
 
                     </div>
                   </div>
@@ -408,7 +417,7 @@ function EditOrganisation() {
                     const document = event.target.files[0];
                     setFile(document)
                   }}
-                  // accept=".jpg, .jpeg, .png,.svg"
+                // accept=".jpg, .jpeg, .png,.svg"
                 />
 
               </div>
@@ -420,7 +429,7 @@ function EditOrganisation() {
           </div>
         </div>
       </div>
-      </div>
+    </div>
     </>
   )
 }
