@@ -213,7 +213,7 @@ const Menu = (props) => {
               </li>
 
               {/* ################# Sales Section Start ############## */}
-              <li className="nav-item" style={{ display: "none" }} id='salesMenu'>
+              <li className="nav-item"  id='salesMenu'>
                 <a href="#" className="nav-link active">
                   <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
                   <p >
@@ -228,7 +228,7 @@ const Menu = (props) => {
                       <p> Customer</p>
                     </a>
                   </li>
-                  <li className="nav-item" style={{ display: "none" }} id="custaddressMenu">
+                  <li className="nav-item" style={{ display: "none" }}  id="custaddressMenu">
                     <a href="/TotalCustAddress" className="nav-link active">
                       <i className="fa fa-address-book nav-icon" />
                       <p>Addresses</p>

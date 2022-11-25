@@ -3,20 +3,21 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import InvoicePreview from '.././PreviewInvoice';
 import InvoicePreviewWithGst from '.././PreviewInvoicewithoutGST'
-import { GetInvoice,GetSubInvoice } from '../../../../api/index'
+import { GetInvoice, GetSubInvoice } from '../../../../api/index'
 
 
 function EditInvoice() {
     const [invoice_detail, setInvoice_detail] = useState({})
-    const [invoicesub,setInvoicesub] = useState([])
+    const [invoicesub, setInvoicesub] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
-            const org=localStorage.getItem('Organisation')
-            const invoice_no= localStorage.getItem('invoiceNo')
-            const Invoiceresult = await GetInvoice(org,invoice_no )
+            const org = localStorage.getItem('Organisation')
+            const invoice_no = localStorage.getItem('invoiceNo')
+            const Invoiceresult = await GetInvoice(org, invoice_no)
             setInvoice_detail(Invoiceresult[0])
             const result1 = await GetSubInvoice(org, invoice_no)
+            console.log(result1)
             setInvoicesub(result1)
 
         }
@@ -141,7 +142,7 @@ function EditInvoice() {
                                                         <select
                                                             id="locationadd"
                                                             className="form-control">
-                                                            <option value={invoice_detail.location}  hidden>{invoice_detail.location_name}</option>
+                                                            <option value={invoice_detail.location} hidden>{invoice_detail.location_name}</option>
 
                                                         </select>
                                                     </div>
@@ -150,7 +151,7 @@ function EditInvoice() {
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span style={{ color: "red" }}>*</span> </label>
                                                     <div className="d-flex col-md">
-                                                        <input type="text" className="form-control col-md-5" id="invoiceid"  disabled value={invoice_detail.invoice_no}/>
+                                                        <input type="text" className="form-control col-md-5" id="invoiceid" disabled value={invoice_detail.invoice_no} />
                                                     </div>
                                                 </div>
 
@@ -165,7 +166,7 @@ function EditInvoice() {
 
                                                     <div className="d-flex col-md-3">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
-                                                        <input type="date" className="form-control col-md-6" id="Invoicedate" disabled value={invoice_detail.startdate}  />
+                                                        <input type="date" className="form-control col-md-6" id="Invoicedate" disabled value={invoice_detail.startdate} />
                                                     </div>
 
 
@@ -175,14 +176,14 @@ function EditInvoice() {
                                                         <select
                                                             id="paymentterm"
                                                             className="col-md-6  mr-0 form-control">
-                                                            <option  value={invoice_detail.payment_term}  hidden>{invoice_detail.payment_term} </option>
+                                                            <option value={invoice_detail.payment_term} hidden>{invoice_detail.payment_term} </option>
 
                                                         </select>
                                                     </div>
 
                                                     <div className="d-flex col-md-3" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                        <input type="date" className="form-control col-md-6" id="Duedate"  disabled value={invoice_detail.lastdate}  />
+                                                        <input type="date" className="form-control col-md-6" id="Duedate" disabled value={invoice_detail.lastdate} />
 
                                                     </div>
                                                 </div>
@@ -192,7 +193,7 @@ function EditInvoice() {
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Activity <span style={{ color: "red" }}>*</span></label>
                                                     <div className="d-flex col-md-4">
                                                         <select id="Activity" className="form-control" >
-                                                            <option value={invoice_detail.major}  hidden>{invoice_detail.major} </option>
+                                                            <option value={invoice_detail.major} hidden>{invoice_detail.major} </option>
 
                                                         </select>
                                                     </div>
@@ -204,7 +205,7 @@ function EditInvoice() {
                                                     </div>
                                                     <div className="d-flex col-md-5">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                                        <input type="date" className="form-control col-md-6" id="todate"  disabled value={invoice_detail.periodto}/>
+                                                        <input type="date" className="form-control col-md-6" id="todate" disabled value={invoice_detail.periodto} />
                                                     </div>
                                                 </div>
                                                 <br />
@@ -223,6 +224,39 @@ function EditInvoice() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {/*<tr>
+
+                                                             <td>Abc Test</td>
+                                                                <td>Abc Test</td>
+                                                                <td>Abc Test</td>
+                                                                <td>Abc Test</td>
+                                                                <td>Abc Test</td>
+                                                                <td>Abc Test</td>
+                                                                <td>Abc Test</td>
+
+                                                            </tr> */}
+
+                                                        {/* ############################################ Rupesh */}
+                                                        {
+                                                            invoicesub.map((item, index) => (
+                                                                <tr key={index}>
+
+                                                                    <td>{item.minor}</td>
+                                                                    <td>{item.quantity}</td>
+                                                                    <td>{item.rate}</td>
+                                                                    <td>{item.taxable === 'No' ? '0' : item.taxable}</td>
+                                                                    <td>{item.unit}</td>
+                                                                    <td>{item.amount}</td>
+                                                                    <td>{item.amount}</td>
+
+                                                                </tr>
+
+                                                            ))
+                                                        }
+                                                        {/* ############################################ Rupesh */}
+
+
+
                                                         {/* {
                                                             totalValues.map((element, index) => (
                                                                         <tr key={index}>
@@ -259,8 +293,12 @@ function EditInvoice() {
                                                         } */}
                                                     </tbody>
                                                 </table>
-                                                <button className="btn btn-primary" id='additembtm'>Add Item</button>   &nbsp;
-                                                <button className="btn btn-danger" id='removeitembtm'>Remove</button>
+
+                                                {/*######################## Rupesh
+                                                 <button className="btn btn-primary" id='additembtm'>Add Item</button>   &nbsp;
+                                                <button className="btn btn-danger" id='removeitembtm'>Remove</button>  
+                                                 ########################## Rupesh */}
+
 
                                                 <hr />
 
@@ -276,8 +314,8 @@ function EditInvoice() {
                                                         </div>
                                                     </div>
                                                     <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
-                                                       <table style={{ width: "100%" }}>
-                                                             <tbody>
+                                                        <table style={{ width: "100%" }}>
+                                                            <tbody>
                                                                 <tr>
                                                                     <td><button className="btn btn-primary" id='subtotalbtn'>Sub Total</button></td>
                                                                     <td></td>
@@ -341,7 +379,7 @@ function EditInvoice() {
                                                                     <td>
                                                                         <div className="input-group mb-1">
                                                                             <select className="form-control col-md-5" id="currency" >
-                                                                                <option  hidden >{invoice_detail.currency_type}</option>
+                                                                                <option hidden >{invoice_detail.currency_type}</option>
 
                                                                             </select>
 

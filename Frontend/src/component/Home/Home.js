@@ -6,8 +6,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import Footer from '../Footer/Footer';
 
 function Home() {
-  const themecolor = localStorage.getItem('themetype') || 'light';
-
+  let themecolor = typeof (localStorage.getItem('themetype')) === null ? localStorage.getItem('themetype') : 'light';
   return (
     <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
@@ -16,7 +15,7 @@ function Home() {
       </div>
       <Header />
       {/* <Menu/> */}
-      <Dashboard theme={themecolor}/>
+      <Dashboard theme={themecolor} />
       <Footer theme={themecolor} />
     </div>
   );

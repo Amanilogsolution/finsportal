@@ -31,8 +31,6 @@ const Login = () => {
         localStorage.setItem('themebtncolor',result.ThemeButton)
         localStorage.setItem('themetype',result.Theme)
 
-        console.log(result)
-
         setLogindetails(result);
         if (result) {
             setLoading(false);

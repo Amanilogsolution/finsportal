@@ -97,6 +97,10 @@ import Estimates from './component/Customer/Estimates/Estimates';
 import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
 import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChallans';
 import Invoices from './component/Customer/Invoices/Invoices';
+
+
+
+
 import EditInvoice from './component/Customer/Invoices/EditInvoice.js/editinvoice';
 import SaveInvoice from './component/Customer/Invoices/SaveInvoice/Saveinvoice'
 
@@ -255,9 +259,12 @@ const App = () => {
           <PrivatRoute exact path="/SalesOrder" component={SalesOrder} />
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
           <PrivatRoute exact path="/Invoices" component={Invoices} />
+
+        
+
           <PrivatRoute exact path="/EditInvoice" component={EditInvoice} />
           <PrivatRoute exact path="/SaveInvoice" component={SaveInvoice} />
-          
+
           <PrivatRoute exact path="/RecurringInvoices" component={RecurringInvoices} />
           <PrivatRoute exact path="/CreditNotes" component={CreditNotes} />
           <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived} />
@@ -269,7 +276,7 @@ const App = () => {
           <PrivatRoute exact path="/SaveBillReport" component={SaveBillReport} />
 
 
-          
+
 
           <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode} />
           <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode} />
@@ -301,11 +308,11 @@ const App = () => {
 
           <PrivatRoute exact path="/addroles" component={AddRoles} />
           <PrivatRoute exact path="/showroles" component={ShowRoles} />
-          
+
           <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} />
 
 
-          
+
 
 
           <Route exact path="*" component={PageNotFound} />

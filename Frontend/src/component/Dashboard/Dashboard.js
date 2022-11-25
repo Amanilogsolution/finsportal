@@ -10,7 +10,7 @@ const Dashboard = (props) => {
   //   setTimeout(() =>{ 
   //   localStorage.clear()
   //  },9000)
-
+console.log('Props',props)
 
   useEffect(() => {
     const fetchData=async()=>{

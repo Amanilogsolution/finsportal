@@ -9,9 +9,10 @@ import Menu from '../Menu/Menu'
 const Header = () => {
   const [data, setData] = useState([])
   const [financialyeardata, setFinancialYearData] = useState([])
-  const themeval = localStorage.getItem('themetype') || 'light';
-  const btntheme = localStorage.getItem('themebtncolor') || 'primary';
-
+  const themeval = typeof(localStorage.getItem('themetype'))===null ? localStorage.getItem('themetype') : 'light'
+  const btntheme = typeof(localStorage.getItem('themebtncolor'))===null ? localStorage.getItem('themebtncolor'): 'primary';
+console.log('Header',themeval)
+console.log('Header',btntheme)
 
   useEffect(() => {
     const fetchdata = async (e) => {
