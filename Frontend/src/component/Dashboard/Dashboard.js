@@ -66,7 +66,7 @@ console.log('Props',props)
                 <div className="small-box bg-info">
                   <div className="inner">
                     <h3>150</h3>
-                    <p>New Orders</p>
+                    <p>Total Customer</p>
                   </div>
                   <div className="icon">
                     <i className="ion ion-bag" />
@@ -77,8 +77,8 @@ console.log('Props',props)
               <div className="col-lg-3 col-6">
                 <div className="small-box bg-success">
                   <div className="inner">
-                    <h3>53<sup style={{ fontSize: 20 }}>%</sup></h3>
-                    <p>Bounce Rate</p>
+                    <h3>53</h3>
+                    <p>Total Vendor</p>
                   </div>
                   <div className="icon">
                     <i className="ion ion-stats-bars" />
