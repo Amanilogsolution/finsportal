@@ -1,8 +1,8 @@
 .ulstyle{
     position: absolute;
-    top: 30%;
-    left: 10%;
-    z-index:1000;
+    top: 10%;
+    left: 20%;
+    z-index:10;
 }
 
 .liststyle{
@@ -11,10 +11,21 @@
     padding:10px;
     cursor:pointer;
     border: 1px solid blue;
-
 }
 .liststyle:hover{
     background:rgb(164, 197, 212);
+}
+.darkliststyle{
+    list-style:none;
+    background:rgb(207, 205, 205);
+    color: black;
+    padding:10px;
+    cursor:pointer;
+    border: 1px solid gray;
+}
+.darkliststyle:hover{
+    background:darkgray;
+    color: #fff;
 }
 
 

@@ -7,6 +7,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../excelformate/tbl_vendor_formate.xlsx';
 import * as XLSX from "xlsx";
+import customStyles from '../customTableStyle';
 
 const Showvendor = () => {
     const columns = [
@@ -42,10 +43,11 @@ const Showvendor = () => {
             cell: (row) => [
 
                 <div className='droplist' id={`deletselect${row.sno}`} >
-                    <select className={` bg-${themeval}`}  onChange={async (e) => {
+                    <select className={` bg-${themeval}`} onChange={async (e) => {
                         const status = e.target.value;
                         await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
-                        window.location.href = 'ShowVendor'}}>
+                        window.location.href = 'ShowVendor'
+                    }}>
                         <option value={row.status} hidden> {row.status}</option>
                         <option value='Active'>Active</option>
                         <option value='Deactive' >Deactive</option>
@@ -234,7 +236,7 @@ const Showvendor = () => {
 
                 }
             }
-          
+
             const financialyear = await Getfincialyearid(org)
             setFinsyear(financialyear[0].year)
             const mvendid = parseInt(financialyear[0].mvend_count);
@@ -254,269 +256,262 @@ const Showvendor = () => {
         border: "1px solid black"
     }
     return (
-        <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
-                <div>
-                    <div className={`content-wrapper bg-${themeval}`}>
-                        <button type="button" id='addvendbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary">Add Vendor</button>
-                        <button type="button" id='excelvendbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                        <div className="container-fluid">
-                            <br />
-                            <h3 className="text-left ml-5">Vendor</h3>
-                            <br />
-                            <div className="row ">
-                                <div className="col">
-                                    <div className="card" >
-                                        <article className={`card-body bg-${themeval}`}>
-                                            <DataTableExtensions
-                                                {...tableData}>
-                                                <DataTable
-                                                    noHeader
-                                                    defaultSortField="id"
-                                                    defaultSortAsc={false}
-                                                    pagination
-                                                    highlightOnHover
-                                                    theme={themeval}
-                                                />
-                                            </DataTableExtensions>
-                                        </article>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <div className="wrapper">
+            <div className="preloader flex-column justify-content-center align-items-center">
+                <div className="spinner-border" role="status"> </div>
+            </div>
+            <Header />
+            <div className={`content-wrapper bg-${themeval}`}>
+                <button type="button" id='addvendbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary">Add Vendor</button>
+                <button type="button" id='excelvendbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <div className="container-fluid">
+                    <br />
+                    <h3 className="text-left ml-5">Vendor</h3>
+                    <br />
+                    <div className="card" >
+                        <article className={`card-body bg-${themeval}`}>
+                            <DataTableExtensions
+                                {...tableData}>
+                                <DataTable
+                                    noHeader
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    pagination
+                                    highlightOnHover
+                                    theme={themeval}
+                                    customStyles={customStyles}
+                                />
+                            </DataTableExtensions>
+                        </article>
                     </div>
                 </div>
-                <Footer theme={themeval} />
+            </div>
+            <Footer theme={themeval} />
 
-                {/* ------------------ Modal start -----------------------------*/}
-                <div
-                    className="modal fade "
-                    id="exampleModal"
-                    tabIndex="-1"
-                    role="dialog"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className={`modal-content bg-${themeval}`}>
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">
-                                    Import excel file
-                                </h5>
-                                <button
-                                    type="button"
-                                    className="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                >
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
+            {/* ------------------ Modal start -----------------------------*/}
+            <div
+                className="modal fade "
+                id="exampleModal"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className={`modal-content bg-${themeval}`}>
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">
+                                Import excel file
+                            </h5>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div>
+                                <label
+                                    htmlFor="user_name"
+                                    className=" col-form-label font-weight-normal">
+                                    <span >Select the file</span>
+                                </label>
                                 <div>
-                                    <label
-                                        htmlFor="user_name"
-                                        className=" col-form-label font-weight-normal">
-                                        <span >Select the file</span>
-                                    </label>
-                                    <div>
-                                        <input
-                                            type="file"
-                                            onChange={onChange}
-                                            className={`form-control bg-${themeval}`}
-                                            accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                                    </div><br />
-                                    <span style={{ color: "red" }}>
-                                        <a href={Excelfile} download> Download formate</a>
-                                    </span><br />
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-dismiss="modal"
-                                >
-                                    Close
-                                </button>
-                                <button type="button" className="btn btn-primary"
-                                    data-dismiss="modal"
-                                    data-toggle="modal"
-                                    data-target=".bd-example-modal-lg">
-                                    Upload
-                                </button>
+                                    <input
+                                        type="file"
+                                        onChange={onChange}
+                                        className={`form-control bg-${themeval}`}
+                                        accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                                </div><br />
+                                <span style={{ color: "red" }}>
+                                    <a href={Excelfile} download> Download formate</a>
+                                </span><br />
                             </div>
                         </div>
-                    </div>
-                </div>
-                {/* ------------------ Modal end -----------------------------*/}
-                {/* ------------------ Data show Modal start -----------------------------*/}
-                <div className="modal fade bd-example-modal-lg"
-                    id="showdataModal"
-                    tabIndex="-1"
-                    role="dialog"
-                    aria-labelledby="myLargeModalLabel"
-                    aria-hidden="true" >
-                    <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-                        <div className={`modal-content bg-${themeval}`}>
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                                    Uploaded Excel file
-                                </h5>
-                                <button
-                                    type="button"
-                                    className="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                >
-                                    <span aria-hidden="true" style={{ color: "red" }}
-                                        onClick={() => {
-                                            document.getElementById("showdataModal").style.display = "none";
-                                            window.location.reload()
-                                        }}>
-                                        &times;</span>
-                                </button>
-                            </div>
-                            <div style={{ margin: "0px 8px", paddingBottom: "20px", overflow: "auto" }}>
-                                {
-                                    backenddata ?
-                                        <>
-                                            <h5 style={{ margin: "auto" }}>This Master id does Not exist</h5>
-                                            <table style={{ color: "red", margin: "auto" }}>
-                                                <thead>
-                                                    <tr>
-                                                        <th style={styleborder}>Master id</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        duplicateData.map((d, index) => (
-                                                            <tr key={index} style={styleborder}>
-                                                                <td style={styleborder}>{d}</td>
-                                                            </tr>
-                                                        ))
-                                                    }
-                                                </tbody>
-                                            </table>
-                                            <br /><br />
-                                        </>
-                                        : null
-                                }
-                                <table >
-                                    <thead>
-                                        <tr>
-                                            <th style={styleborder}>Existing</th>
-                                            <th style={styleborder}>Master Id</th>
-                                            <th style={styleborder}>vend_name</th>
-                                            <th style={styleborder}>company_name</th>
-                                            <th style={styleborder}>vend_display_name</th>
-                                            <th style={styleborder}>vend_email</th>
-                                            <th style={styleborder}>vend_work_phone</th>
-                                            <th style={styleborder}>vend_phone</th>
-                                            <th style={styleborder}>skype_detail</th>
-                                            <th style={styleborder}>designation</th>
-                                            <th style={styleborder}>department</th>
-                                            <th style={styleborder}>website</th>
-                                            <th style={styleborder}>gst_treatment</th>
-                                            <th style={styleborder}>gstin_uin</th>
-                                            <th style={styleborder}>pan_no</th>
-                                            <th style={styleborder}>source_of_supply</th>
-                                            <th style={styleborder}>currency</th>
-                                            <th style={styleborder}>opening_balance</th>
-                                            <th style={styleborder}>payment_terms</th>
-                                            <th style={styleborder}>tds</th>
-                                            <th style={styleborder}>facebook_url</th>
-                                            <th style={styleborder}>twitter_url</th>
-                                            <th style={styleborder}>billing_address_attention</th>
-                                            <th style={styleborder}>billing_address_country</th>
-                                            <th style={styleborder}>billing_address_city</th>
-                                            <th style={styleborder}>billing_address_state</th>
-                                            <th style={styleborder}>billing_address_pincode</th>
-                                            <th style={styleborder}>billing_address_phone</th>
-                                            <th style={styleborder}>billing_address_fax</th>
-                                            <th style={styleborder}>contact_person_name</th>
-                                            <th style={styleborder}>contact_person_email</th>
-                                            <th style={styleborder}>contact_person_work_phone</th>
-                                            <th style={styleborder}>contact_person_phone</th>
-                                            <th style={styleborder}>contact_person_skype</th>
-                                            <th style={styleborder}>contact_person_designation</th>
-                                            <th style={styleborder}>contact_person_department</th>
-                                            <th style={styleborder}>remark</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            importdata.map((d, index) => (
-                                                <tr key={index} style={styleborder}>
-                                                    <td style={styleborder}>{d.existing}</td>
-                                                    <td style={styleborder}>{d.mast_id}</td>
-                                                    <td style={styleborder}>{d.vend_name}</td>
-                                                    <td style={styleborder}>{d.company_name}</td>
-                                                    <td style={styleborder}>{d.vend_display_name}</td>
-                                                    <td style={styleborder}>{d.vend_email}</td>
-                                                    <td style={styleborder}>{d.vend_work_phone}</td>
-                                                    <td style={styleborder}>{d.vend_phone}</td>
-                                                    <td style={styleborder}>{d.skype_detail}</td>
-                                                    <td style={styleborder}>{d.designation}</td>
-                                                    <td style={styleborder}>{d.department}</td>
-                                                    <td style={styleborder}>{d.website}</td>
-                                                    <td style={styleborder}>{d.gst_treatment}</td>
-                                                    <td style={styleborder}>{d.gstin_uin}</td>
-                                                    <td style={styleborder}>{d.pan_no}</td>
-                                                    <td style={styleborder}>{d.source_of_supply}</td>
-                                                    <td style={styleborder}>{d.currency}</td>
-                                                    <td style={styleborder}>{d.opening_balance}</td>
-                                                    <td style={styleborder}>{d.payment_terms}</td>
-                                                    <td style={styleborder}>{d.tds}</td>
-                                                    <td style={styleborder}>{d.facebook_url}</td>
-                                                    <td style={styleborder}>{d.twitter_url}</td>
-                                                    <td style={styleborder}>{d.billing_address_attention}</td>
-                                                    <td style={styleborder}>{d.billing_address_country}</td>
-                                                    <td style={styleborder}>{d.billing_address_city}</td>
-                                                    <td style={styleborder}>{d.billing_address_state}</td>
-                                                    <td style={styleborder}>{d.billing_address_pincode}</td>
-                                                    <td style={styleborder}>{d.billing_address_phone}</td>
-                                                    <td style={styleborder}>{d.billing_address_fax}</td>
-                                                    <td style={styleborder}>{d.contact_person_name}</td>
-                                                    <td style={styleborder}>{d.contact_person_email}</td>
-                                                    <td style={styleborder}>{d.contact_person_work_phone}</td>
-                                                    <td style={styleborder}>{d.contact_person_phone}</td>
-                                                    <td style={styleborder}>{d.contact_person_skype}</td>
-                                                    <td style={styleborder}>{d.contact_person_designation}</td>
-                                                    <td style={styleborder}>{d.contact_person_department}</td>
-                                                    <td style={styleborder}>{d.remark}</td>
-                                                </tr>
-                                            ))
-                                        }</tbody>
-                                    <tfoot></tfoot>
-                                </table>
-                            </div>
-                        </div>
-                        <div className={`modal-footer bg-${themeval}`} >
+                        <div className="modal-footer">
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() => {
-                                    document.getElementById("showdataModal").style.display = "none";
-                                    window.location.reload()
-                                }}
+                                data-dismiss="modal"
                             >
-                                Cancel
+                                Close
                             </button>
-                            <button type="button"
-                                id="uploadbtn"
-                                onClick={uploaddata}
-                                className="btn btn-primary">
+                            <button type="button" className="btn btn-primary"
+                                data-dismiss="modal"
+                                data-toggle="modal"
+                                data-target=".bd-example-modal-lg">
                                 Upload
                             </button>
                         </div>
                     </div>
                 </div>
-                {/* ------------------ Modal end -----------------------------*/}
             </div>
+            {/* ------------------ Modal end -----------------------------*/}
+            {/* ------------------ Data show Modal start -----------------------------*/}
+            <div className="modal fade bd-example-modal-lg"
+                id="showdataModal"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="myLargeModalLabel"
+                aria-hidden="true" >
+                <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+                    <div className={`modal-content bg-${themeval}`}>
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                                Uploaded Excel file
+                            </h5>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true" style={{ color: "red" }}
+                                    onClick={() => {
+                                        document.getElementById("showdataModal").style.display = "none";
+                                        window.location.reload()
+                                    }}>
+                                    &times;</span>
+                            </button>
+                        </div>
+                        <div style={{ margin: "0px 8px", paddingBottom: "20px", overflow: "auto" }}>
+                            {
+                                backenddata ?
+                                    <>
+                                        <h5 style={{ margin: "auto" }}>This Master id does Not exist</h5>
+                                        <table style={{ color: "red", margin: "auto" }}>
+                                            <thead>
+                                                <tr>
+                                                    <th style={styleborder}>Master id</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    duplicateData.map((d, index) => (
+                                                        <tr key={index} style={styleborder}>
+                                                            <td style={styleborder}>{d}</td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <br /><br />
+                                    </>
+                                    : null
+                            }
+                            <table >
+                                <thead>
+                                    <tr>
+                                        <th style={styleborder}>Existing</th>
+                                        <th style={styleborder}>Master Id</th>
+                                        <th style={styleborder}>vend_name</th>
+                                        <th style={styleborder}>company_name</th>
+                                        <th style={styleborder}>vend_display_name</th>
+                                        <th style={styleborder}>vend_email</th>
+                                        <th style={styleborder}>vend_work_phone</th>
+                                        <th style={styleborder}>vend_phone</th>
+                                        <th style={styleborder}>skype_detail</th>
+                                        <th style={styleborder}>designation</th>
+                                        <th style={styleborder}>department</th>
+                                        <th style={styleborder}>website</th>
+                                        <th style={styleborder}>gst_treatment</th>
+                                        <th style={styleborder}>gstin_uin</th>
+                                        <th style={styleborder}>pan_no</th>
+                                        <th style={styleborder}>source_of_supply</th>
+                                        <th style={styleborder}>currency</th>
+                                        <th style={styleborder}>opening_balance</th>
+                                        <th style={styleborder}>payment_terms</th>
+                                        <th style={styleborder}>tds</th>
+                                        <th style={styleborder}>facebook_url</th>
+                                        <th style={styleborder}>twitter_url</th>
+                                        <th style={styleborder}>billing_address_attention</th>
+                                        <th style={styleborder}>billing_address_country</th>
+                                        <th style={styleborder}>billing_address_city</th>
+                                        <th style={styleborder}>billing_address_state</th>
+                                        <th style={styleborder}>billing_address_pincode</th>
+                                        <th style={styleborder}>billing_address_phone</th>
+                                        <th style={styleborder}>billing_address_fax</th>
+                                        <th style={styleborder}>contact_person_name</th>
+                                        <th style={styleborder}>contact_person_email</th>
+                                        <th style={styleborder}>contact_person_work_phone</th>
+                                        <th style={styleborder}>contact_person_phone</th>
+                                        <th style={styleborder}>contact_person_skype</th>
+                                        <th style={styleborder}>contact_person_designation</th>
+                                        <th style={styleborder}>contact_person_department</th>
+                                        <th style={styleborder}>remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        importdata.map((d, index) => (
+                                            <tr key={index} style={styleborder}>
+                                                <td style={styleborder}>{d.existing}</td>
+                                                <td style={styleborder}>{d.mast_id}</td>
+                                                <td style={styleborder}>{d.vend_name}</td>
+                                                <td style={styleborder}>{d.company_name}</td>
+                                                <td style={styleborder}>{d.vend_display_name}</td>
+                                                <td style={styleborder}>{d.vend_email}</td>
+                                                <td style={styleborder}>{d.vend_work_phone}</td>
+                                                <td style={styleborder}>{d.vend_phone}</td>
+                                                <td style={styleborder}>{d.skype_detail}</td>
+                                                <td style={styleborder}>{d.designation}</td>
+                                                <td style={styleborder}>{d.department}</td>
+                                                <td style={styleborder}>{d.website}</td>
+                                                <td style={styleborder}>{d.gst_treatment}</td>
+                                                <td style={styleborder}>{d.gstin_uin}</td>
+                                                <td style={styleborder}>{d.pan_no}</td>
+                                                <td style={styleborder}>{d.source_of_supply}</td>
+                                                <td style={styleborder}>{d.currency}</td>
+                                                <td style={styleborder}>{d.opening_balance}</td>
+                                                <td style={styleborder}>{d.payment_terms}</td>
+                                                <td style={styleborder}>{d.tds}</td>
+                                                <td style={styleborder}>{d.facebook_url}</td>
+                                                <td style={styleborder}>{d.twitter_url}</td>
+                                                <td style={styleborder}>{d.billing_address_attention}</td>
+                                                <td style={styleborder}>{d.billing_address_country}</td>
+                                                <td style={styleborder}>{d.billing_address_city}</td>
+                                                <td style={styleborder}>{d.billing_address_state}</td>
+                                                <td style={styleborder}>{d.billing_address_pincode}</td>
+                                                <td style={styleborder}>{d.billing_address_phone}</td>
+                                                <td style={styleborder}>{d.billing_address_fax}</td>
+                                                <td style={styleborder}>{d.contact_person_name}</td>
+                                                <td style={styleborder}>{d.contact_person_email}</td>
+                                                <td style={styleborder}>{d.contact_person_work_phone}</td>
+                                                <td style={styleborder}>{d.contact_person_phone}</td>
+                                                <td style={styleborder}>{d.contact_person_skype}</td>
+                                                <td style={styleborder}>{d.contact_person_designation}</td>
+                                                <td style={styleborder}>{d.contact_person_department}</td>
+                                                <td style={styleborder}>{d.remark}</td>
+                                            </tr>
+                                        ))
+                                    }</tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div className={`modal-footer bg-${themeval}`} >
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => {
+                                document.getElementById("showdataModal").style.display = "none";
+                                window.location.reload()
+                            }}
+                        >
+                            Cancel
+                        </button>
+                        <button type="button"
+                            id="uploadbtn"
+                            onClick={uploaddata}
+                            className="btn btn-primary">
+                            Upload
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {/* ------------------ Modal end -----------------------------*/}
         </div>
     )
 }

@@ -7,6 +7,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_currency.xlsx';
 import * as XLSX from "xlsx";
+import customStyles from '../../customTableStyle'
 
 
 const ShowCurrency = () => {
@@ -18,57 +19,57 @@ const ShowCurrency = () => {
 
   const themetype = localStorage.getItem('themetype')
 
-const columns = [
-  {
-    name: 'Country Code',
-    selector: 'country_code',
-    sortable: true
-  },
-  {
-    name: 'Country Name',
-    selector: 'country_name',
-    sortable: true
-  },
-  {
-    name: 'Currency Name',
-    selector: 'currency_name',
-    sortable: true
-  },
-  {
-    name: 'Currency Code',
-    selector: 'currency_code',
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: "null",
-    cell: (row) => [
-      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-        <select className={themetype} onChange={async (e) => {
-          const status = e.target.value;
-          await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
-          window.location.href = 'ShowCurrency'
-        }
-        }>
-          <option hidden value={row.status}> {row.status}</option>
-          <option>Active</option>
-          <option>Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-  {
-    name: "Action",
-    sortable: false,
-    selector: "null",
-    cell: (row) => [
+  const columns = [
+    {
+      name: 'Country Code',
+      selector: 'country_code',
+      sortable: true
+    },
+    {
+      name: 'Country Name',
+      selector: 'country_name',
+      sortable: true
+    },
+    {
+      name: 'Currency Name',
+      selector: 'currency_name',
+      sortable: true
+    },
+    {
+      name: 'Currency Code',
+      selector: 'currency_code',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: "null",
+      cell: (row) => [
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+          <select className={themetype} onChange={async (e) => {
+            const status = e.target.value;
+            await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
+            window.location.href = 'ShowCurrency'
+          }
+          }>
+            <option hidden value={row.status}> {row.status}</option>
+            <option>Active</option>
+            <option>Deactive</option>
+          </select>
+        </div>
+      ]
+    },
+    {
+      name: "Action",
+      sortable: false,
+      selector: "null",
+      cell: (row) => [
 
-      <a title='View Document' href="EditCurrency" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} >Edit</button></a>
-    ]
-  }
-]
+        <a title='View Document' href="EditCurrency" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+          <button className="editbtn btn-success " onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} >Edit</button></a>
+      ]
+    }
+  ]
 
 
 
@@ -89,11 +90,11 @@ const columns = [
     }
     else {
       const result = await ImportCurrency(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-      if (!(result == "Data Added")) {
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
@@ -178,224 +179,214 @@ const columns = [
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%',display:"none" }} onClick={() => { window.location.href = "./AddCurrency" }} className="btn btn-primary">Add Currency</button>
-            <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5">Currency</h3>
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`} >
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          dense
-                          theme={themetype}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themetype}`}>
+        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddCurrency" }} className="btn btn-primary">Add Currency</button>
+        <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+        <div className="container-fluid">
+          <br />
+          <h3 className="ml-5">Currency</h3>
+          <div className="card">
+            <article className={`card-body bg-${themetype}`} >
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  // dense
+                  theme={themetype}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-        <Footer theme={themetype}/>
-        {/* ------------------ Modal start -----------------------------*/}
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Import excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className={`modal-body bg-${themetype}`}>
+      </div>
+      <Footer theme={themetype} />
+      {/* ------------------ Modal start -----------------------------*/}
+      {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Import excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className={`modal-body bg-${themetype}`}>
 
+              <div className=" ">
+                <label
+                  htmlFor="user_name"
+                  className=" col-form-label font-weight-normal"
+                >
+                  <span >Select the file</span>
+                </label>
                 <div className=" ">
-                  <label
-                    htmlFor="user_name"
-                    className=" col-form-label font-weight-normal"
-                  >
-                    <span >Select the file</span>
-                  </label>
-                  <div className=" ">
-                    <input
-                      id=""
-                      type="file"
-                      onChange={onChange}
-                      className={`form-control bg-${themetype}`}
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                  </div><br />
-                  <span style={{ color: "red" }}>
-                    <a href={Excelfile} download> Download formate</a>
-                  </span><br />
-                </div>
-              </div>
-              <div className={`modal-footer bg-${themetype}`}>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" onClick={handleClick} className="btn btn-primary"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-lg">
-                  Upload
-                </button>
+                  <input
+                    id=""
+                    type="file"
+                    onChange={onChange}
+                    className={`form-control bg-${themetype}`}
+                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                </div><br />
+                <span style={{ color: "red" }}>
+                  <a href={Excelfile} download> Download formate</a>
+                </span><br />
               </div>
             </div>
-          </div>
-        </div>
-        {/* ------------------ Modal end -----------------------------*/}
-        {/* ------------------ Data show Modal start -----------------------------*/}
-        <div className="modal fade bd-example-modal-lg "
-          id="showdataModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="myLargeModalLabel"
-          aria-hidden="true"
-        >
-
-          <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true" style={{ color: "red" }}
-                    onClick={() => {
-                      document.getElementById("showdataModal").style.display = "none";
-                      window.location.reload()
-                    }}>
-                    &times;</span>
-                </button>
-              </div>
-              <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
-                {
-
-                  backenddata ?
-                    <>
-                      <h5>This data already exist</h5>
-                      <table style={{ color: "red" }}>
-                        <thead>
-                          <tr>
-                            <th style={styleborder}>country_code</th>
-                            <th style={styleborder}>country_id</th>
-                            <th style={styleborder}>country_name</th>
-                            <th style={styleborder}>country_phonecode</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            duplicateData.map((d) => (
-
-                              <tr style={styleborder}>
-                                <td style={styleborder}>{d.country_code}</td>
-                                <td style={styleborder}>{d.country_id}</td>
-                                <td style={styleborder}>{d.country_name}</td>
-                                <td style={styleborder}>{d.country_phonecode}</td>
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                        <br /><br />
-                      </table>
-                    </>
-                    : null
-                }
-                <table >
-                  <thead>
-                    <tr>
-                      <th style={styleborder}>country_code</th>
-                      <th style={styleborder}>country_name</th>
-                      <th style={styleborder}>currency_code</th>
-                      <th style={styleborder}>currency_name</th>
-                    </tr>
-
-                  </thead>
-                  <tbody>
-                    {
-                      importdata.map((d) => (
-                        <tr style={styleborder}>
-                          <td style={styleborder}>{d.country_code}</td>
-                          <td style={styleborder}>{d.country_name}</td>
-                          <td style={styleborder}>{d.currency_code}</td>
-                          <td style={styleborder}>{d.currency_name}</td>
-
-                        </tr>
-                      ))
-                    }</tbody>
-                </table>
-              </div>
-            </div>
-            <div className={`modal-footer bg-${themetype}`} >
+            <div className={`modal-footer bg-${themetype}`}>
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("showdataModal").style.display = "none";
-                  window.location.reload()
-                }}
+                data-dismiss="modal"
               >
-                Cancel
+                Close
               </button>
-              <button type="button"
-                id="uploadbtn"
-                onClick={uploaddata}
-                className="btn btn-primary"
-              >
+              <button type="button" onClick={handleClick} className="btn btn-primary"
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg">
                 Upload
               </button>
             </div>
           </div>
         </div>
-        {/* ------------------ Modal end -----------------------------*/}
       </div>
-    </div>
+      {/* ------------------ Modal end -----------------------------*/}
+      {/* ------------------ Data show Modal start -----------------------------*/}
+      <div className="modal fade bd-example-modal-lg "
+        id="showdataModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true"
+      >
 
+        <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                Uploaded Excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ color: "red" }}
+                  onClick={() => {
+                    document.getElementById("showdataModal").style.display = "none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+              </button>
+            </div>
+            <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+              {
+
+                backenddata ?
+                  <>
+                    <h5>This data already exist</h5>
+                    <table style={{ color: "red" }}>
+                      <thead>
+                        <tr>
+                          <th style={styleborder}>country_code</th>
+                          <th style={styleborder}>country_id</th>
+                          <th style={styleborder}>country_name</th>
+                          <th style={styleborder}>country_phonecode</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          duplicateData.map((d) => (
+
+                            <tr style={styleborder}>
+                              <td style={styleborder}>{d.country_code}</td>
+                              <td style={styleborder}>{d.country_id}</td>
+                              <td style={styleborder}>{d.country_name}</td>
+                              <td style={styleborder}>{d.country_phonecode}</td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                      <br /><br />
+                    </table>
+                  </>
+                  : null
+              }
+              <table >
+                <thead>
+                  <tr>
+                    <th style={styleborder}>country_code</th>
+                    <th style={styleborder}>country_name</th>
+                    <th style={styleborder}>currency_code</th>
+                    <th style={styleborder}>currency_name</th>
+                  </tr>
+
+                </thead>
+                <tbody>
+                  {
+                    importdata.map((d) => (
+                      <tr style={styleborder}>
+                        <td style={styleborder}>{d.country_code}</td>
+                        <td style={styleborder}>{d.country_name}</td>
+                        <td style={styleborder}>{d.currency_code}</td>
+                        <td style={styleborder}>{d.currency_name}</td>
+
+                      </tr>
+                    ))
+                  }</tbody>
+              </table>
+            </div>
+          </div>
+          <div className={`modal-footer bg-${themetype}`} >
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                document.getElementById("showdataModal").style.display = "none";
+                window.location.reload()
+              }}
+            >
+              Cancel
+            </button>
+            <button type="button"
+              id="uploadbtn"
+              onClick={uploaddata}
+              className="btn btn-primary"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* ------------------ Modal end -----------------------------*/}
+    </div>
   )
 }
 export default ShowCurrency

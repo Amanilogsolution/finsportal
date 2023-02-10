@@ -57,7 +57,7 @@ function Bills() {
         tds_amt: '',
         remarks: ''
     })
-    const [vouchersitem,setVoucheritems] =useState([])
+    const [vouchersitem, setVoucheritems] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -174,24 +174,24 @@ function Bills() {
 
 
         // setTimeout(() => {
-            if (document.getElementById(`deduction${index}`).value > 0) {
-                const net = amount[index] - document.getElementById(`deduction${index}`).value
-                setVoucheritems([...vouchersitem,{
-                    items:items[index],quantity:quantity[index],
-                    rate:rate[index],amount:amount[index],
-                    deduction:document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
-                    unit:e.target.value,
-                    netvalue:net
-                 }])    
-            } else {
-                setVoucheritems([...vouchersitem,{
-                    items:items[index],quantity:quantity[index],
-                    rate:rate[index],amount:amount[index],
-                    deduction:document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
-                    unit:e.target.value,
-                    netvalue:amount[index]
-                 }])      
-            }
+        if (document.getElementById(`deduction${index}`).value > 0) {
+            const net = amount[index] - document.getElementById(`deduction${index}`).value
+            setVoucheritems([...vouchersitem, {
+                items: items[index], quantity: quantity[index],
+                rate: rate[index], amount: amount[index],
+                deduction: document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
+                unit: e.target.value,
+                netvalue: net
+            }])
+        } else {
+            setVoucheritems([...vouchersitem, {
+                items: items[index], quantity: quantity[index],
+                rate: rate[index], amount: amount[index],
+                deduction: document.getElementById(`deduction${index}`).value ? document.getElementById(`deduction${index}`).value : '',
+                unit: e.target.value,
+                netvalue: amount[index]
+            }])
+        }
 
         // setVoucheritems([...vouchersitem,{
         //    items:items[index],quantity:quantity[index],
@@ -200,7 +200,7 @@ function Bills() {
         //    unit:e.target.value,
         //    netvalue:netvalue[index]
         // }])
-    // },1000)
+        // },1000)
     }
 
     const handleChangeItems = (e) => {
@@ -436,7 +436,7 @@ function Bills() {
 
 
     return (
-        <div>
+        <>
             <div className="wrapper">
                 <div className="preloader flex-column justify-content-center align-items-center">
                     <div className="spinner-border" role="status"> </div>
@@ -444,403 +444,377 @@ function Bills() {
                 <Header />
                 <div className="content-wrapper">
                     <div className="container-fluid">
-                        <br />
-                        <h3 className="text-left ml-5"> New Bill</h3>
-                        <div className="row " >
-                            <div className="col ml-2 mr-2">
-                                <div className="card">
-                                    <article
-                                        className="card-body" >
-                                        <form autoComplete="off">
+                        <h3 className="py-3 ml-5"> New Bill</h3>
+                        <div className="card">
+                            <article className="card-body">
+                                <form autoComplete="off">
+                                    <div className="form-row ">
+                                        <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
+                                        <div className="d-flex col-md">
+                                            <select
+                                                id="vend_name"
+                                                onChange={handlevendorselect}
+                                                className="form-control col-md-4">
 
-                                            <div className="form-row mt-2">
-                                                <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
+                                                <option value='' hidden>select vendor</option>
+                                                {
+                                                    vendorlist.map((item, index) =>
+                                                        <option key={index} value={item.vend_id}>{item.vend_name}</option>)
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="form-row mt-2">
+                                        <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
+                                        <div className="d-flex col-md">
+                                            <select
+                                                id="location"
+                                                className="form-control col-md-4">
+                                                <option value='' hidden>Select loction</option>
+                                                {
+                                                    vendorlocation.map((item, index) =>
+                                                        <option key={index} value={item.billing_address_attention}>{item.billing_address_attention}</option>)
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row mt-3" >
+                                        <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
+                                        <div className="d-flex col-md-4" >
+                                            <input type="text" className="form-control col-md-10" id="voucher_no" placeholder="" disabled />
+                                        </div>
+                                        <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
+                                        <div className="d-flex col-md-4 " >
+                                            <input type="date" className="form-control col-md-10" id="voucher_date" disabled />
+                                        </div>
+                                    </div>
+
+
+                                    <div className="form-row mt-3">
+                                        <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill no<span className='text-danger'>*</span> </label>
+                                        <div className="d-flex col-md">
+                                            <input type="text" className="form-control col-md-4" id="bill_no" placeholder="SO-00001" />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row mt-3">
+                                        <label className="col-md-2 col-form-label font-weight-normal" >Order Number</label>
+                                        <div className="d-flex col-md">
+                                            <input type="text" className="form-control col-md-4" id="order_no" />
+                                        </div>
+                                    </div>
+                                    <div className="form-row mt-3">
+                                        <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                        <div className="d-flex col-md">
+                                            <input type="number" className="form-control col-md-4" id="bill_amt" />
+                                        </div>
+                                    </div>
+                                    <div className="form-row mt-3">
+                                        <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
+                                        <div className="d-flex col-md">
+                                            <input type="date" className="form-control col-md-4" id="bill_date" />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row mt-3" >
+                                        <label htmlFor='payment_term' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span className='text-danger'>*</span> </label>
+                                        <div className="d-flex col-md-4" >
+                                            <select
+                                                id="payment_term"
+                                                className="form-control col-md-10" onChange={handleAccountTerm}>
+                                                <option value={vendorselectedlist.payment_terms} hidden>{vendorselectedlist.payment_terms}</option>
+                                                {
+                                                    paymenttermlist.map((item, index) => (
+                                                        <option key={index} value={item.term_days}>{item.term}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                        <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
+                                        <div className="d-flex col-md-4 " >
+                                            <input type="date" className="form-control col-md-10" id="due_date" disabled />
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <table className="table table-striped table-bordered">
+                                        <thead className='text-center'>
+                                            <th  scope="col">Location</th>
+                                            <th  scope="col">Item Details</th>
+                                            <th  scope="col">Employee</th>
+                                            <th  scope="col">Quantity</th>
+                                            <th  scope="col">Rate</th>
+                                            <th  scope="col">Amount</th>
+                                            <th  scope="col">Deduction</th>
+                                            <th  scope="col">Refno/FIleno</th>
+                                            <th  scope="col">Unit</th>
+                                            <th  scope="col">Net Amt</th>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                totalValues.map((element, index) => (
+                                                    <tr key={index}>
+                                                        <td className='p-1 pt-2' style={{ width: "180px" }}>
+                                                            <select className="form-control ml-0" onChange={handleChangeLocation}
+                                                            >
+                                                                <option value='' hidden>Select Location</option>
+                                                                {
+                                                                    locationstate.map((item, index) => (
+                                                                        <option key={index} value={item.location_add1} >{item.location_add1}</option>
+
+                                                                    ))
+                                                                }
+                                                            </select>
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "180px" }}>
+                                                            <select className="form-control ml-0" onChange={handleChangeItems}>
+                                                                <option value='' hidden>Select Item</option>
+
+                                                                {
+                                                                    itemlist.map((items, index) => (
+                                                                        <option key={index} value={items.item_name} >{items.item_name}</option>
+
+                                                                    ))
+                                                                }
+                                                            </select>
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                            <select className="form-control ml-0" onChange={handleChangeEmployee}>
+                                                                <option value='' hidden>Select Employee</option>
+                                                                {
+                                                                    activeuser.map((items, index) => (
+                                                                        <option key={index} value={items.employee_name} >{items.employee_name}</option>
+
+                                                                    ))
+                                                                }
+
+                                                            </select>
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                            <input type='number' id={`Quantity${index}`} onChange={() => setIndex(index)} className="form-control" />
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                            <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                            <input type='number' id="Amount" value={amount[index]} className="form-control" />
+                                                        </td>
+
+                                                        <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                            <input type='number' id={`deduction${index}`} className="form-control" onChange={(e) => {
+                                                                const value = e.target.value;
+                                                                // const net = amount[index] - value
+                                                                // setTimeout(() => {
+                                                                //     setDeduction([...deduction,value])
+                                                                // }, 1000)
+                                                            }} />
+
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                            <input type='text' className="form-control" id={`fileno${index}`} />
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                            <select className="form-control ml-0" onChange={handleChangeUnit}>
+                                                                <option value='' hidden>Select Unit</option>
+                                                                {
+                                                                    unitlist.map((item, index) =>
+                                                                        <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                }
+                                                            </select>
+                                                        </td>
+                                                        <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                            <input type='number' className="form-control" value={netvalue[index]} />
+                                                        </td>
+                                                    </tr>
+
+                                                ))
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
+                                    <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
+                                    <hr />
+
+                                    <div style={{ display: "flex" }}>
+                                        <div style={{ width: "40%" }}>
+                                            <div className="form mt-2">
+                                                <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                 <div className="d-flex col-md">
-                                                    <select
-                                                        id="vend_name"
-                                                        onChange={handlevendorselect}
-                                                        className="form-control col-md-4">
-
-                                                        <option value='' hidden>select vendor</option>
-                                                        {
-                                                            vendorlist.map((item, index) =>
-                                                                <option key={index} value={item.vend_id}>{item.vend_name}</option>)
-                                                        }
-                                                    </select>
+                                                    <textarea type="text" className="form-control " rows="5" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
                                                 </div>
+
                                             </div>
-                                            <div className="form-row mt-2">
-                                                <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <select
-                                                        id="location"
-                                                        className="form-control col-md-4">
-                                                        <option value='' hidden>Select loction</option>
-                                                        {
-                                                            vendorlocation.map((item, index) =>
-                                                                <option key={index} value={item.billing_address_attention}>{item.billing_address_attention}</option>)
-                                                        }
-
-                                                    </select>
-                                                </div>
+                                            <div className='mt-3'>
+                                                <label className="font-weight-normal" >Attach file(s) to Estimate</label><br />
+                                                <button type="button" className='btn btn-success' data-toggle="modal" data-target="#exampleModal">
+                                                    <i className='ion-android-attach'></i> &nbsp;
+                                                    Attach File</button>
                                             </div>
-
-                                            <div className="form-row mt-3" >
-                                                <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
-                                                <div className="d-flex col-md-4" >
-                                                    <input type="text" className="form-control col-md-10" id="voucher_no" placeholder="" disabled />
-                                                </div>
-                                                <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
-                                                <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10" id="voucher_date" disabled />
-                                                </div>
-                                            </div>
-
-
-                                            <div className="form-row mt-3">
-                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill no<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="bill_no" placeholder="SO-00001" />
-                                                </div>
-                                            </div>
-
-
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="order_no" />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="number" className="form-control col-md-4" id="bill_amt" />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-4" id="bill_date" />
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-3" >
-                                                <label htmlFor='payment_term' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-4" >
-                                                    <select
-                                                        id="payment_term"
-                                                        className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value={vendorselectedlist.payment_terms} hidden>{vendorselectedlist.payment_terms}</option>
-                                                        {
-                                                            paymenttermlist.map((item, index) => (
-                                                                <option key={index} value={item.term_days}>{item.term}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
-                                                <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10" id="due_date" disabled />
-                                                </div>
-                                            </div>
-
-                                            <br />
-                                            <table className="table table-striped table-bordered">
+                                        </div>
+                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                            <table className='table table-borderless' style={{ width: "100%" }}>
                                                 <thead>
-                                                    <th className='text-center' scope="col">Location</th>
-                                                    <th className='text-center' scope="col">Item Details</th>
-                                                    <th className='text-center' scope="col">Employee</th>
-                                                    <th className='text-center' scope="col">Quantity</th>
-                                                    <th className='text-center' scope="col">Rate</th>
-                                                    <th className='text-center' scope="col">Amount</th>
-                                                    <th className='text-center' scope="col">Deduction</th>
-                                                    <th className='text-center' scope="col">Refno/FIleno</th>
-                                                    <th className='text-center' scope="col">Unit</th>
-                                                    <th className='text-center' scope="col">Net Amt</th>
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                        <th scope="col"></th>
+                                                        <th scope="col"></th>
+                                                    </tr>
                                                 </thead>
-                                                <tbody>
-                                                    {
-                                                        totalValues.map((element, index) => (
-                                                            <tr key={index}>
-                                                                <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0" onChange={handleChangeLocation}
-                                                                    >
-                                                                        <option value='' hidden>Select Location</option>
-                                                                        {
-                                                                            locationstate.map((item, index) => (
-                                                                                <option key={index} value={item.location_add1} >{item.location_add1}</option>
+                                                <tbody style={{ position: "relative" }}>
+                                                    <tr scope="row">
+                                                        <td style={{ width: "150px" }} >
+                                                            <a title='Click to Input GST Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
+                                                            </a>
+                                                            <div className=" dropdown-menu-lg bg-light" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
+                                                                <div>
+                                                                    <div className="card-body p-2">
+                                                                        <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
+                                                                        <div className="form-group ">
+                                                                            <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
+                                                                            <div>
+                                                                                <select
+                                                                                    id="gsttype"
+                                                                                    className="form-control col">
+                                                                                    <option value='' hidden>Select GST Type</option>
+                                                                                    <option value='Intra'>Intra</option>
+                                                                                    <option value='Inter' >Inter</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="form-row">
+                                                                            <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
+                                                                            <input type="number" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
+                                                                        </div>
+                                                                        <div className="form-row" >
+                                                                            <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
+                                                                            <input type="text" className="form-control col-md-7" id="gstTax" />
+                                                                        </div>
+                                                                        <br />
+                                                                        <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className='form-control col-md p-0 bg-transparent pb-1'>
+                                                            <div className="input-group" >
+                                                                <input type="number" className="form-control col-md-5 ml-5" id='cgst-inp' value={cgstper} disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className='text-center' style={{ width: "150px" }} id='cgstamt'>{cgstval}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total SGST Amt</td>
+                                                        <td className='form-control col-md p-0 bg-transparent border-none'>
+                                                            <div className="input-group" >
+                                                                <input type="" className="form-control col-md-5 ml-5" id='sgst-inp' value={sgstper} disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className='text-center' style={{ width: "150px" }} id='sgstamt'>{sgstval}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total IGST Amt</td>
+                                                        <td className='form-control col-md p-0 bg-transparent ' >
+                                                            <div className="input-group" >
+                                                                <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' value={igstper} disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className='text-center' style={{ width: "150px" }} id='igstamt'>{igstval}</td>
+                                                    </tr>
+                                                    <tr scope="row">
+                                                        <td style={{ width: "150px" }}>
+                                                            <a title='Click to Input TDS Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
+                                                            </a>
+                                                            <div className=" dropdown-menu-lg bg-light " id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
+                                                                <div>
+                                                                    <div className="card-body" >
+                                                                        <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
 
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0" onChange={handleChangeItems}>
-                                                                        <option value='' hidden>Select Item</option>
+                                                                        <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
+                                                                            <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
+                                                                            <div className="form-row m-0">
 
-                                                                        {
-                                                                            itemlist.map((items, index) => (
-                                                                                <option key={index} value={items.item_name} >{items.item_name}</option>
+                                                                                <select className="form-control col" id='tds_head'>
+                                                                                    <option value='' hidden>Select Tds head</option>
+                                                                                    <option value='Cost'>Cost</option>
+                                                                                    <option value='Salary'>Salary</option>
+                                                                                    <option value='Rent'>Rent</option>
+                                                                                    <option value='Profit'>Profit</option>
+                                                                                    <option value='Brokerage'>Brokerage</option>
 
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={handleChangeEmployee}>
-                                                                        <option value='' hidden>Select Employee</option>
-                                                                        {
-                                                                            activeuser.map((items, index) => (
-                                                                                <option key={index} value={items.employee_name} >{items.employee_name}</option>
+                                                                                </select>
+                                                                            </div>
 
-                                                                            ))
-                                                                        }
+                                                                        </div>
+                                                                        <div className="form-row m-0" style={{ marginTop: '0px' }} onChange={handleTdscomp}>
+                                                                            <input type="radio" id='tds_comp' name='comp_type' value='Company' />
+                                                                            <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1"  >Company</label>
 
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`Quantity${index}`} onChange={() => setIndex(index)} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id="Amount" value={amount[index]} className="form-control" />
-                                                                </td>
+                                                                            <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' />
+                                                                            <label htmlFor='non_company' className="form-label font-weight-normal mt-1" >Non-Company</label>
 
-                                                                <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' id={`deduction${index}`} className="form-control" onChange={(e) => {
-                                                                        const value = e.target.value;
-                                                                        // const net = amount[index] - value
-                                                                        // setTimeout(() => {
-                                                                        //     setDeduction([...deduction,value])
-                                                                        // }, 1000)
-                                                                    }} />
-
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='text' className="form-control" id={`fileno${index}`} />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={handleChangeUnit}>
-                                                                        <option value='' hidden>Select Unit</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                    <input type='number' className="form-control" value={netvalue[index]} />
-                                                                </td>
-                                                            </tr>
-
-                                                        ))
-                                                    }
-
+                                                                        </div>
+                                                                        <div className="form-row" >
+                                                                            <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
+                                                                            <input type="number" className="form-control col-md-7" id='tds_amt' />
+                                                                        </div>
+                                                                        <div className="form-row" >
+                                                                            <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
+                                                                            <input type="number" className="form-control col-md-7" id='tds_per' />
+                                                                        </div>
+                                                                        <br />
+                                                                        <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className='form-control col-md p-0 bg-transparent '>
+                                                            <div className="input-group" >
+                                                                <input type="text" className="form-control col-md-5 ml-5" id='tdsperinp' disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Expense Amt</td>
+                                                        <td className='form-control col-md p-0 bg-transparent '>
+                                                            <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' onBlur={handlesetalldata} />
+                                                        </td>
+                                                        <td className='text-center' style={{ width: "150px" }}>0.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>Total</h4></td>
+                                                        <td></td>
+                                                        <td className='text-center' style={{ width: "150px" }} id='total_bill_amt'>{netTotal}</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
-                                            <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
-                                            <hr />
 
-                                            <div style={{ display: "flex" }}>
-                                                <div style={{ width: "40%" }}>
-                                                    <div className="form mt-2">
-                                                        <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
-                                                        <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="5" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
-                                                        </div>
-
-                                                    </div>
-                                                    <div className='mt-3'>
-                                                        <label className="font-weight-normal" >Attach file(s) to Estimate</label><br />
-                                                        <button type="button" className='btn btn-success' data-toggle="modal" data-target="#exampleModal">
-                                                            <i className='ion-android-attach'></i> &nbsp;
-                                                            Attach File</button>
-                                                    </div>
-                                                </div>
-                                                <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
-                                                    <table className='table table-borderless' style={{ width: "100%" }}>
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col"></th>
-                                                                <th scope="col"></th>
-                                                                <th scope="col"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody style={{ position: "relative" }}>
-                                                            <tr scope="row">
-                                                                <td style={{ width: "150px" }} >
-                                                                    <a title='Click to Input GST Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
-                                                                    </a>
-                                                                    <div className=" dropdown-menu-lg bg-light" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
-                                                                        <div>
-                                                                            <div className="card-body p-2">
-                                                                                <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
-                                                                                <div className="form-group ">
-                                                                                    <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <div>
-                                                                                        <select
-                                                                                            id="gsttype"
-                                                                                            className="form-control col">
-                                                                                            <option value='' hidden>Select GST Type</option>
-                                                                                            <option value='Intra'>Intra</option>
-                                                                                            <option value='Inter' >Inter</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="form-row">
-                                                                                    <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <input type="number" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
-                                                                                </div>
-                                                                                <div className="form-row" >
-                                                                                    <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <input type="text" className="form-control col-md-7" id="gstTax" />
-                                                                                </div>
-                                                                                <br />
-                                                                                <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className='form-control col-md p-0 bg-transparent pb-1'>
-                                                                    <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-5 ml-5" id='cgst-inp' value={cgstper} disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className='text-center' style={{ width: "150px" }} id='cgstamt'>{cgstval}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Total SGST Amt</td>
-                                                                <td className='form-control col-md p-0 bg-transparent border-none'>
-                                                                    <div className="input-group" >
-                                                                        <input type="" className="form-control col-md-5 ml-5" id='sgst-inp' value={sgstper} disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className='text-center' style={{ width: "150px" }} id='sgstamt'>{sgstval}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Total IGST Amt</td>
-                                                                <td className='form-control col-md p-0 bg-transparent ' >
-                                                                    <div className="input-group" >
-                                                                        <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' value={igstper} disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className='text-center' style={{ width: "150px" }} id='igstamt'>{igstval}</td>
-                                                            </tr>
-                                                            <tr scope="row">
-                                                                <td style={{ width: "150px" }}>
-                                                                    <a title='Click to Input TDS Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
-                                                                    </a>
-                                                                    <div className=" dropdown-menu-lg bg-light " id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
-                                                                        <div>
-                                                                            <div className="card-body" >
-                                                                                <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
-
-                                                                                <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
-                                                                                    <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <div className="form-row m-0">
-
-                                                                                        <select className="form-control col" id='tds_head'>
-                                                                                            <option value='' hidden>Select Tds head</option>
-                                                                                            <option value='Cost'>Cost</option>
-                                                                                            <option value='Salary'>Salary</option>
-                                                                                            <option value='Rent'>Rent</option>
-                                                                                            <option value='Profit'>Profit</option>
-                                                                                            <option value='Brokerage'>Brokerage</option>
-
-                                                                                        </select>
-                                                                                    </div>
-
-                                                                                </div>
-
-
-                                                                                <div className="form-row m-0" style={{ marginTop: '0px' }} onChange={handleTdscomp}>
-                                                                                    <input type="radio" id='tds_comp' name='comp_type' value='Company' />
-                                                                                    <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1"  >Company</label>
-
-                                                                                    <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' />
-                                                                                    <label htmlFor='non_company' className="form-label font-weight-normal mt-1" >Non-Company</label>
-
-                                                                                </div>
-                                                                                <div className="form-row" >
-                                                                                    <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <input type="number" className="form-control col-md-7" id='tds_amt' />
-                                                                                </div>
-                                                                                <div className="form-row" >
-                                                                                    <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span style={{ color: "red" }}>*</span> </label>
-                                                                                    <input type="number" className="form-control col-md-7" id='tds_per' />
-                                                                                </div>
-                                                                                <br />
-                                                                                <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                </td>
-                                                                <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <div className="input-group" >
-                                                                        <input type="text" className="form-control col-md-5 ml-5" id='tdsperinp' disabled />
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Expense Amt</td>
-                                                                <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' onBlur={handlesetalldata} />
-                                                                </td>
-                                                                <td className='text-center' style={{ width: "150px" }}>0.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><h4>Total</h4></td>
-                                                                <td></td>
-                                                                <td className='text-center' style={{ width: "150px" }} id='total_bill_amt'>{netTotal}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-                                            </div>
-                                            <PreviewBill data={billalldetail} Allitems={vouchersitem}/>
-                                            <div className="form-group">
-                                                <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>
-                                                        Save
-                                                    </button>
-                                                    <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>
-                                                        Post
-                                                    </button>
-                                                    <button id="clear" onClick={(e) => {
-                                                        e.preventDefault(); window.location.href = '/home'
-                                                    }} name="clear" className="btn ml-2">
-                                                        Cancel
-                                                    </button>
-                                                    <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >
-                                                        Preview Bill
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </article>
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
+                                    <PreviewBill data={billalldetail} Allitems={vouchersitem} />
+                                    <div className="form-group mt-4">
+                                        <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>Save</button>
+                                        <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>Post </button>
+                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
+                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Bill</button>
+                                    </div>
+                                </form>
+                            </article>
                         </div>
                     </div>
                 </div>
@@ -873,7 +847,7 @@ function Bills() {
 
             {/* ----------------------- Attach File  Modal  End --------------*/}
 
-        </div>
+        </>
     )
 }
 

@@ -5,7 +5,7 @@ import Footer from "../../../Footer/Footer";
 import { GetSaveInvoice, getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
-
+import customStyles from '../../../customTableStyle';
 
 const columns = [
   {
@@ -108,6 +108,7 @@ const InvoiceSave = () => {
                           pagination
                           highlightOnHover
                           theme={themetype}
+                          customStyles={customStyles}
                         />
                       </DataTableExtensions>
                     </article>

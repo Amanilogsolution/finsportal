@@ -516,7 +516,7 @@ console.log('Props',props)
         </section>
         {/*############################# compliances alert  ######################################*/}
         {alertdiv ?
-          <div className="alert alert-dismissible fade show bg-dark" style={{ maxHeight: "400px", zIndex: "1000", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
+          <div className={`alert alert-dismissible fade show bg-dark ${props.theme==='dark'?'border':''}`} style={{ maxHeight: "400px", zIndex: "10", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
             <small>Pending Compliances</small>
             <button type="button" className="close text-white " data-dismiss="alert" aria-label="Close" >
               <span aria-hidden="true" >&times;</span>

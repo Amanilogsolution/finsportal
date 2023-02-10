@@ -2,12 +2,12 @@ import React from 'react'
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import PrivatRoute from './component/HOC/PrivateRoute';
 import Login from './component/Login/Login';
-import LoginDetails from './component/Login/LoginDetails'
-import ChangePassword from './component/Login/ChangePassword';
+import LoginDetails from './component/Login/UserProfile/UserProfile'
+import ChangePassword from './component/Login/ChangePassword/ChangePassword';
 
 import Home from './component/Home/Home'
 import Customer from './component/Customer/Customer'
-import EditOrganisation from './component/organisation/EditOrganisation'
+import EditOrganisation from './component/organisation/EditOrganization/EditOrganisation'
 import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
 import Showvendor from './component/Vendor/Showvendor'
@@ -163,10 +163,11 @@ const App = () => {
         <Switch>
           <Route exact path="/" restricted={false} component={Login} />
           <Route exact path="/LoginDetails" component={LoginDetails} />
-          <Route exact path="/ChangePassword" component={ChangePassword} />
+          
           <Route exact path="/otppage" component={OTPpage} />
 
           <PrivatRoute exact path="/home" component={Home} />
+          <PrivatRoute exact path="/ChangePassword" component={ChangePassword} />
           <PrivatRoute exact path="/Customer" component={Customer} />
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
           <PrivatRoute exact path="/org" component={Org} />
@@ -175,6 +176,7 @@ const App = () => {
           <PrivatRoute exact path="/vendor" component={Vendor} />
           <PrivatRoute exact path="/Showvendor" component={Showvendor} />
           <PrivatRoute exact path="/Editvendor" component={Editvendor} />
+
           <PrivatRoute exact path="/StateMaster" component={StateMaster} />
           <PrivatRoute exact path="/ShowState" component={ShowState} />
           <PrivatRoute exact path="/EditState" component={EditState} />
@@ -182,12 +184,15 @@ const App = () => {
           <PrivatRoute exact path="/ShowCountry" component={ShowCountry} />
           <PrivatRoute exact path="/AddCountry" component={AddCountry} />
           <PrivatRoute exact path="/EditCountry" component={EditCountry} />
+
           <PrivatRoute exact path="/ShowCurrency" component={ShowCurrency} />
           <PrivatRoute exact path="/AddCurrency" component={AddCurrency} />
           <PrivatRoute exact path="/EditCurrency" component={EditCurrency} />
+
           <PrivatRoute exact path="/Showcity" component={Showcity} />
           <PrivatRoute exact path="/Addcity" component={Addcity} />
           <PrivatRoute exact path='/EditCity' component={EditCity} />
+          
           <PrivatRoute exact path="/ShowUnit" component={ShowUnit} />
           <PrivatRoute exact path="/AddUnit" component={AddUnit} />
           <PrivatRoute exact path="/EditUnit" component={EditUnit} />
@@ -237,6 +242,7 @@ const App = () => {
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
           <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount} />
+          
           <PrivatRoute exact path="/Currency-Adjustment" component={CurrencyAdjust} />
 
 

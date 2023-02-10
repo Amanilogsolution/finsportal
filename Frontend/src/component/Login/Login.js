@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import './login.css'
 import { UserLogin, OTPVerification, LoginLogs, Verify2fa } from '../../api'
-
+import Img1 from '../../images/LoginPage/1.png'
+import Img2 from '../../images/LoginPage/2.png'
+import Img3 from '../../images/LoginPage/3.png'
+import FinsGrowlogo from '../../images/finsgrowlogo.png'
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -28,14 +31,14 @@ const Login = () => {
         const password = document.getElementById('password').value
 
         const result = await UserLogin(email, password);
-        localStorage.setItem('themebtncolor',result.ThemeButton)
-        localStorage.setItem('themetype',result.Theme)
+        localStorage.setItem('themebtncolor', result.ThemeButton)
+        localStorage.setItem('themetype', result.Theme)
 
         setLogindetails(result);
         if (result) {
             setLoading(false);
         }
-        if(result.Loginstatus==='Login'){
+        if (result.Loginstatus === 'Login') {
             alert('You are Already Login in Some Device')
         }
         if (result.status == 'Success') {
@@ -90,7 +93,7 @@ const Login = () => {
                 localStorage.setItem('User_img', logindetails.image)
                 localStorage.setItem('fin_year', logindetails.fin_year)
                 localStorage.setItem('year', logindetails.year)
-                localStorage.setItem('Organisation_details',logindetails.org_name)   
+                localStorage.setItem('Organisation_details', logindetails.org_name)
                 localStorage.setItem('Role', logindetails.UserRole)
 
 
@@ -110,7 +113,7 @@ const Login = () => {
 
         else {
             const token = document.getElementById('token').value
-            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name,navigator.userAgent)
+            const result1 = await Verify2fa(logindetails.Twofa, token, logindetails.user_id, logindetails.org_name, navigator.userAgent)
             if (result1 === 'Verify') {
                 localStorage.setItem('Token', logindetails.token)
                 localStorage.setItem('ExpiredIn', logindetails.expiresIn)
@@ -121,7 +124,7 @@ const Login = () => {
                 localStorage.setItem('User_img', logindetails.image)
                 localStorage.setItem('fin_year', logindetails.fin_year)
                 localStorage.setItem('year', logindetails.year)
-                localStorage.setItem('Organisation_details',logindetails.org_name)
+                localStorage.setItem('Organisation_details', logindetails.org_name)
                 localStorage.setItem('Role', logindetails.UserRole)
 
 
@@ -157,32 +160,36 @@ const Login = () => {
     }
 
     return (
-        <div className="logincontainer">
-            <div className="login-box ">
-                <div className="card card-outline card-primary">
-                    <div className="card-header text-center">
-                        <a href="../../index2.html" className="h1"><b>FINS</b></a>
-                    </div>
-                    <div className="card-body">
-                        <h1 className="login-box-msg">Login</h1>
+        <>
+            <div className='login_container position-relative'>
+                <div className="login_box bg-white rounded position-absolute d-flex">
+                    <div className="login ">
+                        <div className="finsgrowlogo mx-5 my-4">
+                            <img src={FinsGrowlogo} alt='Fins LOgo' />
+                        </div>
+                        <h4 className='text-center mb-4'>Sign In</h4>
                         {
+
                             errormsg ? (
-                                <h5 style={{ color: "red", textAlign: "center" }}>Please! enter valid Id & Password.</h5>
+                                <h6 className='text-danger text-center'>Please! enter valid Id & Password.</h6>
                             ) : null
                         }
-                        <form >
-                            <div className="input-group mb-3">
-                                <input type="text" className="form-control" placeholder="User ID" id="email" onChange={hidetext} required />
+                        <form className='m-auto form-div'>
+                            <div className="input-group mb-4">
                                 <div className="input-group-append">
                                     <div className="input-group-text">
                                         <span className="fas fa-envelope" />
                                     </div>
                                 </div>
+                                <input type="text" className="form-control" placeholder="User ID" id="email" onChange={hidetext} required />
                             </div>
                             <div className="input-group mb-3">
-                                <input type={passwordshow ? "text" : "password"} className="form-control" placeholder="Password" onChange={hidetext} id="password" required />
-                                <div className="input-group-append">
-                                    <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+                                <input type={passwordshow ? "text" : "password"} className="form-control" placeholder="Password" id="password" onChange={hidetext} required />
+                                <div className="input-group-append" onClick={handleClickToogle}>
+                                    <div className="input-group-text">
+                                        {passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> :
+                                            <i className="fa fa-eye-slash" aria-hidden="true"></i>}
+                                    </div>
                                 </div>
                             </div>
                             <div className="input-group mb-3" id='tokendiv' style={{ display: "none" }} >
@@ -191,25 +198,143 @@ const Login = () => {
                             <div className="input-group mb-3" id='otpdiv' style={{ display: "none" }}>
                                 <input type="number" className="form-control" placeholder="Enter OTP" id="otp" autoComplete='off' required />
                             </div>
-
-                            <div className="row">
-                                <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
-                                    <button type="submit" id='submitbtn' onClick={handleClick} className="btn btn-primary ">Sign In</button>
-                                    <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn btn-success" style={{ display: "none" }}>Verify</button>
-                                </div>
+                            {/* <button className='btn login-btn'>Login</button> */}
+                            <button type="submit" id='submitbtn' onClick={handleClick} className="btn login-btn ">Sign In</button>
+                            <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn login-btn text-center" style={{ display: "none" }}>Verify</button>
+                            <div className='mt-1'>
+                                {/* <a href="forgot-password.html" className='text-danger float-left'>Forgot password ?</a> */}
+                                <a href="./otppage" className='float-right'>Login via OTP</a>
                             </div>
                         </form>
-                        <p className="mb-1">
-                            {/* <a href="forgot-password.html">I forgot my password</a> */}
-                            {/* <br /> */}
-                            <a href="otppage">Login via OTP</a>
+                    </div>
+
+
+
+                    <div className="login_photo rounded-right">
+                        <div id="carouselExampleIndicators" className="carousel slide login-slider" data-ride="carousel">
+                            <ol className="carousel-indicators ">
+                                <li data-target="#carouselExampleIndicators" data-slide-to={0} className="active" />
+                                <li data-target="#carouselExampleIndicators" data-slide-to={1} />
+                                <li data-target="#carouselExampleIndicators" data-slide-to={2} />
+                            </ol>
+                            <div className="carousel-inner">
+                                <div className="carousel-item  active">
+                                    <img className="d-block" src={Img1} alt="First slide" />
+                                    <h3 className="mt-4 text-light text-center">Records</h3>
+                                    <p className="text-light text-center">
+                                        Everyone has the right to freedom of thought,<br />
+                                        conscience and religion; this right includes freedom<br />
+                                        to change his religion or belief, and freedom
+                                    </p>
+                                </div>
+                                <div className="carousel-item">
+                                    <img className="d-block" src={Img2} alt="Second slide" />
+                                    <h3 className="mt-4 text-light text-center">Debit Card</h3>
+                                    <p className="text-light text-center">
+                                        Everyone has the right to freedom of thought,<br />
+                                        conscience and religion; this right includes freedom<br />
+                                        to change his religion or belief, and freedom
+                                    </p>
+                                </div>
+                                <div className="carousel-item">
+                                    <img className="d-block " src={Img3} alt="Third slide" />
+                                    <h3 className="mt-4 text-light text-center">Profile</h3>
+                                    <p className="text-light text-center">
+                                        Everyone has the right to freedom of thought,<br />
+                                        conscience and religion; this right includes freedom<br />
+                                        to change his religion or belief, and freedom
+                                    </p>
+                                </div>
+                            </div>
+                            <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span className="carousel-control-prev-icon" aria-hidden="true" />
+                            </a>
+                            <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span className="carousel-control-next-icon" aria-hidden="true" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {/* #############  Loading Section Start ########################### */}
+                {loading
+                    ?
+                    <div id='outerloadingdiv'>
+                        <div id='innerloadingdiv' >
+                            <div className="lds-spinner">
+                                <div></div><div></div><div></div><div></div>
+                                <div></div><div></div><div></div><div></div>
+                                <div></div><div></div><div></div><div></div></div>
+                            <h1>Wait a sec.</h1>
+                        </div>
+                    </div>
+                    : null}
+                {/* #############  Loading Section ENd ############################# */}
+            </div>
+        </>
+    )
+
+
+}
+
+
+export default Login
+
+
+// <div className="logincontainer">
+//     <div className="login-box ">
+//         <div className="card card-outline card-primary">
+//             <div className="card-header text-center">
+//                 <a href="../../index2.html" className="h1"><b>FINS</b></a>
+//             </div>
+//             <div className="card-body">
+//                 <h1 className="login-box-msg">Login</h1>
+//                 {
+
+//                     errormsg ? (
+//                         <h5 style={{ color: "red", textAlign: "center" }}>Please! enter valid Id & Password.</h5>
+//                     ) : null
+//                 }
+//                 <form >
+//                     <div className="input-group mb-3">
+//                         <input type="text" className="form-control" placeholder="User ID" id="email" onChange={hidetext} required />
+//                         <div className="input-group-append">
+//                             <div className="input-group-text">
+//                                 <span className="fas fa-envelope" />
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <div className="input-group mb-3">
+//                         <input type={passwordshow ? "text" : "password"} className="form-control" placeholder="Password" onChange={hidetext} id="password" required />
+//                         <div className="input-group-append">
+//                             <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+//                         </div>
+//                     </div>
+//                     <div className="input-group mb-3" id='tokendiv' style={{ display: "none" }} >
+//                         <input type="number" className="form-control" placeholder="Enter Token" id="token" autoComplete='off' required />
+//                     </div>
+//                     <div className="input-group mb-3" id='otpdiv' style={{ display: "none" }}>
+//                         <input type="number" className="form-control" placeholder="Enter OTP" id="otp" autoComplete='off' required />
+//                     </div>
+
+//                     <div className="row">
+//                         <div className="col-4" style={{ marginLeft: "50%", transform: "translate(-50%)" }}>
+//                             <button type="submit" id='submitbtn' onClick={handleClick} className="btn btn-primary ">Sign In</button>
+//                             <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn btn-success" style={{ display: "none" }}>Verify</button>
+//                         </div>
+//                     </div>
+//                 </form>
+//                 <p className="mb-1">
+{/* <a href="forgot-password.html">I forgot my password</a> */ }
+{/* <br /> */ }
+{/* <a href="otppage">Login via OTP</a>
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            {/* #############  Loading Section Start ########################### */}
-            {loading
+{/* #############  Loading Section Start ########################### */ }
+{/* {loading
                 ?
                 <div id='outerloadingdiv'>
                     <div id='innerloadingdiv' >
@@ -220,36 +345,7 @@ const Login = () => {
                         <h1>Wait a sec.</h1>
                     </div>
                 </div>
-                : null}
-            {/* #############  Loading Section ENd ############################# */}
+                : null} */}
+{/* #############  Loading Section ENd ############################# */ }
 
-
-            {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div className="modal fade ">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Enter OTP</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="number" className="form-control" placeholder="Enter OTP" id="Otp" required />
-                            <a href="#" onClick={handleClickResendOtp} id="resendotp">Resend OTP</a>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" onClick={handleClickOTP} class="btn btn-primary">Verify User</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> */}
-        </div>
-    )
-}
-
-
-export default Login 
+{/* </div> */ }

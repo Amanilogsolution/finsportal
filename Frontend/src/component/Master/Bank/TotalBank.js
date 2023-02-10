@@ -7,6 +7,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/Bank_formate.xlsx';
 import * as XLSX from "xlsx";
+import customStyles from '../../customTableStyle';
 
 const columns = [
   {
@@ -204,13 +205,11 @@ const TotalBank = () => {
 
   return (
 
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
           <div className={`content-wrapper bg-${themetype}`}>
             <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
             <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
@@ -219,9 +218,7 @@ const TotalBank = () => {
 
               <h3 className="text-left ml-5">Banks</h3>
               <br />
-              <div className="row ">
-                <div className="col">
-                  <div className="card" style={{ width: "100%" }}>
+                  <div className="card w-100">
                     <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
@@ -233,16 +230,13 @@ const TotalBank = () => {
                           pagination
                           highlightOnHover
                           theme={themetype}
+                          customStyles={customStyles}
                         />
                       </DataTableExtensions>
 
                     </article>
-
-                  </div>
-                </div>
               </div>
             </div>
-          </div>
         </div>
 
         <Footer theme={themetype} />
@@ -442,8 +436,6 @@ const TotalBank = () => {
         </div>
         {/* ------------------ Modal end -----------------------------*/}
       </div>
-    </div>
-
   )
 
 }

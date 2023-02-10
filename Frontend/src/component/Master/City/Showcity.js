@@ -8,7 +8,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { deleteCity, ImportCity, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
-
+import customStyles from '../../customTableStyle';
 
 const Showcity = () => {
   const [data, setData] = useState([])
@@ -184,25 +184,18 @@ const Showcity = () => {
     border: "1px solid black"
   }
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
           <div className={`content-wrapper bg-${themetype}`}>
             <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcity" }} className="btn btn-primary">Add City</button>
             <button type="button" id='uploadcitybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
             <div className="container-fluid">
-              <br />
-
-              <h3 className="text-left ml-5">City</h3>
-              <br />
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
+              <h3 className="py-3 ml-5">City</h3>
+                  <div className="card">
                     <article className={`card-body bg-${themetype}`}>
                       <DataTableExtensions
                         {...tableData}
@@ -214,17 +207,15 @@ const Showcity = () => {
                           pagination
                           highlightOnHover
                           theme={themetype}
+                          customStyles={customStyles}
                         />
                       </DataTableExtensions>
 
                     </article>
 
-                  </div>
-                </div>
               </div>
             </div>
           </div>
-        </div>
         <Footer theme={themetype} />
         {/* ------------------ Modal start -----------------------------*/}
         {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
@@ -400,7 +391,6 @@ const Showcity = () => {
         </div>
         {/* ------------------ Modal end -----------------------------*/}
       </div>
-    </div>
   )
 
 }

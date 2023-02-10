@@ -4,8 +4,8 @@ import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { TotalUserRole,DeleteUserRole, getUserRolePermission } from '../../../api';
-
+import { TotalUserRole, DeleteUserRole, getUserRolePermission } from '../../../api';
+import customStyles from '../../customTableStyle';
 
 const ShowRoles = () => {
     const [data, setData] = useState([])
@@ -39,11 +39,11 @@ const ShowRoles = () => {
             cell: (row) => [
                 <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
                     <select className={`bg-${themetype}`}
-                    onChange={async (e) => {
-                        const status = e.target.value;
-                        await DeleteUserRole(localStorage.getItem('Organisation'),row.sno, status)
-                        window.location.href = 'ShowRoles'
-                    }}
+                        onChange={async (e) => {
+                            const status = e.target.value;
+                            await DeleteUserRole(localStorage.getItem('Organisation'), row.sno, status)
+                            window.location.href = 'ShowRoles'
+                        }}
                     >
                         <option value={row.status} hidden> {row.status}</option>
                         <option value='Active'>Active</option>
@@ -80,46 +80,34 @@ const ShowRoles = () => {
 
 
     return (
-        <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
-                <div>
-                    <div className={`content-wrapper bg-${themetype}`}>
-                        <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./addroles" }} className="btn btn-primary">New Roles</button>
-                        <div className="container-fluid">
-                            <br />
-
-                            <h3 className="text-left ml-5">User Roles</h3>
-                            <br />
-                            <div className="row ">
-                                <div className="col ml-2">
-                                    <div className="card" style={{ width: "100%" }}>
-                                        <article className={`card-body bg-${themetype}`}>
-                                            <DataTableExtensions
-                                                {...tableData}>
-                                                <DataTable
-                                                    noHeader
-                                                    defaultSortField="id"
-                                                    defaultSortAsc={false}
-                                                    pagination
-                                                    highlightOnHover
-                                                    theme={themetype}
-                                                />
-                                            </DataTableExtensions>
-
-                                        </article>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <div className="wrapper">
+            <div className="preloader flex-column justify-content-center align-items-center">
+                <div className="spinner-border" role="status"> </div>
+            </div>
+            <Header />
+            <div className={`content-wrapper bg-${themetype}`}>
+                <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./addroles" }} className="btn btn-primary">New Roles</button>
+                <div className="container-fluid">
+                    <h3 className="py-3 ml-5">User Roles</h3>
+                    <div className="card w-100" >
+                        <article className={`card-body bg-${themetype}`}>
+                            <DataTableExtensions
+                                {...tableData}>
+                                <DataTable
+                                    noHeader
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    pagination
+                                    highlightOnHover
+                                    theme={themetype}
+                                    customStyles={customStyles}
+                                />
+                            </DataTableExtensions>
+                        </article>
                     </div>
                 </div>
-                <Footer theme={themetype} />
             </div>
+            <Footer theme={themetype} />
         </div>
     )
 

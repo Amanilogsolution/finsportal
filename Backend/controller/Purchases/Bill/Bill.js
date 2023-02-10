@@ -36,12 +36,6 @@ const InsertBill = async (req, res) => {
     const flagsave = req.body.flagsave;
     const uuid = uuidv1()
 
-    console.log(org,vourcher_no,voucher_date,vend_name,location,
-        bill_no,bill_date,bill_amt,payment_term,due_date,amt_paid,amt_balance,
-        amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,
-        expense_amt,remarks,fins_year,cgst_amt,sgst_amt,igst_amt,userid,vendor_id)
-
-
     try {
         await sql.connect(sqlConfig)
 

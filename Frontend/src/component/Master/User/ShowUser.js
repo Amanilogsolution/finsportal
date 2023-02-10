@@ -7,7 +7,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { deleteUser, ImportUser, TotalUser, getUserRolePermission } from '../../../api';
 import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
-
+import customStyles from '../../customTableStyle';
 
 const columns = [
   {
@@ -71,7 +71,7 @@ const columns = [
     selector: 'null',
     cell: (row) => [
 
-      <div className='droplist' id={`deleteselect${row.sno}`} style={{display:"none"}}>
+      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
         <select onChange={async (e) => {
           const status = e.target.value;
           await deleteUser(row.sno, status)
@@ -92,7 +92,7 @@ const columns = [
     selector: row => row.null,
     cell: (row) => [
 
-      <a title='View Document' id={`editactionbtns${row.sno}`} style={{display:"none"}} href="EditUser">
+      <a title='View Document' id={`editactionbtns${row.sno}`} style={{ display: "none" }} href="EditUser">
         <button className="editbtn btn-success " onClick={() => localStorage.setItem('userSno', `${row.sno}`)} >Edit</button></a>
 
     ]
@@ -214,235 +214,227 @@ const ShowUser = () => {
     border: "1px solid black"
   }
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        {/* <Menu /> */}
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
-            <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%',display:"none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5">User</h3>
-              <br />
-              <div className="row ">
-                <div className="col">
-                  <div className="card" >
-                    <article className={`card-body bg-${themetype}`}>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+        <div className={`content-wrapper bg-${themetype}`}>
+          <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
+          <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+          <div className="container-fluid">
+            <br />
+            <h3 className="text-left ml-5">User</h3>
+            <br />
+            <div className="card" >
+              <article className={`card-body bg-${themetype}`}>
 
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themetype}
-                        />
-                      </DataTableExtensions>
-                    </article>
-                  </div>
-                </div>
-              </div>
+                <DataTableExtensions
+                  {...tableData}
+                >
+                  <DataTable
+                    noHeader
+                    defaultSortField="id"
+                    defaultSortAsc={false}
+                    pagination
+                    highlightOnHover
+                    theme={themetype}
+                    customStyles={customStyles}
+                  />
+                </DataTableExtensions>
+              </article>
             </div>
           </div>
         </div>
-        <Footer theme={themetype} />
+      <Footer theme={themetype} />
 
-        {/* ------------------ Modal start -----------------------------*/}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Import excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+      {/* ------------------ Modal start -----------------------------*/}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Import excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+
+              <div className=" ">
+                <label
+                  htmlFor="user_name"
+                  className=" col-form-label font-weight-normal"
                 >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-
+                  <span >Select the file</span>
+                </label>
                 <div className=" ">
-                  <label
-                    htmlFor="user_name"
-                    className=" col-form-label font-weight-normal"
-                  >
-                    <span >Select the file</span>
-                  </label>
-                  <div className=" ">
-                    <input
-                      id=""
-                      type="file"
-                      onChange={onChange}
-                      className={`form-control bg-${themetype}`}
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                  </div><br />
-                  <span style={{ color: "red" }}>
-                    <a href={Excelfile} download> Download formate</a>
-                  </span><br />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" onClick={handleClick} className="btn btn-primary"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-lg">
-                  Upload
-                </button>
+                  <input
+                    id=""
+                    type="file"
+                    onChange={onChange}
+                    className={`form-control bg-${themetype}`}
+                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                </div><br />
+                <span style={{ color: "red" }}>
+                  <a href={Excelfile} download> Download formate</a>
+                </span><br />
               </div>
             </div>
-          </div>
-        </div>
-        {/* ------------------ Modal end -----------------------------*/}
-        {/* ------------------ Data show Modal start -----------------------------*/}
-        <div className="modal fade bd-example-modal-lg "
-          id="showdataModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="myLargeModalLabel"
-          aria-hidden="true"
-        >
-
-          <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true" style={{ color: "red" }}
-                    onClick={() => {
-                      document.getElementById("showdataModal").style.display = "none";
-                      window.location.reload()
-                    }}>
-                    &times;</span>
-                </button>
-              </div>
-              <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
-                {
-
-                  backenddata ?
-                    <>
-                      <h5 style={{ margin: "auto" }}>This data already exist</h5>
-                      <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
-                        <thead>
-                          <tr>
-                            <th style={styleborder}>user_name</th>
-                            <th style={styleborder}>email_id</th>
-                            <th style={styleborder}>phone</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            duplicateData.map((d, index) => (
-
-                              <tr key={index} style={styleborder}>
-                                <td style={styleborder}>{d.user_name}</td>
-                                <td style={styleborder}>{d.email_id}</td>
-                                <td style={styleborder}>{d.phone}</td>
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                      </table>
-                      <br /><br />
-                    </>
-                    : null
-                }
-                <table >
-                  <thead>
-                    <tr>
-                      <th style={styleborder}>employee_name</th>
-                      <th style={styleborder}>role</th>
-                      <th style={styleborder}>warehouse</th>
-                      <th style={styleborder}>user_name</th>
-                      <th style={styleborder}>password</th>
-                      <th style={styleborder}>email_id</th>
-                      <th style={styleborder}>phone</th>
-                      <th style={styleborder}>operate_mode</th>
-                      <th style={styleborder}>customer</th>
-                      <th style={styleborder}>reporting_to</th>
-                      <th style={styleborder}>designation</th>
-                      <th style={styleborder}>user_profile_url</th>
-                    </tr>
-
-                  </thead>
-                  <tbody>
-                    {
-                      importdata.map((d, index) => (
-                        <tr key={index} style={styleborder}>
-                          <td style={styleborder}>{d.employee_name}</td>
-                          <td style={styleborder}>{d.role}</td>
-                          <td style={styleborder}>{d.warehouse}</td>
-                          <td style={styleborder}>{d.user_name}</td>
-                          <td style={styleborder}>{d.password}</td>
-                          <td style={styleborder}>{d.email_id}</td>
-                          <td style={styleborder}>{d.phone}</td>
-                          <td style={styleborder}>{d.operate_mode}</td>
-                          <td style={styleborder}>{d.customer}</td>
-                          <td style={styleborder}>{d.reporting_to}</td>
-                          <td style={styleborder}>{d.designation}</td>
-                          <td style={styleborder}>{d.user_profile_url}</td>
-                        </tr>
-                      ))
-                    }</tbody>
-                </table>
-              </div>
-            </div>
-            <div className={`modal-footer bg-${themetype}`} >
+            <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("showdataModal").style.display = "none";
-                  window.location.reload()
-                }}
+                data-dismiss="modal"
               >
-                Cancel
+                Close
               </button>
-              <button type="button"
-                id="uploadbtn"
-                onClick={uploaddata}
-                className="btn btn-primary"
-              >
+              <button type="button" onClick={handleClick} className="btn btn-primary"
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg">
                 Upload
               </button>
             </div>
           </div>
         </div>
-        {/* ------------------ Modal end -----------------------------*/}
       </div>
+      {/* ------------------ Modal end -----------------------------*/}
+      {/* ------------------ Data show Modal start -----------------------------*/}
+      <div className="modal fade bd-example-modal-lg "
+        id="showdataModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true"
+      >
+
+        <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                Uploaded Excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ color: "red" }}
+                  onClick={() => {
+                    document.getElementById("showdataModal").style.display = "none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+              </button>
+            </div>
+            <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+              {
+
+                backenddata ?
+                  <>
+                    <h5 style={{ margin: "auto" }}>This data already exist</h5>
+                    <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
+                      <thead>
+                        <tr>
+                          <th style={styleborder}>user_name</th>
+                          <th style={styleborder}>email_id</th>
+                          <th style={styleborder}>phone</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          duplicateData.map((d, index) => (
+
+                            <tr key={index} style={styleborder}>
+                              <td style={styleborder}>{d.user_name}</td>
+                              <td style={styleborder}>{d.email_id}</td>
+                              <td style={styleborder}>{d.phone}</td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                    </table>
+                    <br /><br />
+                  </>
+                  : null
+              }
+              <table >
+                <thead>
+                  <tr>
+                    <th style={styleborder}>employee_name</th>
+                    <th style={styleborder}>role</th>
+                    <th style={styleborder}>warehouse</th>
+                    <th style={styleborder}>user_name</th>
+                    <th style={styleborder}>password</th>
+                    <th style={styleborder}>email_id</th>
+                    <th style={styleborder}>phone</th>
+                    <th style={styleborder}>operate_mode</th>
+                    <th style={styleborder}>customer</th>
+                    <th style={styleborder}>reporting_to</th>
+                    <th style={styleborder}>designation</th>
+                    <th style={styleborder}>user_profile_url</th>
+                  </tr>
+
+                </thead>
+                <tbody>
+                  {
+                    importdata.map((d, index) => (
+                      <tr key={index} style={styleborder}>
+                        <td style={styleborder}>{d.employee_name}</td>
+                        <td style={styleborder}>{d.role}</td>
+                        <td style={styleborder}>{d.warehouse}</td>
+                        <td style={styleborder}>{d.user_name}</td>
+                        <td style={styleborder}>{d.password}</td>
+                        <td style={styleborder}>{d.email_id}</td>
+                        <td style={styleborder}>{d.phone}</td>
+                        <td style={styleborder}>{d.operate_mode}</td>
+                        <td style={styleborder}>{d.customer}</td>
+                        <td style={styleborder}>{d.reporting_to}</td>
+                        <td style={styleborder}>{d.designation}</td>
+                        <td style={styleborder}>{d.user_profile_url}</td>
+                      </tr>
+                    ))
+                  }</tbody>
+              </table>
+            </div>
+          </div>
+          <div className={`modal-footer bg-${themetype}`} >
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                document.getElementById("showdataModal").style.display = "none";
+                window.location.reload()
+              }}
+            >
+              Cancel
+            </button>
+            <button type="button"
+              id="uploadbtn"
+              onClick={uploaddata}
+              className="btn btn-primary"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* ------------------ Modal end -----------------------------*/}
     </div>
   )
 }

@@ -1,0 +1,30 @@
+.userimg-div {
+  width: 65%;
+}
+
+.inpfield-div {
+  width: 30%;
+}
+
+.camraicon {
+  bottom: 10%;
+  left: 30%;
+}
+
+.field-head-div {
+  width: 17%;
+  background: rgba(255, 255, 255, 0.671);
+  box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.164);
+  backdrop-filter: blur(6.5px);
+  -webkit-backdrop-filter: blur(6.5px);
+  border-radius: 10px 10px 0px 0px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.field-content-div {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(6.5px);
+  -webkit-backdrop-filter: blur(6.5px);
+  border-radius:0px 10px 0px 0px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}

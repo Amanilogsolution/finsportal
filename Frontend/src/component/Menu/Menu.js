@@ -346,8 +346,8 @@ const Menu = (props) => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item" style={{ display: "none" }} id='currencyAdjMenu'>
                     <a href="/Currency-Adjustment" className="nav-link active">
-                      <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
-                      <p> Currency Adjustments </p>
+                      <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                      <p>Currency Adjustments </p>
                     </a>
                   </li>
 

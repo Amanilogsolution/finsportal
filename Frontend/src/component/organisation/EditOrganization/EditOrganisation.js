@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Header from "../Header/Header";
-import { showOrganisation, updateOrganisation, UploadData } from "../../api/index";
-
+import Header from "../../Header/Header";
+import { showOrganisation, updateOrganisation, UploadData } from "../../../api/index";
+import Footer from '../../Footer/Footer';
+import './EditOrganisation.css'
 
 function EditOrganisation() {
   const [data, setData] = useState({})
   const [file, setFile] = useState('')
   const [report_basic, setReportBasic] = useState('')
   const [uploadimage, setUploadImage] = useState('')
+  const [regset, setRegset] = useState(false)
+  const [contper, setContper] = useState(false)
 
   const themeval = localStorage.getItem('themetype') || 'light';
 
@@ -43,19 +46,11 @@ function EditOrganisation() {
     setUploadImage(UploadLink)
   }
 
-  const handleChangeContactname = (e) => {
-    setData({ ...data, org_contact_name: e.target.value })
-  }
   const handleChangeContactPhone = (e) => {
     if (e.target.value.length === 11) return false;
     setData({ ...data, org_contact_phone: e.target.value })
   }
-  const handleChangeContactEmail = (e) => {
-    setData({ ...data, org_contact_email: e.target.value })
-  }
-  const handleChangeStreet = (e) => {
-    setData({ ...data, org_street: e.target.value })
-  }
+
   const handleChangeCity = (e) => {
     setData({ ...data, org_city: e.target.value })
   }
@@ -63,19 +58,6 @@ function EditOrganisation() {
     if (e.target.value.length === 7) return false
     setData({ ...data, org_pincode: e.target.value })
   }
-  const handleChangeGst = (e) => {
-    setData({ ...data, org_gst: e.target.value })
-  }
-  const handleChangeIndustrytype = (e) => {
-    setData({ ...data, industry_type: e.target.value })
-  }
-  const handleChangeCompanyId = (e) => {
-    setData({ ...data, company_id: e.target.value })
-  }
-  const handleChangeTaxId = (e) => {
-    setData({ ...data, tax_id: e.target.value })
-  }
-
   const handleChange = (e) => {
     setReportBasic(e.target.value)
   }
@@ -98,18 +80,284 @@ function EditOrganisation() {
 
   }, [])
 
-
+  const handleToggleContPer = () => {
+    if (contper) {
+      document.getElementById('contactperbox').style.display = 'none'
+    }
+    else {
+      document.getElementById('contactperbox').style.display = 'block'
+    }
+    setContper(!contper)
+  }
+  const handleToggleRegionalSet = () => {
+    if (regset) {
+      document.getElementById('regional_setting').style.display = 'none'
+    }
+    else {
+      document.getElementById('regional_setting').style.display = 'block'
+    }
+    setRegset(!regset)
+  }
   return (
     <>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
-
         <Header />
-        <div className={`orgcontainer bg-${themeval}`}>
-          <br />
-          <div className="row justify-content-center " style={{ width: "100%" }}>
+        <div className={`content-wrapper bg-${themeval}`}>
+          <div className="container-fluid">
+            <div className='py-3 px-5 d-flex justify-content-between '>
+              <h3 className="-3 ml-5">Organization Details</h3>
+              <button className='btn btn-success mx-3'
+                onClick={(e) => {
+                  e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                }}
+              >Back</button>
+            </div>
+
+            <div className={`card mb-0 bg-${themeval}`}>
+              <article className='card-body'>
+                <form autoComplete="off" className='edit-orgform d-flex justify-content-between'>
+                  <div className='img-div py-5'>
+                    <div className='position-relative '>
+                      <img src={data.org_logo} alt='Organisation Logo' className=' rounded-circle border my-3' height='150' width='150' />
+                      <i className="fa fa-camera position-absolute" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{bottom:'10%',right:'2%',cursor:'pointer'}}></i>
+                    </div>
+                    <div>
+                      <p className='text-uppercase text-success font-weight-bold  mb-0'> {data.org_name}</p>
+
+                      <div className='d-flex  align-items-center'>
+                        <small className='text-danger'>companyId:- </small>
+                        <p className='  mb-0'> {data.company_id}</p>
+                      </div>
+                      <div className='d-flex  align-items-center'>
+                        <small className='text-danger'>GST No:- </small>
+                        <p className='  mb-0'> {data.org_gst}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='inp-div'>
+                    <div className="form-row">
+                      <div className="col form-group">
+                        <label>Organization Name <span className='text-danger'>*</span> </label>
+                        <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={{ cursor: "not-allowed" }} />
+                      </div>
+                      <div className="col form-group">
+                        <label>Industry Type <span className='text-danger'>*</span> </label>
+                        <input type="text" className={`form-control bg-${themeval}`} id="industry_type" defaultValue={data.industry_type} />
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                      <div className="col form-group">
+                        <label>
+                          Business Location/Country <span className='text-danger'>*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          value={data.org_country}
+                          id="org_country"
+                          required
+                          disabled
+                          style={{ cursor: "not-allowed" }}
+                        />
+                      </div>
+                      <div className="form-group col-md-6">
+                        <label htmlFor='org_state'>
+                          State/Union Territory
+                          <span className='text-danger'> *</span>
+                        </label>
+                        <input
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          value={data.org_state}
+                          id="org_state"
+                          disabled
+                          style={{ cursor: "not-allowed" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="col form-group">
+                        <label htmlFor='org_city'>City</label>
+                        <input
+                          type="text"
+                          className={`form-control bg-${themeval}`}
+                          placeholder="City"
+                          id='org_city'
+                          value={data.org_city}
+                          onChange={(e) => handleChangeCity(e)}
+                        />
+                      </div>
+                      <div className="form-group col-md-6">
+                        <label htmlFor='org_pin'>Zip/Postal Code</label>
+                        <input
+                          type="number"
+                          oninput="numberOnly(this.id);"
+                          className={`form-control bg-${themeval}`}
+                          placeholder="Zip/Postal Code"
+                          id="org_pin"
+                          value={data.org_pincode}
+                          onChange={(e) => handleChangePin(e)}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor='org_street'>Street</label>
+                      <input
+                        type="text"
+                        className={`form-control bg-${themeval}`}
+                        placeholder="Street"
+                        id='org_street'
+                        defaultValue={data.org_street}
+                      />
+                    </div>
+                    <p className="regtext" style={{ cursor: 'pointer' }} onClick={handleToggleContPer}>Contact Person Detail <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+
+                    <div id="contactperbox" style={{ display: 'none' }}>
+                      <div className="form-row">
+                        <div className="col form-group col-md-4">
+                          <label htmlFor='org_contact_name'>Contact Person Name</label>
+                          <input
+                            type="text"
+                            className={`form-control bg-${themeval}`}
+                            placeholder="Contact Person Name"
+                            id='org_contact_name'
+                            defaultValue={data.org_contact_name}
+                          />
+                        </div>
+                        <div className="form-group col-md-4">
+                          <label htmlFor=''>Contact Mobile no.</label>
+                          <input
+                            className={`form-control bg-${themeval}`}
+                            type="number" oninput="numberOnly(this.id);"
+                            maxlength="12"
+                            placeholder="Contact Mobile no." id='org_contact_phone'
+                            value={data.org_contact_phone}
+                            onChange={(e) => handleChangeContactPhone(e)}
+
+                          />
+                        </div>
+                        <div className="form-group col-md-4">
+                          <label htmlFor='org_contact_email'>Contact Email</label>
+                          <input
+                            type="email" className={`form-control bg-${themeval}`}
+                            placeholder="Contact Email" id='org_contact_email' defaultValue={data.org_contact_email} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="regtext" style={{ cursor: 'pointer' }} onClick={handleToggleRegionalSet}>REGIONAL SETTINGS <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                    <div id='regional_setting' style={{ display: 'none' }}>
+                      <div className="form-row">
+                        <div className="form-group col ">
+                          <label>Finacial year</label>
+                          <select
+                            id="fins_year" className={`form-control col-md-6 bg-${themeval}`}>
+                            <option value={data.fins_year_month} hidden >{data.fins_year_month}</option>
+                            <option value='January_Feburary' >January_Feburary</option>
+                          </select>
+                        </div>
+                        <div className="form-group col d-flex" onChange={handleChange}>
+                          <label> Report Basic </label>
+                          <div className='row mx-3'>
+                            <label className="form-check form-check mx-3">
+                              <input
+                                className="form-check-input " type="radio"
+                                name="taxpreference"
+                                value="Accural"
+                                id="Accural"
+                              />Accural
+                            </label>
+                            <label className="form-check form-check " >
+
+                              <input
+                                className="form-check-input "
+                                type="radio"
+                                name="taxpreference"
+                                value="Cash"
+                                id="Cash"
+                              />Cash
+
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group col-md-6">
+                          <label>Currency</label>
+                          <input
+                            type="text"
+                            className={`form-control bg-${themeval}`}
+                            value={data.org_currency}
+                            id="org_currency"
+                            placeholder
+                            disabled
+                            style={{ cursor: "not-allowed" }}
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label>Language</label>
+                          <input
+                            type="text"
+                            className={`form-control bg-${themeval}`}
+                            value={data.org_lang}
+                            id="org_lang"
+                            placeholder
+                            disabled
+                            style={{ cursor: "not-allowed" }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="col form-group">
+                          <label>
+                            Company ID<span className='text-danger'>*</span>
+                          </label>
+                          <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required defaultValue={data.company_id} />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label>
+                            Tax ID
+                            <span className='text-danger'>*</span>
+                          </label>
+                          <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" defaultValue={data.tax_id}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group col-md-6">
+                          <label>GST No</label>
+
+                          <input
+                            type="text"
+                            className={`form-control bg-${themeval}`}
+                            id="org_gst"
+                            placeholder="Enter Your GSTIN"
+                            defaultValue={data.org_gst}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div classNmae="card-footer">
+                      <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
+                        Update Details
+                      </button>
+                      <button id="clear" onClick={(e) => {
+                        e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                      }} name="clear" className="btn btn-secondary mx-4">Cancel
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </article>
+            </div>
+          </div>
+        </div>
+        {/* <div className="row justify-content-center " style={{ width: "100%" }}>
             <div className="col-md-6">
               <div className="card">
                 <article
@@ -131,19 +379,19 @@ function EditOrganisation() {
 
                     <div className="form-row">
                       <div className="col form-group">
-                        <label>Organization Name <span style={{ color: "red" }}>*</span> </label>
+                        <label>Organization Name <span className='text-danger'>*</span> </label>
 
                         <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={{ cursor: "not-allowed" }} />
                       </div>
                       <div className="col form-group">
-                        <label>Industry Type <span style={{ color: "red" }}>*</span> </label>
+                        <label>Industry Type <span className='text-danger'>*</span> </label>
                         <input type="text" className={`form-control bg-${themeval}`} id="industry_type" value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
                       </div>
                     </div>
                     <div className="form-row">
                       <div className="col form-group">
                         <label>
-                          Business Location<span style={{ color: "red" }}>*</span>
+                          Business Location<span className='text-danger'>*</span>
                         </label>
                         <input
                           type="text"
@@ -158,7 +406,7 @@ function EditOrganisation() {
                       <div className="form-group col-md-6">
                         <label>
                           State/Union Territory
-                          <span style={{ color: "red" }}>*</span>
+                          <span className='text-danger'>*</span>
                         </label>
                         <input
                           type="text"
@@ -171,7 +419,7 @@ function EditOrganisation() {
                         />
                       </div>
                     </div>
-
+///////
                     <div id="formallbox">
                       <div className="form-row">
                         <div className="col form-group">
@@ -320,14 +568,14 @@ function EditOrganisation() {
                     <div className="form-row">
                       <div className="col form-group">
                         <label>
-                          Company ID<span style={{ color: "red" }}>*</span>
+                          Company ID<span className='text-danger'>*</span>
                         </label>
                         <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
                       </div>
                       <div className="form-group col-md-6">
                         <label>
                           Tax ID
-                          <span style={{ color: "red" }}>*</span>
+                          <span className='text-danger'>*</span>
                         </label>
                         <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
                         />
@@ -372,9 +620,8 @@ function EditOrganisation() {
                 </article>
               </div>
             </div>
-          </div>
-        </div>
-        {/* Modal */}
+          </div> */}
+        {/* ############################### Modal ####################################### */}
         <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className={`modal-content bg-${themeval}`}>
@@ -407,6 +654,9 @@ function EditOrganisation() {
             </div>
           </div>
         </div>
+        {/* ############################### Modal ####################################### */}
+
+        <Footer theme={themeval} />
       </div>
     </>
   )

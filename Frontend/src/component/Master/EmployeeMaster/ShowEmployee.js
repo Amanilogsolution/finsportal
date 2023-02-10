@@ -4,7 +4,7 @@ import Footer from "../../Footer/Footer";
 import { TotalEmployee, deleteEmployee, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
-
+import customStyles from '../../customTableStyle';
 
 const ShowEmployee = () => {
   const [data, setData] = useState([])
@@ -85,44 +85,37 @@ const ShowEmployee = () => {
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <div className='d-flex justify-content-between py-4 px-4'>
+          <h3 className="text-left ml-5"> Employee Master </h3>
+          <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./addemployee" }} className="btn btn-primary">Add Employee </button>
         </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button " id='addempbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./addemployee" }} className="btn btn-primary">Add Employee </button>
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5"> Employee Master </h3>
-              <br />
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themeval}
-                        />
-                      </DataTableExtensions>
-                    </article>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="container-fluid">
+          <div className="card w-100"  >
+            <article className={`card-body bg-${themeval}`}>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themeval}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-        <Footer theme={themeval} />
       </div>
+      <Footer theme={themeval} />
     </div>
   )
 }

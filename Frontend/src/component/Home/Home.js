@@ -6,7 +6,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import Footer from '../Footer/Footer';
 
 function Home() {
-  let themecolor = typeof (localStorage.getItem('themetype')) === null ? localStorage.getItem('themetype') : 'light';
+  let themecolor = localStorage.getItem('themetype') !== null ? localStorage.getItem('themetype') : 'light';
   return (
     <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">

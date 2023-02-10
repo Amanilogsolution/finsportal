@@ -7,7 +7,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../excelformate/tbl_customer.xlsx';
 import * as XLSX from "xlsx";
-
+import customStyles from '../customTableStyle'
 
 const TotalCustomer = () => {
   const columns = [
@@ -164,14 +164,11 @@ const TotalCustomer = () => {
             alert("Please! enter existing field in n and y form only");
             window.location.reload();
           }
-
-
         }
 
         let totalcustid = Number(newcountid) + Number(importdata.length);
         await UpdatefinancialTwocount(org, 'mcust_count', countmcustid, 'cust_count', totalcustid);
         const result = await ImportCustomer(importdata, org, localStorage.getItem("User_id"));
-
         if (!(result === "Data Added")) {
           setBackenddata(true);
           setDuplicateDate(result)
@@ -231,7 +228,6 @@ const TotalCustomer = () => {
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'customer')
-      console.log(UserRights)
       if (UserRights.customer_create === 'false') {
         document.getElementById('addcustbtn').style.display = "none";
         document.getElementById('excelcustbtn').style.display = "none";
@@ -246,7 +242,6 @@ const TotalCustomer = () => {
 
         }
       }
-
 
       let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
       setYear(getids[0].year);
@@ -264,294 +259,290 @@ const TotalCustomer = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button" id='addcustbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary">Add Customer</button>
-            <button type="button" id='excelcustbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5">Total Customer</h3>
-              <br />
-              <div className="row ">
-                <div className="col ml-0">
-                  <div className={`card bg-${themeval}`} style={{ width: "100%" }}>
-                    <article className="card-body">
-                      <DataTableExtensions
-                        {...tableData}>
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themeval}
-                        />
-                      </DataTableExtensions>
-                    </article>
-                  </div>
-                </div>
-              </div>
+        <div className={`content-wrapper bg-${themeval}`}>
+          <div className=' px-5 py-4 d-flex justify-content-between'>
+            <h3 className="ml-5">Total Customer</h3>
+            <div>
+              <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+              <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary mx-4">Add Customer</button>
             </div>
+          </div>
+          <div className={`card bg-${themeval}  mx-2`}>
+            <article className="card-body">
+              <DataTableExtensions
+                {...tableData}>
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themeval}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
         <Footer theme={themeval} />
-        {/* ------------------ Modal start -----------------------------*/}
-        {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Import excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
+      </div>
+      {/* ------------------ Modal start -----------------------------*/}
+      {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
+      <div
+        className="modal fade "
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Import excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className=" ">
+                <label
+                  htmlFor="user_name"
+                  className=" col-form-label font-weight-normal">
+                  <span >Select the file</span>
+                </label>
                 <div className=" ">
-                  <label
-                    htmlFor="user_name"
-                    className=" col-form-label font-weight-normal">
-                    <span >Select the file</span>
-                  </label>
-                  <div className=" ">
-                    <input
-                      id=""
-                      type="file"
-                      onChange={onChange}
-                      className="form-control "
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                  </div><br />
-                  <span style={{ color: "red" }}>
-                    <a href={Excelfile} download> Download formate</a>
-                  </span><br />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal">Close</button>
-                <button type="button"
-                  onClick={handleClick}
-                  className="btn btn-primary"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-lg">
-                  Upload
-                </button>
+                  <input
+                    id=""
+                    type="file"
+                    onChange={onChange}
+                    className="form-control "
+                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                </div><br />
+                <span style={{ color: "red" }}>
+                  <a href={Excelfile} download> Download formate</a>
+                </span><br />
               </div>
             </div>
-          </div>
-        </div>
-        {/* ------------------ Modal end -----------------------------*/}
-        {/* ------------------ Data show Modal start -----------------------------*/}
-        <div className="modal fade bd-example-modal-lg "
-          id="showdataModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="myLargeModalLabel"
-          aria-hidden="true"
-        >
-
-          <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true" style={{ color: "red" }}
-                    onClick={() => {
-                      document.getElementById("showdataModal").style.display = "none";
-                      window.location.reload()
-                    }}>
-                    &times;</span>
-                </button>
-              </div>
-              {/* <div className="modal-body"> */}
-              <div className="" style={{ margin: "0px 8px", overflow: "auto" }}>
-
-
-                <table >
-                  <thead>
-                    <tr>
-                      <th style={{ border: "1px solid black" }}>existing</th>
-                      <th style={{ border: "1px solid black" }}>Master Id</th>
-                      <th style={{ border: "1px solid black" }}>Cust Type</th>
-                      <th style={{ border: "1px solid black" }}>Cust Name</th>
-                      <th style={{ border: "1px solid black" }}>Company Name</th>
-                      <th style={{ border: "1px solid black" }}>Cust Display Name</th>
-                      <th style={{ border: "1px solid black" }}>Cust Email</th>
-                      <th style={{ border: "1px solid black" }}>Cust Work Phone</th>
-                      <th style={{ border: "1px solid black" }}>Cust Phone</th>
-                      <th style={{ border: "1px solid black" }}>Skype Detail</th>
-                      <th style={{ border: "1px solid black" }}>Designation</th>
-                      <th style={{ border: "1px solid black" }}>Department</th>
-                      <th style={{ border: "1px solid black" }}>Website</th>
-                      <th style={{ border: "1px solid black" }}>GST Treatment</th>
-                      <th style={{ border: "1px solid black" }}>GST uin</th>
-                      <th style={{ border: "1px solid black" }}>Pan No</th>
-                      <th style={{ border: "1px solid black" }}>Place of Supply</th>
-                      <th style={{ border: "1px solid black" }}>TAX Preference</th>
-                      <th style={{ border: "1px solid black" }}>Exemption Reason</th>
-                      <th style={{ border: "1px solid black" }}>Currency</th>
-                      <th style={{ border: "1px solid black" }}>Opening balance</th>
-                      <th style={{ border: "1px solid black" }}>Payment terms</th>
-                      <th style={{ border: "1px solid black" }}>Enable Portal</th>
-                      <th style={{ border: "1px solid black" }}>Portal Language</th>
-                      <th style={{ border: "1px solid black" }}>Facebook URL</th>
-                      <th style={{ border: "1px solid black" }}>Twitter URL</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address Attention</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address Country</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address City</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address State</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address Pincode</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address Phone</th>
-                      <th style={{ border: "1px solid black" }}>Billing Address Fax</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Name</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Email</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Work Phone</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Phone</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Skype</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Designation</th>
-                      <th style={{ border: "1px solid black" }}>Contact Person Department</th>
-                      <th style={{ border: "1px solid black" }}>Remark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      importdata.map((d, index) => (
-                        <tr key={index} style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.existing}</td>
-                          <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.company_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_display_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_email}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_work_phone}</td>
-                          <td style={{ border: "1px solid black" }}>{d.cust_phone}</td>
-                          <td style={{ border: "1px solid black" }}>{d.skype_detail}</td>
-                          <td style={{ border: "1px solid black" }}>{d.designation}</td>
-                          <td style={{ border: "1px solid black" }}>{d.department}</td>
-                          <td style={{ border: "1px solid black" }}>{d.website}</td>
-                          <td style={{ border: "1px solid black" }}>{d.gst_treatment}</td>
-                          <td style={{ border: "1px solid black" }}>{d.gstin_uin}</td>
-                          <td style={{ border: "1px solid black" }}>{d.pan_no}</td>
-                          <td style={{ border: "1px solid black" }}>{d.place_of_supply}</td>
-                          <td style={{ border: "1px solid black" }}>{d.tax_preference}</td>
-                          <td style={{ border: "1px solid black" }}>{d.exemption_reason}</td>
-                          <td style={{ border: "1px solid black" }}>{d.currency}</td>
-                          <td style={{ border: "1px solid black" }}>{d.opening_balance}</td>
-                          <td style={{ border: "1px solid black" }}>{d.payment_terms}</td>
-                          <td style={{ border: "1px solid black" }}>{d.enable_portal}</td>
-                          <td style={{ border: "1px solid black" }}>{d.portal_language}</td>
-                          <td style={{ border: "1px solid black" }}>{d.facebook_url}</td>
-                          <td style={{ border: "1px solid black" }}>{d.twitter_url}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_attention}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_country}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_city}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_state}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_pincode}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_phone}</td>
-                          <td style={{ border: "1px solid black" }}>{d.billing_address_fax}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_email}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_work_phone}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_phone}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_skype}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_designation}</td>
-                          <td style={{ border: "1px solid black" }}>{d.contact_person_department}</td>
-                          <td style={{ border: "1px solid black" }}>{d.remark}</td>
-
-                        </tr>
-                      ))
-                    }</tbody>
-                  <tfoot></tfoot>
-                </table>
-                <br /><br />
-
-                {
-                  backenddata ?
-                    <>
-                      <h5>This Master id does Not exist</h5>
-                      <table style={{ color: "red" }}>
-                        <thead>
-                          <tr>
-                            <th style={{ border: "1px solid black" }}>Master id</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            duplicateData.map((d, index) => (
-
-                              <tr key={index} style={{ border: "1px solid black" }}>
-                                <td style={{ border: "1px solid black" }}>{d}</td>
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                        <tfoot></tfoot>
-
-                      </table>
-
-                    </>
-                    : null
-                }
-                <br /><br />
-              </div>
-            </div>
-            {/* </div> */}
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("showdataModal").style.display = "none";
-                  window.location.reload()
-                }}
-              >
-                Cancel
-              </button>
+                data-dismiss="modal">Close</button>
               <button type="button"
-                onClick={uploaddata}
+                onClick={handleClick}
                 className="btn btn-primary"
-                id='uploadbtn'
-              >
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg">
                 Upload
               </button>
             </div>
           </div>
         </div>
-        {/* ------------------ Modal end -----------------------------*/}
-
       </div>
-    </div>
+      {/* ------------------ Modal end -----------------------------*/}
+      {/* ------------------ Data show Modal start -----------------------------*/}
+      <div className="modal fade bd-example-modal-lg "
+        id="showdataModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true"
+      >
+
+        <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+          <div className="modal-content bg-dark">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                Uploaded Excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ color: "red" }}
+                  onClick={() => {
+                    document.getElementById("showdataModal").style.display = "none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+              </button>
+            </div>
+            {/* <div className="modal-body"> */}
+            <div className="" style={{ margin: "0px 8px", overflow: "auto" }}>
+
+
+              <table >
+                <thead>
+                  <tr>
+                    <th style={{ border: "1px solid black" }}>existing</th>
+                    <th style={{ border: "1px solid black" }}>Master Id</th>
+                    <th style={{ border: "1px solid black" }}>Cust Type</th>
+                    <th style={{ border: "1px solid black" }}>Cust Name</th>
+                    <th style={{ border: "1px solid black" }}>Company Name</th>
+                    <th style={{ border: "1px solid black" }}>Cust Display Name</th>
+                    <th style={{ border: "1px solid black" }}>Cust Email</th>
+                    <th style={{ border: "1px solid black" }}>Cust Work Phone</th>
+                    <th style={{ border: "1px solid black" }}>Cust Phone</th>
+                    <th style={{ border: "1px solid black" }}>Skype Detail</th>
+                    <th style={{ border: "1px solid black" }}>Designation</th>
+                    <th style={{ border: "1px solid black" }}>Department</th>
+                    <th style={{ border: "1px solid black" }}>Website</th>
+                    <th style={{ border: "1px solid black" }}>GST Treatment</th>
+                    <th style={{ border: "1px solid black" }}>GST uin</th>
+                    <th style={{ border: "1px solid black" }}>Pan No</th>
+                    <th style={{ border: "1px solid black" }}>Place of Supply</th>
+                    <th style={{ border: "1px solid black" }}>TAX Preference</th>
+                    <th style={{ border: "1px solid black" }}>Exemption Reason</th>
+                    <th style={{ border: "1px solid black" }}>Currency</th>
+                    <th style={{ border: "1px solid black" }}>Opening balance</th>
+                    <th style={{ border: "1px solid black" }}>Payment terms</th>
+                    <th style={{ border: "1px solid black" }}>Enable Portal</th>
+                    <th style={{ border: "1px solid black" }}>Portal Language</th>
+                    <th style={{ border: "1px solid black" }}>Facebook URL</th>
+                    <th style={{ border: "1px solid black" }}>Twitter URL</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address Attention</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address Country</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address City</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address State</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address Pincode</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address Phone</th>
+                    <th style={{ border: "1px solid black" }}>Billing Address Fax</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Name</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Email</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Work Phone</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Phone</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Skype</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Designation</th>
+                    <th style={{ border: "1px solid black" }}>Contact Person Department</th>
+                    <th style={{ border: "1px solid black" }}>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    importdata.map((d, index) => (
+                      <tr key={index} style={{ border: "1px solid black" }}>
+                        <td style={{ border: "1px solid black" }}>{d.existing}</td>
+                        <td style={{ border: "1px solid black" }}>{d.mast_id}</td>
+                        <td style={{ border: "1px solid black" }}>{d.cust_type}</td>
+                        <td style={{ border: "1px solid black" }}>{d.cust_name}</td>
+                        <td style={{ border: "1px solid black" }}>{d.company_name}</td>
+                        <td style={{ border: "1px solid black" }}>{d.cust_display_name}</td>
+                        <td style={{ border: "1px solid black" }}>{d.cust_email}</td>
+                        <td style={{ border: "1px solid black" }}>{d.cust_work_phone}</td>
+                        <td style={{ border: "1px solid black" }}>{d.cust_phone}</td>
+                        <td style={{ border: "1px solid black" }}>{d.skype_detail}</td>
+                        <td style={{ border: "1px solid black" }}>{d.designation}</td>
+                        <td style={{ border: "1px solid black" }}>{d.department}</td>
+                        <td style={{ border: "1px solid black" }}>{d.website}</td>
+                        <td style={{ border: "1px solid black" }}>{d.gst_treatment}</td>
+                        <td style={{ border: "1px solid black" }}>{d.gstin_uin}</td>
+                        <td style={{ border: "1px solid black" }}>{d.pan_no}</td>
+                        <td style={{ border: "1px solid black" }}>{d.place_of_supply}</td>
+                        <td style={{ border: "1px solid black" }}>{d.tax_preference}</td>
+                        <td style={{ border: "1px solid black" }}>{d.exemption_reason}</td>
+                        <td style={{ border: "1px solid black" }}>{d.currency}</td>
+                        <td style={{ border: "1px solid black" }}>{d.opening_balance}</td>
+                        <td style={{ border: "1px solid black" }}>{d.payment_terms}</td>
+                        <td style={{ border: "1px solid black" }}>{d.enable_portal}</td>
+                        <td style={{ border: "1px solid black" }}>{d.portal_language}</td>
+                        <td style={{ border: "1px solid black" }}>{d.facebook_url}</td>
+                        <td style={{ border: "1px solid black" }}>{d.twitter_url}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_attention}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_country}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_city}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_state}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_pincode}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_phone}</td>
+                        <td style={{ border: "1px solid black" }}>{d.billing_address_fax}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_name}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_email}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_work_phone}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_phone}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_skype}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_designation}</td>
+                        <td style={{ border: "1px solid black" }}>{d.contact_person_department}</td>
+                        <td style={{ border: "1px solid black" }}>{d.remark}</td>
+
+                      </tr>
+                    ))
+                  }</tbody>
+                <tfoot></tfoot>
+              </table>
+              <br /><br />
+
+              {
+                backenddata ?
+                  <>
+                    <h5>This Master id does Not exist</h5>
+                    <table style={{ color: "red" }}>
+                      <thead>
+                        <tr>
+                          <th style={{ border: "1px solid black" }}>Master id</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          duplicateData.map((d, index) => (
+
+                            <tr key={index} style={{ border: "1px solid black" }}>
+                              <td style={{ border: "1px solid black" }}>{d}</td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                      <tfoot></tfoot>
+
+                    </table>
+
+                  </>
+                  : null
+              }
+              <br /><br />
+            </div>
+          </div>
+          {/* </div> */}
+          <div className="modal-footer" style={{ background: "white" }}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                document.getElementById("showdataModal").style.display = "none";
+                window.location.reload()
+              }}
+            >
+              Cancel
+            </button>
+            <button type="button"
+              onClick={uploaddata}
+              className="btn btn-primary"
+              id='uploadbtn'
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* ------------------ Modal end -----------------------------*/}
+
+
+    </>
   )
 
 }

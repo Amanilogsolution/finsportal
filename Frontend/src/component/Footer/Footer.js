@@ -7,7 +7,7 @@ import React from "react";
     return (
       <footer className={`main-footer bg-${themedata}`}>
         <strong>
-          Copyright © 2022-2023 <a href="#">{localStorage.getItem('Organisation Name')}</a>.
+          Copyright © 2022-2023 <a href="#" className="text-uppercase">{localStorage.getItem('Organisation Name')}</a>.
         </strong>&nbsp;
          All rights reserved.
       </footer>
