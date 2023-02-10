@@ -139,7 +139,7 @@ function EditOrganisation() {
                     <div className="form-row">
                       <div className="col form-group">
                         <label>Organization Name <span className='text-danger'>*</span> </label>
-                        <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={{ cursor: "not-allowed" }} />
+                        <input type="text" className={`form-control cursor-notallow bg-${themeval}`} id="org_name" disabled value={data.org_name} />
                       </div>
                       <div className="col form-group">
                         <label>Industry Type <span className='text-danger'>*</span> </label>
@@ -154,12 +154,11 @@ function EditOrganisation() {
                         </label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control cursor-notallow bg-${themeval}`}
                           value={data.org_country}
                           id="org_country"
                           required
                           disabled
-                          style={{ cursor: "not-allowed" }}
                         />
                       </div>
                       <div className="form-group col-md-6">
@@ -169,11 +168,11 @@ function EditOrganisation() {
                         </label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control cursor-notallow bg-${themeval}`}
                           value={data.org_state}
                           id="org_state"
                           disabled
-                          style={{ cursor: "not-allowed" }}
+
                         />
                       </div>
                     </div>
@@ -289,24 +288,24 @@ function EditOrganisation() {
                           <label>Currency</label>
                           <input
                             type="text"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control cursor-notallow bg-${themeval}`}
                             value={data.org_currency}
                             id="org_currency"
                             placeholder
                             disabled
-                            style={{ cursor: "not-allowed" }}
+
                           />
                         </div>
                         <div className="form-group col-md-6">
                           <label>Language</label>
                           <input
                             type="text"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control cursor-notallow bg-${themeval}`}
                             value={data.org_lang}
                             id="org_lang"
                             placeholder
                             disabled
-                            style={{ cursor: "not-allowed" }}
+
                           />
                         </div>
                       </div>

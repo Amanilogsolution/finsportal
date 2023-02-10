@@ -106,7 +106,7 @@ function EditInvoice() {
                             <article className="card-body">
                                 <form autoComplete="off" >
                                     <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
+                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md-4">
                                             <select
                                                 id="custname"
@@ -118,7 +118,7 @@ function EditInvoice() {
 
 
                                     <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span style={{ color: "red" }}>*</span> </label>
+                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md-4">
                                             <select
                                                 id="custaddr"
@@ -130,7 +130,7 @@ function EditInvoice() {
                                     </div>
 
                                     <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span style={{ color: "red" }}>*</span> </label>
+                                        <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md-4">
                                             <select
                                                 id="locationadd"
@@ -142,23 +142,23 @@ function EditInvoice() {
                                     </div>
 
                                     <div className="form-row mt-3">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span style={{ color: "red" }}>*</span> </label>
+                                        <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md">
-                                            <input type="text" className={`form-control bg-${themeval}  col-md-5`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
+                                            <input type="text" className={`form-control bg-${themeval} cursor-notallow col-md-5`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
                                         </div>
                                     </div>
 
                                     <div className="form-row mt-3">
                                         <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                         <div className="d-flex col-md">
-                                            <input type="text" className={`form-control bg-${themeval}  col-md-5`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
+                                            <input type="text" className={`form-control bg-${themeval} cursor-notallow col-md-5`} id="ordernumber"  placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
                                         </div>
                                     </div>
 
                                     <div className="form-row mt-3">
                                         <div className="d-flex col-md-3">
-                                            <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
-                                            <input type="date" className={`form-control bg-${themeval}  col-md-6`} id="Invoicedate" disabled value={invoice_detail.startdate} />
+                                            <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
+                                            <input type="date" className={`form-control bg-${themeval} cursor-notallow col-md-6`} id="Invoicedate" disabled value={invoice_detail.startdate} />
                                         </div>
 
                                         <div className="d-flex col-md-5">
@@ -172,13 +172,13 @@ function EditInvoice() {
 
                                         <div className="d-flex col-md-3" >
                                             <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                            <input type="date" className={`form-control bg-${themeval}  col-md-6`} id="Duedate" disabled value={invoice_detail.lastdate} />
+                                            <input type="date" className={`form-control bg-${themeval} cursor-notallow col-md-6`} id="Duedate" disabled value={invoice_detail.lastdate} />
                                         </div>
                                     </div>
 
                                     <hr />
                                     <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Activity <span style={{ color: "red" }}>*</span></label>
+                                        <label className="col-md-2 col-form-label font-weight-normal" >Activity <span className='text-danger'>*</span></label>
                                         <div className="d-flex col-md-4">
                                             <select id="Activity" className={`form-control bg-${themeval} `} >
                                                 <option value={invoice_detail.major} hidden>{invoice_detail.major} </option>
@@ -189,11 +189,11 @@ function EditInvoice() {
                                     <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
                                         <div className="d-flex col-md-3">
                                             <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                            <input type="date" className="form-control col-md-6" id="fromdate" disabled value={invoice_detail.periodfrom} />
+                                            <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom} />
                                         </div>
                                         <div className="d-flex col-md-5">
                                             <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                            <input type="date" className="form-control col-md-6" id="todate" disabled value={invoice_detail.periodto} />
+                                            <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto} />
                                         </div>
                                     </div>
                                     <br />
@@ -311,7 +311,7 @@ function EditInvoice() {
                                                         <td>CGST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control bg-${themeval} col-md-5`} id='cgstipt' disabled />
+                                                                <input type="number" className={`form-control bg-${themeval} cursor-notallow col-md-5`} id='cgstipt' disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text bg-${themeval}`}>%</span>
                                                                 </div>
@@ -322,7 +322,7 @@ function EditInvoice() {
                                                         <td>SGST/UTGST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control bg-${themeval} col-md-5`} id='sutgstipt' disabled />
+                                                                <input type="number" className={`form-control bg-${themeval} cursor-notallow col-md-5`} id='sutgstipt' disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text bg-${themeval}`}>%</span>
                                                                 </div>
@@ -334,7 +334,7 @@ function EditInvoice() {
                                                         <td>IGST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control bg-${themeval} col-md-5 gstinpt`} id='igstipt' disabled />
+                                                                <input type="number" className={`form-control bg-${themeval} cursor-notallow col-md-5 gstinpt`} id='igstipt' disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text bg-${themeval}`}>%</span>
                                                                 </div>
@@ -345,7 +345,7 @@ function EditInvoice() {
                                                         <td>Total GST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control bg-${themeval} col-md-5`} id='gstipt ' disabled />
+                                                                <input type="number" className={`form-control bg-${themeval} cursor-notallow col-md-5`} id='gstipt ' disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text bg-${themeval}`}>%</span>
                                                                 </div>

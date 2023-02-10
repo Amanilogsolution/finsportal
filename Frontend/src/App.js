@@ -65,7 +65,6 @@ import EditComplianceType from './component/Master/Compliances/ComplienceType/Ed
 import PandingCompliances from './component/Master/Compliances/Pendingcompliances'
 
 
-
 import Fincialyear from './component/Master/fincialyear/fincialyear'
 import ShowFincialyear from './component/Master/fincialyear/Showfincialyear';
 import Updatefincialyear from './component/Master/fincialyear/Updatefinancialyear'
@@ -97,8 +96,6 @@ import Estimates from './component/Customer/Estimates/Estimates';
 import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
 import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChallans';
 import Invoices from './component/Customer/Invoices/Invoices';
-
-
 
 
 import EditInvoice from './component/Customer/Invoices/EditInvoice.js/editinvoice';
@@ -246,7 +243,6 @@ const App = () => {
           <PrivatRoute exact path="/Currency-Adjustment" component={CurrencyAdjust} />
 
 
-
           <PrivatRoute exact path="/InsertAccountType" component={InsertAccountType} />
           <PrivatRoute exact path="/ShowAccountname" component={ShowAccountname} />
           <PrivatRoute exact path="/EditAccountname" component={EditAccountname} />
@@ -280,8 +276,6 @@ const App = () => {
           <PrivatRoute exact path="/RecurringBills" component={RecurringBills} />
           <PrivatRoute exact path="/VendorCredits" component={VendorCredits} />
           <PrivatRoute exact path="/SaveBillReport" component={SaveBillReport} />
-
-
 
 
           <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode} />
