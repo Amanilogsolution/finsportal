@@ -14,7 +14,6 @@ const Menu = (props) => {
     fetchdata()
   }, [])
 
-
   const Rolefunction = (result) => {
     // ################  Items Roles #############
     if (result.items_view === "true") {

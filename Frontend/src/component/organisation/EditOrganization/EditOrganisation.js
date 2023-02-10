@@ -120,7 +120,7 @@ function EditOrganisation() {
                   <div className='img-div py-5'>
                     <div className='position-relative '>
                       <img src={data.org_logo} alt='Organisation Logo' className=' rounded-circle border my-3' height='150' width='150' />
-                      <i className="fa fa-camera position-absolute" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ bottom: '10%', right: '2%', cursor: 'pointer' }}></i>
+                      <i className="fa fa-camera position-absolute cursor-pointer" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ bottom: '10%', right: '2%' }}></i>
                     </div>
                     <div>
                       <p className='text-uppercase text-success font-weight-bold  mb-0'> {data.org_name}</p>
@@ -192,7 +192,6 @@ function EditOrganisation() {
                         <label htmlFor='org_pin'>Zip/Postal Code</label>
                         <input
                           type="number"
-                          oninput="numberOnly(this.id);"
                           className={`form-control bg-${themeval}`}
                           placeholder="Zip/Postal Code"
                           id="org_pin"
@@ -211,7 +210,7 @@ function EditOrganisation() {
                         defaultValue={data.org_street}
                       />
                     </div>
-                    <p className="regtext" style={{ cursor: 'pointer' }} onClick={handleToggleContPer}>Contact Person Detail <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                    <p className="regtext cursor-pointer" onClick={handleToggleContPer}>Contact Person Detail <i className="fa fa-chevron-down" aria-hidden="true"></i></p>
 
                     <div id="contactperbox" style={{ display: 'none' }}>
                       <div className="form-row">
@@ -229,8 +228,7 @@ function EditOrganisation() {
                           <label htmlFor=''>Contact Mobile no.</label>
                           <input
                             className={`form-control bg-${themeval}`}
-                            type="number" oninput="numberOnly(this.id);"
-                            maxlength="12"
+                            type="number"
                             placeholder="Contact Mobile no." id='org_contact_phone'
                             value={data.org_contact_phone}
                             onChange={(e) => handleChangeContactPhone(e)}
@@ -246,7 +244,7 @@ function EditOrganisation() {
                       </div>
                     </div>
 
-                    <p className="regtext" style={{ cursor: 'pointer' }} onClick={handleToggleRegionalSet}>REGIONAL SETTINGS <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                    <p className="regtext cursor-pointer" onClick={handleToggleRegionalSet}>REGIONAL SETTINGS <i className="fa fa-chevron-down" aria-hidden="true"></i></p>
                     <div id='regional_setting' style={{ display: 'none' }}>
                       <div className="form-row">
                         <div className="form-group col">
@@ -291,7 +289,6 @@ function EditOrganisation() {
                             className={`form-control cursor-notallow bg-${themeval}`}
                             value={data.org_currency}
                             id="org_currency"
-                            placeholder
                             disabled
                           />
                         </div>
@@ -302,7 +299,6 @@ function EditOrganisation() {
                             className={`form-control cursor-notallow bg-${themeval}`}
                             value={data.org_lang}
                             id="org_lang"
-                            placeholder
                             disabled
 
                           />
@@ -313,21 +309,20 @@ function EditOrganisation() {
                           <label>
                             Company ID<span className='text-danger'>*</span>
                           </label>
-                          <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required defaultValue={data.company_id} />
+                          <input type="text" className={`form-control bg-${themeval}`} id="company_id" required defaultValue={data.company_id} />
                         </div>
                         <div className="form-group col-md-6">
                           <label>
                             Tax ID
                             <span className='text-danger'>*</span>
                           </label>
-                          <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" defaultValue={data.tax_id}
+                          <input type="text" className={`form-control bg-${themeval}`} id="tax_id" defaultValue={data.tax_id}
                           />
                         </div>
                       </div>
                       <div className="form-row">
                         <div className="form-group col-md-6">
                           <label>GST No</label>
-
                           <input
                             type="text"
                             className={`form-control bg-${themeval}`}
@@ -338,7 +333,7 @@ function EditOrganisation() {
                         </div>
                       </div>
                     </div>
-                    <div classNmae="card-footer">
+                    <div>
                       <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
                         Update Details
                       </button>
@@ -407,7 +402,6 @@ function EditOrganisation() {
                         <input
                           type="text"
                           className={`form-control bg-${themeval}`}
-                          placeholder
                           value={data.org_state}
                           id="org_country"
                           disabled
@@ -431,8 +425,6 @@ function EditOrganisation() {
                         <div className="form-group col-md-6">
                           <input
                             className={`form-control bg-${themeval}`}
-                            type="number" oninput="numberOnly(this.id);"
-                            maxlength="12"
                             placeholder="Contact Mobile no."
                             id='org_contact_phone'
                             value={data.org_contact_phone}
@@ -478,7 +470,6 @@ function EditOrganisation() {
                         <div className="form-group col-md-6">
                           <input
                             type="number"
-                            oninput="numberOnly(this.id);"
                             className={`form-control bg-${themeval}`}
                             placeholder="Zip/Postal Code"
                             id="org_pin"
@@ -543,7 +534,6 @@ function EditOrganisation() {
                           className={`form-control bg-${themeval}`}
                           value={data.org_currency}
                           id="org_currency"
-                          placeholder
                           disabled
                           style={{ cursor: "not-allowed" }}
                         />
@@ -555,7 +545,6 @@ function EditOrganisation() {
                           className={`form-control bg-${themeval}`}
                           value={data.org_lang}
                           id="org_lang"
-                          placeholder
                           disabled
                           style={{ cursor: "not-allowed" }}
                         />
@@ -566,14 +555,14 @@ function EditOrganisation() {
                         <label>
                           Company ID<span className='text-danger'>*</span>
                         </label>
-                        <input type="text" className={`form-control bg-${themeval}`} placeholder id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
+                        <input type="text" className={`form-control bg-${themeval}`}  id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
                       </div>
                       <div className="form-group col-md-6">
                         <label>
                           Tax ID
                           <span className='text-danger'>*</span>
                         </label>
-                        <input type="text" className={`form-control bg-${themeval}`} placeholder id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
+                        <input type="text" className={`form-control bg-${themeval}`}  id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
                         />
                       </div>
                     </div>

@@ -17,9 +17,7 @@ function Showcompliances() {
 
   const themetype = localStorage.getItem('themetype')
 
-
   const columns = [
-
     {
       name: 'Compliance Type',
       selector: row => row.compliance_type,
@@ -114,7 +112,7 @@ function Showcompliances() {
     }
     else {
       const result = await ImportCompliances(importdata, localStorage.getItem("User_id"), localStorage.getItem('Organisation'));
-      if (result == "Data Added") {
+      if (result === "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
         window.location.reload()
@@ -210,27 +208,24 @@ function Showcompliances() {
       <div className={`content-wrapper bg-${themetype}`}>
         <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-
         <div className="container-fluid">
           <h3 className="ml-5" >Compliances</h3>
-          <div className="col">
-            <div className="card" >
-              <article className={`card-body bg-${themetype}`}>
-                <DataTableExtensions
-                  {...tableData}>
-                  <DataTable
-                    noHeader
-                    defaultSortField="id"
-                    defaultSortAsc={false}
-                    pagination
-                    highlightOnHover
-                    theme={themetype}
-                    customStyles={customStyles}
-                  />
-                </DataTableExtensions>
+          <div className="card w-100" >
+            <article className={`card-body py-0 bg-${themetype}`}>
+              <DataTableExtensions
+                {...tableData}>
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themetype}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
 
-              </article>
-            </div>
+            </article>
           </div>
         </div>
       </div>

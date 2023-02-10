@@ -89,8 +89,6 @@ const ShowItem = () => {
           <button className="editbtn btn-success " onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
-
-
   ]
 
 
@@ -104,12 +102,10 @@ const ShowItem = () => {
 
       const result = await TotalItems(org)
       setData(result)
-
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
       if (UserRights.items_create === 'true') {
         document.getElementById('additemsbtn').style.display = "block"
       }
-
       if (UserRights.items_edit === 'true') {
         for (let i = 0; i < result.length; i++) {
           document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
@@ -137,8 +133,8 @@ const ShowItem = () => {
       <Header />
 
       <div className={`content-wrapper bg-${themetype}`}>
-        <div className='d-flex justify-content-between py-4 px-4'>
-          <h3 className="text-left ml-5">Total Items</h3>
+        <div className='d-flex justify-content-between pt-2 px-4'>
+          <h3 className="ml-5">Total Items</h3>
           <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
         </div>
         <div className="container-fluid">

@@ -173,7 +173,7 @@ function ShowAccountMinorCode() {
       <Header />
       <div className={`content-wrapper bg-${themeval}`}>
         <div className="container-fluid">
-          <div className='d-flex justify-content-between py-4 px-4'>
+          <div className='d-flex justify-content-between pt-4 pb-1 px-4'>
             <h3 className="ml-5">Account Minor Code </h3>
             <div>
               <button type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>

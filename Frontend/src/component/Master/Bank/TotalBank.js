@@ -204,238 +204,220 @@ const TotalBank = () => {
   }
 
   return (
-
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-          <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
-            <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <div className="container-fluid">
-              <br />
-
-              <h3 className="text-left ml-5">Banks</h3>
-              <br />
-                  <div className="card w-100">
-                    <article className={`card-body bg-${themetype}`}>
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themetype}
-                          customStyles={customStyles}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-              </div>
-            </div>
-        </div>
-
-        <Footer theme={themetype} />
-
-
-        {/* ------------------ Modal start -----------------------------*/}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-
-          <div className="modal-dialog " role="document">
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Import excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-
-                <div className=" ">
-                  <label
-                    htmlFor="user_name"
-                    className=" col-form-label font-weight-normal"
-                  >
-                    <span >Select the file</span>
-                  </label>
-                  <div className=" ">
-                    <input
-                      id=""
-                      type="file"
-                      onChange={onChange}
-                      className={`form-control bg-${themetype}`}
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                  </div><br />
-                  <span style={{ color: "red" }}>
-                    <a href={Excelfile} download> Download formate</a>
-                  </span><br />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" onClick={handleClick} className="btn btn-primary"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-lg">
-                  Upload
-                </button>
-              </div>
-            </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themetype}`}>
+        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
+        <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+        <div className="container-fluid">
+          <h3 className="py-2 ml-5">Banks</h3>
+          <div className="card">
+            <article className={`card-body bg-${themetype}`}>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themetype}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-        {/* ------------------ Modal end -----------------------------*/}
-        {/* ------------------ Data show Modal start -----------------------------*/}
-        <div className="modal fade bd-example-modal-lg "
-          id="showdataModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="myLargeModalLabel"
-          aria-hidden="true">
+      </div>
 
-          <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true" style={{ color: "red" }}
-                    onClick={() => {
-                      document.getElementById("showdataModal").style.display = "none";
-                      window.location.reload()
-                    }}>
-                    &times;</span>
-                </button>
-              </div>
-              <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
-                {
-                  backenddata ?
-                    <>
-                      <h5 style={{ margin: "auto" }}>This data already exist</h5>
-                      <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
-                        <thead>
-                          <tr>
-                            <th style={{ border: "1px solid black" }}>account_no</th>
-                            <th style={{ border: "1px solid black" }}>ifsc_code</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            duplicateData.map((d) => (
+      <Footer theme={themetype} />
+      
+      {/* ------------------ Modal start -----------------------------*/}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
 
-                              <tr style={{ border: "1px solid black" }}>
-
-                                <td style={{ border: "1px solid black" }}>{d.account_no}</td>
-                                <td style={{ border: "1px solid black" }}>{d.ifsc_code}</td>
-
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                        <tfoot></tfoot>
-                        <br /><br />
-                      </table>
-                    </>
-                    : null
-                }
-                <table >
-                  <thead>
-                    <tr>
-                      <th style={{ border: "1px solid black" }}>ac_type</th>
-                      <th style={{ border: "1px solid black" }}>account_code</th>
-                      <th style={{ border: "1px solid black" }}>bank_name</th>
-                      <th style={{ border: "1px solid black" }}>account_no</th>
-                      <th style={{ border: "1px solid black" }}>address_line1</th>
-                      <th style={{ border: "1px solid black" }}>address_line2</th>
-                      <th style={{ border: "1px solid black" }}>branch</th>
-                      <th style={{ border: "1px solid black" }}>Country</th>
-                      <th style={{ border: "1px solid black" }}>state</th>
-                      <th style={{ border: "1px solid black" }}>city</th>
-                      <th style={{ border: "1px solid black" }}>pincode</th>
-                      <th style={{ border: "1px solid black" }}>ifsc_code</th>
-                      <th style={{ border: "1px solid black" }}>acname</th>
-                      <th style={{ border: "1px solid black" }}>description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      importdata.map((d) => (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td style={{ border: "1px solid black" }}>{d.ac_type}</td>
-                          <td style={{ border: "1px solid black" }}>{d.account_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.bank_name}</td>
-                          <td style={{ border: "1px solid black" }}>{d.account_no}</td>
-                          <td style={{ border: "1px solid black" }}>{d.address_line1}</td>
-                          <td style={{ border: "1px solid black" }}>{d.address_line2}</td>
-                          <td style={{ border: "1px solid black" }}>{d.branch}</td>
-                          <td style={{ border: "1px solid black" }}>{d.state}</td>
-                          <td style={{ border: "1px solid black" }}>{d.country}</td>
-                          <td style={{ border: "1px solid black" }}>{d.city}</td>
-                          <td style={{ border: "1px solid black" }}>{d.pincode}</td>
-                          <td style={{ border: "1px solid black" }}>{d.ifsc_code}</td>
-                          <td style={{ border: "1px solid black" }}>{d.acname}</td>
-                          <td style={{ border: "1px solid black" }}>{d.description}</td>
-
-
-                        </tr>
-                      ))
-                    }</tbody>
-                </table>
+        <div className="modal-dialog " role="document">
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Import excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div>
+                <label htmlFor="user_name" className=" col-form-label font-weight-normal">Select the file</label>
+                <input
+                  id=""
+                  type="file"
+                  onChange={onChange}
+                  className={`form-control bg-${themetype}`}
+                  accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                <br />
+                <span className='text-danger'>
+                  <a href={Excelfile} download> Download formate</a>
+                </span><br />
               </div>
             </div>
-            {/* </div> */}
-            <div className={`modal-footer bg-${themetype}`} style={{ background: "white" }}>
+            <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("showdataModal").style.display = "none";
-                  window.location.reload()
-                }}
+                data-dismiss="modal"
               >
-                Cancel
+                Close
               </button>
-              <button type="button"
-                id="uploadbtn"
-                onClick={uploaddata}
-                className="btn btn-primary"
-              >
+              <button type="button" onClick={handleClick} className="btn btn-primary"
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg">
                 Upload
               </button>
             </div>
           </div>
-
         </div>
-        {/* ------------------ Modal end -----------------------------*/}
       </div>
+      {/* ------------------ Modal end -----------------------------*/}
+      {/* ------------------ Data show Modal start -----------------------------*/}
+      <div className="modal fade bd-example-modal-lg "
+        id="showdataModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+
+        <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                Uploaded Excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ color: "red" }}
+                  onClick={() => {
+                    document.getElementById("showdataModal").style.display = "none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+              </button>
+            </div>
+            <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+              {
+                backenddata ?
+                  <>
+                    <h5 style={{ margin: "auto" }}>This data already exist</h5>
+                    <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
+                      <thead>
+                        <tr>
+                          <th style={{ border: "1px solid black" }}>account_no</th>
+                          <th style={{ border: "1px solid black" }}>ifsc_code</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          duplicateData.map((d) => (
+                            <tr style={{ border: "1px solid black" }}>
+                              <td style={{ border: "1px solid black" }}>{d.account_no}</td>
+                              <td style={{ border: "1px solid black" }}>{d.ifsc_code}</td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                      <tfoot></tfoot>
+                      <br /><br />
+                    </table>
+                  </>
+                  : null
+              }
+              <table >
+                <thead>
+                  <tr>
+                    <th style={{ border: "1px solid black" }}>ac_type</th>
+                    <th style={{ border: "1px solid black" }}>account_code</th>
+                    <th style={{ border: "1px solid black" }}>bank_name</th>
+                    <th style={{ border: "1px solid black" }}>account_no</th>
+                    <th style={{ border: "1px solid black" }}>address_line1</th>
+                    <th style={{ border: "1px solid black" }}>address_line2</th>
+                    <th style={{ border: "1px solid black" }}>branch</th>
+                    <th style={{ border: "1px solid black" }}>Country</th>
+                    <th style={{ border: "1px solid black" }}>state</th>
+                    <th style={{ border: "1px solid black" }}>city</th>
+                    <th style={{ border: "1px solid black" }}>pincode</th>
+                    <th style={{ border: "1px solid black" }}>ifsc_code</th>
+                    <th style={{ border: "1px solid black" }}>acname</th>
+                    <th style={{ border: "1px solid black" }}>description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    importdata.map((d) => (
+                      <tr style={{ border: "1px solid black" }}>
+                        <td style={{ border: "1px solid black" }}>{d.ac_type}</td>
+                        <td style={{ border: "1px solid black" }}>{d.account_code}</td>
+                        <td style={{ border: "1px solid black" }}>{d.bank_name}</td>
+                        <td style={{ border: "1px solid black" }}>{d.account_no}</td>
+                        <td style={{ border: "1px solid black" }}>{d.address_line1}</td>
+                        <td style={{ border: "1px solid black" }}>{d.address_line2}</td>
+                        <td style={{ border: "1px solid black" }}>{d.branch}</td>
+                        <td style={{ border: "1px solid black" }}>{d.state}</td>
+                        <td style={{ border: "1px solid black" }}>{d.country}</td>
+                        <td style={{ border: "1px solid black" }}>{d.city}</td>
+                        <td style={{ border: "1px solid black" }}>{d.pincode}</td>
+                        <td style={{ border: "1px solid black" }}>{d.ifsc_code}</td>
+                        <td style={{ border: "1px solid black" }}>{d.acname}</td>
+                        <td style={{ border: "1px solid black" }}>{d.description}</td>
+                      </tr>
+                    ))
+                  }</tbody>
+              </table>
+            </div>
+          </div>
+          {/* </div> */}
+          <div className={`modal-footer bg-${themetype}`} >
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                document.getElementById("showdataModal").style.display = "none";
+                window.location.reload()
+              }}
+            >
+              Cancel
+            </button>
+            <button type="button"
+              id="uploadbtn"
+              onClick={uploaddata}
+              className="btn btn-primary"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+
+      </div>
+      {/* ------------------ Modal end -----------------------------*/}
+    </div>
   )
 
 }

@@ -216,13 +216,10 @@ const Showvendor = () => {
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation')
-
             const result = await Vendor(org)
             setData(result)
-
             const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
             if (UserRights.vendor_create === 'false') {
-
                 document.getElementById('addvendbtn').style.display = "none"
                 document.getElementById('excelvendbtn').style.display = "none"
             }
@@ -265,10 +262,8 @@ const Showvendor = () => {
                 <button type="button" id='addvendbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary">Add Vendor</button>
                 <button type="button" id='excelvendbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
                 <div className="container-fluid">
-                    <br />
-                    <h3 className="text-left ml-5">Vendor</h3>
-                    <br />
-                    <div className="card" >
+                    <h3 className="py-1 ml-5">Vendor</h3>
+                    <div className="card w-100" >
                         <article className={`card-body bg-${themeval}`}>
                             <DataTableExtensions
                                 {...tableData}>
