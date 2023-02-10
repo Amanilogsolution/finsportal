@@ -72,9 +72,7 @@ function EditOrganisation() {
       } else {
         document.getElementById('Cash').checked = true
         setReportBasic('Cash')
-
       }
-
     }
     fetchdata()
 
@@ -122,7 +120,7 @@ function EditOrganisation() {
                   <div className='img-div py-5'>
                     <div className='position-relative '>
                       <img src={data.org_logo} alt='Organisation Logo' className=' rounded-circle border my-3' height='150' width='150' />
-                      <i className="fa fa-camera position-absolute" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{bottom:'10%',right:'2%',cursor:'pointer'}}></i>
+                      <i className="fa fa-camera position-absolute" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ bottom: '10%', right: '2%', cursor: 'pointer' }}></i>
                     </div>
                     <div>
                       <p className='text-uppercase text-success font-weight-bold  mb-0'> {data.org_name}</p>
@@ -252,7 +250,7 @@ function EditOrganisation() {
                     <p className="regtext" style={{ cursor: 'pointer' }} onClick={handleToggleRegionalSet}>REGIONAL SETTINGS <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
                     <div id='regional_setting' style={{ display: 'none' }}>
                       <div className="form-row">
-                        <div className="form-group col ">
+                        <div className="form-group col">
                           <label>Finacial year</label>
                           <select
                             id="fins_year" className={`form-control col-md-6 bg-${themeval}`}>
