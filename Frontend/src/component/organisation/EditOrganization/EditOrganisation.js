@@ -293,7 +293,6 @@ function EditOrganisation() {
                             id="org_currency"
                             placeholder
                             disabled
-
                           />
                         </div>
                         <div className="form-group col-md-6">

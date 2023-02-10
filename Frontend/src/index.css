@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0%;
   padding: 0%;
   box-sizing: border-box;
@@ -18,7 +18,7 @@ code {
     monospace;
 }
 
-.cursor-notallow{
+.cursor-notallow {
   cursor: not-allowed;
 }
 
@@ -31,5 +31,6 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type=number] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
