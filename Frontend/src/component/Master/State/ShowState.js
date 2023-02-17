@@ -19,7 +19,6 @@ const ShowState = () => {
 
   const themetype = localStorage.getItem('themetype')
 
-
   const columns = [
     {
       name: 'Country Name',
@@ -80,7 +79,6 @@ const ShowState = () => {
 
 
 
-
   //##########################  Upload data start  #################################
 
   const uploaddata = async () => {
@@ -97,11 +95,11 @@ const ShowState = () => {
     }
     else {
       const result = await ImportState(importdata, localStorage.getItem('User_id'));
-      if (!(result == "Data Added")) {
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
@@ -197,10 +195,9 @@ const ShowState = () => {
         <button type="button" id='uploadstatebtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
         <div className="container-fluid">
-          <br />
-          <h3 className="text-left ml-5">State</h3>
-          <div className="card" >
-            <article className={`card-body bg-${themetype}`}>
+          <h3 className="py-3 ml-5">State</h3>
+          <div className="card w-100">
+            <article className={`card-body pb-0 bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData} >
                 <DataTable

@@ -82,8 +82,6 @@ function Invoices() {
 
     useEffect(() => {
         const fetchdata = async () => {
-
-
             setTimeout(() => {
                 setLoading(true)
                 const localdata = localStorage.getItem('gststatus');
@@ -322,7 +320,6 @@ function Invoices() {
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
         const [billadd, id] = e.target.value.split(',')
         setLocationid(id)
-        console.log(billadd)
         const billing_add = billadd;
         setBillingAddress(billadd)
         const invoicepefix = fin_year[0].invoice_ser;
@@ -340,7 +337,6 @@ function Invoices() {
 
     const handleChangeCustomerAdd = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
         const [state, address_id, custaddgst] = e.target.value.split(' ')
         setCustaddstate(state)
         setLocationCustAddid(address_id)
@@ -355,7 +351,6 @@ function Invoices() {
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
-        console.log(result)
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }
@@ -675,7 +670,7 @@ function Invoices() {
 
                                                         </div>
                                                     </div>
-                                                    <div className={`bg-${themetype} border rounded py-1 px-2`} style={{ width: "55%" }}>
+                                                    <div className={`rounded py-1 px-2`} style={{ width: "55%", background: themetype === 'dark' ? '#282828' : '#eee' }}>
                                                         <table className='w-100'>
                                                             <tbody>
                                                                 <tr>
@@ -767,20 +762,16 @@ function Invoices() {
 
                                                 }
 
-                                                <div className="form-group">
-                                                    <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                    <div className="col-md-20" style={{ width: "100%" }} >
-                                                        <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
-                                                            Save
-                                                        </button>
-                                                        <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" onClick={handlesavebtn} value='post' >
-                                                            Post
-                                                        </button>
-                                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
-                                                            name="clear" className="btn ml-2 btn btn-primary">Cancel </button>
-                                                        <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
-
-                                                    </div>
+                                                <div className="form-group mt-3">
+                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'>
+                                                        Save
+                                                    </button>
+                                                    <button id="postbtn" name="save" type='submit' className="btn btn-danger mx-2" onClick={handlesavebtn} value='post' >
+                                                        Post
+                                                    </button>
+                                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                                        name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
+                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                                 </div>
                                             </form>
                                         </article>

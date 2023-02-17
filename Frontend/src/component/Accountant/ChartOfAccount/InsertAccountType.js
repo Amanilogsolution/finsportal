@@ -16,12 +16,12 @@ function InsertAccountType() {
     const accountTypedesc = document.getElementById('AccountTypedesc').value;
     const User_id = localStorage.getItem("User_id");
     const result = await Insertaccounttype(org, account_type, account_type_code, accountTypedesc, User_id);
-    
-    if (result == 'Already') {
+
+    if (result === 'Already') {
       alert("Already")
     } else {
       var landingpage = localStorage.getItem('Chart')
-      if (landingpage == 'Chart') {
+      if (landingpage === 'Chart') {
         window.location.href = '/ChartOfAccount'
         localStorage.removeItem('Chart')
       }
@@ -35,7 +35,7 @@ function InsertAccountType() {
     e.preventDefault();
     var landingpage = localStorage.getItem('Chart')
     console.log(landingpage)
-    if (landingpage == 'Chart') {
+    if (landingpage === 'Chart') {
       window.location.href = '/ChartOfAccount'
       localStorage.removeItem('Chart')
     }
@@ -83,7 +83,7 @@ function InsertAccountType() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval}/>
+      <Footer theme={themeval} />
     </div>
   )
 }

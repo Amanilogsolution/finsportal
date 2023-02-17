@@ -15,6 +15,45 @@ const Menu = (props) => {
   }, [])
 
   const Rolefunction = (result) => {
+
+
+    // ####################  ALL Access to Admin Start #######################################################
+    if (localStorage.getItem('Role') === 'Admin') {
+      document.getElementById('estimatesMenu').style.display = "block"
+      document.getElementById('orderMenu').style.display = "block"
+      document.getElementById('deliverychallansmrnu').style.display = "block"
+      document.getElementById('pmtRecMenu').style.display = "block"
+      document.getElementById('recInvoiceMenu').style.display = "block"
+      document.getElementById('creditNoteMenu').style.display = "block"
+
+      document.getElementById('vendRecurrMenu').style.display = "block"
+      document.getElementById('purchaseOrderMenu').style.display = "block"
+      document.getElementById('vendrecbillMenu').style.display = "block"
+      document.getElementById('vendcredMenu').style.display = "block"
+
+
+    }
+    else{
+      document.getElementById('estimatesMenu').style.display = "none"
+      document.getElementById('orderMenu').style.display = "none"
+      document.getElementById('deliverychallansmrnu').style.display = "none"
+      document.getElementById('pmtRecMenu').style.display = "none"
+      document.getElementById('recInvoiceMenu').style.display = "none"
+      document.getElementById('vendcredMenu').style.display = "none"
+
+      document.getElementById('vendRecurrMenu').style.display = "none"
+      document.getElementById('purchaseOrderMenu').style.display = "none"
+      document.getElementById('vendrecbillMenu').style.display = "none"
+      document.getElementById('vendcredMenu').style.display = "none"
+
+
+    }
+
+    // ####################  ALL Access to Admin End  #######################################################
+
+
+
+
     // ################  Items Roles #############
     if (result.items_view === "true") {
       document.getElementById('itemsmenu').style.display = "block"
@@ -212,7 +251,7 @@ const Menu = (props) => {
               </li>
 
               {/* ################# Sales Section Start ############## */}
-              <li className="nav-item"  id='salesMenu'>
+              <li className="nav-item" id='salesMenu'>
                 <a href="#" className="nav-link active">
                   <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
                   <p >
@@ -227,7 +266,7 @@ const Menu = (props) => {
                       <p> Customer</p>
                     </a>
                   </li>
-                  <li className="nav-item" style={{ display: "none" }}  id="custaddressMenu">
+                  <li className="nav-item" style={{ display: "none" }} id="custaddressMenu">
                     <a href="/TotalCustAddress" className="nav-link active">
                       <i className="fa fa-address-book nav-icon" />
                       <p>Addresses</p>
@@ -382,7 +421,7 @@ const Menu = (props) => {
                 </ul>
               </li>
               {/* Master Menu */}
-              <li className="nav-item" style={{ display: "none" }}   id='masterMenu'>
+              <li className="nav-item" style={{ display: "none" }} id='masterMenu'>
                 <a href="/Customer" className="nav-link active">
                   <i className="fa fa-user-plus" aria-hidden="true"></i>
                   <p >
@@ -415,7 +454,7 @@ const Menu = (props) => {
                   </li>
                 </ul>
                 <ul className="nav nav-treeview" >
-                  <li className="nav-item"  id='currencymenu' >
+                  <li className="nav-item" id='currencymenu' >
                     <a href="/ShowCurrency" className="nav-link active">&nbsp;
                       <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
                       <p>Currency</p>
@@ -423,7 +462,7 @@ const Menu = (props) => {
                   </li>
                 </ul>
                 <ul className="nav nav-treeview"  >
-                  <li className="nav-item"  id='unitmenu' >
+                  <li className="nav-item" id='unitmenu' >
                     <a href="/ShowUnit" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
                       <p>Unit</p>
@@ -466,7 +505,7 @@ const Menu = (props) => {
                 </ul> */}
 
                 <ul className="nav nav-treeview" id='employeeMenu'>
-                  <li className="nav-item"  style={{ display: "none" }} >
+                  <li className="nav-item" style={{ display: "none" }} >
                     <a href="/showemployee" className="nav-link active">
                       <i className="far fa-file nav-icon" />
                       <p>Employee Master</p>
@@ -475,7 +514,7 @@ const Menu = (props) => {
                 </ul>
               </li>
               {/* Report Menu  */}
-              <li className="nav-item" id='reportMenu' style={{display:"none"}}>
+              <li className="nav-item" id='reportMenu' style={{ display: "none" }}>
                 <a href="/Reportdata" className="nav-link active">
                   <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
                   <p > Report </p>
