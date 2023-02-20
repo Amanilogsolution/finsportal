@@ -14,7 +14,6 @@ function Home() {
         </div>
       </div>
       <Header />
-      {/* <Menu/> */}
       <Dashboard theme={themecolor} />
       <Footer theme={themecolor} />
     </div>

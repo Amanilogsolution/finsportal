@@ -32,17 +32,15 @@ function ChartOfAccount() {
 
 
     if (Accountnamecode.length === 3) {
-      const result = await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-      const data = await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
+      await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
+      await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
     }
     else if (Accountnamecode.length === 6) {
       if (check === true) {
-
-        const Update = await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
       }
       else {
-        const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
-
+        await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
       }
     }
   }
@@ -139,8 +137,8 @@ function ChartOfAccount() {
                           })
                         }
                       </select>
-                      <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} 
-                      style={{  height: "30px", width: "30px" }}>+</button>
+                      <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }}
+                        style={{ height: "30px", width: "30px" }}>+</button>
                     </div>
                   </div>
 
@@ -154,7 +152,7 @@ function ChartOfAccount() {
                       id="checkboxgst"
                       className='float-right'
                       onClick={handleClick}
-                      style={{height:'20px',wight:'20px'}}/>
+                      style={{ height: '20px', wight: '20px' }} />
                   </p>
 
                   <div className="form-group" id="parent" style={{ display: 'none' }}>

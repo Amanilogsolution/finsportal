@@ -63,7 +63,7 @@ const TotalCustomer = () => {
       selector: "null",
       cell: (row) => [
         <a title='View Document' id={`editactionbtns${row.sno}`} href="EditCustomer">
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ]
@@ -266,14 +266,14 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <div className={`content-wrapper bg-${themeval}`}>
-          <div className=' px-5 py-4 d-flex justify-content-between'>
-            <h3 className="ml-5">Total Customer</h3>
+          <div className=' px-5 pt-3 pb-2 d-flex justify-content-between'>
+            <h3 className="pl-5 ">Total Customer</h3>
             <div>
               <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
               <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary mx-4">Add Customer</button>
             </div>
           </div>
-          <div className={`card bg-${themeval}  mx-2`}>
+          <div className={`card bg-${themeval} mb-0`}>
             <article className="card-body">
               <DataTableExtensions
                 {...tableData}>

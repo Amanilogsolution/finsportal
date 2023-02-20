@@ -42,7 +42,6 @@ console.log('Props',props)
   }, [])
 
   return (
-    <div>
       <div className={`content-wrapper bg-${props.theme}`}>
         <div className="content-header">
           <div className="container-fluid">
@@ -533,7 +532,6 @@ console.log('Props',props)
         {/*############################# compliances alert  ################################*/}
 
       </div>
-    </div>
 
   )
 }

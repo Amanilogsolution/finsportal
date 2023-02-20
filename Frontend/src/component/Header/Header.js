@@ -291,7 +291,7 @@ const Header = () => {
             <a className="nav-link p-0" data-toggle="dropdown" href="#" >
               <div className="profile-img image position-relative mr-3" style={{ height: "40px", width: "40px" }}>
                 <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4 h-100 w-100 border"
-                  alt="User Image" />
+                  alt="User " />
               </div>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
