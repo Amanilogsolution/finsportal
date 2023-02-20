@@ -47,7 +47,7 @@ const columns = [
     cell: (row) => [
       <input type="checkbox" id={`deleteselect${row.sno}`} disabled checked={row.status === 'Active' ? true : false} onChange={async () => {
         const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
-        if (result.rowsAffected[0]) { window.location.href = "./showfincialyear" }
+        if (result.rowsAffected[0]) { window.location.href = "./ShowFinancialyear" }
       }} />
     ]
   },
