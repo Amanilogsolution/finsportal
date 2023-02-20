@@ -194,7 +194,7 @@ const ShowUnit = () => {
           </div>
         </div>
         <div className="container-fluid">
-          <div className="card w-100">
+          <div className="card mb-0 w-100">
             <article className={`card-body bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData}>

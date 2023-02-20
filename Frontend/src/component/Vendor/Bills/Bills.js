@@ -59,6 +59,9 @@ function Bills() {
     })
     const [vouchersitem, setVoucheritems] = useState([])
 
+    const themetype = localStorage.getItem('themetype')
+
+
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
@@ -442,10 +445,10 @@ function Bills() {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                <div className="content-wrapper">
-                    <div className="container-fluid">
+                <div className={`content-wrapper bg-${themetype}`}>
+                    <div className="container-fluid ">
                         <h3 className="py-3 ml-5"> New Bill</h3>
-                        <div className="card">
+                        <div className={`card mb-0 bg-${themetype}`}>
                             <article className="card-body">
                                 <form autoComplete="off">
                                     <div className="form-row ">
@@ -483,11 +486,11 @@ function Bills() {
                                     <div className="form-row mt-3" >
                                         <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
                                         <div className="d-flex col-md-4" >
-                                            <input type="text" className="form-control col-md-10" id="voucher_no" placeholder="" disabled />
+                                            <input type="text" className="form-control col-md-10 cursor-notallow" id="voucher_no" placeholder="" disabled />
                                         </div>
                                         <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
                                         <div className="d-flex col-md-4 " >
-                                            <input type="date" className="form-control col-md-10" id="voucher_date" disabled />
+                                            <input type="date" className="form-control col-md-10 cursor-notallow" id="voucher_date" disabled />
                                         </div>
                                     </div>
 
@@ -534,23 +537,23 @@ function Bills() {
                                         </div>
                                         <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
                                         <div className="d-flex col-md-4 " >
-                                            <input type="date" className="form-control col-md-10" id="due_date" disabled />
+                                            <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
                                         </div>
                                     </div>
 
                                     <br />
                                     <table className="table table-striped table-bordered">
                                         <thead className='text-center'>
-                                            <th  scope="col">Location</th>
-                                            <th  scope="col">Item Details</th>
-                                            <th  scope="col">Employee</th>
-                                            <th  scope="col">Quantity</th>
-                                            <th  scope="col">Rate</th>
-                                            <th  scope="col">Amount</th>
-                                            <th  scope="col">Deduction</th>
-                                            <th  scope="col">Refno/FIleno</th>
-                                            <th  scope="col">Unit</th>
-                                            <th  scope="col">Net Amt</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Item Details</th>
+                                            <th scope="col">Employee</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Rate</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Deduction</th>
+                                            <th scope="col">Refno/FIleno</th>
+                                            <th scope="col">Unit</th>
+                                            <th scope="col">Net Amt</th>
                                         </thead>
                                         <tbody>
                                             {
@@ -599,7 +602,7 @@ function Bills() {
                                                             <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
                                                         </td>
                                                         <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                            <input type='number' id="Amount" value={amount[index]} className="form-control" />
+                                                            <input type='number' id="Amount" value={amount[index]} className="form-control cursor-notallow" disabled/>
                                                         </td>
 
                                                         <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -625,7 +628,7 @@ function Bills() {
                                                             </select>
                                                         </td>
                                                         <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                            <input type='number' className="form-control" value={netvalue[index]} />
+                                                            <input type='number' className="form-control cursor-notallow" value={netvalue[index]} disabled/>
                                                         </td>
                                                     </tr>
 
@@ -654,7 +657,7 @@ function Bills() {
                                                     Attach File</button>
                                             </div>
                                         </div>
-                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", background: themetype === 'dark' ? '#282828' : '#eee' , borderRadius: "7px" }}>
                                             <table className='table table-borderless' style={{ width: "100%" }}>
                                                 <thead>
                                                     <tr>
@@ -700,7 +703,7 @@ function Bills() {
                                                         </td>
                                                         <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                             <div className="input-group" >
-                                                                <input type="number" className="form-control col-md-5 ml-5" id='cgst-inp' value={cgstper} disabled />
+                                                                <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' value={cgstper} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -712,7 +715,7 @@ function Bills() {
                                                         <td>Total SGST Amt</td>
                                                         <td className='form-control col-md p-0 bg-transparent border-none'>
                                                             <div className="input-group" >
-                                                                <input type="" className="form-control col-md-5 ml-5" id='sgst-inp' value={sgstper} disabled />
+                                                                <input type="" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' value={sgstper} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -724,7 +727,7 @@ function Bills() {
                                                         <td>Total IGST Amt</td>
                                                         <td className='form-control col-md p-0 bg-transparent ' >
                                                             <div className="input-group" >
-                                                                <input type='number' className="form-control col-md-5 ml-5" id='igst-inp' value={igstper} disabled />
+                                                                <input type='number' className="form-control col-md-5 ml-5  cursor-notallow" id='igst-inp' value={igstper} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -781,7 +784,7 @@ function Bills() {
                                                         </td>
                                                         <td className='form-control col-md p-0 bg-transparent '>
                                                             <div className="input-group" >
-                                                                <input type="text" className="form-control col-md-5 ml-5" id='tdsperinp' disabled />
+                                                                <input type="text" className="form-control col-md-5 ml-5 cursor-notallow" id='tdsperinp' disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -818,7 +821,7 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer theme={themetype}/>
             </div>
 
             {/* ----------------------- Attach File  Modal  Start --------------*/}

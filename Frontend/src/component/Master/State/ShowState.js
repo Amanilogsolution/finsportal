@@ -196,7 +196,7 @@ const ShowState = () => {
 
         <div className="container-fluid">
           <h3 className="py-3 ml-5">State</h3>
-          <div className="card w-100">
+          <div className="card mb-0 w-100">
             <article className={`card-body pb-0 bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData} >

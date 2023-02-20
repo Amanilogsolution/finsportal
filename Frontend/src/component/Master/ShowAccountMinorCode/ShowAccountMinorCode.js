@@ -181,7 +181,7 @@ function ShowAccountMinorCode() {
             </div>
           </div>
 
-          <div className={`card w-100 bg-${themeval}`}>
+          <div className={`card mb-0 w-100 bg-${themeval}`}>
             <article className="card-body">
               <DataTableExtensions
                 {...tableData}

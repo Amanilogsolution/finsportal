@@ -252,7 +252,7 @@ const TotalLocation = () => {
         <div className="container-fluid">
           <br />
           <h3 className="text-left ml-5">Location</h3>
-          <div className="card w-100">
+          <div className="card mb-0 w-100">
             <article className={`card-body bg-${themeval}`}>
               <DataTableExtensions
                 {...tableData}

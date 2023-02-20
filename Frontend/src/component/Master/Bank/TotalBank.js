@@ -214,7 +214,7 @@ const TotalBank = () => {
         <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="py-2 ml-5">Banks</h3>
-          <div className="card">
+          <div className="card mb-0">
             <article className={`card-body bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData}

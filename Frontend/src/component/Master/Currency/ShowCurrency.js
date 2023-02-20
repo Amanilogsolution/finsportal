@@ -190,7 +190,7 @@ const ShowCurrency = () => {
         <div className="container-fluid">
           <br />
           <h3 className="ml-5">Currency</h3>
-          <div className="card">
+          <div className="card mb-0">
             <article className={`card-body bg-${themetype}`} >
               <DataTableExtensions
                 {...tableData}

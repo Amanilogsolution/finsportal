@@ -210,7 +210,7 @@ function Showcompliances() {
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="ml-5" >Compliances</h3>
-          <div className="card w-100" >
+          <div className="card mb-0 w-100" >
             <article className={`card-body py-0 bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData}>

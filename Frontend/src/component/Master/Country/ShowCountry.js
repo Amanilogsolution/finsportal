@@ -193,7 +193,7 @@ const ShowCountry = () => {
           </div>
         </div>
         <div className="container-fluid">
-          <div className="card">
+          <div className="card mb-0">
             <article className={`card-body bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData}

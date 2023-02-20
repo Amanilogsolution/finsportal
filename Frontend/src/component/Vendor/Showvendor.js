@@ -263,7 +263,7 @@ const Showvendor = () => {
                 <button type="button" id='excelvendbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
                 <div className="container-fluid">
                     <h3 className="py-1 ml-5">Vendor</h3>
-                    <div className="card w-100" >
+                    <div className="card mb-0 w-100" >
                         <article className={`card-body bg-${themeval}`}>
                             <DataTableExtensions
                                 {...tableData}>

@@ -173,7 +173,7 @@ function ShowAccountname() {
                     </div>
                 </div>
                 <div className="container-fluid">
-                    <div className={`card bg-${themetype} w-100`} >
+                    <div className={`card mb-0 bg-${themetype} w-100`} >
                         <article className="card-body">
                             <DataTableExtensions
                                 {...tableData}
