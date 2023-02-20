@@ -138,7 +138,7 @@ const ShowItem = () => {
           <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
         </div>
         <div className="container-fluid">
-          <div className="card w-100">
+          <div className="card mb-0 w-100">
             <article className={`card-body bg-${themetype}`}>
               <DataTableExtensions
                 {...tableData}
