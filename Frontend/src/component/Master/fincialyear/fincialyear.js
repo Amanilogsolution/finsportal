@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Addfincialyear } from '../../../api'
 
@@ -54,82 +53,74 @@ const Fincialyear = () => {
       }
       else {
         alert("Server error !")
-        
+
       }
 
     }
 
   }
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Financial Year</h3>
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-                      <form>
-                        <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={from_date + "-" + to_date} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From date</label>
-                          <div className="col form-group">
-                            <input type="date" className="form-control col-md-4" id='from_date' onChange={handleChangefromdate} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">To Date</label>
-                          <div className="col form-group">
-                            <input type="date" className="form-control col-md-4" id='to_date' onChange={handleChangetodate} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Year</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='lastyear' disabled value={year} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='invoiceser' maxLength={5} style={{ textTransform: "uppercase" }} />
-                            <small >Invoice Series must be maximum 5 Character</small>
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
-                            <small >Voucher Series must be maximum 4 Character</small>
-                          </div>
-                        </div>
-
-                        <div className="border-top card-body">
-                          <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
-                          <button className="btn btn-light ml-3" onClick={(e)=>{e.preventDefault(); window.location.href='./ShowFinancialyear'}}>Cancel</button>
-                        </div>
-                      </form>
-                    </article>
-
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <div className="container-fluid">
+          <h3 className="pt-4 pb-2 ml-5">Financial Year</h3>
+          <div className="card w-100">
+            <article className={`card-body bg-${themeval}`}>
+              <form>
+                <div className="form-row">
+                  <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={from_date + "-" + to_date} />
                   </div>
                 </div>
-              </div>
-            </div>
+                <div className="form-row">
+                  <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From date</label>
+                  <div className="col form-group">
+                    <input type="date" className="form-control col-md-4" id='from_date' onChange={handleChangefromdate} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">To Date</label>
+                  <div className="col form-group">
+                    <input type="date" className="form-control col-md-4" id='to_date' onChange={handleChangetodate} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Year</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='lastyear' disabled value={year} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='invoiceser' maxLength={5} style={{ textTransform: "uppercase" }} />
+                    <small >Invoice Series must be maximum 5 Character</small>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
+                    <small >Voucher Series must be maximum 4 Character</small>
+                  </div>
+                </div>
+
+                <div className="border-top card-body">
+                  <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
+                  <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './ShowFinancialyear' }}>Cancel</button>
+                </div>
+              </form>
+            </article>
+
           </div>
         </div>
-        <Footer theme={themeval}/>
       </div>
+      <Footer theme={themeval} />
     </div>
   )
 }

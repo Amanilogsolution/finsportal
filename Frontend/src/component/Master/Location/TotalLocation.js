@@ -52,11 +52,11 @@ const TotalLocation = () => {
       selector: 'contact_name1',
       sortable: true
     },
-    {
-      name: 'Contact Phone1',
-      selector: 'contact_phone_no1',
-      sortable: true
-    },
+    // {
+    //   name: 'Contact Phone1',
+    //   selector: 'contact_phone_no1',
+    //   sortable: true
+    // },
 
     {
       name: 'Status',
@@ -84,18 +84,18 @@ const TotalLocation = () => {
       sortable: false,
       selector: "null",
       cell: (row) => [
-        <div id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <a title='Edit Location' href="EditLocation">
+        <div id={`editactionbtns${row.sno}`} style={{ display: "none",marginLeft:'-20px' }}>
+          <a title='Edit Location' href="EditLocation" className='px-0'>
             <button className="editbtn btn"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-            </button></a>,
-          <a title='View Document' href="AddOrgAddress">
+            </button></a>
+          <a title='View Document' href="AddOrgAddress"  className='px-0'>
             <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-            </button></a>,
-          <a title='View Document' href="EditOrgAddress">
+            </button></a>
+          <a title='View Document' href="EditOrgAddress"  className='px-0'>
             <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
@@ -211,7 +211,7 @@ const TotalLocation = () => {
     async function fetchdata() {
       const result = await totalLocation(localStorage.getItem('Organisation'))
       setData(result)
-
+console.log(result)
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'branch')
       if (UserRights.branch_create === 'true') {
         document.getElementById('addbranchbtn').style.display = "block";
@@ -245,9 +245,9 @@ const TotalLocation = () => {
       </div>
       <Header />
       <div className={`content-wrapper bg-${themeval}`}>
-        <button type="button" id='addbranchbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary">Add Location</button>
-        <button type="button" id='uploadlocabtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
-        <button type="button" id='uploadlocaddbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
+        <button type="button" id='addbranchbtn' style={{  marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary float-right">Add Location</button>
+        <button type="button" id='uploadlocabtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
+        <button type="button" id='uploadlocaddbtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
 
         <div className="container-fluid">
           <br />

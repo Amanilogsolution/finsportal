@@ -525,7 +525,7 @@ function Invoices() {
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md">
-                                                        <input type="text" className={`form-control col-md-5 bg-${themetype}`} id="invoiceid" value={invoiceid} disabled />
+                                                        <input type="text" className={`form-control col-md-5 bg-${themetype} cursor-notallow`} id="invoiceid" value={invoiceid} disabled />
 
                                                     </div>
                                                 </div>
@@ -542,7 +542,7 @@ function Invoices() {
                                                     <div className="d-flex col-md-3">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
 
-                                                        <input type="date" className={`form-control col-md-6 bg-${themetype}`} id="Invoicedate" disabled />
+                                                        <input type="date" className={`form-control col-md-6 bg-${themetype} cursor-notallow`} id="Invoicedate" disabled />
                                                     </div>
 
 
@@ -565,7 +565,7 @@ function Invoices() {
 
                                                     <div className="d-flex col-md-3" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                        <input type="date" className={`form-control col-md-6 bg-${themetype}`} id="Duedate" disabled />
+                                                        <input type="date" className={`form-control col-md-6 bg-${themetype} cursor-notallow`} id="Duedate" disabled />
 
                                                     </div>
                                                 </div>
@@ -679,11 +679,11 @@ function Invoices() {
                                                                     <td>{totalamout}</td>
                                                                 </tr>
 
-                                                                <tr id='cgstinp' >
+                                                                <tr id='cgstinp'>
                                                                     <td>CGST</td>
                                                                     <td>
-                                                                        <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5 bg-${themetype}`} id='cgstipt' disabled />
+                                                                        <div className="input-group mb-1">
+                                                                            <input type="number" className={`form-control col-md-5 bg-${themetype} cursor-notallow`} id='cgstipt' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -695,7 +695,7 @@ function Invoices() {
                                                                     <td>SGST/UTGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5 bg-${themetype}`} id='sutgstipt' disabled />
+                                                                            <input type="number" className={`form-control col-md-5 bg-${themetype} cursor-notallow`} id='sutgstipt' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -707,7 +707,7 @@ function Invoices() {
                                                                     <td>IGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5 gstinpt bg-${themetype}`} id='igstipt' disabled />
+                                                                            <input type="number" className={`form-control col-md-5 gstinpt bg-${themetype} cursor-notallow`} id='igstipt' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -718,7 +718,7 @@ function Invoices() {
                                                                     <td>Total GST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5 bg-${themetype}`} id='gstipt ' value={Math.max(...totalgst)} disabled />
+                                                                            <input type="number" className={`form-control col-md-5 bg-${themetype} cursor-notallow`} id='gstipt ' value={Math.max(...totalgst)} disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>

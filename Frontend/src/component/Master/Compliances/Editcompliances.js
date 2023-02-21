@@ -51,7 +51,7 @@ function Editcompliances() {
             <div className={`content-wrapper bg-${themeval}`}>
                 <div className="container-fluid">
                     <h3 className="ml-5 py-2">Edit Compliances</h3>
-                    <div className={`card w-100 bg-${themeval}`}>
+                    <div className={`card mb-0 w-100 bg-${themeval}`}>
                         <form className="card-body" autoComplete='off'>
                             <div className="form-row">
                                 <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Compliances type</label>

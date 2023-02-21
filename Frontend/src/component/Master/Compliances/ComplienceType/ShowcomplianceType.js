@@ -7,7 +7,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import customStyles from '../../../customTableStyle';
 
-function ShowcomplianceType() {
+function  ShowcomplianceType() {
 
   const [data, setData] = useState([])
   const themeval = localStorage.getItem('themetype')

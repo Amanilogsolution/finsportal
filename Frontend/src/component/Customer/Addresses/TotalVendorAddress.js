@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import './TotalAddress.css';
 import DataTable from 'react-data-table-component';
@@ -76,7 +75,7 @@ const TotalVendAddress = () => {
       cell: (row) => [
 
         <a title='View Document' href="EditVendorAddress">
-          <button className="editbtn btn-success" onClick={() => { localStorage.setItem('EditVendorAddresssno', `${row.sno}`) }} >Edit</button></a>
+          <button className="editbtn btn-success px-2" onClick={() => { localStorage.setItem('EditVendorAddresssno', `${row.sno}`) }} >Edit</button></a>
 
       ]
     }
@@ -187,29 +186,29 @@ const TotalVendAddress = () => {
       </div>
       <Header />
       <div className={`content-wrapper bg-${themetype}`}>
-        <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary">Add Address</button>
-        <button type="button" style={{ float: "right", marginRight: '3%', marginTop: '3%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
-        <div className="container-fluid">
-          <br />
-          <h3 className="text-left ml-5">Vendor Address</h3>
-          <form className="form-inline" style={{ marginLeft: "50px" }} autoComplete="off">
-            <input className={`form-control mr-sm-2 bg-${themetype}`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />
-            <ul className="vendulstyle" >
-              <div style={{ height: "40%", overflow: "auto" }}>
+        <button type="button" style={{  marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary float-right">Add Address</button>
+        <button type="button" style={{  marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
+        <div className="container-fluid ">
+          <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>
+          <form className="form-inline ml-4 position-relative" autoComplete="off">
+            <label htmlFor='vend_name'>Vendor name:- </label>
+            <input className={`form-control mr-sm-2 mx-2 bg-${themetype}`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />
+            <ul className=" ulstyle rounded overflow-hidden mt-5" >
+              <div className='overflow-auto' style={{ height: "300px" }}>
                 {
                   selectedvendname.map((value, index) => (
-                    <li className="vendliststyle"><a key={index} onClick={
+                    <a key={index} onClick={
                       async (e) => {
                         e.preventDefault();
                         const result = await ShowVendAddress(value.vend_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedvendname([]) }
-                      }} >{value.vend_name}</a></li>
+                      }} ><li className={themetype === 'dark' ? 'darkliststyle' : 'liststyle'} >{value.vend_name}</li></a>
                   ))
                 }
               </div>
             </ul>
           </form>
           <br />
-          <div className={`card bg-${themetype}`} style={{ width: "100%" }}>
+          <div className={`card bg-${themetype} w-100`}>
             <article className="card-body">
               <DataTableExtensions
                 {...tableData}

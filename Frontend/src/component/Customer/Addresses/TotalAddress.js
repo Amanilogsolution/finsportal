@@ -186,13 +186,13 @@ const TotalCustAddress = () => {
 
   return (
     <>
-    <div className="wrapper   " >
+      <div className="wrapper" >
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
 
-      <div className={`content-wrapper  bg-${themeval}`}>
+        <div className={`content-wrapper  bg-${themeval}`}>
           {/* <div className="container-fluid "> */}
           <div className='d-flex py-4 px-5  justify-content-between'>
             <h3 className=" ml-5">Customer Address</h3>
@@ -201,7 +201,7 @@ const TotalCustAddress = () => {
               <button type="button" onClick={() => { window.location.href = "./AddCustAddress" }} className="btn btn-primary">Add Address</button>
             </div>
           </div>
-        <div className="container-fluid position-relative ">
+          <div className="container-fluid position-relative ">
             <form className="form-inline ml-4" >
               <label htmlFor='cust_entered_id'>Customer name:- </label>
               <input className={`form-control mr-sm-2 mx-3 bg-${themeval}`} type="search" placeholder="Enter Customer name" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
@@ -218,8 +218,8 @@ const TotalCustAddress = () => {
               </ul>
             </form>
           </div>
-        <div className={`card bg-${themeval}  mx-2`}>
-          <article className={`card-body  rounded overflow-auto`}>
+          <div className={`card mb-0 bg-${themeval}  mx-2`}>
+            <article className={`card-body  rounded overflow-auto`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -402,7 +402,6 @@ const TotalCustAddress = () => {
               </table>
             </div>
           </div>
-          {/* </div> */}
           <div className="modal-footer" style={{ background: "white" }}>
             <button
               type="button"

@@ -87,14 +87,11 @@ const AddVendAddress = () => {
       <div className={`content-wrapper bg-${themetype}`}>
         <div className="container-fluid">
           <br /> <h3 className="text-left ml-5">Add Address</h3>
-          <div className={`card bg-${themetype}`}>
+          <div className={`card mb-0 bg-${themetype}`}>
             <article className="card-body">
               <form>
-                <div className="Address mt-3" id="addressdiv">
-                  <div
-                    className="Address_left"
-                    style={{ width: "50%", float: "left" }}
-                  >
+                <div className="Address" id="addressdiv">
+                  <div className="Address_left" style={{ width: "70%", float: "left" }}>
                     <label>BILLING ADDRESS</label>
                     <div className="form-row">
                       <label
@@ -278,7 +275,7 @@ const AddVendAddress = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype}/>
+      <Footer theme={themetype} />
     </div>
   )
 }

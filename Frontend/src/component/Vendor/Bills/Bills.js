@@ -602,7 +602,7 @@ function Bills() {
                                                             <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
                                                         </td>
                                                         <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                            <input type='number' id="Amount" value={amount[index]} className="form-control cursor-notallow" disabled/>
+                                                            <input type='number' id="Amount" value={amount[index]} className="form-control cursor-notallow" disabled />
                                                         </td>
 
                                                         <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -628,7 +628,7 @@ function Bills() {
                                                             </select>
                                                         </td>
                                                         <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                            <input type='number' className="form-control cursor-notallow" value={netvalue[index]} disabled/>
+                                                            <input type='number' className="form-control cursor-notallow" value={netvalue[index]} disabled />
                                                         </td>
                                                     </tr>
 
@@ -657,7 +657,7 @@ function Bills() {
                                                     Attach File</button>
                                             </div>
                                         </div>
-                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", background: themetype === 'dark' ? '#282828' : '#eee' , borderRadius: "7px" }}>
+                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", background: themetype === 'dark' ? '#282828' : '#eee', borderRadius: "7px" }}>
                                             <table className='table table-borderless' style={{ width: "100%" }}>
                                                 <thead>
                                                     <tr>
@@ -669,35 +669,33 @@ function Bills() {
                                                 <tbody style={{ position: "relative" }}>
                                                     <tr scope="row">
                                                         <td style={{ width: "150px" }} >
-                                                            <a title='Click to Input GST Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
+                                                            <a title='Click to Input GST Data' className='cursor-pointer' style={{borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
                                                             </a>
-                                                            <div className=" dropdown-menu-lg bg-light" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
-                                                                <div>
-                                                                    <div className="card-body p-2">
-                                                                        <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
-                                                                        <div className="form-group ">
-                                                                            <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
-                                                                            <div>
-                                                                                <select
-                                                                                    id="gsttype"
-                                                                                    className="form-control col">
-                                                                                    <option value='' hidden>Select GST Type</option>
-                                                                                    <option value='Intra'>Intra</option>
-                                                                                    <option value='Inter' >Inter</option>
-                                                                                </select>
-                                                                            </div>
+                                                            <div className={`dropdown-menu-lg bg-${themetype}`} id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
+                                                                <div className="card-body p-2">
+                                                                    <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
+                                                                    <div className="form-group ">
+                                                                        <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
+                                                                        <div>
+                                                                            <select
+                                                                                id="gsttype"
+                                                                                className="form-control col">
+                                                                                <option value='' hidden>Select GST Type</option>
+                                                                                <option value='Intra'>Intra</option>
+                                                                                <option value='Inter' >Inter</option>
+                                                                            </select>
                                                                         </div>
-                                                                        <div className="form-row">
-                                                                            <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
-                                                                            <input type="number" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
-                                                                        </div>
-                                                                        <div className="form-row" >
-                                                                            <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
-                                                                            <input type="text" className="form-control col-md-7" id="gstTax" />
-                                                                        </div>
-                                                                        <br />
-                                                                        <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
                                                                     </div>
+                                                                    <div className="form-row">
+                                                                        <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
+                                                                        <input type="number" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
+                                                                    </div>
+                                                                    <div className="form-row" >
+                                                                        <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
+                                                                        <input type="text" className="form-control col-md-7" id="gstTax" />
+                                                                    </div>
+                                                                    <br />
+                                                                    <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -737,48 +735,46 @@ function Bills() {
                                                     </tr>
                                                     <tr scope="row">
                                                         <td style={{ width: "150px" }}>
-                                                            <a title='Click to Input TDS Data' style={{ cursor: "pointer", borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
+                                                            <a title='Click to Input TDS Data' className='cursor-pointer' style={{ borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
                                                             </a>
-                                                            <div className=" dropdown-menu-lg bg-light " id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
-                                                                <div>
-                                                                    <div className="card-body" >
-                                                                        <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
+                                                            <div className={`dropdown-menu-lg bg-${themetype}`} id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
+                                                                <div className="card-body" >
+                                                                    <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
 
-                                                                        <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
-                                                                            <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
-                                                                            <div className="form-row m-0">
+                                                                    <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
+                                                                        <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
+                                                                        <div className="form-row m-0">
 
-                                                                                <select className="form-control col" id='tds_head'>
-                                                                                    <option value='' hidden>Select Tds head</option>
-                                                                                    <option value='Cost'>Cost</option>
-                                                                                    <option value='Salary'>Salary</option>
-                                                                                    <option value='Rent'>Rent</option>
-                                                                                    <option value='Profit'>Profit</option>
-                                                                                    <option value='Brokerage'>Brokerage</option>
+                                                                            <select className="form-control col" id='tds_head'>
+                                                                                <option value='' hidden>Select Tds head</option>
+                                                                                <option value='Cost'>Cost</option>
+                                                                                <option value='Salary'>Salary</option>
+                                                                                <option value='Rent'>Rent</option>
+                                                                                <option value='Profit'>Profit</option>
+                                                                                <option value='Brokerage'>Brokerage</option>
 
-                                                                                </select>
-                                                                            </div>
-
+                                                                            </select>
                                                                         </div>
-                                                                        <div className="form-row m-0" style={{ marginTop: '0px' }} onChange={handleTdscomp}>
-                                                                            <input type="radio" id='tds_comp' name='comp_type' value='Company' />
-                                                                            <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1"  >Company</label>
 
-                                                                            <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' />
-                                                                            <label htmlFor='non_company' className="form-label font-weight-normal mt-1" >Non-Company</label>
-
-                                                                        </div>
-                                                                        <div className="form-row" >
-                                                                            <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
-                                                                            <input type="number" className="form-control col-md-7" id='tds_amt' />
-                                                                        </div>
-                                                                        <div className="form-row" >
-                                                                            <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
-                                                                            <input type="number" className="form-control col-md-7" id='tds_per' />
-                                                                        </div>
-                                                                        <br />
-                                                                        <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
                                                                     </div>
+                                                                    <div className="form-row m-0" style={{ marginTop: '0px' }} onChange={handleTdscomp}>
+                                                                        <input type="radio" id='tds_comp' name='comp_type' value='Company' />
+                                                                        <label htmlFor='company' className="col-md-5 form-label font-weight-normal mt-1"  >Company</label>
+
+                                                                        <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' />
+                                                                        <label htmlFor='non_company' className="form-label font-weight-normal mt-1" >Non-Company</label>
+
+                                                                    </div>
+                                                                    <div className="form-row" >
+                                                                        <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
+                                                                        <input type="number" className="form-control col-md-7" id='tds_amt' />
+                                                                    </div>
+                                                                    <div className="form-row" >
+                                                                        <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
+                                                                        <input type="number" className="form-control col-md-7" id='tds_per' />
+                                                                    </div>
+                                                                    <br />
+                                                                    <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -821,7 +817,7 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themetype}/>
+                <Footer theme={themetype} />
             </div>
 
             {/* ----------------------- Attach File  Modal  Start --------------*/}

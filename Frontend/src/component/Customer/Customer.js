@@ -33,12 +33,10 @@ const Customer = () => {
   const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
-
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation');
       const result = await Activecountries(org)
       setSelectedCountry(result)
-
       const datacurrency = await ActiveCurrency(org)
       setCurrencylist(datacurrency)
 
@@ -115,7 +113,6 @@ const Customer = () => {
     const remark = document.getElementById('remark').value;
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem("User_id");
-
 
 
     if (!customer_firstname) {
@@ -217,984 +214,971 @@ const Customer = () => {
   };
 
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status">
-          </div>
+          <div className="spinner-border" role="status"></div>
         </div>
         <Header />
-        {/* <Menu /> */}
-        <div>
-          <div className="content-wrapper">
+          <div className={`content-wrapper bg-${themeval}`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">New Customer</h3>
-              <div className="row ">
-                <div className="col ml-5">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className="card-body">
-                      <form>
-                        <div className="form-row">
-                          <div className="col form-group" id="valexisting" >
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal">
-                              <div className="tooltip1">
-                              </div>
-                            </label>
-                            <label className="form-check form-check-inline">
-                              <input className="form-check-input" type="radio" name="masterid"
-                                onClick={() => { setShowMaster(true); }}
-                                checked="checked" />
-                              <span className="form-check-label font-weight-normal">
-                                Non Existing
-                              </span>
-                            </label>
-                            <label className="form-check form-check-inline">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="masterid"
-                                onClick={() => { setShowMaster(false); }}
-                              />
-                              <span className="form-check-label font-weight-normal">
-                                Existing Customer
-                              </span>
-                            </label>
+              <div className={`card mb-0 bg-${themeval} w-100`}>
+                <article className="card-body">
+                  <form>
+                    <div className="form-row">
+                      <div className="col form-group" id="valexisting" >
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal">
+                          <div className="tooltip1">
                           </div>
-                        </div>
+                        </label>
+                        <label className="form-check form-check-inline">
+                          <input className="form-check-input" type="radio" name="masterid"
+                            onClick={() => { setShowMaster(true); }}
+                            checked="checked" />
+                          <span className="form-check-label font-weight-normal">
+                            Non Existing
+                          </span>
+                        </label>
+                        <label className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="masterid"
+                            onClick={() => { setShowMaster(false); }}
+                          />
+                          <span className="form-check-label font-weight-normal">
+                            Existing Customer
+                          </span>
+                        </label>
+                      </div>
+                    </div>
 
-                        {showMaster ? (
-                          <>
-                            <div className="form-row">
-                              <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
-                              <div className="col form-group">
-                                <input type="text" className="form-control col-md-4" id='mast_id' value={generatedmcust} disabled />
-                              </div>
-                            </div>
-                          </>) :
-                          <div className="form-row" id='masterdropdown'>
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
-                            <div className="col form-group">
-                              <select
-                                id="selectedmasterid"
-                                className="form-control col-md-4"
-                              >
-                                <option value='' hidden >Select Master ID</option>
-                                {
-                                  totalmastid ?
-                                    totalmastid.map((allid, index) => (
-                                      <option key={index}>{allid.mast_id}</option>
-                                    ))
-                                    : 0
-                                }
-                              </select>
-                            </div>
-                          </div>
-                        }
-
-
+                    {showMaster ? (
+                      <>
                         <div className="form-row">
-                          <label
-                            htmlFor="cust_id"
-                            className="col-md-2 col-form-label font-weight-normal" >
-                            Customer Id
-                          </label>
+                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="cust_id"
-                              className="form-control col-md-4"
-                              value={generatedcust}
-                              disabled
-                            />
+                            <input type="text" className="form-control col-md-4 cursor-notallow" id='mast_id' value={generatedmcust} disabled />
                           </div>
                         </div>
-
-
-                        <div className="form-row" onChange={handleChange}>
-                          <div className="col form-group">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal">
-                              <div className="tooltip1">
-                                Customer Type
-                                <span className="tooltipcontent">
-                                  The contacts which are associated to any
-                                  Account in crm is of type Bussiness and the
-                                  other contacts will be of type individual.
-                                </span>
-                              </div>
-                            </label>
-
-                            <label className="form-check form-check-inline">
-                              <input className="form-check-input" type="radio" name="Type" value="Bussiness" />
-                              <span className="form-check-label font-weight-normal">
-                                Bussiness
-                              </span>
-                            </label>
-                            <label className="form-check form-check-inline">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="Type"
-                                value="Individual"
-
-                              />
-                              <span className="form-check-label font-weight-normal">
-                                Individual
-                              </span>
-                            </label>
-                          </div>
+                      </>) :
+                      <div className="form-row" id='masterdropdown'>
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
+                        <div className="col form-group">
+                          <select
+                            id="selectedmasterid"
+                            className="form-control col-md-4"
+                          >
+                            <option value='' hidden >Select Master ID</option>
+                            {
+                              totalmastid ?
+                                totalmastid.map((allid, index) => (
+                                  <option key={index}>{allid.mast_id}</option>
+                                ))
+                                : 0
+                            }
+                          </select>
                         </div>
-                        {/* form-group end.// */}
-                        <div className="form-row">
+                      </div>
+                    }
+
+
+                    <div className="form-row">
+                      <label
+                        htmlFor="cust_id"
+                        className="col-md-2 col-form-label font-weight-normal" >
+                        Customer Id
+                      </label>
+                      <div className="col form-group">
+                        <input
+                          type="text"
+                          id="cust_id"
+                          className="form-control col-md-4 cursor-notallow"
+                          value={generatedcust}
+                          disabled
+                        />
+                      </div>
+                    </div>
+
+
+                    <div className="form-row" onChange={handleChange}>
+                      <div className="col form-group">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal">
+                          <div className="tooltip1">
+                            Customer Type
+                            <span className="tooltipcontent">
+                              The contacts which are associated to any
+                              Account in crm is of type Bussiness and the
+                              other contacts will be of type individual.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="form-check form-check-inline">
+                          <input className="form-check-input" type="radio" name="Type" value="Bussiness" />
+                          <span className="form-check-label font-weight-normal">
+                            Bussiness
+                          </span>
+                        </label>
+                        <label className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="Type"
+                            value="Individual"
+
+                          />
+                          <span className="form-check-label font-weight-normal">
+                            Individual
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    {/* form-group end.// */}
+                    <div className="form-row">
+                      <label
+                        htmlFor="user_name"
+                        className="col-md-2 col-form-label font-weight-normal"
+                      >
+                        <div className="tooltip1">
+                          Primary Contact
+                          <span className="tooltipcontent">
+                            The name you enter here will be for your primary
+                            contact.You can continue to add multiple contact
+                            Persons from the detailspage.
+                          </span>
+                        </div>
+                      </label>
+                      <div className=" form-group">
+                        <select
+                          id="inputSalute"
+                          className="form-control col-md-"
+                        >
+                          <option value='' hidden> Salutation</option>
+                          <option value="Mr.">Mr.</option>
+                          <option value="Mrs.">Mrs.</option>
+                          <option value="Ms.">Ms.</option>
+                          <option value="Miss.">Miss.</option>
+                          <option value="Dr.">Dr.</option>
+                        </select>
+                      </div>
+                      <div className="col-group-5 form-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="First name"
+                          id="customer_firstname"
+                          required
+                        />
+                      </div>
+                      <div className="col-group-5 form-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Last name"
+                          id="customer_lastname"
+                          required
+                        />
+                      </div>
+                    </div>
+
+
+
+                    <div className="form-row">
+                      <label
+                        htmlFor="user_name"
+                        className="col-md-2 col-form-label font-weight-normal"
+                      >
+                        Comapany Name
+                      </label>
+                      <div className="col form-group">
+                        <input
+                          type="text"
+                          className="form-control col-md-4"
+                          id="company_name"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
+                        <div className="tooltip1" style={{ border: "none" }}>
+                          <span className="text-danger" style={{borderBottom: "1px dashed red", }}>
+                            Customer Display Name *
+                          </span>
+                          <span className="tooltipcontent">
+                            This name will be displayed on the transaction
+                            you create for this Customer.
+                          </span>
+                        </div>
+                      </label>
+                      <div className="col form-group">
+                        <input type="text" className="form-control col-md-4" id="cust_display_name" />
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                      <label
+                        htmlFor="user_name"
+                        className="col-md-2 col-form-label font-weight-normal"
+                      >
+                        Customer Email
+                      </label>
+                      <div className="col form-group">
+                        <input
+                          type="email"
+                          className="form-control col-md-4"
+                          id="cust_email"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                      <label
+                        htmlFor="user_name"
+                        className="col-md-2 col-form-label font-weight-normal"
+                      >
+                        Customer Phone
+                      </label>
+                      <div className="col form-group">
+                        <input
+                          type="number"
+                          className="form-control col-md-8"
+                          placeholder="Work Phone"
+                          id="cust_work_phone"
+                          required
+                          value={custworkphonecount}
+                          onChange={(e) => {
+                            if (e.target.value.length === 11) return false;
+                            setCustworkphonecount(e.target.value)
+                          }}
+                        />
+                      </div>
+                      <div className="col form-group">
+                        <input
+                          type="number"
+                          className="form-control col-md-8"
+                          placeholder="Mobile"
+                          id="cust_phone"
+                          required
+                          style={{ marginLeft: "-30px" }}
+                          value={custphonecount}
+                          onChange={(e) => {
+                            if (e.target.value.length === 11) return false;
+                            setCustphonecount(e.target.value)
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <p className="newlinep" id="newlinepid" onClick={formshow}>
+                      Add more Details
+                    </p>
+                    <div id="distoggle" style={{ display: "none" }}>
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          Skype Name/Number
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="text"
+                            className="form-control col-md-4"
+                            id="skype_detail"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          Designation
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="text"
+                            className="form-control col-md-4"
+                            id="designation"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          Department
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="text"
+                            className="form-control col-md-4"
+                            id="department"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div className="form-row">
+                      <label
+                        htmlFor="user_name"
+                        className="col-md-2 col-form-label font-weight-normal"
+                      >
+                        Website
+                      </label>
+                      <div className="col form-group">
+                        <input type="url" className="form-control col-md-4" id="website" />
+                      </div>
+                    </div>
+
+                    <div className="form-row" style={{background: themeval === 'dark' ? '#282828' : '#eee'}}>
+                      <div className="col-md-2 form-group">
+                        <button
+                          className="btn btn-link"
+                          onClick={(e) => {
+                            e.preventDefault();
+
+                            document.getElementById("remarkdiv").style.display = "none";
+                            document.getElementById("addressdiv").style.display = "none";
+                            document.getElementById("contactdiv").style.display = "none";
+                            document.getElementById("otherdtldiv").style.display = "block";
+                          }}
+                        >
+                          Other Details
+                        </button>
+                      </div>
+                      <div className="col-md-1 form-group">
+                        <button
+                          className="btn btn-link"
+                          onClick={(e) => {
+                            e.preventDefault();
+
+                            document.getElementById("remarkdiv").style.display = "none";
+                            document.getElementById("addressdiv").style.display = "block";
+                            document.getElementById("contactdiv").style.display = "none";
+                            document.getElementById("otherdtldiv").style.display = "none";
+                          }}
+                        >
+                          Address
+                        </button>
+                      </div>
+                      {/* form-group end.// */}
+                      <div className="col-md-2 form-group">
+                        <button
+                          className="btn btn-link"
+                          onClick={(e) => {
+                            e.preventDefault();
+
+                            document.getElementById("remarkdiv").style.display = "none";
+                            document.getElementById("addressdiv").style.display = "none";
+                            document.getElementById("contactdiv").style.display = "block";
+                            document.getElementById("otherdtldiv").style.display = "none";
+                          }}
+                        >
+                          Contact Persons
+                        </button>
+                      </div>
+                      <div className="col-md-2 form-group">
+                        <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
+                          Custom Fields
+                        </button>
+                      </div>
+                      <div className="col-md-2 form-group">
+                        <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
+                          Reporting Tags
+                        </button>
+                      </div>
+                      <div className="col-md-2 form-group">
+                        <button
+                          className="btn btn-link"
+                          onClick={(e) => {
+                            e.preventDefault();
+
+                            document.getElementById("remarkdiv").style.display = "block";
+                            document.getElementById("addressdiv").style.display = "none";
+                            document.getElementById("contactdiv").style.display = "none";
+                            document.getElementById("otherdtldiv").style.display = "none";
+                          }}
+                        >
+                          Remarks
+                        </button>
+                      </div>
+                    </div>
+
+                    {/*----------------------- Other Details  ---------------------------------------------- */}
+
+                    <div className="Other_Details mt-3" id="otherdtldiv" >
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          <span style={{ color: "red" }}>
+                            GST Treatment *
+                          </span>
+                        </label>
+                        <div className="col form-group">
+                          <select
+                            id="gsttreatment"
+                            className="form-control col-md-4"
+                            onClick={selectgst}
+                          >
+                            <option value=''>Select GST Treatment</option>
+                            <option>Registered Bussiness -Regular</option>
+                            <option>
+                              Registered Bussiness - Composition
+                            </option>
+                            <option>Unregistered Bussiness</option>
+                            <option>Consumer</option>
+                            <option>Overseas</option>
+                            <option>Special Economic Zone</option>
+                            <option>Deemed Export</option>
+                            <option>Tax Deductor</option>
+                            <option>SEZ Developer</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-row" id="gstin" style={{ display: "none" }}>
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
+                          <span style={{ color: "red" }}>
+                            GSTIN / UIN*
+                          </span>
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="email"
+                            className="form-control col-md-4"
+                            maxLength="16"
+                            id="gstin_uin"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          PAN
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="email"
+                            className="form-control col-md-4"
+                            id="pan_no"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          <span style={{ color: "red" }}>
+                            Place Of Supply *
+                          </span>
+                        </label>
+                        <div className="col form-group">
+                          <select
+                            id="place_of_supply"
+                            className="form-control col-md-4"
+                          >
+                            <option value='' hidden>Select the state</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-row" onChange={handleChangetextPreferance}>
+                        <div className="col form-group">
                           <label
                             htmlFor="user_name"
                             className="col-md-2 col-form-label font-weight-normal"
                           >
-                            <div className="tooltip1">
-                              Primary Contact
-                              <span className="tooltipcontent">
-                                The name you enter here will be for your primary
-                                contact.You can continue to add multiple contact
-                                Persons from the detailspage.
-                              </span>
-                            </div>
+                            <span style={{ color: "red" }}>
+                              Tax Preference *
+                            </span>
                           </label>
-                          <div className=" form-group">
+
+                          <label className="form-check form-check-inline">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="taxpreference"
+                              value="Taxable"
+                              onClick={() => document.getElementById('exemptionreasonbox').style.display = "none"}
+                            />
+                            <span className="form-check-label font-weight-normal">
+                              Taxable
+                            </span>
+                          </label>
+                          <label className="form-check form-check-inline">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="taxpreference"
+                              value="Tax Exempt"
+                              onClick={(e) => { document.getElementById('exemptionreasonbox').style.display = "flex" }}
+                            />
+                            <span className="form-check-label font-weight-normal">
+                              Tax Exempt
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+
+                      {/*---------------------------------- toogle exemption reason start -----------------------------------*/}
+
+                      <div className="form-row " id="exemptionreasonbox" style={{ display: "none" }}>
+
+                        <label
+                          htmlFor="exemption_reason"
+                          className="col-md-2 col-form-label font-weight-normal">
+                          <span style={{ color: "red" }}>
+                            Exemption Reason *
+                          </span>
+                        </label>
+                        <div className=" form-group col" >
+                          <input
+                            id="exemption_reason"
+                            className="form-control col-md-4"
+                            type="text"
+                          />
+                        </div>
+
+                      </div>
+
+                      {/*---------------------------------- toogle exemption reason end -----------------------------------*/}
+
+
+
+
+                      <div className="form-row" >
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          <span style={{ color: "red" }}>Currency *</span>
+                        </label>
+                        <div className="col-md-4 form-group pr-0">
+                          <select
+                            id="selectedcurrency"
+                            className="form-control col-md-10 "
+                            data-live-search="true"
+
+                          >
+                            <option hidden value=''>Select Currency</option>
+                            {
+                              currencylist ?
+                                currencylist.map((item, index) =>
+                                  <option key={index}>{item.currency_name}</option>)
+                                :
+                                0
+                            }
+                          </select>
+                        </div>
+
+                      </div>
+
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          Opening Balance
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="email"
+                            className="form-control col-md-4"
+                            id="opening_balance"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          Payment Terms
+                        </label>
+                        <div className="col form-group">
+                          <select
+                            id="payment_terms"
+                            className="form-control col-md-4"
+                          >
+                            <option value='' hidden>Select term</option>
+                            {
+                              paymentterm ?
+                                paymentterm.map((item, index) =>
+                                  <option key={index}>{item.term}</option>)
+                                : 0
+                            }
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          <div className="tooltip1">
+                            Enable Portal?
+                            <span className="tooltipcontent">
+                              Give your customers access to portal to view
+                              transaction and make online payments.
+                            </span>
+                          </div>
+                        </label>
+                        <div className="form-check" onClick={handleClickportal}>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="click"
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault"
+                          >
+                            Allow portal access for this customer
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label
+                          htmlFor="inputState"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          <div className="tooltip1">
+                            Portal Language
+                            <span className="tooltipcontent">
+                              This will change the contact's portal in
+                              corresponding languages.
+                            </span>
+                          </div>
+                        </label>
+                        <div className="col form-group">
+                          <select
+                            id="language"
+                            className="form-control col-md-4"
+                          // onChange={handleChangePortalLanguage}
+                          >
+                            <option value='English'>English</option>
+                            <option value="हिंदी">हिंदी</option>
+                            <option value="عربي">عربي</option>
+                            <option value="বাংলা">বাংলা</option>
+                            <option value="中国人">中国人</option>
+                            <option value="Deutsch">Deutsch</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label htmlFor="facebook_url" className="col-md-2 col-form-label font-weight-normal" >
+                          Facebook
+                        </label>
+                        <div className="col form-group input-group">
+                          <input className="form-control col-md-4" placeholder="www.facebok.com" type="url" id="facebook_url" />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label htmlFor="twitter_url"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          Twitter
+                        </label>
+                        <div className="col form-group input-group">
+                          <input
+                            className="form-control col-md-4"
+                            placeholder="www.twitter.com"
+                            type="url"
+                            id="twitter_url"
+                          />
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/*------------------------- Address   ---------------------------- */}
+
+                    <div className="Address mt-3" id="addressdiv" style={{ display: "none" }}>
+                      <div
+                        className="Address_left"
+                        style={{ width: "70%"}}>
+                        <label>BILLING ADDRESS</label>
+                        <div className="form-row">
+                          <label
+                            htmlFor="billing_address_attention"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            Attention
+                          </label>
+                          <div className="col form-group">
+                            <input type="text"
+                              className="form-control col-md-7"
+                              id="billing_address_attention"
+                            />
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <label
+                            htmlFor="inputState"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            Country / Region
+                          </label>
+                          <div className="col-md-6 form-group">
                             <select
-                              id="inputSalute"
-                              className="form-control col-md-"
+                              id="inputState"
+                              className="form-control"
+                              onChange={handleAddressCountry}
                             >
-                              <option value='' hidden> Salutation</option>
-                              <option value="Mr.">Mr.</option>
-                              <option value="Mrs.">Mrs.</option>
-                              <option value="Ms.">Ms.</option>
-                              <option value="Miss.">Miss.</option>
-                              <option value="Dr.">Dr.</option>
+                              <option value='' hidden> Select</option>
+                              {
+                                selectedCountry ?
+                                  selectedCountry.map((data, index) => (
+                                    <option key={index} value={data.country_name}>{data.country_name}</option>
+                                  ))
+                                  : 0
+                              }
+
                             </select>
                           </div>
-                          <div className="col-group-5 form-group">
-                            <input
-                              type="text"
+                        </div>
+                        <div className="form-row">
+                          <label
+                            htmlFor="user_name"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            State
+                          </label>
+                          <div className="col-md-6 form-group">
+                            <select
+                              id="inputState"
                               className="form-control"
-                              placeholder="First name"
-                              id="customer_firstname"
-                              required
-                            />
-                          </div>
-                          <div className="col-group-5 form-group">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Last name"
-                              id="customer_lastname"
-                              required
-                            />
-                          </div>
-                        </div>
-
-
-
-                        <div className="form-row">
-                          <label
-                            htmlFor="user_name"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Comapany Name
-                          </label>
-                          <div className="col form-group">
-                            <input
-                              type="text"
-                              className="form-control col-md-4"
-                              id="company_name"
-                              required
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
-                            <div className="tooltip1" style={{ border: "none" }}>
-                              <span style={{ color: "red", borderBottom: "1px dashed red", }}>
-                                Customer Display Name *
-                              </span>
-                              <span className="tooltipcontent">
-                                This name will be displayed on the transaction
-                                you create for this Customer.
-                              </span>
-                            </div>
-                          </label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id="cust_display_name" />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label
-                            htmlFor="user_name"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Customer Email
-                          </label>
-                          <div className="col form-group">
-                            <input
-                              type="email"
-                              className="form-control col-md-4"
-                              id="cust_email"
-                              required
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label
-                            htmlFor="user_name"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Customer Phone
-                          </label>
-                          <div className="col form-group">
-                            <input
-                              type="number"
-                              className="form-control col-md-8"
-                              placeholder="Work Phone"
-                              id="cust_work_phone"
-                              required
-                              value={custworkphonecount}
-                              onChange={(e) => {
-                                if (e.target.value.length === 11) return false;
-                                setCustworkphonecount(e.target.value)
-                              }}
-                            />
-                          </div>
-                          <div className="col form-group">
-                            <input
-                              type="number"
-                              className="form-control col-md-8"
-                              placeholder="Mobile"
-                              id="cust_phone"
-                              required
-                              style={{ marginLeft: "-30px" }}
-                              value={custphonecount}
-                              onChange={(e) => {
-                                if (e.target.value.length === 11) return false;
-                                setCustphonecount(e.target.value)
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        <p className="newlinep" id="newlinepid" onClick={formshow}>
-                          Add more Details
-                        </p>
-                        <div id="distoggle" style={{ display: "none" }}>
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
+                              onChange={handleChangebillingState}
                             >
-                              Skype Name/Number
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="text"
-                                className="form-control col-md-4"
-                                id="skype_detail"
-                              />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              Designation
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="text"
-                                className="form-control col-md-4"
-                                id="designation"
-                              />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              Department
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="text"
-                                className="form-control col-md-4"
-                                id="department"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-
-                        <div className="form-row">
-                          <label
-                            htmlFor="user_name"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Website
-                          </label>
-                          <div className="col form-group">
-                            <input type="url" className="form-control col-md-4" id="website" />
-                          </div>
-                        </div>
-
-                        <div className="form-row bg-light">
-                          <div className="col-md-2 form-group">
-                            <button
-                              className="btn btn-link"
-                              onClick={(e) => {
-                                e.preventDefault();
-
-                                document.getElementById("remarkdiv").style.display = "none";
-                                document.getElementById("addressdiv").style.display = "none";
-                                document.getElementById("contactdiv").style.display = "none";
-                                document.getElementById("otherdtldiv").style.display = "block";
-                              }}
-                            >
-                              Other Details
-                            </button>
-                          </div>
-                          <div className="col-md-1 form-group">
-                            <button
-                              className="btn btn-link"
-                              onClick={(e) => {
-                                e.preventDefault();
-
-                                document.getElementById("remarkdiv").style.display = "none";
-                                document.getElementById("addressdiv").style.display = "block";
-                                document.getElementById("contactdiv").style.display = "none";
-                                document.getElementById("otherdtldiv").style.display = "none";
-                              }}
-                            >
-                              Address
-                            </button>
+                              <option value='' hidden> Select State</option>
+                              {
+                                selectState ?
+                                  selectState.map((data, index) => (
+                                    <option key={index} value={data.state_name}>{data.state_name}</option>
+                                  ))
+                                  : 0
+                              }
+                            </select>
                           </div>
                           {/* form-group end.// */}
-                          <div className="col-md-2 form-group">
-                            <button
-                              className="btn btn-link"
-                              onClick={(e) => {
-                                e.preventDefault();
-
-                                document.getElementById("remarkdiv").style.display = "none";
-                                document.getElementById("addressdiv").style.display = "none";
-                                document.getElementById("contactdiv").style.display = "block";
-                                document.getElementById("otherdtldiv").style.display = "none";
-                              }}
-                            >
-                              Contact Persons
-                            </button>
-                          </div>
-                          <div className="col-md-2 form-group">
-                            <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
-                              Custom Fields
-                            </button>
-                          </div>
-                          <div className="col-md-2 form-group">
-                            <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
-                              Reporting Tags
-                            </button>
-                          </div>
-                          <div className="col-md-2 form-group">
-                            <button
-                              className="btn btn-link"
-                              onClick={(e) => {
-                                e.preventDefault();
-
-                                document.getElementById("remarkdiv").style.display = "block";
-                                document.getElementById("addressdiv").style.display = "none";
-                                document.getElementById("contactdiv").style.display = "none";
-                                document.getElementById("otherdtldiv").style.display = "none";
-                              }}
-                            >
-                              Remarks
-                            </button>
-                          </div>
                         </div>
-
-                        {/*----------------------- Other Details  ---------------------------------------------- */}
-
-                        <div className="Other_Details mt-3" id="otherdtldiv" >
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              <span style={{ color: "red" }}>
-                                GST Treatment *
-                              </span>
-                            </label>
-                            <div className="col form-group">
-                              <select
-                                id="gsttreatment"
-                                className="form-control col-md-4"
-                                onClick={selectgst}
-                              >
-                                <option value=''>Select GST Treatment</option>
-                                <option>Registered Bussiness -Regular</option>
-                                <option>
-                                  Registered Bussiness - Composition
-                                </option>
-                                <option>Unregistered Bussiness</option>
-                                <option>Consumer</option>
-                                <option>Overseas</option>
-                                <option>Special Economic Zone</option>
-                                <option>Deemed Export</option>
-                                <option>Tax Deductor</option>
-                                <option>SEZ Developer</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="form-row" id="gstin" style={{ display: "none" }}>
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
-                              <span style={{ color: "red" }}>
-                                GSTIN / UIN*
-                              </span>
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="email"
-                                className="form-control col-md-4"
-                                maxLength="16"
-                                id="gstin_uin"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              PAN
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="email"
-                                className="form-control col-md-4"
-                                id="pan_no"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              <span style={{ color: "red" }}>
-                                Place Of Supply *
-                              </span>
-                            </label>
-                            <div className="col form-group">
-                              <select
-                                id="place_of_supply"
-                                className="form-control col-md-4"
-                              >
-                                <option value='' hidden>Select the state</option>
-                                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                <option value="Assam">Assam</option>
-                                <option value="Bihar">Bihar</option>
-                                <option value="Chhattisgarh">Chhattisgarh</option>
-                                <option value="Goa">Goa</option>
-                                <option value="Gujarat">Gujarat</option>
-                                <option value="Haryana">Haryana</option>
-                                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="form-row" onChange={handleChangetextPreferance}>
-                            <div className="col form-group">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                <span style={{ color: "red" }}>
-                                  Tax Preference *
-                                </span>
-                              </label>
-
-                              <label className="form-check form-check-inline">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="taxpreference"
-                                  value="Taxable"
-                                  onClick={() => document.getElementById('exemptionreasonbox').style.display = "none"}
-                                />
-                                <span className="form-check-label font-weight-normal">
-                                  Taxable
-                                </span>
-                              </label>
-                              <label className="form-check form-check-inline">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="taxpreference"
-                                  value="Tax Exempt"
-                                  onClick={(e) => { document.getElementById('exemptionreasonbox').style.display = "flex" }}
-                                />
-                                <span className="form-check-label font-weight-normal">
-                                  Tax Exempt
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-
-                          {/*---------------------------------- toogle exemption reason start -----------------------------------*/}
-
-                          <div className="form-row " id="exemptionreasonbox" style={{ display: "none" }}>
-
-                            <label
-                              htmlFor="exemption_reason"
-                              className="col-md-2 col-form-label font-weight-normal">
-                              <span style={{ color: "red" }}>
-                                Exemption Reason *
-                              </span>
-                            </label>
-                            <div className=" form-group col" >
-                              <input
-                                id="exemption_reason"
-                                className="form-control col-md-4"
-                                type="text"
-                              />
-                            </div>
-
-                          </div>
-
-                          {/*---------------------------------- toogle exemption reason end -----------------------------------*/}
-
-
-
-
-                          <div className="form-row" >
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              <span style={{ color: "red" }}>Currency *</span>
-                            </label>
-                            <div className="col-md-4 form-group pr-0">
-                              <select
-                                id="selectedcurrency"
-                                className="form-control col-md-10 "
-                                data-live-search="true"
-
-                              >
-                                <option hidden value=''>Select Currency</option>
-                                {
-                                  currencylist ?
-                                    currencylist.map((item, index) =>
-                                      <option key={index}>{item.currency_name}</option>)
-                                    :
-                                    0
-                                }
-                              </select>
-                            </div>
-
-                          </div>
-
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              Opening Balance
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="email"
-                                className="form-control col-md-4"
-                                id="opening_balance"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              Payment Terms
-                            </label>
-                            <div className="col form-group">
-                              <select
-                                id="payment_terms"
-                                className="form-control col-md-4"
-                              >
-                                <option value='' hidden>Select term</option>
-                                {
-                                  paymentterm ?
-                                    paymentterm.map((item, index) =>
-                                      <option key={index}>{item.term}</option>)
-                                    : 0
-                                }
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              <div className="tooltip1">
-                                Enable Portal?
-                                <span className="tooltipcontent">
-                                  Give your customers access to portal to view
-                                  transaction and make online payments.
-                                </span>
-                              </div>
-                            </label>
-                            <div className="form-check" onClick={handleClickportal}>
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                value=""
-                                id="click"
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor="flexCheckDefault"
-                              >
-                                Allow portal access for this customer
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label
-                              htmlFor="inputState"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              <div className="tooltip1">
-                                Portal Language
-                                <span className="tooltipcontent">
-                                  This will change the contact's portal in
-                                  corresponding languages.
-                                </span>
-                              </div>
-                            </label>
-                            <div className="col form-group">
-                              <select
-                                id="language"
-                                className="form-control col-md-4"
-                              // onChange={handleChangePortalLanguage}
-                              >
-                                <option value='English'>English</option>
-                                <option value="हिंदी">हिंदी</option>
-                                <option value="عربي">عربي</option>
-                                <option value="বাংলা">বাংলা</option>
-                                <option value="中国人">中国人</option>
-                                <option value="Deutsch">Deutsch</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label htmlFor="facebook_url" className="col-md-2 col-form-label font-weight-normal" >
-                              Facebook
-                            </label>
-                            <div className="col form-group input-group">
-                              <input className="form-control col-md-4" placeholder="www.facebok.com" type="url" id="facebook_url" />
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label htmlFor="twitter_url"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              Twitter
-                            </label>
-                            <div className="col form-group input-group">
-                              <input
-                                className="form-control col-md-4"
-                                placeholder="www.twitter.com"
-                                type="url"
-                                id="twitter_url"
-                              />
-                            </div>
-                          </div>
-
-                        </div>
-
-                        {/*------------------------- Address   ---------------------------- */}
-
-                        <div className="Address mt-3" id="addressdiv" style={{ display: "none" }}>
-                          <div
-                            className="Address_left"
-                            style={{ width: "50%", float: "left" }}
-                          >
-                            <label>BILLING ADDRESS</label>
-                            <div className="form-row">
-                              <label
-                                htmlFor="billing_address_attention"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Attention
-                              </label>
-                              <div className="col form-group">
-                                <input type="text"
-                                  className="form-control col-md-7"
-                                  id="billing_address_attention"
-                                />
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="inputState"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Country / Region
-                              </label>
-                              <div className="col-md-6 form-group">
-                                <select
-                                  id="inputState"
-                                  className="form-control"
-                                  onChange={handleAddressCountry}
-                                >
-                                  <option value='' hidden> Select</option>
-                                  {
-                                    selectedCountry ?
-                                      selectedCountry.map((data, index) => (
-                                        <option key={index} value={data.country_name}>{data.country_name}</option>
-                                      ))
-                                      : 0
-                                  }
-
-                                </select>
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="user_name"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                State
-                              </label>
-                              <div className="col-md-6 form-group">
-                                <select
-                                  id="inputState"
-                                  className="form-control"
-                                  onChange={handleChangebillingState}
-                                >
-                                  <option value='' hidden> Select State</option>
-                                  {
-                                    selectState ?
-                                      selectState.map((data, index) => (
-                                        <option key={index} value={data.state_name}>{data.state_name}</option>
-                                      ))
-                                      : 0
-                                  }
-                                </select>
-                              </div>
-                              {/* form-group end.// */}
-                            </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="inputState"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                City
-                              </label>
-                              <div className="col-md-6 form-group">
-                                <select
-                                  id="inputState"
-                                  className="form-control"
-                                  onChange={handleAddressCity}
-                                >
-                                  <option value='' hidden> select city</option>
-                                  {
-                                    selectCity ?
-                                      selectCity.map((data, index) => (
-                                        <option key={index} value={data.city_name}>{data.city_name}</option>
-                                      ))
-                                      : 0
-
-                                  }
-
-                                </select>
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="billing_address_pincode"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Zip Code
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="number"
-                                  className="form-control col-md-7"
-                                  id="billing_address_pincode"
-                                  value={billpincount}
-                                  onChange={(e)=>{
-                                    if(e.target.value.length === 7) return false;
-                                    setBillpincount(e.target.value)
-                                  }}
-                                />
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="billing_address_phone"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Phone
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="number"
-                                  className="form-control col-md-7"
-                                  id="billing_address_phone"
-                                  value={billphonecount}
-                                  onChange={(e)=>{
-                                    if(e.target.value.length === 11) return false;
-                                    setBillphonecount(e.target.value)
-                                  }}
-                                />
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <label
-                                htmlFor="billing_address_fax"
-                                className="col-md-2 col-form-label font-weight-normal"
-                              >
-                                Fax
-                              </label>
-                              <div className="col form-group">
-                                <input
-                                  type="text"
-                                  className="form-control col-md-7"
-                                  id="billing_address_fax"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/*--------- Remark ---------- */}
-
-                        <div className="form-column" id="remarkdiv" style={{ display: "none" }}>
+                        <div className="form-row">
                           <label
-                            htmlFor="user_name"
-                            className=" col-form-label font-weight-normal"
+                            htmlFor="inputState"
+                            className="col-md-2 col-form-label font-weight-normal"
                           >
-                            Remarks
+                            City
+                          </label>
+                          <div className="col-md-6 form-group">
+                            <select
+                              id="inputState"
+                              className="form-control"
+                              onChange={handleAddressCity}
+                            >
+                              <option value='' hidden> select city</option>
+                              {
+                                selectCity ?
+                                  selectCity.map((data, index) => (
+                                    <option key={index} value={data.city_name}>{data.city_name}</option>
+                                  ))
+                                  : 0
+
+                              }
+
+                            </select>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <label
+                            htmlFor="billing_address_pincode"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            Zip Code
                           </label>
                           <div className="col form-group">
-                            <textarea
-                              name="text"
-                              className="col-md-9"
-                              id="remark"
-                              cols="30"
-                              rows="5"
-                            ></textarea>
+                            <input
+                              type="number"
+                              className="form-control col-md-7"
+                              id="billing_address_pincode"
+                              value={billpincount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 7) return false;
+                                setBillpincount(e.target.value)
+                              }}
+                            />
                           </div>
                         </div>
-
-                        {/*---------------------------  Add Contact Person ---------------------------- */}
-
-                        <div className="Address mt-3" id="contactdiv" style={{ display: "none" }}>
-                          <label>Contact Person</label>
-                          <div className="form-row">
-                            <label
-                              htmlFor="user_name"
-                              className="col-md-2 col-form-label font-weight-normal"
-                            >
-                              First Name
-                            </label>
-                            <div className="col form-group">
-                              <input
-                                type="email"
-                                className="form-control col-md-4"
-                                id="contact_person_name"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
-                            <div className="col form-group">
-                              <input type="email" className="form-control col-md-4" id="contact_person_email" />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
-                            <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id="contact_person_work_phone" 
-                                value={contworkphonecount}
-                                  onChange={(e)=>{
-                                    if(e.target.value.length === 11) return false;
-                                    setContworkphonecount(e.target.value)
-                                  }}
-                              />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
-                            <div className="col form-group">
-                              <input type="number" className="form-control col-md-4" id="contact_person_phone" 
-                               value={contphonecount}
-                                  onChange={(e)=>{
-                                    if(e.target.value.length === 11) return false;
-                                    setContphonecount(e.target.value)
-                                  }}
-                               />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id="contact_person_skype" />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Designation</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id="contact_person_designation" />
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Department</label>
-                            <div className="col form-group">
-                              <input type="text" className="form-control col-md-4" id="contact_person_department" />
-                            </div>
+                        <div className="form-row">
+                          <label
+                            htmlFor="billing_address_phone"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            Phone
+                          </label>
+                          <div className="col form-group">
+                            <input
+                              type="number"
+                              className="form-control col-md-7"
+                              id="billing_address_phone"
+                              value={billphonecount}
+                              onChange={(e) => {
+                                if (e.target.value.length === 11) return false;
+                                setBillphonecount(e.target.value)
+                              }}
+                            />
                           </div>
                         </div>
-                        <div className="border-top card-body">
-                          <button type="submit" className="btn btn-success " onClick={handleClick} >Save</button>
-                          <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
+                        <div className="form-row">
+                          <label
+                            htmlFor="billing_address_fax"
+                            className="col-md-2 col-form-label font-weight-normal"
+                          >
+                            Fax
+                          </label>
+                          <div className="col form-group">
+                            <input
+                              type="text"
+                              className="form-control col-md-7"
+                              id="billing_address_fax"
+                            />
+                          </div>
                         </div>
-                      </form>
-                    </article>
-                  </div>
-                </div>
+                      </div>
+                    </div>
+
+                    {/*--------- Remark ---------- */}
+
+                    <div className="form-column" id="remarkdiv" style={{ display: "none" }}>
+                      <label
+                        htmlFor="user_name"
+                        className=" col-form-label font-weight-normal"
+                      >
+                        Remarks
+                      </label>
+                      <div className="col form-group">
+                        <textarea
+                          name="text"
+                          className="col-md-9"
+                          id="remark"
+                          cols="30"
+                          rows="5"
+                        ></textarea>
+                      </div>
+                    </div>
+
+                    {/*---------------------------  Add Contact Person ---------------------------- */}
+
+                    <div className="Address mt-3" id="contactdiv" style={{ display: "none" }}>
+                      <label>Contact Person</label>
+                      <div className="form-row">
+                        <label
+                          htmlFor="user_name"
+                          className="col-md-2 col-form-label font-weight-normal"
+                        >
+                          First Name
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="email"
+                            className="form-control col-md-4"
+                            id="contact_person_name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
+                        <div className="col form-group">
+                          <input type="email" className="form-control col-md-4" id="contact_person_email" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
+                        <div className="col form-group">
+                          <input type="number" className="form-control col-md-4" id="contact_person_work_phone"
+                            value={contworkphonecount}
+                            onChange={(e) => {
+                              if (e.target.value.length === 11) return false;
+                              setContworkphonecount(e.target.value)
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
+                        <div className="col form-group">
+                          <input type="number" className="form-control col-md-4" id="contact_person_phone"
+                            value={contphonecount}
+                            onChange={(e) => {
+                              if (e.target.value.length === 11) return false;
+                              setContphonecount(e.target.value)
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
+                        <div className="col form-group">
+                          <input type="text" className="form-control col-md-4" id="contact_person_skype" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Designation</label>
+                        <div className="col form-group">
+                          <input type="text" className="form-control col-md-4" id="contact_person_designation" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Department</label>
+                        <div className="col form-group">
+                          <input type="text" className="form-control col-md-4" id="contact_person_department" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="border-top card-footer">
+                      <button type="submit" className="btn btn-success " onClick={handleClick} >Save</button>
+                      <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
+                    </div>
+                  </form>
+                </article>
               </div>
             </div>
-            <br />
-            <br />
           </div>
-        </div>
-        <Footer theme={themeval}/>
+        <Footer theme={themeval} />
       </div>
-    </div>
   );
 };
 

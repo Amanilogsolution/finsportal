@@ -11,6 +11,8 @@ const AddCustAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_state, setBilling_address_state] = useState();
+  const [zipcount,setZipcount] = useState()
+  const [phonecount,setPhonecount] = useState()
 
   const themeval = localStorage.getItem('themetype')
 
@@ -86,10 +88,10 @@ const AddCustAddress = () => {
       <div className={`content-wrapper bg-${themeval}`}>
         <div className="container-fluid ">
           <h3 className=" ml-5 py-3">Add Address</h3>
-          <div className={`card bg-${themeval}`} >
+          <div className={`card mb-0 bg-${themeval}`} >
             <article className="card-body ">
               <form autoComplete="off">
-                <div className="Address_left" style={{ width: "70%" }}>
+                <div className="Address_left" style={{ width: "80%" }}>
                   <label>BILLING ADDRESS</label>
                   <div className="form-row">
                     <label
@@ -152,7 +154,7 @@ const AddCustAddress = () => {
                         className={`form-control bg-${themeval}`}
                         onChange={handleAddressCountry}
                       >
-                        <option hidden value=''> Select</option>
+                        <option hidden value=''> Select Country</option>
                         {
                           selectedCountry.map((data, index) => (
                             <option key={index} value={data.country_name}>{data.country_name}</option>
@@ -196,7 +198,7 @@ const AddCustAddress = () => {
                         id="inputcity"
                         className={`form-control bg-${themeval}`}
                       >
-                        <option hidden value=''> Select the value</option>
+                        <option hidden value=''> Select City</option>
                         {
                           selectCity.map((data, index) => (
                             <option key={index} value={data.city_name}>{data.city_name}</option>
@@ -220,6 +222,11 @@ const AddCustAddress = () => {
                         type="number"
                         className={`form-control col-md-7 bg-${themeval}`}
                         id="billing_address_pincode"
+                        value={zipcount}
+                        onChange={(e)=>{
+                          if(e.target.value.length===7) return false;
+                          setZipcount(e.target.value)
+                        }}
                       />
                     </div>
                   </div>
@@ -235,6 +242,11 @@ const AddCustAddress = () => {
                         type="number"
                         className={`form-control col-md-7 bg-${themeval}`}
                         id="billing_address_phone"
+                        value={phonecount}
+                        onChange={(e)=>{
+                          if(e.target.value.length===11) return false;
+                          setPhonecount(e.target.value)
+                        }}
                       />
                     </div>
                   </div>
@@ -264,7 +276,7 @@ const AddCustAddress = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval}/>
+      <Footer theme={themeval} />
     </div>
   )
 }
