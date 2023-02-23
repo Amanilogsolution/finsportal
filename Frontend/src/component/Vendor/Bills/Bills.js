@@ -600,7 +600,26 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`Quantity${index}`} onChange={() => setIndex(index)} className="form-control" />
+                                                                    <input type='number' id={`Quantity${index}`} onChange={(e) =>{ 
+                                                                        if(document.getElementById('Rate').value >0){
+                                                                            setTimeout(() => {
+
+                                                                        
+                                                                            const quantity = Number(e.target.value) * Number(document.getElementById('Rate').value)
+                                                                            console.log(quantity)
+                                                                            amount[index] = amount;
+                                                                            // let Amounts = amount
+                                                                            // Amounts[index] = quantity
+                                                                            // setAmount(Amounts)
+                                                                            // console.log(Amounts)
+                                                                            },1000)
+                                                                        }else{
+                                                                            console.log("NOt value")
+                                                                        }
+                                                                        // console.log(document.getElementById('Rate').value)
+                                                                        setIndex(index)
+                                                                    }
+                                                                        } className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
