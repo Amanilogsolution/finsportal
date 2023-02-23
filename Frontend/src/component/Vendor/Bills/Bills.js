@@ -76,6 +76,7 @@ function Bills() {
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
+            console.log(locatonstateres)
 
             const result2 = await ActiveUser()
             setActiveUser(result2)

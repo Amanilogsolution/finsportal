@@ -111,11 +111,11 @@ const TotalCustAddress = () => {
 
 
       const result = await Importcustaddress(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-      if (!(result == "Data Added")) {
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
         setBackenddata(false);
         alert("Data Added")
@@ -280,7 +280,7 @@ const TotalCustAddress = () => {
                     required
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
-                <span style={{ color: "red" }}>
+                <span className='text-danger'>
                   <a href={Excelfile} download> Download formate</a>
                 </span><br />
               </div>
@@ -315,7 +315,7 @@ const TotalCustAddress = () => {
         <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
               </h5>
               <button
@@ -324,7 +324,7 @@ const TotalCustAddress = () => {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()
@@ -337,7 +337,7 @@ const TotalCustAddress = () => {
                 backenddata ?
                   <>
                     <h5>This data already exist</h5>
-                    <table style={{ color: "red" }}>
+                    <table className='text-danger'>
                       <thead>
                         <tr>
                           <th style={{ border: "1px solid black" }}>cust_id</th>

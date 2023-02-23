@@ -68,9 +68,11 @@ const EditAddress = () => {
   }
 
   const handleChangePincode = async (e) => {
+    if(e.target.value.length===7)return false;
     setData({ ...data, billing_address_pincode: e.target.value })
   }
   const handleChangePhone = async (e) => {
+    if(e.target.value.length===11)return false;
     setData({ ...data, billing_address_phone: e.target.value })
   }
 
@@ -88,7 +90,7 @@ const EditAddress = () => {
           <div className={`card bg-${themeval}`}>
             <article className="card-body">
               <form autoComplete="off">
-                <div className="Address_left" style={{ width: "70%" }}>
+                <div className="Address_left" style={{ width: "80%" }}>
                   <label>BILLING ADDRESS</label>
                   <div className="form-row">
                     <label

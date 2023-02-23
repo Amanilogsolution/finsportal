@@ -186,8 +186,8 @@ const TotalVendAddress = () => {
       </div>
       <Header />
       <div className={`content-wrapper bg-${themetype}`}>
-        <button type="button" style={{  marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary float-right">Add Address</button>
-        <button type="button" style={{  marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
+        <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary float-right">Add Address</button>
+        <button type="button" style={{ marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
         <div className="container-fluid ">
           <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>
           <form className="form-inline ml-4 position-relative" autoComplete="off">
@@ -223,9 +223,7 @@ const TotalVendAddress = () => {
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
-
             </article>
-
           </div>
         </div>
       </div>
@@ -249,31 +247,21 @@ const TotalVendAddress = () => {
                 type="button"
                 className="close"
                 data-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
-              <div className=" ">
-                <label
-                  htmlFor="user_name"
-                  className=" col-form-label font-weight-normal">
-                  <span >Select the file</span>
-                </label>
-                <div className=" ">
-                  <input
-                    id=""
-                    type="file"
-                    onChange={onChange}
-                    className={`form-control  bg-${themetype}`}
-                    required
-                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                </div><br />
-                <span style={{ color: "red" }}>
-                  <a href={Excelfile} download> Download formate</a>
-                </span><br />
-              </div>
+              <label htmlFor="user_name" className=" col-form-label font-weight-normal">Select the file </label>
+                <input
+                  id=""
+                  type="file"
+                  onChange={onChange}
+                  className={`form-control  bg-${themetype}`}
+                  required
+                  accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+              <br />
+              <a href={Excelfile} download> Download formate</a>
             </div>
             <div className="modal-footer">
               <button
@@ -305,7 +293,7 @@ const TotalVendAddress = () => {
         <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content bg-${themetype}`}>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
               </h5>
               <button
@@ -314,7 +302,7 @@ const TotalVendAddress = () => {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()
@@ -327,7 +315,7 @@ const TotalVendAddress = () => {
                 backenddata ?
                   <>
                     <h5>This data already exist</h5>
-                    <table style={{ color: "red" }}>
+                    <table className='text-danger'>
                       <thead>
                         <tr>
                           <th style={{ border: "1px solid black" }}>vend_id</th>
@@ -384,7 +372,6 @@ const TotalVendAddress = () => {
                       </tr>
                     ))
                   }</tbody>
-                <tfoot></tfoot>
               </table>
             </div>
           </div>

@@ -61,9 +61,6 @@ const AddVendAddress = () => {
 
   }
 
-
-
-
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
     setBilling_address_country(data);
@@ -86,12 +83,12 @@ const AddVendAddress = () => {
       <Header />
       <div className={`content-wrapper bg-${themetype}`}>
         <div className="container-fluid">
-          <br /> <h3 className="text-left ml-5">Add Address</h3>
+          <br /> <h3 className="ml-5">Add Address</h3>
           <div className={`card mb-0 bg-${themetype}`}>
             <article className="card-body">
               <form>
                 <div className="Address" id="addressdiv">
-                  <div className="Address_left" style={{ width: "70%", float: "left" }}>
+                  <div className="Address_left" style={{ width: "80%" }}>
                     <label>BILLING ADDRESS</label>
                     <div className="form-row">
                       <label
@@ -213,8 +210,6 @@ const AddVendAddress = () => {
                         </select>
                       </div>
                     </div>
-
-
                     <div className="form-row">
                       <label
                         htmlFor="billing_address_pincode"
@@ -226,7 +221,6 @@ const AddVendAddress = () => {
                         <input
                           type="number"
                           className="form-control col-md-7"
-
                           id="billing_address_pincode"
                         />
                       </div>
@@ -242,16 +236,13 @@ const AddVendAddress = () => {
                         <input
                           type="number"
                           className="form-control col-md-7"
-                          id="billing_address_phone"
-                        />
+                          id="billing_address_phone"/>
                       </div>
                     </div>
                     <div className="form-row">
                       <label
                         htmlFor="billing_address_fax"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Fax
+                        className="col-md-2 col-form-label font-weight-normal">Fax
                       </label>
                       <div className="col form-group">
                         <input
@@ -262,10 +253,7 @@ const AddVendAddress = () => {
                       </div>
                     </div>
                   </div>
-
-
                 </div>
-
               </form>
             </article>
             <div className="border-top card-body">

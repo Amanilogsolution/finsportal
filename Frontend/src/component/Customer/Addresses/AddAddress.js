@@ -11,8 +11,8 @@ const AddCustAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_state, setBilling_address_state] = useState();
-  const [zipcount,setZipcount] = useState()
-  const [phonecount,setPhonecount] = useState()
+  const [zipcount, setZipcount] = useState()
+  const [phonecount, setPhonecount] = useState()
 
   const themeval = localStorage.getItem('themetype')
 
@@ -108,23 +108,14 @@ const AddCustAddress = () => {
                           ))
 
                         }
-
                       </select>
                     </div>
 
                   </div>
                   <div className="form-row">
-                    <label
-                      htmlFor="gst_no"
-                      className="col-md-2 col-form-label font-weight-normal"
-                    >
-                      GST No
-                    </label>
+                    <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                     <div className="col form-group">
-                      <input type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
-                        id="gst_no"
-                      />
+                      <input type="text" className={`form-control col-md-7 bg-${themeval}`} id="gst_no"/>
                     </div>
                   </div>
                   <div className="form-row">
@@ -223,8 +214,8 @@ const AddCustAddress = () => {
                         className={`form-control col-md-7 bg-${themeval}`}
                         id="billing_address_pincode"
                         value={zipcount}
-                        onChange={(e)=>{
-                          if(e.target.value.length===7) return false;
+                        onChange={(e) => {
+                          if (e.target.value.length === 7) return false;
                           setZipcount(e.target.value)
                         }}
                       />
@@ -243,8 +234,8 @@ const AddCustAddress = () => {
                         className={`form-control col-md-7 bg-${themeval}`}
                         id="billing_address_phone"
                         value={phonecount}
-                        onChange={(e)=>{
-                          if(e.target.value.length===11) return false;
+                        onChange={(e) => {
+                          if (e.target.value.length === 11) return false;
                           setPhonecount(e.target.value)
                         }}
                       />

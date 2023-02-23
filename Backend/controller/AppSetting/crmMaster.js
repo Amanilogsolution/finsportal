@@ -21,7 +21,6 @@ const insertcrm = async (req, res) => {
     const User_id= req.body.User_id;
     const from_date = req.body.from_date;
     const to_date = req.body.to_date;
-    console.log(org,user_name,type,cust_vend,User_id,from_date,to_date)
     try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from ${org}.dbo.tbl_crm_master where cust_vend='${cust_vend}' and status = 'Active' and type='${type}'`)
@@ -49,7 +48,6 @@ const deleteCrm = async (req, res) => {
     const org = req.body.org
     const sno = req.body.sno;
     const status = req.body.status;
-    console.log(org,sno,status)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_crm_master set status='${status}' where sno='${sno}' `)
@@ -82,7 +80,6 @@ const updatecrm = async (req, res) => {
     const cust_vend = req.body.cust_vend;
     const User_id= req.body.User_id;
     const from_date = req.body.from_date
-    console.log(sno,org,user_name,type,cust_vend,User_id,from_date)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_crm_master set user_name='${user_name}',type='${type}',cust_vend='${cust_vend}', update_date_time=getDate(),

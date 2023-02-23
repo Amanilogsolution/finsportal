@@ -416,7 +416,7 @@ export const CustomerMastId = async (org) => {
 // ######################   id controller
 // export const IdcountMaster = async (org, masterid) => {
 //     const url = `http://localhost:3008/api/idcountmaster`
-//     return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
+//     return axios.post(url, { org, masterid }).then(response => response.dat style={{ width: "100%" }}a).catch(error => console.log(error));
 // }
 // export const InsertIdcountmaster = async (org,id_type, masterid,id_count) => {
 //     const url = `http://localhost:3008/api/insertidcountmaster`
