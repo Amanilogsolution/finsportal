@@ -50,12 +50,7 @@ function EditOrgAddress() {
     }
   }
 
-  const handleChangeCountry = (e) => {
-    setData({ ...data, location_country: e.target.value })
-  }
-  const handleChangeState = (e) => {
-    setData({ ...data, location_state: e.target.value })
-  }
+ 
   const handleChangeCity = (e) => {
     setData({ ...data, location_city: e.target.value })
   }
@@ -77,120 +72,110 @@ function EditOrgAddress() {
 
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Edit Address</h3>
-              <div className="row ">
-                <div className="col ml-5">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-                      <form>
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='country_name' value={data.location_name} disabled />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='country_id' value={data.gstin_no} disabled />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_country'
-                              value={data.location_country}
-                              onChange={(e) => handleChangeCountry(e)}
-                              disabled
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_state' value={data.location_state}
-                              onChange={(e) => handleChangeState(e)}
-                              disabled
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
-                          <div className="col form-group">
-                            <select className="form-control col-md-4" id='location_city'
-                              onChange={(e) => handleChangeCity(e)}>
-                              <option value={data.location_city} hidden>{data.location_city}</option>
-                              {
-                                citylist.map((item, index) =>
-                                  <option key={index} value={item.city_name}>{item.city_name}</option>)
-                              }
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address 1</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_add1' value={data.location_add1}
-                              onChange={(e) => handleChangeaddr1(e)}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address 2</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='location_add2' value={data.location_add2}
-                              onChange={(e) => handleChangeAddr2(e)}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
-                          <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='location_pin' value={data.location_pin}
-                              onChange={(e) => handleChangePin(e)}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">From Date</label>
-                          <div className="col form-group">
-                            <input type="Date" className="form-control col-md-4" id='from_date' value={data.from_date}
-                              onChange={(e) => handleChangeDate(e)}
-                            />
-                          </div>
-                        </div>
-                        <div className={`border-top card-footer bg-${themeval}`}>
-                          <button className="btn btn-success" onClick={handleClick}>Update</button>
-                          <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
-                        </div>
-                      </form>
-                    </article>
-
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <div className="container-fluid">
+          <br /> <h3 className="text-left ml-5">Edit Address</h3>
+          <div className="card w-100 mb-0" >
+            <article className={`card-body bg-${themeval}`}>
+              <form>
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='country_name' defaultValue={data.location_name} disabled />
                   </div>
                 </div>
-              </div>
-            </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='country_id' defaultValue={data.gstin_no} disabled />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4 cursor-notallow"  id='location_country'
+                      defaultValue={data.location_country}
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='location_state' defaultValue={data.location_state}
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
+                  <div className="col form-group">
+                    <select className="form-control col-md-4" id='location_city'
+                      onChange={(e) => handleChangeCity(e)}>
+                      <option value={data.location_city} hidden>{data.location_city}</option>
+                      {
+                        citylist.map((item, index) =>
+                          <option key={index} value={item.city_name}>{item.city_name}</option>)
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address 1</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='location_add1' value={data.location_add1}
+                      onChange={(e) => handleChangeaddr1(e)}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address 2</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='location_add2' value={data.location_add2}
+                      onChange={(e) => handleChangeAddr2(e)}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
+                  <div className="col form-group">
+                    <input type="number" className="form-control col-md-4" id='location_pin' value={data.location_pin}
+                      onChange={(e) => handleChangePin(e)}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">From Date</label>
+                  <div className="col form-group">
+                    <input type="Date" className="form-control col-md-4" id='from_date' value={data.from_date}
+                      onChange={(e) => handleChangeDate(e)}
+                    />
+                  </div>
+                </div>
+                <div className={`border-top card-footer bg-${themeval}`}>
+                  <button className="btn btn-success" onClick={handleClick}>Update</button>
+                  <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
+                </div>
+              </form>
+            </article>
+
           </div>
         </div>
-        <Footer theme={themeval} />
       </div>
+      <Footer theme={themeval} />
     </div>
   )
 }

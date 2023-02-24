@@ -363,7 +363,9 @@ router.post('/GetSaveBill',BillController.getSaveBill)
 router.post('/adduserrole',UserRightsController.AddUserRole)
 router.post('/getuserrole',UserRightsController.getUserRole)
 router.post('/activeuserrole',UserRightsController.ActiveUserRole)
+router.post('/deleteuserrole',UserRightsController.DeleteUserRole)
 router.post('/getuserrolepermission',UserRightsController.getUserRolePermission)
+router.post('/totaluserrole',UserRightsController.TotalUserRole)
 
 
 module.exports = router;

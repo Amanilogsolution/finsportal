@@ -27,11 +27,11 @@ const InvoicePreview = (props) => {
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
 
-          <div className="modal-body" ref={pdfRef}>
+          <div className="modal-body text-dark" ref={pdfRef}>
             <div className="modalinvoice">
               <div className="topdiv d-flex">
                 <div className='invoiceorglogodiv'>
-                  <img className='orgpreviewlogo' src={localStorage.getItem('Orglogo')} alt=''/>
+                  <img className='orgpreviewlogo' src={localStorage.getItem('Orglogo')} alt='' />
                 </div>
                 <div className="topinnerdiv ">
                   <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
@@ -88,9 +88,6 @@ const InvoicePreview = (props) => {
                 </table>
               </div>
 
-
-
-
               {/* Second Table Start */}
 
               <div className='itemdivsec'>
@@ -133,159 +130,7 @@ const InvoicePreview = (props) => {
                 </table>
               </div>
 
-              {/* Second Table  End*/}
 
-
-
-
-              {/* 
-              <div className="itemtablediv">
-                <table className="itemtable">
-                  <thead className="itemthead">
-                    <tr className="itemtr">
-                      <th className="itemth">Sno.</th>
-                      <th className="itemth" style={{ width: "25%" }}>Item Description</th>
-                      <th className="itemth" style={{ width: "6%" }}>SAC Code</th>
-                      <th className="itemth">Qty.</th>
-                      <th className="itemth" style={{width:"8%"}}>Rate per Item</th>
-                      <th className="itemth">Total</th>
-                      {/* <th className="itemth">Discount</th> 
-                      <th className="itemth" style={{width:"7%"}}>Taxable Value</th>
-                      <th className="itemth gstouterdiv" style={{ width: "10%" }}>
-                        <tr
-                          className="itemthtr"
-                          style={{ borderBottom: "1px solid #000"}}
-                        >
-                          <td>CGST</td>
-                        </tr>
-                        <tr className="itemthtr gstcolum">
-                          <td>Rate</td>
-                          <td>Amt</td>
-                        </tr>
-                      </th>
-                      <th className="itemth" style={{ width: "10%" }}>
-                        <tr
-                          className="itemthtr"
-                          style={{ borderBottom: "1px solid #000" }}
-                        >
-                          <td className="">SGST</td>
-                        </tr>
-                        <tr className="itemthtr gstcolum">
-                          <td className="itemthtrtd">Rate</td>
-                          <td className="">Amt</td>
-                        </tr>
-                      </th>
-                      <th className="itemth" style={{ width: "9%" }}>
-                        <tr
-                          className="itemthtr"
-                          id='nkl'
-                          style={{ borderBottom: "1px solid #000" }}
-                        >
-                          <td className="">IGST</td>
-                        </tr>
-                        <tr className="gstcolum">
-                          <td className="itemthtrtd">Rate</td>
-                          <td className="">Amt</td>
-                        </tr>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="itemthtrtd"><b>1</b></td>
-                      <td className="itemthtrtd" style={{ width: "25%" }}>
-                        COURIER CHARGES LR NO. BOM010013627
-                      </td>
-                      <td className="itemthtrtd">996812</td>
-                      <td className="itemthtrtd"></td>
-                      <td className="itemthtrtd"></td>
-                      <td className="itemthtrtd">1825.00</td>
-                      {/* <td className="itemthtrtd"></td> 
-                      <td className="itemthtrtd">1825.00</td>
-                      <td className="itemthtrtd gstcolum">
-                        <td>9.0 %</td>
-                        <td>164.25</td>
-                      </td>
-                      <td className="itemthtrtd  gstcolum">
-                        <td>9.0%</td>
-                        <td>164.25</td>
-                      </td>
-                      <td className="gstcolum">
-                        <td>0%</td>
-                        <td>0.00</td>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="itemthtrtd">1</td>
-                      <td className="itemthtrtd" style={{ width: "30%" }}>
-                        COURIER CHARGES LR NO. BOM010013627
-                      </td>
-                      <td className="itemthtrtd">996812</td>
-                      <td className="itemthtrtd"></td>
-                      <td className="itemthtrtd"></td>
-                      <td className="itemthtrtd">1825.00</td>
-                      {/* <td className="itemthtrtd"></td> 
-                      <td className="itemthtrtd">1825.00</td>
-                      <td className="itemthtrtd gstcolum">
-                        <td>9.0 %</td>
-                        <td>164.25</td>
-                      </td>
-                      <td className="itemthtrtd  gstcolum">
-                        <td>9.0%</td>
-                        <td>164.25</td>
-                      </td>
-                      <td className="gstcolum">
-                        <td style={{width:"50%"}}>90%</td>
-                        <td style={{width:"50%"}}>0.00</td>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="itemthtrtd">1</td>
-                      <td className="itemthtrtd" style={{ maxWidth: "30%" }}>
-                        COURIER CHARGES LR NO. BOM010013627
-                      </td>
-                      <td className="itemthtrtd">996812</td>
-                      <td className="itemthtrtd"></td>
-                      <td className="itemthtrtd"></td>
-                      <td className="itemthtrtd">1825.00</td>
-                      {/* <td className="itemthtrtd"></td> 
-                      <td className="itemthtrtd">1825.00</td>
-                      <td className="itemthtrtd gstcolum">
-                        <td>9.0 %</td>
-                        <td>164.25</td>
-                      </td>
-                      <td className="itemthtrtd  gstcolum">
-                        <td>9.0%</td>
-                        <td>164.25</td>
-                      </td>
-                      <td className="gstcolum">
-                        <td>0%</td>
-                        <td>0.00</td>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot className="itemtfoot">
-                    <tr className="itemtfoottr">
-                      <th colSpan="5">Total</th>
-                      <td className="itemtfoottrtd">1825.00</td>
-                      {/* <td className="itemtfoottrtd"></td> 
-                      <td className="itemtfoottrtd">1825.00</td>
-                      <td className="itemtfoottrtd gstcolum">
-                        <td></td>
-                        <td>164.00</td>
-                      </td>
-                      <td className="itemtfoottrtd gstcolum">
-                        <td></td>
-                        <td className="">164.00</td>
-                      </td>
-                      <td className="itemtfoottrtd gstcolum">
-                        <td></td>
-                        <td className="">0.00</td>
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div> */}
               <div className="invoiceval">
                 <h4><b>Total Invoice Value (In Words) :</b></h4>
                 <h4>{props.Allinvoicedata.GrandTotal}</h4>

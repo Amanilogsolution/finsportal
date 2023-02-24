@@ -39,7 +39,7 @@ const OTPpage = () => {
             <div className="login-box ">
                 <div className="card card-outline card-primary">
                     <div className="card-header text-center">
-                        <a href="../../index2.html" className="h1"><b>FINS</b></a>
+                        <a href="./" className="h1"><b>FINS</b></a>
                     </div>
                     <div className="card-body">
 

@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
-// import Menu from "../Menu/Menu";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission } from '../../api'
 import BillReport from './Reports/BillReport';
 
 const Reportdata = () => {
   const [data, setData] = useState()
   const [customerlist, setCustomerlist] = useState([])
   const [vendorlist, setVendorlist] = useState([])
-  const [vendcustname,setVendcustname] = useState('')
+  const [vendcustname, setVendcustname] = useState('')
   const [locationlist, setLocationlist] = useState([])
 
   const themeval = localStorage.getItem('themetype')
-  const themebtncolor = localStorage.getItem('themebtncolor')
+  const themebtncolor = localStorage.getItem('themebtncolor') || 'primary'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,23 +23,33 @@ const Reportdata = () => {
       setCustomerlist(customer)
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
-    
+
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
+
+      const UserRights_invoice = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_invoice')
+      if (UserRights_invoice.reports_invoice_view === 'true') {
+        document.getElementById('invoicedropdown').style.display='block'
+      }
+
+      const UserRights_bill = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_bill')
+      if (UserRights_bill.reports_bill_view === 'true') {
+        document.getElementById('billdropdown').style.display='block'
+      }
     }
     fetchData()
   }, [data])
 
   const handleapply = async () => {
-    document.getElementById('report_type').disabled=true;
-    
+    document.getElementById('report_type').disabled = true;
+
     const org = localStorage.getItem('Organisation');
     const report_type = document.getElementById('report_type').value;
     const fromdate = document.getElementById('from_date').value;
     const todate = document.getElementById('to_date').value;
 
-    if (report_type == 'Invoice') {
+    if (report_type === 'Invoice') {
       const Customer = document.getElementById('customer');
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
@@ -51,7 +60,7 @@ const Reportdata = () => {
       console.log(result)
       setData(result)
     }
-    else if (report_type == 'Bills') {
+    else if (report_type === 'Bills') {
       const vend = document.getElementById('vendor');
       const vendid = vend.value;
       setVendcustname(vend.options[vend.selectedIndex].text)
@@ -63,13 +72,13 @@ const Reportdata = () => {
   }
 
   const handleChangetype = (e) => {
-    if (e.target.value == 'Bills') {
-      
+    if (e.target.value === 'Bills') {
+
       document.getElementById('locationdiv').style.display = 'none';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
     }
-    else if (e.target.value == 'Invoice') {
+    else if (e.target.value === 'Invoice') {
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
     }
@@ -83,7 +92,7 @@ const Reportdata = () => {
         <Header />
         <div>
           <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
               <i className="fa fa-filter" aria-hidden="true"></i> Filter</button>
 
             <div className="container-fluid">
@@ -98,7 +107,7 @@ const Reportdata = () => {
                           data ? (
                             (document.getElementById('report_type').value == 'Invoice') ?
                               <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
-                                ? <BillReport displaydata={data} name={vendcustname}/> : null)
+                                ? <BillReport displaydata={data} name={vendcustname} /> : null)
                             : <h3 className='text-center'>Filter for show data</h3>
                         }
                       </form>
@@ -113,7 +122,7 @@ const Reportdata = () => {
           {/* ######################## Modal Start ############################### */}
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
-              <div className="modal-content">
+              <div className={`modal-content bg-${themeval}`}>
                 <div className="modal-header">
                   <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Filter</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -127,8 +136,8 @@ const Reportdata = () => {
                     <div className="col form-group" >
                       <select className="form-control col" id='report_type' onChange={handleChangetype}>
                         <option value='' hidden>Select Type</option>
-                        <option value='Invoice'>Invoice</option>
-                        <option value='Bills'>Bills</option>
+                        <option id='invoicedropdown' style={{display:"none"}} value='Invoice'>Invoice</option>
+                        <option id='billdropdown' style={{display:"none"}} value='Bills'>Bills</option>
                       </select>
                     </div>
                   </div>
@@ -172,8 +181,6 @@ const Reportdata = () => {
                     </div>
                   </div>
 
-
-
                   <div className="form-row" >
                     <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
                     <div className="col form-group" >
@@ -190,7 +197,7 @@ const Reportdata = () => {
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={handleapply}>Apply</button>
+                    <button type="button" className={`btn btn-${themebtncolor}`} data-dismiss="modal" onClick={handleapply}>Apply Filter</button>
                   </div>
                 </div>
               </div>
@@ -199,7 +206,7 @@ const Reportdata = () => {
 
           {/* ########################## Modal End ###################################3 */}
         </div>
-        <Footer theme={themeval}/> 
+        <Footer theme={themeval} />
 
       </div>
     </div>

@@ -1,54 +1,133 @@
-.logincontainer {
+.login_container {
     height: 100vh;
-    background: url("../../images/bg1.jpg") no-repeat center center fixed;
+    width: 100vw;
+    background: #dce0fe;
 }
 
-.login-box {
-    position: absolute;
+.login_box {
+    height: 80%;
+    width: 80%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.userimgdiv {
-    height: 150px;
-    width: 150px;
-    /* border:2px solid red; */
+.login_box .login {
+    width: 50%;
 }
 
-.userimgdiv img {
+.login_box .login .finsgrowlogo{
+    height: 100px;
+    width: 200px;
+}
+.login_box .login .finsgrowlogo img{
     height: 100%;
-    width: 150px;
-    border-radius: 50%;
-    /* width: 100%; */
+    width: 100%;
+}
+.login_box .login .form-div {
+    width: 55%;
 }
 
-.userimgdiv .cameraicon {
-    display: flex;
-    position: absolute;
-    bottom: 15px;
-    left: 120px;
-    font-size: 20px;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    background-color: white;
-    cursor: pointer;
-    transition: all 0.1 linear;
+.login input {
+    width: 100%;
+    height: 36px;
+    height: 36px;
 }
 
-.userimgdiv .cameraicon:hover {
-    background: #000;
+.login .login-btn {
+    width: 90%;
+    margin: 20px auto;
+    height: 36px;
+    border: none;
     color: white;
-    border: 1px solid #000;
+    background: #5038ed;
 }
 
 
 
-/*Loading  */
+/* Login Slider  */
+.login_box .login_photo {
+    width: 50%;
+    padding: 20px;
+    background: url("../../images/LoginPage/loginbg.jpg");
+    background-size: 100% 100%;
+}
+
+
+.login_box .login_photo .login-slider {
+    height: 90%;
+    margin: auto 0px;
+}
+
+.login_box .login_photo .login-slider .carousel-inner .carousel-item img {
+    height: 250px;
+    width: 230px;
+    margin: auto;
+}
+
+
+@media screen and (max-width: 990px) {
+    .login_box {
+        width: 87%;
+    }
+    .login_box .login .form-div {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .login_box .login_photo {
+        display: none;
+    }
+
+    .login_box .login {
+        width: 100%;
+        /* padding: 15px 110px; */
+        background: url("../../images/LoginPage/loginbg.jpg");
+        background-size: 100% 100%;
+        position: relative;
+    }
+
+
+    .login h1 {
+        color: white;
+    }
+
+    .login h4 {
+        color: white;
+    }
+    .login_box .login .form-div {
+        width: 65%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+
+    .login .login-btn {
+        background: #3521b4;
+        border: 1px solid white;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .login_box .login .form-div {
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .login_box .login .form-div {
+        width: 90%;
+    }
+}
+
+
+
+/* Loading   */
 
 #outerloadingdiv {
     height: 100vh;
@@ -71,7 +150,7 @@
     align-items: center;
 }
 
-/* Spinner */
+/*  Spinner  */
 .lds-spinner {
     display: inline-block;
     position: relative;
@@ -164,4 +243,73 @@
     100% {
         opacity: 0;
     }
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ .logincontainer {
+    height: 100vh;
+    background: url("../../images/bg1.jpg") no-repeat center center fixed;
 }
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*.userimgdiv {
+    height: 150px;
+    width: 150px;
+    
+}
+
+.userimgdiv img {
+    height: 100%;
+    width: 150px;
+    border-radius: 50%;
+    width: 100%;
+}
+
+.userimgdiv .cameraicon {
+    display: flex;
+    position: absolute;
+    bottom: 15px;
+    left: 120px;
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.1 linear;
+}
+
+.userimgdiv .cameraicon:hover {
+    background: #000;
+    color: white;
+    border: 1px solid #000;
+}
+
+
+*/

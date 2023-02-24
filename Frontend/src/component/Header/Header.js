@@ -9,9 +9,8 @@ import Menu from '../Menu/Menu'
 const Header = () => {
   const [data, setData] = useState([])
   const [financialyeardata, setFinancialYearData] = useState([])
-  const themeval = localStorage.getItem('themetype') || 'light';
-  const btntheme = localStorage.getItem('themebtncolor') || 'primary';
-
+  const themeval = typeof (localStorage.getItem('themetype')) !== null ? localStorage.getItem('themetype') : 'light'
+  const btntheme = typeof (localStorage.getItem('themebtncolor')) !== null ? localStorage.getItem('themebtncolor') : 'primary';
 
   useEffect(() => {
     const fetchdata = async (e) => {
@@ -217,13 +216,13 @@ const Header = () => {
           {/*########################## All Organisation Start ################################# */}
 
           {/* ######################## Setting  Start #################################*/}
-          <li id='setting_all' className="nav-item dropdown" style={{display:"none"}}>
+          <li id='setting_all' className="nav-item dropdown" style={{ display: "none" }}>
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="fas fa-cog"></i>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
               <div className={`orgcard card bg-${themeval}`}  >
-                <div className="card-body" style={{ display: "flex" }}>
+                <div className="card-body">
                   <span style={{ fontSize: "20px" }}>Setting</span>
                 </div>
                 <ul className="list-group list-group-flush ">
@@ -249,7 +248,6 @@ const Header = () => {
           </li>
 
           {/* ######################## Setting  END #################################*/}
-
 
           <li className="nav-item dropdown " >
             <a className="nav-link" data-toggle="dropdown" href="#">
@@ -281,40 +279,34 @@ const Header = () => {
               </a>
             </div>
           </li>
+          {/* Full Screen Button */}
           <li className="nav-item" >
             <a className="nav-link" data-widget="fullscreen" href="#" role="button">
               <i className="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
 
+          {/* ############### ProfileCard Div  Start #################*/}
           <li className="nav-item profilediv dropdown p-0" >
             <a className="nav-link p-0" data-toggle="dropdown" href="#" >
-              <div className="user-panel mr-7 p-0" >
-                <div className="image mr-3" style={{ height: "40px", width: "40px", position: "relative", padding: "0%" }}>
-                  <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4 "
-                    alt="User Image" style={{ border: "2px solid #fff", width: "100%", height: "100%" }} /></div></div>
+              <div className="profile-img image position-relative mr-3" style={{ height: "40px", width: "40px" }}>
+                <img src={localStorage.getItem("User_img") || profileimg} className="img-circle mr-4 h-100 w-100 border"
+                  alt="User " />
+              </div>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
               <div className={`profilcard card bg-${themeval}`} >
                 <div className="card-body">
-                  <img className="card-img-top " src={localStorage.getItem("User_img") || profileimg} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid #fff" }} />
+                  <img className="card-img-top border rounded-circle" src={localStorage.getItem("User_img") || profileimg} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)" }} />
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
                   <div className='text-center  font-weight-bold'>
+                    <h6 >My Organisation:- <span className='text-uppercase'>{localStorage.getItem('Organisation Name')}</span></h6>
                     <a href="/LoginDetails">Profile</a> |
-                    <a href="/ChangePassword" style={{ color: "green" }}> Change Password</a><br />
-                    <a href="#" onClick={handleClick} style={{ color: "red" }}> Logout</a>
+                    <a href="/ChangePassword" className='text-success'> Change Password</a><br />
+                    <a href="#" onClick={handleClick} className="text-danger"> Logout</a>
                   </div>
                   <hr />
-                  <div className='theme'>Button Color
-                    <div className='color-option'>
-                      <button className='colordiv bg-light' onClick={handlebtncolor} value="light"></button>
-                      <button className='colordiv bg-primary' onClick={handlebtncolor} value="primary"></button>
-                      <button className='colordiv bg-success' onClick={handlebtncolor} value="success"></button>
-                      <button className='colordiv bg-dark' onClick={handlebtncolor} value="dark"></button>
-                      <button className='colordiv bg-info' onClick={handlebtncolor} value="info"></button>
-                      <button className='colordiv bg-warning' onClick={handlebtncolor} value="warning"></button>
-                      <button className='colordiv bg-danger' onClick={handlebtncolor} value="danger"></button>
-                    </div><br />
+                  <div className='theme'>Theme
                     <div className='switchdiv'>
                       <label>Light</label>
                       <label className="switch">
@@ -328,13 +320,25 @@ const Header = () => {
                       </label>
                       <label>Dark</label>
                     </div>
+                    Button Color
+                    <div className='color-option'>
+                      <button title='Light' className='colordiv bg-light' onClick={handlebtncolor} value="light"></button>
+                      <button title='Green' className='colordiv bg-success' onClick={handlebtncolor} value="success"></button>
+                      <button title='Black' className='colordiv bg-dark' onClick={handlebtncolor} value="dark"></button>
+                      <button title='Info' className='colordiv bg-info' onClick={handlebtncolor} value="info"></button>
+                      <button title='yellow' className='colordiv bg-warning' onClick={handlebtncolor} value="warning"></button>
+                      <button title='Primary' className='colordiv bg-primary' onClick={handlebtncolor} value="primary"></button>
+                      <button title='Red' className='colordiv bg-danger' onClick={handlebtncolor} value="danger"></button>
+                    </div>
+
+
                   </div>
                 </div>
               </div>
             </div>
 
           </li>
-          {/*------ Profile end ---------------*/}
+          {/*------ Profile Div end ---------------*/}
         </ul>
       </nav>
 

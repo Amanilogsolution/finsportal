@@ -5,8 +5,9 @@ import { showcompliancesType, Compliancesstatus, getUserRolePermission } from '.
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
+import customStyles from '../../../customTableStyle';
 
-function ShowcomplianceType() {
+function  ShowcomplianceType() {
 
   const [data, setData] = useState([])
   const themeval = localStorage.getItem('themetype')
@@ -84,46 +85,37 @@ function ShowcomplianceType() {
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <div className='d-flex justify-content-between py-4 px-4'>
+          <h3 className="text-left ml-5">Compliances Type</h3>
+          <button type="button" id='addcomp_typebtn' style={{  display: "none" }} onClick={() => { window.location.href = "./AddcomplianceType" }} className="btn btn-primary mx-4">Add Compliances Type</button>
         </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button" id='addcomp_typebtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddcomplianceType" }} className="btn btn-primary">Add Compliances Type</button>
-            <div className='container-fluid'>
-              <br />
-              <h3 className="text-left ml-5">Compliances Type</h3>
-              <br />
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" >
-                    <article className={`card-body bg-${themeval}`}>
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themeval}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className='container-fluid'>
+          <div className="card w-100" >
+            <article className={`card-body bg-${themeval}`}>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themeval}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-        <Footer theme={themeval} />
       </div>
+      <Footer theme={themeval} />
     </div>
   )
 }

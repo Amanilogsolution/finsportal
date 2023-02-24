@@ -416,7 +416,7 @@ export const CustomerMastId = async (org) => {
 // ######################   id controller
 // export const IdcountMaster = async (org, masterid) => {
 //     const url = `http://localhost:3008/api/idcountmaster`
-//     return axios.post(url, { org, masterid }).then(response => response.data).catch(error => console.log(error));
+//     return axios.post(url, { org, masterid }).then(response => response.dat style={{ width: "100%" }}a).catch(error => console.log(error));
 // }
 // export const InsertIdcountmaster = async (org,id_type, masterid,id_count) => {
 //     const url = `http://localhost:3008/api/insertidcountmaster`
@@ -1306,7 +1306,6 @@ export const InsertVendorSubInvoice = async (org, voucher_no, voucher_date, bill
 }
 
 export const FilterBillReport = async (org, startDate, lastDate, vendid) => {
-    console.log('api', org, startDate, lastDate, vendid)
     const url = `http://localhost:3008/api/filterbillreport`
     return axios.post(url, { org, startDate, lastDate, vendid }).then(response => response.data).catch(error => console.log(error));
 }
@@ -1351,10 +1350,6 @@ export const AddUserRole = async ( org ,roles ,role_id ,description ,
     reports_all ,reports_bill_view ,reports_bill_create ,reports_bill_edit ,reports_bill_delete ,
     reports_invoice_view ,reports_invoice_create ,reports_invoice_edit ,reports_invoice_delete , user_id ) => {
 
-        // console.log('purchases_all', purchases_all)
-        // console.log('accountant_all',accountant_all)
-        // console.log('setting_all',setting_all)
-        // console.log('master_all',master_all)
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
         org ,roles ,role_id ,description ,
@@ -1404,4 +1399,25 @@ export const getUserRolePermission = async (org,role,type) => {
     return axios.post(url, { org,role,type }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const TotalUserRole = async (org) => {
+    const url = `http://localhost:3008/api/totaluserrole`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+}
+export const DeleteUserRole = async (org,sno,status) => {
+    const url = `http://localhost:3008/api/deleteuserrole`
+    return axios.post(url, { org,sno,status}).then(response => response.data).catch(error => console.log(error));
+}
+
+
 // ############################ For Role api Start #################################
+
+// ############################ For Po api Start #################################
+export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number, po_date, User_id) => {
+    const url = `http://localhost:3008/api/InsertPurchaseorder`
+    return axios.post(url, { org, vendor_id, po_location, po_number, po_date, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity,rate,amount,unit) => {
+    const url = `http://localhost:3008/api/InsertSubPurchaseorder`
+    return axios.post(url, { org, vendor_id, po_number, location, items, quantity,rate,amount,unit}).then(response => response.data).catch(error => console.log(error));
+}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { TotalCrm, DeleteCrm,getUserRolePermission } from '../../../api';
+import { TotalCrm, DeleteCrm, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
-
+import customStyles from '../../customTableStyle';
 
 const ShowCrm = () => {
   const [data, setData] = useState([])
@@ -85,7 +85,7 @@ const ShowCrm = () => {
           document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
         }
       }
-  
+
     }
 
     fetchdata();
@@ -96,46 +96,40 @@ const ShowCrm = () => {
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <div className='d-flex justify-content-between py-4 px-4'>
+          <h3 className="text-left ml-5"> CRM Master </h3>
+          <button type="button " id='addcrmbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
+
         </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button " id='addcrmbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
-            <div className="container-fluid">
-              <br />
+        <div className="container-fluid">
+          <div className="card w-100">
+            <article className={`card-body bg-${themeval}`}>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themeval}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
 
-              <h3 className="text-left ml-5"> CRM Master </h3>
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themeval}
-                        />
-                      </DataTableExtensions>
+            </article>
 
-                    </article>
-
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-        <Footer theme={themeval} />
       </div>
+      <Footer theme={themeval} />
     </div>
   )
 

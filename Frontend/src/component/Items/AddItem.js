@@ -109,171 +109,163 @@ const AddItem = () => {
 
 
     return (
-        <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
-                <div>
-                    <div className={`content-wrapper bg-${themetype}`}>
-                        <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Add Item</h3>
-                            <div className="row ">
-                                <div className="col ">
-                                    <div className="card" >
-                                        <article className={`card-body bg-${themetype}`}>
-                                            <form autoComplete='off'>
-                                                <div className="form-row" >
-                                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group " onChange={handletype} >
-                                                        <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
-                                                        <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row">
-                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <input type="text" className="form-control col-md-4" id='name' />
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row">
-                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
-                                                    <div className="col form-group">
-                                                        <span style={{ color: "red" }}>Make this a sub-account</span>
-                                                        <input type="checkbox"
-                                                            id="checkboxgst"
-                                                            onClick={handleSubgl}
-                                                            style={{ marginLeft: "150px" }}
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row" id="gldiv" style={{ display: "none" }}>
-                                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Sub GL<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <select
-                                                            id="glcode"
-                                                            className="form-control col-md-4"
-                                                        // onChange={handleChange}
-                                                        >
-                                                            <option value='' hidden >Select GL Code</option>
-                                                            {
-                                                                glcode.map((data, index) => (
-                                                                    <option key={index} value={`${data.account_sub_name_code},${data.account_sub_name}`}>{data.account_sub_name},{data.account_sub_name_code}</option>
-                                                                ))
-                                                            }
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-
-                                                <div className="form-row" >
-                                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
-                                                    <div className="col form-group">
-                                                        <select className="form-control col-md-4" id="unit">
-                                                            <option value='' hidden>Select Unit</option>
-                                                            {
-                                                                unitdata.map((item, index) => (
-                                                                    <option value={item.unit_name} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row" id="hsncodetoogle">
-                                                    <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
-                                                    <div className="col form-group">
-                                                        <input className="form-control col-md-4" type="text" id="hsncode" />
-                                                    </div>
-                                                </div>
-                                                <div className="form-row" id="saccodetoogle" style={{ display: "none" }} >
-                                                    <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-normal" >SAC</label>
-                                                    <div className="col form-group">
-                                                        <input className="form-control col-md-4" type="text" id="saccode" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row">
-                                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
-                                                            <option value='' hidden>select the major Code</option>
-                                                            {
-                                                                data.map((item, index) =>
-                                                                    <option key={index} value={item.account_type_code}>{item.account_type}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="form-row">
-                                                    <label htmlFor="chartof_account" className="col-md-2 col-form-label font-weight-normal">Chart of Account<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <select className="form-control col-md-4" id='chartof_account' >
-                                                            <option value='' hidden>Select the Chart of Account</option>
-                                                            {
-                                                                chartofaccountlist.map((item, index) =>
-                                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="form-row" >
-                                                    <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
-                                                    <div className="col form-group">
-                                                        <select className="form-control col-md-4" id="taxpreference" onChange={handletaxprefrnce}>
-                                                            <option value='' hidden>Select Tax Preference</option>
-                                                            <option value='Taxable' >Taxable</option>
-                                                            <option value='Non-Taxable' >Non-Taxable</option>
-                                                            <option value='Out-of-Scope' >Out of Scope</option>
-                                                            <option value='Non-GST Supply' >Non-GST Supply </option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row col-md-6">
-                                                    <div className="form-group d-flex col-md-4" ></div>
-                                                    <div className="form-group d-flex col-md-2" >
-                                                        <input className="form-control mt-2" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
-                                                        <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
-                                                    </div>
-
-                                                    <div className="form-group d-flex ml-5">
-                                                        <input className="form-control mt-2" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
-                                                        <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
-                                                    </div>
-
-                                                </div>
-
-                                                <div className="form-row" id="defaulttax" style={{ display: "none" }}>
-                                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
-                                                            if (e.target.value > 100) return false;
-                                                            setGstvaluecount(e.target.value)
-                                                        }} />
-                                                    </div>
-                                                </div>
-                                                <div className="border-top card-body">
-                                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                                                    <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
-                                                </div>
-                                            </form>
-                                        </article>
-
+        <div className="wrapper">
+            <div className="preloader flex-column justify-content-center align-items-center">
+                <div className="spinner-border" role="status"> </div>
+            </div>
+            <Header />
+            <div className={`content-wrapper bg-${themetype}`}>
+                <div className="container-fluid">
+                    <h3 className="py-3 ml-5">Add Item</h3>
+                    <div className="card mb-0" >
+                        <article className={`card-body bg-${themetype}`}>
+                            <form autoComplete='off'>
+                                <div className="form-row" >
+                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group " onChange={handletype} >
+                                        <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
+                                        <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
+                                <div className="form-row">
+                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <input type="text" className="form-control col-md-4" id='name' />
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
+                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
+                                    <div className="col form-group">
+                                        <span style={{ color: "red" }}>Make this a sub-account</span>
+                                        <input type="checkbox"
+                                            id="checkboxgst"
+                                            onClick={handleSubgl}
+                                            style={{ marginLeft: "150px" }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="form-row" id="gldiv" style={{ display: "none" }}>
+                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Sub GL<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <select
+                                            id="glcode"
+                                            className="form-control col-md-4"
+                                        // onChange={handleChange}
+                                        >
+                                            <option value='' hidden >Select GL Code</option>
+                                            {
+                                                glcode.map((data, index) => (
+                                                    <option key={index} value={`${data.account_sub_name_code},${data.account_sub_name}`}>{data.account_sub_name},{data.account_sub_name_code}</option>
+                                                ))
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div className="form-row" >
+                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id="unit">
+                                            <option value='' hidden>Select Unit</option>
+                                            {
+                                                unitdata.map((item, index) => (
+                                                    <option value={item.unit_name} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="form-row" id="hsncodetoogle">
+                                    <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
+                                    <div className="col form-group">
+                                        <input className="form-control col-md-4" type="text" id="hsncode" />
+                                    </div>
+                                </div>
+                                <div className="form-row" id="saccodetoogle" style={{ display: "none" }} >
+                                    <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-normal" >SAC</label>
+                                    <div className="col form-group">
+                                        <input className="form-control col-md-4" type="text" id="saccode" />
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
+                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
+                                            <option value='' hidden>select the major Code</option>
+                                            {
+                                                data.map((item, index) =>
+                                                    <option key={index} value={item.account_type_code}>{item.account_type}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-row">
+                                    <label htmlFor="chartof_account" className="col-md-2 col-form-label font-weight-normal">Chart of Account<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='chartof_account' >
+                                            <option value='' hidden>Select the Chart of Account</option>
+                                            {
+                                                chartofaccountlist.map((item, index) =>
+                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-row" >
+                                    <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id="taxpreference" onChange={handletaxprefrnce}>
+                                            <option value='' hidden>Select Tax Preference</option>
+                                            <option value='Taxable' >Taxable</option>
+                                            <option value='Non-Taxable' >Non-Taxable</option>
+                                            <option value='Out-of-Scope' >Out of Scope</option>
+                                            <option value='Non-GST Supply' >Non-GST Supply </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="form-row col-md-6">
+                                    <div className="form-group d-flex col-md-4" ></div>
+                                    <div className="form-group d-flex col-md-3" >
+                                        <input className="form-control mt-2" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
+                                        <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
+                                    </div>
+
+                                    <div className="form-group d-flex ml-5">
+                                        <input className="form-control mt-2" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
+                                        <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
+                                    </div>
+
+                                </div>
+
+                                <div className="form-row" id="defaulttax" style={{ display: "none" }}>
+                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
+                                            if (e.target.value > 100) return false;
+                                            setGstvaluecount(e.target.value)
+                                        }} />
+                                    </div>
+                                </div>
+                                <div className="border-top card-body">
+                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
+                                    <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
+                                </div>
+                            </form>
+                        </article>
+
                     </div>
                 </div>
-                <Footer theme={themeval} />
             </div>
+            <Footer theme={themeval} />
         </div>
     )
 

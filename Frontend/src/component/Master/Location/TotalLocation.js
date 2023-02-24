@@ -11,6 +11,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_location_master.xlsx';
 import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
+import customStyles from '../../customTableStyle';
 
 const TotalLocation = () => {
   const [data, setData] = useState([])
@@ -51,11 +52,11 @@ const TotalLocation = () => {
       selector: 'contact_name1',
       sortable: true
     },
-    {
-      name: 'Contact Phone1',
-      selector: 'contact_phone_no1',
-      sortable: true
-    },
+    // {
+    //   name: 'Contact Phone1',
+    //   selector: 'contact_phone_no1',
+    //   sortable: true
+    // },
 
     {
       name: 'Status',
@@ -83,18 +84,18 @@ const TotalLocation = () => {
       sortable: false,
       selector: "null",
       cell: (row) => [
-        <div id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <a title='Edit Location' href="EditLocation">
+        <div id={`editactionbtns${row.sno}`} style={{ display: "none",marginLeft:'-20px' }}>
+          <a title='Edit Location' href="EditLocation" className='px-0'>
             <button className="editbtn btn"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-            </button></a>,
-          <a title='View Document' href="AddOrgAddress">
+            </button></a>
+          <a title='View Document' href="AddOrgAddress"  className='px-0'>
             <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-            </button></a>,
-          <a title='View Document' href="EditOrgAddress">
+            </button></a>
+          <a title='View Document' href="EditOrgAddress"  className='px-0'>
             <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
@@ -210,7 +211,7 @@ const TotalLocation = () => {
     async function fetchdata() {
       const result = await totalLocation(localStorage.getItem('Organisation'))
       setData(result)
-
+console.log(result)
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'branch')
       if (UserRights.branch_create === 'true') {
         document.getElementById('addbranchbtn').style.display = "block";
@@ -238,245 +239,232 @@ const TotalLocation = () => {
   };
 
   return (
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <button type="button" id='addbranchbtn' style={{  marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary float-right">Add Location</button>
+        <button type="button" id='uploadlocabtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
+        <button type="button" id='uploadlocaddbtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
 
-    <div>
-
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <button type="button" id='addbranchbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary">Add Location</button>
-            <button type="button" id='uploadlocabtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
-            <button type="button" id='uploadlocaddbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
-
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5">Location</h3>
-              {/* <br /> */}
-              <div className="row ">
-                <div className="col ">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themeval}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="container-fluid">
+          <br />
+          <h3 className="text-left ml-5">Location</h3>
+          <div className="card mb-0 w-100">
+            <article className={`card-body bg-${themeval}`}>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themeval}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-        <Footer theme={themeval} />
-        {/* ------------------ Modal start -----------------------------*/}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Import excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
+      </div>
+      <Footer theme={themeval} />
+      {/* ------------------ Modal start -----------------------------*/}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Import excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
 
+              <div className=" ">
+                <label
+                  htmlFor="user_name"
+                  className=" col-form-label font-weight-normal">
+                  <span >Select the file</span>
+                </label>
                 <div className=" ">
-                  <label
-                    htmlFor="user_name"
-                    className=" col-form-label font-weight-normal">
-                    <span >Select the file</span>
-                  </label>
-                  <div className=" ">
-                    <input
-                      id=""
-                      type="file"
-                      onChange={onChange}
-                      className="form-control"
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                      required="required"
-                    />
-                  </div><br />
-                  <span style={{ color: "red" }}>
-                    {btntype ? <a href={Excelfile} download> Download formate </a>
-                      : <a href={Excelfile2} download> Download formate </a>}
+                  <input
+                    id=""
+                    type="file"
+                    onChange={onChange}
+                    className="form-control"
+                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    required="required"
+                  />
+                </div><br />
+                <span style={{ color: "red" }}>
+                  {btntype ? <a href={Excelfile} download> Download formate </a>
+                    : <a href={Excelfile2} download> Download formate </a>}
 
-                  </span>
+                </span>
 
-                  <br />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button"
-                  onClick={datatojson}
-                  className="btn btn-primary"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-lg">
-                  Upload
-                </button>
+                <br />
               </div>
             </div>
-          </div>
-        </div>
-        {/* ------------------ Modal end -----------------------------*/}
-        {/* ------------------ Data show Modal start -----------------------------*/}
-
-        <div className="modal fade bd-example-modal-lg "
-          id="showdataModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="myLargeModalLabel"
-          aria-hidden="true">
-
-          <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true" style={{ color: "red" }}
-                    onClick={() => {
-                      document.getElementById("showdataModal").style.display = "none";
-                      window.location.reload()
-                    }}>
-                    &times;</span>
-                </button>
-              </div>
-              <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
-                {btntype ?
-                  <table >
-                    <thead>
-                      <tr>
-                        <th style={styleborder}>Country</th>
-                        <th style={styleborder}>location_name</th>
-                        <th style={styleborder}>gstin_no</th>
-                        <th style={styleborder}>location_id</th>
-                        <th style={styleborder}>contact_name1</th>
-                        <th style={styleborder}>contact_name2</th>
-                        <th style={styleborder}>contact_phone_no1</th>
-                        <th style={styleborder}>contact_phone_no2</th>
-                      </tr>
-
-                    </thead>
-                    <tbody>
-                      {
-                        importdata.map((d) => (
-                          <tr style={styleborder}>
-                            <td style={styleborder}>{d.country}</td>
-                            <td style={styleborder}>{d.location_name}</td>
-                            <td style={styleborder}>{d.gstin_no}</td>
-                            <td style={styleborder}>{d.location_id}</td>
-                            <td style={styleborder}>{d.contact_name1}</td>
-                            <td style={styleborder}>{d.contact_name2}</td>
-                            <td style={styleborder}>{d.contact_phone_no1}</td>
-                            <td style={styleborder}>{d.contact_phone_no2}</td>
-
-                          </tr>
-                        ))
-                      }</tbody>
-                    <tfoot></tfoot>
-                  </table>
-                  :
-                  <table >
-                    <thead>
-                      <tr>
-                        <th style={styleborder}>location_id</th>
-                        <th style={styleborder}>location_name</th>
-                        <th style={styleborder}>gstin_no</th>
-                        <th style={styleborder}>location_add1</th>
-                        <th style={styleborder}>location_add2</th>
-                        <th style={styleborder}>location_city</th>
-                        <th style={styleborder}>location_state</th>
-                        <th style={styleborder}>location_pin</th>
-                        <th style={styleborder}>location_country</th>
-                        <th style={styleborder}>from_date</th>
-                        <th style={styleborder}>to_date</th>
-                      </tr>
-
-                    </thead>
-                    <tbody>
-                      {
-                        importdata.map((d) => (
-                          <tr style={styleborder}>
-                            <td style={styleborder}>{d.location_id}</td>
-                            <td style={styleborder}>{d.location_name}</td>
-                            <td style={styleborder}>{d.gstin_no}</td>
-                            <td style={styleborder}>{d.location_add1}</td>
-                            <td style={styleborder}>{d.location_add2}</td>
-                            <td style={styleborder}>{d.location_city}</td>
-                            <td style={styleborder}>{d.location_state}</td>
-                            <td style={styleborder}>{d.location_pin}</td>
-                            <td style={styleborder}>{d.location_country}</td>
-                            <td style={styleborder}>{d.from_date}</td>
-                            <td style={styleborder}>{d.to_date}</td>
-
-                          </tr>
-                        ))
-                      }</tbody>
-                    <tfoot></tfoot>
-                  </table>
-                }
-              </div>
-            </div>
-            <div className="modal-footer" style={{ background: "white" }}>
+            <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("showdataModal").style.display = "none";
-                  window.location.reload()
-                }}>Cancel</button>
+                data-dismiss="modal"
+              >
+                Close
+              </button>
               <button type="button"
-                onClick={uploaddata}
-                className="btn btn-primary">
+                onClick={datatojson}
+                className="btn btn-primary"
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg">
                 Upload
               </button>
             </div>
           </div>
         </div>
-
-        {/* ------------------ Modal end -----------------------------*/}
       </div>
+      {/* ------------------ Modal end -----------------------------*/}
+      {/* ------------------ Data show Modal start -----------------------------*/}
+
+      <div className="modal fade bd-example-modal-lg "
+        id="showdataModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+
+        <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                Uploaded Excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close">
+                <span aria-hidden="true" style={{ color: "red" }}
+                  onClick={() => {
+                    document.getElementById("showdataModal").style.display = "none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+              </button>
+            </div>
+            <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+              {btntype ?
+                <table >
+                  <thead>
+                    <tr>
+                      <th style={styleborder}>Country</th>
+                      <th style={styleborder}>location_name</th>
+                      <th style={styleborder}>gstin_no</th>
+                      <th style={styleborder}>location_id</th>
+                      <th style={styleborder}>contact_name1</th>
+                      <th style={styleborder}>contact_name2</th>
+                      <th style={styleborder}>contact_phone_no1</th>
+                      <th style={styleborder}>contact_phone_no2</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    {
+                      importdata.map((d) => (
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.country}</td>
+                          <td style={styleborder}>{d.location_name}</td>
+                          <td style={styleborder}>{d.gstin_no}</td>
+                          <td style={styleborder}>{d.location_id}</td>
+                          <td style={styleborder}>{d.contact_name1}</td>
+                          <td style={styleborder}>{d.contact_name2}</td>
+                          <td style={styleborder}>{d.contact_phone_no1}</td>
+                          <td style={styleborder}>{d.contact_phone_no2}</td>
+
+                        </tr>
+                      ))
+                    }</tbody>
+                  <tfoot></tfoot>
+                </table>
+                :
+                <table >
+                  <thead>
+                    <tr>
+                      <th style={styleborder}>location_id</th>
+                      <th style={styleborder}>location_name</th>
+                      <th style={styleborder}>gstin_no</th>
+                      <th style={styleborder}>location_add1</th>
+                      <th style={styleborder}>location_add2</th>
+                      <th style={styleborder}>location_city</th>
+                      <th style={styleborder}>location_state</th>
+                      <th style={styleborder}>location_pin</th>
+                      <th style={styleborder}>location_country</th>
+                      <th style={styleborder}>from_date</th>
+                      <th style={styleborder}>to_date</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    {
+                      importdata.map((d) => (
+                        <tr style={styleborder}>
+                          <td style={styleborder}>{d.location_id}</td>
+                          <td style={styleborder}>{d.location_name}</td>
+                          <td style={styleborder}>{d.gstin_no}</td>
+                          <td style={styleborder}>{d.location_add1}</td>
+                          <td style={styleborder}>{d.location_add2}</td>
+                          <td style={styleborder}>{d.location_city}</td>
+                          <td style={styleborder}>{d.location_state}</td>
+                          <td style={styleborder}>{d.location_pin}</td>
+                          <td style={styleborder}>{d.location_country}</td>
+                          <td style={styleborder}>{d.from_date}</td>
+                          <td style={styleborder}>{d.to_date}</td>
+
+                        </tr>
+                      ))
+                    }</tbody>
+                  <tfoot></tfoot>
+                </table>
+              }
+            </div>
+          </div>
+          <div className="modal-footer" style={{ background: "white" }}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                document.getElementById("showdataModal").style.display = "none";
+                window.location.reload()
+              }}>Cancel</button>
+            <button type="button"
+              onClick={uploaddata}
+              className="btn btn-primary">
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ------------------ Modal end -----------------------------*/}
     </div>
   )
 }

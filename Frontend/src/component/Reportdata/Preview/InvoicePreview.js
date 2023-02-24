@@ -67,7 +67,7 @@ const InvoicePreview = () => {
       {console.log(data)}
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
-          <div className="modal-body" ref={pdfRef}>
+          <div className="modal-body text-dark" ref={pdfRef}>
             <div className="modalinvoice">
               <div className="topdiv">
                 <div className="topinnerdiv">

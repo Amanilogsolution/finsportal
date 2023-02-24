@@ -10,7 +10,7 @@ const Dashboard = (props) => {
   //   setTimeout(() =>{ 
   //   localStorage.clear()
   //  },9000)
-
+console.log('Props',props)
 
   useEffect(() => {
     const fetchData=async()=>{
@@ -42,7 +42,6 @@ const Dashboard = (props) => {
   }, [])
 
   return (
-    <div>
       <div className={`content-wrapper bg-${props.theme}`}>
         <div className="content-header">
           <div className="container-fluid">
@@ -66,7 +65,7 @@ const Dashboard = (props) => {
                 <div className="small-box bg-info">
                   <div className="inner">
                     <h3>150</h3>
-                    <p>New Orders</p>
+                    <p>Total Customer</p>
                   </div>
                   <div className="icon">
                     <i className="ion ion-bag" />
@@ -77,8 +76,8 @@ const Dashboard = (props) => {
               <div className="col-lg-3 col-6">
                 <div className="small-box bg-success">
                   <div className="inner">
-                    <h3>53<sup style={{ fontSize: 20 }}>%</sup></h3>
-                    <p>Bounce Rate</p>
+                    <h3>53</h3>
+                    <p>Total Vendor</p>
                   </div>
                   <div className="icon">
                     <i className="ion ion-stats-bars" />
@@ -516,7 +515,7 @@ const Dashboard = (props) => {
         </section>
         {/*############################# compliances alert  ######################################*/}
         {alertdiv ?
-          <div className="alert alert-dismissible fade show bg-dark" style={{ maxHeight: "400px", zIndex: "1000", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
+          <div className={`alert alert-dismissible fade show bg-dark ${props.theme==='dark'?'border':''}`} style={{ maxHeight: "400px", zIndex: "10", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
             <small>Pending Compliances</small>
             <button type="button" className="close text-white " data-dismiss="alert" aria-label="Close" >
               <span aria-hidden="true" >&times;</span>
@@ -533,7 +532,6 @@ const Dashboard = (props) => {
         {/*############################# compliances alert  ################################*/}
 
       </div>
-    </div>
 
   )
 }

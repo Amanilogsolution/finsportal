@@ -4,7 +4,7 @@ import Footer from "../Footer/Footer";
 import { TotalItems, deleteItems, getUserRolePermission } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
-
+import customStyles from '../customTableStyle';
 const ShowItem = () => {
   const columns = [
     {
@@ -67,7 +67,7 @@ const ShowItem = () => {
       sortable: true,
       selector: 'null',
       cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{display:"none"}}>
+        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
           <select onChange={async (e) => {
             const status = e.target.value;
             const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
@@ -89,8 +89,6 @@ const ShowItem = () => {
           <button className="editbtn btn-success " onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
-
-
   ]
 
 
@@ -104,12 +102,10 @@ const ShowItem = () => {
 
       const result = await TotalItems(org)
       setData(result)
-
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
       if (UserRights.items_create === 'true') {
         document.getElementById('additemsbtn').style.display = "block"
       }
-
       if (UserRights.items_edit === 'true') {
         for (let i = 0; i < result.length; i++) {
           document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
@@ -130,50 +126,39 @@ const ShowItem = () => {
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+
+      <div className={`content-wrapper bg-${themetype}`}>
+        <div className='d-flex justify-content-between pt-3 px-4'>
+          <h3 className="px-5">Total Items</h3>
+          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
         </div>
-        <Header />
-
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button " id='additemsbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary">Add Item</button>
-
-            <div className="container-fluid">
-              <br />
-
-              <h3 className="text-left ml-5">Total Items</h3>
-              <br />
-              <div className="row ">
-                <div className="col">
-                  <div className="card " style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themetype}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="container-fluid">
+          <div className="card mb-0 w-100">
+            <article className={`card-body bg-${themetype}`}>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themetype}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-
-        <Footer theme={themetype} />
       </div>
+
+      <Footer theme={themetype} />
     </div>
   )
 

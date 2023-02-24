@@ -4,7 +4,7 @@ import Footer from "../../../Footer/Footer";
 import { GetSaveBill, getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
-
+import customStyles from '../../../customTableStyle';
 
 const columns = [
   {
@@ -87,48 +87,36 @@ const BillSave = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button " id='addbillbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%',display:"none" }} onClick={() => { window.location.href = "./Bills" }} className="btn btn-primary">Add Bill </button>
-
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5"> Save Bill </h3>
-              <br />
-              <div className="row p-0" style={{ width: "100%" }}>
-                <div className="col ">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
-                      <DataTableExtensions
-                        {...tableData}
-                      >
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themetype}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-
-                  </div>
-                </div>
-              </div>
+        <div className={`content-wrapper bg-${themetype}`}>
+          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./Bills" }} className="btn btn-primary float-right">Add Bill </button>
+          <div className="container-fluid">
+            <h3 className="py-4 ml-5"> Save Bill </h3>
+            <div className="card" >
+              <article className={`card-body bg-${themetype}`}>
+                <DataTableExtensions {...tableData}>
+                  <DataTable
+                    noHeader
+                    defaultSortField="id"
+                    defaultSortAsc={false}
+                    pagination
+                    highlightOnHover
+                    theme={themetype}
+                    customStyles={customStyles}
+                  />
+                </DataTableExtensions>
+              </article>
             </div>
           </div>
         </div>
         <Footer theme={themetype} />
       </div>
-    </div>
+    </>
   )
 
 }

@@ -7,7 +7,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelformate from '..//../../excelformate/tbl_compliances.xlsx'
 import * as XLSX from "xlsx";
-
+import customStyles from '../../customTableStyle';
 
 
 function Showcompliances() {
@@ -17,9 +17,7 @@ function Showcompliances() {
 
   const themetype = localStorage.getItem('themetype')
 
-
   const columns = [
-
     {
       name: 'Compliance Type',
       selector: row => row.compliance_type,
@@ -114,7 +112,7 @@ function Showcompliances() {
     }
     else {
       const result = await ImportCompliances(importdata, localStorage.getItem("User_id"), localStorage.getItem('Organisation'));
-      if (result == "Data Added") {
+      if (result === "Data Added") {
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
         window.location.reload()
@@ -185,7 +183,7 @@ function Showcompliances() {
       }
       if (UserRights.compliances_delete === 'true') {
         for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).disabled= false
+          document.getElementById(`deleteselect${result[i].sno}`).disabled = false
 
         }
       }
@@ -202,204 +200,193 @@ function Showcompliances() {
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
-            <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
-            <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themetype}`}>
+        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
+        <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+        <div className="container-fluid">
+          <h3 className="ml-5" >Compliances</h3>
+          <div className="card mb-0 w-100" >
+            <article className={`card-body py-0 bg-${themetype}`}>
+              <DataTableExtensions
+                {...tableData}>
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  theme={themetype}
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
 
-
-            <div className="container-fluid">
-              <br />
-              <h3 className="text-left ml-5" >Compliances</h3>
-              <div className="row ">
-                <div className="col">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
-                      <DataTableExtensions
-                        {...tableData}>
-                        <DataTable
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          pagination
-                          highlightOnHover
-                          theme={themetype}
-                        />
-                      </DataTableExtensions>
-
-                    </article>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </article>
           </div>
         </div>
+      </div>
 
+      <Footer theme={themetype} />
+      {/* ------------------ Modal start -----------------------------*/}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Import excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
 
-        <Footer theme={themetype} />
-        {/* ------------------ Modal start -----------------------------*/}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Import excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+              <div className=" ">
+                <label
+                  htmlFor="user_name"
+                  className=" col-form-label font-weight-normal"
                 >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-
+                  <span >Select the file</span>
+                </label>
                 <div className=" ">
-                  <label
-                    htmlFor="user_name"
-                    className=" col-form-label font-weight-normal"
-                  >
-                    <span >Select the file</span>
-                  </label>
-                  <div className=" ">
-                    <input
-                      id=""
-                      type="file"
-                      onChange={onChange}
-                      className={`form-control bg-${themetype}`}
-                      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                  </div><br />
-                  <span style={{ color: "red" }}>
-                    <a href={Excelformate} download> Download formate</a>
-                  </span><br />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button"
-                  onClick={handleClick}
-                  className="btn btn-primary"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-lg">
-                  Upload
-                </button>
+                  <input
+                    id=""
+                    type="file"
+                    onChange={onChange}
+                    className={`form-control bg-${themetype}`}
+                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                </div><br />
+                <span style={{ color: "red" }}>
+                  <a href={Excelformate} download> Download formate</a>
+                </span><br />
               </div>
             </div>
-          </div>
-        </div>
-        {/* ------------------ Modal end -----------------------------*/}
-        {/* ------------------ Data show Modal start -----------------------------*/}
-        <div className="modal fade bd-example-modal-lg "
-          id="showdataModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="myLargeModalLabel"
-          aria-hidden="true"
-        >
-
-          <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
-            <div className={`modal-content bg-${themetype}`}>
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
-                  Uploaded Excel file
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true" style={{ color: "red" }}
-                    onClick={() => {
-                      document.getElementById("showdataModal").style.display = "none";
-                      window.location.reload()
-                    }}>
-                    &times;</span>
-                </button>
-              </div>
-              <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
-
-                <table >
-                  <thead><tr>
-                    <th style={styleborder}>compliance_type</th>
-                    <th style={styleborder}>nature</th>
-                    <th style={styleborder}>period</th>
-                    <th style={styleborder}>period_name</th>
-                    <th style={styleborder}>from_month</th>
-                    <th style={styleborder}>to_month</th>
-                    <th style={styleborder}>from_applicable</th>
-                    <th style={styleborder}>due_date</th>
-                    <th style={styleborder}>extended_date</th>
-                    <th style={styleborder}>document_url</th>
-                    <th style={styleborder}>remark</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      importdata.map((d) => (
-                        <tr style={styleborder}>
-                          <td style={styleborder}>{d.compliance_type}</td>
-                          <td style={styleborder}>{d.nature}</td>
-                          <td style={styleborder}>{d.period}</td>
-                          <td style={styleborder}>{d.period_name}</td>
-                          <td style={styleborder}>{d.from_month}</td>
-                          <td style={styleborder}>{d.to_month}</td>
-                          <td style={styleborder}>{d.from_applicable}</td>
-                          <td style={styleborder}>{d.due_date}</td>
-                          <td style={styleborder}>{d.extended_date}</td>
-                          <td style={styleborder}>{d.document_url}</td>
-                          <td style={styleborder}>{d.remark}</td>
-                        </tr>
-                      ))
-                    }</tbody>
-                  <tfoot></tfoot>
-                </table>
-              </div>
-            </div>
-            <div className={`modal-footer bg-${themetype}`}>
+            <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("showdataModal").style.display = "none";
-                  window.location.reload()
-                }}>
-                Cancel
+                data-dismiss="modal"
+              >
+                Close
               </button>
               <button type="button"
-                onClick={uploaddata}
+                onClick={handleClick}
                 className="btn btn-primary"
-              >
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg">
                 Upload
               </button>
             </div>
           </div>
         </div>
-        {/* ------------------ Modal end -----------------------------*/}
-
       </div>
+      {/* ------------------ Modal end -----------------------------*/}
+      {/* ------------------ Data show Modal start -----------------------------*/}
+      <div className="modal fade bd-example-modal-lg "
+        id="showdataModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true"
+      >
+
+        <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
+          <div className={`modal-content bg-${themetype}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                Uploaded Excel file
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ color: "red" }}
+                  onClick={() => {
+                    document.getElementById("showdataModal").style.display = "none";
+                    window.location.reload()
+                  }}>
+                  &times;</span>
+              </button>
+            </div>
+            <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+
+              <table >
+                <thead><tr>
+                  <th style={styleborder}>compliance_type</th>
+                  <th style={styleborder}>nature</th>
+                  <th style={styleborder}>period</th>
+                  <th style={styleborder}>period_name</th>
+                  <th style={styleborder}>from_month</th>
+                  <th style={styleborder}>to_month</th>
+                  <th style={styleborder}>from_applicable</th>
+                  <th style={styleborder}>due_date</th>
+                  <th style={styleborder}>extended_date</th>
+                  <th style={styleborder}>document_url</th>
+                  <th style={styleborder}>remark</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {
+                    importdata.map((d) => (
+                      <tr style={styleborder}>
+                        <td style={styleborder}>{d.compliance_type}</td>
+                        <td style={styleborder}>{d.nature}</td>
+                        <td style={styleborder}>{d.period}</td>
+                        <td style={styleborder}>{d.period_name}</td>
+                        <td style={styleborder}>{d.from_month}</td>
+                        <td style={styleborder}>{d.to_month}</td>
+                        <td style={styleborder}>{d.from_applicable}</td>
+                        <td style={styleborder}>{d.due_date}</td>
+                        <td style={styleborder}>{d.extended_date}</td>
+                        <td style={styleborder}>{d.document_url}</td>
+                        <td style={styleborder}>{d.remark}</td>
+                      </tr>
+                    ))
+                  }</tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+          <div className={`modal-footer bg-${themetype}`}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                document.getElementById("showdataModal").style.display = "none";
+                window.location.reload()
+              }}>
+              Cancel
+            </button>
+            <button type="button"
+              onClick={uploaddata}
+              className="btn btn-primary"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* ------------------ Modal end -----------------------------*/}
+
     </div>
   )
 }

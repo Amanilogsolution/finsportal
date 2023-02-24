@@ -57,74 +57,66 @@ const Updatefincialyear = () => {
   }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
-            <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Financial Year</h3> <br />
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-                      <form>
-                        <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={data.fin_year} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From date</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='from_date' disabled value={data.from_date} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">To Date</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='to_date' disabled value={data.to_date} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Year</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='lastyear' disabled value={data.year} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='invoiceser' value={data.invoice_ser} onChange={handleChangeinvoice} maxLength={6} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='voucher' value={data.voucher_ser} onChange={handleChangevoucher} maxLength={4} />
-                          </div>
-                        </div>
-                      </form>
-                    </article>
-                    <div className={`border-top card-footer bg-${themeval}`}>
-                      <button className="btn btn-success" onClick={handelsave}>Save</button>
-                      <button className="btn btn-light ml-3" onClick={() => {
-                        localStorage.removeItem('FinsyearSno');
-                        window.location.href = "./ShowFinancialyear"
-                      }}>Cancel</button>
-                    </div>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper bg-${themeval}`}>
+        <div className="container-fluid">
+          <br /> <h3 className="text-left ml-5">Financial Year</h3> <br />
+          <div className="card w-100">
+            <article className={`card-body bg-${themeval}`}>
+              <form>
+                <div className="form-row">
+                  <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={data.fin_year} />
                   </div>
                 </div>
-              </div>
+                <div className="form-row">
+                  <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From date</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='from_date' disabled value={data.from_date} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">To Date</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='to_date' disabled value={data.to_date} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Year</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='lastyear' disabled value={data.year} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='invoiceser' value={data.invoice_ser} onChange={handleChangeinvoice} maxLength={6} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='voucher' value={data.voucher_ser} onChange={handleChangevoucher} maxLength={4} />
+                  </div>
+                </div>
+              </form>
+            </article>
+            <div className={`border-top card-footer bg-${themeval}`}>
+              <button className="btn btn-success" onClick={handelsave}>Save</button>
+              <button className="btn btn-light ml-3" onClick={() => {
+                localStorage.removeItem('FinsyearSno');
+                window.location.href = "./ShowFinancialyear"
+              }}>Cancel</button>
             </div>
           </div>
         </div>
-        <Footer theme={themeval} />
       </div>
+      <Footer theme={themeval} />
     </div>
   )
 }
