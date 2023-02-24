@@ -37,35 +37,12 @@ const columns = [
     sortable: true
   },
   {
-    name: 'Phone',
-    selector: row => row.phone,
-    sortable: true
-  },
-  {
-    name: 'Operate Mode',
-    selector: row => row.operate_mode,
-    sortable: true
-  },
-  {
     name: 'Customer',
     selector: row => row.customer,
     sortable: true
   },
-  {
-    name: 'Reporting to',
-    selector: row => row.reporting_to,
-    sortable: true
-  },
-  {
-    name: 'Designation',
-    selector: row => row.designation,
-    sortable: true
-  },
-  // {
-  //   name: 'Two factor authentication',
-  //   selector: row => row.two_factor_authentication,
-  //   sortable: true
-  // },
+ 
+  
   {
     name: 'Status',
     selector: 'null',
@@ -88,7 +65,6 @@ const columns = [
   {
     name: "Actions",
     sortable: false,
-
     selector: row => row.null,
     cell: (row) => [
 
@@ -219,7 +195,7 @@ const ShowUser = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-        <div className={`content-wrapper bg-${themetype}`}>
+        <div className={`content-wrapper`}>
           <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
           <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
           <div className="container-fluid">
@@ -227,7 +203,7 @@ const ShowUser = () => {
             <h3 className="text-left ml-5">User</h3>
             <br />
             <div className="card" >
-              <article className={`card-body bg-${themetype}`}>
+              <article className={`card-body`}>
 
                 <DataTableExtensions
                   {...tableData}
@@ -238,7 +214,7 @@ const ShowUser = () => {
                     defaultSortAsc={false}
                     pagination
                     highlightOnHover
-                    theme={themetype}
+                    dense
                     customStyles={customStyles}
                   />
                 </DataTableExtensions>
@@ -258,7 +234,7 @@ const ShowUser = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content`}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -286,7 +262,7 @@ const ShowUser = () => {
                     id=""
                     type="file"
                     onChange={onChange}
-                    className={`form-control bg-${themetype}`}
+                    className={`form-control`}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
                 <span style={{ color: "red" }}>
@@ -323,7 +299,7 @@ const ShowUser = () => {
       >
 
         <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content`}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -413,7 +389,7 @@ const ShowUser = () => {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themetype}`} >
+          <div className={`modal-footer`} >
             <button
               type="button"
               className="btn btn-secondary"

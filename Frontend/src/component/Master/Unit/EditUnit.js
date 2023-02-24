@@ -7,7 +7,6 @@ import { UpdateUnit } from '../../../api/index.js'
 const EditUnit = () => {
   const themetype = localStorage.getItem('themetype')
 
-
   const [data, setData] = useState({})
   useEffect(async () => {
     const Token = localStorage.getItem('Token')
@@ -20,7 +19,6 @@ const EditUnit = () => {
     e.preventDefault();
     const unit_name = document.getElementById('unit_name').value;
     const unit_symbol = document.getElementById('unit_symbol').value;
-
 
     const result = await UpdateUnit(localStorage.getItem('unitSno'), unit_name, unit_symbol, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
     if (result) {
@@ -35,12 +33,12 @@ const EditUnit = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
            <h3 className="py-3 ml-5">Edit Unit</h3>
           <div className="card w-100" >
-            <article className={`card-body bg-${themetype}`}>
-              <form>
+            <article className={`card-body`}>
+              <form autoComplete='off'>
                 <div className="form-row">
                   <label htmlFor="unit_name" className="col-md-2 col-form-label font-weight-normal">Unit Name</label>
                   <div className="col form-group">
@@ -56,7 +54,7 @@ const EditUnit = () => {
 
               </form>
             </article>
-            <div className={`border-top card-footer bg-${themetype}`}>
+            <div className={`border-top card-footer`}>
               <button className="btn btn-success" onClick={handleClick}>Update</button>
               <button className="btn btn-light ml-3" onClick={() => window.location.href = './ShowUnit'}>Cancel</button>
             </div>

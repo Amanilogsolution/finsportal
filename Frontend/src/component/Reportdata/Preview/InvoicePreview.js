@@ -36,13 +36,9 @@ const InvoicePreview = () => {
       const preview = localStorage.getItem('preview')
       const org = localStorage.getItem('Organisation')
       const result = await GetInvoice(org, preview)
-      console.log(result)
       setData(result[0])
-      console.log(data)
       const result1 = await GetSubInvoice(org, preview)
-      console.log(result1)
       setSubInv(result1)
-
     }
     fetch()
 
@@ -64,7 +60,6 @@ const InvoicePreview = () => {
   };
   return (
     <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      {console.log(data)}
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
           <div className="modal-body text-dark" ref={pdfRef}>

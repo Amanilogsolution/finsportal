@@ -70,7 +70,7 @@ const Showcity = () => {
       cell: (row) => [
 
         <a title='View Document' href="EditCity" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
 
       ]
     }
@@ -205,6 +205,7 @@ const Showcity = () => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           pagination
+                          dense
                           highlightOnHover
                           customStyles={customStyles}
                         />

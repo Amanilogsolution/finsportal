@@ -20,22 +20,7 @@ const columns = [
     selector: 'account_no',
     sortable: true
   },
-  {
-    name: 'Address',
-    selector: 'address_line1',
-    sortable: true
-  },
-
-  {
-    name: 'Country',
-    selector: 'country',
-    sortable: true
-  },
-  {
-    name: 'State',
-    selector: 'state',
-    sortable: true
-  },
+ 
   {
     name: 'City',
     selector: 'city',
@@ -82,7 +67,7 @@ const columns = [
     cell: (row) => [
 
       <a title='View Document' id={`editactionbtns${row.sno}`} href="EditBank" style={{ display: "none" }}>
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
+        <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
       </a>
 
     ]
@@ -209,13 +194,13 @@ const TotalBank = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
         <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="py-2 ml-5">Banks</h3>
           <div className="card mb-0">
-            <article className={`card-body bg-${themetype}`}>
+            <article className={`card-body `}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -225,7 +210,7 @@ const TotalBank = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -246,7 +231,7 @@ const TotalBank = () => {
         aria-hidden="true">
 
         <div className="modal-dialog " role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -267,7 +252,7 @@ const TotalBank = () => {
                   id=""
                   type="file"
                   onChange={onChange}
-                  className={`form-control bg-${themetype}`}
+                  className={`form-control `}
                   accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 <br />
                 <span className='text-danger'>
@@ -303,7 +288,7 @@ const TotalBank = () => {
         aria-hidden="true">
 
         <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -394,7 +379,7 @@ const TotalBank = () => {
             </div>
           </div>
           {/* </div> */}
-          <div className={`modal-footer bg-${themetype}`} >
+          <div className={`modal-footer `} >
             <button
               type="button"
               className="btn btn-secondary"

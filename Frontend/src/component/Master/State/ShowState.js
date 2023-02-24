@@ -94,7 +94,7 @@ const ShowState = () => {
       selector: "null",
       cell: (row) => [
         <a title='Edit State' href="EditState" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ];
@@ -204,6 +204,7 @@ const ShowState = () => {
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
+                  dense
                   highlightOnHover
                   customStyles={customStyles}
                 />

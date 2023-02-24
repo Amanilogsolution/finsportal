@@ -14,12 +14,13 @@ const AddUnit = () => {
 
     if (!unit_name || !unit_symbol) {
       alert('Enter data')
-    } else {
-
+    }
+    else {
       const result = await InsertUnit(unit_name, unit_symbol, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
       if (result == "Already") {
-        alert('Already in Database')
+        alert('Unit Already ')
       } else {
+        alert('Unit Added')
         window.location.href = '/ShowUnit'
       }
     }
@@ -32,12 +33,12 @@ const AddUnit = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
-          <br /> <h3 className="text-left ml-5">Add Unit</h3>
+          <br /> <h3 className="ml-5">Add Unit</h3>
           <div className="card" >
-            <article className={`card-body bg-${themetype}`}>
-              <form>
+            <article className={`card-body`}>
+              <form autoComplete='off'>
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Unit Name</label>
                   <div className="col form-group">
@@ -54,7 +55,7 @@ const AddUnit = () => {
 
               </form>
             </article>
-            <div className={`border-top card-footer bg-${themetype}`}>
+            <div className={`border-top card-footer`}>
               <button className="btn btn-success" onClick={handleClick} >Save</button>
               <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowUnit" }}>Cancel</button>
             </div>

@@ -30,11 +30,11 @@ function AddcomplianceType() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-          <div className={`content-wrapper bg-${themeval}`}>
+          <div className={`content-wrapper `}>
             <div className="container-fluid">
               <h3 className="py-4 ml-5">Add Compliance</h3>
                   <div className="card w-100">
-                    <article className={`card-body bg-${themeval}`}>
+                    <article className={`card-body `}>
                       <form>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Add Compliance Type</label>
@@ -44,7 +44,7 @@ function AddcomplianceType() {
                         </div>
                       </form>
                     </article>
-                    <div className={`border-top card-footer bg-${themeval}`}>
+                    <div className={`border-top card-footer `}>
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowcompliancesType" }}>Cancel</button>
                     </div>

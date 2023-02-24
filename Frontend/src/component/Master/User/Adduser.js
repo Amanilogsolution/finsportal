@@ -77,20 +77,16 @@ const AddUser = () => {
   // }
 
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
+          <div className={`content-wrapper`}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add User</h3>
-              <div className="row ">
-                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
+                    <article className={`card-body`}>
                       <form autoComplete='off'>
 
                         <div className="form-row">
@@ -225,7 +221,7 @@ const AddUser = () => {
 
                             </label> 
                           </div>*/}
-                        <div className={`mt-1 border-top card-footer bg-${themetype}`}>
+                        <div className={`mt-1 border-top card-footer`}>
                           <button type="submit" className="btn btn-success" onClick={Toogle} >Save</button>
                           <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>
                         </div>
@@ -235,12 +231,8 @@ const AddUser = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
         <Footer theme={themetype}/>
       </div>
-    </div>
   )
 
 }

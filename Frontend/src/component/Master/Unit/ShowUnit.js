@@ -37,12 +37,11 @@ const ShowUnit = () => {
       cell: (row) => [
 
         <div className='droplist' id={`deletebtn${row.sno}`} style={{ display: "none" }}>
-          <select className={`bg-${themetype}`} onChange={async (e) => {
+          <select onChange={async (e) => {
             const status = e.target.value;
             await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
             window.location.href = 'ShowUnit'
-          }
-          }>
+          }}>
             <option value={row.status} hidden> {row.status}</option>
             <option value='Active'>Active</option>
             <option value='Deactive' >Deactive</option>
@@ -51,16 +50,13 @@ const ShowUnit = () => {
       ]
     },
 
-
     {
       name: "Actions",
       sortable: false,
       selector: "null",
       cell: (row) => [
-
-        <a title='View Document' id={`editbtn${row.sno}`} href="EditUnit" style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('unitSno', `${row.sno}`)} >Edit</button></a>
-
+        <a title='Edit Unit' id={`editbtn${row.sno}`} href="EditUnit" style={{ display: "none" }}>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('unitSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ]
@@ -185,17 +181,17 @@ const ShowUnit = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between px-4 py-4'>
           <h3 className=" ml-5">Unit</h3>
           <div className='d-flex  px-3'>
-            <button type="button" id='addunitbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary">Add Unit</button>
-            <button type="button" id='uploadunitbtn' style={{ display: "none" }} className="btn btn-success mx-3" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='uploadunitbtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addunitbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary mx-3">Add Unit</button>
           </div>
         </div>
         <div className="container-fluid">
           <div className="card mb-0 w-100">
-            <article className={`card-body bg-${themetype}`}>
+            <article className={`card-body py-0`}>
               <DataTableExtensions
                 {...tableData}>
                 <DataTable
@@ -204,7 +200,7 @@ const ShowUnit = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -224,7 +220,7 @@ const ShowUnit = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -238,7 +234,7 @@ const ShowUnit = () => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className={`modal-body bg-${themetype}`}>
+            <div className={`modal-body `}>
 
               <div className=" ">
                 <label
@@ -251,7 +247,7 @@ const ShowUnit = () => {
                   <input
                     id=""
                     type="file"
-                    className={`form-control bg-${themetype}`}
+                    className={`form-control `}
                     onChange={onChange}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
@@ -289,7 +285,7 @@ const ShowUnit = () => {
       >
 
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -309,7 +305,7 @@ const ShowUnit = () => {
               </button>
             </div>
             {/* <div className="modal-body"> */}
-            <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+            <div  style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
               {
 
                 backenddata ?
@@ -356,7 +352,7 @@ const ShowUnit = () => {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themetype}`} style={{ background: "white" }}>
+          <div className={`modal-footer `} style={{ background: "white" }}>
             <button
               type="button"
               className="btn btn-secondary"

@@ -20,20 +20,16 @@ function AddBankList() {
 
   return (
     <>
-      <div>
         <div className="wrapper">
           <div className="preloader flex-column justify-content-center align-items-center">
             <div className="spinner-border" role="status"> </div>
           </div>
           <Header />
-          <div>
-            <div className={`content-wrapper bg-${themetype}`}>
+            <div className={`content-wrapper `}>
               <div className="container-fluid">
                 <br /> <h3 className="text-left ml-5">Connect your bank</h3>
-                <div className="row ">
-                  <div className="col ml-2">
                     <div className="card" style={{ width: "100%" }}>
-                      <article className={`card-body bg-${themetype}`}>
+                      <article className={`card-body `}>
                         <form>
                           <div className="form-row">
                             <div className="col form-group">
@@ -108,16 +104,11 @@ function AddBankList() {
                           </div>
                         </div>
                       </article>
-                      <div className={`border-top card-footer bg-${themetype}`}>
+                      <div className={`border-top card-footer `}>
                         <button className="btn btn-danger" onClick={() => window.location.href = 'AddBank'}>Add Bank Manually</button>
                         <button className="btn btn-light ml-3" onClick={() => window.location.href = 'TotalBank'}>Cancel</button>
                       </div>
                     </div>
-                    {/* card.// */}
-                  </div>
-                  {/* col.//*/}
-                </div>
-              </div>
             </div>
           </div>
           <Footer theme={themetype}/>
@@ -125,7 +116,7 @@ function AddBankList() {
         {/*########################### Modal Start ################################*/}
         <div className="modal fade " id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className={`modal-content bg-${themetype}`}>
+            <div className={`modal-content `}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLongTitle">Select Account Type</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -156,7 +147,6 @@ function AddBankList() {
           </div>
         </div>
         {/* ################### Modal End ########################## */}
-      </div>
 
     </>
   );

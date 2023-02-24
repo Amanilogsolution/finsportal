@@ -64,7 +64,7 @@ const ShowCountry = () => {
       selector: "null",
       cell: (row) => [
         <a title='View Document' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
 
       ]
     }
@@ -189,7 +189,7 @@ const ShowCountry = () => {
         </div>
         <div className="container-fluid">
           <div className="card mb-0">
-            <article className={`card-body`}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -198,6 +198,7 @@ const ShowCountry = () => {
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
+                  dense
                   highlightOnHover
                   customStyles={customStyles}
                 />

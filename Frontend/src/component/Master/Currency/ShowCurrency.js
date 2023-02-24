@@ -21,11 +21,6 @@ const ShowCurrency = () => {
 
   const columns = [
     {
-      name: 'Country Code',
-      selector: 'country_code',
-      sortable: true
-    },
-    {
       name: 'Country Name',
       selector: 'country_name',
       sortable: true
@@ -50,8 +45,7 @@ const ShowCurrency = () => {
             const status = e.target.value;
             await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
             window.location.href = 'ShowCurrency'
-          }
-          }>
+          }}>
             <option hidden value={row.status}> {row.status}</option>
             <option>Active</option>
             <option>Deactive</option>
@@ -66,7 +60,7 @@ const ShowCurrency = () => {
       cell: (row) => [
 
         <a title='View Document' href="EditCurrency" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ]
@@ -110,9 +104,7 @@ const ShowCurrency = () => {
   const handleClick = () => {
     const array = JSON.stringify(importdata)
     const datas = JSON.parse(array)
-    // console.log(datas)
     setImportdata(datas);
-
   };
   //##########################  for convert array to json end  #################################
 
@@ -184,14 +176,14 @@ const ShowCurrency = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddCurrency" }} className="btn btn-primary">Add Currency</button>
         <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
           <h3 className="ml-5">Currency</h3>
           <div className="card mb-0">
-            <article className={`card-body bg-${themetype}`} >
+            <article className={`card-body py-1`} >
               <DataTableExtensions
                 {...tableData}
               >
@@ -201,8 +193,7 @@ const ShowCurrency = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  // dense
-                  theme={themetype}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -222,7 +213,7 @@ const ShowCurrency = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -236,7 +227,7 @@ const ShowCurrency = () => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className={`modal-body bg-${themetype}`}>
+            <div className={`modal-body `}>
 
               <div className=" ">
                 <label
@@ -250,7 +241,7 @@ const ShowCurrency = () => {
                     id=""
                     type="file"
                     onChange={onChange}
-                    className={`form-control bg-${themetype}`}
+                    className={`form-control `}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
                 <span style={{ color: "red" }}>
@@ -258,7 +249,7 @@ const ShowCurrency = () => {
                 </span><br />
               </div>
             </div>
-            <div className={`modal-footer bg-${themetype}`}>
+            <div className={`modal-footer `}>
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -287,7 +278,7 @@ const ShowCurrency = () => {
       >
 
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -324,7 +315,6 @@ const ShowCurrency = () => {
                       <tbody>
                         {
                           duplicateData.map((d) => (
-
                             <tr style={styleborder}>
                               <td style={styleborder}>{d.country_code}</td>
                               <td style={styleborder}>{d.country_id}</td>
@@ -364,7 +354,7 @@ const ShowCurrency = () => {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themetype}`} >
+          <div className={`modal-footer `} >
             <button
               type="button"
               className="btn btn-secondary"

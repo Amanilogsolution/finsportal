@@ -56,6 +56,7 @@ const EditBank = () => {
 
     const result = await updateBank(localStorage.getItem('BankSno'), account_code, account_no, type, bank_name, address_line1, address_line2, country,state, city, pincode, ifsc_code, acname, description, org, User_id);
     if (result) {
+      alert('Data Added')
       window.location.href = '/TotalBank'
     }
     else{
@@ -64,23 +65,6 @@ const EditBank = () => {
 
   }
 
-
-  const handleChangesubcode = (e) => {
-    setData({ ...data, account_code: e.target.value })
-  }
-  const handleChangebankname = (e) => {
-    setData({ ...data, bank_name: e.target.value })
-  }
-  const handleChangeacno = (e) => {
-    setData({ ...data, account_no: e.target.value })
-  }
-  const handleChangeaddrline1 = (e) => {
-    setData({ ...data, address_line1: e.target.value })
-  }
-  const handleChangeaddrline2 = (e) => {
-    setData({ ...data, address_line2: e.target.value })
-  }
-  
 
   const handlecountry=async(e)=>{
     const countryname= e.target.value;
@@ -100,18 +84,6 @@ const EditBank = () => {
     if(no.length === 7) return false;
     setData({ ...data, pincode:no })
   }
-  const handleChangeifsc = (e) => {
-    setData({ ...data, ifsc_code: e.target.value })
-  }
-
-  const handleChangeacname = (e) => {
-    setData({ ...data, acname: e.target.value })
-  }
-  const handleChangeDiscription = (e) => {
-    setData({ ...data, description: e.target.value })
-  }
-
-
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -119,76 +91,59 @@ const EditBank = () => {
   }
 
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
+          <div className={`content-wrapper`}>
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Edit Bank</h3>
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
-                      <form>
+              <br /> <h3 className=" ml-5">Edit Bank</h3>
+                  <div className="card w-100">
+                    <article className={`card-body`}>
+                      <form autoComplete='off'>
                         <div className="form-row" onChange={handleChange}>
                           <div className="col form-group" >
                             <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Select Account type</label>
-
                             <label className="form-check form-check-inline">
-                              <input
-                                className="form-check-input" type="radio"
-                                name="taxpreference"
-                                value="Bank"
-                              />Bank
+                              <input className="form-check-input" type="radio" name="taxpreference" value="Bank" />Bank
                             </label>
                             <label className="form-check form-check-inline">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="taxpreference"
-                                value="CreditCard"
-                              />Credit Card
+                              <input  className="form-check-input" type="radio" name="taxpreference" value="CreditCard"/>Credit Card
                             </label>
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name </label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='acname'  value={data.acname} onChange={handleChangeacname} />
+                            <input type="text" className="form-control col-md-4" id='acname'  defaultValue={data.acname}/>
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Code</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='account_code' value={data.account_code}  onChange={handleChangesubcode} />
+                            <input type="text" className="form-control col-md-4" id='account_code' defaultValue={data.account_code} />
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='account_no' value={data.account_no}  onChange={handleChangeacno} />
+                            <input type="text" className="form-control col-md-4" id='account_no' defaultValue={data.account_no}/>
                           </div>
                         </div>
-
-
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='bank_name' value={data.bank_name}  onChange={handleChangebankname} />
+                            <input type="text" className="form-control col-md-4" id='bank_name' defaultValue={data.bank_name}/>
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='ifsc_code'  value={data.ifsc_code} onChange={handleChangeifsc} />
+                            <input type="text" className="form-control col-md-4" id='ifsc_code'  defaultValue={data.ifsc_code}/>
                           </div>
                         </div>
 
@@ -197,21 +152,21 @@ const EditBank = () => {
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line1 </label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='address_line1' value={data.address_line1}  onChange={handleChangeaddrline1} />
+                            <input type="text" className="form-control col-md-4" id='address_line1' defaultValue={data.address_line1} />
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line2 </label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='address_line2' value={data.address_line2}  onChange={handleChangeaddrline2} />
+                            <input type="text" className="form-control col-md-4" id='address_line2' defaultValue={data.address_line2} />
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="branch" className="col-md-2 col-form-label font-weight-normal">Branch </label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='branch' value={data.branch}  onChange={handleChangeaddrline2} />
+                            <input type="text" className="form-control col-md-4" id='branch' defaultValue={data.branch}/>
                           </div>
                         </div>
 
@@ -265,25 +220,21 @@ const EditBank = () => {
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Description</label>
                           <div className="col form-group">
-                            <textarea className="form-control col-md-4" id="description" value={data.description} rows="3" onChange={handleChangeDiscription}></textarea>
+                            <textarea className="form-control col-md-4" id="description" defaultValue={data.description} rows="3"></textarea>
                           </div>
                         </div>
 
 
                       </form>
                     </article>
-                    <div className={`border-top card-footer bg-${themetype}`}>
+                    <div className={`border-top card-footer`}>
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
                       <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
         <Footer theme={themetype}/>
-      </div>
     </div>
   )
 
