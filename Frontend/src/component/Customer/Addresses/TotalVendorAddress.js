@@ -185,14 +185,14 @@ const TotalVendAddress = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className="content-wrapper">
         <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary float-right">Add Address</button>
         <button type="button" style={{ marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
         <div className="container-fluid ">
           <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>
           <form className="form-inline ml-4 position-relative" autoComplete="off">
             <label htmlFor='vend_name'>Vendor name:- </label>
-            <input className={`form-control mr-sm-2 mx-2 bg-${themetype}`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />
+            <input className={`form-control mr-sm-2 mx-2`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />
             <ul className=" ulstyle rounded overflow-hidden mt-5" >
               <div className='overflow-auto' style={{ height: "300px" }}>
                 {
@@ -208,7 +208,7 @@ const TotalVendAddress = () => {
             </ul>
           </form>
           <br />
-          <div className={`card bg-${themetype} w-100`}>
+          <div className={`card w-100`}>
             <article className="card-body">
               <DataTableExtensions
                 {...tableData}
@@ -219,7 +219,6 @@ const TotalVendAddress = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -238,7 +237,7 @@ const TotalVendAddress = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content`}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -257,7 +256,7 @@ const TotalVendAddress = () => {
                   id=""
                   type="file"
                   onChange={onChange}
-                  className={`form-control  bg-${themetype}`}
+                  className={`form-control `}
                   required
                   accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
               <br />
@@ -291,7 +290,7 @@ const TotalVendAddress = () => {
       >
 
         <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content`}>
             <div className="modal-header">
               <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
@@ -375,7 +374,7 @@ const TotalVendAddress = () => {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themetype}`}>
+          <div className={`modal-footer`}>
             <button
               type="button"
               className="btn btn-secondary"

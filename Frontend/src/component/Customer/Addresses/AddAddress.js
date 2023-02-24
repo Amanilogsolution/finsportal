@@ -85,10 +85,10 @@ const AddCustAddress = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className="content-wrapper">
         <div className="container-fluid ">
           <h3 className=" ml-5 py-3">Add Address</h3>
-          <div className={`card mb-0 bg-${themeval}`} >
+          <div className="card mb-0 mb-2">
             <article className="card-body ">
               <form autoComplete="off">
                 <div className="Address_left" style={{ width: "80%" }}>
@@ -100,7 +100,7 @@ const AddCustAddress = () => {
                       Customer ID
                     </label>
                     <div className="col-md-6 form-group">
-                      <select id="custname" className={`form-control bg-${themeval}`}>
+                      <select id="custname" className="form-control ">
                         <option value='' hidden> Select Customer</option>
                         {
                           getCustID.map((data, index) => (
@@ -115,7 +115,7 @@ const AddCustAddress = () => {
                   <div className="form-row">
                     <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                     <div className="col form-group">
-                      <input type="text" className={`form-control col-md-7 bg-${themeval}`} id="gst_no"/>
+                      <input type="text" className="form-control col-md-7 " id="gst_no"/>
                     </div>
                   </div>
                   <div className="form-row">
@@ -127,22 +127,20 @@ const AddCustAddress = () => {
                     </label>
                     <div className="col form-group">
                       <input type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
-                        id="billing_address_attention"
-                      />
+                        className="form-control col-md-7"
+                        id="billing_address_attention"/>
                     </div>
                   </div>
                   <div className="form-row">
                     <label
                       htmlFor="inputState"
-                      className="col-md-2 col-form-label font-weight-normal"
-                    >
+                      className="col-md-2 col-form-label font-weight-normal">
                       Country / Region
                     </label>
                     <div className="col-md-6 form-group">
                       <select
                         id="inputState"
-                        className={`form-control bg-${themeval}`}
+                        className="form-control"
                         onChange={handleAddressCountry}
                       >
                         <option hidden value=''> Select Country</option>
@@ -166,7 +164,7 @@ const AddCustAddress = () => {
                     <div className="col-md-6 form-group">
                       <select
                         id="inputState"
-                        className={`form-control bg-${themeval}`}
+                        className="form-control "
                         onChange={handleChangebillingState}>
                         <option hidden value=''> Select state</option>
                         {
@@ -187,7 +185,7 @@ const AddCustAddress = () => {
                     <div className="col-md-6 form-group">
                       <select
                         id="inputcity"
-                        className={`form-control bg-${themeval}`}
+                        className="form-control"
                       >
                         <option hidden value=''> Select City</option>
                         {
@@ -196,10 +194,8 @@ const AddCustAddress = () => {
                           ))
 
                         }
-
                       </select>
                     </div>
-
                   </div>
                   <div className="form-row">
                     <label
@@ -211,7 +207,7 @@ const AddCustAddress = () => {
                     <div className="col form-group">
                       <input
                         type="number"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className="form-control col-md-7"
                         id="billing_address_pincode"
                         value={zipcount}
                         onChange={(e) => {
@@ -231,7 +227,7 @@ const AddCustAddress = () => {
                     <div className="col form-group">
                       <input
                         type="number"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className="form-control col-md-7"
                         id="billing_address_phone"
                         value={phonecount}
                         onChange={(e) => {
@@ -251,7 +247,7 @@ const AddCustAddress = () => {
                     <div className="col form-group">
                       <input
                         type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className="form-control col-md-7"
                         id="billing_address_fax"
                       />
                     </div>

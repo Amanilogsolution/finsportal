@@ -43,7 +43,7 @@ const Showvendor = () => {
             cell: (row) => [
 
                 <div className='droplist' id={`deletselect${row.sno}`} >
-                    <select className={` bg-${themeval}`} onChange={async (e) => {
+                    <select className={` `} onChange={async (e) => {
                         const status = e.target.value;
                         await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
                         window.location.href = 'ShowVendor'
@@ -258,13 +258,19 @@ const Showvendor = () => {
                 <div className="spinner-border" role="status"> </div>
             </div>
             <Header />
-            <div className={`content-wrapper bg-${themeval}`}>
-                <button type="button" id='addvendbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%' }} onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary">Add Vendor</button>
-                <button type="button" id='excelvendbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <div className={`content-wrapper `}>
+                <div className='d-flex justify-content-between px-4 pt-4 pb-2'>
+                    <h3>Vendor</h3>
+                    <div className='d-flex'>
+                        <button type="button" id='excelvendbtn' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                        <button type="button" id='addvendbtn' onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary mx-3">Add Vendor</button>
+                    </div>
+
+                </div>
+
                 <div className="container-fluid">
-                    <h3 className="py-1 ml-5">Vendor</h3>
-                    <div className="card mb-0 w-100" >
-                        <article className={`card-body bg-${themeval}`}>
+                    <div className="card mb-2 w-100" >
+                        <article className={`card-body `}>
                             <DataTableExtensions
                                 {...tableData}>
                                 <DataTable
@@ -273,7 +279,6 @@ const Showvendor = () => {
                                     defaultSortAsc={false}
                                     pagination
                                     highlightOnHover
-                                    theme={themeval}
                                     customStyles={customStyles}
                                 />
                             </DataTableExtensions>
@@ -292,7 +297,7 @@ const Showvendor = () => {
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div className="modal-dialog" role="document">
-                    <div className={`modal-content bg-${themeval}`}>
+                    <div className={`modal-content `}>
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">
                                 Import excel file
@@ -317,7 +322,7 @@ const Showvendor = () => {
                                     <input
                                         type="file"
                                         onChange={onChange}
-                                        className={`form-control bg-${themeval}`}
+                                        className={`form-control `}
                                         accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                                 </div><br />
                                 <span style={{ color: "red" }}>
@@ -352,7 +357,7 @@ const Showvendor = () => {
                 aria-labelledby="myLargeModalLabel"
                 aria-hidden="true" >
                 <div style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
-                    <div className={`modal-content bg-${themeval}`}>
+                    <div className={`modal-content `}>
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                                 Uploaded Excel file
@@ -486,7 +491,7 @@ const Showvendor = () => {
                             </table>
                         </div>
                     </div>
-                    <div className={`modal-footer bg-${themeval}`} >
+                    <div className={`modal-footer `} >
                         <button
                             type="button"
                             className="btn btn-secondary"

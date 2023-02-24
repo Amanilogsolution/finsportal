@@ -1,12 +1,3 @@
-.maindiv-row{
-    width: 100%;
-    padding-top: 30px;
-}
-
-.maindiv-card{
-    width: 100%;
-}
-
 .maindiv-card .card-body table thead tr td{
     width:100px;
     text-align: center;

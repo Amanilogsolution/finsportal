@@ -446,10 +446,10 @@ function Bills() {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                <div className={`content-wrapper bg-${themetype}`}>
+                <div className={`content-wrapper `}>
                     <div className="container-fluid ">
-                        <h3 className="py-3 ml-5"> New Bill</h3>
-                        <div className={`card mb-0 bg-${themetype}`}>
+                        <h3 className="pt-3 pb-1 ml-5"> New Bill</h3>
+                        <div className={`card mb-2 `}>
                             <article className="card-body">
                                 <form autoComplete="off">
                                     <div className="form-row ">
@@ -658,7 +658,7 @@ function Bills() {
                                                     Attach File</button>
                                             </div>
                                         </div>
-                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", background: themetype === 'dark' ? '#282828' : '#eee', borderRadius: "7px" }}>
+                                        <div style={{ width: "55%", marginLeft: "3px", padding: "5px", background: '#eee', borderRadius: "7px" }}>
                                             <table className='table table-borderless' style={{ width: "100%" }}>
                                                 <thead>
                                                     <tr>
@@ -672,7 +672,7 @@ function Bills() {
                                                         <td style={{ width: "150px" }} >
                                                             <a title='Click to Input GST Data' className='cursor-pointer' style={{borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
                                                             </a>
-                                                            <div className={`dropdown-menu-lg bg-${themetype}`} id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
+                                                            <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
                                                                 <div className="card-body p-2">
                                                                     <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
                                                                     <div className="form-group ">
@@ -738,7 +738,7 @@ function Bills() {
                                                         <td style={{ width: "150px" }}>
                                                             <a title='Click to Input TDS Data' className='cursor-pointer' style={{ borderBottom: "1px dashed #000" }} onClick={handletds}>Total TDS *
                                                             </a>
-                                                            <div className={`dropdown-menu-lg bg-${themetype}`} id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
+                                                            <div className="dropdown-menu-lg rounded bg-white" id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
                                                                 <div className="card-body" >
                                                                     <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
 
@@ -807,7 +807,7 @@ function Bills() {
                                         </div>
                                     </div>
                                     <PreviewBill data={billalldetail} Allitems={vouchersitem} />
-                                    <div className="form-group mt-4">
+                                    <div className="card-footer mt-4">
                                         <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>Save</button>
                                         <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>Post </button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>

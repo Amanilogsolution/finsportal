@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Activecountries, showactivestate, getCity, ActiveVendor, VendInsertAddress } from '../../../api';
 
@@ -81,12 +80,12 @@ const AddVendAddress = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid">
           <br /> <h3 className="ml-5">Add Address</h3>
-          <div className={`card mb-0 bg-${themetype}`}>
+          <div className={`card mb-2 `}>
             <article className="card-body">
-              <form>
+              <form autoComplete="off">
                 <div className="Address" id="addressdiv">
                   <div className="Address_left" style={{ width: "80%" }}>
                     <label>BILLING ADDRESS</label>
@@ -256,7 +255,7 @@ const AddVendAddress = () => {
                 </div>
               </form>
             </article>
-            <div className="border-top card-body">
+            <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick} >Save</button>
               <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalVendAddress" }}>Cancel</button>
             </div>

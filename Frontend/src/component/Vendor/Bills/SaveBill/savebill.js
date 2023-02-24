@@ -93,12 +93,12 @@ const BillSave = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div className={`content-wrapper bg-${themetype}`}>
+        <div className={`content-wrapper `}>
           <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./Bills" }} className="btn btn-primary float-right">Add Bill </button>
           <div className="container-fluid">
             <h3 className="py-4 ml-5"> Save Bill </h3>
             <div className="card" >
-              <article className={`card-body bg-${themetype}`}>
+              <article className={`card-body `}>
                 <DataTableExtensions {...tableData}>
                   <DataTable
                     noHeader
@@ -106,7 +106,6 @@ const BillSave = () => {
                     defaultSortAsc={false}
                     pagination
                     highlightOnHover
-                    theme={themetype}
                     customStyles={customStyles}
                   />
                 </DataTableExtensions>

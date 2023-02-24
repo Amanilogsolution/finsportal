@@ -22,16 +22,7 @@ const ShowItem = () => {
       selector: row => row.item_unit,
       sortable: true
     },
-    {
-      name: 'HSN Code',
-      selector: row => row.hsn_code,
-      sortable: true
-    },
-    {
-      name: 'SAC Code',
-      selector: row => row.sac_code,
-      sortable: true
-    },
+  
     {
       name: 'Major Code',
       selector: row => row.major_code,
@@ -47,16 +38,7 @@ const ShowItem = () => {
       selector: row => row.tax_preference,
       sortable: true
     },
-    {
-      name: 'Sales',
-      selector: row => row.sales_account,
-      sortable: true
-    },
-    {
-      name: 'Purchase',
-      selector: row => row.purchase_account,
-      sortable: true
-    },
+  
     {
       name: 'GST Rate(in %)',
       selector: row => row.gst_rate,
@@ -85,8 +67,8 @@ const ShowItem = () => {
       sortable: false,
       selector: row => row.null,
       cell: (row) => [
-        <a title='View Document' id={`editactionbtns${row.sno}`} href="/EditItem" style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
+        <a title='Edit Items' id={`editactionbtns${row.sno}`} href="/EditItem" style={{ display: "none" }}>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ]
@@ -132,14 +114,14 @@ const ShowItem = () => {
       </div>
       <Header />
 
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className="content-wrapper">
         <div className='d-flex justify-content-between pt-3 px-4'>
           <h3 className="px-5">Total Items</h3>
           <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
         </div>
-        <div className="container-fluid">
-          <div className="card mb-0 w-100">
-            <article className={`card-body bg-${themetype}`}>
+        <div className="container-fluid mt-2">
+          <div className="card mb-2 w-100">
+            <article className={`card-body `}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -149,7 +131,6 @@ const ShowItem = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

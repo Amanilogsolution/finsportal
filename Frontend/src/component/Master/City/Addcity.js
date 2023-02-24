@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { InsertCity, Activecountries, showactivestate } from '../../../api';
 
@@ -51,30 +50,21 @@ const Addcity = () => {
   }
 
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
+          <div className={`content-wrapper`}>
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Add City</h3>
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
-                      <form>
+              <br /> <h3 className=" ml-5">Add City</h3>
+                  <div className="card w-100">
+                    <article className={`card-body`}>
+                      <form autoComplete='off'>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                           <div className="col form-group">
-                            <select
-                              id="country_name"
-                              className="form-control col-md-4"
-                              onChange={handleChangeCountry}
-                            >
+                            <select id="country_name"  className="form-control col-md-4" onChange={handleChangeCountry}>
                               <option  hidden value=''>Select Country</option>
                               {
                                 selectCountry.map((data, index) => (
@@ -88,16 +78,12 @@ const Addcity = () => {
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Name</label>
                           <div className="col form-group">
-                            <select
-                              id="state_name"
-                              className="form-control col-md-4"
-                            >
+                            <select id="state_name" className="form-control col-md-4">
                               <option value='' hidden >Select State</option>
                               {
                                 selectState.map((data, index) => (
                                   <option key={index} value={data.state_name}>{data.state_name}</option>
                                 ))
-
                               }
                             </select>
                           </div>
@@ -121,9 +107,9 @@ const Addcity = () => {
                             <input type="text" className="form-control col-md-4" id='city_name' />
                           </div>
                         </div>
-                        <div className={`border-top card-footer bg-${themetype}`}>
+                        <div className={`border-top card-footer`}>
                           <button type='submit' className="btn btn-success" onClick={handleClick} >Save</button>
-                          <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
+                          <button className="btn btn-light ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./Showcity" }}>Cancel</button>
                         </div>
                       </form>
                     </article>
@@ -131,12 +117,8 @@ const Addcity = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
         <Footer theme={themetype}/>
       </div>
-    </div>
   )
 }
 
