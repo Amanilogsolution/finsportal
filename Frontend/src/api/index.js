@@ -1410,3 +1410,14 @@ export const DeleteUserRole = async (org,sno,status) => {
 
 
 // ############################ For Role api Start #################################
+
+// ############################ For Po api Start #################################
+export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number, po_date, User_id) => {
+    const url = `http://localhost:3008/api/InsertPurchaseorder`
+    return axios.post(url, { org, vendor_id, po_location, po_number, po_date, User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity,rate,amount,unit) => {
+    const url = `http://localhost:3008/api/InsertSubPurchaseorder`
+    return axios.post(url, { org, vendor_id, po_number, location, items, quantity,rate,amount,unit}).then(response => response.data).catch(error => console.log(error));
+}

@@ -132,6 +132,7 @@ function Bills() {
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
     }
+    
 
     const handleChangeLocation = (e) => {
         setLocation([...location, e.target.value])

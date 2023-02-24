@@ -53,6 +53,7 @@ const LoginLogsController = require('../controller/LoginLOgs')
 const Twofa = require('../controller/2faAuthentication/Twofa')
 
 const UserRightsController = require('../controller/UserRolePermission/userRoll')
+const pomasterController = require('../controller/Purchases/PurchaseOrder/po') 
 
 
 
@@ -367,8 +368,8 @@ router.post('/deleteuserrole',UserRightsController.DeleteUserRole)
 router.post('/getuserrolepermission',UserRightsController.getUserRolePermission)
 router.post('/totaluserrole',UserRightsController.TotalUserRole)
 
-
-
+router.post('/InsertPurchaseorder',pomasterController.InsertPurchaseorder)
+router.post('/InsertSubPurchaseorder',pomasterController.InsertSubPurchaseorder)
 
 
 module.exports = router;
