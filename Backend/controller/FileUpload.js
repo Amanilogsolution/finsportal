@@ -14,8 +14,8 @@ const fileUpload =  async (req, res,next) => {
   try {
     await req.files.forEach(async (reqfile, i) => {
 
-      const accountName = 'anyspaze';
-      const accountKey = 'n5wgNaMsPRW5TfCC0x6AE3py5jwDy5PkzxdtskfaM/XRYkeiYjqc62FmsOj8ii6fGp2MtOB3m8WmZnwcz5oAHw==';
+      const accountName = 'swimlocker';
+      const accountKey = 'bNmQ4TYYDrTwGyeBlUDuDIjOUeUpn8QaVrorfjox9BXoUU9G7u5ZL7RsS2Rsn2tMBk+tsi/kcWI+7JhLp+HppA==';
       const sharedKeyCredential = new StorageSharedKeyCredential(
         accountName,
         accountKey,
@@ -46,7 +46,7 @@ const fileUpload =  async (req, res,next) => {
       );
     });
 
-        const Upload = `https://anyspaze.blob.core.windows.net/awlvendorportal/`+images[0];
+        const Upload = `https://swimlocker.blob.core.windows.net/awlvendorportal/`+images[0];
 
     res.status(200).send(Upload)
 

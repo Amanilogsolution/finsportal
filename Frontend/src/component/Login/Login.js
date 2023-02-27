@@ -35,6 +35,7 @@ const Login = () => {
         localStorage.setItem('themetype', result.Theme)
 
         setLogindetails(result);
+        console.log(result)
         if (result) {
             setLoading(false);
         }
@@ -92,6 +93,7 @@ const Login = () => {
                 localStorage.setItem('User_id', logindetails.user_id)
                 localStorage.setItem('User_img', logindetails.image)
                 localStorage.setItem('fin_year', logindetails.fin_year)
+                localStorage.setItem('financialstatus', logindetails.fin_year_status)
                 localStorage.setItem('year', logindetails.year)
                 localStorage.setItem('Organisation_details', logindetails.org_name)
                 localStorage.setItem('Role', logindetails.UserRole)
@@ -123,11 +125,10 @@ const Login = () => {
                 localStorage.setItem('User_id', logindetails.user_id)
                 localStorage.setItem('User_img', logindetails.image)
                 localStorage.setItem('fin_year', logindetails.fin_year)
+                localStorage.setItem('financialstatus', logindetails.fin_year_status)
                 localStorage.setItem('year', logindetails.year)
                 localStorage.setItem('Organisation_details', logindetails.org_name)
                 localStorage.setItem('Role', logindetails.UserRole)
-
-
                 alert(result1)
                 const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
                 window.location.href = '/home'
