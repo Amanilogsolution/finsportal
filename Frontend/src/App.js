@@ -7,6 +7,7 @@ import ChangePassword from './component/Login/ChangePassword/ChangePassword';
 
 import Home from './component/Home/Home'
 import Customer from './component/Customer/Customer'
+import CustomerNames from './component/Customer/CustomerNames';
 import EditOrganisation from './component/organisation/EditOrganization/EditOrganisation'
 import Org from './component/organisation/org'
 import Vendor from './component/Vendor/Vendor'
@@ -16,10 +17,8 @@ import AddCustAddress from './component/Customer/Addresses/AddAddress';
 import AddVendAddress from './component/Customer/Addresses/AddVendorAddress.';
 import TotalCustAddress from './component/Customer/Addresses/TotalAddress';
 import TotalVendAddress from './component/Customer/Addresses/TotalVendorAddress';
-
 import EditAddress from './component/Customer/Addresses/EditAddress';
 import EditVendorAddress from './component/Customer/Addresses/EditVendorAddress';
-
 import StateMaster from './component/Master/State/StateMaster';
 import ShowState from './component/Master/State/ShowState';
 import EditState from './component/Master/State/EditState';
@@ -166,6 +165,9 @@ const App = () => {
           <PrivatRoute exact path="/home" component={Home} />
           <PrivatRoute exact path="/ChangePassword" component={ChangePassword} />
           <PrivatRoute exact path="/Customer" component={Customer} />
+          <PrivatRoute exact path="/CustomerNames" component={CustomerNames} />
+
+          
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
           <PrivatRoute exact path="/org" component={Org} />
           <PrivatRoute exact path="/EditOrganisation" component={EditOrganisation} />

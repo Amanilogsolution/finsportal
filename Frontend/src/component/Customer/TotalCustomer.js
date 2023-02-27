@@ -8,6 +8,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../excelformate/tbl_customer.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle'
+import './TotalCustomer.css'
 
 const TotalCustomer = () => {
   const columns = [
@@ -83,6 +84,7 @@ const TotalCustomer = () => {
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
   const themeval = localStorage.getItem('themetype')
+  const [ActionToogle,setActionToogle] = useState(false);
 
   //##########################  Upload data start  #################################
 
@@ -257,6 +259,11 @@ const TotalCustomer = () => {
 
   }, [])
 
+  const handleAction =(e) =>{
+    e.preventDefault();
+    setActionToogle(prev =>!prev)
+  }
+
   const tableData = {
     columns,
     data
@@ -270,11 +277,20 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <div className="content-wrapper">
-          <div className=' px-5 pt-3 pb-2 d-flex justify-content-between'>
-            <h3 className="pl-5 ">Total Customer</h3>
-            <div>
+          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden'>
+          <div>
+          <h3 className="pl-5 ">Total Customer</h3>
+
+          </div>
+          <div className='d-flex'>
+            <button className='btn btn-danger mr-2'  onClick={handleAction}><span><i className={ActionToogle?"fas fa-angle-right":"fas fa-angle-left"}/></span></button>
+            <div 
+            className={ActionToogle?'showAction':'hideAction'}
+            >
               <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-              <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary mx-4">Add Customer</button>
+              <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary mx-2">Add Customer</button>
+              <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./CustomerNames" }} className="btn btn-primary mx-1">Update Cust Names</button>
+            </div>
             </div>
           </div>
           <div className="card mb-2 mx-2">
