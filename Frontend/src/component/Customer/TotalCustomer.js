@@ -306,7 +306,7 @@ const TotalCustomer = () => {
             </div>
           </div>
           <div className="card mb-2 mx-2">
-            <article className="card-body">
+            <article className="card-body py-1">
               <DataTableExtensions
                 {...tableData}>
                 <DataTable
@@ -315,6 +315,7 @@ const TotalCustomer = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
