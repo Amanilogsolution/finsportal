@@ -1,0 +1,9 @@
+.showAction{
+    margin-right: 0%;
+    transition: all 2s linear;
+}
+.hideAction{
+    margin-right: -484px;
+    transition: all 2s linear;
+
+}
