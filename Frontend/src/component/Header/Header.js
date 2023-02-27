@@ -76,7 +76,6 @@ const Header = () => {
       setData(organisation)
 
       const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
-      console.log(financialyear)
       setFinancialYearData(financialyear)
 
       const result1 = await showOrganisation(org)

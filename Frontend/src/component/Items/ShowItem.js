@@ -5,6 +5,8 @@ import { TotalItems, deleteItems, getUserRolePermission } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../customTableStyle';
+
+
 const ShowItem = () => {
   const columns = [
     {
@@ -75,12 +77,20 @@ const ShowItem = () => {
 
 
   const [data, setData] = useState([])
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
+
   const themetype = localStorage.getItem('themetype')
 
 
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('additemsbtn').style.background = '#7795fa';
+      }
 
       const result = await TotalItems(org)
       setData(result)
@@ -117,7 +127,7 @@ const ShowItem = () => {
       <div className="content-wrapper">
         <div className='d-flex justify-content-between pt-3 px-4'>
           <h3 className="px-5">Total Items</h3>
-          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
+          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddItem" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add Item</button>
         </div>
         <div className="container-fluid mt-2">
           <div className="card mb-2 w-100">
@@ -131,6 +141,7 @@ const ShowItem = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

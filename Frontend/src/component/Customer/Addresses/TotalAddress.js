@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
@@ -76,6 +76,19 @@ const TotalCustAddress = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
+
+  useEffect(() => {
+    async function fetchdata() {
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addCustAddress-btn').style.background = '#7795fa';
+      }
+
+    }
+    fetchdata()
+  }, [])
 
 
   //##########################  Upload data start  #################################
@@ -188,7 +201,7 @@ const TotalCustAddress = () => {
             <h3 className=" ml-5">Customer Address</h3>
             <div>
               <button type="button" className="btn btn-success mx-4" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
-              <button type="button" onClick={() => { window.location.href = "./AddCustAddress" }} className="btn btn-primary">Add Address</button>
+              <button type="button" onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCustAddress"  : alert('You are not in Current Financial Year')}} className="btn btn-primary" id='addCustAddress-btn'>Add Address</button>
             </div>
           </div>
           <div className="container-fluid position-relative">

@@ -16,6 +16,7 @@ const ShowState = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themetype = localStorage.getItem('themetype')
 
@@ -23,6 +24,13 @@ const ShowState = () => {
     const fetchdata = async () => {
       const result = await getstates();
       setData(result);
+
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addstatebtn').style.background = '#7795fa';
+      }
 
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
       if (UserRights.state_create === 'true') {
@@ -39,6 +47,7 @@ const ShowState = () => {
           document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
         }
       }
+
     }
     fetchdata()
   }, [])
@@ -190,11 +199,15 @@ const ShowState = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addstatebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./StateMaster" }} className="btn btn-primary">Add State</button>
-        <button type="button" id='uploadstatebtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+        <div className='d-flex justify-content-between px-3 py-3'>
+          <h3 className="ml-5">State</h3>
+          <div className='d-flex '>
+            <button type="button" id='uploadstatebtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./StateMaster" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add State</button>
+          </div>
+        </div>
 
         <div className="container-fluid">
-          <h3 className="py-3 ml-5">State</h3>
           <div className="card mb-0 w-100 mb-2">
             <article className={`card-body pt-1 pb-0 `}>
               <DataTableExtensions

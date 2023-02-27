@@ -61,7 +61,7 @@ const Showvendor = () => {
             selector: "null",
             cell: (row) => [
                 <a title='View Document' id={`editactionbtns${row.sno}`} href="Editvendor">
-                    <button className=" editbtn btn-success " onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit Vendor</button></a>
+                    <button className=" editbtn btn-success p-1" onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit Vendor</button></a>
 
             ]
         }
@@ -76,6 +76,7 @@ const Showvendor = () => {
     const [finsyear, setFinsyear] = useState(0);
     const [mvendid, setMvendid] = useState(0);
     const [vendid, setVendid] = useState(0);
+    const [financialstatus, setFinancialstatus] = useState('Deactive')
 
     const themeval = localStorage.getItem('themetype')
 
@@ -218,6 +219,12 @@ const Showvendor = () => {
             const org = localStorage.getItem('Organisation')
             const result = await Vendor(org)
             setData(result)
+
+            const financstatus = localStorage.getItem('financialstatus')
+            setFinancialstatus(financstatus);
+            if (financstatus === 'Deactive') {
+                document.getElementById('addvendbtn').style.background = '#7795fa';
+            }
             const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
             if (UserRights.vendor_create === 'false') {
                 document.getElementById('addvendbtn').style.display = "none"
@@ -263,7 +270,7 @@ const Showvendor = () => {
                     <h3>Vendor</h3>
                     <div className='d-flex'>
                         <button type="button" id='excelvendbtn' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                        <button type="button" id='addvendbtn' onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary mx-3">Add Vendor</button>
+                        <button type="button" id='addvendbtn' onClick={() => { financialstatus === 'Active' ? window.location.href = "./Vendor" : alert('You are not in Current Financial Year')}} className="btn btn-primary mx-3">Add Vendor</button>
                     </div>
                 </div>
 

@@ -64,12 +64,20 @@ const columns = [
 
 const BillSave = () => {
   const [data, setData] = useState([])
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
+
   const themetype = localStorage.getItem('themetype')
 
 
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addbillbtn').style.background = '#7795fa';
+      }
 
       const result = await GetSaveBill(org)
       setData(result)
@@ -94,17 +102,18 @@ const BillSave = () => {
         </div>
         <Header />
         <div className={`content-wrapper `}>
-          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./Bills" }} className="btn btn-primary float-right">Add Bill </button>
+          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?  window.location.href = "./Bills"  : alert('You are not in Current Financial Year')}} className="btn btn-primary float-right">Add Bill </button>
           <div className="container-fluid">
             <h3 className="py-4 ml-5"> Save Bill </h3>
             <div className="card" >
-              <article className={`card-body `}>
+              <article className={`card-body py-1`}>
                 <DataTableExtensions {...tableData}>
                   <DataTable
                     noHeader
                     defaultSortField="id"
                     defaultSortAsc={false}
                     pagination
+                    dense
                     highlightOnHover
                     customStyles={customStyles}
                   />

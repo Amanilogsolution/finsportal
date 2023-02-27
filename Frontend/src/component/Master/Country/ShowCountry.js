@@ -15,6 +15,7 @@ const ShowCountry = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themetype = localStorage.getItem('themetype')
 
@@ -45,7 +46,7 @@ const ShowCountry = () => {
       selector: 'null',
       cell: (row) => [
         <div className='droplist'>
-          <select className='bg-white'  id={`deleteselect${row.sno}`} style={{ display: "none" }} onChange={async (e) => {
+          <select className='bg-white' id={`deleteselect${row.sno}`} style={{ display: "none" }} onChange={async (e) => {
             const status = e.target.value;
             await deletecountry(row.sno, status)
             window.location.href = 'ShowCountry'
@@ -65,7 +66,6 @@ const ShowCountry = () => {
       cell: (row) => [
         <a title='View Document' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
           <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
-
       ]
     }
   ]
@@ -78,7 +78,6 @@ const ShowCountry = () => {
         setErrorno(errorno++);
       }
     })
-
     if (errorno > 0) {
       alert("Please! fill the mandatory data");
       document.getElementById("showdataModal").style.display = "none";
@@ -89,7 +88,6 @@ const ShowCountry = () => {
       if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
-
       }
       else if (result === "Data Added") {
         setBackenddata(false);
@@ -143,6 +141,12 @@ const ShowCountry = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addcountrybtn').style.background = '#7795fa';
+      }
+
       const result = await Totalcountry()
       setData(result)
 
@@ -181,10 +185,10 @@ const ShowCountry = () => {
       <Header />
       <div className={`content-wrapper`}>
         <div className='d-flex py-3 px-5  justify-content-between'>
-          <h3 className=" ml-5">Country</h3>
+          <h3 className="ml-5">Country</h3>
           <div className='d-flex '>
             <button type="button" id='uploadcountrybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddCountry" }} className="btn btn-primary mx-4">Add Country</button>
+            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCountry" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add Country</button>
           </div>
         </div>
         <div className="container-fluid">
@@ -233,15 +237,13 @@ const ShowCountry = () => {
               </button>
             </div>
             <div className="modal-body">
-
-              <div className=" ">
+              <div>
                 <label
                   htmlFor="user_name"
-                  className=" col-form-label font-weight-normal"
-                >
+                  className=" col-form-label font-weight-normal">
                   <span >Select the file</span>
                 </label>
-                <div className=" ">
+                <div>
                   <input
                     id=""
                     type="file"

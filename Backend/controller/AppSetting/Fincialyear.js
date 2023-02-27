@@ -117,7 +117,6 @@ const Selectfincialyear = async (req, res) => {
 
 const Getfincialyearid = async (req, res) => {
     const org = req.body.org;
-    console.log(`SELECT * from ${org}.dbo.tbl_fin_year where status='Active';`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year where status='Active';`)

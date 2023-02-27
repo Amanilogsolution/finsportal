@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './TotalAddress.css';
@@ -11,6 +11,26 @@ import Excelfile from '../../../excelformate/Vendor Address formate.xlsx'
 import customStyles from '../../customTableStyle';
 
 const TotalVendAddress = () => {
+  const [data, setData] = useState([])
+  const [selectedvendname, setSelectedvendname] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
+
+  const themetype = localStorage.getItem('themetype')
+
+  useEffect(() => {
+    async function fetchdata() {
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('add-vend_address_btn').style.background = '#7795fa';
+      }
+    }
+    fetchdata()
+  }, [])
   const columns = [
     {
       name: 'vend Name',
@@ -82,13 +102,7 @@ const TotalVendAddress = () => {
   ]
 
 
-  const [data, setData] = useState([])
-  const [selectedvendname, setSelectedvendname] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
-  const themetype = localStorage.getItem('themetype')
+
 
 
   //##########################  Upload data start  #################################
@@ -186,7 +200,7 @@ const TotalVendAddress = () => {
       </div>
       <Header />
       <div className="content-wrapper">
-        <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => { window.location.href = "./AddVendAddress" }} className="btn btn-primary float-right">Add Address</button>
+        <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => {financialstatus === 'Active' ? window.location.href = "./AddVendAddress" : alert('You are not in Current Financial Year')  }} className="btn btn-primary float-right" id='add-vend_address_btn'>Add Address</button>
         <button type="button" style={{ marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
         <div className="container-fluid ">
           <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>
@@ -209,7 +223,7 @@ const TotalVendAddress = () => {
           </form>
           <br />
           <div className={`card w-100`}>
-            <article className="card-body py-1">
+            <article className="card-body py-0">
               <DataTableExtensions
                 {...tableData}
               >
@@ -253,13 +267,13 @@ const TotalVendAddress = () => {
             </div>
             <div className="modal-body">
               <label htmlFor="user_name" className=" col-form-label font-weight-normal">Select the file </label>
-                <input
-                  id=""
-                  type="file"
-                  onChange={onChange}
-                  className={`form-control `}
-                  required
-                  accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+              <input
+                id=""
+                type="file"
+                onChange={onChange}
+                className={`form-control `}
+                required
+                accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
               <br />
               <a href={Excelfile} download> Download formate</a>
             </div>
