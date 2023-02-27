@@ -18,6 +18,7 @@ const TotalLocation = () => {
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [btntype, setBtntype] = useState(true);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themeval = localStorage.getItem('themetype')
 
@@ -84,18 +85,18 @@ const TotalLocation = () => {
       sortable: false,
       selector: "null",
       cell: (row) => [
-        <div id={`editactionbtns${row.sno}`} style={{ display: "none",marginLeft:'-20px' }}>
+        <div id={`editactionbtns${row.sno}`} style={{ display: "none", marginLeft: '-20px' }}>
           <a title='Edit Location' href="EditLocation" className='px-0'>
             <button className="editbtn btn"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
             </button></a>
-          <a title='View Document' href="AddOrgAddress"  className='px-0'>
+          <a title='View Document' href="AddOrgAddress" className='px-0'>
             <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
             </button></a>
-          <a title='View Document' href="EditOrgAddress"  className='px-0'>
+          <a title='View Document' href="EditOrgAddress" className='px-0'>
             <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
               onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
               <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
@@ -211,7 +212,14 @@ const TotalLocation = () => {
     async function fetchdata() {
       const result = await totalLocation(localStorage.getItem('Organisation'))
       setData(result)
-console.log(result)
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addbranchbtn').style.background = '#7795fa';
+      }
+
+
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'branch')
       if (UserRights.branch_create === 'true') {
         document.getElementById('addbranchbtn').style.display = "block";
@@ -245,9 +253,9 @@ console.log(result)
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addbranchbtn' style={{  marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary float-right">Add Location</button>
-        <button type="button" id='uploadlocabtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
-        <button type="button" id='uploadlocaddbtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
+        <button type="button" id='addbranchbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddLocation": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary float-right">Add Location</button>
+        <button type="button" id='uploadlocabtn' style={{ marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
+        <button type="button" id='uploadlocaddbtn' style={{ marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
 
         <div className="container-fluid">
           <br />

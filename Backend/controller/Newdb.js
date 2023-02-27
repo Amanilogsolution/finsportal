@@ -885,9 +885,9 @@ const Newdb = async (req, res) => {
                     update_user_name varchar(50) NULL,
                     update_system_name varchar(100) NULL,
                     update_ip_address varchar(50) NULL,
-                    status varchar(30) NULL,
+                    status varchar(30) NULL
                 );
-                    CREATE TABLE ${dbname}.dbo.cust_name_recoard (
+                CREATE TABLE ${dbname}.dbo.cust_name_recoard (
                         sno bigint IDENTITY(1,1) NOT NULL,
                         cust_id nvarchar(100) NULL,
                         cust_name nvarchar(100) NULL,
@@ -901,7 +901,7 @@ const Newdb = async (req, res) => {
                         update_ip_address nvarchar(100) NULL,
                         update_date_time datetime NULL,
                         cust_name_uuid nvarchar(300) NULL
-                    );
+                );
                     
             
             `)

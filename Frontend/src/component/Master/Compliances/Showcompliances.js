@@ -14,6 +14,7 @@ function Showcompliances() {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themetype = localStorage.getItem('themetype')
 
@@ -171,6 +172,13 @@ function Showcompliances() {
       const result = await showcompliances(org)
       setData(result)
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addcompbtn').style.background = '#7795fa';
+      }
+
+
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
       if (UserRights.compliances_create === 'true') {
         document.getElementById('addcompbtn').style.display = "block"
@@ -206,7 +214,7 @@ function Showcompliances() {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
+        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {financialstatus === 'Active' ?  window.location.href = "./Addcompliances": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Compliances</button>
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="ml-5 py-2" >Compliances</h3>

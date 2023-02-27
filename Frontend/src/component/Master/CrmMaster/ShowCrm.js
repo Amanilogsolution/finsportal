@@ -8,6 +8,7 @@ import customStyles from '../../customTableStyle';
 
 const ShowCrm = () => {
   const [data, setData] = useState([])
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themeval = localStorage.getItem('themetype')
 
@@ -75,6 +76,12 @@ const ShowCrm = () => {
       const result = await TotalCrm(localStorage.getItem('Organisation'))
       setData(result)
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addcrmbtn').style.background = '#7795fa';
+      }
+
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'crm')
       if (UserRights.crm_create === 'true') {
         document.getElementById('addcrmbtn').style.display = "block";
@@ -104,7 +111,7 @@ const ShowCrm = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5"> CRM Master </h3>
-          <button type="button " id='addcrmbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
+          <button type="button " id='addcrmbtn' style={{ display: "none" }} onClick={() => {financialstatus === 'Active' ?  window.location.href = "./AddCrm" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Crm </button>
 
         </div>
         <div className="container-fluid">
