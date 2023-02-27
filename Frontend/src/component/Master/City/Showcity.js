@@ -200,7 +200,7 @@ const Showcity = () => {
           <h3 className="ml-5">City</h3>
           <div className='d-flex '>
             <button type="button" id='uploadcitybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addcitybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./Addcity" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add City</button>
+            <button type="button" id='addcitybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./Addcity" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add City</button>
           </div>
         </div>
 

@@ -203,7 +203,7 @@ const ShowState = () => {
           <h3 className="ml-5">State</h3>
           <div className='d-flex '>
             <button type="button" id='uploadstatebtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./StateMaster" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add State</button>
+            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./StateMaster" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add State</button>
           </div>
         </div>
 

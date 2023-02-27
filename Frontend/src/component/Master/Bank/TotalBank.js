@@ -80,6 +80,8 @@ const TotalBank = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
+
   const themetype = localStorage.getItem('themetype')
 
   //##########################  Upload data start  #################################
@@ -157,6 +159,12 @@ const TotalBank = () => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addbankbtn').style.background = '#7795fa';
+      }
+
       const result = await totalBank(org);
       setData(result)
 
@@ -195,7 +203,7 @@ const TotalBank = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddBankList" }} className="btn btn-primary">Add Bank</button>
+        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus === 'Active' ?  window.location.href = "./AddBankList": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Bank</button>
         <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="py-2 ml-5">Banks</h3>

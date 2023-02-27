@@ -200,7 +200,7 @@ const TotalVendAddress = () => {
       </div>
       <Header />
       <div className="content-wrapper">
-        <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => {financialstatus === 'Active' ? window.location.href = "./AddVendAddress" : alert('You are not in Current Financial Year')  }} className="btn btn-primary float-right" id='add-vend_address_btn'>Add Address</button>
+        <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => {financialstatus === 'Active' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year')  }} className="btn btn-primary float-right" id='add-vend_address_btn'>Add Address</button>
         <button type="button" style={{ marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
         <div className="container-fluid ">
           <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>

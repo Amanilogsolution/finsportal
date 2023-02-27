@@ -16,6 +16,7 @@ const ShowUnit = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themetype = localStorage.getItem('themetype')
 
@@ -143,29 +144,36 @@ const ShowUnit = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(async () => {
-    const Token = localStorage.getItem('Token')
-    const org = localStorage.getItem('Organisation');
-    const result = await TotalUnit(Token, org)
-    setData(result)
+  useEffect(() => {
+    const fetchdata = async () => {
+      const Token = localStorage.getItem('Token')
+      const org = localStorage.getItem('Organisation');
+      const result = await TotalUnit(Token, org)
+      setData(result)
 
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
-    if (UserRights.unit_create === 'true') {
-      document.getElementById('addunitbtn').style.display = "block"
-      document.getElementById('uploadunitbtn').style.display = "block"
-    }
-    if (UserRights.unit_edit === 'true') {
-      for (let i = 0; i < result.length; i++) {
-        document.getElementById(`editbtn${result[i].sno}`).style.display = "block"
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addunitbtn').style.background = '#7795fa';
+      }
+
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
+      if (UserRights.unit_create === 'true') {
+        document.getElementById('addunitbtn').style.display = "block"
+        document.getElementById('uploadunitbtn').style.display = "block"
+      }
+      if (UserRights.unit_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editbtn${result[i].sno}`).style.display = "block"
+        }
+      }
+      if (UserRights.unit_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deletebtn${result[i].sno}`).style.display = "block"
+        }
       }
     }
-    if (UserRights.unit_delete === 'true') {
-      for (let i = 0; i < result.length; i++) {
-        document.getElementById(`deletebtn${result[i].sno}`).style.display = "block"
-      }
-    }
-
-
+    fetchdata()
   }, [])
 
   const tableData = {
@@ -186,7 +194,7 @@ const ShowUnit = () => {
           <h3 className=" ml-5">Unit</h3>
           <div className='d-flex  px-3'>
             <button type="button" id='uploadunitbtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addunitbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddUnit" }} className="btn btn-primary mx-3">Add Unit</button>
+            <button type="button" id='addunitbtn' style={{ display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddUnit": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Unit</button>
           </div>
         </div>
         <div className="container-fluid">
@@ -305,7 +313,7 @@ const ShowUnit = () => {
               </button>
             </div>
             {/* <div className="modal-body"> */}
-            <div  style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
+            <div style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
               {
 
                 backenddata ?

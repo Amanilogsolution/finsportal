@@ -185,7 +185,7 @@ const ShowCurrency = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddCurrency": alert('You are not in Current Financial Year')  }} className="btn btn-primary">Add Currency</button>
+        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddCurrency": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Currency</button>
         <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
