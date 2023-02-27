@@ -16,6 +16,7 @@ const ShowCurrency = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const themetype = localStorage.getItem('themetype')
 
@@ -142,6 +143,13 @@ const ShowCurrency = () => {
       const result = await Totalcurrency(localStorage.getItem('Organisation'))
       setData(result);
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addcurrencybtn').style.background = '#7795fa';
+      }
+
+
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'currency')
       if (UserRights.currency_create === 'true') {
         document.getElementById('addcurrencybtn').style.display = "block";
@@ -177,7 +185,7 @@ const ShowCurrency = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./AddCurrency" }} className="btn btn-primary">Add Currency</button>
+        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddCurrency": alert('You are not in Current Financial Year')  }} className="btn btn-primary">Add Currency</button>
         <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
