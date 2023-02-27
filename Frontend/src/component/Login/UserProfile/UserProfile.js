@@ -76,15 +76,15 @@ const UserProfile = () => {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                <div className={`content-wrapper bg-${themecolor}`}>
+                <div className={`content-wrapper `}>
                     <div className="container-fluid py-3">
                         <h3 className="ml-5">User Details</h3>
-                        <div className={`card bg-${themecolor} mx-4`}>
-                            <form className="card-body ">
+                        <div className={`card  mx-4`}>
+                            <form className="card-body " autoComplete='off'>
                                 <div className='d-flex justify-content-between'>
                                     <div className='userimg-div'>
                                         <div className="profile-text-div w-50 ml-5">
-                                            <h4><span style={{ color: btnthemecolor }}>Hi,</span>{data.employee_name}</h4>
+                                            <h4><span style={{ color: btnthemecolor }}>Hi,</span> {data.employee_name}</h4>
                                             <p className='mb-0'>Role:- {data.role}</p>
                                             <p className='py-0 my-1'>Email:- {data.email_id}</p>
                                         </div>
@@ -96,7 +96,7 @@ const UserProfile = () => {
                                         <i className="fa fa-camera camraicon position-absolute" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ color: btnthemecolor }}></i>
                                     </div>
                                 </div>
-                                <h3 className='mb-0 pb-0 mx-0 mt-5 py-1 field-head-div text-center text-dark'>Details</h3>
+                                <h3 className='mb-0 pb-0 mx-0 mt-1 py-1 field-head-div text-center text-dark'>Details</h3>
                                 <section className='py-4 px-3 field-content-div text-dark' >
                                     <div className="form-row mt-2">
                                         <div className="form-group col">
@@ -194,7 +194,7 @@ const UserProfile = () => {
                                     </div>
                                     <div className="border-top card-footer d-flex justify-content-end">
                                         <button className="btn btn-success" onClick={handleUpdate} >Update</button>
-                                        <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './home' }}>Cancel</button>
+                                        <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './home' }}>Cancel</button>
                                     </div>
                                 </section>
 
@@ -310,11 +310,11 @@ const UserProfile = () => {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themecolor} />
+
                 {/* ############## Modal Start ######################### */}
                 <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
-                        <div className={`modal-content bg-${themecolor}`}>
+                        <div className={`modal-content `}>
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">Change Profile Image</h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -345,7 +345,7 @@ const UserProfile = () => {
                     </div>
                 </div>
                 {/* ############## Modal End ######################### */}
-
+                <Footer theme={themecolor} />
             </div>
         </>
     )

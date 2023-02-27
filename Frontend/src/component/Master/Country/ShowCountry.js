@@ -45,12 +45,11 @@ const ShowCountry = () => {
       selector: 'null',
       cell: (row) => [
         <div className='droplist'>
-          <select className={`bg-${themetype}`} id={`deleteselect${row.sno}`} disabled onChange={async (e) => {
+          <select className='bg-white'  id={`deleteselect${row.sno}`} style={{ display: "none" }} onChange={async (e) => {
             const status = e.target.value;
             await deletecountry(row.sno, status)
             window.location.href = 'ShowCountry'
-          }
-          }>
+          }}>
             <option value={row.status} hidden> {row.status}</option>
 
             <option value='Active'>Active</option>
@@ -65,15 +64,11 @@ const ShowCountry = () => {
       selector: "null",
       cell: (row) => [
         <a title='View Document' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
 
       ]
     }
   ]
-
-
-
-
 
   //##########################  Upload data start  #################################
 
@@ -164,7 +159,7 @@ const ShowCountry = () => {
       }
       if (UserRights.country_delete === 'true') {
         for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).disabled = false;
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
         }
       }
     }
@@ -184,7 +179,7 @@ const ShowCountry = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper`}>
         <div className='d-flex py-3 px-5  justify-content-between'>
           <h3 className=" ml-5">Country</h3>
           <div className='d-flex '>
@@ -194,7 +189,7 @@ const ShowCountry = () => {
         </div>
         <div className="container-fluid">
           <div className="card mb-0">
-            <article className={`card-body bg-${themetype}`}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -203,8 +198,8 @@ const ShowCountry = () => {
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
+                  dense
                   highlightOnHover
-                  theme={themetype}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -223,7 +218,7 @@ const ShowCountry = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content`}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -251,7 +246,7 @@ const ShowCountry = () => {
                     id=""
                     type="file"
                     onChange={onChange}
-                    className={`form-control bg-${themetype}`}
+                    className={`form-control`}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
                 <span style={{ color: "red" }}>
@@ -290,7 +285,7 @@ const ShowCountry = () => {
       >
 
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content`}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -368,7 +363,7 @@ const ShowCountry = () => {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themetype}`} >
+          <div className={`modal-footer`} >
             <button
               type="button"
               className="btn btn-secondary"

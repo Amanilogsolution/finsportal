@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Compliancesduedate } from '../../api/index'
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [alertdiv, setAlertdiv] = useState(false);
 
   // const Tokentime = localStorage.getItem('ExpiredIn')
@@ -10,7 +10,6 @@ const Dashboard = (props) => {
   //   setTimeout(() =>{ 
   //   localStorage.clear()
   //  },9000)
-console.log('Props',props)
 
   useEffect(() => {
     const fetchData=async()=>{
@@ -26,9 +25,9 @@ console.log('Props',props)
     due_date.map((n) => {
       const datedi = due_date[num].due_date.split("-");
       num = num + 1;
-      if (datedi[0] == yyyy) {
-        if (datedi[1] == mm) {
-          if ((datedi[2] - dd) == 4 || (datedi[2] - dd) == 3 || (datedi[2] - dd) == 2 || (datedi[2] - dd) == 1 || (datedi[2] - dd) == 0) {
+      if (datedi[0] === yyyy) {
+        if (datedi[1] === mm) {
+          if ((datedi[2] - dd) === 4 || (datedi[2] - dd) === 3 || (datedi[2] - dd) === 2 || (datedi[2] - dd) === 1 || (datedi[2] - dd) === 0) {
             setAlertdiv(true);
           }
         }
@@ -42,7 +41,7 @@ console.log('Props',props)
   }, [])
 
   return (
-      <div className={`content-wrapper bg-${props.theme}`}>
+      <div className={`content-wrapper`}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row mb-2">
@@ -515,7 +514,7 @@ console.log('Props',props)
         </section>
         {/*############################# compliances alert  ######################################*/}
         {alertdiv ?
-          <div className={`alert alert-dismissible fade show bg-dark ${props.theme==='dark'?'border':''}`} style={{ maxHeight: "400px", zIndex: "10", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
+          <div className={`alert alert-dismissible fade show bg-dark`} style={{ maxHeight: "400px", zIndex: "10", width: "350px", position: "absolute", top: "10%", right: "100px", overflow: "auto" }}>
             <small>Pending Compliances</small>
             <button type="button" className="close text-white " data-dismiss="alert" aria-label="Close" >
               <span aria-hidden="true" >&times;</span>

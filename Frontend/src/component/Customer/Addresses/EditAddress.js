@@ -84,10 +84,10 @@ const EditAddress = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className="content-wrapper">
         <div className="container-fluid">
           <h3 className="py-3 ml-5">Edit Address</h3>
-          <div className={`card bg-${themeval}`}>
+          <div className="card ">
             <article className="card-body">
               <form autoComplete="off">
                 <div className="Address_left" style={{ width: "80%" }}>
@@ -101,9 +101,9 @@ const EditAddress = () => {
                     </label>
                     <div className="col form-group">
                       <input type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className="form-control col-md-7 cursor-notallow"
                         id="cust_name"
-                        value={data.cust_name}
+                        defaultValue={data.cust_name}
                         disabled
                       />
                     </div>
@@ -118,9 +118,9 @@ const EditAddress = () => {
                     </label>
                     <div className="col form-group">
                       <input type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className="form-control col-md-7 cursor-notallow"
                         id="gstno"
-                        value={data.gst_no}
+                        defaultValue={data.gst_no}
                         disabled
                       />
                     </div>
@@ -135,7 +135,7 @@ const EditAddress = () => {
                     </label>
                     <div className="col form-group">
                       <input type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className={`form-control col-md-7 `}
                         id="billing_address_attention"
                         defaultValue={data.billing_address_attention}
                       />
@@ -151,7 +151,7 @@ const EditAddress = () => {
                     <div className="col-md-6 form-group">
                       <select
                         id="inputState"
-                        className={`form-control bg-${themeval}`}
+                        className={`form-control `}
                         onChange={handleAddressCountry}
                       >
                         <option value={data.billing_address_country} hidden> {data.billing_address_country}</option>
@@ -175,7 +175,7 @@ const EditAddress = () => {
                     <div className="col-md-6 form-group">
                       <select
                         id="inputState"
-                        className={`form-control bg-${themeval}`}
+                        className={`form-control `}
                         onChange={handleChangebillingState}
                       >
                         <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
@@ -197,7 +197,7 @@ const EditAddress = () => {
                     <div className="col-md-6 form-group">
                       <select
                         id="inputState"
-                        className={`form-control bg-${themeval}`}
+                        className={`form-control `}
                         onChange={handleAddressCity}
                       >
                         <option valu={data.billing_address_city} hidden>{data.billing_address_city}</option>
@@ -220,7 +220,7 @@ const EditAddress = () => {
                     <div className="col form-group">
                       <input
                         type="number"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className={`form-control col-md-7 `}
                         id="billing_address_pincode"
                         value={data.billing_address_pincode}
                         onChange={handleChangePincode}
@@ -237,7 +237,7 @@ const EditAddress = () => {
                     <div className="col form-group">
                       <input
                         type="number"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className={`form-control col-md-7 `}
                         id="billing_address_phone"
                         value={data.billing_address_phone}
                         onChange={handleChangePhone}
@@ -254,7 +254,7 @@ const EditAddress = () => {
                     <div className="col form-group">
                       <input
                         type="text"
-                        className={`form-control col-md-7 bg-${themeval}`}
+                        className={`form-control col-md-7 `}
                         id="billing_address_fax"
                         defaultValue={data.billing_address_fax}
                       />
@@ -266,7 +266,7 @@ const EditAddress = () => {
             </article>
             <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick} >Update Address</button>
-              <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('EditAddress'); window.location.href = "./TotalCustAddress" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('EditAddress'); window.location.href = "./TotalCustAddress" }}>Cancel</button>
             </div>
           </div>
         </div>

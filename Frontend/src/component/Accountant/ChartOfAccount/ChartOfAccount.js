@@ -112,90 +112,81 @@ function ChartOfAccount() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
-        <div className="row justify-content-center " style={{ width: "100%", paddingTop: "30px" }}>
-          <div className="col-md-6">
-            <div className={`card bg-${themeval}`}>
-              <article className="card-body" >
-                <h3 className='text-center'>Chart Of Account</h3>
-                <br />
-                <form autoComplete="off">
-                  <div className="form-group">
-                    <label>Account Type <span className='text-danger'>*</span> </label>
-                    <div className="d-flex">
-                      <select
-                        id="AccountType"
-                        className="form-control"
-                        onChange={handleAccountType}
-                      >
-                        <option value='' hidden>Choose</option>
-                        {
-                          chartofaccount.map((item, index) => {
-                            return (
-                              <option key={index} value={item.account_type_code}>{item.account_type}</option>
-                            )
-                          })
-                        }
-                      </select>
-                      <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }}
-                        style={{ height: "30px", width: "30px" }}>+</button>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label>Account Name <span className='text-danger'>*</span> </label>
-                    <input type="text" className="form-control" id="Accountname" onFocus={handleChange} />
-                  </div>
-                  <p>
-                    Make this a sub-account
-                    <input type="checkbox"
-                      id="checkboxgst"
-                      className='float-right'
-                      onClick={handleClick}
-                      style={{ height: '20px', wight: '20px' }} />
-                  </p>
-
-                  <div className="form-group" id="parent" style={{ display: 'none' }}>
-                    <label>Parent Account <span className='text-danger'>*</span> </label>
-                    <select
-                      id="parentaccount"
-                      className="form-control"
-                      onChange={handleParentAccount}
-                    >
-                      <option value='' default hidden >Choose</option>
-                      {
-                        account_name.map((item, index) => {
-                          return (
-                            <option key={index} value={item.account_name_code}>{item.account_name}</option>
-                          )
-                        }
+      <div className={`content-wrapper py-2`}>
+        <div className={`card w-50 m-auto`}>
+          <article className="card-body" >
+            <h3 className='text-center'>Chart Of Account</h3>
+            <form autoComplete="off">
+              <div className="form-group">
+                <label>Account Type <span className='text-danger'>*</span> </label>
+                <div className="d-flex">
+                  <select
+                    id="AccountType"
+                    className="form-control"
+                    onChange={handleAccountType}
+                  >
+                    <option value='' hidden>Choose</option>
+                    {
+                      chartofaccount.map((item, index) => {
+                        return (
+                          <option key={index} value={item.account_type_code}>{item.account_type}</option>
                         )
-                      }
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Account Code  </label>
-                    <input type="text" value={account_type} className="form-control" id="Accountnamecode" />
-                  </div>
-                  <div className="form-group">
-                    <label>Description  </label>
-                    <textarea name="text" className="form-control" id="description" cols="10" rows="3"></textarea>
-                  </div>
-                  <hr />
-                  <div className="form-group">
-                    <label className="col-md-4 control-label" htmlFor="save"></label>
-                    <div className="col-md-20" style={{ width: "100%" }}>
-                      <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>
-                        Save
-                      </button>
-                      <button id="clear" onClick={(e) => {
-                        e.preventDefault(); window.location.href = '/home'
-                      }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
-                    </div>
-                  </div>
-                </form>
-              </article>
-            </div>
+                      })
+                    }
+                  </select>
+                  <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }}
+                    style={{ height: "30px", width: "30px" }}>+</button>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Account Name <span className='text-danger'>*</span> </label>
+                <input type="text" className="form-control" id="Accountname" onFocus={handleChange} />
+              </div>
+              <p>
+                Make this a sub-account
+                <input type="checkbox"
+                  id="checkboxgst"
+                  className='float-right'
+                  onClick={handleClick}
+                  style={{ height: '20px', wight: '20px' }} />
+              </p>
+
+              <div className="form-group" id="parent" style={{ display: 'none' }}>
+                <label>Parent Account <span className='text-danger'>*</span> </label>
+                <select
+                  id="parentaccount"
+                  className="form-control"
+                  onChange={handleParentAccount}
+                >
+                  <option value='' default hidden >Choose</option>
+                  {
+                    account_name.map((item, index) => {
+                      return (
+                        <option key={index} value={item.account_name_code}>{item.account_name}</option>
+                      )
+                    }
+                    )
+                  }
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Account Code  </label>
+                <input type="text" value={account_type} className="form-control" id="Accountnamecode" />
+              </div>
+              <div className="form-group">
+                <label>Description  </label>
+                <textarea name="text" className="form-control" id="description" cols="10" rows="3"></textarea>
+              </div>
+            </form>
+          </article>
+          <div className="card-footer border-top">
+            <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>
+              Save
+            </button>
+            <button id="clear" onClick={(e) => {
+              e.preventDefault(); window.location.href = '/home'
+            }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
           </div>
         </div>
       </div>

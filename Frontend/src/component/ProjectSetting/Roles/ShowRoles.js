@@ -12,7 +12,6 @@ const ShowRoles = () => {
 
     const themetype = localStorage.getItem('themetype')
 
-
     const columns = [
         {
             name: 'Roles',
@@ -38,7 +37,7 @@ const ShowRoles = () => {
             selector: 'null',
             cell: (row) => [
                 <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-                    <select className={`bg-${themetype}`}
+                    <select
                         onChange={async (e) => {
                             const status = e.target.value;
                             await DeleteUserRole(localStorage.getItem('Organisation'), row.sno, status)
@@ -85,12 +84,12 @@ const ShowRoles = () => {
                 <div className="spinner-border" role="status"> </div>
             </div>
             <Header />
-            <div className={`content-wrapper bg-${themetype}`}>
+            <div className={`content-wrapper`}>
                 <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./addroles" }} className="btn btn-primary">New Roles</button>
                 <div className="container-fluid">
                     <h3 className="py-3 ml-5">User Roles</h3>
                     <div className="card w-100" >
-                        <article className={`card-body bg-${themetype}`}>
+                        <article className={`card-body`}>
                             <DataTableExtensions
                                 {...tableData}>
                                 <DataTable
@@ -99,7 +98,7 @@ const ShowRoles = () => {
                                     defaultSortAsc={false}
                                     pagination
                                     highlightOnHover
-                                    theme={themetype}
+                                    dense
                                     customStyles={customStyles}
                                 />
                             </DataTableExtensions>

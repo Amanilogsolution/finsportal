@@ -91,11 +91,11 @@ const EditUser = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
           <h3 className="ml-5 py-2">Edit User</h3>
-          <div className="card w-100 mb-0" >
-            <form className={`card-body bg-${themetype} mb-0`} autoComplete='off'>
+          <div className="card w-100 " >
+            <form className={`card-body mb-0`} autoComplete='off'>
               <div className="form-row">
                 <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee Name</label>
                 <div className="col form-group">
@@ -179,11 +179,12 @@ const EditUser = () => {
                 </div>
               </div>
 
-              <div className={`border-top card-footer bg-${themetype}`}>
-                <button className="btn btn-success" onClick={handleClick}>Update</button>
-                <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
-              </div>
+             
             </form>
+            <div className={`border-top card-footer`}>
+                <button className="btn btn-success" onClick={handleClick}>Update</button>
+                <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
+              </div>
           </div>
         </div>
       </div>

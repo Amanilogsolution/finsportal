@@ -73,21 +73,16 @@ function AddLocation() {
   }
 
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
+          <div className={`content-wrapper `}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Location</h3>
-              <div className="row ">
-                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
+                    <article className={`card-body `}>
                       <form autoComplete='off'>
 
                         <div className="form-row">
@@ -107,8 +102,7 @@ function AddLocation() {
                           <div className="col form-group">
                             <select
                               id="inputState"
-                              className="form-control col-md-4"
-                            >
+                              className="form-control col-md-4">
                               <option value='' hidden> Select State</option>
                               {
                                 state.map((data, index) => (
@@ -169,19 +163,15 @@ function AddLocation() {
                         </div>
                       </form>
                     </article>
-                    <div className={`border-top card-footer bg-${themeval}`}>
+                    <div className={`border-top card-footer `}>
                       <button className="btn btn-success" onClick={handleClick} >Save</button>
-                      <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
+                      <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
         <Footer theme={themeval}/>
       </div>
-    </div>
   )
 
 }

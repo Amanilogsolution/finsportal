@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { VendAddress, EditVendAddress, ActiveVendor, Activecountries, showactivestate, getCity } from '../../../api';
 
@@ -83,14 +82,15 @@ const EditVendorAddress = () => {
   }
 
   const handleChangePincode = async (e) => {
-    setData({ ...data, billing_address_pincode: e.target.value })
+    if(e.target.value.length===7) return false
+  setData({ ...data, billing_address_pincode: e.target.value })
+    
   }
   const handleChangePhone = async (e) => {
+    if(e.target.value.length===11) return false;
     setData({ ...data, billing_address_phone: e.target.value })
   }
-  const handleChangeFax = async (e) => {
-    setData({ ...data, billing_address_fax: e.target.value })
-  }
+
 
 
   return (
@@ -99,17 +99,14 @@ const EditVendorAddress = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
           <br /> <h3 className="text-left ml-5">Edit Vendor Address</h3>
           <div className="card" style={{ width: "100%" }}>
-            <article className={`card-body bg-${themetype}`}>
-              <form>
-                <div className="Address mt-3" id="addressdiv">
-                  <div
-                    className="Address_left"
-                    style={{ width: "50%", float: "left" }}
-                  >
+            <article className={`card-body`}>
+              <form autoComplete='off'>
+                <div className="Address" id="addressdiv">
+                  <div className="Address_left">
                     <label>BILLING ADDRESS</label>
                     <div className="form-row">
                       <label
@@ -271,27 +268,23 @@ const EditVendorAddress = () => {
                     <div className="form-row">
                       <label
                         htmlFor="billing_address_fax"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Fax
+                        className="col-md-2 col-form-label font-weight-normal"> Fax
                       </label>
                       <div className="col form-group">
                         <input
                           type="text"
                           className="form-control col-md-7"
                           id="billing_address_fax"
-                          value={data.billing_address_fax}
-                          onChange={handleChangeFax}
-                        />
+                          defaultValue={data.billing_address_fax}/>
                       </div>
                     </div>
                   </div>
                 </div>
               </form>
             </article>
-            <div className="border-top card-body">
+            <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick} >Update</button>
-              <button className="btn btn-light ml-3" onClick={() => { localStorage.remove('EditVendorAddresssno'); window.location.href = "./TotalVendAddress" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.remove('EditVendorAddresssno'); window.location.href = "./TotalVendAddress" }}>Cancel</button>
             </div>
           </div>
         </div>

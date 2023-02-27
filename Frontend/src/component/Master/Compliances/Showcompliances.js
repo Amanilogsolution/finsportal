@@ -64,7 +64,7 @@ function Showcompliances() {
       selector: row => row.null,
       cell: (row) => [
         <div className='droplist'  >
-          <select className={`bg-${themetype}`} id={`deleteselect${row.sno}`} disabled onChange={async (e) => {
+          <select className={``} id={`deleteselect${row.sno}`} disabled onChange={async (e) => {
             const org = localStorage.getItem("Organisation")
             const status = e.target.value;
             await Compliancestatus(org, row.sno, status)
@@ -205,13 +205,13 @@ function Showcompliances() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
-          <h3 className="ml-5" >Compliances</h3>
-          <div className="card mb-0 w-100" >
-            <article className={`card-body py-0 bg-${themetype}`}>
+          <h3 className="ml-5 py-2" >Compliances</h3>
+          <div className="card mt-2 mb-0 w-100" >
+            <article className={`card-body py-0 `}>
               <DataTableExtensions
                 {...tableData}>
                 <DataTable
@@ -220,7 +220,7 @@ function Showcompliances() {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -241,7 +241,7 @@ function Showcompliances() {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -269,7 +269,7 @@ function Showcompliances() {
                     id=""
                     type="file"
                     onChange={onChange}
-                    className={`form-control bg-${themetype}`}
+                    className={`form-control `}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
                 <span style={{ color: "red" }}>
@@ -308,7 +308,7 @@ function Showcompliances() {
       >
 
         <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -366,7 +366,7 @@ function Showcompliances() {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themetype}`}>
+          <div className={`modal-footer `}>
             <button
               type="button"
               className="btn btn-secondary"

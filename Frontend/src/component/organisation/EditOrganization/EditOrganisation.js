@@ -103,7 +103,7 @@ function EditOrganisation() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div className={`content-wrapper bg-${themeval}`}>
+        <div className={`content-wrapper `}>
           <div className="container-fluid">
             <div className='py-3 px-5 d-flex justify-content-between '>
               <h3 className="-3 ml-5">Organization Details</h3>
@@ -114,7 +114,7 @@ function EditOrganisation() {
               >Back</button>
             </div>
 
-            <div className={`card mb-0 bg-${themeval}`}>
+            <div className={`card mb-0 `}>
               <article className='card-body'>
                 <form autoComplete="off" className='edit-orgform d-flex justify-content-between'>
                   <div className='img-div py-5'>
@@ -139,11 +139,11 @@ function EditOrganisation() {
                     <div className="form-row">
                       <div className="col form-group">
                         <label>Organization Name <span className='text-danger'>*</span> </label>
-                        <input type="text" className={`form-control cursor-notallow bg-${themeval}`} id="org_name" disabled value={data.org_name} />
+                        <input type="text" className={`form-control cursor-notallow `} id="org_name" disabled value={data.org_name} />
                       </div>
                       <div className="col form-group">
                         <label>Industry Type <span className='text-danger'>*</span> </label>
-                        <input type="text" className={`form-control bg-${themeval}`} id="industry_type" defaultValue={data.industry_type} />
+                        <input type="text" className={`form-control `} id="industry_type" defaultValue={data.industry_type} />
                       </div>
                     </div>
 
@@ -154,7 +154,7 @@ function EditOrganisation() {
                         </label>
                         <input
                           type="text"
-                          className={`form-control cursor-notallow bg-${themeval}`}
+                          className={`form-control cursor-notallow `}
                           value={data.org_country}
                           id="org_country"
                           required
@@ -168,7 +168,7 @@ function EditOrganisation() {
                         </label>
                         <input
                           type="text"
-                          className={`form-control cursor-notallow bg-${themeval}`}
+                          className={`form-control cursor-notallow `}
                           value={data.org_state}
                           id="org_state"
                           disabled
@@ -181,7 +181,7 @@ function EditOrganisation() {
                         <label htmlFor='org_city'>City</label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           placeholder="City"
                           id='org_city'
                           value={data.org_city}
@@ -192,7 +192,7 @@ function EditOrganisation() {
                         <label htmlFor='org_pin'>Zip/Postal Code</label>
                         <input
                           type="number"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           placeholder="Zip/Postal Code"
                           id="org_pin"
                           value={data.org_pincode}
@@ -204,7 +204,7 @@ function EditOrganisation() {
                       <label htmlFor='org_street'>Street</label>
                       <input
                         type="text"
-                        className={`form-control bg-${themeval}`}
+                        className={`form-control `}
                         placeholder="Street"
                         id='org_street'
                         defaultValue={data.org_street}
@@ -218,7 +218,7 @@ function EditOrganisation() {
                           <label htmlFor='org_contact_name'>Contact Person Name</label>
                           <input
                             type="text"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             placeholder="Contact Person Name"
                             id='org_contact_name'
                             defaultValue={data.org_contact_name}
@@ -227,7 +227,7 @@ function EditOrganisation() {
                         <div className="form-group col-md-4">
                           <label htmlFor=''>Contact Mobile no.</label>
                           <input
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             type="number"
                             placeholder="Contact Mobile no." id='org_contact_phone'
                             value={data.org_contact_phone}
@@ -238,7 +238,7 @@ function EditOrganisation() {
                         <div className="form-group col-md-4">
                           <label htmlFor='org_contact_email'>Contact Email</label>
                           <input
-                            type="email" className={`form-control bg-${themeval}`}
+                            type="email" className={`form-control `}
                             placeholder="Contact Email" id='org_contact_email' defaultValue={data.org_contact_email} />
                         </div>
                       </div>
@@ -250,7 +250,7 @@ function EditOrganisation() {
                         <div className="form-group col">
                           <label>Finacial year</label>
                           <select
-                            id="fins_year" className={`form-control col-md-6 bg-${themeval}`}>
+                            id="fins_year" className={`form-control col-md-6 `}>
                             <option value={data.fins_year_month} hidden >{data.fins_year_month}</option>
                             <option value='January_Feburary' >January_Feburary</option>
                           </select>
@@ -286,7 +286,7 @@ function EditOrganisation() {
                           <label>Currency</label>
                           <input
                             type="text"
-                            className={`form-control cursor-notallow bg-${themeval}`}
+                            className={`form-control cursor-notallow `}
                             value={data.org_currency}
                             id="org_currency"
                             disabled
@@ -296,7 +296,7 @@ function EditOrganisation() {
                           <label>Language</label>
                           <input
                             type="text"
-                            className={`form-control cursor-notallow bg-${themeval}`}
+                            className={`form-control cursor-notallow `}
                             value={data.org_lang}
                             id="org_lang"
                             disabled
@@ -309,14 +309,14 @@ function EditOrganisation() {
                           <label>
                             Company ID<span className='text-danger'>*</span>
                           </label>
-                          <input type="text" className={`form-control bg-${themeval}`} id="company_id" required defaultValue={data.company_id} />
+                          <input type="text" className={`form-control `} id="company_id" required defaultValue={data.company_id} />
                         </div>
                         <div className="form-group col-md-6">
                           <label>
                             Tax ID
                             <span className='text-danger'>*</span>
                           </label>
-                          <input type="text" className={`form-control bg-${themeval}`} id="tax_id" defaultValue={data.tax_id}
+                          <input type="text" className={`form-control `} id="tax_id" defaultValue={data.tax_id}
                           />
                         </div>
                       </div>
@@ -325,7 +325,7 @@ function EditOrganisation() {
                           <label>GST No</label>
                           <input
                             type="text"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             id="org_gst"
                             placeholder="Enter Your GSTIN"
                             defaultValue={data.org_gst}
@@ -352,7 +352,7 @@ function EditOrganisation() {
             <div className="col-md-6">
               <div className="card">
                 <article
-                  className={`card-body bg-${themeval}`}
+                  className={`card-body `}
                   style={{ borderTop: "3.5px solid darkblue" }}>
 
                   <h3 style={{ textAlign: "left" }}>
@@ -372,11 +372,11 @@ function EditOrganisation() {
                       <div className="col form-group">
                         <label>Organization Name <span className='text-danger'>*</span> </label>
 
-                        <input type="text" className={`form-control bg-${themeval}`} id="org_name" disabled value={data.org_name} style={{ cursor: "not-allowed" }} />
+                        <input type="text" className={`form-control `} id="org_name" disabled value={data.org_name} style={{ cursor: "not-allowed" }} />
                       </div>
                       <div className="col form-group">
                         <label>Industry Type <span className='text-danger'>*</span> </label>
-                        <input type="text" className={`form-control bg-${themeval}`} id="industry_type" value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
+                        <input type="text" className={`form-control `} id="industry_type" value={data.industry_type} onChange={(e) => handleChangeIndustrytype(e)} />
                       </div>
                     </div>
                     <div className="form-row">
@@ -386,7 +386,7 @@ function EditOrganisation() {
                         </label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           value={data.org_country}
                           id="org_country"
                           required
@@ -401,7 +401,7 @@ function EditOrganisation() {
                         </label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           value={data.org_state}
                           id="org_country"
                           disabled
@@ -415,7 +415,7 @@ function EditOrganisation() {
                         <div className="col form-group">
                           <input
                             type="text"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             placeholder="Contact Person Name"
                             id='org_contact_name'
                             value={data.org_contact_name}
@@ -424,7 +424,7 @@ function EditOrganisation() {
                         </div>
                         <div className="form-group col-md-6">
                           <input
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             placeholder="Contact Mobile no."
                             id='org_contact_phone'
                             value={data.org_contact_phone}
@@ -436,7 +436,7 @@ function EditOrganisation() {
                       <div className="form-group">
                         <input
                           type="email"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           placeholder="Contact Email"
                           id='org_contact_email'
                           value={data.org_contact_email}
@@ -448,7 +448,7 @@ function EditOrganisation() {
                       <div className="form-group">
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           placeholder="Street"
                           id='org_street'
                           value={data.org_street}
@@ -460,7 +460,7 @@ function EditOrganisation() {
                         <div className="col form-group">
                           <input
                             type="text"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             placeholder="City"
                             id='org_city'
                             value={data.org_city}
@@ -470,7 +470,7 @@ function EditOrganisation() {
                         <div className="form-group col-md-6">
                           <input
                             type="number"
-                            className={`form-control bg-${themeval}`}
+                            className={`form-control `}
                             placeholder="Zip/Postal Code"
                             id="org_pin"
                             value={data.org_pincode}
@@ -487,7 +487,7 @@ function EditOrganisation() {
                         <label>Finacial year</label>
                         <select
                           id="fins_year"
-                          className={`form-control col-md-6 bg-${themeval}`}
+                          className={`form-control col-md-6 `}
                         >
                           <option value='' hidden >{data.fins_year_month}</option>
                           <option value='January_Feburary' >January_Feburary</option>
@@ -531,7 +531,7 @@ function EditOrganisation() {
                         <label>Currency</label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           value={data.org_currency}
                           id="org_currency"
                           disabled
@@ -542,7 +542,7 @@ function EditOrganisation() {
                         <label>Language</label>
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           value={data.org_lang}
                           id="org_lang"
                           disabled
@@ -555,14 +555,14 @@ function EditOrganisation() {
                         <label>
                           Company ID<span className='text-danger'>*</span>
                         </label>
-                        <input type="text" className={`form-control bg-${themeval}`}  id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
+                        <input type="text" className={`form-control `}  id="company_id" required value={data.company_id} onChange={(e) => handleChangeCompanyId(e)} />
                       </div>
                       <div className="form-group col-md-6">
                         <label>
                           Tax ID
                           <span className='text-danger'>*</span>
                         </label>
-                        <input type="text" className={`form-control bg-${themeval}`}  id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
+                        <input type="text" className={`form-control `}  id="tax_id" value={data.tax_id} onChange={(e) => handleChangeTaxId(e)}
                         />
                       </div>
                     </div>
@@ -572,7 +572,7 @@ function EditOrganisation() {
 
                         <input
                           type="text"
-                          className={`form-control bg-${themeval}`}
+                          className={`form-control `}
                           id="org_gst"
                           placeholder="Enter Your GSTIN"
                           value={data.org_gst}
@@ -609,7 +609,7 @@ function EditOrganisation() {
         {/* ############################### Modal ####################################### */}
         <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
-            <div className={`modal-content bg-${themeval}`}>
+            <div className={`modal-content `}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Change Organisation Image</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">

@@ -5,7 +5,7 @@ import Footer from "../../Footer/Footer";
 
 function Estimates() {
     const [totalValues, setTotalValues] = useState([1])
-    const [amount,setAmount]= useState()
+    const [amount, setAmount] = useState()
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -14,17 +14,17 @@ function Estimates() {
         }
     }
 
-    const handleChangeQuantity =(e)=>{
+    const handleChangeQuantity = (e) => {
         e.preventDefault()
         console.log(e.target.value)
     }
 
-    const handleBlur = ()=> {
+    const handleBlur = () => {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
-        console.log(quality,rate)
-        console.log(quality*rate)
-        setAmount(quality*rate)
+        console.log(quality, rate)
+        console.log(quality * rate)
+        setAmount(quality * rate)
     }
 
     const handleAdd = (e) => {
@@ -158,7 +158,7 @@ function Estimates() {
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td>{amount}</td>
                                                             </tr>
 
@@ -245,21 +245,19 @@ function Estimates() {
 
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger">
-                                                        Save and Send
-                                                    </button>
-                                                    <button id="clear" onClick={(e) => {
-                                                        e.preventDefault(); window.location.href = '/home'
-                                                    }} name="clear" className="btn ml-2">
-                                                        Cancel
-                                                    </button>
-                                                </div>
-                                            </div>
+
                                         </form>
                                     </article>
+                                    <div className="card-footer border-top">
+                                        <button id="save" name="save" className="btn btn-danger">
+                                            Save and Send
+                                        </button>
+                                        <button id="clear" onClick={(e) => {
+                                            e.preventDefault(); window.location.href = '/home'
+                                        }} name="clear" className="btn btn-secondary ml-2">
+                                            Cancel
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

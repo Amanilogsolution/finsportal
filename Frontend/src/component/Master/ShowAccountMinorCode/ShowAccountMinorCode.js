@@ -171,7 +171,7 @@ function ShowAccountMinorCode() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid">
           <div className='d-flex justify-content-between pt-4 pb-1 px-4'>
             <h3 className="ml-5">Account Minor Code </h3>
@@ -181,8 +181,8 @@ function ShowAccountMinorCode() {
             </div>
           </div>
 
-          <div className={`card mb-0 w-100 bg-${themeval}`}>
-            <article className="card-body">
+          <div className={`card mb-0 w-100 `}>
+            <article className="card-body py-1">
               <DataTableExtensions
                 {...tableData}
               >
@@ -192,7 +192,7 @@ function ShowAccountMinorCode() {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themeval}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -211,7 +211,7 @@ function ShowAccountMinorCode() {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themeval}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -239,7 +239,7 @@ function ShowAccountMinorCode() {
                     id=""
                     type="file"
                     onChange={onChange}
-                    className={`form-control bg-${themeval}`}
+                    className={`form-control `}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
                 <span className='text-danger'>
@@ -275,7 +275,7 @@ function ShowAccountMinorCode() {
         aria-hidden="true"
       >
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themeval}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -346,7 +346,7 @@ function ShowAccountMinorCode() {
               </table>
             </div>
           </div>
-          <div className={`modal-footer bg-${themeval}`} >
+          <div className={`modal-footer `} >
             <button
               type="button"
               className="btn btn-secondary"

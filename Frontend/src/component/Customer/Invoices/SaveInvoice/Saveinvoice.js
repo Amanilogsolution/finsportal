@@ -10,23 +10,27 @@ import customStyles from '../../../customTableStyle';
 const columns = [
   {
     name: 'Vendor name',
-    selector: row => row.consignee,
+    selector: 'consignee',
     sortable: true
   },
 
   {
     name: 'Invoice Number',
-    selector: row => row.invoice_no,
-    sortable: true
+    selector:'invoice_no',
+    sortable: true,
+    cell: (row) => [
+      <a title='Edit Invoice' style={{ display: "none" }}  id={`editactionbtns${row.sno}`} href="EditInvoice" onClick={() => {localStorage.setItem('invoiceNo', row.invoice_no) }} >{ row.invoice_no}</a>
+
+    ]
   },
   {
     name: 'Invoice Date',
-    selector: row => row.Joindate,
+    selector: 'Joindate',
     sortable: true
   },
   {
     name: 'Invoice Amount',
-    selector: row => row.invoice_amt,
+    selector:'invoice_amt',
     sortable: true
   },
   {
@@ -35,17 +39,17 @@ const columns = [
     sortable: true
   },
 
-  {
-    name: "Actions",
-    sortable: false,
+  // {
+  //   name: "Actions",
+  //   sortable: false,
 
-    selector: row => row.null,
-    cell: (row) => [
+  //   selector: row => row.null,
+  //   cell: (row) => [
 
-      <button type="button" id={`editactionbtns${row.sno}`} style={{ display: "none" }} onClick={() => { window.location.href = "EditInvoice"; localStorage.setItem('invoiceNo', row.invoice_no) }} className="btn btn-danger ml-3">Edit Invoice</button>
+  //     <button type="button" id={`editactionbtns${row.sno}`} style={{ display: "none" }} onClick={() => { window.location.href = "EditInvoice"; localStorage.setItem('invoiceNo', row.invoice_no) }} className="btn btn-danger ml-3">Edit Invoice</button>
 
-    ]
-  }
+  //   ]
+  // }
 
 
 ]
@@ -86,22 +90,20 @@ const InvoiceSave = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className="content-wrapper ">
         <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./Invoices" }} className="btn btn-primary">Add Invoice </button>
         <div className="container-fluid">
           <h3 className="py-4 ml-5"> Save Invoice </h3>
           <div className="card w-100">
-            <article className={`card-body bg-${themetype}`}>
+            <article className="card-body ">
               <DataTableExtensions
-                {...tableData}
-              >
+                {...tableData}>
                 <DataTable
                   noHeader
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

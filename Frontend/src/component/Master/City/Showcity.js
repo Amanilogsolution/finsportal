@@ -49,7 +49,7 @@ const Showcity = () => {
       selector: 'null',
       cell: (row) => [
         <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={`bg-${themetype}`} onChange={async (e) => {
+          <select  onChange={async (e) => {
             const status = e.target.value;
             await deleteCity(row.sno, status)
             window.location.href = 'ShowCity'
@@ -70,7 +70,7 @@ const Showcity = () => {
       cell: (row) => [
 
         <a title='View Document' href="EditCity" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
 
       ]
     }
@@ -189,14 +189,14 @@ const Showcity = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-          <div className={`content-wrapper bg-${themetype}`}>
+          <div className={`content-wrapper `}>
             <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcity" }} className="btn btn-primary">Add City</button>
             <button type="button" id='uploadcitybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
             <div className="container-fluid">
               <h3 className="py-3 ml-5">City</h3>
                   <div className="card">
-                    <article className={`card-body bg-${themetype}`}>
+                    <article className={`card-body  py-1`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -205,8 +205,8 @@ const Showcity = () => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           pagination
+                          dense
                           highlightOnHover
-                          theme={themetype}
                           customStyles={customStyles}
                         />
                       </DataTableExtensions>
@@ -227,7 +227,7 @@ const Showcity = () => {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div className="modal-dialog" role="document">
-            <div className={`modal-content bg-${themetype}`}>
+            <div className={`modal-content `}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -254,7 +254,7 @@ const Showcity = () => {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className={`form-control bg-${themetype}`}
+                      className={`form-control `}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                       required="required"
                     />
@@ -295,7 +295,7 @@ const Showcity = () => {
           aria-hidden="true"
         >
           <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-            <div className={`modal-content bg-${themetype}`}>
+            <div className={`modal-content `}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -369,7 +369,7 @@ const Showcity = () => {
                 </table>
               </div>
             </div>
-            <div className={`modal-footer bg-${themetype}`} >
+            <div className={`modal-footer `} >
               <button
                 type="button"
                 className="btn btn-secondary"

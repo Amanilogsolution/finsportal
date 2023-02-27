@@ -54,11 +54,10 @@ const columns = [
   {
     name: "Actions",
     sortable: false,
-
     selector: row => row.null,
     cell: (row) => [
       <a title='View Document' href="/Updatefincialyear" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
+        <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }
@@ -104,7 +103,7 @@ const ShowFinancialyear = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="ml-5">Financial year</h3>
           <button type="button " id='addfinsyearbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary mx-3">New Financial Year</button>
@@ -112,7 +111,7 @@ const ShowFinancialyear = () => {
 
         <div className="container-fluid">
           <div className="card w-100">
-            <article className={`card-body bg-${themetype}`}>
+            <article className={`card-body `}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -122,7 +121,7 @@ const ShowFinancialyear = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themetype}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

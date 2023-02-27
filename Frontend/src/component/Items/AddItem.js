@@ -106,19 +106,17 @@ const AddItem = () => {
 
     }
 
-
-
     return (
         <div className="wrapper">
             <div className="preloader flex-column justify-content-center align-items-center">
                 <div className="spinner-border" role="status"> </div>
             </div>
             <Header />
-            <div className={`content-wrapper bg-${themetype}`}>
+            <div className={`content-wrapper`}>
                 <div className="container-fluid">
                     <h3 className="py-3 ml-5">Add Item</h3>
-                    <div className="card mb-0" >
-                        <article className={`card-body bg-${themetype}`}>
+                    <div className="card mb-2" >
+                        <article className={`card-body`}>
                             <form autoComplete='off'>
                                 <div className="form-row" >
                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
@@ -255,13 +253,13 @@ const AddItem = () => {
                                         }} />
                                     </div>
                                 </div>
-                                <div className="border-top card-body">
-                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                                    <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
-                                </div>
+
                             </form>
                         </article>
-
+                        <div className="border-top card-footer">
+                            <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
+                            <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>

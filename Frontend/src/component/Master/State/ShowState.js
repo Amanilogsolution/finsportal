@@ -19,6 +19,30 @@ const ShowState = () => {
 
   const themetype = localStorage.getItem('themetype')
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await getstates();
+      setData(result);
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
+      if (UserRights.state_create === 'true') {
+        document.getElementById('addstatebtn').style.display = "block";
+        document.getElementById('uploadstatebtn').style.display = "block";
+      }
+      if (UserRights.state_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+        }
+      }
+      if (UserRights.state_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
+    }
+    fetchdata()
+  }, [])
+
   const columns = [
     {
       name: 'Country Name',
@@ -45,34 +69,32 @@ const ShowState = () => {
       selector: 'state_type',
       sortable: true
     },
-
     {
-      name: 'Status',
+      name: "Status",
       sortable: true,
-      selector: 'null',
+      selector: "null",
       cell: (row) => [
         <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={`bg-${themetype}`} onChange={async (e) => {
+          <select onChange={async (e) => {
             const status = e.target.value;
             await deletestate(row.sno, status)
             window.location.href = 'ShowState'
           }}>
             <option value={row.status} hidden> {row.status}</option>
-
             <option value='Active'>Active</option>
             <option value='Deactive' >Deactive</option>
           </select>
         </div>
       ]
     },
+
     {
       name: "Actions",
       sortable: false,
-
       selector: "null",
       cell: (row) => [
-        <a title='View Document' href="EditState" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
+        <a title='Edit State' href="EditState" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
       ]
     }
   ];
@@ -153,29 +175,6 @@ const ShowState = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await getstates();
-      setData(result);
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
-      if (UserRights.state_create === 'true') {
-        document.getElementById('addstatebtn').style.display = "block";
-        document.getElementById('uploadstatebtn').style.display = "block";
-      }
-      if (UserRights.state_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.state_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-    }
-    fetchdata()
-  }, [])
 
   const tableData = {
     columns, data
@@ -190,14 +189,14 @@ const ShowState = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <button type="button" id='addstatebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./StateMaster" }} className="btn btn-primary">Add State</button>
         <button type="button" id='uploadstatebtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
         <div className="container-fluid">
           <h3 className="py-3 ml-5">State</h3>
-          <div className="card mb-0 w-100">
-            <article className={`card-body pb-0 bg-${themetype}`}>
+          <div className="card mb-0 w-100 mb-2">
+            <article className={`card-body pt-1 pb-0 `}>
               <DataTableExtensions
                 {...tableData} >
                 <DataTable
@@ -205,8 +204,8 @@ const ShowState = () => {
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
+                  dense
                   highlightOnHover
-                  theme={themetype}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -223,7 +222,7 @@ const ShowState = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div className="modal-dialog" role="document">
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
                 Import excel file
@@ -250,7 +249,7 @@ const ShowState = () => {
                     id=""
                     type="file"
                     onChange={onChange}
-                    className={`form-control bg-${themetype}`}
+                    className={`form-control `}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
                 <span style={{ color: "red" }}>
@@ -289,7 +288,7 @@ const ShowState = () => {
       >
 
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
-          <div className={`modal-content bg-${themetype}`}>
+          <div className={`modal-content `}>
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                 Uploaded Excel file
@@ -366,7 +365,7 @@ const ShowState = () => {
             </div>
           </div>
           {/* </div> */}
-          <div className={`modal-footer bg-${themetype}`} >
+          <div className={`modal-footer `} >
             <button
               type="button"
               className="btn btn-secondary"

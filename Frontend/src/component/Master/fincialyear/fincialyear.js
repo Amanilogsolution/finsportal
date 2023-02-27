@@ -65,18 +65,12 @@ const Fincialyear = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
           <h3 className="pt-4 pb-2 ml-5">Financial Year</h3>
           <div className="card w-100">
-            <article className={`card-body bg-${themeval}`}>
-              <form>
-                <div className="form-row">
-                  <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={from_date + "-" + to_date} />
-                  </div>
-                </div>
+            <article className={`card-body`}>
+              <form autoComplete='off'>
                 <div className="form-row">
                   <label htmlFor="from_date" className="col-md-2 col-form-label font-weight-normal">From date</label>
                   <div className="col form-group">
@@ -87,6 +81,12 @@ const Fincialyear = () => {
                   <label htmlFor="to_date" className="col-md-2 col-form-label font-weight-normal">To Date</label>
                   <div className="col form-group">
                     <input type="date" className="form-control col-md-4" id='to_date' onChange={handleChangetodate} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="fincialyear" className="col-md-2 col-form-label font-weight-normal">Fincial year</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='fincialyear' disabled value={from_date + "-" + to_date} />
                   </div>
                 </div>
                 <div className="form-row">
@@ -110,13 +110,13 @@ const Fincialyear = () => {
                   </div>
                 </div>
 
-                <div className="border-top card-body">
-                  <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
-                  <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './ShowFinancialyear' }}>Cancel</button>
-                </div>
               </form>
             </article>
 
+            <div className="border-top card-footer">
+                  <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
+                  <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './ShowFinancialyear' }}>Cancel</button>
+                </div>
           </div>
         </div>
       </div>

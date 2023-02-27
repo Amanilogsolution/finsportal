@@ -9,11 +9,15 @@ import * as XLSX from "xlsx";
 import './TotalAddress.css';
 import Excelfile from '../../../excelformate/customer_address_formate.xlsx'
 import customStyles from '../../customTableStyle';
+
 const columns = [
   {
     name: 'Cust Name',
     selector: 'cust_name',
-    sortable: true
+    sortable: true,
+    cell: (row) => [
+      <a title='Edit Customer Address' href="EditAddress" onClick={() => localStorage.setItem('EditAddress', `${row.sno}`)} >{row.cust_name}</a>
+    ]
   },
   {
     name: 'Gst no',
@@ -26,21 +30,11 @@ const columns = [
     sortable: true
   },
   {
-    name: 'Country',
-    selector: 'billing_address_country',
-    sortable: true
-  },
-
-  {
     name: 'State',
     selector: 'billing_address_state',
     sortable: true
   },
-  {
-    name: 'City',
-    selector: 'billing_address_city',
-    sortable: true
-  },
+
   {
     name: 'Status',
     sortable: true,
@@ -61,18 +55,16 @@ const columns = [
     ]
   },
 
-  {
-    name: "Actions",
-    sortable: false,
+  // {
+  //   name: "Actions",
+  //   sortable: false,
 
-    selector: "null",
-    cell: (row) => [
-
-      <a title='View Document' href="EditAddress">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('EditAddress', `${row.sno}`)} >Edit</button></a>
-
-    ]
-  }
+  //   selector: "null",
+  //   cell: (row) => [
+  //     <a title='View Document' href="EditAddress">
+  //       <button className="editbtn btn-success " onClick={() => localStorage.setItem('EditAddress', `${row.sno}`)} >Edit</button></a>
+  //   ]
+  // }
 
 
 ]
@@ -191,20 +183,18 @@ const TotalCustAddress = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-
-        <div className={`content-wrapper  bg-${themeval}`}>
-          {/* <div className="container-fluid "> */}
-          <div className='d-flex py-4 px-5  justify-content-between'>
+        <div className="content-wrapper">
+          <div className='d-flex pt-4 pb-3 px-5  justify-content-between'>
             <h3 className=" ml-5">Customer Address</h3>
             <div>
               <button type="button" className="btn btn-success mx-4" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
               <button type="button" onClick={() => { window.location.href = "./AddCustAddress" }} className="btn btn-primary">Add Address</button>
             </div>
           </div>
-          <div className="container-fluid position-relative ">
-            <form className="form-inline ml-4" >
+          <div className="container-fluid position-relative">
+            <form className="form-inline ml-4 mb-1" >
               <label htmlFor='cust_entered_id'>Customer name:- </label>
-              <input className={`form-control mr-sm-2 mx-3 bg-${themeval}`} type="search" placeholder="Enter Customer name" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
+              <input className="form-control mr-sm-2 mx-3" type="search" placeholder="Enter Customer name" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
               <ul className="ulstyle rounded overflow-hidden" >
                 <div className='overflow-auto' style={{ height: "300px" }}>
                   {
@@ -218,8 +208,8 @@ const TotalCustAddress = () => {
               </ul>
             </form>
           </div>
-          <div className={`card mb-0 bg-${themeval}  mx-2`}>
-            <article className={`card-body  rounded overflow-auto`}>
+          <div className={`card mb-0  mx-2`}>
+            <article className={`card-body  rounded `}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -229,7 +219,6 @@ const TotalCustAddress = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themeval}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

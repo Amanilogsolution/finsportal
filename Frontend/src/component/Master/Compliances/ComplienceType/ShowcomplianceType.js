@@ -47,7 +47,7 @@ function  ShowcomplianceType() {
       cell: (row) => [
 
         <a title='View Document' href="EditComplianceType" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success "
+          <button className="editbtn btn-success px-1"
             onClick={() => localStorage.setItem('ComplianceSnoType', `${row.sno}`)}
           >Edit</button></a>
 
@@ -62,11 +62,9 @@ function  ShowcomplianceType() {
     const org = localStorage.getItem('Organisation')
     const result = await showcompliancesType(org)
     setData(result)
-
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'comp_type')
     if (UserRights.comp_type_create === 'true') {
       document.getElementById('addcomp_typebtn').style.display = "block";
-      document.getElementById('uploadcomp_typebtn').style.display = "block";
     }
     if (UserRights.comp_type_edit === 'true') {
       for (let i = 0; i < result.length; i++) {
@@ -90,14 +88,14 @@ function  ShowcomplianceType() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5">Compliances Type</h3>
           <button type="button" id='addcomp_typebtn' style={{  display: "none" }} onClick={() => { window.location.href = "./AddcomplianceType" }} className="btn btn-primary mx-4">Add Compliances Type</button>
         </div>
         <div className='container-fluid'>
           <div className="card w-100" >
-            <article className={`card-body bg-${themeval}`}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -107,7 +105,7 @@ function  ShowcomplianceType() {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themeval}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

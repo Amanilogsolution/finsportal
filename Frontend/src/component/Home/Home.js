@@ -14,7 +14,7 @@ function Home() {
         </div>
       </div>
       <Header />
-      <Dashboard theme={themecolor} />
+      <Dashboard />
       <Footer theme={themecolor} />
     </div>
   );

@@ -14,7 +14,11 @@ const TotalCustomer = () => {
     {
       name: 'Name',
       selector: 'cust_name',
-      sortable: true
+      sortable: true,
+      cell: (row) => [
+        <a title='Edit Customer' id={`editactionbtns${row.sno}`} href="EditCustomer" 
+        onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >{row.cust_name}</a>
+      ]
     },
     {
       name: 'Company Name',
@@ -56,16 +60,16 @@ const TotalCustomer = () => {
       ]
     },
 
-    {
-      name: "Actions",
-      id: 'editactionbtns',
-      sortable: false,
-      selector: "null",
-      cell: (row) => [
-        <a title='View Document' id={`editactionbtns${row.sno}`} href="EditCustomer">
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
-      ]
-    }
+    // {
+    //   name: "Actions",
+    //   id: 'editactionbtns',
+    //   sortable: false,
+    //   selector: "null",
+    //   cell: (row) => [
+    //     <a title='View Document' id={`editactionbtns${row.sno}`} href="EditCustomer">
+    //       <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >Edit</button></a>
+    //   ]
+    // }
   ]
 
 
@@ -265,7 +269,7 @@ const TotalCustomer = () => {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div className={`content-wrapper bg-${themeval}`}>
+        <div className="content-wrapper">
           <div className=' px-5 pt-3 pb-2 d-flex justify-content-between'>
             <h3 className="pl-5 ">Total Customer</h3>
             <div>
@@ -273,7 +277,7 @@ const TotalCustomer = () => {
               <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary mx-4">Add Customer</button>
             </div>
           </div>
-          <div className={`card bg-${themeval} mb-0`}>
+          <div className="card mb-2 mx-2">
             <article className="card-body">
               <DataTableExtensions
                 {...tableData}>
@@ -283,7 +287,6 @@ const TotalCustomer = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themeval}
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

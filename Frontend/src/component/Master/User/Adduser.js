@@ -77,128 +77,124 @@ const AddUser = () => {
   // }
 
   return (
-    <div>
-      <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
-        <Header />
-        <div>
-          <div className={`content-wrapper bg-${themetype}`}>
-            <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Add User</h3>
-              <div className="row ">
-                <div className="col ml-2">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themetype}`}>
-                      <form autoComplete='off'>
+    <div className="wrapper">
+      <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div>
+      <Header />
+      <div className={`content-wrapper`}>
+        <div className="container-fluid">
+          <br /> <h3 className="text-left ml-5">Add User</h3>
+          <div className="card" style={{ width: "100%" }}>
+            <article className={`card-body`}>
+              <form autoComplete='off'>
 
-                        <div className="form-row">
-                          <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee name</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='employee_name' placeholder="Employee name" />
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="employee_name" className="col-md-2 col-form-label font-weight-normal">Employee name</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='employee_name' placeholder="Employee name" />
+                  </div>
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
-                          <div className="col form-group">
-                            <select type="text" className="form-control col-md-4" id='role'>
-                              <option value='' hidden>Select Role</option>
-                              {
-                                useroleslist.map((item, index) =>
-                                  <option key={index} value={item.role}>{item.roles}</option>)
-                              }
-                            </select>
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role</label>
+                  <div className="col form-group">
+                    <select type="text" className="form-control col-md-4" id='role'>
+                      <option value='' hidden>Select Role</option>
+                      {
+                        useroleslist.map((item, index) =>
+                          <option key={index} value={item.role}>{item.roles}</option>)
+                      }
+                    </select>
+                  </div>
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="warehouse" className="col-md-2 col-form-label font-weight-normal">Warehouse</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='warehouse' placeholder="warehouse" />
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="warehouse" className="col-md-2 col-form-label font-weight-normal">Warehouse</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='warehouse' placeholder="warehouse" />
+                  </div>
+                </div>
 
 
-                        <div className="form-row">
-                          <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email id</label>
-                          <div className="col form-group">
-                            <input type="email" className="form-control col-md-4" id='email_id' placeholder="email id" required />
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email id</label>
+                  <div className="col form-group">
+                    <input type="email" className="form-control col-md-4" id='email_id' placeholder="email id" required />
+                  </div>
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone no.</label>
-                          <div className="col form-group">
-                            <input type="number" className="form-control col-md-4" id='phone' placeholder="phone" value={numbercount}
-                              onChange={(e) => {
-                                if (e.target.value.length === 11) return false;
-                                setNumbercount(e.target.value)
-                              }} />
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone no.</label>
+                  <div className="col form-group">
+                    <input type="number" className="form-control col-md-4" id='phone' placeholder="phone" value={numbercount}
+                      onChange={(e) => {
+                        if (e.target.value.length === 11) return false;
+                        setNumbercount(e.target.value)
+                      }} />
+                  </div>
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="operate_mode" className="col-md-2 col-form-label font-weight-normal">Operate mode</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='operate_mode' placeholder="operate mode" />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
-                          <div className="col form-group">
-                            <select className="form-control col-md-4" id='customer'>
-                              <option value='' hidden>Select the Customer</option>
-                              {
-                                activecustomer.map((item, index) =>
-                                  <option key={index} value={item.cust_name}>{item.cust_name}</option>)
-                              }
-                            </select>
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="operate_mode" className="col-md-2 col-form-label font-weight-normal">Operate mode</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='operate_mode' placeholder="operate mode" />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="customer" className="col-md-2 col-form-label font-weight-normal">Customer</label>
+                  <div className="col form-group">
+                    <select className="form-control col-md-4" id='customer'>
+                      <option value='' hidden>Select the Customer</option>
+                      {
+                        activecustomer.map((item, index) =>
+                          <option key={index} value={item.cust_name}>{item.cust_name}</option>)
+                      }
+                    </select>
+                  </div>
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting to</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='reporting_to' placeholder="reporting to" />
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting to</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='reporting_to' placeholder="reporting to" />
+                  </div>
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='designation' placeholder="Designation" />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">User Id</label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='user_name' placeholder="User ID" />
-                          </div>
-                          {/* form-group end.// */}
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='designation' placeholder="Designation" />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">User Id</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='user_name' placeholder="User ID" />
+                  </div>
+                  {/* form-group end.// */}
+                </div>
 
-                        <div className="form-row">
-                          <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
-                          <input name="password" type={passwordshow ? "text" : "password"} className="col-md-3" id="password" placeholder="password" />
-                          <div className="input-group-append">
-                            <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
-                          </div>
-                        </div>
+                <div className="form-row">
+                  <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
+                  <input name="password" type={passwordshow ? "text" : "password"} className="col-md-3" id="password" placeholder="password" />
+                  <div className="input-group-append">
+                    <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
+                  </div>
+                </div>
 
-                        <div className="form-row mt-3">
-                          <label className="col-md-2 col-form-label font-weight-normal">Upload Image</label>
-                          <input type="file" id="exampleInputPassword1" className="col-md-3" onChange={event => {
-                            const document = event.target.files[0];
-                            setFile(document)
-                          }} />
-                          <div className="input-group-append">
-                            <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
-                          </div>
-                        </div>
+                <div className="form-row mt-3">
+                  <label className="col-md-2 col-form-label font-weight-normal">Upload Image</label>
+                  <input type="file" id="exampleInputPassword1" className="col-md-3" onChange={event => {
+                    const document = event.target.files[0];
+                    setFile(document)
+                  }} />
+                  <div className="input-group-append">
+                    <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
+                  </div>
+                </div>
 
-                        {/* <div className=" form-row" >
+                {/* <div className=" form-row" >
                             <label
                               htmlFor="user_name"
                               className="col-md-2 col-form-label font-weight-normal"
@@ -225,21 +221,18 @@ const AddUser = () => {
 
                             </label> 
                           </div>*/}
-                        <div className={`mt-1 border-top card-footer bg-${themetype}`}>
-                          <button type="submit" className="btn btn-success" onClick={Toogle} >Save</button>
-                          <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>
-                        </div>
 
-                      </form>
-                    </article>
-                  </div>
-                </div>
-              </div>
+
+              </form>
+            </article>
+            <div className={`mt-1 border-top card-footer`}>
+              <button type="submit" className="btn btn-success" onClick={Toogle} >Save</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>
             </div>
           </div>
         </div>
-        <Footer theme={themetype}/>
       </div>
+      <Footer theme={themetype} />
     </div>
   )
 

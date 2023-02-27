@@ -84,24 +84,19 @@ const Reportdata = () => {
     }
   }
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
+          <div className={`content-wrapper`}>
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
               <i className="fa fa-filter" aria-hidden="true"></i> Filter</button>
 
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Report</h3>
-              <div className="row ">
-                <div className="col">
-                  <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-
+                  <div className="card w-100">
+                    <article className={`card-body`}>
                       <form>
                         {
                           data ? (
@@ -114,15 +109,13 @@ const Reportdata = () => {
                     </article>
 
                   </div>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* ######################## Modal Start ############################### */}
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
-              <div className={`modal-content bg-${themeval}`}>
+              <div className={`modal-content`}>
                 <div className="modal-header">
                   <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Filter</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -205,11 +198,9 @@ const Reportdata = () => {
           </div>
 
           {/* ########################## Modal End ###################################3 */}
-        </div>
         <Footer theme={themeval} />
 
       </div>
-    </div>
   )
 }
 

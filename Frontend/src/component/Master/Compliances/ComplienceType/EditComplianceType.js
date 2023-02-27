@@ -38,12 +38,12 @@ function EditComplianceType() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
           <br /> <h3 className="text-left ml-5">Edit Compliance Type</h3><br />
           <div className="card w-100">
-            <article className={`card-body bg-${themeval}`}>
-              <form>
+            <article className={`card-body`}>
+              <form autoComplete='off'>
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal"> Compliance Type</label>
                   <div className="col form-group">
@@ -54,9 +54,9 @@ function EditComplianceType() {
                 </div>
               </form>
             </article>
-            <div className={`border-top card-footer bg-${themeval}`}>
+            <div className={`border-top card-footer`}>
               <button className="btn btn-success" onClick={handleClick} >Update</button>
-              <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('ComplianceSnoType'); window.location.href = "./ShowcompliancesType" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={(e) => {e.preventDefault(); localStorage.removeItem('ComplianceSnoType'); window.location.href = "./ShowcompliancesType" }}>Cancel</button>
             </div>
           </div>
         </div>

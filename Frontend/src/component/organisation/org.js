@@ -92,19 +92,14 @@ function Org() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div className={`content-wrapper bg-${themecolor}`}>
+        <div className={`content-wrapper `}>
           <div className="orgcontainer container-fluid" >
-            {/* <p className="text-center py-3" >AWL is your end-to-end online accounting software.</p> */}
             <h3 className="py-4 px-5">
               Set up Your Organization Profile
             </h3>
-            <div className={`card mx-5 px-3 bg-${themecolor}`}>
+            <div className={`card mx-5 px-3 `}>
               <article style={{ borderTop: "3.5px solid #1f8ea3" }}>
-                {/* <h3 className="text-center mb-2">
-                  Set up your organization profile
-                </h3> */}
-
-                <form autoComplete="off" className="card-body mx-auto border border-top-0" style={{width:'60%'}}>
+                <form autoComplete="off" className="card-body mx-auto" >
                   <div className="form-group">
                     <label htmlFor="org_name">Organization Name <span className="text-danger">*</span> </label>
                     <input type="text" className="form-control col-md-6" id="org_name" required={true} />
@@ -114,12 +109,11 @@ function Org() {
                       <label htmlFor="org_country">Business Location<span className="text-danger">*</span></label>
                       <input
                         type="text"
-                        className="form-control "
+                        className="form-control cursor-notallow"
                         value="India"
                         id="org_country"
                         required={true}
                         disabled
-                        style={{ cursor: "not-allowed" }}
                       />
                     </div>
                     <div className="form-group col-md-6">
@@ -168,7 +162,7 @@ function Org() {
                   <p className="newlinep text-info font-weight-bold" id="newlinepid" onClick={formshow}>
                     <svg
                       viewBox="0 0 512 512"
-                      style={{ height: "17px", width: "17px", color: "blue", cursor: 'poiner' }}
+                      style={{ height: "17px", width: "17px", cursor: 'poiner' }}
                     >
                       <path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" />
                     </svg>
@@ -267,7 +261,6 @@ function Org() {
                         className="form-control"
                         value="INR-Rupees"
                         id="org_currency"
-                        placeholder=''
                         disabled
                         style={{ cursor: "not-allowed" }}
                       />
@@ -276,12 +269,10 @@ function Org() {
                       <label htmlFor="org_lang">Language</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control cursor-notallow"
                         value="English"
                         id="org_lang"
-                        placeholder=''
                         disabled
-                        style={{ cursor: "not-allowed" }}
                       />
                     </div>
                   </div>
@@ -331,7 +322,7 @@ function Org() {
             {/* ############# Modal Start ########################## */}
             <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog" role="document">
-                <div className={`modal-content bg-${themecolor}`}>
+                <div className={`modal-content `}>
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel">Upload Organization logo</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">

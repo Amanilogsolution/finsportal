@@ -53,11 +53,11 @@ const StateMaster = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper`}>
         <div className="container-fluid">
           <h3 className="py-3 ml-5">Add State</h3>
           <div className="card w-100" >
-            <form className={`card-body bg-${themetype}`}>
+            <form className={`card-body`}>
               <div className="form-row">
                 <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country Name</label>
                 <div className="col form-group">
@@ -100,9 +100,7 @@ const StateMaster = () => {
                 <div className="col form-group">
                   <label
                     htmlFor="user_name"
-                    className="col-md-2 col-form-label font-weight-normal"
-                  >
-                    Select Type
+                    className="col-md-2 col-form-label font-weight-normal">Select Type
                   </label>
 
                   <label className="form-check form-check-inline">
@@ -121,9 +119,9 @@ const StateMaster = () => {
                 </div>
               </div>
             </form>
-            <div className={`border-top card-footer bg-${themetype}`}>
+            <div className={`border-top card-footer`}>
               <button className="btn btn-success" onClick={handleClick}>Save</button>
-              <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
             </div>
           </div>
         </div>
