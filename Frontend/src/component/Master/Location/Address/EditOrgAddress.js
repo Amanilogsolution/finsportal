@@ -50,7 +50,7 @@ function EditOrgAddress() {
     }
   }
 
- 
+
   const handleChangeCity = (e) => {
     setData({ ...data, location_city: e.target.value })
   }
@@ -77,12 +77,12 @@ function EditOrgAddress() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid">
-          <br /> <h3 className="text-left ml-5">Edit Address</h3>
-          <div className="card w-100 mb-0" >
-            <article className={`card-body bg-${themeval}`}>
-              <form>
+          <br /> <h3 className=" ml-5">Edit Address</h3>
+          <div className="card w-100 mb-2" >
+            <article className={`card-body`}>
+              <form autoComplete='off'>
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                   <div className="col form-group">
@@ -100,7 +100,7 @@ function EditOrgAddress() {
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4 cursor-notallow"  id='location_country'
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='location_country'
                       defaultValue={data.location_country}
                       disabled
                     />
@@ -161,17 +161,16 @@ function EditOrgAddress() {
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">From Date</label>
                   <div className="col form-group">
                     <input type="Date" className="form-control col-md-4" id='from_date' value={data.from_date}
-                      onChange={(e) => handleChangeDate(e)}
-                    />
+                      onChange={(e) => handleChangeDate(e)}/>
                   </div>
                 </div>
-                <div className={`border-top card-footer bg-${themeval}`}>
-                  <button className="btn btn-success" onClick={handleClick}>Update</button>
-                  <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
-                </div>
+
               </form>
             </article>
-
+            <div className={`border-top card-footer `}>
+              <button className="btn btn-success" onClick={handleClick}>Update</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
+            </div>
           </div>
         </div>
       </div>

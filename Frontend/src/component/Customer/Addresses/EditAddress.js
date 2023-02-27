@@ -266,7 +266,7 @@ const EditAddress = () => {
             </article>
             <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick} >Update Address</button>
-              <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('EditAddress'); window.location.href = "./TotalCustAddress" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('EditAddress'); window.location.href = "./TotalCustAddress" }}>Cancel</button>
             </div>
           </div>
         </div>

@@ -79,7 +79,7 @@ const EditCurrency = () => {
 
                     <div className={`border-top card-footer`}>
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('CurrencySno'); window.location.href = "./ShowCurrency" }}>Cancel</button>
+                      <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('CurrencySno'); window.location.href = "./ShowCurrency" }}>Cancel</button>
                     </div>
                   </div>
                 </div>

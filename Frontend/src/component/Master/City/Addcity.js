@@ -107,13 +107,13 @@ const Addcity = () => {
                             <input type="text" className="form-control col-md-4" id='city_name' />
                           </div>
                         </div>
-                        <div className={`border-top card-footer`}>
-                          <button type='submit' className="btn btn-success" onClick={handleClick} >Save</button>
-                          <button className="btn btn-light ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./Showcity" }}>Cancel</button>
-                        </div>
+                       
                       </form>
                     </article>
-
+                    <div className={`border-top card-footer`}>
+                          <button type='submit' className="btn btn-success" onClick={handleClick} >Save</button>
+                          <button className="btn btn-secondary ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "./Showcity" }}>Cancel</button>
+                        </div>
                   </div>
                 </div>
               </div>

@@ -40,7 +40,7 @@ const ShowCrm = () => {
       selector: 'null',
       cell: (row) => [
         <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={`bg-${themeval}`} onChange={async (e) => {
+          <select className={``} onChange={async (e) => {
             const status = e.target.value;
             await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
             window.location.href = '/ShowCrm'
@@ -101,7 +101,7 @@ const ShowCrm = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5"> CRM Master </h3>
           <button type="button " id='addcrmbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./AddCrm" }} className="btn btn-primary">Add Crm </button>
@@ -109,7 +109,7 @@ const ShowCrm = () => {
         </div>
         <div className="container-fluid">
           <div className="card w-100">
-            <article className={`card-body bg-${themeval}`}>
+            <article className={`card-body `}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -119,7 +119,7 @@ const ShowCrm = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themeval}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

@@ -110,13 +110,13 @@ const Fincialyear = () => {
                   </div>
                 </div>
 
-                <div className="border-top card-footer">
-                  <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
-                  <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './ShowFinancialyear' }}>Cancel</button>
-                </div>
               </form>
             </article>
 
+            <div className="border-top card-footer">
+                  <button type='submit' className="btn btn-success" onClick={handelsave}>Save</button>
+                  <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './ShowFinancialyear' }}>Cancel</button>
+                </div>
           </div>
         </div>
       </div>

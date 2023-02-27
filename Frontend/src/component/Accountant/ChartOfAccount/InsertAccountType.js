@@ -50,10 +50,10 @@ function InsertAccountType() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid px-4">
           <h3 className="py-4 ml-5">Add Account Type</h3>
-          <div className={`card w-100 bg-${themeval}`}>
+          <div className={`card w-100 `}>
             <form className="card-body">
               <div className="form-row">
                 <label htmlFor="AccountType" className="col-md-2 col-form-label font-weight-normal">Account Type</label>
@@ -76,9 +76,9 @@ function InsertAccountType() {
                 </div>
               </div>
             </form>
-            <div className="border-top card-body">
-              <button className="btn btn-success" onClick={handleClick} >Save</button>
-              <button className="btn btn-light ml-3" onClick={handleClickCancel}>Cancel</button>
+            <div className="border-top card-footer">
+              <button className="btn btn-success" onClick={handleClick} >Add Account Type</button>
+              <button className="btn btn-secondary ml-3" onClick={handleClickCancel}>Cancel</button>
             </div>
           </div>
         </div>

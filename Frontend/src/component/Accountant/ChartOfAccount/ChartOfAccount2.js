@@ -235,7 +235,7 @@ function ChartOfAccount2() {
                                                 </button>
                                                 <button id="clear" onClick={(e) => {
                                                     e.preventDefault(); window.location.href = '/home'
-                                                }} name="clear" className="btn ml-2">
+                                                }} name="clear" className="btn btn-secondary ml-2">
                                                     Cancel
                                                 </button>
                                             </div>

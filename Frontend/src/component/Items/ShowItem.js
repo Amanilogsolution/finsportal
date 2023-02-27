@@ -121,7 +121,7 @@ const ShowItem = () => {
         </div>
         <div className="container-fluid mt-2">
           <div className="card mb-2 w-100">
-            <article className={`card-body `}>
+            <article className={`card-body py-0`}>
               <DataTableExtensions
                 {...tableData}
               >

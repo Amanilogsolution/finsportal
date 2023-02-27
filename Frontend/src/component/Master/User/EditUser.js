@@ -179,11 +179,12 @@ const EditUser = () => {
                 </div>
               </div>
 
-              <div className={`border-top card-footer`}>
-                <button className="btn btn-success" onClick={handleClick}>Update</button>
-                <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
-              </div>
+             
             </form>
+            <div className={`border-top card-footer`}>
+                <button className="btn btn-success" onClick={handleClick}>Update</button>
+                <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
+              </div>
           </div>
         </div>
       </div>

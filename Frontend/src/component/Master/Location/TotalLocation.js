@@ -64,7 +64,7 @@ const TotalLocation = () => {
       selector: 'null',
       cell: (row) => [
         <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={`bg-${themeval}`} onChange={async (e) => {
+          <select className={``} onChange={async (e) => {
             const org = localStorage.getItem("Organisation");
             const status = e.target.value;
             await Locationstatus(org, row.location_id, status)
@@ -244,16 +244,16 @@ console.log(result)
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <button type="button" id='addbranchbtn' style={{  marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddLocation" }} className="btn btn-primary float-right">Add Location</button>
         <button type="button" id='uploadlocabtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
         <button type="button" id='uploadlocaddbtn' style={{  marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
 
         <div className="container-fluid">
           <br />
-          <h3 className="text-left ml-5">Location</h3>
-          <div className="card mb-0 w-100">
-            <article className={`card-body bg-${themeval}`}>
+          <h3 className="ml-5">Location</h3>
+          <div className="card my-2 w-100">
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -263,7 +263,7 @@ console.log(result)
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
-                  theme={themeval}
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

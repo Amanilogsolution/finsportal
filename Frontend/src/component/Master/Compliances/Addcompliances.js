@@ -88,10 +88,10 @@ const Addcompliances = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid px-3">
           <h3 className="py-3 ml-5">Add Compliances</h3>
-          <div className={`card bg-${themetype} w-100`} >
+          <div className={`card  w-100`} >
             <form className="card-body" autoComplete='off'>
               {
                 mandatory ?
@@ -172,9 +172,9 @@ const Addcompliances = () => {
                 </tbody>
               </table>
             </form>
-            <div className="border-top card-body">
+            <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handlesave}>Add Compliances</button>
-              <button className="btn btn-light ml-3" onClick={() => { window.location.href = "/Showcompliances" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={(e) => {e.preventDefault(); window.location.href = "/Showcompliances" }}>Cancel</button>
             </div>
           </div>
         </div>

@@ -209,7 +209,7 @@ const TotalVendAddress = () => {
           </form>
           <br />
           <div className={`card w-100`}>
-            <article className="card-body">
+            <article className="card-body py-1">
               <DataTableExtensions
                 {...tableData}
               >
@@ -219,6 +219,7 @@ const TotalVendAddress = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

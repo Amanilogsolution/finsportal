@@ -79,13 +79,13 @@ const EditCountry = () => {
                     <input type="number" className="form-control col-md-4" id='country_phonecode' value={data.country_phonecode} onChange={(e) => handleChangeCp(e)} />
                   </div>
                 </div>
-                <div className={`border-top card-body `}>
-                  <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
-                  <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('countrySno'); window.location.href = "./ShowState" }}>Cancel</button>
-                </div>
+
               </form>
             </article>
-
+            <div className={`border-top card-footer`}>
+              <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('countrySno'); window.location.href = "./ShowState" }}>Cancel</button>
+            </div>
           </div>
         </div>
       </div>

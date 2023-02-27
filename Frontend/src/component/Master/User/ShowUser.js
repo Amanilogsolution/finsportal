@@ -69,7 +69,7 @@ const columns = [
     cell: (row) => [
 
       <a title='View Document' id={`editactionbtns${row.sno}`} style={{ display: "none" }} href="EditUser">
-        <button className="editbtn btn-success " onClick={() => localStorage.setItem('userSno', `${row.sno}`)} >Edit</button></a>
+        <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('userSno', `${row.sno}`)} >Edit</button></a>
 
     ]
   }

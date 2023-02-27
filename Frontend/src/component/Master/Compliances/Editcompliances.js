@@ -48,10 +48,10 @@ function Editcompliances() {
                 <div className="spinner-border" role="status"> </div>
             </div>
             <Header />
-            <div className={`content-wrapper bg-${themeval}`}>
+            <div className={`content-wrapper `}>
                 <div className="container-fluid">
                     <h3 className="ml-5 py-2">Edit Compliances</h3>
-                    <div className={`card mb-0 w-100 bg-${themeval}`}>
+                    <div className={`card mb-2 w-100 `}>
                         <form className="card-body" autoComplete='off'>
                             <div className="form-row">
                                 <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Compliances type</label>
@@ -123,9 +123,9 @@ function Editcompliances() {
                             </div>
 
                         </form>
-                        <div className="border-top card-body">
+                        <div className="border-top card-footer">
                             <button className="btn btn-success" onClick={senddata} >Update</button>
-                            <button className="btn btn-light ml-3" onClick={() => { window.location.href = "/Showcompliances"; localStorage.removeItem('ComplianceSno') }}>Cancel</button>
+                            <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "/Showcompliances"; localStorage.removeItem('ComplianceSno') }}>Cancel</button>
                         </div>
                     </div>
                 </div>

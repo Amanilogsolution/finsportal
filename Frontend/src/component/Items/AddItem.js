@@ -253,13 +253,13 @@ const AddItem = () => {
                                         }} />
                                     </div>
                                 </div>
-                                <div className="border-top card-footer">
-                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                                    <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
-                                </div>
+
                             </form>
                         </article>
-
+                        <div className="border-top card-footer">
+                            <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
+                            <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>

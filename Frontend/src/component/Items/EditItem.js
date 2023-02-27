@@ -156,7 +156,7 @@ const EditItem = () => {
                                 <div className="form-row">
                                     <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span style={{ color: "red" }}>*</span></label>
                                     <div className="col form-group">
-                                        <input type="text" className="form-control col-md-4" id='name' defaultValue={data.item_name}  />
+                                        <input type="text" className="form-control col-md-4" id='name' defaultValue={data.item_name} />
                                     </div>
                                 </div>
                                 <div className="form-row" >
@@ -176,7 +176,7 @@ const EditItem = () => {
                                 <div className="form-row" id="hsncodetoogle">
                                     <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
                                     <div className="col form-group">
-                                        <input className="form-control col-md-4" type="text" id="hsncode" defaultValue={data.hsn_code}  />
+                                        <input className="form-control col-md-4" type="text" id="hsncode" defaultValue={data.hsn_code} />
                                     </div>
                                 </div>
                                 <div className="form-row" id="saccodetoogle" style={{ display: "none" }} >
@@ -242,13 +242,13 @@ const EditItem = () => {
                                         <input type="number" className="form-control col-md-4" id='gstrate' value={data.gst_rate} maxLength={3} onChange={handleGst_rate} />
                                     </div>
                                 </div>
-                                <div className="border-top card-footer">
-                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
-                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('ChargecodeSno'); window.location.href = "./ShowItem" }}>Cancel</button>
-                                </div>
+
                             </form>
                         </article>
-
+                        <div className="border-top card-footer">
+                            <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
+                            <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('ChargecodeSno'); window.location.href = "./ShowItem" }}>Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>

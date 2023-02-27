@@ -334,7 +334,7 @@ const AddRoles = () => {
                     <div className="container-fluid">
                         <br /> <h3 className="text-left ml-5">New Role</h3>
                         <div className="card" >
-                            <article className={`card-body border`} >
+                            <article className={`card-body `} >
                                 <form autoComplete='off'>
                                     <div className="form-row">
                                         <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role </label>
@@ -605,12 +605,13 @@ const AddRoles = () => {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div className="border-top card-footer">
-                                        <button type='submit' className="btn btn-success" onClick={handlesubmitdata} >Add</button>
-                                        <button className="btn btn-light ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
-                                    </div>
+
                                 </form>
                             </article>
+                            <div className="border-top card-footer">
+                                <button type='submit' className="btn btn-success" onClick={handlesubmitdata} >Add</button>
+                                <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
+                            </div>
                         </div>
                     </div>
                 </div>

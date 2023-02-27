@@ -53,10 +53,10 @@ function ChangePassword() {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                <div className={`content-wrapper bg-${themecolor}`}>
+                <div className={`content-wrapper`}>
                     <div className="container-fluid">
                         <h3 className="ml-5 py-3">Change Password</h3>
-                        <div className={`card bg-${themecolor} border border-secondary`}>
+                        <div className={`card `}>
                             <article className="card-body ">
                                 <div className="change-pass-container pt-2  mx-auto" >
                                     <h5 className='text-secondary text-right mx-3 border-bottom py-2 px-4'>All Field required</h5>
@@ -93,7 +93,7 @@ function ChangePassword() {
                                                 <p className='text-danger'>Please! fill the correct current Password</p>
                                                 : null
                                         }
-                                        <div className="form-group">
+                                        <div className="card-footer border-top">
                                             <input name="submit" className={`btn btn-lg btn-${btntheme} float-right`} onClick={handleClick} type="submit" value="Change Password" />
                                         </div>
                                     </form>

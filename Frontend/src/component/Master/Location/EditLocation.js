@@ -47,18 +47,7 @@ function EditLocation() {
     }
   }
 
-  const handleChangeLocationName = (e) => {
-    setData({ ...data, location_name: e.target.value })
-  }
-  const handleChangeGstno = (e) => {
-    setData({ ...data, gstin_no: e.target.value })
-  }
-  const handleChangeContactperson1 = (e) => {
-    setData({ ...data, contact_name1: e.target.value })
-  }
-  const handleChangeContactperson2 = (e) => {
-    setData({ ...data, contact_name2: e.target.value })
-  }
+
   const handleChangeContactphone1 = (e) => {
     const no = e.target.value;
     if (no.length === 11) return false;
@@ -80,25 +69,21 @@ function EditLocation() {
   }
 
   return (
-    <div>
       <div className="wrapper">
         <div className="preloader flex-column justify-content-center align-items-center">
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        <div>
-          <div className={`content-wrapper bg-${themeval}`}>
+          <div className={`content-wrapper `}>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit Location</h3>
-              <div className="row ">
-                <div className="col ml-2">
                   <div className="card" style={{ width: "100%" }}>
-                    <article className={`card-body bg-${themeval}`}>
-                      <form>
+                    <article className={`card-body `}>
+                      <form autoComplete='off'>
                         <div className="form-row">
                           <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country</label>
                           <div className="col form-group">
-                            <select className="form-control col-md-4" id='country' onChange={handleAddressCountry} disabled>
+                            <select className="form-control col-md-4 cursor-notallow" id='country' onChange={handleAddressCountry} disabled>
                               <option hidden value={data.country}> {data.country}</option>
                               {
                                 country.map((data, index) =>
@@ -109,11 +94,11 @@ function EditLocation() {
                         </div>
 
                         <div className="form-row">
-                          <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State</label>
+                          <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal ">State</label>
                           <div className="col form-group">
                             <select
                               id="inputState"
-                              className="form-control col-md-4"
+                              className="form-control col-md-4 cursor-notallow"
                               onChange={handlechangestate}
                               disabled
                             >
@@ -130,21 +115,21 @@ function EditLocation() {
                         <div className="form-row">
                           <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='Location_name' value={data.location_name} disabled onChange={(e) => handleChangeLocationName(e)} />
+                            <input type="text" className="form-control col-md-4 cursor-notallow" id='Location_name' defaultValue={data.location_name} disabled  />
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='gst_no' value={data.gstin_no} onChange={(e) => handleChangeGstno(e)} />
+                            <input type="text" className="form-control col-md-4" id='gst_no' defaultValue={data.gstin_no} />
                           </div>
                         </div>
 
                         <div className="form-row">
                           <label htmlFor="contact_Person1" className="col-md-2 col-form-label font-weight-normal">Contact Person 1</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='contact_Person1' value={data.contact_name1} onChange={(e) => handleChangeContactperson1(e)} />
+                            <input type="text" className="form-control col-md-4" id='contact_Person1' defaultValue={data.contact_name1} />
                           </div>
                         </div>
 
@@ -158,11 +143,9 @@ function EditLocation() {
                         <div className="form-row">
                           <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
                           <div className="col form-group">
-                            <input type="text" className="form-control col-md-4" id='contact_person2' value={data.contact_name2} onChange={(e) => handleChangeContactperson2(e)} />
+                            <input type="text" className="form-control col-md-4" id='contact_person2' defaultValue={data.contact_name2} />
                           </div>
                         </div>
-
-
 
                         <div className="form-row">
                           <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
@@ -172,18 +155,14 @@ function EditLocation() {
                         </div>
                       </form>
                     </article>
-                    <div className={`border-top card-footer bg-${themeval}`}>
+                    <div className={`border-top card-footer `}>
                       <button className="btn btn-success" onClick={handleClick} >Update</button>
-                      <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id');window.location.href = "./TotalLocation" }}>Cancel</button>
+                      <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('location_id');window.location.href = "./TotalLocation" }}>Cancel</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
         <Footer theme={themeval} />
-      </div>
     </div>
   )
 

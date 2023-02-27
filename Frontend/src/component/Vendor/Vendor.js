@@ -1071,8 +1071,8 @@ const Vendor = () => {
               </form>
             </article>
             <div className="border-top card-footer">
-              <button className="btn btn-success" onClick={handleClick}>Save</button>
-              <button className="btn btn-light ml-3">Cancel</button>
+              <button className="btn btn-success mx-3" onClick={handleClick}>Save Vendor</button>
+              <button className="btn btn-secondary ml-3" onClick={(e)=>{e.preventDefault();window.location.href='./Showvendor'}}>Cancel</button>
             </div>
           </div>
         </div>

@@ -77,7 +77,7 @@ const AddCountry = () => {
             </article>
             <div className={`border-top card-body`}>
               <button className="btn btn-success" onClick={handleClick} >Save</button>
-              <button className="btn btn-light ml-3" onClick={() => { window.location.href = "./ShowCountry" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowCountry" }}>Cancel</button>
             </div>
           </div>
         </div>

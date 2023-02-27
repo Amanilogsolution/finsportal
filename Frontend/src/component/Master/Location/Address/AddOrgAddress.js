@@ -64,37 +64,37 @@ function AddOrgAddress() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themeval}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid">
           <h3 className=" ml-5 py-2">Add Address</h3>
-          <div className={`card mb-0 bg-${themeval}`}>
-            <article className="card-body ">
+          <div className={`card mb-2 `}>
+            <article className="card-body py-1">
               <form autoComplete='off' >
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4 cursor-notallow" id='location_country' value={data.country} disabled />
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='location_country' defaultValue={data.country} disabled />
                   </div>
                 </div>
 
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4 cursor-notallow" id='location_state' value={data.state} disabled />
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='location_state' defaultValue={data.state} disabled />
                   </div>
                 </div>
 
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4 cursor-notallow" id='country_name' value={data.location_name} disabled />
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='country_name' defaultValue={data.location_name} disabled />
                   </div>
                 </div>
 
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4 cursor-notallow" id='country_id' value={data.gstin_no} disabled />
+                    <input type="text" className="form-control col-md-4 cursor-notallow" id='country_id' defaultValue={data.gstin_no} disabled />
                   </div>
                 </div>
 
@@ -147,9 +147,9 @@ function AddOrgAddress() {
 
               </form>
             </article>
-            <div className="card-footer">
+            <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick}>Add</button>
-              <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('location_id'); window.location.href = "./TotalLocation" }}>Cancel</button>
             </div>
           </div>
         </div>

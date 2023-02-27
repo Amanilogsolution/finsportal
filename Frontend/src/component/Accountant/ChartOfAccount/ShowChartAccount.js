@@ -188,14 +188,14 @@ function ShowChartAccount() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-          <div className={`content-wrapper bg-${themetype}`}>
+          <div className={`content-wrapper `}>
             <button type="button" id='addchartofacct' style={{ float: "right", marginRight: '10%', marginTop: '1%' }} onClick={() => { window.location.href = "./ChartOfAccount" }} className="btn btn-primary">Add Chart Of Account</button>
             <button type="button" id='excelchartofacct' style={{ float: "right", marginRight: '2%', marginTop: '1%' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
 
             <div className="container-fluid">
               <h3 className="py-2 ml-5">Chart Of Account</h3>
                   <div className="card w-100" >
-                    <article className={`card-body bg-${themetype}`}>
+                    <article className={`card-body py-1`}>
                       <DataTableExtensions
                         {...tableData}
                       >
@@ -205,7 +205,7 @@ function ShowChartAccount() {
                           defaultSortAsc={false}
                           pagination
                           highlightOnHover
-                          theme={themetype}
+                          dense
                           customStyles={customStyles}
                         />
                       </DataTableExtensions>
@@ -225,7 +225,7 @@ function ShowChartAccount() {
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
-            <div className={`modal-content bg-${themetype}`}>
+            <div className={`modal-content `}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Import excel file
@@ -253,7 +253,7 @@ function ShowChartAccount() {
                       id=""
                       type="file"
                       onChange={onChange}
-                      className={`form-control bg-${themetype}`}
+                      className={`form-control `}
                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                   </div><br />
                   <span style={{ color: "red" }}>
@@ -292,7 +292,7 @@ function ShowChartAccount() {
         >
 
           <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
-            <div className={`modal-content bg-${themetype}`}>
+            <div className={`modal-content `}>
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
                   Uploaded Excel file
@@ -341,7 +341,7 @@ function ShowChartAccount() {
                 </table>
               </div>
             </div>
-            <div className={`modal-footer bg-${themetype}`} >
+            <div className={`modal-footer `} >
               <button
                 type="button"
                 className="btn btn-secondary"

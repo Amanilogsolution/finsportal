@@ -875,7 +875,7 @@ const Vendor = () => {
             </article>
             <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick}>Update</button>
-              <button className="btn btn-light ml-3" onClick={() => window.location.href = 'Showvendor'}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={(e) =>{e.preventDefault(); window.location.href = 'Showvendor'}}>Cancel</button>
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { TotalAccountName, AccountnameStatus, ImportAccountName } from '../../../api';
 import DataTable from 'react-data-table-component';
@@ -33,7 +32,7 @@ function ShowAccountname() {
             selector: row => row.null,
             cell: (row) => [
                 <div className='droplist'>
-                    <select className={`bg-${themetype}`}
+                    <select className={``}
                         onChange={async (e) => {
                             const org = localStorage.getItem("Organisation")
                             const status = e.target.value;
@@ -164,7 +163,7 @@ function ShowAccountname() {
                 <div className="spinner-border" role="status"> </div>
             </div>
             <Header />
-            <div className={`content-wrapper bg-${themetype}`}>
+            <div className={`content-wrapper `}>
                 <div className='d-flex justify-content-between py-4 px-4'>
                     <h3 className="text-left ml-5">Account Major Code </h3>
                     <div>
@@ -173,8 +172,8 @@ function ShowAccountname() {
                     </div>
                 </div>
                 <div className="container-fluid">
-                    <div className={`card mb-0 bg-${themetype} w-100`} >
-                        <article className="card-body">
+                    <div className={`card mb-0  w-100`} >
+                        <article className="card-body py-1">
                             <DataTableExtensions
                                 {...tableData}
                             >
@@ -184,7 +183,7 @@ function ShowAccountname() {
                                     defaultSortAsc={false}
                                     pagination
                                     highlightOnHover
-                                    theme={themetype}
+                                    dense
                                     customStyles={customStyles}
                                 />
                             </DataTableExtensions>

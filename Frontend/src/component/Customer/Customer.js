@@ -1168,12 +1168,13 @@ const Customer = () => {
                     </div>
                   </div>
                 </div>
-                <div className="border-top card-footer">
-                  <button type="submit" className="btn btn-success " onClick={handleClick} >Save</button>
-                  <button className="btn btn-light ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Close</button>
-                </div>
+
               </form>
             </article>
+            <div className="border-top card-footer">
+              <button type="submit" className="btn btn-success mx-3" onClick={handleClick} >Save Customer</button>
+              <button className="btn btn-secondary ml-3" onClick={() => window.location.href = '/TotalCustomer'}>Cancel</button>
+            </div>
           </div>
         </div>
       </div>

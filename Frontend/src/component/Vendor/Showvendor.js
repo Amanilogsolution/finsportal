@@ -265,12 +265,11 @@ const Showvendor = () => {
                         <button type="button" id='excelvendbtn' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
                         <button type="button" id='addvendbtn' onClick={() => { window.location.href = "./Vendor" }} className="btn btn-primary mx-3">Add Vendor</button>
                     </div>
-
                 </div>
 
                 <div className="container-fluid">
                     <div className="card mb-2 w-100" >
-                        <article className={`card-body `}>
+                        <article className={`card-body py-0`}>
                             <DataTableExtensions
                                 {...tableData}>
                                 <DataTable
@@ -279,6 +278,7 @@ const Showvendor = () => {
                                     defaultSortAsc={false}
                                     pagination
                                     highlightOnHover
+                                    dense
                                     customStyles={customStyles}
                                 />
                             </DataTableExtensions>

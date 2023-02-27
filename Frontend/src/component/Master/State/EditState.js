@@ -131,7 +131,7 @@ const EditState = () => {
             </article>
             <div className={`border-top card-footer `}>
               <button className="btn btn-success" onClick={handleClick}>Update</button>
-              <button className="btn btn-light ml-3" onClick={() => window.location.href = './ShowState'}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => window.location.href = './ShowState'}>Cancel</button>
             </div>
           </div>
         </div>
