@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { TotalCustomers, DeleteCustomer, ImportCustomer, Getfincialyearid, Checkmidvalid, UpdatefinancialTwocount, getUserRolePermission } from '../../api';
 import DataTable from 'react-data-table-component';
-import DataTableExtensions from 'react-data-table-component-extensions';
+import DataTableExtensions, { __esModule } from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../excelformate/tbl_customer.xlsx';
 import * as XLSX from "xlsx";
@@ -17,8 +17,8 @@ const TotalCustomer = () => {
       selector: 'cust_name',
       sortable: true,
       cell: (row) => [
-        <a title='Edit Customer' id={`editactionbtns${row.sno}`} href="EditCustomer" 
-        onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >{row.cust_name}</a>
+        <a title='Edit Customer' id={`editactionbtns${row.sno}`} href="EditCustomer"
+          onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >{row.cust_name}</a>
       ]
     },
     {
@@ -83,8 +83,10 @@ const TotalCustomer = () => {
   const [year, setYear] = useState();
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
+  const [ActionToogle, setActionToogle] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
+
   const themeval = localStorage.getItem('themetype')
-  const [ActionToogle,setActionToogle] = useState(false);
 
   //##########################  Upload data start  #################################
 
@@ -229,19 +231,29 @@ const TotalCustomer = () => {
   //##########################  for convert excel to array end #################################
 
   useEffect(() => {
-
     const fetchdata = async () => {
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addcustbtn').style.background = '#7795fa';
+      }
+
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'customer')
       if (UserRights.customer_create === 'false') {
         document.getElementById('addcustbtn').style.display = "none";
         document.getElementById('excelcustbtn').style.display = "none";
       }
+      else if (UserRights.customer_edit === 'false') { document.getElementById('updatecustNamebtn').style.display = "none"; }
+
+
 
       for (let i = 0; i <= result.length; i++) {
         if (UserRights.customer_edit === 'false') {
           document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+
         }
         if (UserRights.customer_delete === 'false') {
           document.getElementById(`droplist${result[i].sno}`).style.display = "none";
@@ -259,9 +271,9 @@ const TotalCustomer = () => {
 
   }, [])
 
-  const handleAction =(e) =>{
+  const handleAction = (e) => {
     e.preventDefault();
-    setActionToogle(prev =>!prev)
+    setActionToogle(prev => !prev)
   }
 
   const tableData = {
@@ -278,19 +290,19 @@ const TotalCustomer = () => {
         <Header />
         <div className="content-wrapper">
           <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden'>
-          <div>
-          <h3 className="pl-5 ">Total Customer</h3>
+            <div>
+              <h3 className="pl-5 ">Total Customer</h3>
 
-          </div>
-          <div className='d-flex'>
-            <button className='btn btn-danger mr-2'  onClick={handleAction}><span><i className={ActionToogle?"fas fa-angle-right":"fas fa-angle-left"}/></span></button>
-            <div 
-            className={ActionToogle?'showAction':'hideAction'}
-            >
-              <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-              <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./Customer" }} className="btn btn-primary mx-2">Add Customer</button>
-              <button type="button" id='addcustbtn' onClick={() => { window.location.href = "./CustomerNames" }} className="btn btn-primary mx-1">Update Cust Names</button>
             </div>
+            <div className='d-flex'>
+              <button className='btn btn-danger mr-2' onClick={handleAction}><span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span></button>
+              <div
+                className={ActionToogle ? 'showAction' : 'hideAction'}
+              >
+                <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addcustbtn' onClick={() => { financialstatus === 'Active' ? window.location.href = "./Customer" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
+                <button type="button" id='updatecustNamebtn' onClick={() => { window.location.href = "./CustomerNames" }} className="btn btn-primary mx-1">Update Cust Names</button>
+              </div>
             </div>
           </div>
           <div className="card mb-2 mx-2">
