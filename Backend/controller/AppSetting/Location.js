@@ -107,7 +107,6 @@ const InsertLocationAddress = async (req, res) => {
     const location_pin = req.body.location_pin;
     const to_date = req.body.to_date;
     const User_id = req.body.User_id;
-    console.log(location_pin,to_date,User_id)
 
     try {
         await sql.connect(sqlConfig)

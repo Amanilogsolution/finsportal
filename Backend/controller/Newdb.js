@@ -72,6 +72,7 @@ const Newdb = async (req, res) => {
                 voucher_ser varchar(100) NULL,
                 voucher_count varchar(100) NULL,
                 location_count varchar(100) NULL,
+                financial_year_lock nvarchar(50) NULL;
                 add_user_name varchar(50) NULL,
                 add_date_time datetime NULL,
                 add_ip_address varchar(50) NULL,

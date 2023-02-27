@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress,InsertPurchaseorder,InsertSubPurchaseorder } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder } from '../../../api'
 
 
 function PurchaseOrder() {
@@ -22,30 +21,25 @@ function PurchaseOrder() {
 
 
 
-const handleSubmit = async(e) =>{
-    e.preventDefault()
-    const org = localStorage.getItem('Organisation');
-    const userid = localStorage.getItem('User_id');
-    const vendorname = document.getElementById('vend_name').value
-    const polocation = document.getElementById('polocation').value
-    const ponumber = document.getElementById('po_no').value;
-    const podate = document.getElementById('po_date').value;
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const org = localStorage.getItem('Organisation');
+        const userid = localStorage.getItem('User_id');
+        const vendorname = document.getElementById('vend_name').value
+        const polocation = document.getElementById('polocation').value
+        const ponumber = document.getElementById('po_no').value;
+        const podate = document.getElementById('po_date').value;
 
-    const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid)
-    console.log(result)
-    if(result == "Insert"){
-        alert("PO Generated")
-        window.location.href = "/home"
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid)
+        if (result == "Insert") {
+            alert("PO Generated")
+            window.location.href = "/home"
+        }
+        location.map(async (value, index) => {
+            const result1 = await InsertSubPurchaseorder(org, vendorname, ponumber, value, items[index], quantity[index], rate[index], amount[index], unit[index])
+        })
+
     }
-    console.log(amount,rate,quantity,items,location,unit)
-    location.map(async(value,index)=>{
-        const result1 = await InsertSubPurchaseorder(org, vendorname, ponumber, value, items[index], quantity[index],rate[index],amount[index],unit[index])
-    })
-
-}
-
-
-
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -59,7 +53,6 @@ const handleSubmit = async(e) =>{
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-            console.log(locatonstateres)
 
             const items = await ActivePurchesItems(org)
             setItemlist(items)
@@ -84,11 +77,11 @@ const handleSubmit = async(e) =>{
     }
 
 
-    const handleChangeLocation = (value,i) => {
+    const handleChangeLocation = (value, i) => {
         location[i] = value
     }
 
-    const handleChangeItems = (value,i) => {
+    const handleChangeItems = (value, i) => {
         items[i] = value
 
     }
@@ -110,7 +103,7 @@ const handleSubmit = async(e) =>{
 
     }
 
-    const handleChangeUnit = (value,i) => {
+    const handleChangeUnit = (value, i) => {
         unit[i] = value
     }
 
@@ -151,155 +144,136 @@ const handleSubmit = async(e) =>{
         }
     }
     return (
-        <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
-                {/* <Menu /> */}
-                <div className="content-wrapper">
-                    <div className="container-fluid">
-                        <div className="row pt-3" >
-                            <div className="col">
-                                <div className="card">
-                                    <article
-                                        className="card-body" >
-                                        <h3 className="text-left"> New Purchase Order</h3>
-                                        <br />
+        <div className="wrapper">
+            <div className="preloader flex-column justify-content-center align-items-center">
+                <div className="spinner-border" role="status"> </div>
+            </div>
+            <Header />
+            <div className="content-wrapper">
+                <div className="container-fluid">
+                    <h3 className="pt-3 pb-2 pl-5"> New Purchase Order</h3>
+                    <div className="card">
+                        <article className="card-body" >
 
-                                        <form autoComplete="off">
-                                            <div className="form-row ">
-                                                <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <select
-                                                        id="vend_name"
-                                                        // onChange={handlevendorselect}
-                                                        className="form-control col-md-4">
+                            <form autoComplete="off">
+                                <div className="form-row ">
+                                    <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
+                                    <div className="d-flex col-md">
+                                        <select
+                                            id="vend_name"
+                                            // onChange={handlevendorselect}
+                                            className="form-control col-md-4">
 
-                                                        <option value='' hidden>select vendor</option>
-                                                        {
-                                                            vendorlist.map((item, index) =>
-                                                                <option key={index} value={item.vend_id}>{item.vend_name}</option>)
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-2">
-                                                <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <select
-                                                        id="polocation"
-                                                        className="form-control col-md-4">
-                                                        <option value='' hidden>Select loction</option>
-                                                        {
-                                                            locationstate.map((item, index) =>
-                                                                <option key={index} value={item.location_id}>{item.location_name}</option>)
-                                                        }
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3" >
-                                                <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >P.O Number </label>
-                                                <div className="d-flex col-md-4" >
-                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no" placeholder="" disabled />
-                                                </div>
-                                                <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">P.O Date</label>
-                                                <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
-                                                </div>
-                                            </div>
-
-
-                                            <hr />
-                                            <table className="table">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Location</th>
-                                                    <th scope="col">Item</th>
-                                                    <th scope="col">Quality</th>
-                                                    <th scope="col">Rate</th>
-                                                    <th scope="col">Amount</th>
-                                                    <th scope="col">Unit</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        totalValues.map((element, index) => (
-                                                            <tr key={index}>
-                                                                <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e)=>{handleChangeLocation(e.target.value,index)}}
-                                                                    >
-                                                                        <option value='' hidden>Select Location</option>
-                                                                        {
-                                                                            locationstate.map((item, index) => (
-                                                                                <option key={index} value={item.location_id} >{item.location_name}</option>
-
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e)=>{handleChangeItems(e.target.value,index)}}>
-                                                                        <option value='' hidden>Select Item</option>
-
-                                                                        {
-                                                                            itemlist.map((items, index) => (
-                                                                                <option key={index} value={items.item_name} >{items.item_name}</option>
-
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`Quantity${index}`} onChange={(e) => { setIndex(index); quantity[index] = e.target.value }} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`Amount${index}`} value={amount[index]} className="form-control cursor-notallow" disabled />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e)=>{handleChangeUnit(e.target.value,index)}}>
-                                                                        <option value='' hidden>Select Unit</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                    }
-                                                </tbody>
-                                            </table>
-                                            <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
-                                            <hr />
-                                            <div className="form-group">
-                                                <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>
-                                                        Save
-                                                    </button>
-                                                    <button id="clear" onClick={(e) => {
-                                                        e.preventDefault(); window.location.href = '/home'
-                                                    }} name="clear" className="btn ml-2">
-                                                        Cancel
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </article>
+                                            <option value='' hidden>select vendor</option>
+                                            {
+                                                vendorlist.map((item, index) =>
+                                                    <option key={index} value={item.vend_id}>{item.vend_name}</option>)
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                <div className="form-row mt-2">
+                                    <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
+                                    <div className="d-flex col-md">
+                                        <select
+                                            id="polocation"
+                                            className="form-control col-md-4">
+                                            <option value='' hidden>Select location</option>
+                                            {
+                                                locationstate.map((item, index) =>
+                                                    <option key={index} value={item.location_id}>{item.location_name}</option>)
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-row mt-3" >
+                                    <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >P.O Number </label>
+                                    <div className="d-flex col-md-4" >
+                                        <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no" placeholder="" disabled />
+                                    </div>
+                                    <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">P.O Date</label>
+                                    <div className="d-flex col-md-4 " >
+                                        <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
+                                    </div>
+                                </div>
+
+
+                                <hr />
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Item</th>
+                                            <th scope="col">Quality</th>
+                                            <th scope="col">Rate</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            totalValues.map((element, index) => (
+                                                <tr key={index}>
+                                                    <td className='p-1 pt-2' style={{ width: "180px" }}>
+                                                        <select className="form-control ml-0" onChange={(e) => { handleChangeLocation(e.target.value, index) }}
+                                                        >
+                                                            <option value='' hidden>Select Location</option>
+                                                            {
+                                                                locationstate.map((item, index) => (
+                                                                    <option key={index} value={item.location_id} >{item.location_name}</option>
+
+                                                                ))
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                    <td className='p-1 pt-2' style={{ width: "180px" }}>
+                                                        <select className="form-control ml-0" onChange={(e) => { handleChangeItems(e.target.value, index) }}>
+                                                            <option value='' hidden>Select Item</option>
+
+                                                            {
+                                                                itemlist.map((items, index) => (
+                                                                    <option key={index} value={items.item_name} >{items.item_name}</option>
+
+                                                                ))
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                        <input type='number' id={`Quantity${index}`} onChange={(e) => { setIndex(index); quantity[index] = e.target.value }} className="form-control" />
+                                                    </td>
+                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                        <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
+                                                    </td>
+                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                        <input type='number' id={`Amount${index}`} value={amount[index]} className="form-control cursor-notallow" disabled />
+                                                    </td>
+                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                        <select className="form-control ml-0" onChange={(e) => { handleChangeUnit(e.target.value, index) }}>
+                                                            <option value='' hidden>Select Unit</option>
+                                                            {
+                                                                unitlist.map((item, index) =>
+                                                                    <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                                <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
+                                <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
+                            </form>
+                        </article>
+                        <div className="card-footer border-top">
+                            <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>Save</button>
+                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                         </div>
                     </div>
                 </div>
-                <Footer />
             </div>
+            <Footer />
         </div>
     )
 }

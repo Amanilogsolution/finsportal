@@ -78,7 +78,6 @@ const SelectCustAddress = async (req, res) => {
 const TotalCustAddress = async (req, res) => {
     const org = req.body.org;
     const cust_id = req.body.cust_id;
-    console.log(cust_id)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses with (nolock) WHERE cust_id ='${cust_id}';`)

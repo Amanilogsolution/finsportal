@@ -68,7 +68,6 @@ async function updateuser(req, res) {
     const designation = req.body.designation;
     const two_factor_authentication = req.body.two_factor_authentication;
     const User_id = req.body.User_id;
-    console.log(user_name)
 
     try {
         await sql.connect(sqlConfig)

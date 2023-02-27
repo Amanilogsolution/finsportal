@@ -35,7 +35,6 @@ function PandingCompliances() {
             sortable: true,
             cell: (row) => [
                 <input type="checkbox" checked={(row.document_status == 'true') ? true : false} />,
-
             ]
         },
         {
@@ -43,11 +42,8 @@ function PandingCompliances() {
             selector: 'remark',
             sortable: true,
             // cell: (row) => [
-
             //     <textarea type="text" value={row.remark} id="remarkdata" />
-
             // ]
-
         },
 
         {
@@ -55,7 +51,6 @@ function PandingCompliances() {
             selector: 'due_date',
             sortable: true,
             // cell: (row) => [
-
             //     <input type="date" value={row.due_date} id="due_date" defaultValue
             //     onChange={(e)=>{setDate(e.target.value)}}
             //     />
@@ -91,7 +86,6 @@ function PandingCompliances() {
 
                     }
                 }} data-toggle="modal" data-target="#exampleModal">Upload document</button>
-
             ]
         }
     ]
@@ -108,10 +102,7 @@ function PandingCompliances() {
             if (result) {
                 window.location.reload()
             }
-
         }
-
-
     }
 
     const handleChangeRemark = (e) => {
@@ -121,8 +112,6 @@ function PandingCompliances() {
         setDate(e.target.value)
 
     }
-
-
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -147,13 +136,12 @@ function PandingCompliances() {
                 <div className="content-wrapper">
                     <div className="container-fluid">
                         <br />
-                        <h3 className="text-left ml-5">Pending Compliances</h3>
+                        <h3 className=" ml-5">Pending Compliances</h3>
                         <br />
-                        <div className="card" style={{ width: "100%" }}>
-                            <article className="card-body">
+                        <div className="card w-100">
+                            <article className="card-body py-0">
                                 <DataTableExtensions
-                                    {...tableData}
-                                >
+                                    {...tableData}>
                                     <DataTable
                                         noHeader
                                         defaultSortField="id"
@@ -163,9 +151,7 @@ function PandingCompliances() {
                                         highlightOnHover
                                     />
                                 </DataTableExtensions>
-
                             </article>
-
                         </div>
                     </div>
                 </div>

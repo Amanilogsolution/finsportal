@@ -85,7 +85,7 @@ function Showcompliances() {
       selector: row => row.null,
       cell: (row) => [
 
-        <a title='View Document' href="Editcompliances" id={`editactionbtns${row.sno}`} style={{ display: "none" }} >
+        <a title='Edit Compliances' href="Editcompliances" id={`editactionbtns${row.sno}`} style={{ display: "none" }} >
           <button className="editbtn btn-success "
             onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)}
           >Edit</button></a>
@@ -121,10 +121,7 @@ function Showcompliances() {
       else {
         alert("something are Wrong")
       }
-
-
     }
-
   };
   //##########################   Upload data end  #################################
 
@@ -280,7 +277,7 @@ function Showcompliances() {
                     className={`form-control `}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
-                <span style={{ color: "red" }}>
+                <span className='text-danger'>
                   <a href={Excelformate} download> Download formate</a>
                 </span><br />
               </div>
@@ -318,7 +315,7 @@ function Showcompliances() {
         <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content `}>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel">
                 Uploaded Excel file
               </h5>
               <button
@@ -327,7 +324,7 @@ function Showcompliances() {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()

@@ -6,7 +6,6 @@ const uuidv1 = require("uuid/v1");
 const AddCurrencyAdjustment = async(req,res)=>{
     const org = req.body.org;
     const currency = req.body.currency;
-    console.log(org,currency)
     try{
         await sql.connect(sqlConfig)
         currency.map((item) => 
@@ -15,7 +14,7 @@ const AddCurrencyAdjustment = async(req,res)=>{
             )
     }
     catch(err){
-        console.log(err)
+        res.send(err)
     }
 }
 

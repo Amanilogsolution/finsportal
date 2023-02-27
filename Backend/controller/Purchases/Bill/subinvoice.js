@@ -31,9 +31,6 @@ const inserSubInvoice = async (req, res) => {
     const fin_year = req.body.fin_year;
     const userid = req.body.userid;
 
-    console.log(org,voucher_no,voucher_date,bill_date,bill_no,vend_id,vend_name,location,item_name,emp_name,glcode,samt,qty,
-        rate,amt,unit,file_no,deduction,gst_rate,sac_hsn,net_amt,remarks,cost_centre,fin_year,userid)
- 
     try {
         await sql.connect(sqlConfig)
 
@@ -56,7 +53,6 @@ const inserSubInvoice = async (req, res) => {
          values ('${voucher_no}','${voucher_date}','${bill_date}','${bill_no}','${vend_id}','${vend_name}','${location}','${item_name}','${emp_name}','${glcode}',
          '${samt}','${qty}','${rate}','${amt}','${unit}','${file_no}','${deduction}','${gst_rate}','${sac_hsn}','${net_amt}','${remarks}','${cost_centre}',
          '${fin_year}','${userid}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuidv1()}')`)
-         console.log(result)
         res.send('Added')  
     }
     catch (err) {

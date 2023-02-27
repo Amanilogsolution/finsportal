@@ -93,7 +93,6 @@ async function deletecountry(req, res) {
 const ImportCountry = (req, res) => {
     const datas = req.body.data;
     const User_id = req.body.User_id;
-    // console.log(datas)
 
     sql.connect(sqlConfig).then(() => {
 

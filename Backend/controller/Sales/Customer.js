@@ -286,7 +286,6 @@ const ImportCustomer = (req, res) => {
 // const Idcountmaster = async (req, res) => {
 //     const org = req.body.org;
 //     const masterid = req.body.masterid;
-//     // console.log(masterid)
 //     try {
 //         await sql.connect(sqlConfig)
 //         const result = await sql.query(`select id_count from ${org}.dbo.tbl_id_controller where master_id='${masterid}';`)

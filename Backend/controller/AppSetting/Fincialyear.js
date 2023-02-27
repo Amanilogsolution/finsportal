@@ -120,7 +120,6 @@ const Getfincialyearid = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_fin_year where status='Active';`)
-        console.log(result)
         res.send(result.recordset)
     }
     catch (err) {
