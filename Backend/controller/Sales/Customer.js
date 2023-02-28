@@ -142,6 +142,7 @@ const UpdateCustomer = async (req, res) => {
     }
 }
 
+
 // const Customer_id = async (req, res) => {
 //     const org = req.body.org;
 //     try {

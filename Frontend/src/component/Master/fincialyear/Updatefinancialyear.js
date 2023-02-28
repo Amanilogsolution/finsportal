@@ -6,7 +6,6 @@ import { Selectfincialyear, UpdateFincialyear } from '../../../api'
 
 const Updatefincialyear = () => {
   const [data, setData] = useState({})
-
   const themeval = localStorage.getItem('themetype')
 
 

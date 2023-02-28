@@ -446,6 +446,21 @@ export const SelectedCustomer = async (org, cust_id) => {
     return axios.post(url, { org, cust_id }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const customernameChange = async (org, cust_id,cust_name,date,user_id) => {
+    const url = `http://localhost:3008/api/customernameChange`
+    return axios.post(url, { org, cust_id,cust_name,date,user_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateCustomerName = async (org,cust_name,cust_id) => {
+    console.log(org,cust_name,cust_id)
+    const url = `http://localhost:3008/api/UpdateCustomerName`
+    return axios.post(url, { org,cust_name,cust_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
+
+
 
 
 // ###################### Customer and Id controller  api start #############################
