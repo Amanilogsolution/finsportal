@@ -119,7 +119,7 @@ const ShowFinancialyear = () => {
 
         <div className="container-fluid">
           <div className="card w-100">
-            <article className={`card-body `}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
