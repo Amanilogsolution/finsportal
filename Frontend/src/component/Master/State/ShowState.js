@@ -25,7 +25,6 @@ const ShowState = () => {
       const result = await getstates();
       setData(result);
 
-
       const financstatus = localStorage.getItem('financialstatus')
       setFinancialstatus(financstatus);
       if (financstatus === 'Deactive') {
@@ -40,13 +39,14 @@ const ShowState = () => {
       if (UserRights.state_edit === 'true') {
         for (let i = 0; i < result.length; i++) {
           document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+          console.log(`editactionbtns${result[i].sno}`)
         }
       }
-      if (UserRights.state_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
+      // if (UserRights.state_delete === 'true') {
+      //   for (let i = 0; i < result.length; i++) {
+      //     document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+      //   }
+      // }
 
     }
     fetchdata()
