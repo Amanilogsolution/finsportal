@@ -59,8 +59,6 @@ function Bills() {
     })
     const [vouchersitem, setVoucheritems] = useState([])
 
-    const themetype = localStorage.getItem('themetype')
-
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -298,11 +296,6 @@ function Bills() {
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
 
-        console.log(location, employee, quantity, rate, amount, netvalue, unit, deduction, fileno, items)
-
-        // console.log(localStorage.getItem('Organisation'), voucher_no, voucher_date, vendor_name, Location, bill_no,
-        //     bill_date, bill_amt,total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-        //     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id,img)
 
         if (!voucher_no) {
             alert('Please Enter mandatory field')
@@ -818,7 +811,7 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themetype} />
+                <Footer  />
             </div>
 
             {/* ----------------------- Attach File  Modal  Start --------------*/}

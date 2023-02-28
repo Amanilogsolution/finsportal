@@ -78,8 +78,6 @@ function Invoices() {
 
     const [items, setItems] = useState([])
 
-    const themetype = localStorage.getItem('themetype')
-
     useEffect(() => {
         const fetchdata = async () => {
             setTimeout(() => {
@@ -781,7 +779,7 @@ function Invoices() {
                         }
                     </div>
                 </div>
-                <Footer theme={themetype} />
+                <Footer />
             </div>
         </>
     )

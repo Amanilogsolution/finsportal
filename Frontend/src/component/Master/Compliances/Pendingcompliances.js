@@ -16,7 +16,6 @@ function PandingCompliances() {
     const [file, setFile] = useState()
     const [sno, setSno] = useState()
 
-    const themeval = localStorage.getItem('themetype')
 
     const columns = [
         {
@@ -155,7 +154,7 @@ function PandingCompliances() {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themeval} />
+                <Footer  />
                 {/* ------------------ Modal start -----------------------------*/}\
                 {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
                 <div

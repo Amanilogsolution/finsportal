@@ -9,9 +9,6 @@ function AddOrgAddress() {
   const [data, setData] = useState({});
   const [citylist, setCitylist] = useState([])
 
-  const themeval = localStorage.getItem('themetype')
-
-
   useEffect(() => {
     const fetchdata = async () => {
       const result = await showLocation(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
@@ -154,7 +151,7 @@ function AddOrgAddress() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer  />
     </div>
   )
 }

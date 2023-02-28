@@ -9,9 +9,6 @@ function EditLocation() {
   const [state, setState] = useState([])
   const [slectedstate, setSelectedstate] = useState()
 
-  const themeval = localStorage.getItem('themetype')
-
-
   useEffect(() => {
     const fetchdata = async () => {
       const result = await showLocation(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
@@ -162,7 +159,7 @@ function EditLocation() {
                   </div>
                 </div>
               </div>
-        <Footer theme={themeval} />
+        <Footer />
     </div>
   )
 

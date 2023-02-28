@@ -6,14 +6,11 @@ import { Selectfincialyear, UpdateFincialyear } from '../../../api'
 
 const Updatefincialyear = () => {
   const [data, setData] = useState({})
-  const themeval = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetch = async () => {
       const result = await Selectfincialyear(localStorage.getItem('Organisation'), localStorage.getItem('FinsyearSno'))
       setData(result)
-      console.log(result.financial_year_lock)
       if (result.financial_year_lock === 'Deactive') {
         document.getElementById('lockFinancialyear').checked = true
       }
@@ -32,7 +29,6 @@ const Updatefincialyear = () => {
     const lock = document.getElementById('lockFinancialyear').checked;
     let lockscreen
     lock === true ? lockscreen = 'Deactive ' : lockscreen = 'Active';
-    console.log(lockscreen)
 
     if (invoice_ser.length > 6 || voucher_ser.length > 4) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
@@ -43,7 +39,6 @@ const Updatefincialyear = () => {
         alert("Updated")
         localStorage.removeItem('FinsyearSno');
         window.location.href = "./ShowFinancialyear"
-
       }
       else {
         alert("Server Error!");
@@ -129,7 +124,7 @@ const Updatefincialyear = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   )
 }

@@ -7,8 +7,6 @@ import { updatePaymentterm, ShowPaymentTerm } from "../../../api";
 const UpdatePaymentTerm = () => {
   const [data, setData] = useState({})
 
-  const themeval = localStorage.getItem('themetype')
-
 
   //############## API Call #################
   useEffect(() => {
@@ -71,8 +69,6 @@ const UpdatePaymentTerm = () => {
                     <input type="number" className="form-control col-md-4" id='paymentdays' defaultValue={data.term_days} />
                   </div>
                 </div>
-
-
               </form>
             </article>
             <div className={`border-top card-footer `}>
@@ -82,7 +78,7 @@ const UpdatePaymentTerm = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer  />
     </div>
   )
 

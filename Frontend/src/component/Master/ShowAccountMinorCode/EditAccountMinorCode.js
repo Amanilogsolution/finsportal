@@ -5,13 +5,11 @@ import { GetAccountMinorCode, UpdateAccountMinorCode } from '../../../api'
 
 function EditAccountMinorCode() {
   const [data, setData] = useState({})
-  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await GetAccountMinorCode(localStorage.getItem('Organisation'), localStorage.getItem('AccountMinorCode'));
       setData(result)
-      console.log(result)
     }
     fetchData();
   }, [])
@@ -49,10 +47,10 @@ function EditAccountMinorCode() {
       </div>
       <Header />
       <div>
-        <div className={`content-wrapper bg-${themeval}`}>
+        <div className={`content-wrapper `}>
           <div className="container-fluid">
             <h3 className="ml-5 py-3">Edit Account Info</h3>
-            <div className={`card w-100 bg-${themeval}`}>
+            <div className={`card w-100 `}>
               <form className="card-body">
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name</label>
@@ -89,7 +87,7 @@ function EditAccountMinorCode() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   )
 }

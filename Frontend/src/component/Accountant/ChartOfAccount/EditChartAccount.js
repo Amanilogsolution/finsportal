@@ -6,7 +6,6 @@ import { GetChartOfAccount, UpdateChartOfAccount } from '../../../api'
 
 function EditChartAccount() {
   const [data, setData] = useState({})
-  const themetype = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,11 +34,11 @@ function EditChartAccount() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper bg-${themetype}`}>
+      <div className={`content-wrapper `}>
         <div className="container-fluid">
           <h3 className="py-3 ml-5">Edit Chart Account</h3>
           <div className="card w-100">
-            <form className={`card-body bg-${themetype}`}>
+            <form className={`card-body `}>
               <div className="form-row">
                 <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Sub Name</label>
                 <div className="col form-group">
@@ -76,7 +75,7 @@ function EditChartAccount() {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 }

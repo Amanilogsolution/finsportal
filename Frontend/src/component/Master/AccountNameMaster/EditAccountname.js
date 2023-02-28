@@ -6,7 +6,6 @@ import { SelectAccountName, UpdateAccountName } from '../../../api'
 
 function EditAccountname() {
   const [data, setData] = useState({})
-  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +77,7 @@ function EditAccountname() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   )
 }

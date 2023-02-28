@@ -5,7 +5,6 @@ import { InsertCountry } from '../../../api';
 
 const AddCountry = () => {
   const [phonenumerr, setPhonenumerr] = useState('')
-  const themetype = localStorage.getItem('themetype')
 
 
   const handleClick = async (e) => {
@@ -57,7 +56,6 @@ const AddCountry = () => {
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='country_code' />
                   </div>
-                  {/* form-group end.// */}
                 </div>
 
                 <div className="form-row">
@@ -82,7 +80,7 @@ const AddCountry = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

@@ -7,8 +7,6 @@ const EditCurrency = () => {
   const [data, setData] = useState([])
   const [selectCountry, setSelectCountry] = useState([])
 
-  const themetype = localStorage.getItem('themetype')
-
   useEffect(() => {
     const fetchdata = async () => {
       const result = await showCurrency(localStorage.getItem('CurrencySno'), localStorage.getItem("Organisation"));
@@ -84,7 +82,7 @@ const EditCurrency = () => {
                   </div>
                 </div>
               </div>
-        <Footer theme={themetype} />
+        <Footer />
     </div>
   )
 

@@ -10,9 +10,6 @@ const EditCity = () => {
   const [selectState, setSelectState] = useState([]);
   const [country, setCountry] = useState()
 
-  const themetype = localStorage.getItem('themetype')
-
-
   useEffect( () => {
     const fetchdata = async () => {
       const result = await showCity(localStorage.getItem('citySno'));
@@ -118,7 +115,7 @@ const EditCity = () => {
                   </div>
                 </div>
               </div>
-        <Footer theme={themetype}/>
+        <Footer />
       </div>
   )
 }

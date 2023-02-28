@@ -18,8 +18,6 @@ const ShowCurrency = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
   const columns = [
     {
       name: 'Country Name',
@@ -42,7 +40,7 @@ const ShowCurrency = () => {
       selector: "null",
       cell: (row) => [
         <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={themetype} onChange={async (e) => {
+          <select onChange={async (e) => {
             const status = e.target.value;
             await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
             window.location.href = 'ShowCurrency'
@@ -209,7 +207,7 @@ const ShowCurrency = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div

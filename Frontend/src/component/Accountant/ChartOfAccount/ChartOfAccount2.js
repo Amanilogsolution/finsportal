@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, UpdateSubAccountName, AddNewSubAccountName } from '../../../api'
 
@@ -18,7 +17,6 @@ function ChartOfAccount2() {
         const fetchData = async () => {
             const result = await ShowChartOfAccount(localStorage.getItem("Organisation"));
             setchartofaccount(result)
-
         }
         fetchData();
     }, [])
@@ -63,12 +61,10 @@ function ChartOfAccount2() {
         setaccount_type(account_type)
         const org = localStorage.getItem('Organisation');
         const result = await ChartOfAccountParentAccount(account_type, org);
-        console.log(result)
         setaccount_name(result)
 
         const number = await ParentAccountNumber(account_type, account_name, org);
 
-        console.log(number)
 
         if (!number.result) {
             setAccountno(account_type + '01')
@@ -92,7 +88,6 @@ function ChartOfAccount2() {
         // setaccount_type(account_name)
 
         const number = await ParentAccountNumber(account_type, account_name, localStorage.getItem('Organisation'));
-        console.log(number)
         const accountnamenum = parseInt(number.result1.account_name_code) + 1;
         const accountnamenum1 = String(accountnamenum).padStart(2, '0');
         setAccountno(accountnamenum1)
@@ -132,13 +127,11 @@ function ChartOfAccount2() {
 
 
     return (
-        <div>
             <div className="wrapper">
                 <div className="preloader flex-column justify-content-center align-items-center">
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-                {/* <Menu /> */}
 
                 <div className="content-wrapper">
 
@@ -248,7 +241,6 @@ function ChartOfAccount2() {
                 </div>
                 <Footer />
             </div>
-        </div>
     )
 }
 

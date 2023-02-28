@@ -8,9 +8,6 @@ const Fincialyear = () => {
   const [from_date, setFromDate] = useState('YYYY')
   const [to_date, setToDate] = useState('YYYY')
 
-  const themeval = localStorage.getItem('themetype')
-
-
   const st = '' + to_date;
   const year = st.slice(2)
 
@@ -120,7 +117,7 @@ const Fincialyear = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   )
 }

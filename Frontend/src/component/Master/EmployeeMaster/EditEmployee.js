@@ -8,8 +8,6 @@ const EditEmployee = () => {
     const [data, setData] = useState([])
 
 
-  const themeval = localStorage.getItem('themetype')
-
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
@@ -53,57 +51,49 @@ const EditEmployee = () => {
     }
 
     return (
-        <div>
-            <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
-                <div>
-                    <div className={`content-wrapper bg-${themeval}`}>
-                        <div className="container-fluid">
-                            <br /> <h3 className="text-left ml-5">Edit Employee </h3>
-                            <br/>
-                            <div className="row ">
-                                <div className="col ml-2">
-                                    <div className="card" style={{ width: "100%" }}>
-                                        <article className={`card-body bg-${themeval}`}>
-                                            <form>
-                                                <div className="form-row">
-                                                    <label htmlFor="emp_name" className="col-md-2 col-form-label font-weight-normal">Employee Name<span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <input type='text' className="form-control col-md-4" id='emp_name' value={data.emp_name} onChange={handelChangeName} required />
-
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-row">
-                                                    <label htmlFor="wh" className="col-md-2 col-form-label font-weight-normal">warehouse <span style={{ color: "red" }}>*</span></label>
-                                                    <div className="col form-group">
-                                                        <select className="form-control col-md-4" id='wh' onChange={handelChangewh}>
-                                                            <option value={data.wh} hidden>{data.wh}</option>
-                                                            {
-                                                                locationlist.map((item, index) =>
-                                                                    <option key={index} value={item.location_name}>{item.location_name}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className={`border-top card-footer bg-${themeval}`}>
-                                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
-                                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('EmpmasterSno'); window.location.href = "./showemployee" }}>Cancel</button>
-                                                </div>
-                                            </form>
-                                        </article>
+        <div className="wrapper">
+            <div className="preloader flex-column justify-content-center align-items-center">
+                <div className="spinner-border" role="status"> </div>
+            </div>
+            <Header />
+            <div className={`content-wrapper `}>
+                <div className="container-fluid">
+                    <br /> <h3 className="text-left ml-5">Edit Employee </h3>
+                    <br />
+                    <div className="card" style={{ width: "100%" }}>
+                        <article className={`card-body `}>
+                            <form>
+                                <div className="form-row">
+                                    <label htmlFor="emp_name" className="col-md-2 col-form-label font-weight-normal">Employee Name<span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <input type='text' className="form-control col-md-4" id='emp_name' value={data.emp_name} onChange={handelChangeName} required />
 
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
+                                <div className="form-row">
+                                    <label htmlFor="wh" className="col-md-2 col-form-label font-weight-normal">warehouse <span style={{ color: "red" }}>*</span></label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='wh' onChange={handelChangewh}>
+                                            <option value={data.wh} hidden>{data.wh}</option>
+                                            {
+                                                locationlist.map((item, index) =>
+                                                    <option key={index} value={item.location_name}>{item.location_name}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className={`border-top card-footer `}>
+                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
+                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('EmpmasterSno'); window.location.href = "./showemployee" }}>Cancel</button>
+                                </div>
+                            </form>
+                        </article>
+
                     </div>
                 </div>
-                <Footer theme={themeval}/>
             </div>
+            <Footer />
         </div>
     )
 

@@ -76,7 +76,6 @@ function ShowChartAccount() {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
-  const themetype = localStorage.getItem('themetype')
 
 
   //##########################  Upload data start  #################################
@@ -214,7 +213,7 @@ function ShowChartAccount() {
             </div>
           </div>
 
-        <Footer theme={themetype} />
+        <Footer  />
         {/* ------------------ Modal start -----------------------------*/}
         <div
           className="modal fade"

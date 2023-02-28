@@ -231,6 +231,7 @@ const TotalCustAddress = () => {
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
+                  dense
                   highlightOnHover
                   customStyles={customStyles}
                 />
@@ -239,7 +240,7 @@ const TotalCustAddress = () => {
           </div>
 
         </div>
-        <Footer theme={themeval} />
+        <Footer  />
       </div>
 
       {/* ------------------ Modal start -----------------------------*/}

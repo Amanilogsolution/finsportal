@@ -14,8 +14,6 @@ const AddCustAddress = () => {
   const [zipcount, setZipcount] = useState()
   const [phonecount, setPhonecount] = useState()
 
-  const themeval = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -263,7 +261,7 @@ const AddCustAddress = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 }

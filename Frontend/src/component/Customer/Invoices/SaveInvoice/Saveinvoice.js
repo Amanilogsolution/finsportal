@@ -57,8 +57,6 @@ const InvoiceSave = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -119,7 +117,7 @@ const InvoiceSave = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 }

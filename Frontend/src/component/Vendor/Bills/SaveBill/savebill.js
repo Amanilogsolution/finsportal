@@ -63,9 +63,6 @@ const BillSave = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
-
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
@@ -119,7 +116,7 @@ const BillSave = () => {
             </div>
           </div>
         </div>
-        <Footer theme={themetype} />
+        <Footer />
       </div>
     </>
   )

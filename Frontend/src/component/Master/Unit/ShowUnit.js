@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { TotalUnit, deleteUnit, ImportUnit, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
@@ -18,7 +17,6 @@ const ShowUnit = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
 
   const columns = [
     {
@@ -216,7 +214,7 @@ const ShowUnit = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div

@@ -16,8 +16,6 @@ import Centrallogo from '../../../images/centrallogo.jpg'
 
 function AddBankList() {
 
-  const themetype = localStorage.getItem('themetype')
-
   return (
     <>
         <div className="wrapper">
@@ -111,7 +109,7 @@ function AddBankList() {
                     </div>
             </div>
           </div>
-          <Footer theme={themetype}/>
+          <Footer/>
         </div>
         {/*########################### Modal Start ################################*/}
         <div className="modal fade " id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

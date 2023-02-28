@@ -17,7 +17,6 @@ const ShowCountry = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
 
   const columns = [
     {
@@ -211,7 +210,7 @@ const ShowCountry = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

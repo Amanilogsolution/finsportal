@@ -18,9 +18,6 @@ const Showcity = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
-
   const columns = [
     {
       name: 'Country Name',
@@ -228,7 +225,7 @@ const Showcity = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer  />
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div

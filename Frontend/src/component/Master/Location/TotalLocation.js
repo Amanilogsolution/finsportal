@@ -20,9 +20,6 @@ const TotalLocation = () => {
   const [btntype, setBtntype] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themeval = localStorage.getItem('themetype')
-
-
   const styleborder = {
     border: "1px solid black"
   }
@@ -279,7 +276,7 @@ const TotalLocation = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer  />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

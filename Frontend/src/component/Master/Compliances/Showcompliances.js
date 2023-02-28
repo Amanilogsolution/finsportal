@@ -16,8 +16,6 @@ function Showcompliances() {
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
   const columns = [
     {
       name: 'Compliance Type',
@@ -235,7 +233,7 @@ function Showcompliances() {
         </div>
       </div>
 
-      <Footer theme={themetype} />
+      <Footer/>
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

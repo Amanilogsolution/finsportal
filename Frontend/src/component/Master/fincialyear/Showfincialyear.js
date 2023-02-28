@@ -69,8 +69,6 @@ const ShowFinancialyear = () => {
   const [data, setData] = useState([{}])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
   useEffect(() => {
     const fetchdata = async () => {
       const result = await Showfincialyear(localStorage.getItem('Organisation'))
@@ -138,7 +136,7 @@ const ShowFinancialyear = () => {
         </div>
       </div>
 
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

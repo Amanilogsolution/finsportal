@@ -86,7 +86,6 @@ const TotalCustomer = () => {
   const [ActionToogle, setActionToogle] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themeval = localStorage.getItem('themetype')
 
   //##########################  Upload data start  #################################
 
@@ -322,7 +321,7 @@ const TotalCustomer = () => {
             </article>
           </div>
         </div>
-        <Footer theme={themeval} />
+        <Footer  />
       </div>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}

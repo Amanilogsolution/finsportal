@@ -30,7 +30,6 @@ const Customer = () => {
   const [billing_address_city, setBilling_address_city] = useState();
   const [generatedmcust, setGeneratedmcust] = useState();
   const [generatedcust, setGeneratedcust] = useState();
-  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -1178,7 +1177,7 @@ const Customer = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   );
 };

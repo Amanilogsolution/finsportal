@@ -241,7 +241,7 @@ const TotalVendAddress = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

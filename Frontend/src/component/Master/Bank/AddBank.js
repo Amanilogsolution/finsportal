@@ -10,8 +10,6 @@ const AddBank = () => {
   const [citylist,setCitylist] = useState([])
   const [pincode, setPincode] = useState();
 
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(()=>{
        const fetchdata=async()=>{
@@ -205,7 +203,7 @@ const AddBank = () => {
                   </div>
                 </div>
               </div>
-        <Footer theme={themetype}/>
+        <Footer/>
     </div>
   )
 }

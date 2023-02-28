@@ -9,7 +9,6 @@ import customStyles from '../../customTableStyle';
 const ShowFincialTerm = () => {
   const [data, setData] = useState([])
 
-  const themetype = localStorage.getItem('themetype')
 
   const columns = [
     {
@@ -115,7 +114,7 @@ const ShowFincialTerm = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

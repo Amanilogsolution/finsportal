@@ -66,7 +66,7 @@ const columns = [
     selector: "null",
     cell: (row) => [
 
-      <a title='View Document' id={`editactionbtns${row.sno}`} href="EditBank" style={{ display: "none" }}>
+      <a title='Edit Bank' id={`editactionbtns${row.sno}`} href="EditBank" style={{ display: "none" }}>
         <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
       </a>
 

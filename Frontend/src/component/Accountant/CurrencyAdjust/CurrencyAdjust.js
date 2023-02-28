@@ -6,8 +6,6 @@ import { CurrencyAdjustment } from '../../../api/index'
 
 function CurrencyAdjust() {
     let arr = [];
-    const themeval = localStorage.getItem('themetype')
-
 
     // const handleClick = (e) => {
     //     e.preventDefault();
@@ -119,7 +117,6 @@ function CurrencyAdjust() {
                                         <td style={border1} ><input id="tr4td8" type="text" /></td>
                                         <td style={border1} ><input id="tr4td9" type="text" /></td>
                                         {/* <td style={border1} ><input type="button" className='btn btn-success' value="Save" /></td> */}
-
                                     </tr>
                                     <tr id="t5">
                                         <td style={border1} ><input id="tr5td0" disabled type="text" value={"AUS $"} /></td>
@@ -133,7 +130,6 @@ function CurrencyAdjust() {
                                         <td style={border1}><input id="tr5td8" type="text" /></td>
                                         <td style={border1}><input id="tr5td9" type="text" /></td>
                                         {/* <td style={border1} ><input type="button" className='btn btn-success' value="Save" /></td> */}
-
                                     </tr>
                                     <tr id="t6">
                                         <td style={border1}><input id="tr6td0" disabled type="text" value={"Japanese ¥ "} /></td>
@@ -202,7 +198,7 @@ function CurrencyAdjust() {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themeval} />
+                <Footer />
             </div>
 
         </>

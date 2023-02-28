@@ -7,7 +7,6 @@ import { memo } from "react";
 const PreviewBill = (props) => {
     const pdfRef = useRef(null);
 
-    console.log(' data', props.data)
     const print = (e) => {
         e.preventDefault();
         const content = pdfRef.current;

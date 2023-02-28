@@ -10,8 +10,6 @@ const ShowCrm = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themeval = localStorage.getItem('themetype')
-
   const columns = [
     {
       name: 'Person name',
@@ -136,7 +134,7 @@ const ShowCrm = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 

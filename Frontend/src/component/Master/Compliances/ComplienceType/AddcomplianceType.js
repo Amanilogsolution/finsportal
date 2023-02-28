@@ -4,8 +4,6 @@ import Footer from "../../../Footer/Footer";
 import { InsertcomplianceType } from '../../../../api';
 
 function AddcomplianceType() {
-  const themeval = localStorage.getItem('themetype')
-
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -51,7 +49,7 @@ function AddcomplianceType() {
                   </div>
                 </div>
               </div>
-        <Footer theme={themeval} />
+        <Footer />
       </div>
   )
 }

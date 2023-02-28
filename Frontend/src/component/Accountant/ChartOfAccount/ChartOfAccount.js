@@ -11,7 +11,6 @@ function ChartOfAccount() {
   const [accountno, setAccountno] = useState('');
   const [accountsubno, setAccountsubno] = useState('');
   const [check, setCheck] = useState(false);
-  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -190,7 +189,7 @@ function ChartOfAccount() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   )
 }

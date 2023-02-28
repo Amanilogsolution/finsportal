@@ -7,8 +7,6 @@ import { ShowcompliancesTypeselect, UpdatecomplianceType } from '../../../../api
 function EditComplianceType() {
   const [data, setData] = useState([])
 
-  const themeval = localStorage.getItem('themetype')
-
   const handleClick = async (e) => {
     e.preventDefault();
     const compliance_Type = document.getElementById('compliance_Type').value;
@@ -61,7 +59,7 @@ function EditComplianceType() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 }

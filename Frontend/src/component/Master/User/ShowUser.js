@@ -84,8 +84,6 @@ const ShowUser = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
 
   //##########################  Upload data start  #################################
 
@@ -230,7 +228,7 @@ const ShowUser = () => {
             </div>
           </div>
         </div>
-      <Footer theme={themetype} />
+      <Footer  />
 
       {/* ------------------ Modal start -----------------------------*/}
       <div

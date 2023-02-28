@@ -12,8 +12,6 @@ function  ShowcomplianceType() {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themeval = localStorage.getItem('themetype')
-
   const columns = [
     {
       name: 'Compliance Type',
@@ -123,7 +121,7 @@ function  ShowcomplianceType() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 }

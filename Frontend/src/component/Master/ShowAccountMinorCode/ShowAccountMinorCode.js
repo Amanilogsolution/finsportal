@@ -71,8 +71,6 @@ function ShowAccountMinorCode() {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const themeval = localStorage.getItem('themetype')
-
 
   //##########################  Upload data start  #################################
 
@@ -200,7 +198,7 @@ function ShowAccountMinorCode() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval}/>
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

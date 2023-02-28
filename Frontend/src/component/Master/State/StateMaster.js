@@ -9,8 +9,6 @@ const StateMaster = () => {
   const [selectCountry, setSelectCountry] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('india');
 
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,7 +124,7 @@ const StateMaster = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 

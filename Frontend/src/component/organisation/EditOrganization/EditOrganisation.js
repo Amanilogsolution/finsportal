@@ -12,7 +12,6 @@ function EditOrganisation() {
   const [regset, setRegset] = useState(false)
   const [contper, setContper] = useState(false)
 
-  const themeval = localStorage.getItem('themetype') || 'light';
 
   const Orgdetails = async (e) => {
     e.preventDefault();
@@ -641,7 +640,7 @@ function EditOrganisation() {
         </div>
         {/* ############################### Modal ####################################### */}
 
-        <Footer theme={themeval} />
+        <Footer  />
       </div>
     </>
   )

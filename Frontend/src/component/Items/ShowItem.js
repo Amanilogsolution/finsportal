@@ -79,8 +79,6 @@ const ShowItem = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -150,7 +148,7 @@ const ShowItem = () => {
         </div>
       </div>
 
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 

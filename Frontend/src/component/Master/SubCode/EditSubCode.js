@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { GetSubCodeDetails, ShowGlCode, UpdateSubCodeDetails } from '../../../api';
 
@@ -11,7 +10,6 @@ function EditSubCode() {
   useEffect(() => {
     const fetchData = async () => {
       const result = await GetSubCodeDetails(localStorage.getItem("Organisation"), localStorage.getItem("SubCodesno"));
-      console.log(result)
       setData(result)
       const result1 = await ShowGlCode(localStorage.getItem("Organisation"));
       setglcode(result1)
@@ -49,7 +47,6 @@ function EditSubCode() {
           <div className="spinner-border" role="status"> </div>
         </div>
         <Header />
-        {/* <Menu /> */}
         <div>
           <div className="content-wrapper">
             <div className="container-fluid">
