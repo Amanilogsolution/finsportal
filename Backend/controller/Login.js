@@ -28,7 +28,7 @@ const User_login = async (req, res) => {
                 user_ip: result.recordset[0].comp_ip,
                 fin_year: result1.recordset[0].fin_year,
                 year: result1.recordset[0].year,
-                fin_year_status: result1.recordset[0].status,
+                fin_year_status: result1.recordset[0].financial_year_lock,
                 Twofa: result.recordset[0].tfact_secretkey,
                 Loginstatus: result.recordset[0].status,
                 ThemeButton:result.recordset[0].theme_btn_color,
