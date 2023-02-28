@@ -102,7 +102,7 @@ const InvoiceSave = () => {
         <div className="container-fluid">
           <h3 className="py-4 ml-5"> Save Invoice </h3>
           <div className="card w-100">
-            <article className="card-body ">
+            <article className="card-body py-1">
               <DataTableExtensions
                 {...tableData}>
                 <DataTable
@@ -111,6 +111,7 @@ const InvoiceSave = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>

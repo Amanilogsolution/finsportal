@@ -86,7 +86,7 @@ function Bills() {
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
             setVouchercount(lastno)
-            document.getElementById('voucher_no').value = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+            document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
 
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
@@ -103,7 +103,7 @@ function Bills() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
-        document.getElementById("voucher_date").value = today;
+        document.getElementById("voucher_date").defaultValue = today;
     }
 
     const Duedate = (lastday) => {
@@ -115,7 +115,7 @@ function Bills() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         let today = year + "-" + month + "-" + day;
-        document.getElementById("due_date").value = today;
+        document.getElementById("due_date").defaultValue = today;
     }
 
     const handleAccountTerm = (e) => {
@@ -132,7 +132,7 @@ function Bills() {
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
     }
-    
+
 
     const handleChangeLocation = (e) => {
         setLocation([...location, e.target.value])
@@ -408,7 +408,7 @@ function Bills() {
         const value = netTotal
         setNetTotal(value - Math.round(amount))
 
-        document.getElementById('tdsperinp').value = TdsPer;
+        document.getElementById('tdsperinp').defaultValue = TdsPer;
         document.getElementById('tdstagval').innerHTML = Math.round(amount);
 
         document.getElementById('tdsdiv').style.display = 'none';
@@ -460,7 +460,6 @@ function Bills() {
                                                 id="vend_name"
                                                 onChange={handlevendorselect}
                                                 className="form-control col-md-4">
-
                                                 <option value='' hidden>select vendor</option>
                                                 {
                                                     vendorlist.map((item, index) =>
@@ -546,28 +545,29 @@ function Bills() {
                                     <br />
                                     <table className="table table-striped table-bordered">
                                         <thead className='text-center'>
-                                            <th scope="col">Location</th>
-                                            <th scope="col">Item Details</th>
-                                            <th scope="col">Employee</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Rate</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Deduction</th>
-                                            <th scope="col">Refno/FIleno</th>
-                                            <th scope="col">Unit</th>
-                                            <th scope="col">Net Amt</th>
+                                            <tr>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Item Details</th>
+                                                <th scope="col">Employee</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Rate</th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Deduction</th>
+                                                <th scope="col">Refno/FIleno</th>
+                                                <th scope="col">Unit</th>
+                                                <th scope="col">Net Amt</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             {
                                                 totalValues.map((element, index) => (
                                                     <tr key={index}>
                                                         <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                            <select className="form-control ml-0" onChange={handleChangeLocation}
-                                                            >
+                                                            <select className="form-control ml-0" onChange={handleChangeLocation}>
                                                                 <option value='' hidden>Select Location</option>
                                                                 {
                                                                     locationstate.map((item, index) => (
-                                                                        <option key={index} value={item.location_add1} >{item.location_add1}</option>
+                                                                        <option key={index} value={item.location_add1} >{item.location_name}</option>
 
                                                                     ))
                                                                 }
@@ -604,7 +604,7 @@ function Bills() {
                                                             <input type='number' id="Rate" onChange={handleChangeRate} className="form-control" />
                                                         </td>
                                                         <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                            <input type='number' id="Amount" value={amount[index]} className="form-control cursor-notallow" disabled />
+                                                            <input type='number' id="Amount" defaultValue={amount[index]} className="form-control cursor-notallow" disabled />
                                                         </td>
 
                                                         <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -630,7 +630,7 @@ function Bills() {
                                                             </select>
                                                         </td>
                                                         <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                            <input type='number' className="form-control cursor-notallow" value={netvalue[index]} disabled />
+                                                            <input type='number' className="form-control cursor-notallow" defaultValue={netvalue[index]} disabled />
                                                         </td>
                                                     </tr>
 
@@ -671,7 +671,7 @@ function Bills() {
                                                 <tbody style={{ position: "relative" }}>
                                                     <tr scope="row">
                                                         <td style={{ width: "150px" }} >
-                                                            <a title='Click to Input GST Data' className='cursor-pointer' style={{borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
+                                                            <a title='Click to Input GST Data' className='cursor-pointer' style={{ borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
                                                             </a>
                                                             <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
                                                                 <div className="card-body p-2">
@@ -690,7 +690,7 @@ function Bills() {
                                                                     </div>
                                                                     <div className="form-row">
                                                                         <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
-                                                                        <input type="number" className="form-control col-md-7 bg-light" id="totalamount" value={netTotal} />
+                                                                        <input type="number" className="form-control col-md-7 cursor-notallow" id="totalamount" defaultValue={netTotal} disabled/>
                                                                     </div>
                                                                     <div className="form-row" >
                                                                         <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
@@ -703,7 +703,7 @@ function Bills() {
                                                         </td>
                                                         <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                             <div className="input-group" >
-                                                                <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' value={cgstper} disabled />
+                                                                <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' defaultValue={cgstper} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -715,7 +715,7 @@ function Bills() {
                                                         <td>Total SGST Amt</td>
                                                         <td className='form-control col-md p-0 bg-transparent border-none'>
                                                             <div className="input-group" >
-                                                                <input type="" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' value={sgstper} disabled />
+                                                                <input type="" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' defaultValue={sgstper} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -727,7 +727,7 @@ function Bills() {
                                                         <td>Total IGST Amt</td>
                                                         <td className='form-control col-md p-0 bg-transparent ' >
                                                             <div className="input-group" >
-                                                                <input type='number' className="form-control col-md-5 ml-5  cursor-notallow" id='igst-inp' value={igstper} disabled />
+                                                                <input type='number' className="form-control col-md-5 ml-5  cursor-notallow" id='igst-inp' defaultValue={igstper} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">%</span>
                                                                 </div>
@@ -804,7 +804,6 @@ function Bills() {
                                                     </tr>
                                                 </tbody>
                                             </table>
-
                                         </div>
                                     </div>
                                     <PreviewBill data={billalldetail} Allitems={vouchersitem} />

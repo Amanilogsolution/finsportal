@@ -15,7 +15,7 @@ const Updatefincialyear = () => {
       const result = await Selectfincialyear(localStorage.getItem('Organisation'), localStorage.getItem('FinsyearSno'))
       setData(result)
       console.log(result.financial_year_lock)
-      if (result.financial_year_lock === 'DeActive') {
+      if (result.financial_year_lock === 'Deactive') {
         document.getElementById('lockFinancialyear').checked = true
       }
     }
@@ -32,7 +32,7 @@ const Updatefincialyear = () => {
     const User_id = localStorage.getItem('User_id')
     const lock = document.getElementById('lockFinancialyear').checked;
     let lockscreen
-    lock === true ? lockscreen = 'DeActive ' : lockscreen = 'Active';
+    lock === true ? lockscreen = 'Deactive ' : lockscreen = 'Active';
     console.log(lockscreen)
 
     if (invoice_ser.length > 6 || voucher_ser.length > 4) {

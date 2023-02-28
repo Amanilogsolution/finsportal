@@ -155,7 +155,6 @@ function Invoices() {
 
     const handleChangeItems = async (e) => {
         e.preventDefault();
-        console.log(e.target.value)
         const [actgst, chargecode, glcodes] = e.target.value.split(',')
         setChargeCode([...chargecodes, chargecode])
         setGlCode([...glcode, glcodes])
@@ -254,9 +253,6 @@ function Invoices() {
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
 
         let gst = Total * totalgst[index] / 100
-
-        console.log(index)
-
 
         let grandToatal = Total + Math.round(gst)
         setTimeout(() => {
@@ -772,7 +768,7 @@ function Invoices() {
                                                     </button>
                                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                         name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
-                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                                                    <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                                 </div>
                                             </form>
                                         </article>

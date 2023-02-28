@@ -15,7 +15,7 @@ const InvoicePreview = (props) => {
       callback: function (doc) {
         doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
       },
-      html2canvas: { scale: 0.21 },
+      html2canvas: { scale: 0.233 },
       margin: [5, 0, 0, 5],
 
 
@@ -29,11 +29,11 @@ const InvoicePreview = (props) => {
 
           <div className="modal-body text-dark" ref={pdfRef}>
             <div className="modalinvoice">
-              <div className="topdiv d-flex">
+              <div className="topdiv d-flex mb-5">
                 <div className='invoiceorglogodiv'>
                   <img className='orgpreviewlogo' src={localStorage.getItem('Orglogo')} alt='' />
                 </div>
-                <div className="topinnerdiv ">
+                <div className="topinnerdiv mr-3">
                   <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                   <p>
                     Dashmesh Complex, Nadal Village,Old Pune Mumbai Highway, Khalapur,
@@ -49,7 +49,7 @@ const InvoicePreview = (props) => {
                     <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.TaxInvoice} &nbsp;
                   </div>
                   <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.InvoiceData} &nbsp;</div>
-                  <div className="forthinvoicediv"><b> Rs.</b>{props.Allinvoicedata.GrandTotal}</div>
+                  <div className="forthinvoicediv"><b> INR.</b>{props.Allinvoicedata.GrandTotal}</div>
                 </div>
               </div>
 
@@ -107,7 +107,7 @@ const InvoicePreview = (props) => {
                   <tbody className='itembodysec'>
                     {
                       props.Allitems.map((item, index) => (
-                        <tr className='itemtrsec'>
+                        <tr key={index} className='itemtrsec'>
                           <th>{index + 1}</th>
                           <td>{item.itemsvalue}</td>
                           <td>{item.quantity}</td>
@@ -144,9 +144,7 @@ const InvoicePreview = (props) => {
                 <table className="amounttaxtable">
                   <tbody>
                     <tr className="amounttaxtr">
-                      <th colSpan="2" style={{ textAlign: "right" }}>
-                        CGST AMT
-                      </th>
+                      <th colSpan="2" style={{ textAlign: "right" }}>CGST AMT</th>
                       <th>SGST AMT</th>
                       <th>IGST AMT</th>
                       <th>Total</th>
