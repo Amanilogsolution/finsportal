@@ -21,6 +21,7 @@ const LocationController = require('../controller/AppSetting/Location')
 
 
 const customerController = require('../controller/Sales/Customer');
+const customerupdatenameController = require('../controller/Sales/CustomerNamesRecord');
 const InvoiceController = require('../controller/Sales/Invoice')
 const InvoiceSubController = require('../controller/Sales/subinvoice')
 
@@ -136,6 +137,14 @@ router.post('/customermastid',customerController.CustomerMastid)
 // router.post('/updateidcountmaster',customerController.UpdateIdcountmaster)
 router.post('/activecustomer',customerController.ActiveCustomer)
 router.post('/selectedcustomer',customerController.SelectedCustomer)
+
+router.post('/customernameChange',customerupdatenameController.AddCustomerRecord)
+router.post('/UpdateCustomerName',customerupdatenameController.UpdateCustomerName)
+
+
+
+
+
 
 
 
