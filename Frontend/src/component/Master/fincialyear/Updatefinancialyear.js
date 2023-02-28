@@ -14,6 +14,10 @@ const Updatefincialyear = () => {
     const fetch = async () => {
       const result = await Selectfincialyear(localStorage.getItem('Organisation'), localStorage.getItem('FinsyearSno'))
       setData(result)
+      console.log(result.financial_year_lock)
+      if (result.financial_year_lock === 'Active') {
+        document.getElementById('lockFinancialyear').checked = true
+      }
     }
     fetch()
   }, [])
@@ -26,12 +30,16 @@ const Updatefincialyear = () => {
     const voucher_ser = document.getElementById('voucher').value;
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
+    const lock = document.getElementById('lockFinancialyear').checked;
+    let lockscreen
+    lock === true ? lockscreen = 'Active' : lockscreen = 'DeActive';
+    console.log(lockscreen)
 
     if (invoice_ser.length > 6 || voucher_ser.length > 4) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
     }
     else {
-      const result = await UpdateFincialyear(org, invoice_ser, voucher_ser, User_id, localStorage.getItem('FinsyearSno'))
+      const result = await UpdateFincialyear(org, invoice_ser, voucher_ser, User_id, localStorage.getItem('FinsyearSno'),lockscreen)
       if (result[0] > 0) {
         alert("Updated")
         localStorage.removeItem('FinsyearSno');
@@ -102,6 +110,12 @@ const Updatefincialyear = () => {
                   <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='voucher' value={data.voucher_ser} onChange={handleChangevoucher} maxLength={4} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Lock Financial Year</label>
+                  <div className="col form-group">
+                    <input type="checkbox" style={{height:"40px" ,width:"20px"}} id='lockFinancialyear'  />
                   </div>
                 </div>
               </form>

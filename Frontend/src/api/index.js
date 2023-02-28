@@ -799,9 +799,9 @@ export const Addfincialyear = async (org, fincialyear, year, from_date, to_date,
     const url = `http://localhost:3008/api/addfincialyear`
     return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateFincialyear = async (org, invoice_ser, voucher_ser, user_id, sno) => {
+export const UpdateFincialyear = async (org, invoice_ser, voucher_ser, user_id, sno,financial_year_lock) => {
     const url = `http://localhost:3008/api/updatefincialyear`
-    return axios.post(url, { org, invoice_ser, voucher_ser, user_id, sno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoice_ser, voucher_ser, user_id, sno,financial_year_lock }).then(response => response.data).catch(error => console.log(error));
 }
 export const Statusfincialyear = async (org, sno) => {
     const url = `http://localhost:3008/api/statusfincialyear`

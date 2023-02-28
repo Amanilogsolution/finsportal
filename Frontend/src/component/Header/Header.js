@@ -160,7 +160,7 @@ const Header = () => {
                           <span className="orgnamehover" onClick={() => {
                             localStorage.setItem('fin_year', item.fin_year);
                             localStorage.setItem('year', item.year);
-                            localStorage.setItem('financialstatus', item.status);
+                            localStorage.setItem('financialstatus', item.financial_year_lock);
                             window.location.reload()
                           }
                           }>{item.fin_year}</span>
