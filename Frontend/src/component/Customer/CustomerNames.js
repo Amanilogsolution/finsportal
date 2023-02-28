@@ -36,10 +36,23 @@ export default function CustomerNames() {
         cust_name = cust_name.options[cust_name.selectedIndex].text;
         const name = document.getElementById('name').value
         const date = document.getElementById('date').value
+        if (!cust_name) {
+            alert('Please Enter Customer Name')
+        }
+        else {
+            const result = await customernameChange(org, customerid, cust_name, date, User_id)
+            const updatename = await UpdateCustomerName(org, name, customerid)
 
-        const result = await customernameChange(org, customerid, cust_name, date, User_id)
+            if (updatename === 'Updated') {
+                alert('Customer Name Changed')
+                window.location.href = "/TotalCustomer"
+            }
+            else {
+                alert('Server Error');
+            }
+        }
 
-        const updatename = await UpdateCustomerName(org, name, customerid)
+
     }
 
     return (
@@ -50,7 +63,7 @@ export default function CustomerNames() {
             <Header />
             <div className="content-wrapper">
                 <div className="container-fluid">
-                <h3 className="py-4 pl-4"> New Customer Names</h3>
+                    <h3 className="py-4 pl-4"> New Customer Names</h3>
 
                     <div className="card">
                         <article className="card-body" >
@@ -91,7 +104,7 @@ export default function CustomerNames() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }
