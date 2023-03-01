@@ -106,7 +106,7 @@ function ChangePassword() {
                                         </div>
                                         {
                                             showalert ?
-                                                <p className='text-danger'>Password and Confirm Password Field do not match </p>
+                                                <p className='text-danger'>Password and Confirm Password must be same ... </p>
                                                 : null
                                         }
                                         {
@@ -118,7 +118,7 @@ function ChangePassword() {
                                     </form>
                                 </div>
                                 <div className="div_cp_2 d-flex justify-content-center align-items-center">
-                                    <img src={img} alt="img" />
+                                    <img src={img} alt="img" loading="lazy"/>
                                 </div>
 
                             </article>
