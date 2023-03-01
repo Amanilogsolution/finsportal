@@ -134,11 +134,9 @@ function Bills() {
         setPolist();
     }
 
-
     const handleChangeLocation = (e) => {
         setLocation([...location, e.target.value])
     }
-
 
     const handleAdd = (e) => {
         e.preventDefault()
