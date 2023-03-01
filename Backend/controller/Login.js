@@ -11,7 +11,7 @@ const User_login = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_Login with (nolock) where user_id='${user_id}' and user_password = '${user_password}'`)
-        const result1 = await sql.query(`select fin_year,year,status  from ilogsolution.dbo.tbl_fin_year tfy with (nolock) where status='Active'`)
+        const result1 = await sql.query(`select fin_year,year,financial_year_lock  from ilogsolution.dbo.tbl_fin_year tfy with (nolock) where status='Active'`)
 
         if (result.recordset.length) {
             // const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login'  WHERE user_id = '${user_id}'`)
