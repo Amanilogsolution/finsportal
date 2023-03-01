@@ -497,9 +497,11 @@ function Bills() {
                                             <select className="form-control col-md-4" id="bill_no">
                                                 <option hidden value=''>Select P.O number</option>
                                                 {
+                                                    polist.length>0?
                                                     polist.map((item, i) =>(
                                                         <option key={i} value={item.po_number}>{item.po_number}</option>
-                                                    ))
+                                                    )):
+                                                    <option  value=''>PO. is not Created in this vendor</option>
                                                 }
                                             </select>
                                         </div>
