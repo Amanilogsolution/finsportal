@@ -17,6 +17,7 @@ function Bills() {
     const [activeuser, setActiveUser] = useState([])
     const [itemlist, setItemlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
+    const [polist,setPolist]= useState([]);
     const [tdscomp, setTdscomp] = useState('')
 
     const [location, setLocation] = useState([])
@@ -129,6 +130,8 @@ function Bills() {
 
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
+
+        setPolist();
     }
 
 
@@ -488,12 +491,14 @@ function Bills() {
                                         </div>
                                     </div>
 
-
                                     <div className="form-row mt-3">
                                         <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill no<span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md">
                                             <select className="form-control col-md-4" id="bill_no">
                                                 <option hidden value=''>Select P.O number</option>
+                                                {
+
+                                                }
                                             </select>
                                         </div>
                                     </div>
