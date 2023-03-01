@@ -19,6 +19,43 @@ const ShowCountry = () => {
   const [rights,setRights] = useState(false)
 
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+
+
+  
+
+      const result = await Totalcountry()
+      setData(result)
+      fetchRoles()
+
+
+   
+
+    }
+    fetchdata();
+  }, [])
+  const fetchRoles = async()=>{
+    const org = localStorage.getItem('Organisation')
+
+   const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
+      console.log(UserRights)
+      localStorage["CountryRole"] = JSON.stringify(UserRights)
+
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Lock') {
+        document.getElementById('addcountrybtn').style.background = '#7795fa';
+      }
+      if (UserRights.country_create === 'true') {
+        document.getElementById('addcountrybtn').style.display = "block";
+        if (financstatus !== 'Lock') {
+          document.getElementById('uploadcountrybtn').style.display = "block";
+        }
+      }
+  }
 
   const columns = [
     {
@@ -56,6 +93,11 @@ const ShowCountry = () => {
         } else {
           console.log(JSON.parse(localStorage.getItem('CountryRole')))
           let role =JSON.parse(localStorage.getItem('CountryRole'))
+          if(!role){
+                  fetchRoles()
+                  window.location.reload()
+
+          }else{
           console.log(typeof(role.country_delete))
           if(role.country_delete === 'true'){
             return (
@@ -79,6 +121,7 @@ const ShowCountry = () => {
               </div>
             )
           }
+        }
         
       }
     }
@@ -92,9 +135,11 @@ const ShowCountry = () => {
           return
         } else {
           let role =JSON.parse(localStorage.getItem('CountryRole'))
+          if(!role){
+            fetchRoles()
+          }
           console.log(typeof(role.country_delete))
           if(role.country_edit === 'true'){
-
             return (
               <a title='Edit Country' href="EditCountry" id={`editactionbtns${row.sno}`} >
                 <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
@@ -177,34 +222,7 @@ const ShowCountry = () => {
     reader.readAsBinaryString(file);
   };
   //##########################  for convert excel to array end #################################
-  useEffect(() => {
-    const fetchdata = async () => {
-      const org = localStorage.getItem('Organisation')
-
-
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Lock') {
-        document.getElementById('addcountrybtn').style.background = '#7795fa';
-      }
-
-      const result = await Totalcountry()
-      setData(result)
-
-
-      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
-      console.log(UserRights)
-      localStorage["CountryRole"] = JSON.stringify(UserRights)
-      if (UserRights.country_create === 'true') {
-        document.getElementById('addcountrybtn').style.display = "block";
-        if (financstatus !== 'Lock') {
-          document.getElementById('uploadcountrybtn').style.display = "block";
-        }
-      }
-
-    }
-    fetchdata();
-  }, [])
+ 
 
   const tableData = {
     columns, data
