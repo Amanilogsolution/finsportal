@@ -1436,3 +1436,9 @@ export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location
     const url = `http://localhost:3008/api/InsertSubPurchaseorder`
     return axios.post(url, { org, vendor_id, po_number, location, items, quantity,rate,amount,unit}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const GetPodetailsVendor = async (org, vendor_id) => {
+    const url = `http://localhost:3008/api/getpodetailsvendor`
+    return axios.post(url, { org, vendor_id}).then(response => response.data).catch(error => console.log(error));
+}
+

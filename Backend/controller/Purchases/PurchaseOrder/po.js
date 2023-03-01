@@ -45,4 +45,18 @@ const InsertSubPurchaseorder = async (req, res) => {
     }
 }
 
-module.exports={InsertPurchaseorder,InsertSubPurchaseorder}
+const getPoDetailsVendor = async() => { 
+    const org=req.body.org;
+    const vendor_id=req.body.vendor_id;
+
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order WHERE  vendor_id ='${vendor_id}'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports={InsertPurchaseorder,InsertSubPurchaseorder,getPoDetailsVendor}
