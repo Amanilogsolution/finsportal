@@ -30,7 +30,6 @@ const Updatefincialyear = () => {
     const lock = document.getElementById('lockFinancialyear').checked;
     let lockscreen
     lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
-
     if (invoice_ser.length > 6 || voucher_ser.length > 4) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
     }
