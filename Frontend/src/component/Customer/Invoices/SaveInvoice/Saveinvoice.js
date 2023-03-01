@@ -96,7 +96,7 @@ const InvoiceSave = () => {
       </div>
       <Header />
       <div className="content-wrapper ">
-        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Invoice </button>
+        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ?window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Invoice </button>
         <div className="container-fluid">
           <h3 className="py-4 ml-5"> Save Invoice </h3>
           <div className="card w-100">

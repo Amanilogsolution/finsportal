@@ -203,7 +203,7 @@ const TotalBank = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus === 'Active' ?  window.location.href = "./AddBankList": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Bank</button>
+        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ?  window.location.href = "./AddBankList": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Bank</button>
         <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="py-2 ml-5">Banks</h3>

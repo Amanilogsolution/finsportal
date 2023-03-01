@@ -8,6 +8,7 @@ import customStyles from '../../customTableStyle';
 
 const ShowFincialTerm = () => {
   const [data, setData] = useState([])
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
   const columns = [
@@ -58,6 +59,12 @@ const ShowFincialTerm = () => {
       const result = await TotalPaymentTerm(org)
       setData(result)
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Lock') {
+        document.getElementById('addpaymenttermbtn').style.background = '#7795fa';
+      }
+
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'payment_terms')
       if (UserRights.payment_terms_create === 'true') {
         document.getElementById('addpaymenttermbtn').style.display = "block"
@@ -92,7 +99,7 @@ const ShowFincialTerm = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5">Payment Terms</h3>
-          <button type="button" id="addpaymenttermbtn" style={{ display: "none" }} onClick={() => { window.location.href = "./AddPaymentTerm" }} className="btn btn-primary mx-3">Add Payment Term</button>
+          <button type="button" id="addpaymenttermbtn" style={{ display: "none" }} onClick={() => {financialstatus !== 'Lock' ? window.location.href = "./AddPaymentTerm": alert('You cannot Add in This Financial Year')   }} className="btn btn-primary mx-3">Add Payment Term</button>
         </div>
         <div className="container-fluid">
           <div className="card w-100">

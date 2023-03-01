@@ -99,7 +99,7 @@ function  ShowcomplianceType() {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5">Compliances Type</h3>
-          <button type="button" id='addcomp_typebtn' style={{  display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddcomplianceType": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add Compliances Type</button>
+          <button type="button" id='addcomp_typebtn' style={{  display: "none" }} onClick={() => {  financialstatus !== 'Lock' ? window.location.href = "./AddcomplianceType": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add Compliances Type</button>
         </div>
         <div className='container-fluid'>
           <div className="card w-100" >

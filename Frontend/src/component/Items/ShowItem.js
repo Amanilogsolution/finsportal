@@ -77,7 +77,7 @@ const ShowItem = () => {
 
 
   const [data, setData] = useState([])
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const ShowItem = () => {
 
       const financstatus = localStorage.getItem('financialstatus')
       setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
+      if (financstatus === 'Lock') {
         document.getElementById('additemsbtn').style.background = '#7795fa';
       }
 
@@ -125,7 +125,7 @@ const ShowItem = () => {
       <div className="content-wrapper">
         <div className='d-flex justify-content-between pt-3 px-4'>
           <h3 className="px-5">Total Items</h3>
-          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddItem" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add Item</button>
+          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ?  alert('You cannot Add in This Financial Year'):window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
         </div>
         <div className="container-fluid mt-2">
           <div className="card mb-2 w-100">
