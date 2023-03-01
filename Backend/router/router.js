@@ -379,6 +379,8 @@ router.post('/totaluserrole',UserRightsController.TotalUserRole)
 
 router.post('/InsertPurchaseorder',pomasterController.InsertPurchaseorder)
 router.post('/InsertSubPurchaseorder',pomasterController.InsertSubPurchaseorder)
+router.post('/getpodetailsvendor',pomasterController.getPoDetailsVendor)
+
 
 
 module.exports = router;

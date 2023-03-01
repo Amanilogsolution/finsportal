@@ -151,39 +151,42 @@ function Invoices() {
 
     }
 
-    const handleChangeItems = async (e) => {
-        e.preventDefault();
-        const [actgst, chargecode, glcodes] = e.target.value.split(',')
-        setChargeCode([...chargecodes, chargecode])
-        setGlCode([...glcode, glcodes])
+    const handleChangeItems = async (value, index) => {
 
+        const [actgst, chargecode, glcodes] = value.split(',')
+        console.log(actgst, chargecode, glcodes)
+        chargecodes[index] = chargecode
+        glcode[index] = glcodes
         if (actgst > 0) {
             setTaxable([...taxable, 'Yes'])
         } else {
             setTaxable([...taxable, 'No'])
         }
         setTotalGst([...totalgst, Number(actgst)])
+        totalgst[index] = actgst
     }
 
-    const handleChangeUnit = (e) => {
-        e.preventDefault();
+    const handleChangeUnit = (value, index) => {
+        // e.preventDefault();
         document.getElementById('Activity').disabled = true;
         document.getElementById('subtotalbtn').disabled = false;
-        setUnit([...unit, e.target.value])
+        // setUnit([...unit, value])
+        unit[index] = value;
         var sum = 0
         amount.map((item) => sum += item)
         setTotalamount(sum)
         let tolgst = 0
         totalgst.map((item) => tolgst += item)
 
-        setItems([...items, {
-            itemsvalue: chargecodes[chargecodes.length - 1], quantity: Quantitys[Quantitys.length - 1], rate: rate[rate.length - 1],
-            tax: gstvalues[gstvalues.length - 1], unit: e.target.value,
-            amount: amount[amount.length - 1], Totalamount: Totalamountnew[Totalamountnew.length - 1]
-        }])
+        items[index] = {
+            itemsvalue: chargecodes[chargecodes.length - 1], quantity: Quantitys[index], rate: rate[index],
+            tax: gstvalues[index], unit: value,
+            amount: amount[index], Totalamount: Totalamountnew[index]
+        }
     }
 
     const handleSubTotal = (e) => {
+        console.log(amount)
         e.preventDefault();
 
         document.getElementById('additembtm').disabled = true;
@@ -244,23 +247,21 @@ function Invoices() {
 
     }
 
-    const handleChangerate = (e) => {
-        e.preventDefault();
-        let Total = quantity * e.target.value
-
+    const handleChangerate = (value, indexes) => {
+        rate[indexes] = value;
+        let Total = Quantitys[indexes] * value
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
 
         let gst = Total * totalgst[index] / 100
 
         let grandToatal = Total + Math.round(gst)
         setTimeout(() => {
-            setRate([...rate, e.target.value])
-            setTotalAmountNew([...Totalamountnew, grandToatal])
-            setGstVAlue([...gstvalues, Math.round(gst)])
-            setAmount([...amount, Total])
-            setQuantitys([...Quantitys, quantity])
+            Totalamountnew[indexes] = grandToatal
+            gstvalues[indexes] = Math.round(gst)
+            document.getElementById(`amount${indexes}`).value = Total
+            document.getElementById(`TotalAmount${indexes}`).value = grandToatal
+            amount[indexes] = Total
         }, 1000)
-
     }
 
 
@@ -605,7 +606,7 @@ function Invoices() {
                                                                 <tr key={index}>
                                                                     <div id='trdiv'>
                                                                         <td className="col-md-2 pl-0 pr-0">
-                                                                            <select onChange={handleChangeItems} id="gstvalue" className={`form-control col-md-9 `}>
+                                                                            <select onChange={(e) => { handleChangeItems(e.target.value, index) }} id="gstvalue" className={`form-control col-md-9 `}>
                                                                                 <option value='' hidden > Select item</option>
                                                                                 {
                                                                                     activechargecode.map((item, index) => (
@@ -619,18 +620,18 @@ function Invoices() {
                                                                         <input className={`form-control col-md-10 `} type="number" id="Quality" placeholder="0" onChange={(e) => {
                                                                             const quantity = e.target.value
                                                                             setIndex(index)
-                                                                            setQuantity(quantity)
+                                                                            Quantitys[index] = quantity
                                                                         }} /></td>
 
                                                                     <td className='col-md-2 pl-0 pr-0'>
                                                                         <input className="form-control col-md-10" type="number" id="Rate" placeholder="0"
-                                                                            onChange={handleChangerate} />
+                                                                            onChange={(e) => { handleChangerate(e.target.value, index) }} />
                                                                     </td>
                                                                     <td id="gst" className='col-md-1'>
                                                                         <input type='text' className="form-control col cursor-notallow" defaultValue={gstvalues[index]} disabled /></td>
 
                                                                     <td className='pl-0 pr-0 col-md-2'>
-                                                                        <select onChange={handleChangeUnit} className={`form-control col-md-10 `} id='unitdrop'>
+                                                                        <select onChange={(e) => { handleChangeUnit(e.target.value, index) }} className={`form-control col-md-10 `} id='unitdrop'>
                                                                             <option value='' hidden> Select Unit</option>
                                                                             {
                                                                                 activeunit.map((item, index) => (
@@ -640,10 +641,10 @@ function Invoices() {
                                                                         </select>
                                                                     </td>
                                                                     <td id="amountvalue" className='col-md-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow" defaultValue={amount[index] ? amount[index] : 0} disabled />
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`amount${index}`} disabled />
                                                                     </td>
                                                                     <td id="Totalsum" className='col-md-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow" defaultValue={Totalamountnew[index] ? Totalamountnew[index] : 0} disabled />
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`TotalAmount${index}`} disabled />
                                                                     </td>
                                                                 </tr>
                                                             ))
@@ -652,9 +653,7 @@ function Invoices() {
                                                 </table>
                                                 <button className="btn btn-primary" onClick={handleAdd} id='additembtm'>Add Item</button>   &nbsp;
                                                 <button className="btn btn-danger" onClick={handleRemove} id='removeitembtm'>Remove</button>
-
                                                 <hr />
-
                                                 <div className='d-flex'>
                                                     <div style={{ width: "40%" }}>
                                                         <div className="form mt-3">
@@ -662,7 +661,6 @@ function Invoices() {
                                                             <div className="d-flex col-md">
                                                                 <textarea type="text" className={`form-control col-md-10 `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                     <div className={`rounded py-1 px-2`} style={{ width: "55%", background: '#eee' }}>
