@@ -492,7 +492,9 @@ function Bills() {
                                     <div className="form-row mt-3">
                                         <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill no<span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md">
-                                            <input type="text" className="form-control col-md-4" id="bill_no" placeholder="SO-00001" />
+                                            <select className="form-control col-md-4" id="bill_no">
+                                                <option hidden value=''>Select P.O number</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -683,7 +685,7 @@ function Bills() {
                                                                     </div>
                                                                     <div className="form-row">
                                                                         <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
-                                                                        <input type="number" className="form-control col-md-7 cursor-notallow" id="totalamount" defaultValue={netTotal} disabled/>
+                                                                        <input type="number" className="form-control col-md-7 cursor-notallow" id="totalamount" defaultValue={netTotal} disabled />
                                                                     </div>
                                                                     <div className="form-row" >
                                                                         <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
@@ -811,7 +813,7 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                <Footer  />
+                <Footer />
             </div>
 
             {/* ----------------------- Attach File  Modal  Start --------------*/}

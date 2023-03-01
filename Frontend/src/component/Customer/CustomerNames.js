@@ -51,8 +51,6 @@ export default function CustomerNames() {
                 alert('Server Error');
             }
         }
-
-
     }
 
     return (
@@ -64,7 +62,6 @@ export default function CustomerNames() {
             <div className="content-wrapper">
                 <div className="container-fluid">
                     <h3 className="py-4 pl-4"> New Customer Names</h3>
-
                     <div className="card">
                         <article className="card-body" >
                             <form autoComplete="off">
