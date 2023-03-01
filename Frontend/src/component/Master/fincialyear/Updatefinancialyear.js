@@ -11,7 +11,8 @@ const Updatefincialyear = () => {
     const fetch = async () => {
       const result = await Selectfincialyear(localStorage.getItem('Organisation'), localStorage.getItem('FinsyearSno'))
       setData(result)
-      if (result.financial_year_lock === 'Deactive') {
+      console.log(result)
+      if (result.financial_year_lock === 'Lock') {
         document.getElementById('lockFinancialyear').checked = true
       }
     }
@@ -28,7 +29,7 @@ const Updatefincialyear = () => {
     const User_id = localStorage.getItem('User_id')
     const lock = document.getElementById('lockFinancialyear').checked;
     let lockscreen
-    lock === true ? lockscreen = 'Deactive ' : lockscreen = 'Active';
+    lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
 
     if (invoice_ser.length > 6 || voucher_ser.length > 4) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
