@@ -16,6 +16,8 @@ const ShowCountry = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [rights,setRights] = useState(false)
+
 
 
   const columns = [
@@ -43,28 +45,67 @@ const ShowCountry = () => {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) => [
-        <div className='droplist'>
-          <select  id={`deleteselect${row.sno}`} style={{ display: "none" }} onChange={async (e) => {
-            const status = e.target.value;
-            await deletecountry(row.sno, status)
-            window.location.href = 'ShowCountry'
-          }}>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+      cell: (row) => {
+
+        if (localStorage.getItem('financialstatus') === 'Lock' ) {
+          return (
+            <div className='droplist'>
+            <p>{row.status}</p>
+            </div>
+          )
+        } else {
+          console.log(JSON.parse(localStorage.getItem('CountryRole')))
+          let role =JSON.parse(localStorage.getItem('CountryRole'))
+          console.log(typeof(role.country_delete))
+          if(role.country_delete === 'true'){
+            return (
+              <div className='droplist'>
+                <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                  const status = e.target.value;
+                  await deletecountry(row.sno, status)
+                  window.location.href = 'ShowCountry'
+                }}>
+                  <option value={row.status} hidden> {row.status}</option>
+                  <option value='Active'>Active</option>
+                  <option value='Deactive' >Deactive</option>
+                </select>
+              </div>
+            );
+          }else{
+            return(
+              <div className='droplist'>
+              <p>{row.status}</p>
+           
+              </div>
+            )
+          }
+        
+      }
+    }
     },
     {
       name: "Actions",
       sortable: false,
       selector: "null",
-      cell: (row) => [
-        <a title='Edit Country' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
-      ]
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return
+        } else {
+          let role =JSON.parse(localStorage.getItem('CountryRole'))
+          console.log(typeof(role.country_delete))
+          if(role.country_edit === 'true'){
+
+            return (
+              <a title='Edit Country' href="EditCountry" id={`editactionbtns${row.sno}`} >
+                <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
+            );
+          }else{
+            return
+          }
+
+        }
+      }
+
     }
   ]
 
@@ -153,22 +194,14 @@ const ShowCountry = () => {
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
       console.log(UserRights)
+      localStorage["CountryRole"] = JSON.stringify(UserRights)
       if (UserRights.country_create === 'true') {
         document.getElementById('addcountrybtn').style.display = "block";
         if (financstatus !== 'Lock') {
           document.getElementById('uploadcountrybtn').style.display = "block";
         }
       }
-      if (UserRights.country_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.country_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
+
     }
     fetchdata();
   }, [])
@@ -260,7 +293,7 @@ const ShowCountry = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button"  className="btn btn-secondary"  data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="button"
                 onClick={handleClick}
                 className="btn btn-primary"
