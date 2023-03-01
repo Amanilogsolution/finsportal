@@ -96,7 +96,7 @@ const BillSave = () => {
         </div>
         <Header />
         <div className={`content-wrapper `}>
-          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?  window.location.href = "./Bills"  : alert('You cannot Add in This Financial Year')}} className="btn btn-primary float-right">Add Bill </button>
+          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ?  window.location.href = "./Bills"  : alert('You cannot Add in This Financial Year')}} className="btn btn-primary float-right">Add Bill </button>
           <div className="container-fluid">
             <h3 className="py-4 ml-5"> Save Bill </h3>
             <div className="card" >

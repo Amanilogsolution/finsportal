@@ -14,7 +14,7 @@ function Showcompliances() {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   const columns = [
     {
@@ -209,7 +209,7 @@ function Showcompliances() {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {financialstatus === 'Active' ?  window.location.href = "./Addcompliances": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Compliances</button>
+        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {financialstatus !== 'Lock' ?  window.location.href = "./Addcompliances": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Compliances</button>
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="ml-5 py-2" >Compliances</h3>

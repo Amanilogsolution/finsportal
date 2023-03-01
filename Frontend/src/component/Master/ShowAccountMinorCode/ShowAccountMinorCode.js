@@ -71,6 +71,7 @@ function ShowAccountMinorCode() {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   //##########################  Upload data start  #################################
 
@@ -154,6 +155,12 @@ function ShowAccountMinorCode() {
     async function fetchdata() {
       const result = await TotalAccountMinorCode(localStorage.getItem('Organisation'))
       setData(result)
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Lock') {
+        document.getElementById('addacountName').style.background = '#7795fa';
+        document.getElementById('uploadExcelacountName').style.display = 'none';
+      }
     }
     fetchdata();
 
@@ -173,9 +180,9 @@ function ShowAccountMinorCode() {
         <div className="container-fluid">
           <div className='d-flex justify-content-between pt-4 pb-1 px-4'>
             <h3 className="ml-5">Account Minor Code </h3>
-            <div>
-              <button type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-              <button type="button" onClick={() => { window.location.href = "./InsertAccountType" }} className="btn btn-primary mx-3">Add Account Name</button>
+            <div >
+              <button type="button" id='uploadExcelacountName' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+              <button type="button" id='addacountName' onClick={() => {financialstatus !== 'Lock' ? window.location.href = "./InsertAccountType": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Account Name</button>
             </div>
           </div>
 

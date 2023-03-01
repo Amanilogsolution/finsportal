@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount, UploadData,GetPodetailsVendor } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount, UploadData, GetPodetailsVendor } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
 
 
@@ -17,7 +17,7 @@ function Bills() {
     const [activeuser, setActiveUser] = useState([])
     const [itemlist, setItemlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
-    const [polist,setPolist]= useState([]);
+    const [polist, setPolist] = useState([]);
     const [tdscomp, setTdscomp] = useState('')
 
     const [location, setLocation] = useState([])
@@ -131,16 +131,14 @@ function Bills() {
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
 
-        const po_number = await GetPodetailsVendor(localStorage.getItem('Organisation'),e.target.value)
+        const po_number = await GetPodetailsVendor(localStorage.getItem('Organisation'), e.target.value)
         console.log(po_number)
         setPolist(po_number);
     }
 
-
     const handleChangeLocation = (e) => {
         setLocation([...location, e.target.value])
     }
-
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -494,23 +492,25 @@ function Bills() {
                                     </div>
 
                                     <div className="form-row mt-3">
-                                        <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >P.O number<span className='text-danger'>*</span> </label>
+                                        <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md">
-                                            <select className="form-control col-md-4" id="bill_no">
-                                                <option hidden value=''>Select P.O number</option>
-                                                {
-                                                    polist.map((item, i) =>(
-                                                        <option key={i} value={item.po_number}>{item.po_number}</option>
-                                                    ))
-                                                }
-                                            </select>
+                                            <input className="form-control col-md-4" id="bill_no " />
                                         </div>
                                     </div>
 
                                     <div className="form-row mt-3">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Order Number</label>
+                                        <label className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
                                         <div className="d-flex col-md">
-                                            <input type="text" className="form-control col-md-4" id="order_no" />
+                                            <select className="form-control col-md-4" id="order_no">
+                                                <option hidden value=''>Select P.O number</option>
+                                                {
+                                                    polist.length > 0 ?
+                                                        polist.map((item, i) => (
+                                                            <option key={i} value={item.po_number}>{item.po_number}</option>
+                                                        )) :
+                                                        <option value=''>PO. is not Created in this vendor</option>
+                                                }
+                                            </select>
                                         </div>
                                     </div>
                                     <div className="form-row mt-3">

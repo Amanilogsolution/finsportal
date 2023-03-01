@@ -45,13 +45,12 @@ const ShowCountry = () => {
       selector: 'null',
       cell: (row) => [
         <div className='droplist'>
-          <select className='bg-white' id={`deleteselect${row.sno}`} style={{ display: "none" }} onChange={async (e) => {
+          <select  id={`deleteselect${row.sno}`} style={{ display: "none" }} onChange={async (e) => {
             const status = e.target.value;
             await deletecountry(row.sno, status)
             window.location.href = 'ShowCountry'
           }}>
             <option value={row.status} hidden> {row.status}</option>
-
             <option value='Active'>Active</option>
             <option value='Deactive' >Deactive</option>
           </select>
@@ -63,7 +62,7 @@ const ShowCountry = () => {
       sortable: false,
       selector: "null",
       cell: (row) => [
-        <a title='View Document' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+        <a title='Edit Country' href="EditCountry" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
           <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
       ]
     }
@@ -140,9 +139,11 @@ const ShowCountry = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
+
+
       const financstatus = localStorage.getItem('financialstatus')
       setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
+      if (financstatus === 'Lock') {
         document.getElementById('addcountrybtn').style.background = '#7795fa';
       }
 
@@ -151,9 +152,12 @@ const ShowCountry = () => {
 
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
+      console.log(UserRights)
       if (UserRights.country_create === 'true') {
         document.getElementById('addcountrybtn').style.display = "block";
-        document.getElementById('uploadcountrybtn').style.display = "block";
+        if (financstatus !== 'Lock') {
+          document.getElementById('uploadcountrybtn').style.display = "block";
+        }
       }
       if (UserRights.country_edit === 'true') {
         for (let i = 0; i < result.length; i++) {
@@ -187,7 +191,7 @@ const ShowCountry = () => {
           <h3 className="ml-5">Country</h3>
           <div className='d-flex '>
             <button type="button" id='uploadcountrybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCountry" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add Country</button>
+            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddCountry" }} className="btn btn-primary mx-4">Add Country</button>
           </div>
         </div>
         <div className="container-fluid">
@@ -250,19 +254,13 @@ const ShowCountry = () => {
                     className={`form-control`}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
-                <span style={{ color: "red" }}>
+                <span className='text-danger'>
                   <a href={Excelfile} download> Download formate</a>
                 </span><br />
               </div>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
+              <button type="button"  className="btn btn-secondary"  data-dismiss="modal">Close</button>
               <button type="button"
                 onClick={handleClick}
                 className="btn btn-primary"
@@ -282,13 +280,12 @@ const ShowCountry = () => {
         tabIndex="-1"
         role="dialog"
         aria-labelledby="myLargeModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
 
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content`}>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
               </h5>
               <button
@@ -297,7 +294,7 @@ const ShowCountry = () => {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()
@@ -308,11 +305,10 @@ const ShowCountry = () => {
             {/* <div className="modal-body"> */}
             <div className="" style={{ margin: "auto", paddingBottom: "20px", overflow: "auto" }}>
               {
-
                 backenddata ?
                   <>
                     <h5>This data already exist</h5>
-                    <table style={{ color: "red" }}>
+                    <table className='text-danger'>
                       <thead>
                         <tr>
                           <th style={styleborder}>country_code</th>
@@ -324,7 +320,6 @@ const ShowCountry = () => {
                       <tbody>
                         {
                           duplicateData.map((d, index) => (
-
                             <tr key={index} style={styleborder}>
                               <td style={styleborder}>{d.country_code}</td>
                               <td style={styleborder}>{d.country_id}</td>
@@ -342,12 +337,13 @@ const ShowCountry = () => {
               }
 
               <table >
-                <thead><tr>
-                  <th style={styleborder}>country_code</th>
-                  <th style={styleborder}>country_id</th>
-                  <th style={styleborder}>country_name</th>
-                  <th style={styleborder}>country_phonecode</th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th style={styleborder}>country_code</th>
+                    <th style={styleborder}>country_id</th>
+                    <th style={styleborder}>country_name</th>
+                    <th style={styleborder}>country_phonecode</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {
@@ -360,7 +356,6 @@ const ShowCountry = () => {
                       </tr>
                     ))
                   }</tbody>
-                <tfoot></tfoot>
               </table>
             </div>
           </div>

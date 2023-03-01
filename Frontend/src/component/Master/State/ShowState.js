@@ -73,7 +73,7 @@ const ShowState = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
   //##########################  Upload data start  #################################
@@ -157,14 +157,16 @@ const ShowState = () => {
 
       const financstatus = localStorage.getItem('financialstatus')
       setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
+      if (financstatus === 'Lock') {
         document.getElementById('addstatebtn').style.background = '#7795fa';
       }
 
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
       if (UserRights.state_create === 'true') {
         document.getElementById('addstatebtn').style.display = "block";
-        document.getElementById('uploadstatebtn').style.display = "block";
+        if (financstatus !== 'Lock') {
+          document.getElementById('uploadstatebtn').style.display = 'block';
+        }
       }
       if (UserRights.state_edit === 'true') {
         for (let i = 0; i < result.length; i++) {
@@ -201,7 +203,7 @@ const ShowState = () => {
           <h3 className="ml-5">State</h3>
           <div className='d-flex '>
             <button type="button" id='uploadstatebtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./StateMaster" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add State</button>
+            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./StateMaster" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add State</button>
           </div>
         </div>
 

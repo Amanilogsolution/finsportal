@@ -18,7 +18,7 @@ const TotalLocation = () => {
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [btntype, setBtntype] = useState(true);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   const styleborder = {
     border: "1px solid black"
@@ -212,7 +212,7 @@ const TotalLocation = () => {
 
       const financstatus = localStorage.getItem('financialstatus')
       setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
+      if (financstatus === 'Lock') {
         document.getElementById('addbranchbtn').style.background = '#7795fa';
       }
 
@@ -250,7 +250,7 @@ const TotalLocation = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addbranchbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddLocation": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary float-right">Add Location</button>
+        <button type="button" id='addbranchbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddLocation": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary float-right">Add Location</button>
         <button type="button" id='uploadlocabtn' style={{ marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
         <button type="button" id='uploadlocaddbtn' style={{ marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
 

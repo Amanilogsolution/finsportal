@@ -8,6 +8,7 @@ import customStyles from '../../customTableStyle';
 
 const ShowEmployee = () => {
   const [data, setData] = useState([])
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   const columns = [
     {
@@ -59,7 +60,11 @@ const ShowEmployee = () => {
     const fetchdata = async () => {
       const result = await TotalEmployee(localStorage.getItem('Organisation'))
       setData(result)
-
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Lock') {
+        document.getElementById('addempbtn').style.background = '#7795fa';
+      }
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'compliances')
       if (UserRights.compliances_create === 'true') {
         document.getElementById('addempbtn').style.display = "block";
@@ -92,7 +97,7 @@ const ShowEmployee = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5"> Employee Master </h3>
-          <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./addemployee" }} className="btn btn-primary">Add Employee </button>
+          <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => {  financialstatus !== 'Lock' ? window.location.href = "./addemployee" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Employee </button>
         </div>
         <div className="container-fluid">
           <div className="card w-100"  >
