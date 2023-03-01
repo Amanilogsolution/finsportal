@@ -11,7 +11,6 @@ const AddVendAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectCity, setSelectCity] = useState([]);
   const [billing_address_state, setBilling_address_state] = useState();
-  const themetype = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -262,7 +261,7 @@ const AddVendAddress = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 }

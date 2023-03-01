@@ -10,7 +10,6 @@ const {
 
 const fileUpload =  async (req, res,next) => {
   let images = [];
-  console.log(req.body.images)
   try {
     await req.files.forEach(async (reqfile, i) => {
 
@@ -51,7 +50,7 @@ const fileUpload =  async (req, res,next) => {
     res.status(200).send(Upload)
 
   } catch (err) {
-    console.log(err)
+    res.send(err)
   }
 }
 

@@ -65,7 +65,6 @@ const filterInvoice = async (req, res) => {
     const lastDate = req.body.lastDate;
     const custid = req.body.custid;
     const locationid = req.body.locationid;
-console.log(locationid)
     try {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
@@ -88,7 +87,6 @@ console.log(locationid)
 const getInvoice = async (req, res) => {
     const org = req.body.org;
     const invoiceno = req.body.invoiceno;
-    console.log(org,invoiceno)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as startdate,convert(varchar(15),due_date,121) as lastdate from ${org}.dbo.tbl_invoice with (nolock) where invoice_no='${invoiceno}'`)

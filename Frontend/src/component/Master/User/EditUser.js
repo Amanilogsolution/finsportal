@@ -10,8 +10,6 @@ const EditUser = () => {
   const [activecustomer, setActivecustomer] = useState([])
   const [useroleslist, setUserroleslist] = useState([])
 
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect( () => {
     const fetchdata = async () => {
@@ -188,7 +186,7 @@ const EditUser = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer  />
     </div>
   )
 

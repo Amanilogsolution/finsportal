@@ -78,8 +78,6 @@ function Invoices() {
 
     const [items, setItems] = useState([])
 
-    const themetype = localStorage.getItem('themetype')
-
     useEffect(() => {
         const fetchdata = async () => {
             setTimeout(() => {
@@ -253,8 +251,9 @@ function Invoices() {
         rate[indexes] = value;
         let Total = Quantitys[indexes] * value
         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
-        let gst = Total * totalgst[indexes] / 100
-        console.log(indexes)
+
+        let gst = Total * totalgst[index] / 100
+
         let grandToatal = Total + Math.round(gst)
         setTimeout(() => {
             Totalamountnew[indexes] = grandToatal
@@ -765,7 +764,7 @@ function Invoices() {
                                                     </button>
                                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                         name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
-                                                    <button id='previewbtn' type="button" onClick={() => console.log(items)} className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                                                    <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                                 </div>
                                             </form>
                                         </article>
@@ -778,7 +777,7 @@ function Invoices() {
                         }
                     </div>
                 </div>
-                <Footer theme={themetype} />
+                <Footer />
             </div>
         </>
     )

@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React, { useRef } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
@@ -13,16 +13,16 @@ const InvoicePreviewWithGst = (props) => {
     const doc = new jsPDF();
     doc.html(content, {
       callback: function (doc) {
-          doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
+        doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
       },
       html2canvas: { scale: 0.21 },
-      margin:[5,0,0,5],
+      margin: [5, 0, 0, 5],
 
 
-  });
+    });
   };
   return (
-    <div className="modal fade bd-example-modal-lg"  id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
       <div className="modal-dialog   modal-lg" role="document" >
         <div className="modal-content modeldivcard" >
@@ -34,7 +34,7 @@ const InvoicePreviewWithGst = (props) => {
             </div> */}
           <div className="modal-body" ref={pdfRef}>
             <div className="modalinvoice">
-              <div className="topdiv">
+              <div className="topdiv mb-5">
                 <div className="topinnerdiv">
                   <h5>AWL India PVT Ltd.</h5>
                   <p>
@@ -51,7 +51,7 @@ const InvoicePreviewWithGst = (props) => {
                     <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.TaxInvoice} &nbsp;
                   </div>
                   <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.InvoiceData} &nbsp;</div>
-                  <div className="forthinvoicediv"><b> Rs.</b>{props.Allinvoicedata.GrandTotal}</div>
+                  <div className="forthinvoicediv"><b> INR.</b>{props.Allinvoicedata.GrandTotal}</div>
                 </div>
               </div>
 
@@ -77,17 +77,17 @@ const InvoicePreviewWithGst = (props) => {
 
               <div className="detail">
                 <table className="detailtable">
-                <tbody>
-                  <tr>
-                    <td><b>Gross WT.</b> </td>
-                    <td><b>Pcs.</b></td>
-                    <td><b>Origin :</b> {props.Allinvoicedata.OriginState}</td>
-                  </tr>
-                  <tr>
-                    <td><b>Details Of Goods :</b></td>
-                    <td><b>Veh Type : Courier</b></td>
-                    <td><b>Destination : </b>{props.Allinvoicedata.DestinationState}</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td><b>Gross WT.</b> </td>
+                      <td><b>Pcs.</b></td>
+                      <td><b>Origin :</b> {props.Allinvoicedata.OriginState}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Details Of Goods :</b></td>
+                      <td><b>Veh Type : Courier</b></td>
+                      <td><b>Destination : </b>{props.Allinvoicedata.DestinationState}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -113,23 +113,23 @@ const InvoicePreviewWithGst = (props) => {
                   </thead>
                   <tbody className='itembodysec'>
                     {
-                      props.Allitems.map((item,index) =>(
-                            <tr className='itemtrsec'>
-                      <th>{index+1}</th>
-                      <td>{item.itemsvalue}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.rate}</td>
-                      {/* <td>{item.tax}</td> */}
-                      <td>{item.unit}</td>
-                      <td>{item.amount}</td>
-                      <td>{item.Totalamount}</td>
-                    </tr> 
+                      props.Allitems.map((item, index) => (
+                        <tr className='itemtrsec'>
+                          <th>{index + 1}</th>
+                          <td>{item.itemsvalue}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.rate}</td>
+                          {/* <td>{item.tax}</td> */}
+                          <td>{item.unit}</td>
+                          <td>{item.amount}</td>
+                          <td>{item.Totalamount}</td>
+                        </tr>
                       ))
-                    }  
+                    }
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
-                    <th colSpan='6'>Total</th>
+                      <th colSpan='6'>Total</th>
                       <td>{props.Allinvoicedata.Totalamounts}</td>
                       <td>{props.Allinvoicedata.GrandTotal}</td>
                     </tr>

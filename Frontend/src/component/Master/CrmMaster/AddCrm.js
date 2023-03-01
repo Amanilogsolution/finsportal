@@ -11,8 +11,6 @@ const AddCrm = () => {
     const [custvendval, setCustvendval] = useState('');
     const [typeselect, setTypeSelect] = useState('Vendor')
 
-    const themeval = localStorage.getItem('themetype')
-
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -148,7 +146,7 @@ const AddCrm = () => {
                     </div>
                 </div>
             </div>
-            <Footer theme={themeval} />
+            <Footer/>
         </div>
     )
 

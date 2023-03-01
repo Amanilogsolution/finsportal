@@ -6,9 +6,6 @@ import { InsertCurrency, Activecountries } from '../../../api';
 const AddCurrency = () => {
   const [selectCountry, setSelectCountry] = useState([]);
 
-  const themetype = localStorage.getItem('themetype')
-
-
   useEffect(() => {
     const fetchdata = async () => {
       const result = await Activecountries()
@@ -88,7 +85,7 @@ const AddCurrency = () => {
                   </div>
                 </div>
               </div>
-        <Footer theme={themetype} />
+        <Footer  />
     </div>
 
   )

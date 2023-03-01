@@ -14,7 +14,6 @@ const EditAddress = () => {
   const [data, setData] = useState({})
   const [cust_id, setCust_id] = useState()
 
-  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -271,7 +270,7 @@ const EditAddress = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 }

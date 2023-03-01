@@ -10,10 +10,8 @@ const AddItem = () => {
     const [type, setType] = useState('Goods');
     const [unitdata, setUnitdata] = useState([]);
     const [gstvaluecount, setGstvaluecount] = useState();
-    const themeval = localStorage.getItem('themetype')
     const [glcode, setglcode] = useState([]);
 
-    const themetype = localStorage.getItem('themetype')
 
 
 
@@ -263,7 +261,7 @@ const AddItem = () => {
                     </div>
                 </div>
             </div>
-            <Footer theme={themeval} />
+            <Footer/>
         </div>
     )
 

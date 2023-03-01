@@ -10,7 +10,6 @@ const AddRoles = () => {
     const [reporttoggle, setReporttoggle] = useState(false)
     const [alreadyrole, setAlreadyrole] = useState(false);
 
-    const themeval = localStorage.getItem('themetype')
     const checkboxstyle = {
         height: "17px",
         width: "17px"
@@ -615,7 +614,7 @@ const AddRoles = () => {
                         </div>
                     </div>
                 </div>
-                <Footer theme={themeval} />
+                <Footer  />
             </div>
         </>
     )

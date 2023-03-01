@@ -201,7 +201,7 @@ const TotalCustAddress = () => {
             <h3 className=" ml-5">Customer Address</h3>
             <div>
               <button type="button" className="btn btn-success mx-4" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
-              <button type="button" onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCustAddress"  : alert('You are not in Current Financial Year')}} className="btn btn-primary" id='addCustAddress-btn'>Add Address</button>
+              <button type="button" onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCustAddress"  : alert('You cannot Add in This Financial Year')}} className="btn btn-primary" id='addCustAddress-btn'>Add Address</button>
             </div>
           </div>
           <div className="container-fluid position-relative">
@@ -231,6 +231,7 @@ const TotalCustAddress = () => {
                   defaultSortField="id"
                   defaultSortAsc={false}
                   pagination
+                  dense
                   highlightOnHover
                   customStyles={customStyles}
                 />
@@ -239,7 +240,7 @@ const TotalCustAddress = () => {
           </div>
 
         </div>
-        <Footer theme={themeval} />
+        <Footer  />
       </div>
 
       {/* ------------------ Modal start -----------------------------*/}

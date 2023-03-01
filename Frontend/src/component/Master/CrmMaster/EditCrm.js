@@ -12,9 +12,6 @@ const EditCrm = () => {
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
 
-    const themeval = localStorage.getItem('themetype')
-
-
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
@@ -170,7 +167,7 @@ const EditCrm = () => {
                     </div>
                 </div>
             </div>
-            <Footer theme={themeval} />
+            <Footer/>
         </div>
     )
 

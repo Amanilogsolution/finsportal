@@ -18,8 +18,6 @@ const ShowCurrency = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
   const columns = [
     {
       name: 'Country Name',
@@ -42,7 +40,7 @@ const ShowCurrency = () => {
       selector: "null",
       cell: (row) => [
         <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={themetype} onChange={async (e) => {
+          <select onChange={async (e) => {
             const status = e.target.value;
             await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
             window.location.href = 'ShowCurrency'
@@ -185,7 +183,7 @@ const ShowCurrency = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddCurrency": alert('You are not in Current Financial Year')  }} className="btn btn-primary">Add Currency</button>
+        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddCurrency": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Currency</button>
         <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
@@ -209,7 +207,7 @@ const ShowCurrency = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div

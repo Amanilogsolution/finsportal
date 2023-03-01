@@ -47,27 +47,21 @@ const columns = [
     name: 'Remarks',
     selector: 'remarks',
     sortable: true
-  }
+  },
 
-  //   {
-  //     name: "Actions",
-  //     sortable: false,
-
-  //     selector: row => row.null,
-  //     cell: (row) => [
-
-  //        <button  type="button" onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
-
-  //     ]
-  //   }
+    // {
+    //   name: "Actions",
+    //   sortable: false,
+    //   selector: row => row.null,
+    //   cell: (row) => [
+    //      <button  type="button" onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
+    //   ]
+    // }
 ]
 
 const BillSave = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
-
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -102,7 +96,7 @@ const BillSave = () => {
         </div>
         <Header />
         <div className={`content-wrapper `}>
-          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?  window.location.href = "./Bills"  : alert('You are not in Current Financial Year')}} className="btn btn-primary float-right">Add Bill </button>
+          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?  window.location.href = "./Bills"  : alert('You cannot Add in This Financial Year')}} className="btn btn-primary float-right">Add Bill </button>
           <div className="container-fluid">
             <h3 className="py-4 ml-5"> Save Bill </h3>
             <div className="card" >
@@ -122,7 +116,7 @@ const BillSave = () => {
             </div>
           </div>
         </div>
-        <Footer theme={themetype} />
+        <Footer />
       </div>
     </>
   )

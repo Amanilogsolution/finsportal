@@ -5,7 +5,6 @@ import { ShowCustomer, UpdateCustomer } from '../../api';
 
 const EditCustomer = () => {
   const [data, setData] = useState({});
-  const themeval = localStorage.getItem('themetype')
 
   useEffect(() => {
     const fetdata = async () => {
@@ -99,9 +98,7 @@ const EditCustomer = () => {
       document.getElementById("gstin").style.display = "flex";
     }
   };
-  const handleChangeCustEmail = (e) => {
-    setData({ ...data, cust_email: e.target.value })
-  }
+
   const handleChangeCustWorkPhone = (e) => {
     const no = e.target.value;
     if (no.length === 11) return false;
@@ -1017,7 +1014,7 @@ const EditCustomer = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer/>
     </div>
   )
 

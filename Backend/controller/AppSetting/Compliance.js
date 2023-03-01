@@ -100,7 +100,6 @@ const Compliancestatus = async (req, res) => {
 
 const Compliancesduedate = async (req, res) => {
     const org = req.body.org;
-    // console.log("org",org)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select convert(varchar(15),due_date,121) as due_date  from ${org}.dbo.tbl_compliance with (nolock) where status='Active'`)
@@ -130,7 +129,6 @@ const UpdatePendingCompliances = async (req, res) => {
     const remark = req.body.remark;
     const sno = req.body.sno;
     const UploadLink = req.body.UploadLink
-    console.log(due_date, org, remark, sno, UploadLink)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_compliance set due_date='${due_date}',remark='${remark}',document_url='${UploadLink}',document_status='true' where sno=${sno}`)

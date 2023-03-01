@@ -4,8 +4,6 @@ import Footer from "../../Footer/Footer";
 import { InsertUnit } from '../../../api';
 
 const AddUnit = () => {
-  const themetype = localStorage.getItem('themetype')
-
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -62,7 +60,7 @@ const AddUnit = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer  />
     </div>
   )
 

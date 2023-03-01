@@ -15,8 +15,6 @@ const Addcompliances = () => {
   const [duedate, setdueDate] = useState([])
   const [extenddate, setExtendDate] = useState([])
   const [period, setPeriod] = useState()
-  const themetype = localStorage.getItem('themetype')
-
 
   const handleChangedate = (e) => {
     const date = e.target.value
@@ -179,7 +177,7 @@ const Addcompliances = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 }

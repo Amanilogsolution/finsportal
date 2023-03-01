@@ -2,25 +2,22 @@ import React, { useRef } from 'react'
 import './PreviewBill.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-
+import { memo } from "react";
 
 const PreviewBill = (props) => {
     const pdfRef = useRef(null);
 
-     console.log(' data',props.data)
     const print = (e) => {
         e.preventDefault();
         const content = pdfRef.current;
-            const doc = new jsPDF();
-            doc.html(content, {
-              callback: function (doc) {
-                  doc.save(`Purchases Vouchers.pdf`);
-              },
-              html2canvas: { scale: 0.21 },
-              margin:[5,0,0,6],
-
-
-          });
+        const doc = new jsPDF();
+        doc.html(content, {
+            callback: function (doc) {
+                doc.save(`Bill-${props.data.voucher_no}.pdf`);
+            },
+            html2canvas: { scale: 0.233 },
+            margin: [5, 0, 0, 6],
+        });
     };
 
     return (
@@ -31,16 +28,16 @@ const PreviewBill = (props) => {
                     <div className="modal-content modelbillcard" >
 
                         <div className="modal-body" ref={pdfRef}>
-                            <div className="modalbill">
+                            <div className="modalbill border border-dark">
 
-                                <div className="bill-orgname d-flex justify-content-around align-items-center" >
+                                <div className="bill-orgname d-flex justify-content-around align-items-center " >
                                     <div>
                                         <img className='billorglogo' src={localStorage.getItem('Orglogo')} alt='' />
                                     </div>
                                     <div className="toporgname text-center " >
                                         <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                                         <p>
-                                        {localStorage.getItem('Organisation Name').toLocaleUpperCase()} &nbsp;
+                                            {localStorage.getItem('Organisation Name').toLocaleUpperCase()} &nbsp;
                                             ADDRESS-GROUND FLOOR,TOWER B,VATIKA ATRIUM <br />GOLF COURSE  ROAD SECTOR 53,GURGOAN
                                         </p>
 
@@ -50,32 +47,35 @@ const PreviewBill = (props) => {
                                 <div className='bill-detail d-flex'>
                                     <div className='left-bill-detail' style={{ width: "49%" }}>
                                         <table>
-                                            <tr >
-                                                <th >Voucher No :</th>
-                                                <td >{props.data.voucher_no}</td>
-                                            </tr>
-                                            <tr >
-                                                <th >Dated :</th>
-                                                <td >{props.data.voucher_date}</td>
-                                            </tr>
-                                            <tr >
-                                                <th >Pay To :</th>
-                                                <td >{props.data.pay_to}</td>
-                                            </tr>
+                                            <tbody>
+                                                <tr >
+                                                    <th >Voucher No :</th>
+                                                    <td >{props.data.voucher_no}</td>
+                                                </tr>
+                                                <tr >
+                                                    <th >Dated :</th>
+                                                    <td >{props.data.voucher_date}</td>
+                                                </tr>
+                                                <tr >
+                                                    <th >Pay To :</th>
+                                                    <td >{props.data.pay_to}</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
 
                                     </div>
                                     <div className='right-bill-detail ml-2' style={{ width: "48%" }}>
                                         <table >
-
-                                            <tr >
-                                                <th >Vide/Cash/Cheque/DD: </th>
-                                                <td >GIP173/22-23/024</td>
-                                            </tr>
-                                            <tr >
-                                                <th >Invoice Date:</th>
-                                                <td > {props.data.invoice_date}</td>
-                                            </tr>
+                                            <tbody>
+                                                <tr >
+                                                    <th >Vide/Cash/Cheque/DD: </th>
+                                                    <td >GIP173/22-23/024</td>
+                                                </tr>
+                                                <tr >
+                                                    <th >Invoice Date:</th>
+                                                    <td > {props.data.invoice_date}</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
 
                                     </div>
@@ -84,27 +84,28 @@ const PreviewBill = (props) => {
 
                                 <div className='bill-items '>
                                     <table className='table items-table table-borderless m-0' >
+                                    <tbody>
                                         <tr className='billitemrow'>
-                                            <th className='first-col billitem'>SNO.</th>
-                                            <th className='second-col billitem'>Item</th>
-                                            <th className='third-col billitem'>Quantity</th>
-                                            <th className='four-col billitem'>Rate</th>
-                                            <th className='five-col billitem'>Amount</th>
-                                            <th className='six-col billitem'>Deduction</th>
-                                            <th className='seven-col billitem'>Unit</th>
-                                            <th className='eight-col billitem'>Net Amt</th>
+                                            <th className='first-col billitem text-center'>SNO.</th>
+                                            <th className='second-col billitem text-center'>Item</th>
+                                            <th className='third-col billitem text-center'>Quantity</th>
+                                            <th className='four-col billitem text-center'>Rate</th>
+                                            <th className='five-col billitem text-center'>Amount</th>
+                                            <th className='six-col billitem text-center'>Deduction</th>
+                                            <th className='seven-col billitem text-center'>Unit</th>
+                                            <th className='eight-col billitem text-center'>Net Amt</th>
                                         </tr>
                                         {
-                                            props.Allitems.map((item,index)=>(
-                                                <tr  className='billitemrow'>
-                                            <td className='first-col billitem'>{index+1}</td>
-                                            <td className='second-col billitem'>{item.items}</td>
-                                            <td className='third-col billitem'>{item.quantity}</td>
-                                            <td className='four-col billitem'>{item.rate}</td>
-                                            <td className='five-col billitem'>{item.rate}</td>
-                                            <td className='six-col billitem'>{item.deduction}</td>
-                                            <td className='seven-col billitem'>{item.unit}</td>
-                                            <td className='eight-col billitem'>{item.netvalue}</td>
+                                            props.Allitems.map((item, index) => (
+                                                <tr key={index} className='billitemrow'>
+                                                    <td className='first-col billitem text-center'>{index + 1}</td>
+                                                    <td className='second-col billitem text-center'>{item.items}</td>
+                                                    <td className='third-col billitem text-center'>{item.quantity}</td>
+                                                    <td className='four-col billitem text-center'>{item.rate}</td>
+                                                    <td className='five-col billitem text-center'>{item.rate}</td>
+                                                    <td className='six-col billitem text-center'>{item.deduction}</td>
+                                                    <td className='seven-col billitem text-center'>{item.unit}</td>
+                                                    <td className='eight-col billitem text-center'>{item.netvalue}</td>
                                                 </tr>
                                             ))
                                         }
@@ -141,6 +142,7 @@ const PreviewBill = (props) => {
                                             <td className='eight-col billitem'>230000.00</td>
 
                                         </tr> */}
+                                        </tbody>
                                     </table>
 
                                 </div>
@@ -149,6 +151,7 @@ const PreviewBill = (props) => {
                                 <div className='bill-bottomdetail d-flex justify-content-end' >
 
                                     <table className='table table-borderless m-0' >
+                                    <tbody>
                                         <tr id='billborderbottom'>
                                             <th className='text-right'  >Net Amount</th>
                                             <td className='text-center'>{props.data.net_amt}</td>
@@ -177,6 +180,7 @@ const PreviewBill = (props) => {
                                             <th className='text-right' >Total Booked Amt</th>
                                             <td className='text-center'>{props.data.net_amt}</td>
                                         </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div className='bill-footerdiv d-flex pt-3 pl-3' style={{ borderTop: "1px solid #000" }}>
@@ -199,4 +203,4 @@ const PreviewBill = (props) => {
     )
 }
 
-export default PreviewBill;
+export default memo(PreviewBill);

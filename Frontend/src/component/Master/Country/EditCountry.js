@@ -5,8 +5,6 @@ import { showcountry, updatecountry } from '../../../api'
 
 const EditCountry = () => {
   const [data, setData] = useState([])
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -89,7 +87,7 @@ const EditCountry = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 

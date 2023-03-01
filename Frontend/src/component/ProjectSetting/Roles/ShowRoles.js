@@ -10,8 +10,6 @@ import customStyles from '../../customTableStyle';
 const ShowRoles = () => {
     const [data, setData] = useState([])
 
-    const themetype = localStorage.getItem('themetype')
-
     const columns = [
         {
             name: 'Roles',
@@ -106,7 +104,7 @@ const ShowRoles = () => {
                     </div>
                 </div>
             </div>
-            <Footer theme={themetype} />
+            <Footer  />
         </div>
     )
 

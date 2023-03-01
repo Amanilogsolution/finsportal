@@ -9,7 +9,6 @@ function Org() {
   const [file, setFile] = useState('');
   const [phonenum, setPhonenum] = useState();
   const [pinno, setPinno] = useState();
-  const themecolor = localStorage.getItem('themetype') !== null ? localStorage.getItem('themetype') : 'light'
 
 
   const formshow = () => {
@@ -353,7 +352,7 @@ function Org() {
 
           </div>
         </div>
-        <Footer theme={themecolor} />
+        <Footer />
       </div>
     </>
   );

@@ -57,8 +57,6 @@ const InvoiceSave = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -98,11 +96,11 @@ const InvoiceSave = () => {
       </div>
       <Header />
       <div className="content-wrapper ">
-        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?window.location.href = "./Invoices" : alert('You are not in Current Financial Year')  }} className="btn btn-primary">Add Invoice </button>
+        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ?window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Invoice </button>
         <div className="container-fluid">
           <h3 className="py-4 ml-5"> Save Invoice </h3>
           <div className="card w-100">
-            <article className="card-body ">
+            <article className="card-body py-1">
               <DataTableExtensions
                 {...tableData}>
                 <DataTable
@@ -111,6 +109,7 @@ const InvoiceSave = () => {
                   defaultSortAsc={false}
                   pagination
                   highlightOnHover
+                  dense
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
@@ -118,7 +117,7 @@ const InvoiceSave = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer/>
     </div>
   )
 }

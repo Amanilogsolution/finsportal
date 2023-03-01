@@ -45,9 +45,10 @@ const InsertSubPurchaseorder = async (req, res) => {
     }
 }
 
-const getPoDetailsVendor = async() => { 
+const getPoDetailsVendor = async(req,res) => { 
     const org=req.body.org;
     const vendor_id=req.body.vendor_id;
+    console.log(org, vendor_id)
 
     try {
         await sql.connect(sqlConfig)

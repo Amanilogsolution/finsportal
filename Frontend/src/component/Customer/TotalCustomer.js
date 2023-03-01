@@ -86,7 +86,6 @@ const TotalCustomer = () => {
   const [ActionToogle, setActionToogle] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themeval = localStorage.getItem('themetype')
 
   //##########################  Upload data start  #################################
 
@@ -300,7 +299,7 @@ const TotalCustomer = () => {
                 className={ActionToogle ? 'showAction' : 'hideAction'}
               >
                 <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                <button type="button" id='addcustbtn' onClick={() => { financialstatus === 'Active' ? window.location.href = "./Customer" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
+                <button type="button" id='addcustbtn' onClick={() => { financialstatus === 'Active' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
                 <button type="button" id='updatecustNamebtn' onClick={() => { window.location.href = "./CustomerNames" }} className="btn btn-primary mx-1">Update Cust Names</button>
               </div>
             </div>
@@ -322,7 +321,7 @@ const TotalCustomer = () => {
             </article>
           </div>
         </div>
-        <Footer theme={themeval} />
+        <Footer  />
       </div>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}

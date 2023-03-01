@@ -5,7 +5,6 @@ import { InsertPaymentTerm } from "../../../api";
 
 
 const AddPaymentTerm = () => {
-  const themeval = localStorage.getItem('themetype')
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -64,7 +63,7 @@ const AddPaymentTerm = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer  />
     </div>
   )
 

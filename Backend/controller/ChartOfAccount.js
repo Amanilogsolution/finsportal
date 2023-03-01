@@ -29,7 +29,7 @@ const Accounttype = async (req, res) => {
 //         }
 //     }
 //     catch (err) {
-//         console.log(err)
+//         res.send(err)
 //     }
 // }
 
@@ -49,13 +49,10 @@ const ParentAccountNumber = async (req, res) => {
     const org = req.body.org;
     const account_type_code = req.body.account_type_code;
     const account_name_code = req.body.account_name_code;
-    console.log(org,account_type_code,account_name_code)
-    console.log(`SELECT top 1  account_sub_name_code,account_sub_name from ${org}.dbo.tbl_sub_account WHERE status='Active' and account_name_code='${account_name_code}' and account_type_code='${account_type_code}' order by sno desc;`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT top 1 account_name_code from ${org}.dbo.tbl_account_name WHERE status='Active'  and account_type_code='${account_type_code}' order by sno desc;`)
         const result1 = await sql.query(`SELECT top 1  account_sub_name_code,account_sub_name from ${org}.dbo.tbl_sub_account WHERE status='Active' and account_name_code='${account_name_code}' and account_type_code='${account_type_code}' order by sno desc;`)
-        console.log(result1)
         res.send({
             "result": result.recordset[0],
             "result1": result1.recordset[0],
@@ -75,7 +72,6 @@ const AddAccountName = async (req, res) => {
     const description = req.body.description;
     const org = req.body.org;
     const User_id = req.body.User_id;
-    console.log(account_type_code, account_name, account_name_code, description,org,User_id)
 
     try {
         await sql.connect(sqlConfig)
@@ -133,7 +129,6 @@ const AddNewSubAccountName = async (req, res) => {
     const account_name_code = req.body.account_name_code;
     const org = req.body.org;
     const User_id = req.body.User_id;
-    console.log(account_sub_name,account_sub_name_code,description,account_type_code,account_name_code)
 
     try {
         await sql.connect(sqlConfig)
@@ -172,7 +167,6 @@ const SelectSubAcconameByType = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(` select account_type_code from ${org}.dbo.tbl_account_type with (nolock) where account_type='${account_type}' and status='Active';`)
         res.send(result.recordset)
-        // console.log(result.recordset)
     }
     catch (err) {
         res.send(err)

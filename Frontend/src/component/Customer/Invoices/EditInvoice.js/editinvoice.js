@@ -10,7 +10,6 @@ function EditInvoice() {
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
 
-    const themeval = localStorage.getItem('themetype')
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -396,7 +395,7 @@ function EditInvoice() {
 
                     </div>
                 </div>
-                <Footer theme={themeval} />
+                <Footer />
             </div>
         </>
     )

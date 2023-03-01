@@ -5,7 +5,6 @@ import { Insertaccounttype } from '../../../api'
 
 
 function InsertAccountType() {
-  const themeval = localStorage.getItem('themetype')
 
 
   const handleClick = async (e) => {
@@ -34,7 +33,6 @@ function InsertAccountType() {
   const handleClickCancel = (e) => {
     e.preventDefault();
     var landingpage = localStorage.getItem('Chart')
-    console.log(landingpage)
     if (landingpage === 'Chart') {
       window.location.href = '/ChartOfAccount'
       localStorage.removeItem('Chart')
@@ -83,7 +81,7 @@ function InsertAccountType() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 }

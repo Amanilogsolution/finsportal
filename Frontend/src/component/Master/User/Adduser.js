@@ -12,8 +12,6 @@ const AddUser = () => {
   const [file, setFile] = useState('')
   const [user_profile_url, setUserProfile] = useState('')
 
-  const themetype = localStorage.getItem('themetype')
-
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
@@ -232,7 +230,7 @@ const AddUser = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

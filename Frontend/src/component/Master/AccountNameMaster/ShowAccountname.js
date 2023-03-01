@@ -70,7 +70,6 @@ function ShowAccountname() {
     let [errorno, setErrorno] = useState(0);
     const [duplicateData, setDuplicateDate] = useState([])
     const [backenddata, setBackenddata] = useState(false);
-    const themetype = localStorage.getItem('themetype')
 
 
     //##########################  Upload data start  #################################
@@ -192,7 +191,7 @@ function ShowAccountname() {
                 </div>
             </div>
 
-            <Footer theme={themetype} />
+            <Footer />
             {/* ------------------ Modal start -----------------------------*/}
             <div
                 className="modal fade"

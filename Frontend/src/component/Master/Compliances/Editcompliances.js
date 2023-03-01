@@ -7,7 +7,6 @@ import { showcompliancesData, updatecompliance, showcompliancesType } from '../.
 function Editcompliances() {
     const [data, setData] = useState([])
     const [compliancetype, setComplianceType] = useState([])
-    const themeval = localStorage.getItem('themetype')
 
     useEffect( () => {
         const fetchdata=async()=>{
@@ -130,7 +129,7 @@ function Editcompliances() {
                     </div>
                 </div>
             </div>
-            <Footer theme={themeval}/>
+            <Footer/>
         </div>
     )
 }

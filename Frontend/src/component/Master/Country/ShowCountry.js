@@ -17,7 +17,6 @@ const ShowCountry = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
 
   const columns = [
     {
@@ -188,7 +187,7 @@ const ShowCountry = () => {
           <h3 className="ml-5">Country</h3>
           <div className='d-flex '>
             <button type="button" id='uploadcountrybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCountry" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add Country</button>
+            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddCountry" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add Country</button>
           </div>
         </div>
         <div className="container-fluid">
@@ -211,7 +210,7 @@ const ShowCountry = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

@@ -18,9 +18,6 @@ const Showcity = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-  const themetype = localStorage.getItem('themetype')
-
-
   const columns = [
     {
       name: 'Country Name',
@@ -171,6 +168,8 @@ const Showcity = () => {
       if (UserRights.city_edit === 'true') {
         for (let i = 0; i < result.length; i++) {
           document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+          console.log(`editactionbtns${result[i].sno}`)
+
         }
       }
       if (UserRights.city_delete === 'true') {
@@ -226,7 +225,7 @@ const Showcity = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer  />
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div

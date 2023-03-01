@@ -5,7 +5,6 @@ import { showunit } from '../../../api/index.js'
 import { UpdateUnit } from '../../../api/index.js'
 
 const EditUnit = () => {
-  const themetype = localStorage.getItem('themetype')
 
   const [data, setData] = useState({})
   useEffect(async () => {
@@ -61,7 +60,7 @@ const EditUnit = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

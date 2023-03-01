@@ -10,7 +10,7 @@ import customStyles from '../../../customTableStyle';
 function  ShowcomplianceType() {
 
   const [data, setData] = useState([])
-  const themeval = localStorage.getItem('themetype')
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const columns = [
     {
@@ -62,6 +62,14 @@ function  ShowcomplianceType() {
     const org = localStorage.getItem('Organisation')
     const result = await showcompliancesType(org)
     setData(result)
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Deactive') {
+      document.getElementById('addcomp_typebtn').style.background = '#7795fa';
+    }
+
+
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'comp_type')
     if (UserRights.comp_type_create === 'true') {
       document.getElementById('addcomp_typebtn').style.display = "block";
@@ -91,7 +99,7 @@ function  ShowcomplianceType() {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5">Compliances Type</h3>
-          <button type="button" id='addcomp_typebtn' style={{  display: "none" }} onClick={() => { window.location.href = "./AddcomplianceType" }} className="btn btn-primary mx-4">Add Compliances Type</button>
+          <button type="button" id='addcomp_typebtn' style={{  display: "none" }} onClick={() => {  financialstatus === 'Active' ? window.location.href = "./AddcomplianceType": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add Compliances Type</button>
         </div>
         <div className='container-fluid'>
           <div className="card w-100" >
@@ -113,7 +121,7 @@ function  ShowcomplianceType() {
           </div>
         </div>
       </div>
-      <Footer theme={themeval} />
+      <Footer />
     </div>
   )
 }

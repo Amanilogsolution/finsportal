@@ -12,7 +12,6 @@ const Reportdata = () => {
   const [vendcustname, setVendcustname] = useState('')
   const [locationlist, setLocationlist] = useState([])
 
-  const themeval = localStorage.getItem('themetype')
   const themebtncolor = localStorage.getItem('themebtncolor') || 'primary'
 
   useEffect(() => {
@@ -198,7 +197,7 @@ const Reportdata = () => {
           </div>
 
           {/* ########################## Modal End ###################################3 */}
-        <Footer theme={themeval} />
+        <Footer />
 
       </div>
   )

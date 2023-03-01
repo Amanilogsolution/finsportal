@@ -82,8 +82,7 @@ const ShowUser = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-
-  const themetype = localStorage.getItem('themetype')
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
 
   //##########################  Upload data start  #################################
@@ -162,6 +161,13 @@ const ShowUser = () => {
       const result = await TotalUser()
       setData(result)
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('adduserbtn').style.background = '#7795fa';
+      }
+
+
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'users')
       if (UserRights.users_create === 'true') {
         document.getElementById('adduserbtn').style.display = "block"
@@ -196,7 +202,7 @@ const ShowUser = () => {
       </div>
       <Header />
         <div className={`content-wrapper`}>
-          <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { window.location.href = "./AddUser" }} className="btn btn-primary">ADD User</button>
+          <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddUser": alert('You cannot Add in This Financial Year') }} className="btn btn-primary">ADD User</button>
           <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
           <div className="container-fluid">
             <br />
@@ -222,7 +228,7 @@ const ShowUser = () => {
             </div>
           </div>
         </div>
-      <Footer theme={themetype} />
+      <Footer  />
 
       {/* ------------------ Modal start -----------------------------*/}
       <div

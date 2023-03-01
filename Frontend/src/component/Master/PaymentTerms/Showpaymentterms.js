@@ -9,7 +9,6 @@ import customStyles from '../../customTableStyle';
 const ShowFincialTerm = () => {
   const [data, setData] = useState([])
 
-  const themetype = localStorage.getItem('themetype')
 
   const columns = [
     {
@@ -96,9 +95,8 @@ const ShowFincialTerm = () => {
           <button type="button" id="addpaymenttermbtn" style={{ display: "none" }} onClick={() => { window.location.href = "./AddPaymentTerm" }} className="btn btn-primary mx-3">Add Payment Term</button>
         </div>
         <div className="container-fluid">
-
           <div className="card w-100">
-            <article className={`card-body `}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -116,7 +114,7 @@ const ShowFincialTerm = () => {
           </div>
         </div>
       </div>
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

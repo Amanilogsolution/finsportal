@@ -16,7 +16,6 @@ const Menu = (props) => {
 
   const Rolefunction = (result) => {
 
-
     // ####################  ALL Access to Admin Start #######################################################
     if (localStorage.getItem('Role') === 'Admin') {
       document.getElementById('estimatesMenu').style.display = "block"
@@ -33,7 +32,7 @@ const Menu = (props) => {
 
 
     }
-    else{
+    else {
       document.getElementById('estimatesMenu').style.display = "none"
       document.getElementById('orderMenu').style.display = "none"
       document.getElementById('deliverychallansmrnu').style.display = "none"
@@ -50,8 +49,6 @@ const Menu = (props) => {
     }
 
     // ####################  ALL Access to Admin End  #######################################################
-
-
 
 
     // ################  Items Roles #############
@@ -79,7 +76,6 @@ const Menu = (props) => {
     }
     else {
       document.getElementById('salesMenu').style.display = "none"
-
     }
 
     // Purchase Menu ROle Start
@@ -176,9 +172,6 @@ const Menu = (props) => {
     // Master Menu Roles End
 
 
-
-
-
     // Accountant Menu ROle Start
     if (result.accountant_all === 'true') {
       document.getElementById('accountantMenu').style.display = "block";
@@ -214,287 +207,287 @@ const Menu = (props) => {
 
 
   return (
-      <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
-        <a href="/home" className="brand-link" >
-          <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
-          <span className="brand-text " style={{ color: "red", fontSize: "18px" }}>{currentorg}</span>
-        </a>
+    <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
+      <a href="/home" className="brand-link" >
+        <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
+        <span className="brand-text " style={{ color: "red", fontSize: "18px" }}>{currentorg}</span>
+      </a>
 
-        <div className="sidebar pb-3 " >
-          <div className="form-inline mt-3 pb-3 mb-3 d-flex">
-            <div className="input-group " data-widget="sidebar-search">
-              <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
-              <div className="input-group-append">
-                <button className="btn btn-sidebar">
-                  <i className="fas fa-search fa-fw" />
-                </button>
-              </div>
+      <div className="sidebar pb-3 " >
+        <div className="form-inline mt-3 pb-3 mb-3 d-flex">
+          <div className="input-group " data-widget="sidebar-search">
+            <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
+            <div className="input-group-append">
+              <button className="btn btn-sidebar">
+                <i className="fas fa-search fa-fw" />
+              </button>
             </div>
           </div>
+        </div>
 
-          <nav className="mt-2 pb-5" >
-            <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-              <li className="nav-item ">
-                <a href="/home" className="nav-link active">
-                  <i className="nav-icon fas fa-tachometer-alt" />
-                  <p> Dashboard </p>
-                </a>
-              </li>
-              <li className="nav-item" style={{ display: "none" }} id="itemsmenu">
-                <a href="/ShowItem" className="nav-link active p-1" >
-                  <span className="material-symbols-outlined pt-1 pl-2">
-                    category
-                  </span>&nbsp;
-                  <p > Items </p>
-                </a>
-              </li>
+        <nav className="mt-2 pb-5" >
+          <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li className="nav-item ">
+              <a href="/home" className="nav-link active">
+                <i className="nav-icon fas fa-tachometer-alt" />
+                <p> Dashboard </p>
+              </a>
+            </li>
+            <li className="nav-item" style={{ display: "none" }} id="itemsmenu">
+              <a href="/ShowItem" className="nav-link active p-1" >
+                <span className="material-symbols-outlined pt-1 pl-2">
+                  category
+                </span>&nbsp;
+                <p > Items </p>
+              </a>
+            </li>
 
-              {/* ################# Sales Section Start ############## */}
-              <li className="nav-item" id='salesMenu'>
-                <a href="#" className="nav-link active">
-                  <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
-                  <p >
-                    Sales
+            {/* ################# Sales Section Start ############## */}
+            <li className="nav-item" id='salesMenu'>
+              <a href="#" className="nav-link active">
+                <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
+                <p >
+                  Sales
+                  <i className="right fas fa-angle-left" />
+                </p>
+              </a>
+              <ul className="nav nav-treeview">
+                <li className="nav-item" style={{ display: "none" }} id="CustomerMenu">
+                  <a href="/TotalCustomer" className="nav-link active">
+                    <i className="fa fa-user nav-icon" aria-hidden="true"></i>
+                    <p> Customer</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id="custaddressMenu">
+                  <a href="/TotalCustAddress" className="nav-link active">
+                    <i className="fa fa-address-book nav-icon" />
+                    <p>Addresses</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='estimatesMenu'>
+                  <a href="/Estimates" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Estimates</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='orderMenu'>
+                  <a href="/SalesOrder" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Sales Order</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='deliverychallansmrnu'>
+                  <a href="/DeliveryChallans" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Delivery Challans</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id="Invoicemenu">
+                  <a href="/SaveInvoice" className="nav-link active">
+                    <i className="far fa-file nav-icon" />
+                    <p>Invoices</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='pmtRecMenu'>
+                  <a href="/PaymentsReceived" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Payments Received</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='recInvoiceMenu'>
+                  <a href="/RecurringInvoices" className="nav-link active">
+                    <i className="far fa-file nav-icon" />
+                    <p>Recurring Invoices</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='creditNoteMenu'>
+                  <a href="/CreditNotes" className="nav-link active">
+                    <i className="fa fa-credit-card nav-icon" />
+                    <p>CreditNotes</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            {/* Purchases Menu Start */}
+            <li className="nav-item" style={{ display: "none" }} id='purchasesMenu'>
+              <a href="/Customer" className="nav-link active">
+                <i className="fa fa-shopping-bag" aria-hidden="true"></i>
+                <p >
+                  &nbsp;  Purchases
+                  <i className="right fas fa-angle-left" />
+                </p>
+              </a>
+              <ul className="nav nav-treeview">
+                <li className="nav-item" id='vendMenu' style={{ display: "none" }} >
+                  <a href="/Showvendor" className="nav-link active">
+                    <i className="far fa-user nav-icon" />
+                    <p> Vendor</p>
+                  </a>
+                </li>
+                <li className="nav-item" id='vendaddMenu' style={{ display: "none" }} >
+                  <a href="/TotalVendAddress" className="nav-link active">
+                    <i className="far fa-address-book nav-icon" />
+                    <p>Address</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='vendRecurrMenu'>
+                  <a href="/RecurringExpenses" className="nav-link active">
+                    <i className="far fa-circle nav-icon" aria-hidden="true" />
+                    <p>Recurring Expenses</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id='purchaseOrderMenu'>
+                  <a href="/PurchaseOrder" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Purchase Order</p>
+                  </a>
+                </li>
+                <li className="nav-item" style={{ display: "none" }} id="vendBillsMenu">
+                  <a href="/SaveBillReport" className="nav-link active">
+                    <i className="fa fa-file nav-icon" />
+                    <p>Bills</p>
+                  </a>
+                </li>
+                <li className="nav-item" id='vendrecbillMenu' style={{ display: "none" }}>
+                  <a href="/RecurringBills" className="nav-link active">
+                    <i className="far fa-file nav-icon" />
+                    <p>Recurring Bills</p>
+                  </a>
+                </li>
+                <li className="nav-item" id='vendcredMenu' style={{ display: "none" }}>
+                  <a href="/VendorCredits" className="nav-link active">
+                    <i className="fa fa-credit-card nav-icon" />
+                    <p>Vendor Credits</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            {/* Accountant Master */}
+            <li className="nav-item" style={{ display: "none" }} id="accountantMenu">
+              <a href="/Customer" className="nav-link active">
+                <i className="fa fa-user-plus" aria-hidden="true"></i>
+                <p >
+                  &nbsp;  Accountant
+                  <i className="right fas fa-angle-left" />
+                </p>
+              </a>
+              <ul className="nav nav-treeview">
+                <li className="nav-item" style={{ display: "none" }} id='currencyAdjMenu'>
+                  <a href="/Currency-Adjustment" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Currency Adjustments </p>
+                  </a>
+                </li>
+
+                <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
+                  <a href="#" className="nav-link active bg-success">
+                    <p className=""> Chart Of Accounts</p>
                     <i className="right fas fa-angle-left" />
-                  </p>
-                </a>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item" style={{ display: "none" }} id="CustomerMenu">
-                    <a href="/TotalCustomer" className="nav-link active">
-                      <i className="fa fa-user nav-icon" aria-hidden="true"></i>
-                      <p> Customer</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id="custaddressMenu">
-                    <a href="/TotalCustAddress" className="nav-link active">
-                      <i className="fa fa-address-book nav-icon" />
-                      <p>Addresses</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='estimatesMenu'>
-                    <a href="/Estimates" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Estimates</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='orderMenu'>
-                    <a href="/SalesOrder" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Sales Order</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='deliverychallansmrnu'>
-                    <a href="/DeliveryChallans" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Delivery Challans</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id="Invoicemenu">
-                    <a href="/SaveInvoice" className="nav-link active">
-                      <i className="far fa-file nav-icon" />
-                      <p>Invoices</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='pmtRecMenu'>
-                    <a href="/PaymentsReceived" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Payments Received</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='recInvoiceMenu'>
-                    <a href="/RecurringInvoices" className="nav-link active">
-                      <i className="far fa-file nav-icon" />
-                      <p>Recurring Invoices</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='creditNoteMenu'>
-                    <a href="/CreditNotes" className="nav-link active">
-                      <i className="fa fa-credit-card nav-icon" />
-                      <p>CreditNotes</p>
-                    </a>
-                  </li>
+                  </a>
 
-                </ul>
-              </li>
-              {/* Purchases Menu Start */}
-              <li className="nav-item" style={{ display: "none" }} id='purchasesMenu'>
-                <a href="/Customer" className="nav-link active">
-                  <i className="fa fa-shopping-bag" aria-hidden="true"></i>
-                  <p >
-                    &nbsp;  Purchases
-                    <i className="right fas fa-angle-left" />
-                  </p>
-                </a>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item" id='vendMenu' style={{ display: "none" }} >
-                    <a href="/Showvendor" className="nav-link active">
-                      <i className="far fa-user nav-icon" />
-                      <p> Vendor</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" id='vendaddMenu' style={{ display: "none" }} >
-                    <a href="/TotalVendAddress" className="nav-link active">
-                      <i className="far fa-address-book nav-icon" />
-                      <p>Address</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='vendRecurrMenu'>
-                    <a href="/RecurringExpenses" className="nav-link active">
-                      <i className="far fa-circle nav-icon" aria-hidden="true" />
-                      <p>Recurring Expenses</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id='purchaseOrderMenu'>
-                    <a href="/PurchaseOrder" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Purchase Order</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" style={{ display: "none" }} id="vendBillsMenu">
-                    <a href="/SaveBillReport" className="nav-link active">
-                      <i className="fa fa-file nav-icon" />
-                      <p>Bills</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" id='vendrecbillMenu' style={{ display: "none" }}>
-                    <a href="/RecurringBills" className="nav-link active">
-                      <i className="far fa-file nav-icon" />
-                      <p>Recurring Bills</p>
-                    </a>
-                  </li>
-                  <li className="nav-item" id='vendcredMenu' style={{ display: "none" }}>
-                    <a href="/VendorCredits" className="nav-link active">
-                      <i className="fa fa-credit-card nav-icon" />
-                      <p>Vendor Credits</p>
-                    </a>
-                  </li>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <a href="/ShowChartAccount" className="nav-link active">
+                        <i className="far fa-circle nav-icon" />
+                        <p> Chart OF Account </p>
+                      </a>
+                    </li>
 
-                </ul>
-              </li>
-              {/* Accountant Master */}
-              <li className="nav-item" style={{ display: "none" }} id="accountantMenu">
-                <a href="/Customer" className="nav-link active">
-                  <i className="fa fa-user-plus" aria-hidden="true"></i>
-                  <p >
-                    &nbsp;  Accountant
-                    <i className="right fas fa-angle-left" />
-                  </p>
-                </a>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item" style={{ display: "none" }} id='currencyAdjMenu'>
-                    <a href="/Currency-Adjustment" className="nav-link active">
-                      <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
-                      <p>Currency Adjustments </p>
-                    </a>
-                  </li>
+                    <li className="nav-item">
+                      <a href="/ShowAccountname" className="nav-link active">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Account Major code</p>
+                      </a>
+                    </li>
 
-                  <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
-                    <a href="#" className="nav-link active bg-success">
-                      <p className=""> Chart Of Accounts</p>
-                      <i className="right fas fa-angle-left" />
-                    </a>
+                    <li className="nav-item">
+                      <a href="/ShowAccountMinorCode" className="nav-link active">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Account Minor Code</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            {/* Master Menu */}
+            <li className="nav-item" style={{ display: "none" }} id='masterMenu'>
+              <a href="/Customer" className="nav-link active">
+                <i className="fa fa-user-plus" aria-hidden="true"></i>
+                <p >
+                  &nbsp;  Master
+                  <i className="right fas fa-angle-left" />
+                </p>
+              </a>
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id='countrymenu' >
+                  <a href="/ShowCountry" className="nav-link active">
+                    <i className="fa fa-globe nav-icon" />
+                    <p> Country</p>
+                  </a>
+                </li>
+              </ul>
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id='statemenu' >
+                  <a href="/ShowState" className="nav-link active">
+                    <i className="fa fa-globe nav-icon" />
+                    <p> State</p>
+                  </a>
+                </li>
+              </ul>
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id='citymenu' >
+                  <a href="/Showcity" className="nav-link active">
+                    <i className="fa fa-globe nav-icon" />
+                    <p> City</p>
+                  </a>
+                </li>
+              </ul>
+              <ul className="nav nav-treeview" >
+                <li className="nav-item" id='currencymenu' >
+                  <a href="/ShowCurrency" className="nav-link active">&nbsp;
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
+                    <p>Currency</p>
+                  </a>
+                </li>
+              </ul>
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id='unitmenu' >
+                  <a href="/ShowUnit" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Unit</p>
+                  </a>
+                </li>
+              </ul>
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id="bankMenu" >
+                  <a href="/TotalBank" className="nav-link active">
+                    <i className="fa fa-university nav-icon" />
+                    <p>Bank</p>
+                  </a>
+                </li>
+              </ul>
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id="usermenu" >
+                  <a href="/ShowUser" className="nav-link active">
+                    <i className="far fa-user nav-icon" />
+                    <p>User</p>
+                  </a>
+                </li>
+              </ul>
 
-                    <ul className="nav nav-treeview">
-                      <li className="nav-item">
-                        <a href="/ShowChartAccount" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p> Chart OF Account </p>
-                        </a>
-                      </li>
+              <ul className="nav nav-treeview" >
+                <li className="nav-item" id='comptypeMenu'>
+                  <a href="/ShowcompliancesType" className="nav-link active">
+                    <i className="fa fa-tasks nav-icon" />
+                    <p>Compliance Type</p>
+                  </a>
+                </li>
+              </ul>
 
-                      <li className="nav-item">
-                        <a href="/ShowAccountname" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Account Major code</p>
-                        </a>
-                      </li>
-
-                      <li className="nav-item">
-                        <a href="/ShowAccountMinorCode" className="nav-link active">
-                          <i className="far fa-circle nav-icon" />
-                          <p>Account Minor Code</p>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              {/* Master Menu */}
-              <li className="nav-item" style={{ display: "none" }} id='masterMenu'>
-                <a href="/Customer" className="nav-link active">
-                  <i className="fa fa-user-plus" aria-hidden="true"></i>
-                  <p >
-                    &nbsp;  Master
-                    <i className="right fas fa-angle-left" />
-                  </p>
-                </a>
-                <ul className="nav nav-treeview"  >
-                  <li className="nav-item" id='countrymenu' >
-                    <a href="/ShowCountry" className="nav-link active">
-                      <i className="fa fa-globe nav-icon" />
-                      <p> Country</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview"  >
-                  <li className="nav-item" id='statemenu' >
-                    <a href="/ShowState" className="nav-link active">
-                      <i className="fa fa-globe nav-icon" />
-                      <p> State</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview"  >
-                  <li className="nav-item" id='citymenu' >
-                    <a href="/Showcity" className="nav-link active">
-                      <i className="fa fa-globe nav-icon" />
-                      <p> City</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview" >
-                  <li className="nav-item" id='currencymenu' >
-                    <a href="/ShowCurrency" className="nav-link active">&nbsp;
-                      <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;&nbsp;
-                      <p>Currency</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview"  >
-                  <li className="nav-item" id='unitmenu' >
-                    <a href="/ShowUnit" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Unit</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview"  >
-                  <li className="nav-item" id="bankMenu" >
-                    <a href="/TotalBank" className="nav-link active">
-                      <i className="fa fa-university nav-icon" />
-                      <p>Bank</p>
-                    </a>
-                  </li>
-                </ul>
-                <ul className="nav nav-treeview"  >
-                  <li className="nav-item" id="usermenu" >
-                    <a href="/ShowUser" className="nav-link active">
-                      <i className="far fa-user nav-icon" />
-                      <p>User</p>
-                    </a>
-                  </li>
-                </ul>
-
-                <ul className="nav nav-treeview" >
-                  <li className="nav-item" id='comptypeMenu'>
-                    <a href="/ShowcompliancesType" className="nav-link active">
-                      <i className="fa fa-tasks nav-icon" />
-                      <p>Compliance Type</p>
-                    </a>
-                  </li>
-                </ul>
-
-                {/* <ul className="nav nav-treeview" id='subcodeMenu' style={{display:"none"}}>
+              {/* <ul className="nav nav-treeview" id='subcodeMenu' style={{display:"none"}}>
                   <li className="nav-item">
                     <a href="/TotalSubCode" className="nav-link active">
                       <i className="far fa-circle nav-icon" />
@@ -503,27 +496,27 @@ const Menu = (props) => {
                   </li>
                 </ul> */}
 
-                <ul className="nav nav-treeview" id='employeeMenu'>
-                  <li className="nav-item" style={{ display: "none" }} >
-                    <a href="/showemployee" className="nav-link active">
-                      <i className="far fa-file nav-icon" />
-                      <p>Employee Master</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              {/* Report Menu  */}
-              <li className="nav-item" id='reportMenu' style={{ display: "none" }}>
-                <a href="/Reportdata" className="nav-link active">
-                  <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
-                  <p > Report </p>
-                </a>
-              </li>
+              <ul className="nav nav-treeview" id='employeeMenu'>
+                <li className="nav-item" style={{ display: "none" }} >
+                  <a href="/showemployee" className="nav-link active">
+                    <i className="far fa-file nav-icon" />
+                    <p>Employee Master</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {/* Report Menu  */}
+            <li className="nav-item" id='reportMenu' style={{ display: "none" }}>
+              <a href="/Reportdata" className="nav-link active">
+                <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
+                <p > Report </p>
+              </a>
+            </li>
 
-            </ul>
-          </nav>
-        </div>
-      </aside>
+          </ul>
+        </nav>
+      </div>
+    </aside>
   )
 }
 

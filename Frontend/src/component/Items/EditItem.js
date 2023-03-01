@@ -11,8 +11,6 @@ const EditItem = () => {
     const [type, setType] = useState();
     const [unitdata, setUnitdata] = useState([]);
 
-    const themetype = localStorage.getItem('themetype')
-
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -252,7 +250,7 @@ const EditItem = () => {
                     </div>
                 </div>
             </div>
-            <Footer theme={themetype} />
+            <Footer/>
         </div>
     )
 

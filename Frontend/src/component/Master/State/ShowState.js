@@ -11,46 +11,6 @@ import Excelfile from '../../../excelformate/tbl_states.xlsx';
 import customStyles from '../../customTableStyle';
 
 const ShowState = () => {
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
-
-  const themetype = localStorage.getItem('themetype')
-
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await getstates();
-      setData(result);
-
-
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addstatebtn').style.background = '#7795fa';
-      }
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
-      if (UserRights.state_create === 'true') {
-        document.getElementById('addstatebtn').style.display = "block";
-        document.getElementById('uploadstatebtn').style.display = "block";
-      }
-      if (UserRights.state_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.state_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-
-    }
-    fetchdata()
-  }, [])
 
   const columns = [
     {
@@ -108,6 +68,12 @@ const ShowState = () => {
     }
   ];
 
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
 
   //##########################  Upload data start  #################################
@@ -184,6 +150,38 @@ const ShowState = () => {
   //##########################  for convert excel to array end #################################
 
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await getstates();
+      setData(result);
+
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addstatebtn').style.background = '#7795fa';
+      }
+
+      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
+      if (UserRights.state_create === 'true') {
+        document.getElementById('addstatebtn').style.display = "block";
+        document.getElementById('uploadstatebtn').style.display = "block";
+      }
+      if (UserRights.state_edit === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+          console.log(`editactionbtns${result[i].sno}`)
+        }
+      }
+      if (UserRights.state_delete === 'true') {
+        for (let i = 0; i < result.length; i++) {
+          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+        }
+      }
+
+    }
+    fetchdata()
+  }, [])
+
 
   const tableData = {
     columns, data
@@ -203,7 +201,7 @@ const ShowState = () => {
           <h3 className="ml-5">State</h3>
           <div className='d-flex '>
             <button type="button" id='uploadstatebtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./StateMaster" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add State</button>
+            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./StateMaster" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add State</button>
           </div>
         </div>
 
@@ -399,7 +397,7 @@ const ShowState = () => {
         </div>
       </div>
       {/* ------------------ Modal end -----------------------------*/}
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 }

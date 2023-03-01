@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { Activecountries, showactivestate, addLocation, Getfincialyearid, Updatefinancialcount } from '../../../api';
 
@@ -11,8 +10,6 @@ function AddLocation() {
   const [phone2, setPhone2] = useState('')
   const [locationcount, setLocationcount] = useState()
   const [fins_year, setFins_year] = useState();
-
-  const themeval = localStorage.getItem('themetype')
 
 
   useEffect(() => {
@@ -170,7 +167,7 @@ function AddLocation() {
                   </div>
                 </div>
               </div>
-        <Footer theme={themeval}/>
+        <Footer />
       </div>
   )
 

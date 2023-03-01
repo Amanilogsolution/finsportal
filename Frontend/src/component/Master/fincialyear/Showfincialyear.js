@@ -67,13 +67,19 @@ const columns = [
 
 const ShowFinancialyear = () => {
   const [data, setData] = useState([{}])
-  const themetype = localStorage.getItem('themetype')
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await Showfincialyear(localStorage.getItem('Organisation'))
       setData(result)
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addfinsyearbtn').style.background = '#7795fa';
+      }
+  
       const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'fincial_year')
       if (UserRights.fincial_year_create === 'true') {
         document.getElementById('addfinsyearbtn').style.display = "block";
@@ -106,12 +112,12 @@ const ShowFinancialyear = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="ml-5">Financial year</h3>
-          <button type="button " id='addfinsyearbtn' style={{ display: "none" }} onClick={() => { window.location.href = "./Fincialyear" }} className="btn btn-primary mx-3">New Financial Year</button>
+          <button type="button " id='addfinsyearbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./Fincialyear": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">New Financial Year</button>
         </div>
 
         <div className="container-fluid">
           <div className="card w-100">
-            <article className={`card-body `}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -130,7 +136,7 @@ const ShowFinancialyear = () => {
         </div>
       </div>
 
-      <Footer theme={themetype} />
+      <Footer />
     </div>
   )
 

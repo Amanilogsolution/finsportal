@@ -14,8 +14,7 @@ function Showcompliances() {
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
-
-  const themetype = localStorage.getItem('themetype')
+  const [financialstatus, setFinancialstatus] = useState('Deactive')
 
   const columns = [
     {
@@ -84,7 +83,7 @@ function Showcompliances() {
       selector: row => row.null,
       cell: (row) => [
 
-        <a title='View Document' href="Editcompliances" id={`editactionbtns${row.sno}`} style={{ display: "none" }} >
+        <a title='Edit Compliances' href="Editcompliances" id={`editactionbtns${row.sno}`} style={{ display: "none" }} >
           <button className="editbtn btn-success "
             onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)}
           >Edit</button></a>
@@ -120,10 +119,7 @@ function Showcompliances() {
       else {
         alert("something are Wrong")
       }
-
-
     }
-
   };
   //##########################   Upload data end  #################################
 
@@ -171,6 +167,13 @@ function Showcompliances() {
       const result = await showcompliances(org)
       setData(result)
 
+      const financstatus = localStorage.getItem('financialstatus')
+      setFinancialstatus(financstatus);
+      if (financstatus === 'Deactive') {
+        document.getElementById('addcompbtn').style.background = '#7795fa';
+      }
+
+
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
       if (UserRights.compliances_create === 'true') {
         document.getElementById('addcompbtn').style.display = "block"
@@ -206,7 +209,7 @@ function Showcompliances() {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./Addcompliances" }} className="btn btn-primary">Add Compliances</button>
+        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {financialstatus === 'Active' ?  window.location.href = "./Addcompliances": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Compliances</button>
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="ml-5 py-2" >Compliances</h3>
@@ -230,7 +233,7 @@ function Showcompliances() {
         </div>
       </div>
 
-      <Footer theme={themetype} />
+      <Footer/>
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"
@@ -272,7 +275,7 @@ function Showcompliances() {
                     className={`form-control `}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
-                <span style={{ color: "red" }}>
+                <span className='text-danger'>
                   <a href={Excelformate} download> Download formate</a>
                 </span><br />
               </div>
@@ -310,7 +313,7 @@ function Showcompliances() {
         <div className="" style={{ height: "550px", width: "97%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content `}>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel">
                 Uploaded Excel file
               </h5>
               <button
@@ -319,7 +322,7 @@ function Showcompliances() {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()
