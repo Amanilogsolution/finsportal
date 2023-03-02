@@ -16,9 +16,72 @@ const Showcity = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+  useEffect(() => {
+    async function fetchdata() {
+      const result = await Totalcity()
+      setData(result)
+      fetchRoles();
+    }
+    fetchdata()
+  }, [])
+
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'city')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addcitybtn').style.background = '#7795fa';
+    }
+    if (UserRights.city_create === 'true') {
+      document.getElementById('addcitybtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadcitybtn').style.display = "block";
+      }
+    }
+  }
+
 
   const columns = [
+    {
+      name: 'City Name',
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit City is Lock'>{row.city_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.city_edit === 'true') {
+            return (
+              <a title='Edit City' className='pb-1' href="EditCity" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('citySno', `${row.sno}`)}
+               style={{ borderBottom: '3px solid blue' }}>{row.city_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit City'>{row.city_name}</p>
+          }
+
+        }
+      }
+    },
+    {
+      name: 'City ID',
+      selector: 'city_id',
+      sortable: true
+    },
     {
       name: 'Country Name',
       selector: 'country_name',
@@ -32,46 +95,77 @@ const Showcity = () => {
     },
 
     {
-      name: 'City Name',
-      selector: 'city_name',
-      sortable: true
-    },
-    {
-      name: 'City ID',
-      selector: 'city_id',
-      sortable: true
-    },
-    {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            await deleteCity(row.sno, status)
-            window.location.href = 'ShowCity'
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
           }
-          }>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+          else {
+            if (role.city_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deleteCity(row.sno, status)
+                    window.location.href = 'ShowCity'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+
+                </div>
+              )
+            }
+          }
+        }
+      }
     },
-    {
-      name: "Actions",
-      sortable: false,
+    // {
+    //   name: "Actions",
+    //   sortable: false,
+    //   selector: "null",
+    //   cell: (row) => {
+    //     if (localStorage.getItem('financialstatus') === 'Lock') {
+    //       return
+    //     }
+    //     else {
+    //       let role = JSON.parse(localStorage.getItem('RolesDetais'))
+    //       if (!role) {
+    //         fetchRoles()
+    //       }
+    //       if (role.city_edit === 'true') {
+    //         return (
+    //           <a title='Edit City' href="EditCity" id={`editactionbtns${row.sno}`} >
+    //             <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
+    //         );
+    //       }
+    //       else {
+    //         return
+    //       }
 
-      selector: "null",
-      cell: (row) => [
-
-        <a title='View Document' href="EditCity" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
-
-      ]
-    }
+    //     }
+    //   }
+    // }
 
 
   ]
@@ -149,37 +243,7 @@ const Showcity = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(() => {
-    async function fetchdata() {
-      const result = await Totalcity()
-      setData(result)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addcitybtn').style.background = '#7795fa';
-      }
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'city')
-      if (UserRights.city_create === 'true') {
-        document.getElementById('addcitybtn').style.display = "block";
-        document.getElementById('uploadcitybtn').style.display = "block";
-      }
-      if (UserRights.city_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-          console.log(`editactionbtns${result[i].sno}`)
-
-        }
-      }
-      if (UserRights.city_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-    }
-    fetchdata()
-  }, [])
 
   const tableData = {
     columns, data
@@ -225,7 +289,7 @@ const Showcity = () => {
           </div>
         </div>
       </div>
-      <Footer  />
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div

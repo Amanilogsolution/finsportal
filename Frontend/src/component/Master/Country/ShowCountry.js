@@ -15,8 +15,7 @@ const ShowCountry = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
-  const [rights, setRights] = useState(false)
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
   useEffect(() => {
@@ -27,13 +26,15 @@ const ShowCountry = () => {
     }
     fetchdata();
   }, [])
+
+
   const fetchRoles = async () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
-    console.log(UserRights)
-    localStorage["CountryRole"] = JSON.stringify(UserRights)
+    console.log('bhjbj',UserRights)
 
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
@@ -51,8 +52,29 @@ const ShowCountry = () => {
   const columns = [
     {
       name: 'Country Name',
-      selector: 'country_name',
-      sortable: true
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Country is Lock'>{row.country_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.country_edit === 'true') {
+            return (
+              <a title='Edit Country' className='pb-1' href="EditCountry" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.country_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Country'>{row.country_name}</p>
+          }
+
+        }
+      }
     },
     {
       name: 'Country Code',
@@ -74,22 +96,20 @@ const ShowCountry = () => {
       sortable: true,
       selector: 'null',
       cell: (row) => {
-
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
               <p>{row.status}</p>
             </div>
           )
-        } else {
-          console.log(JSON.parse(localStorage.getItem('CountryRole')))
-          let role = JSON.parse(localStorage.getItem('CountryRole'))
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
           if (!role) {
             fetchRoles()
             window.location.reload()
-
-          } else {
-            console.log(typeof (role.country_delete))
+          }
+          else {
             if (role.country_delete === 'true') {
               return (
                 <div className='droplist'>
@@ -116,33 +136,8 @@ const ShowCountry = () => {
 
         }
       }
-    },
-    {
-      name: "Actions",
-      sortable: false,
-      selector: "null",
-      cell: (row) => {
-        if (localStorage.getItem('financialstatus') === 'Lock') {
-          return
-        } else {
-          let role = JSON.parse(localStorage.getItem('CountryRole'))
-          if (!role) {
-            fetchRoles()
-          }
-          console.log(typeof (role.country_delete))
-          if (role.country_edit === 'true') {
-            return (
-              <a title='Edit Country' href="EditCountry" id={`editactionbtns${row.sno}`} >
-                <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
-            );
-          } else {
-            return
-          }
-
-        }
-      }
-
     }
+
   ]
 
   //##########################  Upload data start  #################################
@@ -371,7 +366,6 @@ const ShowCountry = () => {
                           ))
                         }
                       </tbody>
-                      <tfoot></tfoot>
                       <br /><br />
                     </table>
                   </>

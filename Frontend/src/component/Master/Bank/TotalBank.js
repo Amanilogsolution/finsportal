@@ -9,70 +9,7 @@ import Excelfile from '../../../excelformate/Bank_formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 
-const columns = [
-  {
-    name: 'Bank Name',
-    selector: 'bank_name',
-    sortable: true
-  },
-  {
-    name: 'Account Number',
-    selector: 'account_no',
-    sortable: true
-  },
- 
-  {
-    name: 'City',
-    selector: 'city',
-    sortable: true
-  },
-  {
-    name: 'Pincode',
-    selector: 'pincode',
-    sortable: true
-  },
-  {
-    name: 'IFSC Code',
-    selector: 'ifsc_code',
-    sortable: true
-  },
-  {
-    name: 'Account Type',
-    selector: 'ac_type',
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
-          window.location.href = 'TotalBank'
-        }
-        }>
-          <option value={row.status} hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-  {
-    name: "Actions",
-    sortable: false,
-    selector: "null",
-    cell: (row) => [
 
-      <a title='Edit Bank' id={`editactionbtns${row.sno}`} href="EditBank" style={{ display: "none" }}>
-        <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
-      </a>
-
-    ]
-  }
-]
 
 const TotalBank = () => {
   const [data, setData] = useState([]);
@@ -80,9 +17,182 @@ const TotalBank = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
-  const themetype = localStorage.getItem('themetype')
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+
+      const result = await totalBank(org);
+      setData(result)
+      fetchRoles()
+
+      // if (UserRights. === 'true') {
+      //   for (let i = 0; i < result.length; i++) {
+      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+      //   }
+      // }
+
+      // if (UserRights.banking_delete === 'true') {
+      //   for (let i = 0; i < result.length; i++) {
+      //     document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+      //   }
+      // }
+
+
+    }
+
+    fetchdata();
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'banking')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('addbankbtn').style.background = '#7795fa';
+    }
+    if (UserRights.banking_create === 'true') {
+      document.getElementById('addbankbtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('excelbankbtn').style.display = "block";
+      }
+    }
+  }
+
+
+  const columns = [
+    {
+      name: 'Bank Name',
+      selector: 'bank_name',
+      sortable: true
+    },
+    {
+      name: 'Account Number',
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Bank is Lock'>{row.account_no}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.banking_edit === 'true') {
+            return (
+              <a title='Edit Bank' className='pb-1' href="EditBank" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.account_no}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Bank'>{row.account_no}</p>
+          }
+
+        }
+      }
+    },
+
+    {
+      name: 'City',
+      selector: 'city',
+      sortable: true
+    },
+    {
+      name: 'Pincode',
+      selector: 'pincode',
+      sortable: true
+    },
+    {
+      name: 'IFSC Code',
+      selector: 'ifsc_code',
+      sortable: true
+    },
+    {
+      name: 'Account Type',
+      selector: 'ac_type',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) =>
+      {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.banking_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
+                    window.location.href = 'TotalBank'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            } else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+
+                </div>
+              )
+            }
+          }
+
+        }
+      }
+      // [
+      //   <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
+      //     <select onChange={async (e) => {
+      //       const status = e.target.value;
+      //       await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
+      //       window.location.href = ''
+      //     }}>
+      //       <option value={row.status} hidden> {row.status}</option>
+      //       <option value='Active'>Active</option>
+      //       <option value='Deactive' >Deactive</option>
+      //     </select>
+      //   </div>
+      // ]
+    },
+    // {
+    //   name: "Actions",
+    //   sortable: false,
+    //   selector: "null",
+    //   cell: (row) => [
+    //     <a title='Edit Bank' id={`editactionbtns${row.sno}`} href="" style={{ display: "none" }}>
+    //       <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} >Edit</button>
+    //     </a>
+
+    //   ]
+    // }
+  ]
+
+
 
   //##########################  Upload data start  #################################
 
@@ -155,42 +265,7 @@ const TotalBank = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const org = localStorage.getItem('Organisation')
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addbankbtn').style.background = '#7795fa';
-      }
-
-      const result = await totalBank(org);
-      setData(result)
-
-      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'banking')
-      if (UserRights.banking_create === 'true') {
-        document.getElementById('addbankbtn').style.display = "block";
-        document.getElementById('excelbankbtn').style.display = "block";
-      }
-
-      if (UserRights.banking_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-
-      if (UserRights.banking_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-
-
-    }
-
-    fetchdata();
-  }, [])
 
   const tableData = {
     columns, data
@@ -203,12 +278,12 @@ const TotalBank = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ?  window.location.href = "./AddBankList": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Bank</button>
+        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddBankList" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Bank</button>
         <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="py-2 ml-5">Banks</h3>
           <div className="card mb-0">
-            <article className={`card-body `}>
+            <article className={`card-body py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -227,8 +302,8 @@ const TotalBank = () => {
         </div>
       </div>
 
-      <Footer theme={themetype} />
-      
+      <Footer />
+
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

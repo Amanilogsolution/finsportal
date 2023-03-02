@@ -11,17 +11,67 @@ import Excelfile from '../../../excelformate/tbl_states.xlsx';
 import customStyles from '../../customTableStyle';
 
 const ShowState = () => {
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await getstates();
+      setData(result);
+      fetchRoles()
+
+    }
+    fetchdata()
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'state')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addstatebtn').style.background = '#7795fa';
+    }
+    if (UserRights.state_create === 'true') {
+      document.getElementById('addstatebtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadstatebtn').style.display = "block";
+      }
+    }
+  }
   const columns = [
     {
-      name: 'Country Name',
-      selector: 'country_name',
-      sortable: true
-    },
-    {
       name: 'State Name',
-      selector: 'state_name',
-      sortable: true
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return  <p title='Edit State is Lock'>{row.state_name}</p>
+        } else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.state_edit === 'true') {
+            return (
+              <a title='Edit State' className='pb-1' href="EditState" id={`editactionbtns${row.sno}`}  onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} 
+              style={{ borderBottom: '3px solid blue' }}>{row.state_name}</a>
+            );
+          } else {
+            return  <p title='Not Access to Edit State'>{row.state_name}</p>
+          }
+
+        }
+      }
     },
     {
       name: 'State Code',
@@ -39,41 +89,87 @@ const ShowState = () => {
       sortable: true
     },
     {
+      name: 'Country Name',
+      selector: 'country_name',
+      sortable: true
+    },
+    {
       name: "Status",
       sortable: true,
       selector: "null",
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            await deletestate(row.sno, status)
-            window.location.href = 'ShowState'
-          }}>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.state_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deletestate(row.sno, status)
+                    window.location.href = 'ShowState'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+
+                </div>
+              )
+            }
+          }
+
+        }
+      }
+
     },
 
-    {
-      name: "Actions",
-      sortable: false,
-      selector: "null",
-      cell: (row) => [
-        <a title='Edit State' href="EditState" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
-      ]
-    }
+    // {
+    //   name: "Actions",
+    //   sortable: false,
+    //   selector: "null",
+    //   cell: (row) => {
+    //     if (localStorage.getItem('financialstatus') === 'Lock') {
+    //       return
+    //     } else {
+    //       let role = JSON.parse(localStorage.getItem('RolesDetais'))
+    //       if (!role) {
+    //         fetchRoles()
+    //       }
+    //       if (role.state_edit === 'true') {
+    //         return (
+    //           <a title='Edit State' href="EditState" id={`editactionbtns${row.sno}`} >
+    //             <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} >Edit</button></a>
+    //         );
+    //       } else {
+    //         return
+    //       }
+
+    //     }
+    //   }
+
+    // }
   ];
 
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Lock')
+
 
 
   //##########################  Upload data start  #################################
@@ -150,39 +246,7 @@ const ShowState = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await getstates();
-      setData(result);
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Lock') {
-        document.getElementById('addstatebtn').style.background = '#7795fa';
-      }
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'state')
-      if (UserRights.state_create === 'true') {
-        document.getElementById('addstatebtn').style.display = "block";
-        if (financstatus !== 'Lock') {
-          document.getElementById('uploadstatebtn').style.display = 'block';
-        }
-      }
-      if (UserRights.state_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-          console.log(`editactionbtns${result[i].sno}`)
-        }
-      }
-      if (UserRights.state_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-
-    }
-    fetchdata()
-  }, [])
 
 
   const tableData = {

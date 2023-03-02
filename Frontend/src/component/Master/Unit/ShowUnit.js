@@ -15,14 +15,72 @@ const ShowUnit = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      const Token = localStorage.getItem('Token')
+      const org = localStorage.getItem('Organisation');
+      const result = await TotalUnit(Token, org)
+      setData(result)
+      fetchRoles()
+   
+      // }
+      // if (UserRights.unit_delete === 'true') {
+      //   for (let i = 0; i < result.length; i++) {
+      //     document.getElementById(`deletebtn${result[i].sno}`).style.display = "block"
+      //   }
+      // }
+    }
+    fetchdata()
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('addunitbtn').style.background = '#7795fa';
+    }
+    if (UserRights.unit_create === 'true') {
+      document.getElementById('addunitbtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadunitbtn').style.display = "block";
+      }
+    }
+  }
 
   const columns = [
     {
       name: 'Unit Name',
-      selector: 'unit_name',
-      sortable: true
+      selector: 'null',
+      sortable: true,
+
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Unit is Lock'>{row.unit_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.unit_edit === 'true') {
+            return (
+              <a title='Edit Unit' className='pb-1' href="EditUnit" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('unitSno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.unit_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Unit'>{row.unit_name}</p>
+          }
+
+        }
+      }
     },
     {
       name: 'Unit Symbol',
@@ -33,31 +91,66 @@ const ShowUnit = () => {
     {
       name: 'Status',
       selector: 'null',
-      cell: (row) => [
+      cell: (row) =>
 
-        <div className='droplist' id={`deletebtn${row.sno}`} style={{ display: "none" }}>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
-            window.location.href = 'ShowUnit'
-          }}>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
-    },
+      {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.unit_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
+                    window.location.href = 'ShowUnit'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            } else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
 
-    {
-      name: "Actions",
-      sortable: false,
-      selector: "null",
-      cell: (row) => [
-        <a title='Edit Unit' id={`editbtn${row.sno}`} href="EditUnit" style={{ display: "none" }}>
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('unitSno', `${row.sno}`)} >Edit</button></a>
-      ]
+                </div>
+              )
+            }
+          }
+
+        }
+      }
+      
+      // [
+
+      //   <div className='droplist' id={`deletebtn${row.sno}`} style={{ display: "none" }}>
+      //     <select onChange={async (e) => {
+      //       const status = e.target.value;
+      //       await deleteUnit(row.sno, status,)
+      //       window.location.href = ''
+      //     }}>
+      //       <option value={row.status} hidden> {row.status}</option>
+      //       <option value='Active'>Active</option>
+      //       <option value='Deactive' >Deactive</option>
+      //     </select>
+      //   </div>
+      // ]
     }
+
   ]
 
 
@@ -142,37 +235,7 @@ const ShowUnit = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const Token = localStorage.getItem('Token')
-      const org = localStorage.getItem('Organisation');
-      const result = await TotalUnit(Token, org)
-      setData(result)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addunitbtn').style.background = '#7795fa';
-      }
-
-      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
-      if (UserRights.unit_create === 'true') {
-        document.getElementById('addunitbtn').style.display = "block"
-        document.getElementById('uploadunitbtn').style.display = "block"
-      }
-      if (UserRights.unit_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editbtn${result[i].sno}`).style.display = "block"
-        }
-      }
-      if (UserRights.unit_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deletebtn${result[i].sno}`).style.display = "block"
-        }
-      }
-    }
-    fetchdata()
-  }, [])
 
   const tableData = {
     columns, data
@@ -257,7 +320,7 @@ const ShowUnit = () => {
                     onChange={onChange}
                     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div><br />
-                <span style={{ color: "red" }}>
+                <span className='text-danger'>
                   <a href={Excelfile} download> Download formate</a>
                 </span><br />
               </div>
@@ -293,7 +356,7 @@ const ShowUnit = () => {
         <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content `}>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
               </h5>
               <button
@@ -302,7 +365,7 @@ const ShowUnit = () => {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()
@@ -317,7 +380,7 @@ const ShowUnit = () => {
                 backenddata ?
                   <>
                     <h5>This data already exist</h5>
-                    <table style={{ color: "red" }}>
+                    <table className='text-danger'>
                       <thead>
                         <tr>
                           <th style={{ border: "1px solid black", padding: "5px" }}>unit_name</th>
@@ -358,7 +421,7 @@ const ShowUnit = () => {
               </table>
             </div>
           </div>
-          <div className={`modal-footer `} style={{ background: "white" }}>
+          <div className={`modal-footer bg-white`} >
             <button
               type="button"
               className="btn btn-secondary"
