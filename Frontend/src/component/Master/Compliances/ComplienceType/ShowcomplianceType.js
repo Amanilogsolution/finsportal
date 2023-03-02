@@ -71,8 +71,7 @@ function ShowcomplianceType() {
       name: 'Status',
       sortable: true,
       selector: row => row.null,
-      cell: (row) =>
-      {
+      cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
@@ -112,27 +111,9 @@ function ShowcomplianceType() {
 
         }
       }
-      // [
-      //   <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-      //     <select onChange={async (e) => {
-      //       const org = localStorage.getItem("Organisation")
-      //       const status = e.target.value;
-      //       await Compliancesstatus(org, row.sno, status)
-      //       window.location.href = 'ShowcompliancesType'
-      //     }
-      //     }>
-      //       <option hidden value={row.status}> {row.status}</option>
-      //       <option >Active</option>
-      //       <option >Deactive</option>
-      //     </select>
-      //   </div>
-      // ]
     },
 
   ]
-
-
-
 
 
   const tableData = {
