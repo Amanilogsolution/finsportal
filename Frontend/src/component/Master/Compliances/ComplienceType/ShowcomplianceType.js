@@ -43,7 +43,7 @@ function ShowcomplianceType() {
   const columns = [
     {
       name: 'Compliance Type',
-      selector: row => row.compliance_type,
+      selector: 'null',
       sortable: true,
       cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
@@ -70,7 +70,7 @@ function ShowcomplianceType() {
     {
       name: 'Status',
       sortable: true,
-      selector: row => row.null,
+      selector: 'null',
       cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
