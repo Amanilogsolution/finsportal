@@ -49,7 +49,6 @@ const Showcity = () => {
     }
   }
 
-
   const columns = [
     {
       name: 'City Name',
@@ -87,13 +86,11 @@ const Showcity = () => {
       selector: 'country_name',
       sortable: true
     },
-
     {
       name: 'State Code',
       selector: 'state_name',
       sortable: true
     },
-
     {
       name: 'Status',
       sortable: true,
@@ -132,42 +129,13 @@ const Showcity = () => {
               return (
                 <div className='droplist'>
                   <p>{row.status}</p>
-
                 </div>
               )
             }
           }
         }
       }
-    },
-    // {
-    //   name: "Actions",
-    //   sortable: false,
-    //   selector: "null",
-    //   cell: (row) => {
-    //     if (localStorage.getItem('financialstatus') === 'Lock') {
-    //       return
-    //     }
-    //     else {
-    //       let role = JSON.parse(localStorage.getItem('RolesDetais'))
-    //       if (!role) {
-    //         fetchRoles()
-    //       }
-    //       if (role.city_edit === 'true') {
-    //         return (
-    //           <a title='Edit City' href="EditCity" id={`editactionbtns${row.sno}`} >
-    //             <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('citySno', `${row.sno}`)} >Edit</button></a>
-    //         );
-    //       }
-    //       else {
-    //         return
-    //       }
-
-    //     }
-    //   }
-    // }
-
-
+    }
   ]
 
 
@@ -198,8 +166,6 @@ const Showcity = () => {
         alert("Data Added")
         window.location.href = './Showcity'
       }
-
-
     }
 
   };
