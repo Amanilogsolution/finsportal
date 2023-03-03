@@ -6,98 +6,151 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 
-const columns = [
-  {
-    name: 'Fincial Year',
-    selector: row => row.fin_year,
-    sortable: true
-  },
 
-  {
-    name: 'From Date',
-    selector: row => row.from_date,
-    sortable: true
-  },
-
-  {
-    name: 'To Date',
-    selector: 'to_date',
-    sortable: true
-  },
-  {
-    name: 'Year',
-    selector: row => row.year,
-    sortable: true
-  },
-
-  {
-    name: 'Invoice Series',
-    selector: row => row.invoice_ser,
-    sortable: true
-  },
-  {
-    name: 'Voucher Series',
-    selector: row => row.voucher_ser,
-    sortable: true
-  },
-  {
-    name: 'Active ',
-    selector: row => row.status,
-    sortable: true,
-    cell: (row) => [
-      <input type="checkbox" id={`deleteselect${row.sno}`} disabled checked={row.status === 'Active' ? true : false} onChange={async () => {
-        const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
-        if (result.rowsAffected[0]) { window.location.href = "./ShowFinancialyear" }
-      }} />
-    ]
-  },
-  {
-    name: "Actions",
-    sortable: false,
-    selector: row => row.null,
-    cell: (row) => [
-      <a title='View Document' href="/Updatefincialyear" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-        <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)} >Edit</button></a>
-
-    ]
-  }
-
-
-]
 
 const ShowFinancialyear = () => {
   const [data, setData] = useState([{}])
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await Showfincialyear(localStorage.getItem('Organisation'))
       setData(result)
+      fetchRoles();
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addfinsyearbtn').style.background = '#7795fa';
-      }
-  
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'fincial_year')
-      if (UserRights.fincial_year_create === 'true') {
-        document.getElementById('addfinsyearbtn').style.display = "block";
-      }
-      if (UserRights.fincial_year_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.fincial_year_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).disabled = false;
-        }
-      }
+
+      // if (UserRights.fincial_year_edit === 'true') {
+      //   for (let i = 0; i < result.length; i++) {
+      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+      //   }
+      // }
+      // if (UserRights.fincial_year_delete === 'true') {
+      //   for (let i = 0; i < result.length; i++) {
+      //     document.getElementById(`deleteselect${result[i].sno}`).disabled = false;
+      //   }
+      // }
     }
 
     fetchdata();
   }, [])
+
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addfinsyearbtn').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'fincial_year')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.fincial_year_create === 'true') {
+      document.getElementById('addcitybtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadcitybtn').style.display = "block";
+      }
+    }
+  }
+
+
+  const columns = [
+    {
+      name: 'Fincial Year',
+      selector: 'fin_year',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Fincial Year is Lock'>{row.fin_year}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.fincial_year_edit === 'true') {
+            return (
+              <a title='Edit Fincial Year' className='pb-1' href="/Updatefincialyear" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)}
+               style={{ borderBottom: '3px solid blue' }}>{row.fin_year}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Fincial Year'>{row.fin_year}</p>
+          }
+
+        }
+      }
+    },
+
+    {
+      name: 'From Date',
+      selector: 'from_date',
+      sortable: true
+    },
+
+    {
+      name: 'To Date',
+      selector: 'to_date',
+      sortable: true
+    },
+    {
+      name: 'Year',
+      selector: 'year',
+      sortable: true
+    },
+
+    {
+      name: 'Invoice Series',
+      selector: 'invoice_ser',
+      sortable: true
+    },
+    {
+      name: 'Voucher Series',
+      selector: 'voucher_ser',
+      sortable: true
+    },
+    {
+      name: 'Active ',
+      selector: 'status',
+      sortable: true,
+      cell: (row) => 
+      {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <input type="checkbox" id={`deleteselect${row.sno}`} disabled  checked={row.status === 'Active' ? true : false}/>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.fincial_year_delete === 'true') {
+              return (
+                  <input type="checkbox" id={`deleteselect${row.sno}`}  checked={row.status === 'Active' ? true : false} onChange={async () => {
+                    const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
+                    if (result.rowsAffected[0]) { window.location.href = "./ShowFinancialyear" }
+                  }} />
+              );
+            }
+            else {
+              return (
+                <input type="checkbox" id={`deleteselect${row.sno}`}  checked={row.status === 'Active' ? true : false} />
+              )
+            }
+          }
+        }
+      }
+    }
+  ]
+
+
+
 
   const tableData = {
     columns, data
@@ -112,7 +165,7 @@ const ShowFinancialyear = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="ml-5">Financial year</h3>
-          <button type="button " id='addfinsyearbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Fincialyear": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">New Financial Year</button>
+          <button type="button " id='addfinsyearbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Fincialyear" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">New Financial Year</button>
         </div>
 
         <div className="container-fluid">

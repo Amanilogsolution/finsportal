@@ -60,7 +60,7 @@ const EditEmployee = () => {
                 <div className="container-fluid">
                     <br /> <h3 className="text-left ml-5">Edit Employee </h3>
                     <br />
-                    <div className="card" style={{ width: "100%" }}>
+                    <div className="card w-100">
                         <article className={`card-body `}>
                             <form>
                                 <div className="form-row">
@@ -83,13 +83,12 @@ const EditEmployee = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className={`border-top card-footer `}>
-                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
-                                    <button className="btn btn-light ml-3" onClick={() => { localStorage.removeItem('EmpmasterSno'); window.location.href = "./showemployee" }}>Cancel</button>
-                                </div>
                             </form>
                         </article>
-
+                        <div className={`border-top card-footer `}>
+                            <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
+                            <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('EmpmasterSno'); window.location.href = "./showemployee" }}>Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>

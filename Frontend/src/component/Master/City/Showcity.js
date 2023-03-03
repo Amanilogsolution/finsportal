@@ -52,7 +52,7 @@ const Showcity = () => {
   const columns = [
     {
       name: 'City Name',
-      selector: 'null',
+      selector: 'city_name',
       sortable: true,
       cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
@@ -93,8 +93,8 @@ const Showcity = () => {
     },
     {
       name: 'Status',
+      selector: 'status',
       sortable: true,
-      selector: 'null',
       cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (

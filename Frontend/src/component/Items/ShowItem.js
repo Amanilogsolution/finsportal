@@ -8,74 +8,6 @@ import customStyles from '../customTableStyle';
 
 
 const ShowItem = () => {
-  const columns = [
-    {
-      name: 'Item Type',
-      selector: row => row.item_type,
-      sortable: true
-    },
-    {
-      name: 'Name',
-      selector: row => row.item_name,
-      sortable: true
-    },
-    {
-      name: 'Unit',
-      selector: row => row.item_unit,
-      sortable: true
-    },
-  
-    {
-      name: 'Major Code',
-      selector: row => row.major_code,
-      sortable: true
-    },
-    {
-      name: 'Chart of Account',
-      selector: row => row.chart_of_account,
-      sortable: true
-    },
-    {
-      name: 'Tax Preference',
-      selector: row => row.tax_preference,
-      sortable: true
-    },
-  
-    {
-      name: 'GST Rate(in %)',
-      selector: row => row.gst_rate,
-      sortable: true
-    },
-    {
-      name: 'Status',
-      sortable: true,
-      selector: 'null',
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            const result = await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
-            window.location.href = 'ShowItem'
-          }}>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
-    },
-    {
-      name: "Actions",
-      sortable: false,
-      selector: row => row.null,
-      cell: (row) => [
-        <a title='Edit Items' id={`editactionbtns${row.sno}`} href="/EditItem" style={{ display: "none" }}>
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)} >Edit</button></a>
-      ]
-    }
-  ]
-
-
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
@@ -83,33 +15,142 @@ const ShowItem = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
-
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Lock') {
-        document.getElementById('additemsbtn').style.background = '#7795fa';
-      }
-
       const result = await TotalItems(org)
       setData(result)
-      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
-      if (UserRights.items_create === 'true') {
-        document.getElementById('additemsbtn').style.display = "block"
-      }
-      if (UserRights.items_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.items_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
+      fetchRoles();
     }
 
     fetchdata();
   }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('additemsbtn').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.items_create === 'true') {
+      document.getElementById('additemsbtn').style.display = "block";
+    }
+  }
+
+  const columns = [
+    {
+      name: 'Item Type',
+      selector: 'item_type',
+      sortable: true
+    },
+    {
+      name: 'Item Name',
+      selector: 'item_name',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Item is Lock'>{row.item_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.items_edit === 'true') {
+            return (
+              <a title='Edit Item' className='pb-1' href="EditItem" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.item_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Item'>{row.item_name}</p>
+          }
+
+        }
+      }
+    },
+    {
+      name: 'Unit',
+      selector: 'item_unit',
+      sortable: true
+    },
+
+    {
+      name: 'Major Code',
+      selector: 'major_code',
+      sortable: true
+    },
+    {
+      name: 'Chart of Account',
+      selector: 'chart_of_account',
+      sortable: true
+    },
+    {
+      name: 'Tax Preference',
+      selector: 'tax_preference',
+      sortable: true
+    },
+    {
+      name: 'GST Rate(in %)',
+      selector: 'gst_rate',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) =>
+
+      {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.items_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deleteItems(localStorage.getItem('Organisation'), row.sno, status)
+                    window.location.href = 'ShowItem'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
+    }
+
+  ]
+
+
+
 
   const tableData = {
     columns, data
@@ -125,7 +166,7 @@ const ShowItem = () => {
       <div className="content-wrapper">
         <div className='d-flex justify-content-between pt-3 px-4'>
           <h3 className="px-5">Total Items</h3>
-          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ?  alert('You cannot Add in This Financial Year'):window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
+          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
         </div>
         <div className="container-fluid mt-2">
           <div className="card mb-2 w-100">
@@ -148,7 +189,7 @@ const ShowItem = () => {
         </div>
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   )
 
