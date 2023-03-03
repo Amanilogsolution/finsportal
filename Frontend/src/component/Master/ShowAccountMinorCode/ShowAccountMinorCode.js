@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { TotalAccountMinorCode, AccountMinorCodeStatus, ImportAccountMinorCode } from '../../../api';
+import { TotalAccountMinorCode, AccountMinorCodeStatus, ImportAccountMinorCode, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -9,69 +9,140 @@ import Excelfile from '../../../excelformate/tbl_account_name.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 
-const columns = [
-  {
-    name: 'Account Name',
-    selector: row => row.account_name,
-    sortable: true
-  },
-  {
-    name: 'Account Type Code',
-    selector: row => row.account_name_code,
-    sortable: true
-  },
-  {
-    name: 'Account Name Code',
-    selector: row => row.account_type_code,
-    sortable: true
-  },
-  {
-    name: 'Status',
-    sortable: true,
-    selector: row => row.null,
-    cell: (row) => [
-      <div className='droplist'>
-        <select  onChange={async (e) => {
-          const org = localStorage.getItem("Organisation")
-          const status = e.target.value;
-          await AccountMinorCodeStatus(org, status, row.sno)
-          window.location.href = 'ShowAccountMinorCode'
-        }
-        }>
-          <option hidden value={row.status}> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive'>Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  {
-    name: "Actions",
-    sortable: false,
-
-    selector: row => row.null,
-    cell: (row) => [
-      <a title='View Document' href="EditAccountMinorCode">
-        <button className="editbtn btn-success px-2"
-          onClick={() => localStorage.setItem('AccountMinorCode', `${row.sno}`)}
-        >Edit</button> </a>
-
-    ]
-  }
-
-
-]
-
-
 function ShowAccountMinorCode() {
-
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+
+  useEffect(() => {
+    async function fetchdata() {
+      const result = await TotalAccountMinorCode(localStorage.getItem('Organisation'))
+      setData(result)
+      fetchRoles();
+    }
+    fetchdata();
+
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('addacountName').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.chartof_accounts_create === 'true') {
+      document.getElementById('addacountName').style.display = "inline";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadExcelacountName').style.display = "inline";
+      }
+    }
+  }
+
+  const columns = [
+    {
+      name: 'Account Name',
+      selector: 'account_name',
+      sortable: true
+    },
+    {
+      name: 'Account Type Code',
+      selector: 'account_name_code',
+      sortable: true
+    },
+    {
+      name: 'Account Name Code',
+      selector: 'account_type_code',
+      sortable: true
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.chartof_accounts_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await AccountMinorCodeStatus(localStorage.getItem("Organisation"), status, row.sno)
+                    window.location.href = '/ShowAccountMinorCode'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
+
+    },
+
+    {
+      name: "Actions",
+      sortable: false,
+      selector: 'null',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.chartof_accounts_edit === 'true') {
+            return (
+              <button title='Edit Account Minor Code ' className='px-1 btn-success ' id={`editactionbtns${row.sno}`}
+                onClick={() => { localStorage.setItem('AccountMinorCode', `${row.sno}`); window.location.href = '/EditAccountMinorCode' }}
+              >Edit</button>
+            );
+          }
+          else {
+            return
+          }
+
+        }
+      }
+    }
+
+
+  ]
+
+
+
 
   //##########################  Upload data start  #################################
 
@@ -182,7 +253,7 @@ function ShowAccountMinorCode() {
             <h3 className="ml-5">Account Minor Code </h3>
             <div >
               <button type="button" id='uploadExcelacountName' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-              <button type="button" id='addacountName' onClick={() => {financialstatus !== 'Lock' ? window.location.href = "./InsertAccountType": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Account Name</button>
+              <button type="button" id='addacountName' onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./InsertAccountType" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Account Name</button>
             </div>
           </div>
 

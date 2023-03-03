@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { TotalAccountName, AccountnameStatus, ImportAccountName } from '../../../api';
+import { TotalAccountName, AccountnameStatus, ImportAccountName, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
@@ -10,66 +10,129 @@ import Excelfile from '../../../excelformate/tbl_account_major_major .xlsx';
 import customStyles from '../../customTableStyle';
 
 function ShowAccountname() {
-    const columns = [
-        {
-            name: 'Account Type',
-            selector: row => row.account_type,
-            sortable: true
-        },
-        {
-            name: 'Account Type Code',
-            selector: row => row.account_type_code,
-            sortable: true
-        },
-        {
-            name: 'Account Type Description',
-            selector: row => row.account_description,
-            sortable: true
-        },
-        {
-            name: 'Status',
-            sortable: true,
-            selector: row => row.null,
-            cell: (row) => [
-                <div className='droplist'>
-                    <select className={``}
-                        onChange={async (e) => {
-                            const org = localStorage.getItem("Organisation")
-                            const status = e.target.value;
-                            await AccountnameStatus(org, status, row.account_type_code)
-                            window.location.href = 'ShowAccountname'
-                        }}>
-                        <option hidden selected={row.status}> {row.status}</option>
-                        <option >Active</option>
-                        <option >Deactive</option>
-                    </select>
-                </div>
-            ]
-        },
-
-        {
-            name: "Actions",
-            sortable: false,
-
-            selector: row => row.null,
-            cell: (row) => [
-                <a title='View Document' href="EditAccountname">
-                    <button className="editbtn btn-success "
-                        onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
-                    >Edit</button> </a>
-
-            ]
-        }
-
-
-    ]
-
-
     const [data, setData] = useState([])
     const [importdata, setImportdata] = useState([]);
     let [errorno, setErrorno] = useState(0);
     const [duplicateData, setDuplicateDate] = useState([])
     const [backenddata, setBackenddata] = useState(false);
+    const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+    useEffect(() => {
+        const fetchdate = async () => {
+            const result = await TotalAccountName(localStorage.getItem('Organisation'))
+            setData(result)
+            fetchRoles()
+        }
+        fetchdate();
+    }, [])
+
+    const fetchRoles = async () => {
+        const org = localStorage.getItem('Organisation')
+
+        const financstatus = localStorage.getItem('financialstatus')
+        setFinancialstatus(financstatus);
+        if (financstatus === 'Lock') {
+            document.getElementById('addaccountnam').style.background = '#7795fa';
+        }
+
+        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
+        localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+        if (UserRights.chartof_accounts_create === 'true') {
+            document.getElementById('addaccountnam').style.display = "inline";
+            if (financstatus !== 'Lock') {
+                document.getElementById('uploadaccountnam').style.display = "inline";
+            }
+        }
+    }
+
+    const columns = [
+        {
+            name: 'Account Type',
+            selector: 'account_type',
+            sortable: true,
+            cell: (row) => {
+                if (localStorage.getItem('financialstatus') === 'Lock') {
+                    return <p title='Edit Account Major Code  is Lock'>{row.account_type}</p>
+                }
+                else {
+                    let role = JSON.parse(localStorage.getItem('RolesDetais'))
+                    if (!role) {
+                        fetchRoles()
+                    }
+                    if (role.chartof_accounts_edit === 'true') {
+                        return (
+                            <a title='Edit Account Major Code ' className='pb-1' href="EditAccountname" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
+                                style={{ borderBottom: '3px solid blue' }}>{row.account_type}</a>
+                        );
+                    }
+                    else {
+                        return <p title='Not Access to Edit Account Major Code '>{row.account_type}</p>
+                    }
+
+                }
+            }
+        },
+        {
+            name: 'Account Type Code',
+            selector: 'account_type_code',
+            sortable: true
+        },
+        {
+            name: 'Account Type Description',
+            selector: 'account_description',
+            sortable: true
+        },
+        {
+            name: 'Status',
+            sortable: true,
+            selector: 'null',
+            cell: (row) => {
+                if (localStorage.getItem('financialstatus') === 'Lock') {
+                    return (
+                        <div className='droplist'>
+                            <p>{row.status}</p>
+                        </div>
+                    )
+                }
+                else {
+                    let role = JSON.parse(localStorage.getItem('RolesDetais'))
+                    if (!role) {
+                        fetchRoles()
+                        window.location.reload()
+                    }
+                    else {
+                        if (role.chartof_accounts_delete === 'true') {
+                            return (
+                                <div className='droplist'>
+                                    <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                                        const status = e.target.value;
+                                        await AccountnameStatus(localStorage.getItem("Organisation"), status, row.account_type_code)
+                                        window.location.href = '/ShowAccountname'
+                                    }}>
+                                        <option value={row.status} hidden> {row.status}</option>
+                                        <option value='Active'>Active</option>
+                                        <option value='Deactive' >Deactive</option>
+                                    </select>
+                                </div>
+                            );
+                        }
+                        else {
+                            return (
+                                <div className='droplist'>
+                                    <p>{row.status}</p>
+                                </div>
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    ]
+
+
+
 
 
     //##########################  Upload data start  #################################
@@ -100,7 +163,6 @@ function ShowAccountname() {
                 alert("Data Added")
                 window.location.href = './ShowAccountname'
             }
-
 
         }
 
@@ -144,13 +206,7 @@ function ShowAccountname() {
     };
     //##########################  for convert excel to array end #################################
 
-    useEffect(() => {
-        const fetchdate = async () => {
-            const result = await TotalAccountName(localStorage.getItem('Organisation'))
-            setData(result)
-        }
-        fetchdate();
-    }, [])
+
 
     const tableData = {
         columns, data
@@ -166,8 +222,10 @@ function ShowAccountname() {
                 <div className='d-flex justify-content-between py-4 px-4'>
                     <h3 className="text-left ml-5">Account Major Code </h3>
                     <div>
-                        <button type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                        <button type="button" onClick={() => { window.location.href = "./InsertAccountType" }} className="btn btn-primary mx-3">Add Account Name</button>
+                        <button type="button" id='uploadaccountnam' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                        <button type="button" id='addaccountnam' style={{ display: 'none' }} onClick={() => {
+                            financialstatus !== 'Lock' ? window.location.href = "./InsertAccountType" : alert('You are not in Current Financial Year')
+                        }} className="btn btn-primary mx-3">Add Account Name</button>
                     </div>
                 </div>
                 <div className="container-fluid">
@@ -272,7 +330,7 @@ function ShowAccountname() {
                 <div className="" style={{ height: "550px", width: "50%", overflow: "auto", margin: "auto" }}>
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+                            <h5 className="modal-title text-danger" id="exampleModalLabel">
                                 Uploaded Excel file
                             </h5>
                             <button
@@ -281,7 +339,7 @@ function ShowAccountname() {
                                 data-dismiss="modal"
                                 aria-label="Close"
                             >
-                                <span aria-hidden="true" style={{ color: "red" }}
+                                <span aria-hidden="true" className='text-danger'
                                     onClick={() => {
                                         document.getElementById("showdataModal").style.display = "none";
                                         window.location.reload()
@@ -296,7 +354,7 @@ function ShowAccountname() {
                                 backenddata ?
                                     <>
                                         <h5>This data already exist</h5>
-                                        <table style={{ color: "red", margin: "auto" }}>
+                                        <table className='text-danger' style={{ margin: "auto" }}>
                                             <thead>
                                                 <tr>
                                                     <th style={{ border: "1px solid black" }}>account_type_code</th>
@@ -313,7 +371,6 @@ function ShowAccountname() {
                                                     ))
                                                 }
                                             </tbody>
-                                            <tfoot></tfoot>
                                             <br /><br />
                                         </table>
                                     </>

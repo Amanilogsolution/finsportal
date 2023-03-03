@@ -22,8 +22,8 @@ function EditChartAccount() {
     const result = await UpdateChartOfAccount(localStorage.getItem('Organisation'), localStorage.getItem('ChartAccountsno'), account_sub_name, localStorage.getItem('User_id'));
     if (result) {
       alert('Chart Of Account Updated Successfully')
-      window.location.href = 'ShowChartAccount'
       localStorage.removeItem('ChartAccountsno')
+      window.location.href = 'ShowChartAccount'
     }
 
   }
@@ -66,11 +66,11 @@ function EditChartAccount() {
                   <input type="number" className="form-control col-md-4" id='AccountTypeCode' value={data.account_type_code} />
                 </div>
               </div>
-              <div className="border-top card-body">
+            </form>
+              <div className="border-top card-footer">
                 <button type='submit' className="btn btn-success" onClick={handleClick} >Update</button>
                 <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('ChartAccountsno'); window.location.href = "./ShowChartAccount"; }}>Cancel</button>
               </div>
-            </form>
 
           </div>
         </div>

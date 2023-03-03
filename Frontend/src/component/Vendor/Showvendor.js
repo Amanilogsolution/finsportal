@@ -10,6 +10,59 @@ import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle';
 
 const Showvendor = () => {
+    const [data, setData] = useState([])
+    const [importdata, setImportdata] = useState([]);
+    let [errorno, setErrorno] = useState(0);
+    const [duplicateData, setDuplicateDate] = useState([])
+    const [backenddata, setBackenddata] = useState(false);
+    const [finsyear, setFinsyear] = useState(0);
+    const [mvendid, setMvendid] = useState(0);
+    const [vendid, setVendid] = useState(0);
+    const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+    useEffect(() => {
+        const fetchdata = async () => {
+            const org = localStorage.getItem('Organisation')
+            const result = await Vendor(org)
+            setData(result)
+            fetchRoles()
+            const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+
+            const financialyear = await Getfincialyearid(org)
+            setFinsyear(financialyear[0].year)
+            const mvendid = parseInt(financialyear[0].mvend_count);
+            const vendid = parseInt(financialyear[0].vend_count);
+            setMvendid(mvendid)
+            setVendid(vendid)
+            const year = financialyear[0].year;
+        }
+        fetchdata();
+
+    }, [])
+
+    const fetchRoles = async () => {
+        const org = localStorage.getItem('Organisation')
+
+        const financstatus = localStorage.getItem('financialstatus')
+        setFinancialstatus(financstatus);
+
+        if (financstatus === 'Lock') {
+            document.getElementById('addvendbtn').style.background = '#7795fa';
+        }
+        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+        localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+        if (UserRights.vendor_create === 'true') {
+            document.getElementById('addvendbtn').style.display = "block";
+            if (financstatus !== 'Lock') {
+                document.getElementById('excelvendbtn').style.display = "block";
+            }
+        }
+    }
+
+
+
     const columns = [
         {
             name: 'Name',
@@ -40,45 +93,77 @@ const Showvendor = () => {
         {
             name: 'Status',
             selector: 'null',
-            cell: (row) => [
-
-                <div className='droplist' id={`deletselect${row.sno}`} >
-                    <select className={` `} onChange={async (e) => {
-                        const status = e.target.value;
-                        await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
-                        window.location.href = 'ShowVendor'
-                    }}>
-                        <option value={row.status} hidden> {row.status}</option>
-                        <option value='Active'>Active</option>
-                        <option value='Deactive' >Deactive</option>
-                    </select>
-                </div>
-            ]
+            cell: (row) => {
+                if (localStorage.getItem('financialstatus') === 'Lock') {
+                    return (
+                        <div className='droplist'>
+                            <p>{row.status}</p>
+                        </div>
+                    )
+                }
+                else {
+                    let role = JSON.parse(localStorage.getItem('RolesDetais'))
+                    if (!role) {
+                        fetchRoles()
+                        window.location.reload()
+                    }
+                    else {
+                        if (role.vendor_delete === 'true') {
+                            return (
+                                <div className='droplist'>
+                                    <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                                        const status = e.target.value;
+                                        await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
+                                        window.location.href = '/ShowVendor'
+                                    }}>
+                                        <option value={row.status} hidden> {row.status}</option>
+                                        <option value='Active'>Active</option>
+                                        <option value='Deactive' >Deactive</option>
+                                    </select>
+                                </div>
+                            );
+                        }
+                        else {
+                            return (
+                                <div className='droplist'>
+                                    <p>{row.status}</p>
+                                </div>
+                            )
+                        }
+                    }
+                }
+            }
         },
         {
             name: "Actions",
             sortable: false,
             selector: "null",
-            cell: (row) => [
-                <a title='View Document' id={`editactionbtns${row.sno}`} href="Editvendor">
-                    <button className=" editbtn btn-success p-1" onClick={() => localStorage.setItem('VendorSno', `${row.sno}`)} >Edit Vendor</button></a>
+            cell: (row) => {
+                if (localStorage.getItem('financialstatus') === 'Lock') {
+                    return
+                }
+                else {
+                    let role = JSON.parse(localStorage.getItem('RolesDetais'))
+                    if (!role) {
+                        fetchRoles()
+                    }
+                    if (role.vendor_edit === 'true') {
+                        return (
+                            <button title='Edit Vendor' className='btn-success px-1' href="" id={`editactionbtns${row.sno}`}
+                                onClick={() => { localStorage.setItem('VendorSno', `${row.sno}`); window.location.href = '/Editvendor' }}>Edit</button>
+                        );
+                    }
+                    else {
+                        return
+                    }
 
-            ]
+                }
+            }
         }
     ]
 
 
-    const [data, setData] = useState([])
-    const [importdata, setImportdata] = useState([]);
-    let [errorno, setErrorno] = useState(0);
-    const [duplicateData, setDuplicateDate] = useState([])
-    const [backenddata, setBackenddata] = useState(false);
-    const [finsyear, setFinsyear] = useState(0);
-    const [mvendid, setMvendid] = useState(0);
-    const [vendid, setVendid] = useState(0);
-    const [financialstatus, setFinancialstatus] = useState('Deactive')
 
-    const themeval = localStorage.getItem('themetype')
 
 
     //##########################  Upload data start  #################################
@@ -214,44 +299,6 @@ const Showvendor = () => {
     //##########################  for convert excel to array end #################################
 
 
-    useEffect(() => {
-        const fetchdata = async () => {
-            const org = localStorage.getItem('Organisation')
-            const result = await Vendor(org)
-            setData(result)
-
-            const financstatus = localStorage.getItem('financialstatus')
-            setFinancialstatus(financstatus);
-            if (financstatus === 'Deactive') {
-                document.getElementById('addvendbtn').style.background = '#7795fa';
-            }
-            const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
-            if (UserRights.vendor_create === 'false') {
-                document.getElementById('addvendbtn').style.display = "none"
-                document.getElementById('excelvendbtn').style.display = "none"
-            }
-
-            for (let i = 0; i <= result.length; i++) {
-                if (UserRights.vendor_edit === 'false') {
-                    document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
-                }
-                if (UserRights.vendor_delete === 'false') {
-                    document.getElementById(`deletselect${result[i].sno}`).style.display = "none";
-
-                }
-            }
-
-            const financialyear = await Getfincialyearid(org)
-            setFinsyear(financialyear[0].year)
-            const mvendid = parseInt(financialyear[0].mvend_count);
-            const vendid = parseInt(financialyear[0].vend_count);
-            setMvendid(mvendid)
-            setVendid(vendid)
-            const year = financialyear[0].year;
-        }
-        fetchdata();
-
-    }, [])
 
     const tableData = {
         columns, data
@@ -269,8 +316,8 @@ const Showvendor = () => {
                 <div className='d-flex justify-content-between px-4 pt-4 pb-2'>
                     <h3>Vendor</h3>
                     <div className='d-flex'>
-                        <button type="button" id='excelvendbtn' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                        <button type="button" id='addvendbtn' onClick={() => { financialstatus === 'Active' ? window.location.href = "./Vendor" : alert('You cannot Add in This Financial Year')}} className="btn btn-primary mx-3">Add Vendor</button>
+                        <button type="button" id='excelvendbtn' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                        <button type="button" id='addvendbtn' style={{ display: 'none' }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./Vendor" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Vendor</button>
                     </div>
                 </div>
 
@@ -293,7 +340,7 @@ const Showvendor = () => {
                     </div>
                 </div>
             </div>
-            <Footer theme={themeval} />
+            <Footer />
 
             {/* ------------------ Modal start -----------------------------*/}
             <div

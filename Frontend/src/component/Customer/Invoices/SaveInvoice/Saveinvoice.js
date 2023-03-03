@@ -6,84 +6,90 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../../customTableStyle';
 
-const columns = [
-  {
-    name: 'Vendor name',
-    selector: 'consignee',
-    sortable: true
-  },
-
-  {
-    name: 'Invoice Number',
-    selector:'invoice_no',
-    sortable: true,
-    cell: (row) => [
-      <a title='Edit Invoice' style={{ display: "none" }}  id={`editactionbtns${row.sno}`} href="EditInvoice" onClick={() => {localStorage.setItem('invoiceNo', row.invoice_no) }} >{ row.invoice_no}</a>
-
-    ]
-  },
-  {
-    name: 'Invoice Date',
-    selector: 'Joindate',
-    sortable: true
-  },
-  {
-    name: 'Invoice Amount',
-    selector:'invoice_amt',
-    sortable: true
-  },
-  {
-    name: 'Branch',
-    selector: 'location_name',
-    sortable: true
-  },
-
-  // {
-  //   name: "Actions",
-  //   sortable: false,
-
-  //   selector: row => row.null,
-  //   cell: (row) => [
-
-  //     <button type="button" id={`editactionbtns${row.sno}`} style={{ display: "none" }} onClick={() => { window.location.href = "EditInvoice"; localStorage.setItem('invoiceNo', row.invoice_no) }} className="btn btn-danger ml-3">Edit Invoice</button>
-
-  //   ]
-  // }
-
-
-]
 
 const InvoiceSave = () => {
   const [data, setData] = useState([])
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
-
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addivoicebtn').style.background = '#7795fa';
-      }
-
       const result = await GetSaveInvoice(org)
       setData(result)
-
-      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
-      if (UserRights.invoice_create === 'true') {
-        document.getElementById('addivoicebtn').style.display = "block"
-      }
-      if (UserRights.invoice_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
+      fetchRoles()
     }
 
     fetchdata();
   }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addivoicebtn').style.background = '#7795fa';
+    }
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.invoice_create === 'true') {
+      document.getElementById('addivoicebtn').style.display = "block";
+    }
+  }
+  const columns = [
+    {
+      name: 'Vendor name',
+      selector: 'consignee',
+      sortable: true
+    },
+
+    {
+      name: 'Invoice Number',
+      selector: 'invoice_no',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Invoice is Lock' className='pb-0'>{row.invoice_no}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.invoice_edit === 'true') {
+            return (
+              <a title='Edit Invoice ' href="/EditInvoice" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('invoiceNo', `${row.invoice_no}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.invoice_no}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Invoice ' className='pb-0'>{row.invoice_no}</p>
+          }
+
+        }
+      }
+    },
+    {
+      name: 'Invoice Date',
+      selector: 'Joindate',
+      sortable: true
+    },
+    {
+      name: 'Invoice Amount',
+      selector: 'invoice_amt',
+      sortable: true
+    },
+    {
+      name: 'Branch',
+      selector: 'location_name',
+      sortable: true
+    },
+  ]
+
+
 
   const tableData = {
     columns, data
@@ -96,7 +102,7 @@ const InvoiceSave = () => {
       </div>
       <Header />
       <div className="content-wrapper ">
-        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ?window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Invoice </button>
+        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Invoice </button>
         <div className="container-fluid">
           <h3 className="py-4 ml-5"> Save Invoice </h3>
           <div className="card w-100">
@@ -117,7 +123,7 @@ const InvoiceSave = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
