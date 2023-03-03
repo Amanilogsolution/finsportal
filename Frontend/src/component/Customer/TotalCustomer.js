@@ -289,15 +289,10 @@ const TotalCustomer = () => {
         <Header />
         <div className="content-wrapper">
           <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden'>
-            <div>
-              <h3 className="pl-5 ">Total Customer</h3>
-
-            </div>
+            <div> <h3 className="pl-5 ">Total Customer</h3> </div>
             <div className='d-flex'>
               <button className='btn btn-danger mr-2' onClick={handleAction}><span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span></button>
-              <div
-                className={ActionToogle ? 'showAction' : 'hideAction'}
-              >
+              <div className={ActionToogle ? 'showAction' : 'hideAction'}>
                 <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
                 <button type="button" id='addcustbtn' onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
                 <button type="button" id='updatecustNamebtn' onClick={() => { window.location.href = "./CustomerNames" }} className="btn btn-primary mx-1">Update Cust Names</button>
@@ -321,7 +316,7 @@ const TotalCustomer = () => {
             </article>
           </div>
         </div>
-        <Footer  />
+        <Footer />
       </div>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
@@ -336,9 +331,7 @@ const TotalCustomer = () => {
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Import excel file
-              </h5>
+              <h5 className="modal-title" id="exampleModalLabel">  Import excel file </h5>
               <button
                 type="button"
                 className="close"
