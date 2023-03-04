@@ -32,14 +32,14 @@ const Showcity = () => {
   const fetchRoles = async () => {
     const org = localStorage.getItem('Organisation')
 
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'city')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
     if (financstatus === 'Lock') {
       document.getElementById('addcitybtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'city')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.city_create === 'true') {
       document.getElementById('addcitybtn').style.display = "block";
