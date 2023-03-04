@@ -102,6 +102,8 @@ const TotalCustomer = () => {
 
         }
       }
+
+
     },
     {
       name: 'Company Name',
@@ -343,11 +345,9 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <div className="content-wrapper">
-          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden'>
-            <div>
-              <h3 className="pl-5 ">Total Customer</h3>
-            </div>
-            <div className='d-flex'>
+          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden '>
+            <h3 className="pl-5 ">Total Customer</h3>
+            <div className='d-flex overflow-hidden'>
               <button className='btn btn-danger mr-2' onClick={handleAction}>
                 <span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span>
               </button>
