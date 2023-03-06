@@ -253,6 +253,11 @@
   display: flex;
 }
 
+.invoicevalword h5 {
+  margin: 0;
+  width: 45%;
+  padding-left: 8px;
+}
 .invoicevalword h4 {
   margin: 0;
   width: 35%;

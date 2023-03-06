@@ -109,7 +109,7 @@ function EditInvoice() {
                                         <div className="d-flex col-md-4">
                                             <select
                                                 id="custname"
-                                                className={`form-control `}>
+                                                className={`form-control cursor-notallow`} disabled>
                                                 <option value={invoice_detail.custid} hidden>{invoice_detail.consignee}</option>
                                             </select>
                                         </div>
@@ -123,7 +123,6 @@ function EditInvoice() {
                                                 id="custaddr"
                                                 className={`form-control `}>
                                                 <option value={invoice_detail.cust_locationid} hidden>{invoice_detail.cust_location_add}</option>
-
                                             </select>
                                         </div>
                                     </div>
