@@ -105,20 +105,14 @@ function Invoices() {
             // const result2 = await ActiveUser()
             // setActiveUser(result2)
             Todaydate()
-
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
-
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
-
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
-
-
         }
         fetchdata()
     }, [])
@@ -149,11 +143,9 @@ function Invoices() {
     const handleAccountTerm = (e) => {
         const days = Number(e.target.value)
         Duedate(days)
-
     }
 
     const handleChangeItems = async (value, index) => {
-
         const [actgst, chargecode, glcodes] = value.split(',')
         chargecodes[index] = chargecode
         glcode[index] = glcodes
@@ -188,7 +180,6 @@ function Invoices() {
     const handleSubTotal = (e) => {
         console.log(amount)
         e.preventDefault();
-
         document.getElementById('additembtm').disabled = true;
         document.getElementById('removeitembtm').disabled = true;
         document.getElementById('savebtn').disabled = false;
@@ -198,8 +189,6 @@ function Invoices() {
         // let location = document.getElementById('locationadd')
         // location = location.options[location.selectedIndex].text;
         let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
-        console.log(location)
-        console.log(custAddressLocation)
 
         // let custaddrs = document.getElementById('custaddr')
         // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
