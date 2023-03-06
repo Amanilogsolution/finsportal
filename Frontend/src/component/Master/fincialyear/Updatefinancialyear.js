@@ -25,16 +25,18 @@ const Updatefincialyear = () => {
 
     const invoice_ser = document.getElementById('invoiceser').value;
     const voucher_ser = document.getElementById('voucher').value;
+    const po_ser = document.getElementById('po_series').value;
+
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
     const lock = document.getElementById('lockFinancialyear').checked;
     let lockscreen
     lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
-    if (invoice_ser.length > 6 || voucher_ser.length > 4) {
+    if (invoice_ser.length > 6 || voucher_ser.length > 4 || po_ser.length > 6) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
     }
     else {
-      const result = await UpdateFincialyear(org, invoice_ser, voucher_ser, User_id, localStorage.getItem('FinsyearSno'),lockscreen)
+      const result = await UpdateFincialyear(org, invoice_ser, voucher_ser, User_id, localStorage.getItem('FinsyearSno'),lockscreen,po_ser)
       if (result[0] > 0) {
         alert("Updated")
         localStorage.removeItem('FinsyearSno');
@@ -57,6 +59,12 @@ const Updatefincialyear = () => {
     setData({ ...data, voucher_ser: e.target.value })
 
   }
+  const handlePoseries = (e) => {
+    setData({ ...data, po_ser: e.target.value })
+
+  }
+
+  
 
   return (
     <div className="wrapper">
@@ -104,6 +112,12 @@ const Updatefincialyear = () => {
                   <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='voucher' value={data.voucher_ser} onChange={handleChangevoucher} maxLength={4} />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="po_series" className="col-md-2 col-form-label font-weight-normal">PO Series</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='po_series' value={data.po_ser} onChange={handlePoseries} maxLength={4} />
                   </div>
                 </div>
                 <div className="form-row">

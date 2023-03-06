@@ -34,15 +34,18 @@ const Fincialyear = () => {
     let voucher_ser = document.getElementById('voucher').value;
     voucher_ser = voucher_ser.toUpperCase();
 
+    let purchase_ser = document.getElementById('po').value;
+    purchase_ser = purchase_ser.toUpperCase();
+
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
 
 
-    if (!fincialyear || !year || !from_date || !to_date || invoice_ser.length > 5 || voucher_ser.length > 4) {
+    if (!fincialyear || !year || !from_date || !to_date || invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 5) {
       alert("invoice Series is must be smaller then 5 char and voucher is 4")
     }
     else {
-      const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id)
+      const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id,purchase_ser)
 
       if (result.rowsAffected[0] > 0) {
         alert("Data Added");
@@ -104,6 +107,13 @@ const Fincialyear = () => {
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='voucher' maxLength={4} />
                     <small >Voucher Series must be maximum 4 Character</small>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="po" className="col-md-2 col-form-label font-weight-normal">Purchase Order Series</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='po' maxLength={4} />
+                    <small >Purchase Order Series must be maximum 4 Character</small>
                   </div>
                 </div>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder,Updatefinancialcount } from '../../../api'
 
 
 function PurchaseOrder() {
@@ -18,6 +18,7 @@ function PurchaseOrder() {
     const [rate, setRate] = useState([])
     const [unitlist, setUnitlist] = useState([])
     const [unit, setUnit] = useState([])
+    const [pocount, setPOcount] = useState(0)
 
 
 
@@ -32,6 +33,7 @@ function PurchaseOrder() {
 
         const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid)
         if (result == "Insert") {
+            const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
             alert("PO Generated")
             window.location.href = "/home"
         }
@@ -58,8 +60,9 @@ function PurchaseOrder() {
             setItemlist(items)
 
             const id = await Getfincialyearid(org)
-            const lastno = Number(id[0].voucher_count) + 1
-            document.getElementById('po_no').value = 'PO' + id[0].year + String(1).padStart(5, '0')
+            const lastno = Number(id[0].po_count) + 1
+            setPOcount(lastno)
+            document.getElementById('po_no').value = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
             Todaydate();
         }
         fetchdata();
@@ -94,13 +97,11 @@ function PurchaseOrder() {
 
     const handleChangeRate = (e) => {
         const total = quantity[index] * e.target.value;
-
         setTimeout(() => {
             rate[index] = e.target.value
             amount[index] = total
             document.getElementById(`Amount${index}`).value = total
         }, 1000)
-
     }
 
     const handleChangeUnit = (value, i) => {
@@ -154,7 +155,6 @@ function PurchaseOrder() {
                     <h3 className="pt-3 pb-2 pl-5"> New Purchase Order</h3>
                     <div className="card">
                         <article className="card-body" >
-
                             <form autoComplete="off">
                                 <div className="form-row ">
                                     <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
@@ -163,7 +163,6 @@ function PurchaseOrder() {
                                             id="vend_name"
                                             // onChange={handlevendorselect}
                                             className="form-control col-md-4">
-
                                             <option value='' hidden>select vendor</option>
                                             {
                                                 vendorlist.map((item, index) =>
@@ -183,7 +182,6 @@ function PurchaseOrder() {
                                                 locationstate.map((item, index) =>
                                                     <option key={index} value={item.location_id}>{item.location_name}</option>)
                                             }
-
                                         </select>
                                     </div>
                                 </div>
@@ -197,7 +195,6 @@ function PurchaseOrder() {
                                         <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
                                     </div>
                                 </div>
-
 
                                 <hr />
                                 <table className="table">

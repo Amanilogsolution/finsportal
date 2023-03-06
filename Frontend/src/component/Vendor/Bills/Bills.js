@@ -19,6 +19,7 @@ function Bills() {
     const [locationstate, setLocationstate] = useState([])
     const [polist, setPolist] = useState([]);
     const [tdscomp, setTdscomp] = useState('')
+    const [vendorlocations, setVendorLocations] = useState('')
 
     const [location, setLocation] = useState([])
     const [employee, setEmployee] = useState([]);
@@ -75,7 +76,6 @@ function Bills() {
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-            console.log(locatonstateres)
 
             const result2 = await ActiveUser()
             setActiveUser(result2)
@@ -271,7 +271,7 @@ function Bills() {
         const vendor_id = vendor_detail.value;
         const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
 
-        const Location = document.getElementById('location').value
+        const Location = vendorlocations
         const bill_no = document.getElementById('bill_no').value
         const bill_date = document.getElementById('bill_date').value
         const bill_amt = document.getElementById('bill_amt').value
@@ -298,6 +298,8 @@ function Bills() {
         const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
+
+        console.log(Location)
 
 
         if (!voucher_no) {
@@ -435,7 +437,6 @@ function Bills() {
         })
     }
 
-
     return (
         <>
             <div className="wrapper">
@@ -467,7 +468,7 @@ function Bills() {
                                     <div className="form-row mt-2">
                                         <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md">
-                                            <select
+                                            {/* <select
                                                 id="location"
                                                 className="form-control col-md-4">
                                                 <option value='' hidden>Select loction</option>
@@ -476,8 +477,14 @@ function Bills() {
                                                         <option key={index} value={item.billing_address_attention}>{item.billing_address_attention}</option>)
                                                 }
 
-                                            </select>
+                                            </select> */}
+                                            <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal">
+                                            {
+                                                vendorlocations?vendorlocations:'Select Vendor Location'
+                                            }
+                                        </button>
                                         </div>
+                                      
                                     </div>
 
                                     <div className="form-row mt-3" >
@@ -823,6 +830,32 @@ function Bills() {
                     </div>
                 </div>
                 <Footer />
+                {/* modal  Start*/}
+                <div className="modal fade" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
+                                {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> */}
+                            </div>
+                            <div className="modal-body">
+                            {
+                                                    vendorlocation.map((item, index) =>
+                                                        <li key={index} value={item.billing_address_attention} className="cursor-pointer" data-dismiss="modal" onClick={(e)=> setVendorLocations(item.billing_address_attention)}>{item.billing_address_attention}</li>
+                                                        )
+                                                }
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                {/* <button type="button" className="btn btn-primary">Save changes</button> */}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* modal  End*/}
+
             </div>
 
             {/* ----------------------- Attach File  Modal  Start --------------*/}
