@@ -41,6 +41,11 @@ const columns = [
     sortable: true
   },
   {
+    name: 'PO Series',
+    selector: row => row.po_ser,
+    sortable: true
+  },
+  {
     name: 'Active ',
     selector: row => row.status,
     sortable: true,

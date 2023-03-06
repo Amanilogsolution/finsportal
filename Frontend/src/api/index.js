@@ -810,13 +810,13 @@ export const Showfincialyear = async (org) => {
     const url = `http://localhost:3008/api/showfincialyear`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-export const Addfincialyear = async (org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id) => {
+export const Addfincialyear = async (org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id,po_series) => {
     const url = `http://localhost:3008/api/addfincialyear`
-    return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id,po_series }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateFincialyear = async (org, invoice_ser, voucher_ser, user_id, sno,financial_year_lock) => {
+export const UpdateFincialyear = async (org, invoice_ser, voucher_ser, user_id, sno,financial_year_lock,po_ser) => {
     const url = `http://localhost:3008/api/updatefincialyear`
-    return axios.post(url, { org, invoice_ser, voucher_ser, user_id, sno,financial_year_lock }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoice_ser, voucher_ser, user_id, sno,financial_year_lock,po_ser }).then(response => response.data).catch(error => console.log(error));
 }
 export const Statusfincialyear = async (org, sno) => {
     const url = `http://localhost:3008/api/statusfincialyear`
