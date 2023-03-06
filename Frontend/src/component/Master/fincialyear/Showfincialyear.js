@@ -152,7 +152,7 @@ const ShowFinancialyear = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="ml-5">Financial year</h3>
-          <button type="button " id='addfinsyearbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Fincialyear" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">New Financial Year</button>
+          <button type="button " id='addfinsyearbtn'  onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Fincialyear" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">New Financial Year</button>
         </div>
 
         <div className="container-fluid">
