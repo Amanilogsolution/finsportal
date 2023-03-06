@@ -17,18 +17,6 @@ const ShowFinancialyear = () => {
       const result = await Showfincialyear(localStorage.getItem('Organisation'))
       setData(result)
       fetchRoles();
-
-
-      // if (UserRights.fincial_year_edit === 'true') {
-      //   for (let i = 0; i < result.length; i++) {
-      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-      //   }
-      // }
-      // if (UserRights.fincial_year_delete === 'true') {
-      //   for (let i = 0; i < result.length; i++) {
-      //     document.getElementById(`deleteselect${result[i].sno}`).disabled = false;
-      //   }
-      // }
     }
 
     fetchdata();
