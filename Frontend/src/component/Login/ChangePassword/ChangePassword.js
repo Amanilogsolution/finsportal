@@ -3,36 +3,48 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { UserChangePassword } from '../../../api'
 import './ChangePassword.css'
+import img from '../../../images/cp.png'
 
 function ChangePassword() {
+    const [currentpass, setCurrentpass] = useState(false);
+    const [newpassword, setNewpassword] = useState(false);
+    const [cnfnewpassword, setCnfpasswordshow3] = useState(false);
     const [showalert, setShowalert] = useState(false);
-    const [passwordshow, setPasswordshow] = useState(false);
     const [checkpass, setCheckpass] = useState(false);
-    const [confpasswordshow, setConfpasswordshow] = useState(false);
 
-    const themecolor = localStorage.getItem('themetype') !== null ? localStorage.getItem('themetype') : 'light'
-    const btntheme = localStorage.getItem('themebtncolor') !== null ? localStorage.getItem('themebtncolor') : 'primary';
 
     const handleClickToogle = (e) => {
-        e.preventDefault()
-        setPasswordshow(!passwordshow)
-    }
-    const handleClickToogle2 = (e) => {
-        e.preventDefault()
-        setConfpasswordshow(!confpasswordshow)
-    }
+        e.preventDefault();
+        setCurrentpass(!currentpass);
+    };
 
+    const handleClickToogle2 = (e) => {
+        e.preventDefault();
+        setNewpassword(!newpassword);
+    };
+
+    const handleClickToogle3 = (e) => {
+        e.preventDefault();
+        setCnfpasswordshow3(!cnfnewpassword);
+    };
+
+    const handleDisableAlert = (e) => {
+        e.preventDefault();
+        setShowalert(false);
+        setCheckpass(false)
+    }
     const handleClick = async (e) => {
         e.preventDefault()
         const CurrentPassword = document.getElementById('CurrentPassword').value;
-        const password = document.getElementById('password').value;
+        const newpassword = document.getElementById('newpassword').value;
         const confirmpassword = document.getElementById('confirmpassword').value
-        if (!CurrentPassword || !password || !confirmpassword) {
+
+        if (!CurrentPassword || !newpassword || !confirmpassword) {
             setCheckpass(!checkpass)
         }
         else {
-            if (password === confirmpassword) {
-                const result = await UserChangePassword(localStorage.getItem('User_id'), password, CurrentPassword)
+            if (newpassword === confirmpassword) {
+                const result = await UserChangePassword(localStorage.getItem('User_id'), newpassword, CurrentPassword)
                 if (result === 'Incorrect Current Password') {
                     setCheckpass(!checkpass)
                 }
@@ -46,6 +58,8 @@ function ChangePassword() {
             }
         }
     }
+
+
     return (
         <>
             <div className="wrapper">
@@ -54,38 +68,45 @@ function ChangePassword() {
                 </div>
                 <Header />
                 <div className={`content-wrapper`}>
-                    <div className="container-fluid">
-                        <h3 className="ml-5 py-3">Change Password</h3>
-                        <div className={`card `}>
-                            <article className="card-body ">
-                                <div className="change-pass-container pt-2  mx-auto" >
-                                    <h5 className='text-secondary text-right mx-3 border-bottom py-2 px-4'>All Field required</h5>
-                                    <form autoComplete="off" className="change-pass-form my-5" >
+                    <div className="container-fluid pt-4">
+                        <div className='card'>
+                            <article className="card-body div_cp">
+                                <div className="div_cp_1">
+                                    <h2 className='cp_heading'>Change Your Password</h2>
+                                    <hr style={{ marginTop: "13px" }} />
+                                    <form autoComplete='off' className='form-div'>
                                         <div className="form-group">
-                                            <label htmlFor='CurrentPassword'>Current Password:-</label>
-                                            <input id="CurrentPassword" name="password" placeholder="Enter Current Password" className="form-control " type="text" onChange={() => { setCheckpass(false) }} />
+                                            <label htmlFor='password'>Current Password:-</label>
+                                            <div className="input-group">
+                                                <input id="CurrentPassword" name="CurrentPassword" placeholder="New Password" className="form-control" type={currentpass ? "text" : "password"} onChange={handleDisableAlert} />
+                                                <div className="input-group-append" onClick={handleClickToogle}>
+                                                    <span className="input-group-text" >{currentpass ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor='password'>New Password:-</label>
                                             <div className="input-group">
-                                                <input id="password" name="password" placeholder="New Password" className="form-control" type={passwordshow ? "text" : "password"} />
-                                                <div className="input-group-append">
-                                                    <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+                                                <input id="newpassword" name="newpassword" placeholder="New Password" className="form-control" type={newpassword ? "text" : "password"} onChange={handleDisableAlert} />
+                                                <div className="input-group-append" onClick={handleClickToogle2}>
+                                                    <span className="input-group-text" >{newpassword ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="form-group input-group">
-                                            <label htmlFor='confirmpassword'>Confirm Password:-</label>
-                                            <div className="input-group">
-                                                <input id="confirmpassword" name="confirmpassword" placeholder="Confirm password" className="form-control" type={confpasswordshow ? "text" : "password"} />
-                                                <div className="input-group-append">
-                                                    <span className="input-group-text" onClick={handleClickToogle2}>{confpasswordshow ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+                                        <div>
+                                            <div className="form-group">
+                                                <label htmlFor='password'>Confirm Password:-</label>
+                                                <div className="input-group">
+                                                    <input id="confirmpassword" name="confirmpassword" placeholder="New Password" className="form-control" type={cnfnewpassword ? "text" : "password"} onChange={handleDisableAlert} />
+                                                    <div className="input-group-append" onClick={handleClickToogle3}>
+                                                        <span className="input-group-text" >{cnfnewpassword ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         {
                                             showalert ?
-                                                <p className='text-danger'>Password and Confirm Password Field do not match </p>
+                                                <p className='text-danger'>Password and Confirm Password must be same ... </p>
                                                 : null
                                         }
                                         {
@@ -93,17 +114,19 @@ function ChangePassword() {
                                                 <p className='text-danger'>Please! fill the correct current Password</p>
                                                 : null
                                         }
-                                        <div className="card-footer border-top">
-                                            <input name="submit" className={`btn btn-lg btn-${btntheme} float-right`} onClick={handleClick} type="submit" value="Change Password" />
-                                        </div>
+                                        <button className='text-white border-0 p-2 w-100 change-btn' onClick={handleClick}>Change Password</button>
                                     </form>
                                 </div>
+                                <div className="div_cp_2 d-flex justify-content-center align-items-center">
+                                    <img src={img} alt="img" loading="lazy"/>
+                                </div>
+
                             </article>
                         </div>
                     </div>
                 </div>
 
-                <Footer theme={themecolor} />
+                <Footer />
             </div>
         </>
     )

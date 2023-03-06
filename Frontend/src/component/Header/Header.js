@@ -43,12 +43,12 @@ const Header = () => {
           document.getElementById('branchs').style.display = "none"
         }
 
-        if (role.payment_terms_view === 'true') {
-          document.getElementById('payment_term').style.display = "block"
-        }
-        else {
-          document.getElementById('payment_term').style.display = "none"
-        }
+        // if (role.payment_terms_view === 'true') {
+        //   document.getElementById('payment_term').style.display = "block"
+        // }
+        // else {
+        //   document.getElementById('payment_term').style.display = "none"
+        // }
         if (role.crm_view === 'true') {
           document.getElementById('crm_data').style.display = "block"
         }
@@ -233,8 +233,8 @@ const Header = () => {
                     <b>Financial Year</b> </li></a>
                   <a href="/TotalLocation" id='branchs' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Branches</b> </li></a>
-                  <a href="/ShowPaymentTerm" id='payment_term' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
-                    <b>Payment Terms</b> </li></a>
+                  {/* <a href="/ShowPaymentTerm" id='payment_term' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-university text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
+                    <b>Payment Terms</b> </li></a> */}
                   <a href="/ShowCrm" id='crm_data' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-link text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>CRM Master</b> </li></a>
                   <a href="/Showcompliances" id='compliances' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-tasks text-${btntheme}`} aria-hidden="true"></i>

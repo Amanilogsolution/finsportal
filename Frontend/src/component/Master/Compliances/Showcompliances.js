@@ -16,79 +16,152 @@ function Showcompliances() {
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation')
+      const result = await showcompliances(org)
+      setData(result)
+      fetchRoles()
+
+    }
+    fetchdata();
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('addcompbtn').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.compliances_create === 'true') {
+      document.getElementById('addcompbtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadcompbtn').style.display = "block";
+      }
+    }
+  }
+
   const columns = [
     {
       name: 'Compliance Type',
-      selector: row => row.compliance_type,
+      selector: 'compliance_type',
       sortable: true
     },
     {
       name: 'Nature',
-      selector: row => row.nature,
-      sortable: true
-    },
-    {
-      name: 'Period',
-      selector: row => row.period,
+      selector: 'nature',
       sortable: true
     },
     {
       name: 'Period name ',
-      selector: row => row.period_name,
+      selector: 'period_name',
+      sortable: true
+    },
+    {
+      name: 'Period',
+      selector: 'period',
       sortable: true
     },
     {
       name: 'To Date',
-      selector: row => row.to_month,
+      selector: 'to_month',
       sortable: true
     },
     {
       name: 'From Date',
-      selector: row => row.from_month,
+      selector:'from_month',
       sortable: true
     },
     {
       name: 'Due Date',
-      selector: row => row.due_date,
+      selector: 'due_date',
       sortable: true
     },
     {
       name: 'Extended Date',
-      selector: row => row.extended_date,
+      selector:'extended_date',
       sortable: true
     },
     {
       name: 'Status',
       sortable: true,
-      selector: row => row.null,
-      cell: (row) => [
-        <div className='droplist'  >
-          <select className={``} id={`deleteselect${row.sno}`} disabled onChange={async (e) => {
-            const org = localStorage.getItem("Organisation")
-            const status = e.target.value;
-            await Compliancestatus(org, row.sno, status)
-            window.location.href = 'Showcompliances'
-          }}>
-            <option hidden value={row.status}> {row.status}</option>
-            <option >Active</option>
-            <option >Deactive</option>
-          </select>
-        </div>
-      ]
+      selector: 'status',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.compliances_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await Compliancestatus(localStorage.getItem("Organisation"), row.sno, status)
+                    window.location.href = 'Showcompliances'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
     },
 
     {
       name: "Actions",
       sortable: false,
-      selector: row => row.null,
-      cell: (row) => [
+      selector: 'null',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.compliances_edit === 'true') {
+            return (
+              <button title='Edit Compliances' className='p-1 btn-success' href="EditCity" id={`editactionbtns${row.sno}`}
+                onClick={() => { localStorage.setItem('ComplianceSno', `${row.sno}`); window.location.href = '/Editcompliances' }}
+              >Edit</button>
+            );
+          }
+          else {
+            return
+          }
 
-        <a title='Edit Compliances' href="Editcompliances" id={`editactionbtns${row.sno}`} style={{ display: "none" }} >
-          <button className="editbtn btn-success "
-            onClick={() => localStorage.setItem('ComplianceSno', `${row.sno}`)}
-          >Edit</button></a>
+        }
+      }
 
-      ]
     }
 
 
@@ -161,38 +234,7 @@ function Showcompliances() {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const org = localStorage.getItem('Organisation')
-      const result = await showcompliances(org)
-      setData(result)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addcompbtn').style.background = '#7795fa';
-      }
-
-
-      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
-      if (UserRights.compliances_create === 'true') {
-        document.getElementById('addcompbtn').style.display = "block"
-        document.getElementById('uploadcompbtn').style.display = "block"
-      }
-      if (UserRights.compliances_edit === 'true') {
-        for (var i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.compliances_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).disabled = false
-
-        }
-      }
-    }
-    fetchdata();
-  }, [])
 
   const tableData = {
     columns, data
@@ -209,7 +251,7 @@ function Showcompliances() {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {financialstatus !== 'Lock' ?  window.location.href = "./Addcompliances": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Compliances</button>
+        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Addcompliances" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Compliances</button>
         <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <h3 className="ml-5 py-2" >Compliances</h3>
@@ -233,7 +275,7 @@ function Showcompliances() {
         </div>
       </div>
 
-      <Footer/>
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

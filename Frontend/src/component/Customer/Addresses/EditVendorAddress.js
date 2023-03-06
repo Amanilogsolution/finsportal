@@ -81,12 +81,12 @@ const EditVendorAddress = () => {
   }
 
   const handleChangePincode = async (e) => {
-    if(e.target.value.length===7) return false
-  setData({ ...data, billing_address_pincode: e.target.value })
-    
+    if (e.target.value.length === 7) return false
+    setData({ ...data, billing_address_pincode: e.target.value })
+
   }
   const handleChangePhone = async (e) => {
-    if(e.target.value.length===11) return false;
+    if (e.target.value.length === 11) return false;
     setData({ ...data, billing_address_phone: e.target.value })
   }
 
@@ -274,7 +274,7 @@ const EditVendorAddress = () => {
                           type="text"
                           className="form-control col-md-7"
                           id="billing_address_fax"
-                          defaultValue={data.billing_address_fax}/>
+                          defaultValue={data.billing_address_fax} />
                       </div>
                     </div>
                   </div>
@@ -283,12 +283,16 @@ const EditVendorAddress = () => {
             </article>
             <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick} >Update</button>
-              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.remove('EditVendorAddresssno'); window.location.href = "./TotalVendAddress" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={(e) => {
+                e.preventDefault();
+                localStorage.removeItem('EditVendorAddresssno');
+                window.location.href = "/TotalVendAddress"
+              }}>Cancel</button>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

@@ -165,6 +165,13 @@ const Menu = (props) => {
         document.getElementById('employeeMenu').style.display = "none"
       }
 
+      if (result.payment_terms_view === 'true') {
+        document.getElementById('payment_term').style.display = "block"
+      }
+      else {
+        document.getElementById('payment_term').style.display = "none"
+      }
+
     }
     else {
       document.getElementById('masterMenu').style.display = "none"
@@ -487,17 +494,17 @@ const Menu = (props) => {
                 </li>
               </ul>
 
-              {/* <ul className="nav nav-treeview" id='subcodeMenu' style={{display:"none"}}>
-                  <li className="nav-item">
-                    <a href="/TotalSubCode" className="nav-link active">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Sub Code</p>
-                    </a>
-                  </li>
-                </ul> */}
+              <ul className="nav nav-treeview"  >
+                <li className="nav-item" id='payment_term'>
+                  <a href="/ShowPaymentTerm" className="nav-link active">
+                    <i className="fa fa-university nav-icon" />
+                    <p>Payment Terms</p>
+                  </a>
+                </li>
+              </ul>
 
-              <ul className="nav nav-treeview" id='employeeMenu'>
-                <li className="nav-item" style={{ display: "none" }} >
+              <ul className="nav nav-treeview" >
+                <li className="nav-item" id='employeeMenu'>
                   <a href="/showemployee" className="nav-link active">
                     <i className="far fa-file nav-icon" />
                     <p>Employee Master</p>

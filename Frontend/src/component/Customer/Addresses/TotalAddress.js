@@ -4,70 +4,13 @@ import Footer from "../../Footer/Footer";
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { ShowCustAddress, DeleteCustAddress, SelectCustAddress, Importcustaddress } from '../../../api';
+import { ShowCustAddress, DeleteCustAddress, SelectCustAddress, Importcustaddress, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import './TotalAddress.css';
 import Excelfile from '../../../excelformate/customer_address_formate.xlsx'
 import customStyles from '../../customTableStyle';
 
-const columns = [
-  {
-    name: 'Cust Name',
-    selector: 'cust_name',
-    sortable: true,
-    cell: (row) => [
-      <a title='Edit Customer Address' href="EditAddress" onClick={() => localStorage.setItem('EditAddress', `${row.sno}`)} >{row.cust_name}</a>
-    ]
-  },
-  {
-    name: 'Gst no',
-    selector: 'gst_no',
-    sortable: true
-  },
-  {
-    name: 'Attention',
-    selector: 'billing_address_attention',
-    sortable: true
-  },
-  {
-    name: 'State',
-    selector: 'billing_address_state',
-    sortable: true
-  },
 
-  {
-    name: 'Status',
-    sortable: true,
-    selector: 'null',
-    cell: (row) => [
-      <div className='droplist'>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await DeleteCustAddress(row.sno, status, localStorage.getItem("Organisation"));
-          window.location.href = 'TotalCustAddress'
-        }
-        }>
-          <option value={row.status} hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  // {
-  //   name: "Actions",
-  //   sortable: false,
-
-  //   selector: "null",
-  //   cell: (row) => [
-  //     <a title='View Document' href="EditAddress">
-  //       <button className="editbtn btn-success " onClick={() => localStorage.setItem('EditAddress', `${row.sno}`)} >Edit</button></a>
-  //   ]
-  // }
-
-
-]
 const TotalCustAddress = () => {
 
   const [data, setData] = useState([])
@@ -76,19 +19,129 @@ const TotalCustAddress = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   useEffect(() => {
     async function fetchdata() {
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addCustAddress-btn').style.background = '#7795fa';
-      }
-
+      fetchRoles()
     }
     fetchdata()
   }, [])
+
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addCustAddress-btn').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'customer')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+
+    if (UserRights.customer_create === 'true') {
+      document.getElementById('addCustAddress-btn').style.display = "inline";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadCustAddress-btn').style.display = "inline";
+      }
+    }
+  }
+
+  const columns = [
+    {
+      name: 'Cust Name',
+      selector: 'cust_name',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Customer Address is Lock'>{row.cust_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.customer_edit === 'true') {
+            return (
+              <a title='Edit Customer Address' className='pb-1' href="EditAddress" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('EditAddress', `${row.sno}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.cust_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Customer Address'>{row.cust_name}</p>
+          }
+
+        }
+      }
+
+    },
+    {
+      name: 'Gst no',
+      selector: 'gst_no',
+      sortable: true
+    },
+    {
+      name: 'Attention',
+      selector: 'billing_address_attention',
+      sortable: true
+    },
+    {
+      name: 'State',
+      selector: 'billing_address_state',
+      sortable: true
+    },
+
+    {
+      name: 'Status',
+      sortable: true,
+      selector: 'null',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.customer_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await DeleteCustAddress(row.sno, status, localStorage.getItem("Organisation"));
+                    window.location.href = 'TotalCustAddress'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
+    }
+  ]
+
 
 
   //##########################  Upload data start  #################################
@@ -200,8 +253,8 @@ const TotalCustAddress = () => {
           <div className='d-flex pt-4 pb-3 px-5  justify-content-between'>
             <h3 className=" ml-5">Customer Address</h3>
             <div>
-              <button type="button" className="btn btn-success mx-4" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
-              <button type="button" onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCustAddress"  : alert('You cannot Add in This Financial Year')}} className="btn btn-primary" id='addCustAddress-btn'>Add Address</button>
+              <button type="button" id='uploadCustAddress-btn' style={{ display: 'none' }} className="btn btn-success mx-4" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
+              <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCustAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary" id='addCustAddress-btn'>Add Address</button>
             </div>
           </div>
           <div className="container-fluid position-relative">
@@ -222,7 +275,7 @@ const TotalCustAddress = () => {
             </form>
           </div>
           <div className={`card mb-0  mx-2`}>
-            <article className={`card-body  rounded `}>
+            <article className={`card-body  py-1`}>
               <DataTableExtensions
                 {...tableData}
               >
@@ -240,7 +293,7 @@ const TotalCustAddress = () => {
           </div>
 
         </div>
-        <Footer  />
+        <Footer />
       </div>
 
       {/* ------------------ Modal start -----------------------------*/}

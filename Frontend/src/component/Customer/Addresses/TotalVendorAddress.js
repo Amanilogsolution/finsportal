@@ -5,7 +5,7 @@ import './TotalAddress.css';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-import { ShowVendAddress, DeleteVendAddress, SelectVendAddress, Importvendaddress } from '../../../api';
+import { ShowVendAddress, DeleteVendAddress, SelectVendAddress, Importvendaddress, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/Vendor Address formate.xlsx'
 import customStyles from '../../customTableStyle';
@@ -17,20 +17,38 @@ const TotalVendAddress = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
   const themetype = localStorage.getItem('themetype')
 
   useEffect(() => {
     async function fetchdata() {
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('add-vend_address_btn').style.background = '#7795fa';
-      }
+      fetchRoles()
     }
     fetchdata()
   }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('add-vend_address_btn').style.background = '#7795fa';
+    }
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.vendor_create === 'true') {
+      document.getElementById('add-vend_address_btn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('upload-vend_address_btn').style.display = "block";
+      }
+    }
+  }
+
+
   const columns = [
     {
       name: 'vend Name',
@@ -73,31 +91,75 @@ const TotalVendAddress = () => {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) => [
-        <div className='droplist'>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            await DeleteVendAddress(row.sno, status, localStorage.getItem('Organisation'))
-            window.location.href = 'TotalVendAddress'
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
           }
-          }>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+          else {
+            if (role.vendor_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await DeleteVendAddress(row.sno, status, localStorage.getItem('Organisation'))
+                    window.location.href = 'TotalVendAddress'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
+
     },
     {
       name: "Actions",
       sortable: false,
       selector: "null",
-      cell: (row) => [
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.vendor_edit === 'true') {
+            return (
+              <button title='Edit Vendor Address ' id={`editactionbtns${row.sno}`} className='btn-success px-1'
+                onClick={() => { localStorage.setItem('EditVendorAddresssno', `${row.sno}`); window.location.href = '/EditVendorAddress' }}
+              >Edit</button>
+            );
+          }
+          else {
+            return
+          }
 
-        <a title='View Document' href="EditVendorAddress">
-          <button className="editbtn btn-success px-2" onClick={() => { localStorage.setItem('EditVendorAddresssno', `${row.sno}`) }} >Edit</button></a>
-
-      ]
+        }
+      }
+   
     }
   ]
 
@@ -200,8 +262,8 @@ const TotalVendAddress = () => {
       </div>
       <Header />
       <div className="content-wrapper">
-        <button type="button" style={{ marginRight: '10%', marginTop: '3%' }} onClick={() => {financialstatus !== 'Lock' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year')  }} className="btn btn-primary float-right" id='add-vend_address_btn'>Add Address</button>
-        <button type="button" style={{ marginRight: '3%', marginTop: '3%' }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
+        <button type="button" style={{ marginRight: '10%', marginTop: '3%', display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right" id='add-vend_address_btn'>Add Address</button>
+        <button type="button" style={{ marginRight: '3%', marginTop: '3%', display: 'none' }} id='upload-vend_address_btn' className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
         <div className="container-fluid ">
           <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>
           <form className="form-inline ml-4 position-relative" autoComplete="off">
@@ -241,7 +303,7 @@ const TotalVendAddress = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

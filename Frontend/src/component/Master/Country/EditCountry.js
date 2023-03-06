@@ -82,7 +82,7 @@ const EditCountry = () => {
             </article>
             <div className={`border-top card-footer`}>
               <button type='submit' className="btn btn-success" onClick={handleClick}>Update</button>
-              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('countrySno'); window.location.href = "./ShowState" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { localStorage.removeItem('countrySno'); window.location.href = "./ShowCountry" }}>Cancel</button>
             </div>
           </div>
         </div>

@@ -95,7 +95,7 @@ export default function CustomerNames() {
                         </article>
                         <div className="card-footer border-top">
                             <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>Update</button>
-                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/TotalCustomer' }}
                                 name="clear" className="btn ml-2 btn btn-secondary">Cancel</button>
                         </div>
                     </div>

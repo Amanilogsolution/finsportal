@@ -31,9 +31,9 @@ const User_login = async (req, res) => {
                 fin_year_status: result1.recordset[0].financial_year_lock,
                 Twofa: result.recordset[0].tfact_secretkey,
                 Loginstatus: result.recordset[0].status,
-                ThemeButton:result.recordset[0].theme_btn_color,
-                Theme:result.recordset[0].theme_type,
-                UserRole:result.recordset[0].UserRole,
+                ThemeButton: result.recordset[0].theme_btn_color,
+                Theme: result.recordset[0].theme_type,
+                UserRole: result.recordset[0].UserRole,
                 expiresIn: 5 * 24 * 60 * 60
             })
         } else {
@@ -77,9 +77,9 @@ const InsertUserLogin = async (req, res) => {
 const User_logout = async (req, res) => {
     const user_id = req.body.user_id;
     const user_name = req.body.user_name;
-    const btntheme= req.body.btntheme;
-    const themetype= req.body.themetype;
-    
+    const btntheme = req.body.btntheme;
+    const themetype = req.body.themetype;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.tbl_Login set logout_time=GETDATE(),status='Logout',

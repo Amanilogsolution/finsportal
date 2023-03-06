@@ -11,15 +11,99 @@ import customStyles from '../customTableStyle'
 import './TotalCustomer.css'
 
 const TotalCustomer = () => {
+
+  const [data, setData] = useState([])
+  const [importdata, setImportdata] = useState([]);
+  let [errorno, setErrorno] = useState(0);
+  const [duplicateData, setDuplicateDate] = useState([])
+  const [backenddata, setBackenddata] = useState(false);
+  const [year, setYear] = useState();
+  const [newcountid, setNewcountid] = useState(0);
+  const [newmcountid, setNewmcountid] = useState(0);
+  const [ActionToogle, setActionToogle] = useState(false);
+  const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await TotalCustomers(localStorage.getItem("Organisation"))
+      setData(result)
+
+      fetchRoles()
+
+      // const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'customer')
+      // for (let i = 0; i <= result.length; i++) {
+      //   if (UserRights.customer_edit === 'false') {
+      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
+
+      //   }
+      //   if (UserRights.customer_delete === 'false') {
+      //     document.getElementById(`droplist${result[i].sno}`).style.display = "none";
+
+      //   }
+      // }
+
+      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
+      setYear(getids[0].year);
+      setNewmcountid(getids[0].mcust_count)
+      setNewcountid(getids[0].cust_count)
+
+    }
+    fetchdata();
+
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'customer')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addcustbtn').style.background = '#7795fa';
+      document.getElementById('updatecustNamebtn').style.background = '#7795fa';
+    }
+
+    if (UserRights.customer_create === 'true') {
+      document.getElementById('addcustbtn').style.display = "inline";
+      document.getElementById('updatecustNamebtn').style.display = "inline";
+      if (financstatus !== 'Lock') {
+        document.getElementById('excelcustbtn').style.display = "inline";
+      }
+    }
+  }
+
+
   const columns = [
     {
       name: 'Name',
       selector: 'cust_name',
       sortable: true,
-      cell: (row) => [
-        <a title='Edit Customer' id={`editactionbtns${row.sno}`} href="EditCustomer"
-          onClick={() => localStorage.setItem('CustSno', `${row.sno}`)} >{row.cust_name}</a>
-      ]
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Customer is Lock'>{row.cust_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.customer_edit === 'true') {
+            return (
+              <a title='Edit Customer' className='pb-1' href="EditCustomer" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('CustSno', `${row.sno}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.cust_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Customer City'>{row.cust_name}</p>
+          }
+
+        }
+      }
+
+
     },
     {
       name: 'Company Name',
@@ -45,20 +129,47 @@ const TotalCustomer = () => {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) => [
-        <div className='droplist' id={`droplist${row.sno}`}>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
-            window.location.href = 'TotalCustomer'
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
           }
-          }>
-            <option selected disabled hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+          else {
+            if (role.customer_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
+                    window.location.href = '/TotalCustomer'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
+
     },
 
     // {
@@ -72,20 +183,6 @@ const TotalCustomer = () => {
     //   ]
     // }
   ]
-
-
-
-  const [data, setData] = useState([])
-  const [importdata, setImportdata] = useState([]);
-  let [errorno, setErrorno] = useState(0);
-  const [duplicateData, setDuplicateDate] = useState([])
-  const [backenddata, setBackenddata] = useState(false);
-  const [year, setYear] = useState();
-  const [newcountid, setNewcountid] = useState(0);
-  const [newmcountid, setNewmcountid] = useState(0);
-  const [ActionToogle, setActionToogle] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
-
 
   //##########################  Upload data start  #################################
 
@@ -229,46 +326,6 @@ const TotalCustomer = () => {
   };
   //##########################  for convert excel to array end #################################
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await TotalCustomers(localStorage.getItem("Organisation"))
-      setData(result)
-
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addcustbtn').style.background = '#7795fa';
-      }
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'customer')
-      if (UserRights.customer_create === 'false') {
-        document.getElementById('addcustbtn').style.display = "none";
-        document.getElementById('excelcustbtn').style.display = "none";
-      }
-      else if (UserRights.customer_edit === 'false') { document.getElementById('updatecustNamebtn').style.display = "none"; }
-
-
-
-      for (let i = 0; i <= result.length; i++) {
-        if (UserRights.customer_edit === 'false') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
-
-        }
-        if (UserRights.customer_delete === 'false') {
-          document.getElementById(`droplist${result[i].sno}`).style.display = "none";
-
-        }
-      }
-
-      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
-      setYear(getids[0].year);
-      setNewmcountid(getids[0].mcust_count)
-      setNewcountid(getids[0].cust_count)
-
-    }
-    fetchdata();
-
-  }, [])
 
   const handleAction = (e) => {
     e.preventDefault();
@@ -288,19 +345,16 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <div className="content-wrapper">
-          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden'>
-            <div>
-              <h3 className="pl-5 ">Total Customer</h3>
-
-            </div>
-            <div className='d-flex'>
-              <button className='btn btn-danger mr-2' onClick={handleAction}><span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span></button>
-              <div
-                className={ActionToogle ? 'showAction' : 'hideAction'}
-              >
-                <button type="button" id='excelcustbtn' onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                <button type="button" id='addcustbtn' onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
-                <button type="button" id='updatecustNamebtn' onClick={() => { window.location.href = "./CustomerNames" }} className="btn btn-primary mx-1">Update Cust Names</button>
+          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden '>
+            <h3 className="pl-5 ">Total Customer</h3>
+            <div className='d-flex overflow-hidden'>
+              <button className='btn btn-danger mr-2' onClick={handleAction}>
+                <span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span>
+              </button>
+              <div className={ActionToogle ? 'showAction' : 'hideAction'}>
+                <button type="button" id='excelcustbtn' style={{ display: 'none' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addcustbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
+                <button type="button" id='updatecustNamebtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./CustomerNames" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-1">Update Cust Names</button>
               </div>
             </div>
           </div>
@@ -321,7 +375,7 @@ const TotalCustomer = () => {
             </article>
           </div>
         </div>
-        <Footer  />
+        <Footer />
       </div>
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
@@ -336,15 +390,12 @@ const TotalCustomer = () => {
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Import excel file
-              </h5>
+              <h5 className="modal-title" id="exampleModalLabel">  Import excel file </h5>
               <button
                 type="button"
                 className="close"
                 data-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -514,7 +565,6 @@ const TotalCustomer = () => {
                       </tr>
                     ))
                   }</tbody>
-                <tfoot></tfoot>
               </table>
               <br /><br />
 

@@ -5,7 +5,6 @@ import { totalLocation, Locationstatus, ImportLocationMaster, ImportLocationAddr
 import DataTable from 'react-data-table-component';
 import Addbtn from '../../../images/add-btn.png'
 import Editbtn from '../../../images/edit.png'
-import Editbtn2 from '../../../images/edit2.png'
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import * as XLSX from "xlsx";
@@ -20,24 +19,76 @@ const TotalLocation = () => {
   const [btntype, setBtntype] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
+
+  useEffect(() => {
+    async function fetchdata() {
+      const result = await totalLocation(localStorage.getItem('Organisation'))
+      setData(result)
+
+      fetchRoles();
+    }
+    fetchdata();
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('addbranchbtn').style.background = '#7795fa';
+    }
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'branch')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.branch_create === 'true') {
+      document.getElementById('addbranchbtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadlocabtn').style.display = "block";
+        document.getElementById('uploadlocaddbtn').style.display = "block";
+      }
+    }
+  }
+
   const styleborder = {
     border: "1px solid black"
   }
 
   const columns = [
+    {
+      name: 'Location Name',
+      selector: 'location_name',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Location is Lock'>{row.location_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.branch_edit === 'true') {
+            return (
+              <a title='Edit Location' className='pb-1' href="EditLocation" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.location_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Location'>{row.location_name}</p>
+          }
 
+        }
+      }
+    },
     {
       name: 'Country',
       selector: 'country',
       sortable: true
-    }, {
-      name: 'State',
-      selector: 'state',
-      sortable: true
     },
     {
-      name: 'Location Name',
-      selector: 'location_name',
+      name: 'State',
+      selector: 'state',
       sortable: true
     },
     {
@@ -50,57 +101,90 @@ const TotalLocation = () => {
       selector: 'contact_name1',
       sortable: true
     },
-    // {
-    //   name: 'Contact Phone1',
-    //   selector: 'contact_phone_no1',
-    //   sortable: true
-    // },
-
     {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={``} onChange={async (e) => {
-            const org = localStorage.getItem("Organisation");
-            const status = e.target.value;
-            await Locationstatus(org, row.location_id, status)
-            window.location.href = 'TotalLocation'
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
           }
-          }>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive'>Deactive</option>
-          </select>
-        </div>
-      ]
+          else {
+            if (role.branch_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await Locationstatus(localStorage.getItem("Organisation"), row.location_id, status)
+                    window.location.href = 'TotalLocation'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
     },
 
     {
       name: "Actions",
       sortable: false,
       selector: "null",
-      cell: (row) => [
-        <div id={`editactionbtns${row.sno}`} style={{ display: "none", marginLeft: '-20px' }}>
-          <a title='Edit Location' href="EditLocation" className='px-0'>
-            <button className="editbtn btn"
-              onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-              <img src={Editbtn2} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-            </button></a>
-          <a title='View Document' href="AddOrgAddress" className='px-0'>
-            <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Add location Address"
-              onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-              <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
-            </button></a>
-          <a title='View Document' href="EditOrgAddress" className='px-0'>
-            <button type="button" class="btn " data-toggle="tooltip" data-placement="top" title="Edit location Address"
-              onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
-              <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
-            </button></a>
-        </div>
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.branch_create === 'true') {
+            return (
+              <div id={`editactionbtns${row.sno}`}>
+                <a title="Add location Address" href="AddOrgAddress" className='px-0'>
+                  <button type="button" className="btn "
+                    onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+                    <img src={Addbtn} style={{ width: "20px", height: "20px" }} alt="add Icon" />
+                  </button></a>
+                <a title="Edit location Address" href="EditOrgAddress" className='px-0'>
+                  <button type="button" className="btn "
+                    onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}>
+                    <img src={Editbtn} style={{ width: "20px", height: "20px" }} alt="Edit Icon" />
+                  </button>
+                </a>
+              </div>
+            );
+          }
+          else {
+            return
+          }
 
-      ]
+        }
+      }
+
+
     }
   ]
 
@@ -205,39 +289,7 @@ const TotalLocation = () => {
 
 
 
-  useEffect(() => {
-    async function fetchdata() {
-      const result = await totalLocation(localStorage.getItem('Organisation'))
-      setData(result)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Lock') {
-        document.getElementById('addbranchbtn').style.background = '#7795fa';
-      }
-
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'branch')
-      if (UserRights.branch_create === 'true') {
-        document.getElementById('addbranchbtn').style.display = "block";
-        document.getElementById('uploadlocabtn').style.display = "block";
-        document.getElementById('uploadlocaddbtn').style.display = "block";
-      }
-
-      if (UserRights.branch_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "flex";
-        }
-      }
-
-      if (UserRights.branch_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-    }
-    fetchdata();
-  }, [])
 
   const tableData = {
     columns, data
@@ -250,13 +302,19 @@ const TotalLocation = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addbranchbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddLocation": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary float-right">Add Location</button>
-        <button type="button" id='uploadlocabtn' style={{ marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
-        <button type="button" id='uploadlocaddbtn' style={{ marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
+
+        <div className='d-flex justify-content-between py-2 px-3'>
+          <h3 className="ml-5">Location</h3>
+          <div className='d-flex'>
+            <button type="button" id='uploadlocaddbtn' style={{ display: "none" }} className="btn btn-success " data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
+            <button type="button" id='uploadlocabtn' style={{ display: "none" }} className="btn btn-success mx-3" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
+            <button type="button" id='addbranchbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddLocation" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Location</button>
+
+          </div>
+        </div>
+
 
         <div className="container-fluid">
-          <br />
-          <h3 className="ml-5">Location</h3>
           <div className="card my-2 w-100">
             <article className={`card-body py-1`}>
               <DataTableExtensions
@@ -276,7 +334,7 @@ const TotalLocation = () => {
           </div>
         </div>
       </div>
-      <Footer  />
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

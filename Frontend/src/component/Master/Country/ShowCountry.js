@@ -15,53 +15,66 @@ const ShowCountry = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
-  const [rights,setRights] = useState(false)
+  const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
   useEffect(() => {
     const fetchdata = async () => {
-      const org = localStorage.getItem('Organisation')
-
-
-  
-
       const result = await Totalcountry()
       setData(result)
       fetchRoles()
-
-
-   
-
     }
     fetchdata();
   }, [])
-  const fetchRoles = async()=>{
+
+
+  const fetchRoles = async () => {
     const org = localStorage.getItem('Organisation')
 
-   const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
-      console.log(UserRights)
-      localStorage["CountryRole"] = JSON.stringify(UserRights)
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
+    console.log('bhjbj',UserRights)
 
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Lock') {
-        document.getElementById('addcountrybtn').style.background = '#7795fa';
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('addcountrybtn').style.background = '#7795fa';
+    }
+    if (UserRights.country_create === 'true') {
+      document.getElementById('addcountrybtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadcountrybtn').style.display = "block";
       }
-      if (UserRights.country_create === 'true') {
-        document.getElementById('addcountrybtn').style.display = "block";
-        if (financstatus !== 'Lock') {
-          document.getElementById('uploadcountrybtn').style.display = "block";
-        }
-      }
+    }
   }
 
   const columns = [
     {
       name: 'Country Name',
-      selector: 'country_name',
-      sortable: true
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Country is Lock'>{row.country_name}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.country_edit === 'true') {
+            return (
+              <a title='Edit Country' className='pb-1' href="EditCountry" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.country_name}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Country'>{row.country_name}</p>
+          }
+
+        }
+      }
     },
     {
       name: 'Country Code',
@@ -83,75 +96,48 @@ const ShowCountry = () => {
       sortable: true,
       selector: 'null',
       cell: (row) => {
-
-        if (localStorage.getItem('financialstatus') === 'Lock' ) {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
-            <p>{row.status}</p>
+              <p>{row.status}</p>
             </div>
           )
-        } else {
-          console.log(JSON.parse(localStorage.getItem('CountryRole')))
-          let role =JSON.parse(localStorage.getItem('CountryRole'))
-          if(!role){
-                  fetchRoles()
-                  window.location.reload()
-
-          }else{
-          console.log(typeof(role.country_delete))
-          if(role.country_delete === 'true'){
-            return (
-              <div className='droplist'>
-                <select id={`deleteselect${row.sno}`} onChange={async (e) => {
-                  const status = e.target.value;
-                  await deletecountry(row.sno, status)
-                  window.location.href = 'ShowCountry'
-                }}>
-                  <option value={row.status} hidden> {row.status}</option>
-                  <option value='Active'>Active</option>
-                  <option value='Deactive' >Deactive</option>
-                </select>
-              </div>
-            );
-          }else{
-            return(
-              <div className='droplist'>
-              <p>{row.status}</p>
-           
-              </div>
-            )
-          }
         }
-        
-      }
-    }
-    },
-    {
-      name: "Actions",
-      sortable: false,
-      selector: "null",
-      cell: (row) => {
-        if (localStorage.getItem('financialstatus') === 'Lock') {
-          return
-        } else {
-          let role =JSON.parse(localStorage.getItem('CountryRole'))
-          if(!role){
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
             fetchRoles()
+            window.location.reload()
           }
-          console.log(typeof(role.country_delete))
-          if(role.country_edit === 'true'){
-            return (
-              <a title='Edit Country' href="EditCountry" id={`editactionbtns${row.sno}`} >
-                <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('countrySno', `${row.sno}`)} >Edit</button></a>
-            );
-          }else{
-            return
+          else {
+            if (role.country_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deletecountry(row.sno, status)
+                    window.location.href = 'ShowCountry'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            } else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+
+                </div>
+              )
+            }
           }
 
         }
       }
-
     }
+
   ]
 
   //##########################  Upload data start  #################################
@@ -222,7 +208,7 @@ const ShowCountry = () => {
     reader.readAsBinaryString(file);
   };
   //##########################  for convert excel to array end #################################
- 
+
 
   const tableData = {
     columns, data
@@ -380,7 +366,6 @@ const ShowCountry = () => {
                           ))
                         }
                       </tbody>
-                      <tfoot></tfoot>
                       <br /><br />
                     </table>
                   </>

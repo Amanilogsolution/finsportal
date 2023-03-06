@@ -46,48 +46,46 @@ function EditAccountMinorCode() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div>
-        <div className={`content-wrapper `}>
-          <div className="container-fluid">
-            <h3 className="ml-5 py-3">Edit Account Info</h3>
-            <div className={`card w-100 `}>
-              <form className="card-body">
-                <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name</label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='account_name' value={data.account_name} onChange={(e) => handleChangeAccountName(e)} />
-                  </div>
+      <div className={`content-wrapper `}>
+        <div className="container-fluid">
+          <h3 className="ml-5 py-3">Edit Account Info</h3>
+          <div className={`card w-100 `}>
+            <form className="card-body">
+              <div className="form-row">
+                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name</label>
+                <div className="col form-group">
+                  <input type="text" className="form-control col-md-4" id='account_name' value={data.account_name} onChange={(e) => handleChangeAccountName(e)} />
                 </div>
-
-                <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name Code</label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='account_name_code' value={data.account_name_code}
-                    // onChange={(e) => handleChangeAccountNameCode(e)}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='account_type_code' value={data.account_type_code}
-                    // onChange={(e) => handleChangeAccountTypeCode(e)} 
-                    />
-                  </div>
-                </div>
-              </form>
-              <div className="border-top card-body">
-                <button className="btn btn-success" onClick={handleClick}>Update</button>
-                <button className="btn btn-light ml-3" onClick={() => {
-                  window.location.href = "./ShowAccountMinorCode"; localStorage.removeItem('AccountMinorCode')
-                }}>Cancel</button>
               </div>
+
+              <div className="form-row">
+                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name Code</label>
+                <div className="col form-group">
+                  <input type="text" className="form-control col-md-4" id='account_name_code' value={data.account_name_code}
+                  // onChange={(e) => handleChangeAccountNameCode(e)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
+                <div className="col form-group">
+                  <input type="text" className="form-control col-md-4" id='account_type_code' value={data.account_type_code}
+                  // onChange={(e) => handleChangeAccountTypeCode(e)} 
+                  />
+                </div>
+              </div>
+            </form>
+            <div className="border-top card-footer">
+              <button className="btn btn-success" onClick={handleClick}>Update</button>
+              <button className="btn btn-secondary ml-3" onClick={() => {
+                window.location.href = "./ShowAccountMinorCode"; localStorage.removeItem('AccountMinorCode')
+              }}>Cancel</button>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

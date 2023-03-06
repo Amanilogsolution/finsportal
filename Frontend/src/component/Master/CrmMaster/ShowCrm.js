@@ -8,7 +8,35 @@ import customStyles from '../../customTableStyle';
 
 const ShowCrm = () => {
   const [data, setData] = useState([])
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await TotalCrm(localStorage.getItem('Organisation'))
+      setData(result)
+      fetchRoles()
+    }
+
+    fetchdata();
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addcrmbtn').style.background = '#7795fa';
+    }
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'crm')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.crm_create === 'true') {
+      document.getElementById('addcrmbtn').style.display = "block";
+    }
+  }
 
   const columns = [
     {
@@ -37,19 +65,47 @@ const ShowCrm = () => {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={``} onChange={async (e) => {
-            const status = e.target.value;
-            await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
-            window.location.href = '/ShowCrm'
-          }}>
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+      cell: (row) =>
+      {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.crm_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
+                    window.location.href = '/ShowCrm'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
     },
     // {
     //   name: "Actions",
@@ -69,32 +125,7 @@ const ShowCrm = () => {
 
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await TotalCrm(localStorage.getItem('Organisation'))
-      setData(result)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addcrmbtn').style.background = '#7795fa';
-      }
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'crm')
-      if (UserRights.crm_create === 'true') {
-        document.getElementById('addcrmbtn').style.display = "block";
-      }
-
-      if (UserRights.crm_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-
-    }
-
-    fetchdata();
-  }, [])
 
   const tableData = {
     columns, data

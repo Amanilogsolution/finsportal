@@ -10,79 +10,129 @@ const ShowEmployee = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await TotalEmployee(localStorage.getItem('Organisation'))
+      setData(result)
+      fetchRoles()
+    }
+    fetchdata();
+  }, [])
+
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const financstatus = localStorage.getItem('financialstatus')
+
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addempbtn').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'employee')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    if (UserRights.employee_create === 'true') {
+      document.getElementById('addempbtn').style.display = "block";
+
+    }
+  }
+
   const columns = [
     {
       name: 'Employee name',
-      selector: row => row.emp_name,
+      selector: 'emp_name',
       sortable: true
     },
 
     {
       name: 'Wharehouse',
-      selector: row => row.wh,
+      selector: 'wh',
       sortable: true
     },
     {
       name: 'Status',
       sortable: true,
-      selector: row => row.null,
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select className={``} onChange={async (e) => {
-            const status = e.target.value;
-            await deleteEmployee(localStorage.getItem('Organisation'), row.sno, status)
-            window.location.href = '/showemployee'
-          }} >
-
-            <option value={row.status} hidden> {row.status}</option>
-            <option value='Active'>Active</option>
-            <option value='Deactive' >Deactive</option>
-          </select>
-        </div>
-      ]
+      selector: 'null',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.employee_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deleteEmployee(localStorage.getItem('Organisation'), row.sno, status)
+                    window.location.href = '/showemployee'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+                </div>
+              )
+            }
+          }
+        }
+      }
     },
     {
       name: "Actions",
       sortable: false,
+      selector: 'null',
+      cell: (row) => 
+      {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return 
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.employee_edit === 'true') {
+            return (
+              <button className='p-1 px-2 btn-success' onClick={(e)=>{e.preventDefault();localStorage.setItem('citySno', `${row.sno}`);window.location.href='/editemployee'}}>Edit</button>
+            );
+          }
+          else {
+            return
+          }
 
-      selector: row => row.null,
-      cell: (row) => [
+        }
+      }
+      
+      // [
 
-        <a title='View Document' href="/editemployee" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success " onClick={() => localStorage.setItem('EmpmasterSno', `${row.sno}`)} >Edit</button></a>
+      //   <a title='View Document' href="/" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
+      //     <button className="editbtn btn-success " onClick={() => localStorage.setItem('EmpmasterSno', `${row.sno}`)} >Edit</button></a>
 
-      ]
+      // ]
     }
   ]
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await TotalEmployee(localStorage.getItem('Organisation'))
-      setData(result)
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Lock') {
-        document.getElementById('addempbtn').style.background = '#7795fa';
-      }
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'compliances')
-      if (UserRights.compliances_create === 'true') {
-        document.getElementById('addempbtn').style.display = "block";
-      }
-      if (UserRights.compliances_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
 
-      if (UserRights.compliances_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-    }
-    fetchdata();
-  }, [])
 
   const tableData = {
     columns, data
@@ -97,7 +147,7 @@ const ShowEmployee = () => {
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
           <h3 className="text-left ml-5"> Employee Master </h3>
-          <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => {  financialstatus !== 'Lock' ? window.location.href = "./addemployee" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Employee </button>
+          <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./addemployee" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Employee </button>
         </div>
         <div className="container-fluid">
           <div className="card w-100"  >

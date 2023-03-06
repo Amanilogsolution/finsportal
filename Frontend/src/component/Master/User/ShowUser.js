@@ -9,72 +9,6 @@ import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 
-const columns = [
-  {
-    name: 'Employee Name',
-    selector: row => row.employee_name,
-    sortable: true
-  },
-  {
-    name: 'Role',
-    selector: row => row.role,
-    sortable: true
-  },
-
-  {
-    name: 'Warehouse',
-    selector: row => row.warehouse,
-    sortable: true
-  },
-  {
-    name: 'UserId',
-    selector: row => row.user_id,
-    sortable: true
-  },
-  {
-    name: 'Email Id',
-    selector: row => row.email_id,
-    sortable: true
-  },
-  {
-    name: 'Customer',
-    selector: row => row.customer,
-    sortable: true
-  },
- 
-  
-  {
-    name: 'Status',
-    selector: 'null',
-    cell: (row) => [
-
-      <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-        <select onChange={async (e) => {
-          const status = e.target.value;
-          await deleteUser(row.sno, status)
-          window.location.href = 'ShowUser'
-        }}>
-          <option value={row.status} hidden> {row.status}</option>
-          <option value='Active'>Active</option>
-          <option value='Deactive' >Deactive</option>
-        </select>
-      </div>
-    ]
-  },
-
-  {
-    name: "Actions",
-    sortable: false,
-    selector: row => row.null,
-    cell: (row) => [
-
-      <a title='View Document' id={`editactionbtns${row.sno}`} style={{ display: "none" }} href="EditUser">
-        <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('userSno', `${row.sno}`)} >Edit</button></a>
-
-    ]
-  }
-]
-
 
 const ShowUser = () => {
   const [data, setData] = useState([])
@@ -82,7 +16,154 @@ const ShowUser = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await TotalUser()
+      setData(result)
+
+      fetchRoles();
+      // for (let i = 0; i <= result.length; i++) {
+      //   if (UserRights.users_edit === 'true') {
+      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
+      //   }
+      //   if (UserRights.users_delete === 'true') {
+      //     document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
+
+      //   }
+      // }
+    }
+
+    fetchdata()
+  }, [])
+
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+    if (financstatus === 'Lock') {
+      document.getElementById('adduserbtn').style.background = '#7795fa';
+    }
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'users')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    if (UserRights.users_create === 'true') {
+      document.getElementById('adduserbtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('exceluserbtn').style.display = "block";
+      }
+    }
+  }
+
+  const columns = [
+    {
+      name: 'UserId',
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Unit is Lock'>{row.user_id}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.users_edit === 'true') {
+            return (
+              <a title='Edit User' className='pb-1' href="EditUser" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('userSno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.user_id}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Unit'>{row.user_id}</p>
+          }
+
+        }
+      }
+    },
+    {
+      name: 'Employee Name',
+      selector: row => row.employee_name,
+      sortable: true
+    },
+    {
+      name: 'Role',
+      selector: row => row.role,
+      sortable: true
+    },
+
+    {
+      name: 'Warehouse',
+      selector: row => row.warehouse,
+      sortable: true
+    },
+    {
+      name: 'Email Id',
+      selector: row => row.email_id,
+      sortable: true
+    },
+    {
+      name: 'Customer',
+      selector: row => row.customer,
+      sortable: true
+    },
+    {
+      name: 'Status',
+      selector: 'null',
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.users_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    await deleteUser(row.sno, status)
+                    window.location.href = 'ShowUser'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            } else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
+
+                </div>
+              )
+            }
+          }
+
+        }
+      }
+    }
+
+  ]
+
+
+
 
 
   //##########################  Upload data start  #################################
@@ -156,37 +237,7 @@ const ShowUser = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await TotalUser()
-      setData(result)
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('adduserbtn').style.background = '#7795fa';
-      }
-
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'users')
-      if (UserRights.users_create === 'true') {
-        document.getElementById('adduserbtn').style.display = "block"
-        document.getElementById('exceluserbtn').style.display = "block"
-      }
-
-      for (let i = 0; i <= result.length; i++) {
-        if (UserRights.users_edit === 'true') {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-        if (UserRights.users_delete === 'true') {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-
-        }
-      }
-    }
-
-    fetchdata()
-  }, [])
 
   const tableData = {
     columns, data
@@ -201,34 +252,34 @@ const ShowUser = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-        <div className={`content-wrapper`}>
-          <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddUser": alert('You cannot Add in This Financial Year') }} className="btn btn-primary">ADD User</button>
-          <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-          <div className="container-fluid">
-            <br />
-            <h3 className="text-left ml-5">User</h3>
-            <br />
-            <div className="card" >
-              <article className={`card-body`}>
+      <div className={`content-wrapper`}>
+        <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">ADD User</button>
+        <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+        <div className="container-fluid">
+          <br />
+          <h3 className=" ml-5">User</h3>
+          <br />
+          <div className="card" >
+            <article className={`card-body py-1`}>
 
-                <DataTableExtensions
-                  {...tableData}
-                >
-                  <DataTable
-                    noHeader
-                    defaultSortField="id"
-                    defaultSortAsc={false}
-                    pagination
-                    highlightOnHover
-                    dense
-                    customStyles={customStyles}
-                  />
-                </DataTableExtensions>
-              </article>
-            </div>
+              <DataTableExtensions
+                {...tableData}
+              >
+                <DataTable
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={false}
+                  pagination
+                  highlightOnHover
+                  dense
+                  customStyles={customStyles}
+                />
+              </DataTableExtensions>
+            </article>
           </div>
         </div>
-      <Footer  />
+      </div>
+      <Footer />
 
       {/* ------------------ Modal start -----------------------------*/}
       <div

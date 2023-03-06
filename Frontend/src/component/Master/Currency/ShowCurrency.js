@@ -16,13 +16,65 @@ const ShowCurrency = () => {
   let [errorno, setErrorno] = useState(0);
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
-  const [financialstatus, setFinancialstatus] = useState('Deactive')
+  const [financialstatus, setFinancialstatus] = useState('Lock')
+
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const result = await Totalcurrency(localStorage.getItem('Organisation'))
+      setData(result);
+      fetchRoles()
+    }
+    fetchdata();
+
+
+  }, [])
+
+  const fetchRoles = async () => {
+    const org = localStorage.getItem('Organisation')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'currency')
+    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+
+    const financstatus = localStorage.getItem('financialstatus')
+    setFinancialstatus(financstatus);
+
+    if (financstatus === 'Lock') {
+      document.getElementById('addcurrencybtn').style.background = '#7795fa';
+    }
+    if (UserRights.currency_create === 'true') {
+      document.getElementById('addcurrencybtn').style.display = "block";
+      if (financstatus !== 'Lock') {
+        document.getElementById('uploadcurrencybtn').style.display = "block";
+      }
+    }
+  }
 
   const columns = [
     {
       name: 'Country Name',
-      selector: 'country_name',
-      sortable: true
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Currency is Lock'>{row.currency_name}</p>
+        } else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.currency_edit === 'true') {
+            return (
+              <a title='Edit Currency' className='pb-1' href="EditCurrency" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}>{row.currency_name}</a>
+            );
+          } else {
+            return <p title='Not Access to Edit Currency'>{row.currency_name}</p>
+          }
+
+        }
+      }
+
     },
     {
       name: 'Currency Name',
@@ -38,30 +90,50 @@ const ShowCurrency = () => {
       name: 'Status',
       sortable: true,
       selector: "null",
-      cell: (row) => [
-        <div className='droplist' id={`deleteselect${row.sno}`} style={{ display: "none" }}>
-          <select onChange={async (e) => {
-            const status = e.target.value;
-            await deleteCurrency(row.sno, status, localStorage.getItem("Organisation"))
-            window.location.href = 'ShowCurrency'
-          }}>
-            <option hidden value={row.status}> {row.status}</option>
-            <option>Active</option>
-            <option>Deactive</option>
-          </select>
-        </div>
-      ]
-    },
-    {
-      name: "Action",
-      sortable: false,
-      selector: "null",
-      cell: (row) => [
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return (
+            <div className='droplist'>
+              <p>{row.status}</p>
+            </div>
+          )
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+            window.location.reload()
+          }
+          else {
+            if (role.currency_delete === 'true') {
+              return (
+                <div className='droplist'>
+                  <select id={`deleteselect${row.sno}`} onChange={async (e) => {
+                    const status = e.target.value;
+                    console.log(status)
+                    await deleteCurrency(localStorage.getItem('Organisation'),row.sno, status)
+                    window.location.href = 'ShowCurrency'
+                  }}>
+                    <option value={row.status} hidden> {row.status}</option>
+                    <option value='Active'>Active</option>
+                    <option value='Deactive' >Deactive</option>
+                  </select>
+                </div>
+              );
+            } else {
+              return (
+                <div className='droplist'>
+                  <p>{row.status}</p>
 
-        <a title='View Document' href="EditCurrency" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>
-          <button className="editbtn btn-success px-1" onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} >Edit</button></a>
-      ]
-    }
+                </div>
+              )
+            }
+          }
+
+        }
+      }
+    },
+   
   ]
 
 
@@ -136,38 +208,7 @@ const ShowCurrency = () => {
   //##########################  for convert excel to array end #################################
 
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      const result = await Totalcurrency(localStorage.getItem('Organisation'))
-      setData(result);
 
-      const financstatus = localStorage.getItem('financialstatus')
-      setFinancialstatus(financstatus);
-      if (financstatus === 'Deactive') {
-        document.getElementById('addcurrencybtn').style.background = '#7795fa';
-      }
-
-
-      const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'currency')
-      if (UserRights.currency_create === 'true') {
-        document.getElementById('addcurrencybtn').style.display = "block";
-        document.getElementById('uploadcurrencybtn').style.display = "block";
-      }
-      if (UserRights.currency_edit === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-        }
-      }
-      if (UserRights.currency_delete === 'true') {
-        for (let i = 0; i < result.length; i++) {
-          document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-        }
-      }
-    }
-    fetchdata();
-
-
-  }, [])
 
   const tableData = {
     columns, data
@@ -183,7 +224,7 @@ const ShowCurrency = () => {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => {  financialstatus !== 'Lock' ? window.location.href = "./AddCurrency": alert('You cannot Add in This Financial Year')  }} className="btn btn-primary">Add Currency</button>
+        <button type="button" id='addcurrencybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCurrency" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Currency</button>
         <button type="button" id='uploadcurrencybtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
@@ -207,7 +248,7 @@ const ShowCurrency = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div
