@@ -304,7 +304,6 @@ function Invoices() {
     const handlechnageaddress = async (add, id) => {
         // e.preventDefault();
         // setBillingAddressLocation(e.target.value)
-        console.log(billingAddressLocation)
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
         // const [billadd, id] = e.target.value.split(',')
         setLocationid(id)
