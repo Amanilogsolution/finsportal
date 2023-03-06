@@ -23,17 +23,7 @@ const ShowUser = () => {
     const fetchdata = async () => {
       const result = await TotalUser()
       setData(result)
-
       fetchRoles();
-      // for (let i = 0; i <= result.length; i++) {
-      //   if (UserRights.users_edit === 'true') {
-      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-      //   }
-      //   if (UserRights.users_delete === 'true') {
-      //     document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-
-      //   }
-      // }
     }
 
     fetchdata()
