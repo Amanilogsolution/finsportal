@@ -20,7 +20,8 @@ const TotalCustomer = () => {
   const [year, setYear] = useState();
   const [newcountid, setNewcountid] = useState(0);
   const [newmcountid, setNewmcountid] = useState(0);
-  const [ActionToogle, setActionToogle] = useState(false);
+  // const [ActionToogle, setActionToogle] = useState(false);
+  const [ActionToogle, setActionToogle] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
@@ -36,10 +37,10 @@ const TotalCustomer = () => {
       setNewmcountid(getids[0].mcust_count)
       setNewcountid(getids[0].cust_count)
 
-    if(window.innerWidth<620 ){
-      setActionToogle(true)
-      document.getElementById('addtogglebtn').style.display='none'
-    }
+      // if(window.innerWidth<620 ){
+      //   setActionToogle(true)
+      //   document.getElementById('addtogglebtn').style.display='none'
+      // }
 
     }
     fetchdata();
@@ -340,12 +341,14 @@ const TotalCustomer = () => {
         <div className="content-wrapper">
           <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden customer-addDiv'>
             <h3 className="pl-5 ">Total Customer</h3>
-            <div className='d-flex overflow-hidden'>
-              <button className='btn btn-danger mr-2' id='addtogglebtn' onClick={handleAction}>
+            <div className='d-flex overflow-hidden addbtn-div'>
+              {/* <button className='btn btn-danger mr-2' id='addtogglebtn' onClick={handleAction}>
                 <span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span>
-              </button>
+              </button> */}
               <div className={ActionToogle ? 'showAction' : 'hideAction'}>
-                <button type="button" id='excelcustbtn' style={{ display: 'none' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button title='Upload Excel File' type="button" id='excelcustbtn' style={{ display: 'none' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                  <span className='uploadbtn-text'>Import excel file</span>
+                  <span className='uploadbtn-icons'><i className="fa fa-upload" aria-hidden="true"></i></span></button>
                 <button type="button" id='addcustbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
                 <button type="button" id='updatecustNamebtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./CustomerNames" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-1">Update Cust Names</button>
               </div>
