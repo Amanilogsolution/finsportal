@@ -170,6 +170,7 @@ function Invoices() {
         let tolgst = 0
         totalgst.map((item) => tolgst += item)
 
+        console.log(gstvalues[index])
         items[index] = {
             itemsvalue: chargecodes[chargecodes.length - 1], quantity: Quantitys[index], rate: rate[index],
             tax: gstvalues[index], unit: value,
@@ -185,7 +186,6 @@ function Invoices() {
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
         document.getElementById('previewbtn').disabled = false;
-        console.log(billingAddressLocation)
         // let location = document.getElementById('locationadd')
         // location = location.options[location.selectedIndex].text;
         let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
@@ -347,8 +347,9 @@ function Invoices() {
 
     const handlesavebtn = async (e) => {
         e.preventDefault();
-        document.getElementById('savebtn').disabled = true;
-        document.getElementById('postbtn').disabled = true;
+        console.log(items)
+        // document.getElementById('savebtn').disabled = true;
+        // document.getElementById('postbtn').disabled = true;
         let invoiceids = "";
         let squ_nos = ""
         const btn_type = e.target.value;
@@ -411,28 +412,34 @@ function Invoices() {
             cgstamount = taxableamt / 2
             sgstamount = taxableamt / 2
             utgstamount = taxableamt / 2
-
         }
 
-
-        const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
-            squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
-
-
-
-        if (btn_type !== 'save') {
-            const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+        // Insert Data
+        if (!custid || !billsubtotal || !consignee) {
+            alert('Please Select Customer');
         }
+        else {
+            const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+                squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+                total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+                paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
 
-        amount.map(async (amt, index) => {
-            const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
-        })
-        if (result) {
-            alert('Added')
-            window.location.reload();
+            if (result === 'Added') {
+                amount.map(async (amt, index) => {
+                    const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
+                })
+
+                if (btn_type !== 'save') {
+                    const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+                }
+                alert('Added')
+                window.location.href = './SaveInvoice';
+            }
+            else {
+                alert('Server not Response');
+                window.location.reload();
+            }
         }
 
     }

@@ -37,9 +37,8 @@ const InsertInvoice = async (req, res) => {
     const User_id = req.body.User_id;
     const cust_location_addrs = req.body.custaddrs;
     const cust_location_gst = req.body.custAddgst;
-    const destination= req.body.destination;
-    const origin= req.body.origin;
-    
+    const destination = req.body.destination;
+    const origin = req.body.origin;
 
     try {
         await sql.connect(sqlConfig)
@@ -51,8 +50,6 @@ const InsertInvoice = async (req, res) => {
             '${major}','${location}','${custid}','${billsubtotal}','${total_tax}','${cust_locationid}','${cust_location_addrs}','${cust_location_gst}','${remark}','${flagsave}','${location_name}','${consignee}','${cust_family}',
             '${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}','${taxable_amt}','${currency_type}','${sales_person}','${payment_term}','${due_date}','${origin}','${destination}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
         res.send('Added')
-
-
     }
     catch (err) {
         res.send(err)
@@ -65,6 +62,7 @@ const filterInvoice = async (req, res) => {
     const lastDate = req.body.lastDate;
     const custid = req.body.custid;
     const locationid = req.body.locationid;
+
     try {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
@@ -111,4 +109,4 @@ const getSaveInvoice = async (req, res) => {
 
 }
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice,getSaveInvoice }
+module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice }

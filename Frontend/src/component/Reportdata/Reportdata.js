@@ -52,11 +52,9 @@ const Reportdata = () => {
       const Customer = document.getElementById('customer');
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
-      console.log(locationid)
       setVendcustname(Customer.options[Customer.selectedIndex].text)
 
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
-      console.log(result)
       setData(result)
     }
     else if (report_type === 'Bills') {
