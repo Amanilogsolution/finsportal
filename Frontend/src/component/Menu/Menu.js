@@ -476,7 +476,7 @@ const Menu = (props) => {
                   </a>
                 </li>
               </ul>
-              <ul className="nav nav-treeview"  >
+              <ul className="nav nav-treeview">
                 <li className="nav-item" id="usermenu" >
                   <a href="/ShowUser" className="nav-link active">
                     <i className="far fa-user nav-icon" />
@@ -516,7 +516,7 @@ const Menu = (props) => {
             <li className="nav-item" id='reportMenu' style={{ display: "none" }}>
               <a href="/Reportdata" className="nav-link active">
                 <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
-                <p > Report </p>
+                <p> Report </p>
               </a>
             </li>
 

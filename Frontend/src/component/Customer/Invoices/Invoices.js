@@ -8,7 +8,7 @@ import {
     // ActiveUser
     SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount
 } from '../../../api/index'
-
+import './invoice.css'
 
 function Invoices() {
     const [loading, setLoading] = useState(true)
@@ -57,7 +57,8 @@ function Invoices() {
     const [chargecodes, setChargeCode] = useState([])
 
     const [index, setIndex] = useState()
-
+    const [billingAddressLocation, setBillingAddressLocation] = useState([])
+    const [custAddressLocation, setCustAddressLocation] = useState([])
 
     const [allInvoiceData, setAllInvoiceData] = useState({
         Activity: "",
@@ -104,20 +105,14 @@ function Invoices() {
             // const result2 = await ActiveUser()
             // setActiveUser(result2)
             Todaydate()
-
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
-
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
-
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
-
-
         }
         fetchdata()
     }, [])
@@ -148,13 +143,10 @@ function Invoices() {
     const handleAccountTerm = (e) => {
         const days = Number(e.target.value)
         Duedate(days)
-
     }
 
     const handleChangeItems = async (value, index) => {
-
         const [actgst, chargecode, glcodes] = value.split(',')
-        console.log(actgst, chargecode, glcodes)
         chargecodes[index] = chargecode
         glcode[index] = glcodes
         if (actgst > 0) {
@@ -188,17 +180,20 @@ function Invoices() {
     const handleSubTotal = (e) => {
         console.log(amount)
         e.preventDefault();
-
         document.getElementById('additembtm').disabled = true;
         document.getElementById('removeitembtm').disabled = true;
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
         document.getElementById('previewbtn').disabled = false;
+        console.log(billingAddressLocation)
+        // let location = document.getElementById('locationadd')
+        // location = location.options[location.selectedIndex].text;
+        let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
 
-        let location = document.getElementById('locationadd')
-        location = location.options[location.selectedIndex].text;
-        let custaddrs = document.getElementById('custaddr')
-        custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+        // let custaddrs = document.getElementById('custaddr')
+        // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+        let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
+
         const igst = document.getElementById('igstipt').value;
         let cgstamount = 0;
         let sgstamount = 0;
@@ -242,9 +237,6 @@ function Invoices() {
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
             Totalamounts: totalamout, OriginState: billingaddress, DestinationState: custaddress_state
         })
-
-
-
     }
 
     const handleChangerate = (value, indexes) => {
@@ -309,13 +301,14 @@ function Invoices() {
         setCutomerAddress(cust_add)
     }
 
-    const handlechnageaddress = async (e) => {
-        e.preventDefault();
+    const handlechnageaddress = async (add, id) => {
+        // e.preventDefault();
+        // setBillingAddressLocation(e.target.value)
         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
-        const [billadd, id] = e.target.value.split(',')
+        // const [billadd, id] = e.target.value.split(',')
         setLocationid(id)
-        const billing_add = billadd;
-        setBillingAddress(billadd)
+        const billing_add = add;
+        setBillingAddress(add)
         const invoicepefix = fin_year[0].invoice_ser;
         let invoicecitypre = (billing_add.substring(0, 3));
         invoicecitypre = invoicecitypre.toUpperCase();
@@ -329,9 +322,7 @@ function Invoices() {
         setInvoiceid(invoiceid);
     }
 
-    const handleChangeCustomerAdd = (e) => {
-        e.preventDefault();
-        const [state, address_id, custaddgst] = e.target.value.split(' ')
+    const handleChangeCustomerAdd = (state, address_id, custaddgst) => {
         setCustaddstate(state)
         setLocationCustAddid(address_id)
         setCustAddGst(custaddgst)
@@ -382,8 +373,11 @@ function Invoices() {
         const billsubtotal = totalamout
         const total_tax = Math.max(...totalgst)
         const remark = document.getElementById('custnotes').value;
-        let location = document.getElementById('locationadd')
-        location = location.options[location.selectedIndex].text;
+
+        // let location = document.getElementById('locationadd')
+        // location = location.options[location.selectedIndex].text;
+        let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
+
         let consignee = document.getElementById('custname')
         consignee = consignee.options[consignee.selectedIndex].text;
         const currency_type = document.getElementById('currency').value
@@ -397,8 +391,10 @@ function Invoices() {
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
 
-        let custaddrs = document.getElementById('custaddr')
-        custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+        // let custaddrs = document.getElementById('custaddr')
+        // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+        let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
+
         const invoice_destination = custaddress_state;
         const invoice_origin = billingaddress;
 
@@ -418,9 +414,6 @@ function Invoices() {
 
         }
 
-        // console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-        //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-        //     paymentterm, Duedate, User_id)
 
         const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
             squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
@@ -481,7 +474,7 @@ function Invoices() {
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        <select
+                                                        {/* <select
                                                             id="custaddr"
                                                             className="form-control"
                                                             onChange={handleChangeCustomerAdd}>
@@ -493,14 +486,21 @@ function Invoices() {
                                                                 ))
                                                             }
 
-                                                        </select>
+                                                        </select> */}
+
+
+                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal">
+                                                            {
+                                                                custAddressLocation.length > 0 ? custAddressLocation : 'Select Customer Address Location'
+                                                            }
+                                                        </button>
                                                     </div>
                                                 </div>
 
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        <select
+                                                        {/* <select
                                                             id="locationadd"
                                                             className="form-control"
                                                             onChange={handlechnageaddress}>
@@ -510,7 +510,15 @@ function Invoices() {
                                                                     <option key={index} value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</option>
                                                                 )
                                                             }
-                                                        </select>
+                                                        </select> */}
+
+
+
+                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal">
+                                                            {
+                                                                billingAddressLocation.length > 0 ? billingAddressLocation : 'Select Billing Address Location'
+                                                            }
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div className="form-row mt-3">
@@ -557,7 +565,6 @@ function Invoices() {
                                                     <div className="d-flex col-md-3" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
                                                         <input type="date" className={`form-control col-md-6  cursor-notallow`} id="Duedate" disabled />
-
                                                     </div>
                                                 </div>
 
@@ -779,6 +786,72 @@ function Invoices() {
                 </div>
                 <Footer />
             </div>
+
+
+            {/* modal Bill Address  Start*/}
+            <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
+                            <ul>
+                                {
+                                    locationstate.map((item, index) =>
+                                        <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
+                                            onClick={() => { handlechnageaddress(item.location_state, item.location_id); setBillingAddressLocation([item.location_add1, item.location_city, item.location_country]) }}
+                                            value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</li>
+                                    )
+                                }
+                            </ul>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* modal Bill Address  End*/}
+
+            {/* modal Customer Address  Start*/}
+            <div className="modal fade  bd-example-modal-lg" id="custAddnmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
+                            <ul>
+                                {
+                                    cutomerAddress.length > 0 ?
+                                        cutomerAddress.map((items, index) => (
+                                            <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
+                                                onClick={() => {
+                                                    handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
+                                                    setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
+                                                }}
+                                                value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>
+                                                {items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</li>
+                                        ))
+                                        : 'Select Customer'
+                                }
+                            </ul>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* modal Customer Address  End*/}
+
         </>
     )
 }

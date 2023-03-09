@@ -7,3 +7,16 @@ padding: 0px 5px;
     border: none;
 } */
 
+
+.billingadd-li{
+    padding-left: 10px;
+    margin-left: 5px;
+}
+
+
+.billingadd-li:not(:first-child){
+    border-top:1px solid rgb(174, 171, 171);
+}
+.billingadd-li:hover{
+    background: rgb(203, 203, 203);
+}

@@ -23,17 +23,7 @@ const ShowUser = () => {
     const fetchdata = async () => {
       const result = await TotalUser()
       setData(result)
-
       fetchRoles();
-      // for (let i = 0; i <= result.length; i++) {
-      //   if (UserRights.users_edit === 'true') {
-      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-      //   }
-      //   if (UserRights.users_delete === 'true') {
-      //     document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-
-      //   }
-      // }
     }
 
     fetchdata()
@@ -253,7 +243,7 @@ const ShowUser = () => {
       </div>
       <Header />
       <div className={`content-wrapper`}>
-        <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">ADD User</button>
+        <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">ADD User</button>
         <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
@@ -358,7 +348,7 @@ const ShowUser = () => {
         <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content`}>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel" style={{ color: "red" }}>
+              <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
               </h5>
               <button
@@ -367,7 +357,7 @@ const ShowUser = () => {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" style={{ color: "red" }}
+                <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
                     window.location.reload()
@@ -381,7 +371,7 @@ const ShowUser = () => {
                 backenddata ?
                   <>
                     <h5 style={{ margin: "auto" }}>This data already exist</h5>
-                    <table style={{ color: "red", textAlign: "center", margin: "auto" }}>
+                    <table className='text-danger text-center' style={{ margin: "auto" }}>
                       <thead>
                         <tr>
                           <th style={styleborder}>user_name</th>

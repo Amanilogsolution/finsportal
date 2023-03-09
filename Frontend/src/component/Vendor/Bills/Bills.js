@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-
+import './bill.css'
 import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertVendorSubInvoice, Updatefinancialcount, UploadData, GetPodetailsVendor } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
 
@@ -478,13 +478,13 @@ function Bills() {
                                                 }
 
                                             </select> */}
-                                            <button type="button" class="btn border" data-toggle="modal" data-target="#locationmodal">
-                                            {
-                                                vendorlocations?vendorlocations:'Select Vendor Location'
-                                            }
-                                        </button>
+                                            <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal">
+                                                {
+                                                    vendorlocations ? vendorlocations : 'Select Vendor Location'
+                                                }
+                                            </button>
                                         </div>
-                                      
+
                                     </div>
 
                                     <div className="form-row mt-3" >
@@ -831,25 +831,29 @@ function Bills() {
                 </div>
                 <Footer />
                 {/* modal  Start*/}
-                <div class="modal fade" id="locationmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
-                                {/* <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div className="modal fade bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
+                                {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button> */}
                             </div>
-                            <div class="modal-body">
-                            {
-                                                    vendorlocation.map((item, index) =>
-                                                        <li key={index} value={item.billing_address_attention} className="cursor-pointer" data-dismiss="modal" onClick={(e)=> setVendorLocations(item.billing_address_attention)}>{item.billing_address_attention}</li>
-                                                        )
-                                                }
+                            <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
+                                <ul>
+                                    {
+                                        vendorlocation.length > 0 ?
+                                            vendorlocation.map((item, index) =>
+                                                <li key={index} value={item.billing_address_attention} className="cursor-pointer vendlocation-li" data-dismiss="modal" onClick={(e) => setVendorLocations(item.billing_address_attention)}>{item.billing_address_attention}</li>
+                                            )
+                                            : ' Select Vendor'
+                                    }
+                                </ul>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                {/* <button type="button" class="btn btn-primary">Save changes</button> */}
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                {/* <button type="button" className="btn btn-primary">Save changes</button> */}
                             </div>
                         </div>
                     </div>

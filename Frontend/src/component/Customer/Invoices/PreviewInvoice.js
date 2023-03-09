@@ -136,7 +136,7 @@ const InvoicePreview = (props) => {
                 <h4>{props.Allinvoicedata.GrandTotal}</h4>
               </div>
               <div className="invoicevalword">
-                <h4><b>Total Invoice Value (In Figure) :</b></h4>
+                <h5><b>Total Invoice Value (In Figure) :</b></h5>
                 <h4>{DecamalNumber.toWords(Number(props.Allinvoicedata.GrandTotal))} only </h4>
               </div>
               <div className="amounttax">

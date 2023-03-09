@@ -154,16 +154,17 @@ const Header = () => {
                 <ul className="list-group list-group-flush">
                   {
                     financialyeardata.map((item, index) => (
-                      <li key={index} className={`list-group-item bg-${themeval}`}>
-                        <a href="#" style={{ color: "blue", }}>
+                      <li key={index} className={`list-group-item bg-${themeval}`}
+                        onClick={() => {
+                          localStorage.setItem('fin_year', item.fin_year);
+                          localStorage.setItem('year', item.year);
+                          localStorage.setItem('financialstatus', item.financial_year_lock);
+                          window.location.reload()
+                        }
+                        }>
+                        <a href="#">
                           {/* <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp; */}
-                          <span className="orgnamehover" onClick={() => {
-                            localStorage.setItem('fin_year', item.fin_year);
-                            localStorage.setItem('year', item.year);
-                            localStorage.setItem('financialstatus', item.financial_year_lock);
-                            window.location.reload()
-                          }
-                          }>{item.fin_year}</span>
+                          <span className="orgnamehover" >{item.fin_year}</span>
                         </a>
 
                       </li>

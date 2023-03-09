@@ -622,7 +622,7 @@ const Customer = () => {
                       htmlFor="user_name"
                       className="col-md-2 col-form-label font-weight-normal"
                     >
-                      <span style={{ color: "red" }}>
+                      <span className="text-danger">
                         GST Treatment *
                       </span>
                     </label>
@@ -685,7 +685,7 @@ const Customer = () => {
                       htmlFor="user_name"
                       className="col-md-2 col-form-label font-weight-normal"
                     >
-                      <span style={{ color: "red" }}>
+                      <span className="text-danger">
                         Place Of Supply *
                       </span>
                     </label>
@@ -714,7 +714,7 @@ const Customer = () => {
                         htmlFor="user_name"
                         className="col-md-2 col-form-label font-weight-normal"
                       >
-                        <span style={{ color: "red" }}>
+                        <span className="text-danger">
                           Tax Preference *
                         </span>
                       </label>
@@ -777,7 +777,7 @@ const Customer = () => {
                       htmlFor="user_name"
                       className="col-md-2 col-form-label font-weight-normal"
                     >
-                      <span style={{ color: "red" }}>Currency *</span>
+                      <span className="text-danger">Currency *</span>
                     </label>
                     <div className="col-md-4 form-group pr-0">
                       <select
