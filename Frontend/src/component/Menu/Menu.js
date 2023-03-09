@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Finslogo from '../../images/finslogo.png'
-import { getUserRole } from '../../api/index'
-
+import { getUserRole, GetfincialyearNavbar } from '../../api/index'
+import './menu.css'
 
 const Menu = (props) => {
+  const [financialyeardata, setFinancialYearData] = useState([])
+
   const currentorg = localStorage.getItem('Organisation Name');
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await getUserRole(localStorage.getItem('Organisation'), localStorage.getItem('Role'))
       Rolefunction(result)
+      const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
+      setFinancialYearData(financialyear)
+
     }
     fetchdata()
   }, [])
@@ -520,6 +525,35 @@ const Menu = (props) => {
               </a>
             </li>
 
+
+            <li className="nav-item financial-year-change" id="finsyear">
+              <a className="nav-link active">
+                <i className="fa fa-calendar" aria-hidden="true"></i>
+                <p >
+                  &nbsp;  Financial Year
+                  <i className="right fas fa-angle-left" />
+                </p>
+              </a>
+              <ul className="nav nav-treeview">
+                {
+                  financialyeardata.map((item, index) => (
+                    <li key={index} className="nav-item"
+                      onClick={() => {
+                        localStorage.setItem('fin_year', item.fin_year);
+                        localStorage.setItem('year', item.year);
+                        localStorage.setItem('financialstatus', item.financial_year_lock);
+                        window.location.reload()
+                      }
+                      }>
+                      <a href="#" className="nav-link active">
+                        <i  className="fa fa-calendar" aria-hidden="true" ></i> &nbsp;
+                        <span  >{item.fin_year}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </li>
           </ul>
         </nav>
       </div>

@@ -250,10 +250,10 @@ const TotalCustAddress = () => {
         </div>
         <Header />
         <div className="content-wrapper">
-          <div className='d-flex pt-4 pb-3 px-5  justify-content-between'>
-            <h3 className=" ml-5">Customer Address</h3>
+          <div className='d-flex pt-4 pb-3  justify-content-between heading-div'>
+            <h3 className=" ">Customer Address</h3>
             <div>
-              <button type="button" id='uploadCustAddress-btn' style={{ display: 'none' }} className="btn btn-success mx-4" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
+              <button type="button" id='uploadCustAddress-btn' style={{ display: 'none' }} className="btn btn-success mr-1" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
               <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCustAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary" id='addCustAddress-btn'>Add Address</button>
             </div>
           </div>

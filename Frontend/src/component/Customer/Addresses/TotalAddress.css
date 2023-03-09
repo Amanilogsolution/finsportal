@@ -48,3 +48,16 @@
 .vendliststyle:hover{
     background:rgb(164, 197, 212);
 } */
+
+.heading-div{
+    padding: 0px 5%;
+}
+
+@media screen and (max-width:680px) {
+    .heading-div{
+        flex-direction: column;
+    }
+}
+@media screen and (max-width:420px) {
+   
+}

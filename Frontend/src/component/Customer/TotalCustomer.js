@@ -31,22 +31,15 @@ const TotalCustomer = () => {
 
       fetchRoles()
 
-      // const UserRights = await getUserRolePermission(localStorage.getItem('Organisation'), localStorage.getItem('Role'), 'customer')
-      // for (let i = 0; i <= result.length; i++) {
-      //   if (UserRights.customer_edit === 'false') {
-      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "none";
-
-      //   }
-      //   if (UserRights.customer_delete === 'false') {
-      //     document.getElementById(`droplist${result[i].sno}`).style.display = "none";
-
-      //   }
-      // }
-
       let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
       setYear(getids[0].year);
       setNewmcountid(getids[0].mcust_count)
       setNewcountid(getids[0].cust_count)
+
+    if(window.innerWidth<620 ){
+      setActionToogle(true)
+      document.getElementById('addtogglebtn').style.display='none'
+    }
 
     }
     fetchdata();
@@ -345,10 +338,10 @@ const TotalCustomer = () => {
         </div>
         <Header />
         <div className="content-wrapper">
-          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden '>
+          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden customer-addDiv'>
             <h3 className="pl-5 ">Total Customer</h3>
             <div className='d-flex overflow-hidden'>
-              <button className='btn btn-danger mr-2' onClick={handleAction}>
+              <button className='btn btn-danger mr-2' id='addtogglebtn' onClick={handleAction}>
                 <span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span>
               </button>
               <div className={ActionToogle ? 'showAction' : 'hideAction'}>
