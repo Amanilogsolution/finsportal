@@ -112,6 +112,7 @@ function Invoices() {
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
             const ActiveAccount = await ActiveAccountMinorCode(org)
+            console.log(ActiveAccount)
             setActiveAccount(ActiveAccount)
         }
         fetchdata()
@@ -332,7 +333,9 @@ function Invoices() {
         e.preventDefault();
         let val = document.getElementById('Activity');
         let text = val.options[val.selectedIndex].text;
-        let major_code = val.value;
+        let activity_val = val.value;
+        let major_code= activity_val.slice(0, activity_val.indexOf(','))
+        // console.log(activity_val.slice(activity_val.indexOf(',')+1))
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
@@ -388,7 +391,8 @@ function Invoices() {
         const sgst = document.getElementById('sutgstipt').value;
         const utgst = document.getElementById('sutgstipt').value;
         const igst = document.getElementById('igstipt').value;
-        const Major = document.getElementById('Activity').value;
+        let Major = document.getElementById('Activity').value;
+        Major = Major.slice(Major.indexOf(',')+1)
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
 
@@ -419,6 +423,12 @@ function Invoices() {
             alert('Please Select Customer');
         }
         else {
+            console.log(localStorage.getItem('Organisation'), fin_year, invoiceids,
+            squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+            paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
+
+
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
                 total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
@@ -427,6 +437,7 @@ function Invoices() {
 
             if (result === 'Added') {
                 amount.map(async (amt, index) => {
+                    // console.log('Sub Invoice + ',localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
                     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
                 })
 
@@ -583,7 +594,7 @@ function Invoices() {
                                                             <option value='' hidden>Select Activity</option>
                                                             {
                                                                 Activeaccount.map((items, index) => (
-                                                                    <option key={index} value={items.account_type_code}>{items.account_name}</option>
+                                                                    <option key={index} value={[items.account_type_code,items.account_name_code]}>{items.account_name}</option>
                                                                 ))
                                                             }
                                                         </select>

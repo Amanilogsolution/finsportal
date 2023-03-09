@@ -55,6 +55,7 @@ const Reportdata = () => {
       setVendcustname(Customer.options[Customer.selectedIndex].text)
 
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
+    
       setData(result)
     }
     else if (report_type === 'Bills') {

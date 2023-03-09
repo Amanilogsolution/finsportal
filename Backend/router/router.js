@@ -307,6 +307,7 @@ router.post('/getaccountminorcode',AccountMinorCodeController.GetAccountMinorCod
 router.post('/updateaccountminorcode',AccountMinorCodeController.UpdateAccountMinorCode)
 router.post('/activeaccountminorcode',AccountMinorCodeController.ActiveAccountMinorCode)
 router.post('/importaccountminorcode',AccountMinorCodeController.ImportAccountMinorCode)
+router.post('/GetAccountMinorCodeName',AccountMinorCodeController.GetAccountMinorCodeName)
 
 
 router.post('/totalchartofaccount',ChartOfAccountMasterController.TotalChartOfAccount)

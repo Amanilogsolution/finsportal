@@ -105,7 +105,7 @@ function EditOrganisation() {
         <div className={`content-wrapper `}>
           <div className="container-fluid">
             <div className='py-3 px-5 d-flex justify-content-between '>
-              <h3 className="-3 ml-5">Organization Details</h3>
+              <h3 className="-3 ml-5">Organisation Details</h3>
               <button className='btn btn-success mx-3'
                 onClick={(e) => {
                   e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
@@ -137,7 +137,7 @@ function EditOrganisation() {
                   <div className='inp-div'>
                     <div className="form-row">
                       <div className="col form-group">
-                        <label>Organization Name <span className='text-danger'>*</span> </label>
+                        <label>Organisation Name <span className='text-danger'>*</span> </label>
                         <input type="text" className={`form-control cursor-notallow `} id="org_name" disabled value={data.org_name} />
                       </div>
                       <div className="col form-group">

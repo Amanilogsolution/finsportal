@@ -1067,6 +1067,10 @@ export const ActiveAccountMinorCode = async (org) => {
     const url = `http://localhost:3008/api/activeaccountminorcode`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+export const GetAccountMinorCodeName = async (org,account_name_code) => {
+    const url = `http://localhost:3008/api/GetAccountMinorCodeName`
+    return axios.post(url, { org,account_name_code }).then(response => response.data).catch(error => console.log(error));
+}
 // 
 export const ImportAccountMinorCode = async (org, datas, User_id) => {
     const url = `http://localhost:3008/api/importaccountminorcode`
@@ -1215,7 +1219,6 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
 }
 
 export const GetInvoice = async (org, invoiceno) => {
-    console.log(org, invoiceno)
     const url = `http://localhost:3008/api/getinvoice`
     return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
@@ -1223,7 +1226,7 @@ export const GetSaveInvoice = async (org) => {
     const url = `http://localhost:3008/api/getsaveinvoice`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-
+// 
 
 
 // ###########################  For Invoice api End ############################

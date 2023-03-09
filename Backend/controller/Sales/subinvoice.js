@@ -47,6 +47,7 @@ const InsertSubInvoice = async (req, res) => {
 const getSubInvoice = async(req,res) =>{
  const org = req.body.org;
  const invoiceno = req.body.invoiceno;
+ console.log(invoiceno)
  try{
     await sql.connect(sqlConfig)
     const result = await sql.query(`select * from ${org}.dbo.tbl_subinvoice with (nolock) where invoice_no='${invoiceno}'`)

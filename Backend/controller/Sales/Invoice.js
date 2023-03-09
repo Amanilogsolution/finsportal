@@ -100,7 +100,7 @@ const getSaveInvoice = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate ,convert(varchar(15),due_date,121) as lastdate from ${org}.dbo.tbl_invoice with (nolock) where flagsave='save'`)
+        const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate ,convert(varchar(15),due_date,121) as lastdate from ${org}.dbo.tbl_invoice with (nolock) where flagsave='save' order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {

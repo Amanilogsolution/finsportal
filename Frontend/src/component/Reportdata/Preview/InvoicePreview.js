@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import { GetInvoice, GetSubInvoice } from '../../../api/index'
+import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName } from '../../../api/index'
 
 
 const InvoicePreview = () => {
@@ -30,6 +30,7 @@ const InvoicePreview = () => {
       Totalamount: ''
     }
   ])
+  const [activity, setActivity] = useState('')
 
   useEffect(() => {
     const fetch = async () => {
@@ -37,6 +38,8 @@ const InvoicePreview = () => {
       const org = localStorage.getItem('Organisation')
       const result = await GetInvoice(org, preview)
       setData(result[0])
+      const activity_code = await GetAccountMinorCodeName(org, result[0].major)
+      setActivity(activity_code)
       const result1 = await GetSubInvoice(org, preview)
       setSubInv(result1)
     }
@@ -76,7 +79,7 @@ const InvoicePreview = () => {
               </div>
               <div className="invoicediv">
                 <div className="inerinvoicediv">
-                  <div className="firstinvoicediv"><b>Activity :</b>{data.major}</div>
+                  <div className="firstinvoicediv"><b>Activity :</b>{activity}</div>
                   <div className="secondinvoicediv" >
                     <b>TAX INVOICE NO :</b>&nbsp; {data.invoice_no} &nbsp;
                   </div>
@@ -150,7 +153,7 @@ const InvoicePreview = () => {
                           <td>{item.taxableamount}</td>
                           <td>{item.unit}</td>
                           <td>{item.amount}</td>
-                          <td>{Number(item.amount)+Number(item.taxableamount)}</td>
+                          <td>{Number(item.amount) + Number(item.taxableamount)}</td>
                         </tr>
                       ))
                     }

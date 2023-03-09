@@ -3,12 +3,13 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import InvoicePreview from '.././PreviewInvoice';
 import InvoicePreviewWithGst from '.././PreviewInvoicewithoutGST'
-import { GetInvoice, GetSubInvoice } from '../../../../api/index'
+import { GetInvoice, GetSubInvoice,GetAccountMinorCodeName } from '../../../../api/index'
 
 
 function EditInvoice() {
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
+    const [activity, setActivity] = useState('')
 
 
     useEffect(() => {
@@ -19,6 +20,8 @@ function EditInvoice() {
             setInvoice_detail(Invoiceresult[0])
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)
+            const activity_code= await GetAccountMinorCodeName(org,Invoiceresult[0].major)
+            setActivity(activity_code)
         }
         fetchdata()
     }, [])
@@ -119,23 +122,24 @@ function EditInvoice() {
                                     <div className="form-row mt-2">
                                         <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md-4">
-                                            <select
-                                                id="custaddr"
-                                                className={`form-control `}>
+                                            {/* <select
+                                                id="custaddr" className={`form-control `}>
                                                 <option value={invoice_detail.cust_locationid} hidden>{invoice_detail.cust_location_add}</option>
-                                            </select>
+                                            </select> */}
+                                           <span className='border p-2 rounded'>{invoice_detail.cust_location_add}</span> 
                                         </div>
                                     </div>
 
                                     <div className="form-row mt-2">
                                         <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md-4">
-                                            <select
+                                            {/* <select
                                                 id="locationadd"
                                                 className={`form-control `}>
                                                 <option value={invoice_detail.location} hidden>{invoice_detail.location_name}</option>
 
-                                            </select>
+                                            </select> */}
+                                            <span className='border p-2 rounded'>{invoice_detail.location_name}</span> 
                                         </div>
                                     </div>
 
@@ -178,10 +182,12 @@ function EditInvoice() {
                                     <div className="form-row mt-2">
                                         <label className="col-md-2 col-form-label font-weight-normal" >Activity <span className='text-danger'>*</span></label>
                                         <div className="d-flex col-md-4">
-                                            <select id="Activity" className={`form-control  `} >
+                                            {/* <select id="Activity" className={`form-control  `} >
                                                 <option value={invoice_detail.major} hidden>{invoice_detail.major} </option>
 
-                                            </select>
+                                            </select> */}
+                                            <span className='border p-2 rounded'>{activity.account_name}</span> 
+                                            
                                         </div>
                                     </div>
                                     <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
@@ -210,19 +216,6 @@ function EditInvoice() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {/*<tr>
-
-                                                             <td>Abc Test</td>
-                                                                <td>Abc Test</td>
-                                                                <td>Abc Test</td>
-                                                                <td>Abc Test</td>
-                                                                <td>Abc Test</td>
-                                                                <td>Abc Test</td>
-                                                                <td>Abc Test</td>
-
-                                                            </tr> */}
-
-                                            {/* ############################################ Rupesh */}
                                             {
                                                 invoicesub.map((item, index) => (
                                                     <tr key={index}>
@@ -230,62 +223,17 @@ function EditInvoice() {
                                                         <td>{item.minor}</td>
                                                         <td>{item.quantity}</td>
                                                         <td>{item.rate}</td>
-                                                        <td>{item.taxable === 'No' ? '0' : item.taxable}</td>
+                                                        <td>{item.taxableamount}</td>
                                                         <td>{item.unit}</td>
                                                         <td>{item.amount}</td>
-                                                        <td>{item.amount}</td>
-
+                                                        <td>{Number(item.amount) + Number(item.taxableamount)}</td>
                                                     </tr>
 
                                                 ))
                                             }
-                                            {/* ############################################ Rupesh */}
 
-
-
-                                            {/* {
-                                                            totalValues.map((element, index) => (
-                                                                        <tr key={index}>
-                                                                            <div id='trdiv'>
-                                                                                <td className="col-md-2 pl-0 pr-0">
-                                                                                    <select onChange={handleChangeItems} id="gstvalue" className="form-control col-md-">
-                                                                                        <option value='' hidden > Select item</option>
-                                                                                      
-                                                                                    </select>
-                                                                                </td>
-                                                                            </div>
-                                                                            <td className='col-md-2 pl-0 pr-0'>
-                                                                                <input className="form-control col-md" style={{ border: "none" }} type="number" id="Quality" placeholder="0" onChange={(e) => {
-                                                                                    const quantity = e.target.value
-             
-                                                                                }} /></td>
-
-                                                                            <td className='col-md-2 pl-0 pr-0'>
-                                                                                <input className="form-control col-md" style={{ border: "none" }} type="number" id="Rate" placeholder="0"
-                                                                                    />
-                                                                            </td>
-                                                                            <td id="gst" className='col-md-1'>{gstvalues[index]}</td>
-
-                                                                            <td className='pl-0 pr-0 col-md-2'>
-                                                                                <select onChange={handleChangeUnit} className="form-control col-md" id='unitdrop'>
-                                                                                    <option value='' hidden> Select Unit</option>
-
-                                                                                </select>
-                                                                            </td>
-                                                                            <td id="amountvalue">{amount[index] ? amount[index] : 0}</td>
-                                                                            <td id="Totalsum">{Totalamountnew[index] ? Totalamountnew[index] : 0}</td>
-                                                                        </tr>
-                                                                    ))
-                                                        } */}
                                         </tbody>
                                     </table>
-
-                                    {/*######################## Rupesh
-                                                 <button className="btn btn-primary" id='additembtm'>Add Item</button>   &nbsp;
-                                                <button className="btn btn-danger" id='removeitembtm'>Remove</button>  
-                                                 ########################## Rupesh */}
-
-
                                     <hr />
 
                                     <div style={{ display: "flex" }}>
@@ -302,14 +250,17 @@ function EditInvoice() {
                                         <div className="ml-2" style={{ width: "55%", background: '#eee', padding: "5px", borderRadius: "7px" }}>
                                             <table className='w-100'>
                                                 <tbody>
-                                                    <tr>
+                                                    {/* Display none Button Start */}
+                                                    <tr style={{ display: 'none' }}>
                                                         <td><button className="btn btn-primary" id='subtotalbtn'>Sub Total</button></td>
                                                     </tr>
+                                                    {/* Display none Button End */}
+
                                                     <tr id='cgstinp' >
                                                         <td>CGST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='cgstipt' disabled />
+                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='cgstipt' defaultValue={invoice_detail.cgst_amt} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text `}>%</span>
                                                                 </div>
@@ -320,7 +271,7 @@ function EditInvoice() {
                                                         <td>SGST/UTGST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='sutgstipt' disabled />
+                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='sutgstipt' defaultValue={invoice_detail.sgst_amt} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text `}>%</span>
                                                                 </div>
@@ -332,7 +283,7 @@ function EditInvoice() {
                                                         <td>IGST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5 gstinpt`} id='igstipt' disabled />
+                                                                <input type="number" className={`form-control  cursor-notallow col-md-5 gstinpt`} id='igstipt' defaultValue={invoice_detail.igst_amt} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text `}>%</span>
                                                                 </div>
@@ -343,13 +294,13 @@ function EditInvoice() {
                                                         <td>Total GST</td>
                                                         <td>
                                                             <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='gstipt ' disabled />
+                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='gstipt ' defaultValue={invoice_detail.total_tax} disabled />
                                                                 <div className="input-group-append">
                                                                     <span className={`input-group-text `}>%</span>
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td id="Totalvaluerd"> {invoice_detail.total_tax}</td>
+                                                        <td id="Totalvaluerd"> {invoice_detail.taxable_amt}</td>
                                                     </tr>
 
                                                     <tr>
@@ -374,19 +325,19 @@ function EditInvoice() {
 
                                         </div>
                                     </div>
-                                    {/* {
-                                                            localStorage.getItem('gststatus') == true ?
-                                                                <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} /> :
-                                                                <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
+                                    {
+                                        localStorage.getItem('gststatus') == true ?
+                                            <InvoicePreviewWithGst Allinvoicedata={invoice_detail} Allitems={invoicesub} /> :
+                                            <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
 
-                                                        } */}
+                                    }
 
                                     <div className="form-group my-3">
                                         <button id="savebtn" type='submit' name="save" className="btn btn-danger" value='save'>Save</button>
                                         <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' >Post</button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                             className="btn ml-2 btn btn-primary">Cancel </button>
-                                        <button id='previewbtn' type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" disabled>Preview Invoice </button>
+                                        <button id='previewbtn' type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                     </div>
                                 </form>
                             </article>
