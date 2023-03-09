@@ -164,7 +164,7 @@ const ShowItem = () => {
       <Header />
 
       <div className="content-wrapper">
-        <div className='d-flex justify-content-between pt-3 px-4'>
+        <div className='d-flex justify-content-between pt-3 px-4 '>
           <h3 className="px-5">Total Items</h3>
           <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
         </div>

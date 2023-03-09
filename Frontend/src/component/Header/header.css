@@ -119,3 +119,14 @@
  .slider.round:before {
    border-radius: 50%;
  }
+
+ @media screen and (max-width:768px) {
+  .fins-year-text{
+    display: none;
+  }
+ }
+ @media screen and (max-width:520px) {
+  .financial-change{
+    display: none;
+  }
+ }

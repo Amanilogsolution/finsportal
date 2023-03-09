@@ -1,0 +1,10 @@
+.footer-div {
+    display: flex;
+}
+
+@media screen and (max-width:470px) {
+    .footer-div {
+        flex-direction: column;
+        text-align: center;
+    }
+}

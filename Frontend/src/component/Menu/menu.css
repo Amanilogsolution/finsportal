@@ -1,0 +1,9 @@
+.financial-year-change {
+    display: none;
+}
+
+@media screen and (max-width:520px) {
+    .financial-year-change {
+        display: inline-block;
+    }
+}

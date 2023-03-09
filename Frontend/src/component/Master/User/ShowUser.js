@@ -296,12 +296,10 @@ const ShowUser = () => {
               </button>
             </div>
             <div className="modal-body">
-
               <div className=" ">
                 <label
                   htmlFor="user_name"
-                  className=" col-form-label font-weight-normal"
-                >
+                  className=" col-form-label font-weight-normal">
                   <span >Select the file</span>
                 </label>
                 <div className=" ">

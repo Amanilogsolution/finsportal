@@ -11,6 +11,7 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_location_master.xlsx';
 import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
 import customStyles from '../../customTableStyle';
+import './location.css'
 
 const TotalLocation = () => {
   const [data, setData] = useState([])
@@ -303,7 +304,7 @@ const TotalLocation = () => {
       <Header />
       <div className={`content-wrapper `}>
 
-        <div className='d-flex justify-content-between py-2 px-3'>
+        <div className='d-flex justify-content-between py-2 px-3 location-div'>
           <h3 className="ml-5">Location</h3>
           <div className='d-flex'>
             <button type="button" id='uploadlocaddbtn' style={{ display: "none" }} className="btn btn-success " data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>

@@ -143,11 +143,11 @@ const Header = () => {
             </a>
           </li>
         </ul>
-
         <ul className="navbar-nav ml-auto" style={{ position: "relative" }}>
-          <li className="nav-item dropdown" >
+          <li className="nav-item dropdown financial-change" >
             <a className="nav-link" data-toggle="dropdown">
-              <b> Financial Year {localStorage.getItem('fin_year')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
+              <b>
+                <span className='fins-year-text'>Financial Year</span> {localStorage.getItem('fin_year')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right" style={{ border: "none" }}>
               <div className="orgcard card" style={{ width: "50%" }}>
@@ -182,7 +182,7 @@ const Header = () => {
             <a className="nav-link" data-toggle="dropdown">
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
-            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu">
               <div className="orgcard card " >
                 <div className={`card-body bg-${themeval}`}>
                   <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo}
