@@ -90,7 +90,7 @@ const Reportdata = () => {
         <Header />
           <div className={`content-wrapper`}>
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
-              <i className="fa fa-filter" aria-hidden="true"></i> Filter</button>
+              <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
 
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Report</h3>
@@ -116,7 +116,7 @@ const Reportdata = () => {
             <div className="modal-dialog" role="document">
               <div className={`modal-content`}>
                 <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Filter</h5>
+                  <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Generate Report</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
