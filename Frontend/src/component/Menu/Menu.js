@@ -350,7 +350,7 @@ const Menu = (props) => {
                   </a>
                 </li>
                 <li className="nav-item" style={{ display: "none" }} id='purchaseOrderMenu'>
-                  <a href="/PurchaseOrder" className="nav-link active">
+                  <a href="/SavePurchaseOrder" className="nav-link active">
                     <i className="far fa-circle nav-icon" />
                     <p>Purchase Order</p>
                   </a>
