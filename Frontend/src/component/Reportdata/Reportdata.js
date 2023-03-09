@@ -52,11 +52,10 @@ const Reportdata = () => {
       const Customer = document.getElementById('customer');
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
-      console.log(locationid)
       setVendcustname(Customer.options[Customer.selectedIndex].text)
 
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
-      console.log(result)
+    
       setData(result)
     }
     else if (report_type === 'Bills') {
@@ -90,7 +89,7 @@ const Reportdata = () => {
         <Header />
           <div className={`content-wrapper`}>
             <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
-              <i className="fa fa-filter" aria-hidden="true"></i> Filter</button>
+              <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
 
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Report</h3>
@@ -116,7 +115,7 @@ const Reportdata = () => {
             <div className="modal-dialog" role="document">
               <div className={`modal-content`}>
                 <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Filter</h5>
+                  <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Generate Report</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>

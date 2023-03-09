@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import { GetInvoice, GetSubInvoice } from '../../../api/index'
+import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName } from '../../../api/index'
 
 
 const InvoicePreview = () => {
@@ -30,6 +30,7 @@ const InvoicePreview = () => {
       Totalamount: ''
     }
   ])
+  const [activity, setActivity] = useState('')
 
   useEffect(() => {
     const fetch = async () => {
@@ -37,6 +38,8 @@ const InvoicePreview = () => {
       const org = localStorage.getItem('Organisation')
       const result = await GetInvoice(org, preview)
       setData(result[0])
+      const activity_code = await GetAccountMinorCodeName(org, result[0].major)
+      setActivity(activity_code)
       const result1 = await GetSubInvoice(org, preview)
       setSubInv(result1)
     }
@@ -64,7 +67,7 @@ const InvoicePreview = () => {
         <div className="modal-content modeldivcard" >
           <div className="modal-body text-dark" ref={pdfRef}>
             <div className="modalinvoice">
-              <div className="topdiv">
+              <div className="topdiv mb-4">
                 <div className="topinnerdiv">
                   <h5>AWL India PVT Ltd.</h5>
                   <p>
@@ -76,7 +79,7 @@ const InvoicePreview = () => {
               </div>
               <div className="invoicediv">
                 <div className="inerinvoicediv">
-                  <div className="firstinvoicediv"><b>Activity :</b>{data.major}</div>
+                  <div className="firstinvoicediv"><b>Activity :</b>{activity}</div>
                   <div className="secondinvoicediv" >
                     <b>TAX INVOICE NO :</b>&nbsp; {data.invoice_no} &nbsp;
                   </div>
@@ -144,13 +147,13 @@ const InvoicePreview = () => {
                       subinv.map((item, index) => (
                         <tr className='itemtrsec'>
                           <th>{index + 1}</th>
-                          <td>{item.major}</td>
+                          <td>{item.minor}</td>
                           <td>{item.quantity}</td>
                           <td>{item.rate}</td>
-                          <td>{item.tax}</td>
+                          <td>{item.taxableamount}</td>
                           <td>{item.unit}</td>
                           <td>{item.amount}</td>
-                          <td>{item.Totalamount}</td>
+                          <td>{Number(item.amount) + Number(item.taxableamount)}</td>
                         </tr>
                       ))
                     }
@@ -323,7 +326,7 @@ const InvoicePreview = () => {
                 <h4>{data.invoice_amt}</h4>
               </div>
               <div className="invoicevalword">
-                <h4><b>Total Invoice Value (In Figure) :</b></h4>
+                <h5><b>Total Invoice Value (In Figure) :</b></h5>
                 <h4>{DecamalNumber.toWords(Number(data.invoice_amt))}  only </h4>
               </div>
               <div className="amounttax">

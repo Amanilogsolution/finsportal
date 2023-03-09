@@ -9,6 +9,7 @@ import { ShowVendAddress, DeleteVendAddress, SelectVendAddress, Importvendaddres
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/Vendor Address formate.xlsx'
 import customStyles from '../../customTableStyle';
+import './TotalVendorAddress.css';
 
 const TotalVendAddress = () => {
   const [data, setData] = useState([])
@@ -159,7 +160,7 @@ const TotalVendAddress = () => {
 
         }
       }
-   
+
     }
   ]
 
@@ -262,10 +263,14 @@ const TotalVendAddress = () => {
       </div>
       <Header />
       <div className="content-wrapper">
-        <button type="button" style={{ marginRight: '10%', marginTop: '3%', display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right" id='add-vend_address_btn'>Add Address</button>
-        <button type="button" style={{ marginRight: '3%', marginTop: '3%', display: 'none' }} id='upload-vend_address_btn' className="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
         <div className="container-fluid ">
-          <h3 className="ml-5 pt-4 pb-2">Vendor Address</h3>
+          <div className='d-flex justify-content-between mt-3 px-2 addvend-heading'>
+            <h3 className=" ml-4">Vendor Address</h3>
+            <div className='d-flex'>
+              <button type="button" style={{  display: 'none' }} id='upload-vend_address_btn' className="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
+              <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary" id='add-vend_address_btn'>Add Address</button>
+            </div>
+          </div>
           <form className="form-inline ml-4 position-relative" autoComplete="off">
             <label htmlFor='vend_name'>Vendor name:- </label>
             <input className={`form-control mr-sm-2 mx-2`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />

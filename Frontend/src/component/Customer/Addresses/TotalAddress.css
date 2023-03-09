@@ -1,30 +1,33 @@
-.ulstyle{
+.ulstyle {
     position: absolute;
     top: 10%;
     left: 20%;
-    z-index:10;
+    z-index: 10;
 }
 
-.liststyle{
-    list-style:none;
-    background:rgb(250, 248, 248);
-    padding:10px;
-    cursor:pointer;
+.liststyle {
+    list-style: none;
+    background: rgb(250, 248, 248);
+    padding: 10px;
+    cursor: pointer;
     border: 1px solid blue;
 }
-.liststyle:hover{
-    background:rgb(164, 197, 212);
+
+.liststyle:hover {
+    background: rgb(164, 197, 212);
 }
-.darkliststyle{
-    list-style:none;
-    background:rgb(207, 205, 205);
+
+.darkliststyle {
+    list-style: none;
+    background: rgb(207, 205, 205);
     color: black;
-    padding:10px;
-    cursor:pointer;
+    padding: 10px;
+    cursor: pointer;
     border: 1px solid gray;
 }
-.darkliststyle:hover{
-    background:darkgray;
+
+.darkliststyle:hover {
+    background: darkgray;
     color: #fff;
 }
 
@@ -49,15 +52,20 @@
     background:rgb(164, 197, 212);
 } */
 
-.heading-div{
+.heading-div {
     padding: 0px 5%;
 }
 
 @media screen and (max-width:680px) {
-    .heading-div{
+    .heading-div {
         flex-direction: column;
     }
+
+    .btn-heading-div {
+        display: flex;
+        justify-content: center;
+    }
+
 }
-@media screen and (max-width:420px) {
-   
-}
+
+@media screen and (max-width:420px) {}

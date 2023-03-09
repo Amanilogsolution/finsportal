@@ -1,3 +1,7 @@
+.addbtn-div{
+ margin-right: 5%;
+}
+
 .showAction{
     /* margin-right: 10%; */
     transition: all 2s linear;
@@ -11,9 +15,30 @@
     transition: all 2s linear;
 }
 
+.uploadbtn-icons{
+    display: none;
+}
 
-@media screen and (max-width:620px) {
+/* @media screen and (max-width:620px) {
     .customer-addDiv{
         flex-direction: column;
+    }
+} */
+
+@media screen and (max-width:768px) {
+    .customer-addDiv{
+        flex-direction: column;
+    }
+    .addbtn-div{
+        margin: 0%;
+        justify-content: center;
+    }
+}
+@media screen and (max-width:500px) {
+    .uploadbtn-text{
+        display: none;
+    }
+    .uploadbtn-icons{
+        display: block;
     }
 }

@@ -27,15 +27,16 @@ const InsertSubInvoice = async (req, res) => {
     const sgst_amt = req.body.sgst_amt;
     const utgst_amt = req.body.utgst_amt;
     const igst_amt = req.body.igst_amt;
+    const taxableamt = req.body.taxableamt;
     const User_id = req.body.User_id;
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_subinvoice(fin_year,invoice_no ,major,minor,revgl_code,billing_code,quantity,
             rate,unit,amount,consignee,city,custid,cust_locationid,taxable,cgst_rate,sgst_rate,utgst_rate ,
-            igst_rate ,cgst_amt ,sgst_amt ,utgst_amt ,igst_amt,add_date_time ,add_user_name ,add_system_name ,add_ip_address,status)
+            igst_rate ,cgst_amt ,sgst_amt ,utgst_amt ,igst_amt,add_date_time ,add_user_name ,add_system_name ,add_ip_address,status,taxableamount)
             values ('${fin_year}','${invoice_no}','${major}','${minor}','${revgl_code}','${billing_code}','${quantity}','${rate}','${unit}','${amount}','${consignee}','${city}',
-            '${custid}','${cust_locationid}','${taxable}','${cgst_rate}','${sgst_rate}','${utgst_rate}','${igst_rate}','${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}',getdate(),'${User_id}','${req.ip}','${os.hostname()}','Active')`)
+            '${custid}','${cust_locationid}','${taxable}','${cgst_rate}','${sgst_rate}','${utgst_rate}','${igst_rate}','${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}',getdate(),'${User_id}','${req.ip}','${os.hostname()}','Active',${taxableamt})`)
         res.send('Added')
     }
     catch (err) {
@@ -46,6 +47,7 @@ const InsertSubInvoice = async (req, res) => {
 const getSubInvoice = async(req,res) =>{
  const org = req.body.org;
  const invoiceno = req.body.invoiceno;
+ console.log(invoiceno)
  try{
     await sql.connect(sqlConfig)
     const result = await sql.query(`select * from ${org}.dbo.tbl_subinvoice with (nolock) where invoice_no='${invoiceno}'`)

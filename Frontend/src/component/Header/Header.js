@@ -190,7 +190,7 @@ const Header = () => {
                 </div>
                 <ul className="list-group list-group-flush">
 
-                  <li className={`list-group-item bg-${themeval}`}><b >My Orgaisation</b>
+                  <li className={`list-group-item bg-${themeval}`}><b >My Organisation</b>
                     <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
                   </li>
                   {

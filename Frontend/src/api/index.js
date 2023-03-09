@@ -1067,6 +1067,10 @@ export const ActiveAccountMinorCode = async (org) => {
     const url = `https://finsbackend.awlinternational.com/api/activeaccountminorcode`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+export const GetAccountMinorCodeName = async (org,account_name_code) => {
+    const url = `http://localhost:3008/api/GetAccountMinorCodeName`
+    return axios.post(url, { org,account_name_code }).then(response => response.data).catch(error => console.log(error));
+}
 // 
 export const ImportAccountMinorCode = async (org, datas, User_id) => {
     const url = `https://finsbackend.awlinternational.com/api/importaccountminorcode`
@@ -1223,7 +1227,7 @@ export const GetSaveInvoice = async (org) => {
     const url = `https://finsbackend.awlinternational.com/api/getsaveinvoice`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-
+// 
 
 
 // ###########################  For Invoice api End ############################

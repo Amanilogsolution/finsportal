@@ -62,7 +62,7 @@ const ActiveAccountMinorCode = async (req, res) => {
  
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select account_type_code,account_name from ${org}.dbo.tbl_account_name tan2 with (nolock) where status='Active';`)
+        const result = await sql.query(`select account_type_code,account_name,account_name_code from ${org}.dbo.tbl_account_name tan2 with (nolock) where status='Active';`)
         res.send(result.recordset)
     }  
      catch (err) {       
@@ -70,6 +70,21 @@ const ActiveAccountMinorCode = async (req, res) => {
     }
 }
 
+const GetAccountMinorCodeName = async (req, res) => {
+    const org = req.body.org;
+    const account_name_code = req.body.account_name_code;
+    console.log(account_name_code)
+ 
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select account_name from ${org}.dbo.tbl_account_name with (nolock) WHERE account_name_code='${account_name_code}';`)
+        console.log(result)
+        res.send(result.recordset[0])
+    }  
+     catch (err) {       
+        res.send(err)
+    }
+}
 
 
 const ImportAccountMinorCode = (req, res) => {
@@ -104,4 +119,4 @@ const ImportAccountMinorCode = (req, res) => {
 }
 
 
-module.exports = {TotalAccountMinorCode,AccountMinorCodeStatus,GetAccountMinorCode,UpdateAccountMinorCode,ActiveAccountMinorCode,ImportAccountMinorCode}
+module.exports = {TotalAccountMinorCode,AccountMinorCodeStatus,GetAccountMinorCode,UpdateAccountMinorCode,ActiveAccountMinorCode,ImportAccountMinorCode,GetAccountMinorCodeName}
