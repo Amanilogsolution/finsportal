@@ -1214,12 +1214,11 @@ export const InsertInvoice = async (org, fin_year, invoice_no, squence_no, invoi
 }
 
 export const FilterInvoice = async (org, startDate, lastDate, custid, locationid) => {
-    const url = `https://finsbackend.awlinternational.com/api/filterinvoice`
+    const url = `http://localhost:3008/api/filterinvoice`
     return axios.post(url, { org, startDate, lastDate, custid, locationid }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetInvoice = async (org, invoiceno) => {
-    console.log(org, invoiceno)
     const url = `https://finsbackend.awlinternational.com/api/getinvoice`
     return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }

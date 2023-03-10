@@ -3,12 +3,11 @@ import Table from './Table/Table'
 import InvoicePreview from '../Preview/InvoicePreview';
 
 
-
 const InvoiceReport = (props) => {
     const [data, setData] = useState([])
     const [sno, setSno] = useState()
     const [tooglecomponent, setTooglecomponent] = useState(false)
-
+console.log('PropsSatadd',props)
     const columns = [
         {
             name: 'Vendor Name',
