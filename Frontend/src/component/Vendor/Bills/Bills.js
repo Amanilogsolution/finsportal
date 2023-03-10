@@ -129,10 +129,10 @@ function Bills() {
         Duedate(Ter);
 
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
+        console.log(result1);
         setVendorLocation(result1)
 
         const po_number = await GetPodetailsVendor(localStorage.getItem('Organisation'), e.target.value)
-        console.log(po_number)
         setPolist(po_number);
     }
 
@@ -836,20 +836,35 @@ function Bills() {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
-                                {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button> */}
                             </div>
                             <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
-                                <ul>
-                                    {
-                                        vendorlocation.length > 0 ?
-                                            vendorlocation.map((item, index) =>
-                                                <li key={index} value={item.billing_address_attention} className="cursor-pointer vendlocation-li" data-dismiss="modal" onClick={(e) => setVendorLocations(item.billing_address_attention)}>{item.billing_address_attention}</li>
-                                            )
-                                            : ' Select Vendor'
-                                    }
-                                </ul>
+                            <table className='table'>
+                        <thead>
+                            <tr>
+                                <th><input type='radio' name='radiocity'/> <label>City</label> </th>
+                                <th><input type='radio' name='radiocity'/> <label>Address</label> </th>
+
+                            </tr>
+                        </thead>
+                            <tbody>
+                            {
+                                vendorlocation.length > 0 ?
+                                vendorlocation.map((items, index) => (
+                                            <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                onClick={() => {
+                                                 setVendorLocations(items.billing_address_attention)
+                                                }}>
+                                                <td>{items.billing_address_city}</td>
+                                                <td style={{fontSize:"15px"}}>{items.billing_address_attention}</td>
+                                                
+                                               </tr>
+                                        ))
+                                        : 'Select Vendor'
+                                }
+                            </tbody>
+                        </table>
+
+
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
