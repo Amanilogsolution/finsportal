@@ -815,15 +815,43 @@ function Invoices() {
                             </button>
                         </div>
                         <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
-                            <ul>
+
+                        <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th><input type='radio' name='radiocity' /> <label>City</label> </th>
+                                        <th><input type='radio' name='radiocity' /> <label>Address</label> </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        locationstate.length > 0 ?
+                                        locationstate.map((items, index) => (
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                    onClick={() => {
+                                                        handlechnageaddress(items.location_state, items.location_id); 
+                                                        setBillingAddressLocation([items.location_add1, items.location_city, items.location_country]) 
+                                                    }}>
+                                                    <td>{items.location_city}</td>
+                                                    <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+
+                                                </tr>
+                                            ))
+                                            : 'Select Customer'
+                                    }
+                                </tbody>
+                            </table>
+                            {/* <ul>
                                 {
                                     locationstate.map((item, index) =>
                                         <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
-                                            onClick={() => { handlechnageaddress(item.location_state, item.location_id); setBillingAddressLocation([item.location_add1, item.location_city, item.location_country]) }}
+                                            onClick={() => { handlechnageaddress(item.location_state, item.location_id); 
+                                            setBillingAddressLocation([item.location_add1, item.location_city, item.location_country]) }}
                                             value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</li>
                                     )
                                 }
-                            </ul>
+                            </ul> */}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
