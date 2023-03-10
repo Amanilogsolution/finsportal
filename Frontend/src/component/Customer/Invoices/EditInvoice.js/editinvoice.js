@@ -17,6 +17,7 @@ function EditInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await GetInvoice(org, invoice_no)
+            
             setInvoice_detail(Invoiceresult[0])
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)

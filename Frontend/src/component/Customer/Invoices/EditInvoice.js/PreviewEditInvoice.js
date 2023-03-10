@@ -2,14 +2,13 @@ import React, { useRef, useEffect, useState,memo } from 'react'
 import '../PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import { showOrganisation,SelectedCustomer } from '../../../../api'
+import { showOrganisation } from '../../../../api'
 
 const InvoicePreview = (props) => {
   const [orgdata, setOrgdata] = useState([])
-  const [custdetail, setCustdetail] = useState([])
 
   const pdfRef = useRef(null);
-  // console.log('EditProps', props)
+  console.log('EditProps', props)
   const print = (e) => {
     e.preventDefault();
     const content = pdfRef.current;
@@ -29,14 +28,7 @@ const InvoicePreview = (props) => {
     const fetchdata = async () => {
       let org=localStorage.getItem('Organisation');
       const result = await showOrganisation(org)
-      // console.log(localStorage.getItem('Organisation_details'), result)
       setOrgdata(result)
-      let custid=props.Allinvoicedata.custid
-      // let custid=props.Allinvoicedata
-      // console.log(custid) 
-      const cust_detail = await SelectedCustomer(org,custid )
-      setCustdetail(cust_detail)
-      // console.log(cust_detail) 
     }
     fetchdata()
   }, [props])
@@ -67,7 +59,7 @@ const InvoicePreview = (props) => {
                     <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.invoice_no} &nbsp;
                   </div>
                   <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.startdate} &nbsp;</div>
-                  <div className="forthinvoicediv"><b> {props.Allinvoicedata.currency_type ||'INR'}. </b>{props.Allinvoicedata.invoice_amt}</div>
+                  <div className="forthinvoicediv"><b> {props.Allinvoicedata.currency_type ||'INR'}</b>{props.Allinvoicedata.invoice_amt}</div>
                 </div>
               </div>
 
@@ -77,7 +69,7 @@ const InvoicePreview = (props) => {
                   <p>
                     {props.Allinvoicedata.cust_location_add}
                   </p>
-                  <h6><b>GST IN.</b> {custdetail.gstin_uin}</h6>
+                  <h6><b>GST IN.</b> {props.Allinvoicedata.cust_location_gst}</h6>
                 </div>
                 <div className="inneraddduiv inneraddduiv2">
                   <h5><b>Place of Supply</b></h5>

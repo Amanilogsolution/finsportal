@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, showOrganisation, SelectedCustomer } from '../../../api/index'
+import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, showOrganisation } from '../../../api/index'
 
 
 const InvoicePreview = () => {
@@ -50,9 +50,7 @@ const InvoicePreview = () => {
       setSubInv(result1)
       const orgdata = await showOrganisation(org)
       setOrgdata(orgdata)
-      const custid = data.custid;
-      const cust_detail = await SelectedCustomer(org, custid)
-      setCustdetail(cust_detail)
+     
     }
     fetch()
 
@@ -72,10 +70,7 @@ const InvoicePreview = () => {
   };
 
   return (
-    <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"></div>
-      </div>
+    
       <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div className="modal-dialog   modal-lg" role="document" >
           <div className="modal-content modeldivcard" >
@@ -111,7 +106,7 @@ const InvoicePreview = () => {
                     <p>
                     </p>
                     <h6><b>GST IN.</b>
-                    </h6>{custdetail.gstin_uin}
+                    </h6>{data.cust_location_gst}
                   </div>
                   <div className="inneraddduiv inneraddduiv2">
                     <h5><b>Place of Supply</b></h5>
@@ -234,7 +229,6 @@ const InvoicePreview = () => {
           </div>
         </div>
       </div>
-    </div>
   )
 }
 

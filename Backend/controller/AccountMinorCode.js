@@ -73,12 +73,10 @@ const ActiveAccountMinorCode = async (req, res) => {
 const GetAccountMinorCodeName = async (req, res) => {
     const org = req.body.org;
     const account_name_code = req.body.account_name_code;
-    console.log(account_name_code)
  
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select account_name from ${org}.dbo.tbl_account_name with (nolock) WHERE account_name_code='${account_name_code}';`)
-        console.log(result)
         res.send(result.recordset[0])
     }  
      catch (err) {       

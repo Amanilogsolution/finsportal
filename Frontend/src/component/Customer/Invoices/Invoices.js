@@ -195,12 +195,16 @@ function Invoices() {
         // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
         let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
 
+
+        let gsttotal = 0
+        gstvalues.map((item) => gsttotal += item)
+        setGstvalue(gsttotal)
+
         const igst = document.getElementById('igstipt').value;
         let cgstamount = 0;
         let sgstamount = 0;
         let igstamount = 0;
-        const taxableamt = gstvalue;
-
+        const taxableamt = gsttotal;
         if (igst > 0) {
             igstamount = taxableamt
 
@@ -213,9 +217,6 @@ function Invoices() {
         setGrandTotal(sum)
 
 
-        let gsttotal = 0
-        gstvalues.map((item) => gsttotal += item)
-        setGstvalue(gsttotal)
         let custadd = custaddress_state;
         custadd = custadd.toUpperCase();
         let billadd = billingaddress;
@@ -230,11 +231,13 @@ function Invoices() {
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
         }
+        let Activity_text = document.getElementById('Activity');
+        Activity_text = Activity_text.options[Activity_text.selectedIndex].text;
 
         setAllInvoiceData({
-            ...allInvoiceData, Activity: document.getElementById('Activity').value,
+            ...allInvoiceData, Activity: Activity_text,
             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
-            GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
+            GrandTotal: sum, TotalTaxamount:gsttotal,
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
             Totalamounts: totalamout, OriginState: billingaddress, DestinationState: custaddress_state
         })
@@ -334,7 +337,7 @@ function Invoices() {
         let val = document.getElementById('Activity');
         let text = val.options[val.selectedIndex].text;
         let activity_val = val.value;
-        let major_code= activity_val.slice(0, activity_val.indexOf(','))
+        let major_code = activity_val.slice(0, activity_val.indexOf(','))
         // console.log(activity_val.slice(activity_val.indexOf(',')+1))
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
@@ -351,8 +354,8 @@ function Invoices() {
     const handlesavebtn = async (e) => {
         e.preventDefault();
         console.log(items)
-        // document.getElementById('savebtn').disabled = true;
-        // document.getElementById('postbtn').disabled = true;
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
         let invoiceids = "";
         let squ_nos = ""
         const btn_type = e.target.value;
@@ -392,7 +395,7 @@ function Invoices() {
         const utgst = document.getElementById('sutgstipt').value;
         const igst = document.getElementById('igstipt').value;
         let Major = document.getElementById('Activity').value;
-        Major = Major.slice(Major.indexOf(',')+1)
+        Major = Major.slice(Major.indexOf(',') + 1)
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
 
@@ -423,11 +426,7 @@ function Invoices() {
             alert('Please Select Customer');
         }
         else {
-            console.log(localStorage.getItem('Organisation'), fin_year, invoiceids,
-            squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
-
+          
 
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
@@ -437,7 +436,6 @@ function Invoices() {
 
             if (result === 'Added') {
                 amount.map(async (amt, index) => {
-                    // console.log('Sub Invoice + ',localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
                     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
                 })
 
@@ -594,7 +592,7 @@ function Invoices() {
                                                             <option value='' hidden>Select Activity</option>
                                                             {
                                                                 Activeaccount.map((items, index) => (
-                                                                    <option key={index} value={[items.account_type_code,items.account_name_code]}>{items.account_name}</option>
+                                                                    <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
                                                                 ))
                                                             }
                                                         </select>
@@ -818,7 +816,7 @@ function Invoices() {
                         </div>
                         <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
 
-                        <table className='table'>
+                            <table className='table'>
                                 <thead>
                                     <tr>
                                         <th><input type='radio' name='radiocity' /> <label>City</label> </th>
@@ -829,11 +827,11 @@ function Invoices() {
                                 <tbody>
                                     {
                                         locationstate.length > 0 ?
-                                        locationstate.map((items, index) => (
+                                            locationstate.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                     onClick={() => {
-                                                        handlechnageaddress(items.location_state, items.location_id); 
-                                                        setBillingAddressLocation([items.location_add1, items.location_city, items.location_country]) 
+                                                        handlechnageaddress(items.location_state, items.location_id);
+                                                        setBillingAddressLocation([items.location_add1, items.location_city, items.location_country])
                                                     }}>
                                                     <td>{items.location_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>

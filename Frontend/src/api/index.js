@@ -1064,14 +1064,13 @@ export const UpdateAccountMinorCode = async (org, sno, account_name, User_id) =>
 }
 
 export const ActiveAccountMinorCode = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/activeaccountminorcode`
+    const url = `http://localhost:3008/api/activeaccountminorcode`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetAccountMinorCodeName = async (org,account_name_code) => {
     const url = `http://localhost:3008/api/GetAccountMinorCodeName`
     return axios.post(url, { org,account_name_code }).then(response => response.data).catch(error => console.log(error));
 }
-// 
 export const ImportAccountMinorCode = async (org, datas, User_id) => {
     const url = `https://finsbackend.awlinternational.com/api/importaccountminorcode`
     return axios.post(url, { org, datas, User_id }).then(response => response.data).catch(error => console.log(error));
@@ -1235,9 +1234,9 @@ export const UpdateSaveInvoiceToPost = async (org,invoice_no,new_invoice_no) => 
 
 // ############################ For InvoiceSub api Start #################################
 
-export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertsubinvoice`
-    return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, User_id }).then(response => response.data).catch(error => console.log(error));
+export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt,User_id) => {
+    const url = `http://localhost:3008/api/insertsubinvoice`
+    return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt,User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetSubInvoice = async (org, invoiceno) => {

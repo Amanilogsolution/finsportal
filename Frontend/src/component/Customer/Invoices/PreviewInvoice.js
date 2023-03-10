@@ -1,10 +1,13 @@
-import React, { useRef,memo } from 'react'
+import React, { useRef,memo,useEffect,useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
+import { showOrganisation } from '../../../api'
 
 
 const InvoicePreview = (props) => {
+  const [orgdata, setOrgdata] = useState([])
+
   const pdfRef = useRef(null);
 
   console.log(props)
@@ -22,6 +25,15 @@ const InvoicePreview = (props) => {
 
     });
   };
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      let org=localStorage.getItem('Organisation');
+      const result = await showOrganisation(org)
+      setOrgdata(result)
+    }
+    fetchdata()
+  }, [props])
   return (
     <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
@@ -37,10 +49,9 @@ const InvoicePreview = (props) => {
                 <div className="topinnerdiv mr-3">
                   <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                   <p>
-                    Dashmesh Complex, Nadal Village,Old Pune Mumbai Highway, Khalapur,
-                    Distt Raigad,Maharastra-410203 India
+                    {orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}
                   </p>
-                  <div className="topbottomdiv"><b>GST IN.</b> 27AAGCA4705P1ZD</div>
+                  <div className="topbottomdiv"><b>GST IN.</b> {orgdata.org_gst}</div>
                 </div>
               </div>
               <div className="invoicediv">
