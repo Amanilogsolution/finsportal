@@ -54,6 +54,7 @@ const Reportdata = () => {
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
       setVendcustname(Customer.options[Customer.selectedIndex].text)
+      console.log(org, fromdate, todate, Customerid, locationid)
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
       setData(result)
       console.log('Invoice Data',result)

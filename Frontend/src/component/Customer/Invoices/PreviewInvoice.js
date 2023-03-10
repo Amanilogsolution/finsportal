@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef,memo } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 const InvoicePreview = (props) => {
   const pdfRef = useRef(null);
 
+  console.log(props)
   const print = (e) => {
     e.preventDefault();
     const content = pdfRef.current;
@@ -187,4 +188,4 @@ const InvoicePreview = (props) => {
   )
 }
 
-export default InvoicePreview
+export default memo(InvoicePreview)

@@ -62,7 +62,6 @@ const filterInvoice = async (req, res) => {
     const lastDate = req.body.lastDate;
     const custid = req.body.custid;
     const locationid = req.body.locationid;
-
     try {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
