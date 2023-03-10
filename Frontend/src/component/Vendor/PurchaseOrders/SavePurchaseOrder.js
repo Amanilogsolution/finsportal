@@ -49,7 +49,7 @@ export default function SavePurchaseOrder() {
       sortable: true,
       cell:(row)=>{
         return (
-          <a>
+          <a href='EditPurchaseOrder' onClick={() => localStorage.setItem('poNo', `${row.po_number}`)}>
             {row.po_number}
           </a>
         )
