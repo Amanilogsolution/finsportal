@@ -346,11 +346,13 @@ router.post('/insertinvoice',InvoiceController.InsertInvoice)
 router.post('/filterinvoice',InvoiceController.filterInvoice)
 router.post('/getinvoice',InvoiceController.getInvoice)
 router.post('/getsaveinvoice',InvoiceController.getSaveInvoice)
+router.post('/updatesaveinvoicetopost',InvoiceController.UpdateSaveInvoiceToPost)
 
 
 
 router.post('/insertsubinvoice',InvoiceSubController.InsertSubInvoice)
 router.post('/getsubinvoice',InvoiceSubController.getSubInvoice)
+router.post('/updatesavesubinvoicetopost',InvoiceSubController.UpdateSaveSubInvoiceToPost)
 
 
 

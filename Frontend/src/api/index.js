@@ -1226,9 +1226,11 @@ export const GetSaveInvoice = async (org) => {
     const url = `http://localhost:3008/api/getsaveinvoice`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-// 
 
-
+export const UpdateSaveInvoiceToPost = async (org,invoice_no,new_invoice_no) => {
+    const url = `http://localhost:3008/api/updatesaveinvoicetopost`
+    return axios.post(url, { org,invoice_no,new_invoice_no }).then(response => response.data).catch(error => console.log(error));
+}
 // ###########################  For Invoice api End ############################
 
 // ############################ For InvoiceSub api Start #################################
@@ -1241,6 +1243,10 @@ export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, 
 export const GetSubInvoice = async (org, invoiceno) => {
     const url = `http://localhost:3008/api/getsubinvoice`
     return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdateSaveSubInvoiceToPost = async (org,invoice_no,new_invoice_no) => {
+    const url = `http://localhost:3008/api/updatesavesubinvoicetopost`
+    return axios.post(url, { org,invoice_no,new_invoice_no }).then(response => response.data).catch(error => console.log(error));
 }
 
 // ############################ For InvoiceSub api END #################################

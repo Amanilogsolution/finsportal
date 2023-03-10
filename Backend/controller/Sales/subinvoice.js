@@ -47,7 +47,6 @@ const InsertSubInvoice = async (req, res) => {
 const getSubInvoice = async(req,res) =>{
  const org = req.body.org;
  const invoiceno = req.body.invoiceno;
- console.log(invoiceno)
  try{
     await sql.connect(sqlConfig)
     const result = await sql.query(`select * from ${org}.dbo.tbl_subinvoice with (nolock) where invoice_no='${invoiceno}'`)
@@ -61,4 +60,25 @@ const getSubInvoice = async(req,res) =>{
 
 }
 
-module.exports = { InsertSubInvoice,getSubInvoice }
+
+const UpdateSaveSubInvoiceToPost = async (req, res) => {
+    const org = req.body.org;
+    const invoice_no = req.body.invoice_no;
+    const new_invoice_no = req.body.new_invoice_no;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(` update ${org}.dbo.tbl_subinvoice set invoice_no='${new_invoice_no}'  WHERE invoice_no='${invoice_no}'`)
+        if (result.rowsAffected > 0) {
+            res.send('Updated')
+        }
+        else {
+            res.send('Error')
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = { InsertSubInvoice,getSubInvoice,UpdateSaveSubInvoiceToPost }

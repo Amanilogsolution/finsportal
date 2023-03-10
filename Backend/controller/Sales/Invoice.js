@@ -67,12 +67,12 @@ const filterInvoice = async (req, res) => {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and location ='${locationid}' and flagsave='post'`)
+            and '${lastDate}' or location ='${locationid}' and flagsave='post' order by sno desc;`)
             res.send(result.recordset)
         }
         else {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and custid='${custid}' and location ='${locationid}' and flagsave='post'`)
+            and '${lastDate}' and custid='${custid}' or location ='${locationid}' and flagsave='post' order by sno desc;`)
             res.send(result.recordset)
         }
     }
@@ -109,4 +109,24 @@ const getSaveInvoice = async (req, res) => {
 
 }
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice }
+const UpdateSaveInvoiceToPost = async (req, res) => {
+    const org = req.body.org;
+    const invoice_no = req.body.invoice_no;
+    const new_invoice_no = req.body.new_invoice_no;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(` update ${org}.dbo.tbl_invoice set invoice_no='${new_invoice_no}' ,flagsave='post' WHERE invoice_no='${invoice_no}'`)
+        if (result.rowsAffected > 0) {
+            res.send('Updated')
+        }
+        else {
+            res.send('Error')
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost }

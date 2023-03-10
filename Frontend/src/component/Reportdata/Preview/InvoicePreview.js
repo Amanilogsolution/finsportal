@@ -38,10 +38,15 @@ const InvoicePreview = () => {
       const org = localStorage.getItem('Organisation')
       const result = await GetInvoice(org, preview)
       setData(result[0])
+      console.log(result[0])
       const activity_code = await GetAccountMinorCodeName(org, result[0].major)
       setActivity(activity_code)
+      console.log(activity_code)
+
       const result1 = await GetSubInvoice(org, preview)
       setSubInv(result1)
+      console.log(result1)
+
     }
     fetch()
 
