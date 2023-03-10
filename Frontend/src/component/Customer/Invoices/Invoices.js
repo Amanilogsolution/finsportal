@@ -299,6 +299,7 @@ function Invoices() {
 
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
+        console.log(cust_add)
         setCutomerAddress(cust_add)
     }
 
@@ -324,6 +325,7 @@ function Invoices() {
     }
 
     const handleChangeCustomerAdd = (state, address_id, custaddgst) => {
+        console.log(state, address_id, custaddgst)
         setCustaddstate(state)
         setLocationCustAddid(address_id)
         setCustAddGst(custaddgst)
@@ -846,21 +848,33 @@ function Invoices() {
                             </button>
                         </div>
                         <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
-                            <ul>
-                                {
+                        <table className='table'>
+                        <thead>
+                            <tr>
+                                <th><input type='radio' name='radiocity'/> <label>City</label> </th>
+                                <th><input type='radio' name='radiocity'/> <label>Address</label> </th>
+
+                            </tr>
+                        </thead>
+                            <tbody>
+                            {
                                     cutomerAddress.length > 0 ?
                                         cutomerAddress.map((items, index) => (
-                                            <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
+                                            <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                 onClick={() => {
                                                     handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
                                                     setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
-                                                }}
-                                                value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>
-                                                {items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</li>
+                                                }}>
+                                                <td>{items.billing_address_city}</td>
+                                                <td style={{fontSize:"15px"}}>{items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</td>
+                                                
+                                               </tr>
                                         ))
                                         : 'Select Customer'
                                 }
-                            </ul>
+                            </tbody>
+                        </table>
+                         
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
