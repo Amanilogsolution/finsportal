@@ -54,7 +54,7 @@ const PreviewPO = (props) => {
                                             <tbody>
                                                 <tr >
                                                     <th >PO No :</th>
-                                                    <td >{props.data.po_no}</td>
+                                                    <td >{props.data.po_number}</td>
                                                 </tr>
                                                 <tr >
                                                     <th >Dated :</th>
@@ -74,7 +74,7 @@ const PreviewPO = (props) => {
                                                 </tr>
                                                 <tr >
                                                     <th >Location:</th>
-                                                    <td > {props.data.location}</td>
+                                                    <td > {props.data.po_location}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

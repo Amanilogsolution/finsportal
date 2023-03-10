@@ -22,9 +22,9 @@ function PurchaseOrder() {
     const [pocount, setPOcount] = useState(0)
 
     const [poalldetail, setPOalldetail] = useState({
-        po_no: '',
+        po_number: '',
         vendor_id: '',
-        location: '',
+        po_location: '',
         po_date: ''
     })
     const [poitem, setPOitems] = useState([])
@@ -174,9 +174,9 @@ function PurchaseOrder() {
         e.preventDefault()
         setPOalldetail({
             ...poalldetail,
-            po_no: document.getElementById('po_no').value,
+            po_number: document.getElementById('po_no').value,
             vendor_id: e.target.value,
-            location: document.getElementById('polocation').value,
+            po_location: document.getElementById('polocation').value,
             po_date: document.getElementById('po_date').value
         })
     }
@@ -187,7 +187,7 @@ function PurchaseOrder() {
             ...poalldetail,
             po_no: document.getElementById('po_no').value,
             vendor_id: document.getElementById('vend_name').value,
-            location: e.target.value,
+            po_location: e.target.value,
             po_date: document.getElementById('po_date').value
         })
     }
