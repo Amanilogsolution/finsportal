@@ -230,9 +230,10 @@ function Invoices() {
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
         }
-
+        let Activity_text = document.getElementById('Activity');
+        Activity_text = Activity_text.options[Activity_text.selectedIndex].text;
         setAllInvoiceData({
-            ...allInvoiceData, Activity: document.getElementById('Activity').value,
+            ...allInvoiceData, Activity: document.getElementById('Activity').Activity_text,
             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
             GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,

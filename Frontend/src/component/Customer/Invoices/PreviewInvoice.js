@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 const InvoicePreview = (props) => {
   const pdfRef = useRef(null);
 
+  console.log(props)
   const print = (e) => {
     e.preventDefault();
     const content = pdfRef.current;
