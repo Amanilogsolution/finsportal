@@ -230,11 +230,9 @@ function Invoices() {
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
         }
-        let Activity_text = document.getElementById('Activity');
-        Activity_text = Activity_text.options[Activity_text.selectedIndex].text;
-        console.log('Activity_text', Activity_text)
+
         setAllInvoiceData({
-            ...allInvoiceData, Activity:Activity_text,
+            ...allInvoiceData, Activity: document.getElementById('Activity').value,
             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
             GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
@@ -301,7 +299,6 @@ function Invoices() {
 
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
-        console.log(cust_add)
         setCutomerAddress(cust_add)
     }
 
@@ -327,7 +324,6 @@ function Invoices() {
     }
 
     const handleChangeCustomerAdd = (state, address_id, custaddgst) => {
-        console.log(state, address_id, custaddgst)
         setCustaddstate(state)
         setLocationCustAddid(address_id)
         setCustAddGst(custaddgst)
@@ -338,7 +334,7 @@ function Invoices() {
         let val = document.getElementById('Activity');
         let text = val.options[val.selectedIndex].text;
         let activity_val = val.value;
-        let major_code = activity_val.slice(0, activity_val.indexOf(','))
+        let major_code= activity_val.slice(0, activity_val.indexOf(','))
         // console.log(activity_val.slice(activity_val.indexOf(',')+1))
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
@@ -396,7 +392,7 @@ function Invoices() {
         const utgst = document.getElementById('sutgstipt').value;
         const igst = document.getElementById('igstipt').value;
         let Major = document.getElementById('Activity').value;
-        Major = Major.slice(Major.indexOf(',') + 1)
+        Major = Major.slice(Major.indexOf(',')+1)
         let billing_code = document.getElementById('Activity')
         billing_code = billing_code.options[billing_code.selectedIndex].text;
 
@@ -427,6 +423,11 @@ function Invoices() {
             alert('Please Select Customer');
         }
         else {
+            console.log(localStorage.getItem('Organisation'), fin_year, invoiceids,
+            squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+            total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+            paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
+
 
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
@@ -436,6 +437,7 @@ function Invoices() {
 
             if (result === 'Added') {
                 amount.map(async (amt, index) => {
+                    // console.log('Sub Invoice + ',localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
                     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
                 })
 
@@ -592,7 +594,7 @@ function Invoices() {
                                                             <option value='' hidden>Select Activity</option>
                                                             {
                                                                 Activeaccount.map((items, index) => (
-                                                                    <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
+                                                                    <option key={index} value={[items.account_type_code,items.account_name_code]}>{items.account_name}</option>
                                                                 ))
                                                             }
                                                         </select>
@@ -844,33 +846,21 @@ function Invoices() {
                             </button>
                         </div>
                         <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th><input type='radio' name='radiocity' /> <label>City</label> </th>
-                                        <th><input type='radio' name='radiocity' /> <label>Address</label> </th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        cutomerAddress.length > 0 ?
-                                            cutomerAddress.map((items, index) => (
-                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                    onClick={() => {
-                                                        handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
-                                                        setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
-                                                    }}>
-                                                    <td>{items.billing_address_city}</td>
-                                                    <td style={{ fontSize: "15px" }}>{items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</td>
-
-                                                </tr>
-                                            ))
-                                            : 'Select Customer'
-                                    }
-                                </tbody>
-                            </table>
-
+                            <ul>
+                                {
+                                    cutomerAddress.length > 0 ?
+                                        cutomerAddress.map((items, index) => (
+                                            <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
+                                                onClick={() => {
+                                                    handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
+                                                    setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
+                                                }}
+                                                value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>
+                                                {items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</li>
+                                        ))
+                                        : 'Select Customer'
+                                }
+                            </ul>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
