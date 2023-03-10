@@ -109,44 +109,11 @@ const PreviewBill = (props) => {
                                                 </tr>
                                             ))
                                         }
-                                        {/* <tr  className='billitemrow'>
-                                            <td className='first-col billitem'>1</td>
-                                            <td className='second-col billitem'>70101001</td>
-                                            <td className='third-col billitem'>15</td>
-                                            <td className='four-col billitem'>15</td>
-                                            <td className='five-col billitem'>230000.00</td>
-                                            <td className='six-col billitem'>Deduction</td>
-                                            <td className='seven-col billitem'>Box</td>
-                                            <td className='eight-col billitem'>230000.00</td>
-
-                                        </tr>
-                                        <tr  className='billitemrow' >
-                                            <td className='first-col billitem'>1</td>
-                                            <td className='second-col billitem'>70101001</td>
-                                            <td className='third-col billitem'>15</td>
-                                            <td className='four-col billitem'>15</td>
-                                            <td className='five-col billitem'>230000.00</td>
-                                            <td className='six-col billitem'>Deduction</td>
-                                            <td className='seven-col billitem'>Box</td>
-                                            <td className='eight-col billitem'>230000.00</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td className='first-col billitem'>1</td>
-                                            <td className='second-col billitem'>70101001</td>
-                                            <td className='third-col billitem'>15</td>
-                                            <td className='four-col billitem'>15</td>
-                                            <td className='five-col billitem'>230000.00</td>
-                                            <td className='six-col billitem'>Deduction</td>
-                                            <td className='seven-col billitem'>Box</td>
-                                            <td className='eight-col billitem'>230000.00</td>
-
-                                        </tr> */}
+                                       
                                         </tbody>
                                     </table>
 
                                 </div>
-                                {/* <hr className='m-0' /> */}
 
                                 <div className='bill-bottomdetail d-flex justify-content-end' >
 

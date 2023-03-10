@@ -105,6 +105,8 @@ import CreditNotes from './component/Customer/CreditNotes/CreditNotes';
 import PaymentsReceived from './component/Customer/PaymentReceived/PaymentReceived';
 
 import PurchaseOrder from './component/Vendor/PurchaseOrders/PurchaseOrder'
+import SavePurchaseOrder from './component/Vendor/PurchaseOrders/SavePurchaseOrder'
+
 import Bills from './component/Vendor/Bills/Bills'
 import RecurringBills from './component/Vendor/RecurringBills/RecurringBills'
 import VendorCredits from './component/Vendor/VendorCredits/VendorCredits'
@@ -274,6 +276,9 @@ const App = () => {
           <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived} />
 
           <PrivatRoute exact path="/PurchaseOrder" component={PurchaseOrder} />
+          <PrivatRoute exact path="/SavePurchaseOrder" component={SavePurchaseOrder} />
+
+          
           <PrivatRoute exact path="/Bills" component={Bills} />
           <PrivatRoute exact path="/RecurringBills" component={RecurringBills} />
           <PrivatRoute exact path="/VendorCredits" component={VendorCredits} />

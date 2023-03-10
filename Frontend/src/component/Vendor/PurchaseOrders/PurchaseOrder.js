@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder,Updatefinancialcount } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount } from '../../../api'
+import Preview from './PreviewPurchaseOrder/Preview';
 
 
 function PurchaseOrder() {
@@ -20,6 +21,16 @@ function PurchaseOrder() {
     const [unit, setUnit] = useState([])
     const [pocount, setPOcount] = useState(0)
 
+    const [poalldetail, setPOalldetail] = useState({
+        po_no: '',
+        vendor_id: '',
+        location: '',
+        po_date: ''
+    })
+    const [poitem, setPOitems] = useState([])
+    const [subtotal,setSubtotal] = useState()
+
+
 
 
     const handleSubmit = async (e) => {
@@ -30,8 +41,9 @@ function PurchaseOrder() {
         const polocation = document.getElementById('polocation').value
         const ponumber = document.getElementById('po_no').value;
         const podate = document.getElementById('po_date').value;
+        const flagsave = 'Save'
 
-        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid)
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave)
         if (result == "Insert") {
             const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
             alert("PO Generated")
@@ -41,6 +53,28 @@ function PurchaseOrder() {
             const result1 = await InsertSubPurchaseorder(org, vendorname, ponumber, value, items[index], quantity[index], rate[index], amount[index], unit[index])
         })
 
+    }
+
+    const handleSubmitPost = async (e) => {
+        e.preventDefault()
+        const org = localStorage.getItem('Organisation');
+        const userid = localStorage.getItem('User_id');
+        const vendorname = document.getElementById('vend_name').value
+        const polocation = document.getElementById('polocation').value
+        const ponumber = document.getElementById('po_no').value;
+        const podate = document.getElementById('po_date').value;
+        const flagsave = 'Post'
+
+
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave)
+        if (result == "Insert") {
+            const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
+            alert("PO Generated")
+            window.location.href = "/home"
+        }
+        location.map(async (value, index) => {
+            const result1 = await InsertSubPurchaseorder(org, vendorname, ponumber, value, items[index], quantity[index], rate[index], amount[index], unit[index])
+        })
     }
 
     useEffect(() => {
@@ -82,30 +116,137 @@ function PurchaseOrder() {
 
     const handleChangeLocation = (value, i) => {
         location[i] = value
+        console.log(poitem)
+        var newvalue = [...poitem]
+
+        var sum = 0
+        amount.map((item) => sum += item)
+        setSubtotal(sum)
+
+        // setTimeout(()=>{
+            newvalue[i] = {
+                location:location[i],
+                items:items[i],
+                quantity:quantity[i],
+                rate:rate[i],
+                amount:amount[i],
+                unit:unit[i],
+                total:document.getElementById('Subtotal').innerHTML
+    
+            }
+            setPOitems(newvalue)
+       
     }
 
     const handleChangeItems = (value, i) => {
         items[i] = value
+        console.log(poitem)
+        var sum = 0
+        amount.map((item) => sum += item)
+        setSubtotal(sum)
+
+        var newvalue = [...poitem]
+
+        // setTimeout(()=>{
+            newvalue[i] = {
+                location:location[i],
+                items:items[i],
+                quantity:quantity[i],
+                rate:rate[i],
+                amount:amount[i],
+                unit:unit[i],
+                total:document.getElementById('Subtotal').innerHTML
+
+    
+            }
+            setPOitems(newvalue)
+
+
+        // },1000)
 
     }
 
     const handleAdd = (e) => {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
+    }
+    const handleVendorName = (e) => {
+        e.preventDefault()
+        setPOalldetail({
+            ...poalldetail,
+            po_no: document.getElementById('po_no').value,
+            vendor_id: e.target.value,
+            location: document.getElementById('polocation').value,
+            po_date: document.getElementById('po_date').value
+        })
+    }
 
+    const handleVendorLocation = (e) => {
+        e.preventDefault()
+        setPOalldetail({
+            ...poalldetail,
+            po_no: document.getElementById('po_no').value,
+            vendor_id: document.getElementById('vend_name').value,
+            location: e.target.value,
+            po_date: document.getElementById('po_date').value
+        })
     }
 
     const handleChangeRate = (e) => {
         const total = quantity[index] * e.target.value;
+        document.getElementById('Subtotal').innerHTML = total
+        console.log(poitem)
+        var newvalue = [...poitem]
+
+
         setTimeout(() => {
+            var sum = 0
+        amount.map((item) => sum += item)
+        setSubtotal(sum)
             rate[index] = e.target.value
             amount[index] = total
             document.getElementById(`Amount${index}`).value = total
+            newvalue[index] = {
+                location:location[index],
+                items:items[index],
+                quantity:quantity[index],
+                rate:rate[index],
+                amount:amount[index],
+                unit:unit[index],
+                total:document.getElementById('Subtotal').innerHTML
+
+    
+            }
+            setPOitems(newvalue)
+
         }, 1000)
     }
 
     const handleChangeUnit = (value, i) => {
         unit[i] = value
+        console.log(poitem)
+        var newvalue = [...poitem]
+        var sum = 0
+        amount.map((item) => sum += item)
+        console.log(document.getElementById('Subtotal').innerHTML)
+        setSubtotal(sum)
+
+
+        setTimeout(()=>{
+            newvalue[i] = {
+                location:location[i],
+                items:items[i],
+                quantity:quantity[i],
+                rate:rate[i],
+                amount:amount[i],
+                unit:unit[i],
+                total:document.getElementById('Subtotal').innerHTML
+
+    
+            }
+            setPOitems(newvalue)
+
+        },500)
     }
 
     const handleRemove = (e) => {
@@ -161,7 +302,7 @@ function PurchaseOrder() {
                                     <div className="d-flex col-md">
                                         <select
                                             id="vend_name"
-                                            // onChange={handlevendorselect}
+                                            onChange={handleVendorName}
                                             className="form-control col-md-4">
                                             <option value='' hidden>select vendor</option>
                                             {
@@ -175,6 +316,7 @@ function PurchaseOrder() {
                                     <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
                                     <div className="d-flex col-md">
                                         <select
+                                            onChange={handleVendorLocation}
                                             id="polocation"
                                             className="form-control col-md-4">
                                             <option value='' hidden>Select location</option>
@@ -263,10 +405,36 @@ function PurchaseOrder() {
                                 <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
                             </form>
                         </article>
+                        <hr />
+                        <div className='d-flex'>
+                                                    <div style={{ width: "40%" }}>
+                                                       
+                                                    </div>
+                                                    <div className={`rounded py-1 px-2`} style={{ width: "55%"}}>
+                                                        <table className='w-100'>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><button className="btn btn-primary" id='subtotalbtn'> Total</button></td>
+                                                                    <td></td>
+                                                                    <td id="Subtotal">{subtotal}</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+
+
                         <div className="card-footer border-top">
                             <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>Save</button>
+                            <button id="save" name="save" className="btn btn-danger ml-2" onClick={handleSubmitPost}>Post</button>
                             <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
+                            <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
+
                         </div>
+                        <Preview data={poalldetail} Allitems={poitem}/>
+
                     </div>
                 </div>
             </div>

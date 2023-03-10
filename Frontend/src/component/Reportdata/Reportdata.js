@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission,filterPO } from '../../api'
 import BillReport from './Reports/BillReport';
+import POReport from './Reports/POReport';
 
 const Reportdata = () => {
   const [data, setData] = useState()
@@ -53,7 +54,6 @@ const Reportdata = () => {
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
       setVendcustname(Customer.options[Customer.selectedIndex].text)
-
       const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
       setData(result)
       console.log('Invoice Data',result)
@@ -62,16 +62,27 @@ const Reportdata = () => {
       const vend = document.getElementById('vendor');
       const vendid = vend.value;
       setVendcustname(vend.options[vend.selectedIndex].text)
-
       const result = await FilterBillReport(org, fromdate, todate, vendid)
       setData(result)
+    }
+    else if (report_type === 'PO'){
+      const vend = document.getElementById('vendor');
+      const vendid = vend.value;
+      const locationid = document.getElementById('location').value;
+
+      setVendcustname(vend.options[vend.selectedIndex].text)
+      const result = await filterPO(org, fromdate, todate, vendid, locationid)
+      console.log(result)
+      setData(result)
+
+      console.log(org,fromdate,todate,vendid,locationid)
+
     }
 
   }
 
   const handleChangetype = (e) => {
     if (e.target.value === 'Bills') {
-
       document.getElementById('locationdiv').style.display = 'none';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
@@ -79,6 +90,10 @@ const Reportdata = () => {
     else if (e.target.value === 'Invoice') {
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
+    }else if(e.target.value === 'PO'){
+      document.getElementById('locationdiv').style.display = 'flex';
+      document.getElementById('customerdiv').style.display = 'none';
+      document.getElementById('vendordiv').style.display = 'flex';
     }
   }
   return (
@@ -100,8 +115,9 @@ const Reportdata = () => {
                           data ? (
                             (document.getElementById('report_type').value == 'Invoice') ?
                               <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
-                                ? <BillReport displaydata={data} name={vendcustname} /> : null)
-                            : <h3 className='text-center'>Filter for show data</h3>
+                                ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'PO')?
+                                <POReport displaydata={data} name={vendcustname}/>:null)
+                            : <h3 className='text-center'>Filter to show data</h3>
                         }
                       </form>
                     </article>
@@ -129,6 +145,8 @@ const Reportdata = () => {
                         <option value='' hidden>Select Type</option>
                         <option id='invoicedropdown' style={{display:"none"}} value='Invoice'>Invoice</option>
                         <option id='billdropdown' style={{display:"none"}} value='Bills'>Bills</option>
+                        <option id='podropdown' value='PO'>Purchase Order</option>
+
                       </select>
                     </div>
                   </div>
