@@ -80,10 +80,13 @@ const filterPO = async (req, res) => {
     const lastDate = req.body.lastDate;
     const vendor_id = req.body.vendor_id;
     const po_location = req.body.po_location;
+    console.log(org,startDate,lastDate,vendor_id,po_location)
+    console.log(`select * from ${org}.dbo.tbl_purchase_order tpo where  po_date between '${startDate}' and '${lastDate}' and po_location='${po_location}' and flagsave='post'`)
     try {
         await sql.connect(sqlConfig)
         if (vendor_id === 'all') {
-            const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order tpo where   po_date between '${startDate}' and '${lastDate}' and po_location='${po_location}' and flagsave='post'`)
+            console.log('hllllll')
+            const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order tpo where  po_date between '${startDate}' and '${lastDate}' and po_location='${po_location}' and flagsave='post'`)
             res.send(result.recordset)
         }
         else {
@@ -94,7 +97,37 @@ const filterPO = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
 
-module.exports={InsertPurchaseorder,InsertSubPurchaseorder,getPoDetailsVendor,getSavePO,filterPO}
+const getPoDetailsPreview = async(req,res) => { 
+    const org=req.body.org;
+    const po_number=req.body.po_number;
+    console.log(org, po_number)
+
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order WHERE  po_number ='${po_number}'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+const getSubPoDetailsPreview = async(req,res) => { 
+    const org=req.body.org;
+    const po_number=req.body.po_number;
+    console.log(org, po_number)
+
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_sub_purchase_order WHERE  po_number ='${po_number}'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+
+module.exports={InsertPurchaseorder,InsertSubPurchaseorder,getPoDetailsVendor,getSavePO,filterPO,getPoDetailsPreview,getSubPoDetailsPreview}

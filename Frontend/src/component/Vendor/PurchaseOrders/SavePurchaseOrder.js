@@ -47,6 +47,13 @@ export default function SavePurchaseOrder() {
       name: 'PO No',
       selector: 'po_number',
       sortable: true,
+      cell:(row)=>{
+        return (
+          <a>
+            {row.po_number}
+          </a>
+        )
+      }
       
     },
     {

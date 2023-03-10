@@ -1455,3 +1455,15 @@ export const filterPO = async (org,startDate,lastDate,vendor_id,po_location) => 
     const url = `http://localhost:3008/api/filterpo`
     return axios.post(url, { org,startDate,lastDate,vendor_id,po_location}).then(response => response.data).catch(error => console.log(error));
 }
+export const getPoDetailsPreview = async (org,po_number) => {
+    const url = `http://localhost:3008/api/getPoDetailsPreview`
+    return axios.post(url, { org,po_number}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const getSubPoDetailsPreview = async (org,po_number) => {
+    const url = `http://localhost:3008/api/getSubPoDetailsPreview`
+    return axios.post(url, { org,po_number}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
