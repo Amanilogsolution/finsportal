@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Footer from "../Footer/Footer";
 import { ActiveCustomer, customernameChange, UpdateCustomerName } from '../../api'
-
 import Header from "../Header/Header";
 
 export default function CustomerNames() {
     const [activecustomer, setActiveCustomer] = useState([])
-
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation')
@@ -42,7 +40,6 @@ export default function CustomerNames() {
         else {
             const result = await customernameChange(org, customerid, cust_name, date, User_id)
             const updatename = await UpdateCustomerName(org, name, customerid)
-
             if (updatename === 'Updated') {
                 alert('Customer Name Changed')
                 window.location.href = "/TotalCustomer"
@@ -90,13 +87,11 @@ export default function CustomerNames() {
                                         <input type="date" className="form-control col-md-4 cursor-notallow" id="date" />
                                     </div>
                                 </div>
-
                             </form>
                         </article>
                         <div className="card-footer border-top">
                             <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>Update</button>
-                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/TotalCustomer' }}
-                                name="clear" className="btn ml-2 btn btn-secondary">Cancel</button>
+                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/TotalCustomer' }} name="clear" className="btn ml-2 btn btn-secondary">Cancel</button>
                         </div>
                     </div>
                 </div>
