@@ -65,6 +65,7 @@ function EditOrganisation() {
     const fetchdata = async () => {
       const result = await showOrganisation(localStorage.getItem('Organisation_details'))
       setData(result)
+      console.log(result)
       if (result.report_basic === 'Accural') {
         document.getElementById('Accural').checked = true
         setReportBasic('Accural')

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState,memo } from 'react'
+import React, { useRef, useEffect, useState, memo } from 'react'
 import '../PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
@@ -8,14 +8,13 @@ const InvoicePreview = (props) => {
   const [orgdata, setOrgdata] = useState([])
 
   const pdfRef = useRef(null);
-  console.log('EditProps', props)
   const print = (e) => {
     e.preventDefault();
     const content = pdfRef.current;
     const doc = new jsPDF();
     doc.html(content, {
       callback: function (doc) {
-        doc.save(`Invoice-${props.Allinvoicedata.TaxInvoice}.pdf`);
+        doc.save(`Invoice-${props.Allinvoicedata.invoice_no}.pdf`);
       },
       html2canvas: { scale: 0.233 },
       margin: [5, 0, 0, 5],
@@ -26,7 +25,7 @@ const InvoicePreview = (props) => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      let org=localStorage.getItem('Organisation');
+      let org = localStorage.getItem('Organisation');
       const result = await showOrganisation(org)
       setOrgdata(result)
     }
@@ -59,7 +58,7 @@ const InvoicePreview = (props) => {
                     <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.invoice_no} &nbsp;
                   </div>
                   <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.startdate} &nbsp;</div>
-                  <div className="forthinvoicediv"><b> {props.Allinvoicedata.currency_type ||'INR'}</b>{props.Allinvoicedata.invoice_amt}</div>
+                  <div className="forthinvoicediv"><b> {props.Allinvoicedata.currency_type || 'INR'}</b>{props.Allinvoicedata.invoice_amt}</div>
                 </div>
               </div>
 

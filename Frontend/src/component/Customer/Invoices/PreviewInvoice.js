@@ -9,8 +9,6 @@ const InvoicePreview = (props) => {
   const [orgdata, setOrgdata] = useState([])
 
   const pdfRef = useRef(null);
-
-  console.log(props)
   const print = (e) => {
     e.preventDefault();
     const content = pdfRef.current;
@@ -162,7 +160,7 @@ const InvoicePreview = (props) => {
                       <th>Total</th>
                     </tr>
                     <tr className="amounttaxtr">
-                      <th className='amounttaxtrth'>Rs.</th>
+                      <th className='amounttaxtrth'>INR.</th>
                       <td>{props.Allinvoicedata.CGST}</td>
                       <td>{props.Allinvoicedata.SGST}</td>
                       <td>{props.Allinvoicedata.IGST}</td>

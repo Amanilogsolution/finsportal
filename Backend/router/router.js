@@ -27,7 +27,7 @@ const InvoiceSubController = require('../controller/Sales/subinvoice')
 
 
 const BillController = require('../controller/Purchases/Bill/Bill')
-const VendorInvoiceSubController = require('../controller/Purchases/Bill/subinvoice')
+const BillSubController = require('../controller/Purchases/Bill/subbill')
 const vendorController = require('../controller/Purchases/vendor');
 
 const AddressController = require('../controller/Addresses');
@@ -369,7 +369,10 @@ router.post('/getemployee',EmployeeController.getemployee)
 router.post('/updateemployee',EmployeeController.updateemployee)
 
 router.post('/insertbill',BillController.InsertBill)
-router.post('/insertvendorsubinvoice',VendorInvoiceSubController.inserSubInvoice)
+router.post('/getbilldata',BillController.GetBillData)
+
+router.post('/insertsubbill',BillSubController.inserSubBill)
+router.post('/getsubbillitems',BillSubController.GetSubBillItems)
 router.post('/filterbillreport',BillController.FilterBillReport)
 router.post('/GetSaveBill',BillController.getSaveBill)
 

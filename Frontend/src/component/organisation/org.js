@@ -46,6 +46,8 @@ function Org() {
 
     if (!org_name || !org_state) {
       alert('Please Enter the mandatory field...')
+    document.getElementById('datasave').disabled = false;
+
     }
     else {
       const OrgTable = await CreateOrgTable(dbname, org_name, User_id)

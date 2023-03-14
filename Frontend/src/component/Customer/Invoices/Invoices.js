@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
-import InvoicePreviewWithGst from './PreviewInvoicewithoutGST'
+import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm,
     // ActiveUser
@@ -84,7 +84,7 @@ function Invoices() {
             setTimeout(() => {
                 setLoading(true)
                 const localdata = localStorage.getItem('gststatus');
-                if (localdata == 'false') {
+                if (localdata === 'false') {
                     document.getElementById('cgstinp').style.display = 'none';
                     document.getElementById('sgstinp').style.display = 'none';
                     document.getElementById('igstinp').style.display = 'none';
@@ -112,7 +112,6 @@ function Invoices() {
             const currencydata = await ActiveCurrency(org)
             setCurrencylist(currencydata)
             const ActiveAccount = await ActiveAccountMinorCode(org)
-            console.log(ActiveAccount)
             setActiveAccount(ActiveAccount)
         }
         fetchdata()
@@ -171,7 +170,6 @@ function Invoices() {
         let tolgst = 0
         totalgst.map((item) => tolgst += item)
 
-        console.log(gstvalues[index])
         items[index] = {
             itemsvalue: chargecodes[chargecodes.length - 1], quantity: Quantitys[index], rate: rate[index],
             tax: gstvalues[index], unit: value,
@@ -180,7 +178,6 @@ function Invoices() {
     }
 
     const handleSubTotal = (e) => {
-        console.log(amount)
         e.preventDefault();
         document.getElementById('additembtm').disabled = true;
         document.getElementById('removeitembtm').disabled = true;
@@ -338,7 +335,6 @@ function Invoices() {
         let text = val.options[val.selectedIndex].text;
         let activity_val = val.value;
         let major_code = activity_val.slice(0, activity_val.indexOf(','))
-        // console.log(activity_val.slice(activity_val.indexOf(',')+1))
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
         setActiveChargeCode(result)
@@ -353,7 +349,6 @@ function Invoices() {
 
     const handlesavebtn = async (e) => {
         e.preventDefault();
-        console.log(items)
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
         let invoiceids = "";
@@ -771,9 +766,9 @@ function Invoices() {
                                                     </div>
                                                 </div>
                                                 {
-                                                    localStorage.getItem('gststatus') == true ?
-                                                        <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} /> :
-                                                        <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
+                                                     localStorage.getItem('gststatus') !== 'true' ?
+                                                        <InvoicePreviewWithoutGst Allinvoicedata={allInvoiceData} Allitems={items}/> :
+                                                        <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items}/>
 
 
                                                 }

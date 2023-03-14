@@ -47,7 +47,7 @@ const BillSave = () => {
       name: 'Bill No',
       selector: 'bill_no',
       sortable: true,
-      
+
     },
     {
       name: 'Vourcher No',
@@ -85,7 +85,16 @@ const BillSave = () => {
       selector: 'remarks',
       sortable: true
     },
-
+    {
+      name: "Action",
+      sortable: false,
+      selector: row => row.null,
+      cell: (row) => [
+         <button  type="button" onClick={()=> { 
+          window.location.href="/EditBill";localStorage.setItem('vourcher_no',row.vourcher_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
+      ]
+    }
+    ,
     // {
     //   name: "Actions",
     //   sortable: false,
