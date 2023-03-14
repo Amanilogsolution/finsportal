@@ -201,10 +201,11 @@ const Header = () => {
                           <span className="orgnamehover" onClick={() => {
                             localStorage.setItem('Organisation', item.org_db_name);
                             localStorage.setItem('Organisation Name', item.org_name);
+                            localStorage.setItem('Organisation_details', item.org_db_name);
                             window.location.reload()
                           }}>{item.org_name}</span>
                         </a>
-                        <a onClick={() => { localStorage.setItem('Organisation_details', item.org_name); window.location.href = './EditOrganisation' }} style={{ float: "right", cursor: "pointer" }}>
+                        <a onClick={() => { localStorage.setItem('Organisation_details', item.org_db_name); window.location.href = './EditOrganisation' }} style={{ float: "right", cursor: "pointer" }}>
                           <i className={`fas fa-cog text-${btntheme}`} ></i> Manage</a>
                       </li>
                     ))
@@ -229,7 +230,7 @@ const Header = () => {
                 </div>
                 <ul className="list-group list-group-flush ">
                   <a href="/EditOrganisation" id='org_profile' > <li className={`list-group-item bg-${themeval} `}><i className={`fa fa-building text-${btntheme}`}></i> &nbsp;
-                    <b>Orgaisation profile</b> </li></a>
+                    <b>Organisation profile</b> </li></a>
                   <a href="/ShowFinancialyear" id='fincial_year_view'><li className={`list-group-item bg-${themeval}`}><i className={`fa fa-calendar text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;
                     <b>Financial Year</b> </li></a>
                   <a href="/TotalLocation" id='branchs' > <li className={`list-group-item bg-${themeval}`}><i className={`fa fa-map-marker text-${btntheme}`} aria-hidden="true"></i>&nbsp;&nbsp;

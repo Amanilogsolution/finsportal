@@ -112,6 +112,8 @@ import Bills from './component/Vendor/Bills/Bills'
 import RecurringBills from './component/Vendor/RecurringBills/RecurringBills'
 import VendorCredits from './component/Vendor/VendorCredits/VendorCredits'
 import SaveBillReport from './component/Vendor/Bills/SaveBill/savebill'
+import EditBill from './component/Vendor/Bills/EditBill/EditBill'
+
 
 import ShowAccountMinorCode from './component/Master/ShowAccountMinorCode/ShowAccountMinorCode';
 import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAccountMinorCode';
@@ -281,6 +283,7 @@ const App = () => {
           <PrivatRoute exact path="/EditPurchaseOrder" component={EditPurchaseOrder} />
 
           <PrivatRoute exact path="/Bills" component={Bills} />
+          <PrivatRoute exact path="/EditBill" component={EditBill} />
           <PrivatRoute exact path="/RecurringBills" component={RecurringBills} />
           <PrivatRoute exact path="/VendorCredits" component={VendorCredits} />
           <PrivatRoute exact path="/SaveBillReport" component={SaveBillReport} />

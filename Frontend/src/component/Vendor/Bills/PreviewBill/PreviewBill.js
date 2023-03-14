@@ -19,7 +19,7 @@ const PreviewBill = (props) => {
             margin: [5, 0, 0, 6],
         });
     };
-
+console.log('props',props)
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -37,8 +37,7 @@ const PreviewBill = (props) => {
                                     <div className="toporgname text-center " >
                                         <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                                         <p>
-                                            {localStorage.getItem('Organisation Name').toLocaleUpperCase()} &nbsp;
-                                            ADDRESS-GROUND FLOOR,TOWER B,VATIKA ATRIUM <br />GOLF COURSE  ROAD SECTOR 53,GURGOAN
+                                        {props.orgdata.org_street},{props.orgdata.org_city},{props.orgdata.org_state},{props.orgdata.org_country}
                                         </p>
 
                                     </div>
@@ -53,7 +52,7 @@ const PreviewBill = (props) => {
                                                     <td >{props.data.voucher_no}</td>
                                                 </tr>
                                                 <tr >
-                                                    <th >Dated :</th>
+                                                    <th >Date :</th>
                                                     <td >{props.data.voucher_date}</td>
                                                 </tr>
                                                 <tr >
@@ -72,8 +71,8 @@ const PreviewBill = (props) => {
                                                     <td >GIP173/22-23/024</td>
                                                 </tr>
                                                 <tr >
-                                                    <th >Invoice Date:</th>
-                                                    <td > {props.data.invoice_date}</td>
+                                                    <th >Bill Date:</th>
+                                                    <td > {props.data.bill_date}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -86,7 +85,8 @@ const PreviewBill = (props) => {
                                     <table className='table items-table table-borderless m-0' >
                                     <tbody>
                                         <tr className='billitemrow'>
-                                            <th className='first-col billitem text-center'>SNO.</th>
+                                            <th className='first-col billitem text-center'>Sno.</th>
+                                            <th className='second-col billitem text-center'>Location</th>
                                             <th className='second-col billitem text-center'>Item</th>
                                             <th className='third-col billitem text-center'>Quantity</th>
                                             <th className='four-col billitem text-center'>Rate</th>
@@ -99,13 +99,14 @@ const PreviewBill = (props) => {
                                             props.Allitems.map((item, index) => (
                                                 <tr key={index} className='billitemrow'>
                                                     <td className='first-col billitem text-center'>{index + 1}</td>
-                                                    <td className='second-col billitem text-center'>{item.items}</td>
+                                                    <td className='second-col billitem text-center'>{item.location}</td>
+                                                    <td className='second-col billitem text-center'>{item.item}</td>
                                                     <td className='third-col billitem text-center'>{item.quantity}</td>
                                                     <td className='four-col billitem text-center'>{item.rate}</td>
-                                                    <td className='five-col billitem text-center'>{item.rate}</td>
+                                                    <td className='five-col billitem text-center'>{item.amount}</td>
                                                     <td className='six-col billitem text-center'>{item.deduction}</td>
                                                     <td className='seven-col billitem text-center'>{item.unit}</td>
-                                                    <td className='eight-col billitem text-center'>{item.netvalue}</td>
+                                                    <td className='eight-col billitem text-center'>{item.netamount}</td>
                                                 </tr>
                                             ))
                                         }
@@ -136,8 +137,8 @@ const PreviewBill = (props) => {
                                             <td className='text-center'>{props.data.igst_amt}</td>
                                         </tr>
                                         <tr id='billborderbottom' >
-                                            <th className='text-right'>Invoice Amount</th>
-                                            <td className='text-center'>{props.data.invoice_amt}</td>
+                                            <th className='text-right'>Bill Amount</th>
+                                            <td className='text-center'>{props.data.bill_amt}</td>
                                         </tr>
                                         <tr id='billborderbottom'>
                                             <th className='text-right' >TDS@ {props.data.tds_per}%</th>

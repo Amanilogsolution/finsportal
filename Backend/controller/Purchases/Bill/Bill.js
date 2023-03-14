@@ -34,6 +34,7 @@ const InsertBill = async (req, res) => {
     const vendor_id = req.body.vendor_id;
     const bill_url = req.body.bill_url;
     const flagsave = req.body.flagsave;
+    const po_no = req.body.po_no;
     const uuid = uuidv1()
 
     try {
@@ -43,12 +44,12 @@ const InsertBill = async (req, res) => {
 
         if (dublicate_bill.recordset.length === 0) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_bill(
-            vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,payment_term,due_date,amt_paid,
+            vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,po_no,payment_term,due_date,amt_paid,
             amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
             fins_year,confirm_flag,
             cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url,flagsave)
             values('${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',
-            '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
+            '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${po_no}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
             '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}','${flagsave}')
           `)
             res.send('Added')
@@ -111,6 +112,19 @@ const getSaveBill = async (req, res) => {
     }
 
 }
+const GetBillData = async (req, res) => {
+    const org = req.body.org;
+    const voucher_no = req.body.voucher_no;
+    try {
+        await sql.connect(sqlConfig)
+        const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate,convert(varchar(15),due_date,121) as duedate,
+        convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) WHERE vourcher_no='${voucher_no}'`)
+        res.send(Bill.recordset[0])
+    }
+    catch (err) {
+        res.send(err)
 
+    }
+}
 
-module.exports = { InsertBill, FilterBillReport,getSaveBill }
+module.exports = { InsertBill, FilterBillReport,getSaveBill,GetBillData }
