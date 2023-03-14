@@ -453,10 +453,14 @@ function Bills() {
 
         if (!voucher_no) {
             alert('Please Enter mandatory field')
+            document.getElementById('savebtn').disabled = false;
+            document.getElementById('postbtn').disabled = false;
         }
         else {
             if (bill_amt !== total_bill_amt) {
                 alert('Bill Amount and Total Amount must be same')
+                document.getElementById('savebtn').disabled = false;
+                document.getElementById('postbtn').disabled = false;
             }
             else {
                 const org = localStorage.getItem('Organisation')
@@ -479,10 +483,14 @@ function Bills() {
                 }
                 else if (result === 'Already') {
                     alert('Bill no Already exists');
+                    document.getElementById('savebtn').disabled = false;
+                    document.getElementById('postbtn').disabled = false;
                 }
 
                 else {
                     alert('Server Not Response')
+                    document.getElementById('savebtn').disabled = false;
+                    document.getElementById('postbtn').disabled = false;
                 }
             }
         }
