@@ -80,15 +80,14 @@ const FilterBillReport = async (req, res) => {
             const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
             convert(varchar(15),bill_date,121) as billdate
             from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
-                     and '${lastDate}'`)
+                     and '${lastDate}' and flagsave='post' order by sno desc`)
             res.send(result.recordset)
         }
         else {
-
             const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
                 convert(varchar(15),bill_date,121) as billdate
                 from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
-                         and '${lastDate}' and vend_id='${vendid}' `)
+                         and '${lastDate}' and vend_id='${vendid}' and flagsave='post' order by sno desc`)
             res.send(result.recordset)
 
         }
@@ -104,7 +103,7 @@ const getSaveBill = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate, convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) where flagsave='save'`)
+        const result = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate, convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) where flagsave='save' order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -118,7 +117,7 @@ const GetBillData = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate,convert(varchar(15),due_date,121) as duedate,
-        convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) WHERE vourcher_no='${voucher_no}'`)
+        convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) WHERE vourcher_no='${voucher_no}' order by sno desc`)
         res.send(Bill.recordset[0])
     }
     catch (err) {
@@ -127,4 +126,24 @@ const GetBillData = async (req, res) => {
     }
 }
 
-module.exports = { InsertBill, FilterBillReport,getSaveBill,GetBillData }
+const UpdateSaveBillToPost = async (req, res) => {
+    const org = req.body.org;
+    const voucher_no = req.body.voucher_no;
+    const new_voucher_no = req.body.new_voucher_no;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(` update ${org}.dbo.tbl_bill set vourcher_no='${new_voucher_no}' ,flagsave='post' WHERE vourcher_no='${voucher_no}'`)
+        if (result.rowsAffected > 0) {
+            res.send('Updated')
+        }
+        else {
+            res.send('Error')
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = { InsertBill, FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost }

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-
+import BillPreview from '../Preview/BillPreview'
 
 
 const BillReport = (props) => {
     const [data, setData] = useState([])
+    const [vouno, setVouno] = useState('')
+    const [tooglecomponent, setTooglecomponent] = useState(false)
 
     const columns = [
         {
@@ -46,10 +48,20 @@ const BillReport = (props) => {
             name: 'Remarks',
             selector: 'remarks',
             sortable: true
+        },
+        {
+            name: "Actions",
+            sortable: false,
+            selector: "null",
+            cell: (row) => [
+                <button id='previewbtn' type="button" onClick={(e) => {
+                    e.preventDefault();
+                    setVouno(row.vourcher_no); setTooglecomponent(true)
+                }} className="btn btn-success"
+                    data-toggle="modal" data-target="#exampleModalCenter" >Preview Bill </button>
+            ]
         }
-
     ]
-
 
     useEffect(() => {
         async function fetchdata() {
@@ -69,6 +81,9 @@ const BillReport = (props) => {
 
                 <h4 className='text-center'>Bill Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
+                {
+                    tooglecomponent ? <BillPreview vouno={vouno} /> : null
+                }
             </div>
         </div>
     )

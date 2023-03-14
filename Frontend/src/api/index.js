@@ -1322,10 +1322,20 @@ export const GetBillData = async (org, voucher_no) => {
     const url = `http://localhost:3008/api/getbilldata`
     return axios.post(url, { org, voucher_no }).then(response => response.data).catch(error => console.log(error));
 }
+export const UpdateSaveBillToPost = async (org, voucher_no,new_voucher_no) => {
+    const url = `http://localhost:3008/api/updatesavebilltopost`
+    return axios.post(url, { org, voucher_no,new_voucher_no }).then(response => response.data).catch(error => console.log(error));
+}
+
 export const InsertSubBill = async (org, voucher_no,bill_no, tabledata, fins_year, userid) => {
     const url = `http://localhost:3008/api/insertsubbill`
     return axios.post(url, {org, voucher_no,bill_no, tabledata, fins_year, userid}).then(response => response.data).catch(error => console.log(error));
 }
+export const UpdateSaveSubBillToPost = async (org, voucher_no,new_voucher_no) => {
+    const url = `http://localhost:3008/api/updatesavesubbilltopost`
+    return axios.post(url, { org, voucher_no,new_voucher_no }).then(response => response.data).catch(error => console.log(error));
+}
+
 export const GetSubBillItems = async (org, voucher_no) => {
     const url = `http://localhost:3008/api/getsubbillitems`
     return axios.post(url, { org, voucher_no }).then(response => response.data).catch(error => console.log(error));
@@ -1333,12 +1343,12 @@ export const GetSubBillItems = async (org, voucher_no) => {
 
 
 export const FilterBillReport = async (org, startDate, lastDate, vendid) => {
-    const url = `https://finsbackend.awlinternational.com/api/filterbillreport`
+    const url = `http://localhost:3008/api/filterbillreport`
     return axios.post(url, { org, startDate, lastDate, vendid }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetSaveBill = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/GetSaveBill`
+    const url = `http://localhost:3008/api/GetSaveBill`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 

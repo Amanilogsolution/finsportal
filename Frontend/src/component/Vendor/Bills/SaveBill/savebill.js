@@ -91,7 +91,7 @@ const BillSave = () => {
       selector: row => row.null,
       cell: (row) => [
          <button  type="button" onClick={()=> { 
-          window.location.href="/EditBill";localStorage.setItem('vourcher_no',row.vourcher_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
+          window.location.href="/EditBill";localStorage.setItem('vourcher_no',row.vourcher_no)}}  className="btn btn-danger">Edit</button>
       ]
     }
     ,

@@ -31,6 +31,7 @@ function Bills() {
     const [orgdata, setOrgdata] = useState([]);
 
     const [tdscomp, setTdscomp] = useState();
+    const [netamt, setNetamt] = useState('')
 
 
     const [billalldetail, setBillalldetail] = useState({
@@ -85,7 +86,7 @@ function Bills() {
             setActiveUser(result2)
             const items = await ActivePurchesItems(org)
             setItemlist(items)
-            console.log(items)
+            
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
             setVouchercount(lastno)
@@ -113,7 +114,6 @@ function Bills() {
     }
 
     const Duedate = (lastday) => {
-        console.log(lastday)
         let [val, Ter] = lastday.split(" ")
         Ter = Number(lastday) || 45;
         let myDate = new Date(new Date().getTime() + (Ter * 24 * 60 * 60 * 1000));
@@ -275,7 +275,7 @@ function Bills() {
         tabledata.map((item) => sum += item.netamount)
         setNetTotal(sum)
         document.getElementById('totalamount').value = sum;
-        if (document.getElementById('gstdiv').style.display == 'none') {
+        if (document.getElementById('gstdiv').style.display === 'none') {
             document.getElementById('gstdiv').style.display = 'block';
         }
         else {
@@ -377,7 +377,7 @@ function Bills() {
             ...billalldetail,
             tds_per: document.getElementById('tdsperinp').value,
             tds_amt: document.getElementById('tdstagval').innerHTML,
-            net_amt: document.getElementById('total_bill_amt').innerHTML
+            net_amt: value - Math.round(amount)
         })
     }
 
@@ -388,6 +388,10 @@ function Bills() {
         const value = netTotal;
         setNetTotal(value - Number(e.target.value))
         document.getElementById('expense-amttd').innerHTML = e.target.value;
+        setBillalldetail({
+            ...billalldetail,
+            net_amt: value - Number(e.target.value)
+        })
     }
 
     // ################################ Remark Div ##########################################
@@ -402,6 +406,14 @@ function Bills() {
         })
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
+    }
+
+
+    // 
+    const handleCalNetAmt=()=>{
+        let net_amt = 0;
+        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        setNetamt(net_amt)
     }
 
     const handleClickAdd = async (e) => {
@@ -859,7 +871,7 @@ function Bills() {
                                             </table>
                                         </div>
                                     </div>
-                                    <PreviewBill data={billalldetail} Allitems={tabledata} orgdata={orgdata} />
+                                    <PreviewBill data={billalldetail} Allitems={tabledata} orgdata={orgdata} netamt={netamt}/>
 
                                 </form>
                             </article>
@@ -871,7 +883,7 @@ function Bills() {
                                     onClick={handleClickAdd}
                                     value='post'>Post </button>
                                 <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
-                                <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Bill</button>
+                                <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview Bill</button>
                             </div>
                         </div>
                     </div>
