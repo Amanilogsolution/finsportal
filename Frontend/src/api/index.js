@@ -1435,9 +1435,9 @@ export const DeleteUserRole = async (org,sno,status) => {
 // ############################ For Role api Start #################################
 
 // ############################ For Po api Start #################################
-export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number, po_date, User_id,flagsave) => {
+export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number, po_date, User_id,flagsave,poamount) => {
     const url = `http://localhost:3008/api/InsertPurchaseorder`
-    return axios.post(url, { org, vendor_id, po_location, po_number, po_date, User_id,flagsave }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vendor_id, po_location, po_number, po_date, User_id,flagsave,poamount }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity,rate,amount,unit) => {
@@ -1468,6 +1468,12 @@ export const getSubPoDetailsPreview = async (org,po_number) => {
     const url = `http://localhost:3008/api/getSubPoDetailsPreview`
     return axios.post(url, { org,po_number}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const Editpurchaseorder = async (org,po_number,status) => {
+    const url = `http://localhost:3008/api/editpurchaseorder`
+    return axios.post(url, { org,po_number,status}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 
 

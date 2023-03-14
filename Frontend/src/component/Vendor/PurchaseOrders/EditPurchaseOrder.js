@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import Preview from './PreviewPurchaseOrder/Preview';
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, Editpurchaseorder, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
 
 export default function EditPurchaseOrder() {
     const [data, setData] = useState({})
@@ -25,6 +25,7 @@ export default function EditPurchaseOrder() {
             const org = localStorage.getItem('Organisation');
             const po_no = localStorage.getItem('poNo');
             const result = await getPoDetailsPreview(org, po_no)
+            console.log(result)
             setData(result[0])
             setPOalldetail(result[0])
 
@@ -64,6 +65,25 @@ export default function EditPurchaseOrder() {
         var today = year + "-" + month + "-" + day;
         // document.getElementById("po_date").value = today;
     }
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault()
+        const result = await Editpurchaseorder(localStorage.getItem('Organisation'),data.po_number,'Save');
+        if(result == "Updated"){
+            window.location.href="./SavePurchaseOrder"
+        }
+    }
+
+    const handleSubmitPost = async(e) =>{
+        e.preventDefault()
+        const result = await Editpurchaseorder(localStorage.getItem('Organisation'),data.po_number,'post');
+    
+        if(result == "Updated"){
+            window.location.href="./SavePurchaseOrder"
+        }
+
+
+    }
     return (
         <div className="wrapper">
             <div className="preloader flex-column justify-content-center align-items-center">
@@ -72,7 +92,7 @@ export default function EditPurchaseOrder() {
             <Header />
             <div className="content-wrapper">
                 <div className="container-fluid">
-                    <h3 className="pt-3 pb-2 pl-5"> New Purchase Order</h3>
+                    <h3 className="pt-3 pb-2 pl-5"> Edit Purchase Order</h3>
                     <div className="card">
                         <article className="card-body" >
                             <form autoComplete="off">
@@ -207,7 +227,7 @@ export default function EditPurchaseOrder() {
                                             <td><button className="btn btn-primary" id='subtotalbtn'> Total</button></td>
                                             <td></td>
                                             <td id="Subtotal">
-                                                {/* {subtotal} */}
+                                                {data.poamount}
                                             </td>
                                         </tr>
 
@@ -219,9 +239,13 @@ export default function EditPurchaseOrder() {
 
 
                         <div className="card-footer border-top">
-                            {/* <button id="save" name="save" className="btn btn-danger" onClick={handleSubmit}>Save</button>
-                    <button id="save" name="save" className="btn btn-danger ml-2" onClick={handleSubmitPost}>Post</button>
-                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button> */}
+                            <button id="save" name="save" className="btn btn-danger" 
+                            onClick={handleSubmit}
+                            >Save</button>
+                    <button id="save" name="save" className="btn btn-danger ml-2"
+                     onClick={handleSubmitPost}
+                     >Post</button>
+                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                     <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
 
                         </div>

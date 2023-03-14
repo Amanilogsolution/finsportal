@@ -103,6 +103,7 @@ function Bills() {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         document.getElementById("voucher_date").defaultValue = today;
+        document.getElementById("bill_date").defaultValue = today;    
     }
 
     const Duedate = (lastday) => {
@@ -529,7 +530,7 @@ function Bills() {
                                     <div className="form-row mt-3">
                                         <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
                                         <div className="d-flex col-md">
-                                            <input type="date" className="form-control col-md-4" id="bill_date" />
+                                            <input type="date" className="form-control col-md-4" id="bill_date" max={`20${localStorage.getItem('year')}-04-01`} min={`20${localStorage.getItem('year')-1}-03-31`}/>
                                         </div>
                                     </div>
 

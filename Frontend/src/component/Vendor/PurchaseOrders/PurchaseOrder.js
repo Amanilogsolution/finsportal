@@ -25,7 +25,8 @@ function PurchaseOrder() {
         po_number: '',
         vendor_id: '',
         po_location: '',
-        po_date: ''
+        po_date: '',
+        poamount: ''
     })
     const [poitem, setPOitems] = useState([])
     const [subtotal,setSubtotal] = useState()
@@ -41,9 +42,11 @@ function PurchaseOrder() {
         const polocation = document.getElementById('polocation').value
         const ponumber = document.getElementById('po_no').value;
         const podate = document.getElementById('po_date').value;
+        const poamount = document.getElementById('Subtotal').innerHTML;
         const flagsave = 'Save'
+        console.log(poamount)
 
-        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave)
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave,poamount)
         if (result == "Insert") {
             const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
             alert("PO Generated")
@@ -63,10 +66,12 @@ function PurchaseOrder() {
         const polocation = document.getElementById('polocation').value
         const ponumber = document.getElementById('po_no').value;
         const podate = document.getElementById('po_date').value;
+        const poamount = document.getElementById('Subtotal').value;
+
         const flagsave = 'Post'
 
 
-        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave)
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave,poamount)
         if (result == "Insert") {
             const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
             alert("PO Generated")
@@ -177,7 +182,8 @@ function PurchaseOrder() {
             po_number: document.getElementById('po_no').value,
             vendor_id: e.target.value,
             po_location: document.getElementById('polocation').value,
-            po_date: document.getElementById('po_date').value
+            po_date: document.getElementById('po_date').value,
+            poamount:document.getElementById('Subtotal').innerHTML
         })
     }
 
@@ -188,7 +194,9 @@ function PurchaseOrder() {
             po_no: document.getElementById('po_no').value,
             vendor_id: document.getElementById('vend_name').value,
             po_location: e.target.value,
-            po_date: document.getElementById('po_date').value
+            po_date: document.getElementById('po_date').value,
+            poamount:document.getElementById('Subtotal').innerHTML
+
         })
     }
 
@@ -217,6 +225,10 @@ function PurchaseOrder() {
 
     
             }
+            setPOalldetail({
+                ...poalldetail,
+                poamount:document.getElementById('Subtotal').innerHTML
+            })
             setPOitems(newvalue)
 
         }, 1000)
@@ -244,6 +256,10 @@ function PurchaseOrder() {
 
     
             }
+            setPOalldetail({
+                ...poalldetail,
+                poamount:document.getElementById('Subtotal').innerHTML
+            })
             setPOitems(newvalue)
 
         },500)

@@ -387,6 +387,8 @@ router.post('/getsavepo',pomasterController.getSavePO)
 router.post('/filterpo',pomasterController.filterPO)
 router.post('/getPoDetailsPreview',pomasterController.getPoDetailsPreview)
 router.post('/getSubPoDetailsPreview',pomasterController.getSubPoDetailsPreview)
+router.post('/editpurchaseorder',pomasterController.EditPurchaseOrder)
+
 
 
 

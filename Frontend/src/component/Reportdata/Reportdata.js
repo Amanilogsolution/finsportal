@@ -27,6 +27,8 @@ const Reportdata = () => {
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
+      Todaydate()
+
 
       const UserRights_invoice = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_invoice')
       if (UserRights_invoice.reports_invoice_view === 'true') {
@@ -40,6 +42,19 @@ const Reportdata = () => {
     }
     fetchData()
   }, [data])
+
+  const Todaydate = () => {
+    var date = new Date();
+    // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;
+    document.getElementById("from_date").defaultValue = today;
+    document.getElementById("to_date").defaultValue = today;    
+}
 
   const handleapply = async () => {
     document.getElementById('report_type').disabled = true;
@@ -194,14 +209,14 @@ const Reportdata = () => {
                   <div className="form-row" >
                     <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
                     <div className="col form-group" >
-                      <input type="date" className="form-control col" id='from_date' />
+                      <input type="date" className="form-control col" id='from_date' max={`20${localStorage.getItem('year')}-04-01`} min={`20${localStorage.getItem('year')-1}-03-31`} />
 
                     </div>
                   </div>
                   <div className="form-row" >
                     <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span style={{ color: "red" }}>*</span></label>
                     <div className="col form-group" >
-                      <input type="date" className="form-control col" id='to_date' />
+                      <input type="date" className="form-control col" id='to_date' max={`20${localStorage.getItem('year')}-04-01`} min={`20${localStorage.getItem('year')-1}-03-31`} />
 
                     </div>
                   </div>

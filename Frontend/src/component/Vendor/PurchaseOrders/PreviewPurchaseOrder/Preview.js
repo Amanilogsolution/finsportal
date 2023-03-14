@@ -121,7 +121,7 @@ const PreviewPO = (props) => {
                                     <tbody>
                                         <tr id='billborderbottom'>
                                             <th className='text-right'  >Net Amount</th>
-                                            <td className='text-center'>{props.Allitems[0]?props.Allitems[props.Allitems.length-1].total:''}</td>
+                                            <td className='text-center'>{props.data.poamount}</td>
                                         </tr>
                                        
                                    
