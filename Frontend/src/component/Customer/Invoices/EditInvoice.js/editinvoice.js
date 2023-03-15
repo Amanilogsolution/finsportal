@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import InvoicePreview from './PreviewEditInvoice';
-// import InvoicePreviewWithGst from '.././PreviewInvoicewithoutGST'
-import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName,Getfincialyearid,UpdateSaveInvoiceToPost,UpdateSaveSubInvoiceToPost,Updatefinancialcount} from '../../../../api/index'
+import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, Getfincialyearid, UpdateSaveInvoiceToPost, UpdateSaveSubInvoiceToPost, Updatefinancialcount } from '../../../../api/index'
 
 
 function EditInvoice() {
+    const [loading, setLoading] = useState(false)
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
     const [activity, setActivity] = useState('')
@@ -17,12 +17,14 @@ function EditInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await GetInvoice(org, invoice_no)
-            
+
             setInvoice_detail(Invoiceresult[0])
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)
             const activity_code = await GetAccountMinorCodeName(org, Invoiceresult[0].major)
             setActivity(activity_code)
+            setLoading(true)
+
         }
         fetchdata()
     }, [])
@@ -32,6 +34,7 @@ function EditInvoice() {
     const handlesavebtn = async (e) => {
         e.preventDefault();
         const org = localStorage.getItem('Organisation')
+        setLoading(false)
 
         const fin_year = await Getfincialyearid(org)
         const billing_add = invoice_detail.location;
@@ -44,15 +47,20 @@ function EditInvoice() {
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + invoicecitypre + fin_year[0].year + invoiceidauto;
 
-       const update_inv_no= await UpdateSaveInvoiceToPost(org,invoice_detail.invoice_no,invoiceid)
-        if(update_inv_no==='Updated'){
-            const update_sub_invno= await UpdateSaveSubInvoiceToPost(org,invoice_detail.invoice_no,invoiceid)
-            if(update_sub_invno==='Updated'){
+        const update_inv_no = await UpdateSaveInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
+        if (update_inv_no === 'Updated') {
+            const update_sub_invno = await UpdateSaveSubInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
+            if (update_sub_invno === 'Updated') {
                 const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
                 alert('Invoice Posted');
-                localStorage.removeItem('invoiceNo'); 
+                localStorage.removeItem('invoiceNo');
                 window.location.href = '/SaveInvoice'
             }
+        }
+        else {
+            alert('Server Not Response')
+            setLoading(true)
+
         }
 
 
@@ -120,270 +128,278 @@ function EditInvoice() {
     return (
         <>
             <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
-                <Header />
+                {
+                    loading ?
+                        <>
+                            {/* // <div className="preloader flex-column justify-content-center align-items-center"> */}
+                            {/* //     <div className="spinner-border" role="status"> </div> */}
+                            {/* // </div> */}
+                            <Header />
 
-                <div className={`content-wrapper `} >
-                    <div className="container-fluid" >
-                        <h3 className="pt-3 px-5"> Edit Invoice</h3>
-                        <div className={`card my-2 `}>
-                            <article className="card-body">
-                                <form autoComplete="off" >
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
-                                        <div className="d-flex col-md-4">
-                                            <select
-                                                id="custname"
-                                                className={`form-control cursor-notallow`} disabled>
-                                                <option value={invoice_detail.custid} hidden>{invoice_detail.consignee}</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                            <div className={`content-wrapper `} >
+                                <div className="container-fluid" >
+                                    <h3 className="pt-3 px-5"> Edit Invoice</h3>
+                                    <div className={`card my-2 `}>
+                                        <article className="card-body">
+                                            <form autoComplete="off" >
+                                                <div className="form-row mt-2">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
+                                                    <div className="d-flex col-md-4">
+                                                        <select
+                                                            id="custname"
+                                                            className={`form-control cursor-notallow`} disabled>
+                                                            <option value={invoice_detail.custid} hidden>{invoice_detail.consignee}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
 
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
-                                        <div className="d-flex col-md-4">
-                                            {/* <select
+                                                <div className="form-row mt-2">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
+                                                    <div className="d-flex col-md-4">
+                                                        {/* <select
                                                 id="custaddr" className={`form-control `}>
                                                 <option value={invoice_detail.cust_locationid} hidden>{invoice_detail.cust_location_add}</option>
                                             </select> */}
-                                            <span className='border p-2 rounded'>{invoice_detail.cust_location_add}</span>
-                                        </div>
-                                    </div>
+                                                        <span className='border p-2 rounded'>{invoice_detail.cust_location_add}</span>
+                                                    </div>
+                                                </div>
 
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
-                                        <div className="d-flex col-md-4">
-                                            {/* <select
+                                                <div className="form-row mt-2">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
+                                                    <div className="d-flex col-md-4">
+                                                        {/* <select
                                                 id="locationadd"
                                                 className={`form-control `}>
                                                 <option value={invoice_detail.location} hidden>{invoice_detail.location_name}</option>
 
                                             </select> */}
-                                            <span className='border p-2 rounded'>{invoice_detail.location_name}</span>
-                                        </div>
-                                    </div>
+                                                        <span className='border p-2 rounded'>{invoice_detail.location_name}</span>
+                                                    </div>
+                                                </div>
 
-                                    <div className="form-row mt-3">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
-                                        <div className="d-flex col-md">
-                                            <input type="text" className={`form-control  cursor-notallow col-md-5`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
-                                        </div>
-                                    </div>
+                                                <div className="form-row mt-3">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
+                                                    <div className="d-flex col-md">
+                                                        <input type="text" className={`form-control  cursor-notallow col-md-5`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
+                                                    </div>
+                                                </div>
 
-                                    <div className="form-row mt-3">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                        <div className="d-flex col-md">
-                                            <input type="text" className={`form-control  cursor-notallow col-md-5`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
-                                        </div>
-                                    </div>
+                                                <div className="form-row mt-3">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
+                                                    <div className="d-flex col-md">
+                                                        <input type="text" className={`form-control  cursor-notallow col-md-5`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
+                                                    </div>
+                                                </div>
 
-                                    <div className="form-row mt-3">
-                                        <div className="d-flex col-md-3">
-                                            <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-                                            <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Invoicedate" disabled value={invoice_detail.startdate} />
-                                        </div>
+                                                <div className="form-row mt-3">
+                                                    <div className="d-flex col-md-3">
+                                                        <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
+                                                        <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Invoicedate" disabled value={invoice_detail.startdate} />
+                                                    </div>
 
-                                        <div className="d-flex col-md-5">
-                                            <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
-                                            <select
-                                                id="paymentterm"
-                                                className={`form-control   col-md-6`}>
-                                                <option value={invoice_detail.payment_term} hidden>{invoice_detail.payment_term} </option>
-                                            </select>
-                                        </div>
+                                                    <div className="d-flex col-md-5">
+                                                        <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
+                                                        <select
+                                                            id="paymentterm"
+                                                            className={`form-control   col-md-6`}>
+                                                            <option value={invoice_detail.payment_term} hidden>{invoice_detail.payment_term} </option>
+                                                        </select>
+                                                    </div>
 
-                                        <div className="d-flex col-md-3" >
-                                            <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                            <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Duedate" disabled value={invoice_detail.lastdate} />
-                                        </div>
-                                    </div>
+                                                    <div className="d-flex col-md-3" >
+                                                        <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
+                                                        <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Duedate" disabled value={invoice_detail.lastdate} />
+                                                    </div>
+                                                </div>
 
-                                    <hr />
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Activity <span className='text-danger'>*</span></label>
-                                        <div className="d-flex col-md-4">
-                                            {/* <select id="Activity" className={`form-control  `} >
+                                                <hr />
+                                                <div className="form-row mt-2">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Activity <span className='text-danger'>*</span></label>
+                                                    <div className="d-flex col-md-4">
+                                                        {/* <select id="Activity" className={`form-control  `} >
                                                 <option value={invoice_detail.major} hidden>{invoice_detail.major} </option>
 
                                             </select> */}
-                                            <span className='border p-2 rounded'>{activity.account_name}</span>
+                                                        <span className='border p-2 rounded'>{activity.account_name}</span>
 
-                                        </div>
-                                    </div>
-                                    <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
-                                        <div className="d-flex col-md-3">
-                                            <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                            <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom} />
-                                        </div>
-                                        <div className="d-flex col-md-5">
-                                            <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                            <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto} />
-                                        </div>
-                                    </div>
-                                    <br />
-
-
-                                    <table className="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Items</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">Rate</th>
-                                                <th scope="col">Tax</th>
-                                                <th scope="col">Unit</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                invoicesub.map((item, index) => (
-                                                    <tr key={index}>
-
-                                                        <td>{item.minor}</td>
-                                                        <td>{item.quantity}</td>
-                                                        <td>{item.rate}</td>
-                                                        <td>{item.taxableamount}</td>
-                                                        <td>{item.unit}</td>
-                                                        <td>{item.amount}</td>
-                                                        <td>{Number(item.amount) + Number(item.taxableamount)}</td>
-                                                    </tr>
-
-                                                ))
-                                            }
-
-                                        </tbody>
-                                    </table>
-                                    <hr />
-
-                                    <div style={{ display: "flex" }}>
-                                        <div style={{ width: "40%" }}>
-                                            <div className="form mt-3">
-                                                <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
-                                                <div className="d-flex col-md">
-                                                    <textarea type="text" className={`form-control `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness "
-                                                        style={{ resize: 'none' }} value={invoice_detail.remark} ></textarea>
+                                                    </div>
                                                 </div>
+                                                <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
+                                                    <div className="d-flex col-md-3">
+                                                        <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
+                                                        <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom} />
+                                                    </div>
+                                                    <div className="d-flex col-md-5">
+                                                        <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
+                                                        <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto} />
+                                                    </div>
+                                                </div>
+                                                <br />
 
-                                            </div>
-                                        </div>
-                                        <div className="ml-2" style={{ width: "55%", background: '#eee', padding: "5px", borderRadius: "7px" }}>
-                                            <table className='w-100'>
-                                                <tbody>
-                                                    {/* Display none Button Start */}
-                                                    <tr className='mt-2'>
-                                                        <td colSpan='2'>
-                                                            {/* <button className="btn btn-primary" id='subtotalbtn'>Sub Total</button> */}
-                                                            Net Amount
-                                                        </td>
-                                                        <td>{invoice_detail.billsubtotal}</td>
-                                                    </tr>
-                                                    {/* Display none Button End */}
 
-                                                    <tr id='cgstinp' >
-                                                        <td>CGST</td>
-                                                        <td>
-                                                            <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='cgstipt' defaultValue={invoice_detail.cgst_amt} disabled />
-                                                                <div className="input-group-append">
-                                                                    <span className={`input-group-text `}>%</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id='sgstinp'>
-                                                        <td>SGST/UTGST</td>
-                                                        <td>
-                                                            <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='sutgstipt' defaultValue={invoice_detail.sgst_amt} disabled />
-                                                                <div className="input-group-append">
-                                                                    <span className={`input-group-text `}>%</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
+                                                <table className="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Items</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Rate</th>
+                                                            <th scope="col">Tax</th>
+                                                            <th scope="col">Unit</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            invoicesub.map((item, index) => (
+                                                                <tr key={index}>
 
-                                                    </tr>
-                                                    <tr id='igstinp'>
-                                                        <td>IGST</td>
-                                                        <td>
-                                                            <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5 gstinpt`} id='igstipt' defaultValue={invoice_detail.igst_amt} disabled />
-                                                                <div className="input-group-append">
-                                                                    <span className={`input-group-text `}>%</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id='tgstinp'>
-                                                        <td>Total GST</td>
-                                                        <td>
-                                                            <div className="input-group mb-1" >
-                                                                <input type="number" className={`form-control  cursor-notallow col-md-5`} id='gstipt ' defaultValue={invoice_detail.total_tax} disabled />
-                                                                <div className="input-group-append">
-                                                                    <span className={`input-group-text `}>%</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td id="Totalvaluerd"> {invoice_detail.taxable_amt}</td>
-                                                    </tr>
+                                                                    <td>{item.minor}</td>
+                                                                    <td>{item.quantity}</td>
+                                                                    <td>{item.rate}</td>
+                                                                    <td>{item.taxableamount}</td>
+                                                                    <td>{item.unit}</td>
+                                                                    <td>{item.amount}</td>
+                                                                    <td>{Number(item.amount) + Number(item.taxableamount)}</td>
+                                                                </tr>
 
-                                                    <tr>
-                                                        <td>
-                                                            Currency
-                                                        </td>
-                                                        <td>
-                                                            <div className="input-group mb-1">
-                                                                <select className={`form-control  col-md-5`} id="currency" >
-                                                                    <option hidden >{invoice_detail.currency_type}</option>
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr className='mt-2'>
-                                                        <td><h3>Total</h3></td>
-                                                        <td></td>
-                                                        <td id="grandtotaltd">{invoice_detail.invoice_amt}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                            ))
+                                                        }
 
-                                        </div>
-                                    </div>
-                                    {/* {
+                                                    </tbody>
+                                                </table>
+                                                <hr />
+
+                                                <div style={{ display: "flex" }}>
+                                                    <div style={{ width: "40%" }}>
+                                                        <div className="form mt-3">
+                                                            <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
+                                                            <div className="d-flex col-md">
+                                                                <textarea type="text" className={`form-control `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness "
+                                                                    style={{ resize: 'none' }} value={invoice_detail.remark} ></textarea>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div className="ml-2" style={{ width: "55%", background: '#eee', padding: "5px", borderRadius: "7px" }}>
+                                                        <table className='w-100'>
+                                                            <tbody>
+                                                                {/* Display none Button Start */}
+                                                                <tr className='mt-2'>
+                                                                    <td colSpan='2'>
+                                                                        {/* <button className="btn btn-primary" id='subtotalbtn'>Sub Total</button> */}
+                                                                        Net Amount
+                                                                    </td>
+                                                                    <td>{invoice_detail.billsubtotal}</td>
+                                                                </tr>
+                                                                {/* Display none Button End */}
+
+                                                                <tr id='cgstinp' >
+                                                                    <td>CGST</td>
+                                                                    <td>
+                                                                        <div className="input-group mb-1" >
+                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5`} id='cgstipt' defaultValue={invoice_detail.cgst_amt} disabled />
+                                                                            <div className="input-group-append">
+                                                                                <span className={`input-group-text `}>%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id='sgstinp'>
+                                                                    <td>SGST/UTGST</td>
+                                                                    <td>
+                                                                        <div className="input-group mb-1" >
+                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5`} id='sutgstipt' defaultValue={invoice_detail.sgst_amt} disabled />
+                                                                            <div className="input-group-append">
+                                                                                <span className={`input-group-text `}>%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr id='igstinp'>
+                                                                    <td>IGST</td>
+                                                                    <td>
+                                                                        <div className="input-group mb-1" >
+                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5 gstinpt`} id='igstipt' defaultValue={invoice_detail.igst_amt} disabled />
+                                                                            <div className="input-group-append">
+                                                                                <span className={`input-group-text `}>%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id='tgstinp'>
+                                                                    <td>Total GST</td>
+                                                                    <td>
+                                                                        <div className="input-group mb-1" >
+                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5`} id='gstipt ' defaultValue={invoice_detail.total_tax} disabled />
+                                                                            <div className="input-group-append">
+                                                                                <span className={`input-group-text `}>%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td id="Totalvaluerd"> {invoice_detail.taxable_amt}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        Currency
+                                                                    </td>
+                                                                    <td>
+                                                                        <div className="input-group mb-1">
+                                                                            <select className={`form-control  col-md-5`} id="currency" >
+                                                                                <option hidden >{invoice_detail.currency_type}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr className='mt-2'>
+                                                                    <td><h3>Total</h3></td>
+                                                                    <td></td>
+                                                                    <td id="grandtotaltd">{invoice_detail.invoice_amt}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+                                                {/* {
                                         localStorage.getItem('gststatus') == true ?
                                             <InvoicePreviewWithGst Allinvoicedata={invoice_detail} Allitems={invoicesub} /> :
                                             <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
 
                                     } */}
-                                    {
-                                        <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} activity={activity} />
+                                                {
+                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} activity={activity} />
 
-                                    }
+                                                }
 
-                                </form>
-                            </article>
-                            <div className="card-footer border-top">
-                                <button id="savebtn" type='submit' name="save" className="btn btn-danger" value='save'
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        alert('Invoice Saved');
-                                        localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice'
-                                    }}
-                                >Save</button>
-                                <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' onClick={handlesavebtn}>Post</button>
-                                <button id="clear" onClick={(e) => { e.preventDefault(); localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice' }}
-                                    className="btn ml-2 btn btn-primary">Cancel </button>
-                                <button id='previewbtn' type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                                            </form>
+                                        </article>
+                                        <div className="card-footer border-top">
+                                            <button id="savebtn" type='submit' name="save" className="btn btn-danger" value='save'
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    alert('Invoice Saved');
+                                                    localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice'
+                                                }}>Save</button>
+                                            <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' onClick={handlesavebtn}>Post</button>
+                                            <button id="clear" onClick={(e) => { e.preventDefault(); localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice' }}
+                                                className="btn ml-2 btn btn-primary">Cancel </button>
+                                            <button id='previewbtn' type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
-
-                    </div>
-                </div>
-                <Footer />
+                            <Footer />
+                        </>
+                        :
+                        (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
+                            <div className="spinner-border" role="status"> </div>
+                        </div>)
+                }
             </div>
         </>
     )
