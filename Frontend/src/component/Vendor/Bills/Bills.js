@@ -117,6 +117,7 @@ function Bills() {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         document.getElementById("voucher_date").defaultValue = today;
+        document.getElementById("bill_date").defaultValue = today;    
     }
 
     const Duedate = (lastday) => {

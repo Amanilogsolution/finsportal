@@ -2,7 +2,6 @@ const sql = require('mssql');
 const sqlConfig = require('../config.js');
 const os = require('os')
 
-
 const Newdb = async (req, res) => {
     const dbname = req.body.dbname;
     try {

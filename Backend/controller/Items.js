@@ -3,7 +3,6 @@ const sqlConfig = require('../config.js')
 const os = require('os');
 const uuidv1 = require("uuid/v1");
 
-
 const InsertItems = async (req, res) => {
     const org = req.body.org;
     const item_type = req.body.item_type;
@@ -62,8 +61,7 @@ const deleteItems = async (req, res) => {
     const status = req.body.status;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_items_account set status='${status}' WHERE  sno='${sno}';  
-        `)
+        const result = await sql.query(`update ${org}.dbo.tbl_items_account set status='${status}' WHERE  sno='${sno}'`)
         res.send('done')
     }
     catch (err) {
@@ -94,7 +92,7 @@ const UpdateItems = async (req, res) => {
     const major_code_id = req.body.major_code_id;
     const major_code = req.body.major_code;
     const chart_of_account = req.body.chart_of_account;
-    const chartofaccount_id= req.body.chartofaccount_id;
+    const chartofaccount_id = req.body.chartofaccount_id;
     const tax_preference = req.body.tax_preference;
     const sales_account = req.body.sales_account;
     const purchase_account = req.body.purchase_account;
@@ -132,7 +130,6 @@ const ActiveItems = async (req, res) => {
 
 const ActivePurchesItems = async (req, res) => {
     const org = req.body.org;
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_items_account tia WHERE purchase_account='Purchase'`)

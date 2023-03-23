@@ -90,7 +90,6 @@ const POPreview = () => {
                                             </tr>
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                             {/* Detail */}
@@ -132,7 +131,7 @@ const POPreview = () => {
                                     <tbody>
                                         <tr id='billborderbottom'>
                                             <th className='text-right'  >Net Amount</th>
-                                            <td className='text-center'></td>
+                                            <td className='text-center'>{data.poamount}</td>
                                         </tr>
                                     </tbody>
                                 </table>

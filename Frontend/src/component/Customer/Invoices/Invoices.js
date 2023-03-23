@@ -234,7 +234,7 @@ function Invoices() {
         setAllInvoiceData({
             ...allInvoiceData, Activity: Activity_text,
             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
-            GrandTotal: sum, TotalTaxamount:gsttotal,
+            GrandTotal: sum, TotalTaxamount: gsttotal,
             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
             Totalamounts: totalamout, OriginState: billingaddress, DestinationState: custaddress_state
         })
@@ -421,7 +421,7 @@ function Invoices() {
             alert('Please Select Customer');
         }
         else {
-          
+
 
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
@@ -837,16 +837,7 @@ function Invoices() {
                                     }
                                 </tbody>
                             </table>
-                            {/* <ul>
-                                {
-                                    locationstate.map((item, index) =>
-                                        <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
-                                            onClick={() => { handlechnageaddress(item.location_state, item.location_id); 
-                                            setBillingAddressLocation([item.location_add1, item.location_city, item.location_country]) }}
-                                            value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</li>
-                                    )
-                                }
-                            </ul> */}
+                        
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -868,7 +859,7 @@ function Invoices() {
                         </div>
                         <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
 
-                        <table className='table'>
+                            <table className='table'>
                                 <thead>
                                     <tr>
                                         <th><input type='radio' name='radiocity' /> <label>City</label> </th>
@@ -879,7 +870,7 @@ function Invoices() {
                                 <tbody>
                                     {
                                         cutomerAddress.length > 0 ?
-                                        cutomerAddress.map((items, index) => (
+                                            cutomerAddress.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                     onClick={() => {
                                                         handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
@@ -894,21 +885,7 @@ function Invoices() {
                                     }
                                 </tbody>
                             </table>
-                            {/* <ul>
-                                {
-                                    cutomerAddress.length > 0 ?
-                                        cutomerAddress.map((items, index) => (
-                                            <li key={index} className="cursor-pointer billingadd-li" data-dismiss="modal"
-                                                onClick={() => {
-                                                    handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
-                                                    setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
-                                                }}
-                                                value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>
-                                                {items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</li>
-                                        ))
-                                        : 'Select Customer'
-                                }
-                            </ul> */}
+
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
