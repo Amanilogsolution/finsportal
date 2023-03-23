@@ -560,37 +560,7 @@ function Bills() {
                                                     </button>
                                                 </div>
 
-<<<<<<< HEAD
-                                    <div className="form-row mt-3">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
-                                        <div className="d-flex col-md">
-                                            <select className="form-control col-md-4" id="po_no">
-                                                <option hidden value=''>Select P.O number</option>
-                                                {
-                                                    polist.length > 0 ?
-                                                        polist.map((item, i) => (
-                                                            <option key={i} value={item.po_number}>{item.po_number}</option>
-                                                        )) :
-                                                        <option value=''>PO. is not Created in this vendor</option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="form-row mt-3">
-                                        <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
-                                        <div className="d-flex col-md">
-                                            <input type="number" className="form-control col-md-4" id="bill_amt" />
-                                        </div>
-                                    </div>
-                                    <div className="form-row mt-3">
-                                        <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
-                                        <div className="d-flex col-md">
-                                            <input type="date" className="form-control col-md-4" id="bill_date" max={`20${localStorage.getItem('year')}-04-01`} min={`20${localStorage.getItem('year')-1}-03-31`}/>
-                                        </div>
-                                    </div>
-=======
                                             </div>
->>>>>>> e7b2241d9bf9e5590ccbd35288fd2785f4ee8ca5
 
                                             <div className="form-row mt-3" >
                                                 <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>

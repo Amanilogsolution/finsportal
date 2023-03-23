@@ -28,13 +28,10 @@ const Reportdata = () => {
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-<<<<<<< HEAD
       Todaydate()
 
 
-=======
       setLoading(true)
->>>>>>> e7b2241d9bf9e5590ccbd35288fd2785f4ee8ca5
       const UserRights_invoice = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_invoice')
       if (UserRights_invoice.reports_invoice_view === 'true') {
         document.getElementById('invoicedropdown').style.display = 'block'
@@ -209,32 +206,17 @@ const Reportdata = () => {
                       </div>
                     </div>
 
-<<<<<<< HEAD
-                  <div className="form-row" >
-                    <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
-                    <div className="col form-group" >
-                      <input type="date" className="form-control col" id='from_date' max={`20${localStorage.getItem('year')}-04-01`} min={`20${localStorage.getItem('year')-1}-03-31`} />
-=======
                     <div className="form-row" >
                       <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='from_date' />
->>>>>>> e7b2241d9bf9e5590ccbd35288fd2785f4ee8ca5
 
                       </div>
                     </div>
-<<<<<<< HEAD
-                  </div>
-                  <div className="form-row" >
-                    <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span style={{ color: "red" }}>*</span></label>
-                    <div className="col form-group" >
-                      <input type="date" className="form-control col" id='to_date' max={`20${localStorage.getItem('year')}-04-01`} min={`20${localStorage.getItem('year')-1}-03-31`} />
-=======
                     <div className="form-row" >
                       <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span style={{ color: "red" }}>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='to_date' />
->>>>>>> e7b2241d9bf9e5590ccbd35288fd2785f4ee8ca5
 
                       </div>
                     </div>
