@@ -502,9 +502,12 @@ router.post('/updateemployee',EmployeeController.updateemployee)
 
 router.post('/insertbill',BillController.InsertBill)
 router.post('/getbilldata',BillController.GetBillData)
+router.post('/updatesavebilltopost',BillController.UpdateSaveBillToPost)
 
 router.post('/insertsubbill',BillSubController.inserSubBill)
 router.post('/getsubbillitems',BillSubController.GetSubBillItems)
+router.post('/updatesavesubbilltopost',BillSubController.UpdateSaveSubBillToPost)
+
 router.post('/filterbillreport',BillController.FilterBillReport)
 router.post('/GetSaveBill',BillController.getSaveBill)
 

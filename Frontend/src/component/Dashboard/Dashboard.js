@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Compliancesduedate } from '../../api/index'
+import { Compliancesduedate } from '../../api'
 
 const Dashboard = () => {
   const [alertdiv, setAlertdiv] = useState(false);
@@ -51,7 +51,7 @@ const Dashboard = () => {
               <div className="col-sm-9">
                 <ol className="breadcrumb float-sm-right">
                   <li className="breadcrumb-item"><a href="#">Home</a></li>
-                  <li className="breadcrumb-item active">Dashboard</li>
+                  <li className="breadcrumb-item active">Dashboard 1</li>
                 </ol>
               </div>
             </div>
@@ -64,7 +64,7 @@ const Dashboard = () => {
                 <div className="small-box bg-info">
                   <div className="inner">
                     <h3>150</h3>
-                    <p>Total Customer</p>
+                    <p>Total Sales</p>
                   </div>
                   <div className="icon">
                     <i className="ion ion-bag" />

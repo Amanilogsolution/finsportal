@@ -46,4 +46,24 @@ const GetSubBillItems = async (req, res) => {
 
     }
 }
-module.exports = { inserSubBill, GetSubBillItems }
+
+const UpdateSaveSubBillToPost = async (req, res) => {
+    const org = req.body.org;
+    const voucher_no = req.body.voucher_no;
+    const new_voucher_no = req.body.new_voucher_no;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(` update ${org}.dbo.tbl_sub_bill set voucher_no='${new_voucher_no}'  WHERE voucher_no='${voucher_no}'`)
+        if (result.rowsAffected > 0) {
+            res.send('Updated')
+        }
+        else {
+            res.send('Error')
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+module.exports = { inserSubBill, GetSubBillItems,UpdateSaveSubBillToPost }

@@ -7,7 +7,7 @@ const InvoiceReport = (props) => {
     const [data, setData] = useState([])
     const [sno, setSno] = useState()
     const [tooglecomponent, setTooglecomponent] = useState(false)
-console.log('PropsSatadd',props)
+    console.log('PropsSatadd', props)
     const columns = [
         {
             name: 'Vendor Name',
@@ -42,7 +42,7 @@ console.log('PropsSatadd',props)
 
             selector: "null",
             cell: (row) => [
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.invoice_no); setSno(row.sno);setTooglecomponent(true) }} className="btn btn-success ml-2"
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.invoice_no); setSno(row.sno); setTooglecomponent(true) }} className="btn btn-success ml-2"
                     data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
 
             ]
