@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO } from '../../api'
-import BillReport from './Reports/BillReport';
-import POReport from './Reports/POReport';
+import React, { useState,useEffect } from 'react'
+import Header from "../../Header/Header";
+// import Menu from "../../Menu/Menu";
+import Footer from "../../Footer/Footer";
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO } from '../../../api/index'
 
-const Reportdata = () => {
-  const [loading, setLoading] = useState(false)
+
+function CreditNotes() {
+    const [loading, setLoading] = useState(false)
   const [data, setData] = useState()
   const [customerlist, setCustomerlist] = useState([])
   const [vendorlist, setVendorlist] = useState([])
@@ -28,7 +27,7 @@ const Reportdata = () => {
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-      Todaydate()
+    //   Todaydate()
 
 
       setLoading(true)
@@ -45,75 +44,9 @@ const Reportdata = () => {
     fetchData()
   }, [data])
 
-  const Todaydate = () => {
-    var date = new Date();
-    var day = date.getDate();
-    var month = date.getMonth() + 1;
-    var year = date.getFullYear();
-    if (month < 10) month = "0" + month;
-    if (day < 10) day = "0" + day;
-    var today = year + "-" + month + "-" + day;
-    setTimeout(()=>{
-      document.getElementById("from_date").value = today;
-      document.getElementById("to_date").value = today;  
-    },500)
-    
-     
-}
-
-  const handleapply = async () => {
-    document.getElementById('report_type').disabled = true;
-
-    const org = localStorage.getItem('Organisation');
-    const report_type = document.getElementById('report_type').value;
-    const fromdate = document.getElementById('from_date').value;
-    const todate = document.getElementById('to_date').value;
-
-    if (report_type === 'Invoice') {
-      const Customer = document.getElementById('customer');
-      const Customerid = Customer.value;
-      const locationid = document.getElementById('location').value;
-      setVendcustname(Customer.options[Customer.selectedIndex].text)
-      const result = await FilterInvoice(org, fromdate, todate, Customerid, locationid);
-      setData(result)
-    }
-    else if (report_type === 'Bills') {
-      const vend = document.getElementById('vendor');
-      const vendid = vend.value;
-      setVendcustname(vend.options[vend.selectedIndex].text)
-      const result = await FilterBillReport(org, fromdate, todate, vendid)
-      setData(result)
-    }
-    else if (report_type === 'PO') {
-      const vend = document.getElementById('vendor');
-      const vendid = vend.value;
-      const locationid = document.getElementById('location').value;
-
-      setVendcustname(vend.options[vend.selectedIndex].text)
-      const result = await filterPO(org, fromdate, todate, vendid, locationid)
-      setData(result)
-
-    }
-
-  }
-
-  const handleChangetype = (e) => {
-    if (e.target.value === 'Bills') {
-      document.getElementById('locationdiv').style.display = 'none';
-      document.getElementById('customerdiv').style.display = 'none';
-      document.getElementById('vendordiv').style.display = 'flex';
-    }
-    else if (e.target.value === 'Invoice') {
-      document.getElementById('customerdiv').style.display = 'flex';
-      document.getElementById('vendordiv').style.display = 'none';
-    } else if (e.target.value === 'PO') {
-      document.getElementById('locationdiv').style.display = 'flex';
-      document.getElementById('customerdiv').style.display = 'none';
-      document.getElementById('vendordiv').style.display = 'flex';
-    }
-  }
-  return (
-    <div className="wrapper">
+  
+    return (
+        <div className="wrapper">
       {
         loading ?
           <>
@@ -123,21 +56,14 @@ const Reportdata = () => {
             <Header />
             <div className={`content-wrapper`}>
               <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
-                <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
+                <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
 
               <div className="container-fluid">
-                <br /> <h3 className="text-left ml-5">Report</h3>
+                <br /> <h3 className="text-left ml-5">Invoices</h3>
                 <div className="card w-100">
                   <article className={`card-body`}>
                     <form>
-                      {
-                        data ? (
-                          (document.getElementById('report_type').value == 'Invoice') ?
-                            <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
-                              ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'PO') ?
-                                <POReport displaydata={data} name={vendcustname} /> : null)
-                          : <h3 className='text-center'>Filter to show data</h3>
-                      }
+                     
                     </form>
                   </article>
 
@@ -150,7 +76,7 @@ const Reportdata = () => {
               <div className="modal-dialog" role="document">
                 <div className={`modal-content`}>
                   <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Generate Report</h5>
+                    <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i>Credit Note Details</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -158,16 +84,7 @@ const Reportdata = () => {
                   <div className="modal-body">
 
                     <div className="form-row" >
-                      <label htmlFor="report_type" className="col-md-3 col-form-label font-weight-normal">Report Type<span style={{ color: "red" }}>*</span></label>
-                      <div className="col form-group" >
-                        <select className="form-control col" id='report_type' onChange={handleChangetype}>
-                          <option value='' hidden>Select Type</option>
-                          <option id='invoicedropdown' style={{ display: "none" }} value='Invoice'>Invoice</option>
-                          <option id='billdropdown' style={{ display: "none" }} value='Bills'>Bills</option>
-                          <option id='podropdown' value='PO'>Purchase Order</option>
-
-                        </select>
-                      </div>
+                     
                     </div>
                     <div className="form-row" id='locationdiv'>
                       <label htmlFor="location" className="col-md-3 col-form-label font-weight-normal">Location</label>
@@ -197,7 +114,7 @@ const Reportdata = () => {
                     </div>
 
                     <div className="form-row" id='customerdiv'>
-                      <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Customer</label>
+                      <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Invoice</label>
                       <div className="col form-group" >
                         <select className="form-control col" id='customer' >
                           <option value='all'>All</option>
@@ -238,7 +155,7 @@ const Reportdata = () => {
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" className={`btn btn-${themebtncolor}`} data-dismiss="modal" onClick={handleapply}>Apply Filter</button>
+                      <button type="button" className={`btn btn-${themebtncolor}`} data-dismiss="modal" >Apply</button>
                     </div>
                   </div>
                 </div>
@@ -254,7 +171,7 @@ const Reportdata = () => {
           </div>)
       }
     </div >
-  )
+    )
 }
 
-export default Reportdata
+export default CreditNotes

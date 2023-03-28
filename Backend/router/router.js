@@ -188,165 +188,6 @@ router.post('/importlocationaddress', LocationController.ImportLocationAddress)
 router.post('/activelocationaddress', LocationController.ActiveLocationAddress)
 router.post('/locationstatus', LocationController.Locationstatus)
 // router.post('/lastlocationid',LocationController.LastLocationid)
-<<<<<<< HEAD
-router.post('/importlocationmaster', LocationController.ImportLocationMaster)
-
-//Compliance 
-router.post('/Showcompliances', ComplianceController.Showcompliances)
-router.post('/insertcompliances', ComplianceController.Insertcompliance)
-router.post('/ShowcompliancesData', ComplianceController.ShowcompliancesData)
-router.post('/Updatecompliance', ComplianceController.Updatecompliance)
-router.post('/pendingcompliances', ComplianceController.PendingCompliances)
-router.post('/updatependingcompliances', ComplianceController.UpdatePendingCompliances)
-router.post('/ShowcompliancesType', ComplianceTypeController.ShowcompliancesType)
-router.post('/InsertcomplianceType', ComplianceTypeController.InsertcomplianceType)
-router.post('/ShowcompliancesTypeselect', ComplianceTypeController.ShowcompliancesTypeselect)
-router.post('/UpdatecomplianceType', ComplianceTypeController.UpdatecomplianceType)
-router.post('/compliancesstatus', ComplianceTypeController.Compliancesstatus)
-router.post('/showactivecompliancestype', ComplianceTypeController.ShowActivecompliancesType)
-router.post('/compliancestatus', ComplianceController.Compliancestatus)
-router.post('/importcompliances', ComplianceController.ImportCompliances)
-router.post('/compliancesduedate', ComplianceController.Compliancesduedate)
-
-// Finacial Year
-router.post('/showfincialyear', FincialyearController.Showfincialyear)
-router.post('/addfincialyear', FincialyearController.Addfincialyear)
-router.post('/updatefincialyear', FincialyearController.Updatefincialyear)
-router.post('/statusfincialyear', FincialyearController.Statusfincialyear)
-router.post('/selectfincialyear', FincialyearController.Selectfincialyear)
-router.post('/getfincialyearid', FincialyearController.Getfincialyearid)
-router.post('/updatefinancialcount', FincialyearController.Updatefinancialcount)
-router.post('/updatefinancialtwocount', FincialyearController.UpdatefinancialTwocount)
-router.post('/getfincialyearnavbar', FincialyearController.GetfincialyearNavbar)
-
-// Items
-router.post('/insertitems', ItemsController.InsertItems)
-router.post('/totalitems', ItemsController.TotalItems)
-router.post('/deleteitems', ItemsController.deleteItems)
-router.post('/getItems', ItemsController.getItems)
-router.post('/updateItems', ItemsController.UpdateItems)
-router.post('/activeitems', ItemsController.ActiveItems)
-router.post('/activepurchesitems', ItemsController.ActivePurchesItems)
-
-//File Upload
-router.post('/FileUpload', Multer, FileUpload)
-
-//Account
-router.post('/showcoa', ChartOfAccountController.Accounttype)
-router.post('/parentaccount', ChartOfAccountController.ParentAccount)
-router.post('/parentaccountNumber', ChartOfAccountController.ParentAccountNumber)
-router.post('/addaccountname', ChartOfAccountController.AddAccountName)
-router.post('/addsubaccountname', ChartOfAccountController.AddSubAccountName)
-router.post('/updatesubaccountname', ChartOfAccountController.UpdateSubAccountName)
-router.post('/addnewsubaccountname', ChartOfAccountController.AddNewSubAccountName)
-router.post('/selectsubaccountname', ChartOfAccountController.SelectSubAccountname)
-router.post('/selectsubacconameytype', ChartOfAccountController.SelectSubAcconameByType)
-
-router.post('/updateaccountname', AccountnameController.UpdateAccountName)
-router.post('/insertaccounttype', AccountnameController.InsertAccountType)
-router.post('/totalaccountname', AccountnameController.TotalAccountName)
-router.post('/accountnamestatus', AccountnameController.AccountnameStatus)
-router.post('/selectaccountname', AccountnameController.SelectAccountName)
-router.post('/importaccountname', AccountnameController.ImportAccountName)
-router.post('/activeaccountname', AccountnameController.ActiveAccountName)
-
-// GL Code
-router.post('/showglcode', SubCodeController.GlCode)
-router.post('/glsubcode', SubCodeController.GlSubCode)
-router.post('/insertglsubcode', SubCodeController.InsertGlSubCode)
-router.post('/showtotalsubcode', SubCodeController.ShowTotalSubCode)
-router.post('/subcodestatus', SubCodeController.SubCodeStatus)
-router.post('/getsubcodedetails', SubCodeController.GetSubCodeDetails)
-router.post('/updatesubcodedetails', SubCodeController.UpdateSubCodeDetails)
-router.post('/importsubcode', SubCodeController.ImportSubcode)
-
-// Minor Code
-router.post('/totalaccountminorcode', AccountMinorCodeController.TotalAccountMinorCode)
-router.post('/accountminorcodestatus', AccountMinorCodeController.AccountMinorCodeStatus)
-router.post('/getaccountminorcode', AccountMinorCodeController.GetAccountMinorCode)
-router.post('/updateaccountminorcode', AccountMinorCodeController.UpdateAccountMinorCode)
-router.post('/activeaccountminorcode', AccountMinorCodeController.ActiveAccountMinorCode)
-router.post('/importaccountminorcode', AccountMinorCodeController.ImportAccountMinorCode)
-router.post('/GetAccountMinorCodeName', AccountMinorCodeController.GetAccountMinorCodeName)
-
-// Chart O Account
-router.post('/totalchartofaccount', ChartOfAccountMasterController.TotalChartOfAccount)
-router.post('/chartofaccountstatus', ChartOfAccountMasterController.ChartOfAccountStatus)
-router.post('/getchartofaccount', ChartOfAccountMasterController.GetChartOfAccount)
-router.post('/updatechartofaccount', ChartOfAccountMasterController.UpdateChartOfAccount)
-router.post('/importchartofaccount', ChartOfAccountMasterController.ImportChartofAccount)
-router.post('/activechartofaccountname', ChartOfAccountMasterController.ActiveChartofAccountname)
-
-//Currency Adjastment
-router.post('/addcurrencyadjust', CurrencyAdjustmentController.AddCurrencyAdjustment)
-
-// Payment Terms
-router.post('/totalpaymentterm', PaymentTermController.TotalPaymentTerm)
-router.post('/deletepaymentterm', PaymentTermController.DeletePaymentTerm)
-router.post('/insertpaymentterm', PaymentTermController.InsertPaymentTerm)
-router.post('/showpaymentterm', PaymentTermController.ShowPaymentTerm)
-router.post('/updatepaymentterm', PaymentTermController.UpdatePaymentTerm)
-router.post('/activepaymentterm', PaymentTermController.ActivePaymentTerm)
-
-// CRM
-router.post('/totalcrm', CRMController.Totalcrm)
-router.post('/insertcrm', CRMController.insertcrm)
-router.post('/deletecrm', CRMController.deleteCrm)
-router.post('/getcrm', CRMController.getcrm)
-router.post('/updatecrm', CRMController.updatecrm)
-router.post('/activecrm', CRMController.Activecrm)
-
-// Invoice
-router.post('/insertinvoice', InvoiceController.InsertInvoice)
-router.post('/filterinvoice', InvoiceController.filterInvoice)
-router.post('/getinvoice', InvoiceController.getInvoice)
-router.post('/getsaveinvoice', InvoiceController.getSaveInvoice)
-router.post('/updatesaveinvoicetopost', InvoiceController.UpdateSaveInvoiceToPost)
-
-// Sub Invoice
-router.post('/insertsubinvoice', InvoiceSubController.InsertSubInvoice)
-router.post('/getsubinvoice', InvoiceSubController.getSubInvoice)
-router.post('/updatesavesubinvoicetopost', InvoiceSubController.UpdateSaveSubInvoiceToPost)
-
-// Logs
-router.post('/loginlogs', LoginLogsController.LoginLogs)
-router.post('/logoutlogs', LoginLogsController.LogoutLogs)
-
-// TOTP
-router.post('/Twofa', Twofa.GenerateTwofa)
-router.post('/VerifyTwo', Twofa.VerifyTwofa)
-
-// Employee
-router.post('/totalemployee', EmployeeController.TotalEmployee)
-router.post('/deleteemployee', EmployeeController.deleteEmployee)
-router.post('/insertemployee', EmployeeController.insertemployee)
-router.post('/getemployee', EmployeeController.getemployee)
-router.post('/updateemployee', EmployeeController.updateemployee)
-
-// Bill
-router.post('/insertbill', BillController.InsertBill)
-router.post('/insertvendorsubinvoice', VendorInvoiceSubController.inserSubInvoice)
-router.post('/filterbillreport', BillController.FilterBillReport)
-router.post('/GetSaveBill', BillController.getSaveBill)
-
-// Role
-router.post('/adduserrole', UserRightsController.AddUserRole)
-router.post('/getuserrole', UserRightsController.getUserRole)
-router.post('/activeuserrole', UserRightsController.ActiveUserRole)
-router.post('/deleteuserrole', UserRightsController.DeleteUserRole)
-router.post('/getuserrolepermission', UserRightsController.getUserRolePermission)
-router.post('/totaluserrole', UserRightsController.TotalUserRole)
-
-// Purchase Order
-router.post('/InsertPurchaseorder', pomasterController.InsertPurchaseorder)
-router.post('/InsertSubPurchaseorder', pomasterController.InsertSubPurchaseorder)
-router.post('/getpodetailsvendor', pomasterController.getPoDetailsVendor)
-router.post('/getsavepo', pomasterController.getSavePO)
-router.post('/filterpo', pomasterController.filterPO)
-router.post('/getPoDetailsPreview', pomasterController.getPoDetailsPreview)
-router.post('/getSubPoDetailsPreview', pomasterController.getSubPoDetailsPreview)
-router.post('/editpurchaseorder', pomasterController.EditPurchaseOrder)
-=======
 router.post('/importlocationmaster',LocationController.ImportLocationMaster)
 
 router.post('/Showcompliances',ComplianceController.Showcompliances)
@@ -363,7 +204,6 @@ router.post('/UpdatecomplianceType',ComplianceTypeController.UpdatecomplianceTyp
 router.post('/compliancesstatus',ComplianceTypeController.Compliancesstatus)
 router.post('/showactivecompliancestype',ComplianceTypeController.ShowActivecompliancesType)
 
-
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/importcompliances',ComplianceController.ImportCompliances)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
@@ -377,8 +217,6 @@ router.post('/getfincialyearid',FincialyearController.Getfincialyearid)
 router.post('/updatefinancialcount',FincialyearController.Updatefinancialcount)
 router.post('/updatefinancialtwocount',FincialyearController.UpdatefinancialTwocount)
 router.post('/getfincialyearnavbar',FincialyearController.GetfincialyearNavbar)
-
-
 
 router.post('/insertitems',ItemsController.InsertItems)
 router.post('/totalitems',ItemsController.TotalItems)
@@ -526,18 +364,4 @@ router.post('/filterpo',pomasterController.filterPO)
 router.post('/getPoDetailsPreview',pomasterController.getPoDetailsPreview)
 router.post('/getSubPoDetailsPreview',pomasterController.getSubPoDetailsPreview)
 
-
-
-
-
-
-
-
->>>>>>> d080b54114711c192efd8071025a297b93bbb2cc
-
-
 module.exports = router;
-
-
-
-
