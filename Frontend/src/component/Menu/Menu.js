@@ -392,7 +392,7 @@ const Menu = (props) => {
                     <p>Currency Adjustments </p>
                   </a>
                 </li>
-
+                {/* 
                 <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">
                     <p className=""> Chart Of Accounts</p>
@@ -421,7 +421,7 @@ const Menu = (props) => {
                       </a>
                     </li>
                   </ul>
-                </li>
+                </li> */}
               </ul>
             </li>
             {/* Master Menu */}
@@ -516,6 +516,43 @@ const Menu = (props) => {
                   </a>
                 </li>
               </ul>
+              <ul className="nav nav-treeview" >
+                <li className="nav-item" id='coacctMenu'>
+                  <a href="/ShowChartAccount" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Chart of Account</p>
+                  </a>
+                </li>
+              </ul>
+              {/* <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
+                  <a href="#" className="nav-link active bg-success">
+                    <p className=""> Chart Of Accounts</p>
+                    <i className="right fas fa-angle-left" />
+                  </a>
+
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <a href="/ShowChartAccount" className="nav-link active">
+                        <i className="far fa-circle nav-icon" />
+                        <p> Chart OF Account </p>
+                      </a>
+                    </li>
+
+                    <li className="nav-item">
+                      <a href="/ShowAccountname" className="nav-link active">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Account Major code</p>
+                      </a>
+                    </li>
+
+                    <li className="nav-item">
+                      <a href="/ShowAccountMinorCode" className="nav-link active">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Account Minor Code</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li> */}
             </li>
             {/* Report Menu  */}
             <li className="nav-item" id='reportMenu' style={{ display: "none" }}>
@@ -546,7 +583,7 @@ const Menu = (props) => {
                       }
                       }>
                       <a href="#" className="nav-link active">
-                        <i  className="fa fa-calendar" aria-hidden="true" ></i> &nbsp;
+                        <i className="fa fa-calendar" aria-hidden="true" ></i> &nbsp;
                         <span  >{item.fin_year}</span>
                       </a>
                     </li>

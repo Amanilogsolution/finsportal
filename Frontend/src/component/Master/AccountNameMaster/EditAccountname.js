@@ -31,7 +31,8 @@ function EditAccountname() {
       const result = await UpdateAccountName(account_type, account_type_code, accountTypedesc, org, localStorage.getItem('AccountTypeCode'), User_id);
       if (result) {
         alert('Data Updated')
-        window.location.href = './ShowAccountname'
+        window.location.href = './ShowChartAccount'
+        // window.location.href = './ShowAccountname'
       }
     }
 
@@ -47,7 +48,7 @@ function EditAccountname() {
       <Header />
       <div className={`content-wrapper `}>
         <div className="container-fluid">
-          <br /> <h3 className="ml-5">Edit Account Type</h3>
+          <br /> <h3 className="ml-5">Edit Account Major Code</h3>
           <div className={`card w-100 `}>
             <form className="card-body">
               <div className="form-row">
@@ -72,7 +73,7 @@ function EditAccountname() {
             </form>
             <div className="border-top card-footer">
               <button className="btn btn-success mx-3" onClick={handleClick} >Update</button>
-              <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowAccountname" }}>Cancel</button>
+              <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowChartAccount" }}>Cancel</button>
             </div>
           </div>
         </div>

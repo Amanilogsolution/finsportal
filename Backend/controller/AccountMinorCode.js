@@ -30,10 +30,10 @@ const AccountMinorCodeStatus = async (req, res) => {
 
 const GetAccountMinorCode = async (req, res) => {
     const org = req.body.org;
-    const sno = req.body.sno;
+    const AccountMinorCode = req.body.AccountMinorCode;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_account_name tan2 with (nolock) where sno='${sno}'`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_account_name tan2 with (nolock) where account_name_code='${AccountMinorCode}'`)
         res.send(result.recordset[0])
     }
     catch (err) {

@@ -79,17 +79,59 @@ function ShowChartAccount() {
       selector: 'account_sub_name_code',
       sortable: true
     },
-    {
-      name: 'Account Type Code',
-      selector: 'account_type_code',
-      sortable: true
-    },
+
     {
       name: 'Account Name Code',
       selector: 'account_name_code',
-      sortable: true
-    },
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Chart Of Account is Lock'>{row.account_name_code}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.chartof_accounts_edit === 'true') {
+            return (
+              <a title='Edit Account Name Code' className='pb-1' href="EditAccountMinorCode" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountMinorCode', `${row.account_name_code}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.account_name_code}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Chart Of Account'>{row.account_name_code}</p>
+          }
 
+        }
+      }
+    },
+    {
+      name: 'Account Type Code',
+      selector: 'account_type_code',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Chart Of Account is Lock'>{row.account_type_code}</p>
+        }
+        else {
+          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          if (!role) {
+            fetchRoles()
+          }
+          if (role.chartof_accounts_edit === 'true') {
+            return (
+              <a title='Edit account_type_code' className='pb-1' href="EditAccountname" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.account_type_code}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Chart Of Account'>{row.account_type_code}</p>
+          }
+
+        }
+      }
+    },
     {
       name: 'Status',
       sortable: true,

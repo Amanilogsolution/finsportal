@@ -500,7 +500,13 @@ function Invoices() {
                                                         </select> */}
 
 
-                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal">
+                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
+                                                        onClick={(e)=>{
+                                                            e.preventDefault();
+                                                            setTimeout(() => {
+                                                                document.getElementById('searchCustAddress').focus()
+                                                            }, 700)
+                                                        }}>
                                                             {
                                                                 custAddressLocation.length > 0 ? custAddressLocation : 'Select Customer Address Location'
                                                             }
@@ -525,7 +531,12 @@ function Invoices() {
 
 
 
-                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal">
+                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setTimeout(() => {
+                                                                document.getElementById('searchBillingAddress').focus()
+                                                            }, 700)
+                                                        }}>
                                                             {
                                                                 billingAddressLocation.length > 0 ? billingAddressLocation : 'Select Billing Address Location'
                                                             }
@@ -766,9 +777,9 @@ function Invoices() {
                                                     </div>
                                                 </div>
                                                 {
-                                                     localStorage.getItem('gststatus') !== 'true' ?
-                                                        <InvoicePreviewWithoutGst Allinvoicedata={allInvoiceData} Allitems={items}/> :
-                                                        <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items}/>
+                                                    localStorage.getItem('gststatus') !== 'true' ?
+                                                        <InvoicePreviewWithoutGst Allinvoicedata={allInvoiceData} Allitems={items} /> :
+                                                        <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
 
 
                                                 }
@@ -805,18 +816,17 @@ function Invoices() {
                     <div className="modal-content " >
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress" />
+                            </div>
                         </div>
-                        <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
 
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th><input type='radio' name='radiocity' /> <label>City</label> </th>
-                                        <th><input type='radio' name='radiocity' /> <label>Address</label> </th>
-
+                                        <th>City </th>
+                                        <th>Address</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -837,7 +847,7 @@ function Invoices() {
                                     }
                                 </tbody>
                             </table>
-                        
+
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -853,17 +863,17 @@ function Invoices() {
                     <div className="modal-content " >
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress" />
+                            </div>
                         </div>
-                        <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
 
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th><input type='radio' name='radiocity' /> <label>City</label> </th>
-                                        <th><input type='radio' name='radiocity' /> <label>Address</label> </th>
+                                        <th>City</th>
+                                        <th>Address </th>
 
                                     </tr>
                                 </thead>

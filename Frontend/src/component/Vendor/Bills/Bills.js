@@ -87,7 +87,7 @@ function Bills() {
             const items = await ActivePurchesItems(org)
             setItemlist(items)
 
-          
+
 
             const result = await showOrganisation(org)
             setOrgdata(result)
@@ -117,7 +117,7 @@ function Bills() {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         document.getElementById("voucher_date").defaultValue = today;
-        document.getElementById("bill_date").defaultValue = today;    
+        document.getElementById("bill_date").defaultValue = today;
     }
 
     const Duedate = (lastday) => {
@@ -553,7 +553,12 @@ function Bills() {
                                                 <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md">
 
-                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal">
+                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setTimeout(() => {
+                                                            document.getElementById('searchLocation').focus()
+                                                        }, 600)
+                                                    }}>
                                                         {
                                                             vendorlocations ? vendorlocations : 'Select Vendor Location'
                                                         }
@@ -899,26 +904,29 @@ function Bills() {
                                 </div>
                                 :
                                 (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-                                <div className="spinner-border" role="status"> </div>
-                            </div>)
+                                    <div className="spinner-border" role="status"> </div>
+                                </div>)
                         }
                     </div>
                 </div>
                 <Footer />
-                {/* modal  Start*/}
+
+                {/* #######################  modal Vendor Location  Start ###################################### */}
                 <div className="modal fade bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
+                                <div className="form-group col-md-5">
+                                    <input type="text" className='form-control col' placeholder='Search Location' id="searchLocation" />
+                                </div>
                             </div>
-                            <div className="modal-body overflow-auto px-5" style={{ maxHeight: '60vh' }}>
+                            <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
                                 <table className='table'>
-                                    <thead>
-                                        <tr>
-                                            <th><input type='radio' name='radiocity' /> <label>City</label> </th>
-                                            <th><input type='radio' name='radiocity' /> <label>Address</label> </th>
-
+                                    <thead >
+                                        <tr >
+                                            <th>City</th>
+                                            <th>Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -934,7 +942,7 @@ function Bills() {
 
                                                     </tr>
                                                 ))
-                                                : 'Select Vendor'
+                                                : <tr><td colSpan='2' className='text-center'>Select Vendor</td></tr>
                                         }
                                     </tbody>
                                 </table>
@@ -948,7 +956,8 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                {/* modal  End*/}
+                {/* #######################  modal Vendor Location  End ###################################### */}
+
 
             </div>
 

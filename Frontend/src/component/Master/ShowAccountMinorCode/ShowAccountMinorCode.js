@@ -20,6 +20,7 @@ function ShowAccountMinorCode() {
   useEffect(() => {
     async function fetchdata() {
       const result = await TotalAccountMinorCode(localStorage.getItem('Organisation'))
+      console.log(result)
       setData(result)
       fetchRoles();
     }
@@ -126,7 +127,7 @@ function ShowAccountMinorCode() {
           if (role.chartof_accounts_edit === 'true') {
             return (
               <button title='Edit Account Minor Code ' className='px-1 btn-success ' id={`editactionbtns${row.sno}`}
-                onClick={() => { localStorage.setItem('AccountMinorCode', `${row.sno}`); window.location.href = '/EditAccountMinorCode' }}
+                onClick={() => { localStorage.setItem('AccountMinorCode', `${row.account_name_code}`); window.location.href = '/EditAccountMinorCode' }}
               >Edit</button>
             );
           }
