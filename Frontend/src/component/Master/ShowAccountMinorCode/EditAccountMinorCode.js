@@ -25,20 +25,15 @@ function EditAccountMinorCode() {
     const result = await UpdateAccountMinorCode(org, localStorage.getItem('AccountMinorCode'), account_name, User_id);
     if (result) {
       alert('Account Minor Code Updated Successfully')
-      window.location.href = 'ShowAccountMinorCode'
       localStorage.removeItem('AccountMinorCode')
+      window.location.href = 'ShowChartAccount'
+      // window.location.href = 'ShowAccountMinorCode'
     }
   }
 
   const handleChangeAccountName = (e) => {
     setData({ ...data, account_name: e.target.value })
   }
-  // const handleChangeAccountNameCode = (e) => {
-  //     setData({...data,account_name_code:e.target.value})
-  // }
-  // const handleChangeAccountTypeCode = (e) => {
-  //     setData({...data,account_type_code:e.target.value})
-  // }
 
   return (
     <div className="wrapper">
@@ -48,7 +43,7 @@ function EditAccountMinorCode() {
       <Header />
       <div className={`content-wrapper `}>
         <div className="container-fluid">
-          <h3 className="ml-5 py-3">Edit Account Info</h3>
+          <h3 className="ml-5 py-3">Edit Account Minor Code</h3>
           <div className={`card w-100 `}>
             <form className="card-body">
               <div className="form-row">
@@ -79,7 +74,7 @@ function EditAccountMinorCode() {
             <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick}>Update</button>
               <button className="btn btn-secondary ml-3" onClick={() => {
-                window.location.href = "./ShowAccountMinorCode"; localStorage.removeItem('AccountMinorCode')
+                window.location.href = "./ShowChartAccount"; localStorage.removeItem('AccountMinorCode')
               }}>Cancel</button>
             </div>
           </div>
