@@ -141,6 +141,20 @@ const CustAddress = async (req, res) => {
         res.send(err)
     }
 }
+const SearchCustAddress = async (req, res) => {
+    const org = req.body.org;
+    const cust_id = req.body.cust_id;
+    const val = req.body.val;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_cust_addresses with (nolock) where status='Active' and cust_id='${cust_id}' and 
+        billing_address_city LIKE '${val}%'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 
 const VendAddress = async (req, res) => {
     const sno = req.body.sno;
@@ -268,5 +282,18 @@ const getVendorAddress = async (req, res) => {
     }
 }
 
-
-module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress, getVendorAddress }
+const SearchVendAddress = async (req, res) => {
+    const org = req.body.org;
+    const vend_id = req.body.vend_id;
+    const val = req.body.val;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_vend_addresses with (nolock) where status='Active' and vend_id='${vend_id}' and 
+        billing_address_city LIKE '${val}%' `)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress, getVendorAddress,SearchCustAddress,SearchVendAddress }

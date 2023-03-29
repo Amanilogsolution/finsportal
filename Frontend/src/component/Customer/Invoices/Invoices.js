@@ -5,7 +5,7 @@ import InvoicePreview from './PreviewInvoice';
 import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm,
-    SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount
+    SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount, SearchLocationAddress,SearchCustAddress
 } from '../../../api/index'
 import './invoice.css'
 
@@ -77,7 +77,7 @@ function Invoices() {
 
     const [items, setItems] = useState([])
 
-    const [itemsdata, setItemdata] = useState([[]])
+    const [itemsdata, setItemdata] = useState([])
     const [itemdetails, setItemdetails] = useState([])
 
 
@@ -453,6 +453,30 @@ function Invoices() {
 
     }
 
+    const handleSearchBillingLoc = async (e) => {
+        const org=localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchLocationAddress(org, e.target.value);
+            setLocationstate(getLocation)
+        }
+        else if(e.target.value.length===0){
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+        }
+    }
+    const handleSearchCustLoc = async (e) => {
+        const org=localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchCustAddress(org,custdetail.cust_id, e.target.value);
+            setCutomerAddress(getLocation)
+        }
+        else if(e.target.value.length===0){
+            const locatonstateres =await ShowCustAddress(custdetail.cust_id,org)
+            console.log(locatonstateres)
+            setCutomerAddress(locatonstateres)
+        }
+    }
+    // 
     return (
         <>
             <div className="wrapper">
@@ -545,7 +569,7 @@ function Invoices() {
 
                                                         <select
                                                             id="paymentterm"
-                                                            className='col-md-6  mr-0 form-control '
+                                                            className='col-md-6  mr-0 form-control'
                                                             onChange={handleAccountTerm}
                                                         >
                                                             <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
@@ -619,12 +643,14 @@ function Invoices() {
                                                                     </td>
                                                                     <td className="col-md-2 px-0">
 
-                                                                        <select id="gstvalue" className='form-control col' onChange={(e)=>{handleChangeItems(e.target.value,index)}}>
+                                                                        <select id="gstvalue" className='form-control col' onChange={(e) => { handleChangeItems(e.target.value, index) }}>
                                                                             <option value='' hidden > Select item</option>
-                                                                            {
-                                                                                itemsdata[index].map((item, index) => (
-                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
-                                                                                ))
+                                                                            {itemsdata.length > 0 ?
+                                                                                console.log('nsdcsc', itemsdata)
+                                                                                // itemsdata[index].map((item, index) => (
+                                                                                //     <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
+                                                                                // )) 
+                                                                                : null
                                                                             }
                                                                         </select>
                                                                     </td>
@@ -795,7 +821,8 @@ function Invoices() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress" />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress"
+                                    onChange={handleSearchBillingLoc} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -842,7 +869,7 @@ function Invoices() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress" />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress" onChange={handleSearchCustLoc}/>
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
