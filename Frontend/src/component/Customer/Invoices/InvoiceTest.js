@@ -2,13 +2,13 @@
 // import Header from "../../Header/Header";
 // import Footer from "../../Footer/Footer";
 // import InvoicePreview from './PreviewInvoice';
-// import InvoicePreviewWithGst from './PreviewInvoicewithoutGST'
+// import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 // import {
 //     ActiveCustomer, ActivePaymentTerm,
 //     // ActiveUser
 //     SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount
 // } from '../../../api/index'
-
+// import './invoice.css'
 
 // function Invoices() {
 //     const [loading, setLoading] = useState(true)
@@ -57,7 +57,8 @@
 //     const [chargecodes, setChargeCode] = useState([])
 
 //     const [index, setIndex] = useState()
-
+//     const [billingAddressLocation, setBillingAddressLocation] = useState([])
+//     const [custAddressLocation, setCustAddressLocation] = useState([])
 
 //     const [allInvoiceData, setAllInvoiceData] = useState({
 //         Activity: "",
@@ -83,7 +84,7 @@
 //             setTimeout(() => {
 //                 setLoading(true)
 //                 const localdata = localStorage.getItem('gststatus');
-//                 if (localdata == 'false') {
+//                 if (localdata === 'false') {
 //                     document.getElementById('cgstinp').style.display = 'none';
 //                     document.getElementById('sgstinp').style.display = 'none';
 //                     document.getElementById('igstinp').style.display = 'none';
@@ -104,20 +105,14 @@
 //             // const result2 = await ActiveUser()
 //             // setActiveUser(result2)
 //             Todaydate()
-
 //             const locatonstateres = await ActiveLocationAddress(org)
 //             setLocationstate(locatonstateres)
-
 //             const ActiveUnit = await Activeunit(org)
 //             setActiveUnit(ActiveUnit)
-
 //             const currencydata = await ActiveCurrency(org)
 //             setCurrencylist(currencydata)
-
 //             const ActiveAccount = await ActiveAccountMinorCode(org)
 //             setActiveAccount(ActiveAccount)
-
-
 //         }
 //         fetchdata()
 //     }, [])
@@ -148,60 +143,65 @@
 //     const handleAccountTerm = (e) => {
 //         const days = Number(e.target.value)
 //         Duedate(days)
-
 //     }
 
-//     const handleChangeItems = async (e) => {
-//         e.preventDefault();
-//         const [actgst, chargecode, glcodes] = e.target.value.split(',')
-//         setChargeCode([...chargecodes, chargecode])
-//         setGlCode([...glcode, glcodes])
-
+//     const handleChangeItems = async (value, index) => {
+//         const [actgst, chargecode, glcodes] = value.split(',')
+//         chargecodes[index] = chargecode
+//         glcode[index] = glcodes
 //         if (actgst > 0) {
 //             setTaxable([...taxable, 'Yes'])
 //         } else {
 //             setTaxable([...taxable, 'No'])
 //         }
 //         setTotalGst([...totalgst, Number(actgst)])
+//         totalgst[index] = actgst
 //     }
 
-//     const handleChangeUnit = (e) => {
-//         e.preventDefault();
+//     const handleChangeUnit = (value, index) => {
+//         // e.preventDefault();
 //         document.getElementById('Activity').disabled = true;
 //         document.getElementById('subtotalbtn').disabled = false;
-//         setUnit([...unit, e.target.value])
+//         // setUnit([...unit, value])
+//         unit[index] = value;
 //         var sum = 0
 //         amount.map((item) => sum += item)
 //         setTotalamount(sum)
 //         let tolgst = 0
 //         totalgst.map((item) => tolgst += item)
 
-//         setItems([...items, {
-//             itemsvalue: chargecodes[chargecodes.length - 1], quantity: Quantitys[Quantitys.length - 1], rate: rate[rate.length - 1],
-//             tax: gstvalues[gstvalues.length - 1], unit: e.target.value,
-//             amount: amount[amount.length - 1], Totalamount: Totalamountnew[Totalamountnew.length - 1]
-//         }])
+//         items[index] = {
+//             itemsvalue: chargecodes[chargecodes.length - 1], quantity: Quantitys[index], rate: rate[index],
+//             tax: gstvalues[index], unit: value,
+//             amount: amount[index], Totalamount: Totalamountnew[index]
+//         }
 //     }
 
 //     const handleSubTotal = (e) => {
 //         e.preventDefault();
-
 //         document.getElementById('additembtm').disabled = true;
 //         document.getElementById('removeitembtm').disabled = true;
 //         document.getElementById('savebtn').disabled = false;
 //         document.getElementById('postbtn').disabled = false;
 //         document.getElementById('previewbtn').disabled = false;
+//         // let location = document.getElementById('locationadd')
+//         // location = location.options[location.selectedIndex].text;
+//         let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
 
-//         let location = document.getElementById('locationadd')
-//         location = location.options[location.selectedIndex].text;
-//         let custaddrs = document.getElementById('custaddr')
-//         custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+//         // let custaddrs = document.getElementById('custaddr')
+//         // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+//         let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
+
+
+//         let gsttotal = 0
+//         gstvalues.map((item) => gsttotal += item)
+//         setGstvalue(gsttotal)
+
 //         const igst = document.getElementById('igstipt').value;
 //         let cgstamount = 0;
 //         let sgstamount = 0;
 //         let igstamount = 0;
-//         const taxableamt = gstvalue;
-
+//         const taxableamt = gsttotal;
 //         if (igst > 0) {
 //             igstamount = taxableamt
 
@@ -214,9 +214,6 @@
 //         setGrandTotal(sum)
 
 
-//         let gsttotal = 0
-//         gstvalues.map((item) => gsttotal += item)
-//         setGstvalue(gsttotal)
 //         let custadd = custaddress_state;
 //         custadd = custadd.toUpperCase();
 //         let billadd = billingaddress;
@@ -231,36 +228,33 @@
 //             document.getElementById('cgstipt').value = 0
 //             document.getElementById('sutgstipt').value = 0
 //         }
+//         let Activity_text = document.getElementById('Activity');
+//         Activity_text = Activity_text.options[Activity_text.selectedIndex].text;
 
 //         setAllInvoiceData({
-//             ...allInvoiceData, Activity: document.getElementById('Activity').value,
+//             ...allInvoiceData, Activity: Activity_text,
 //             TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
-//             GrandTotal: sum, TotalTaxamount: document.getElementById('Totalvaluerd').innerHTML,
+//             GrandTotal: sum, TotalTaxamount: gsttotal,
 //             CGST: cgstamount, SGST: sgstamount, IGST: igstamount, BillTo: custaddrs, SupplyTo: location, BillToGst: custAddgst,
 //             Totalamounts: totalamout, OriginState: billingaddress, DestinationState: custaddress_state
 //         })
-
-
-
 //     }
 
-//     const handleChangerate = (e) => {
-//         e.preventDefault();
-//         let Total = quantity * e.target.value
-
+//     const handleChangerate = (value, indexes) => {
+//         rate[indexes] = value;
+//         let Total = Quantitys[indexes] * value
 //         const [actgst, other] = document.getElementById('gstvalue').value.split(',')
 
 //         let gst = Total * totalgst[index] / 100
 
 //         let grandToatal = Total + Math.round(gst)
 //         setTimeout(() => {
-//             setRate([...rate, e.target.value])
-//             setTotalAmountNew([...Totalamountnew, grandToatal])
-//             setGstVAlue([...gstvalues, Math.round(gst)])
-//             setAmount([...amount, Total])
-//             setQuantitys([...Quantitys, quantity])
+//             Totalamountnew[indexes] = grandToatal
+//             gstvalues[indexes] = Math.round(gst)
+//             document.getElementById(`amount${indexes}`).value = Total
+//             document.getElementById(`TotalAmount${indexes}`).value = grandToatal
+//             amount[indexes] = Total
 //         }, 1000)
-
 //     }
 
 
@@ -308,13 +302,14 @@
 //         setCutomerAddress(cust_add)
 //     }
 
-//     const handlechnageaddress = async (e) => {
-//         e.preventDefault();
+//     const handlechnageaddress = async (add, id) => {
+//         // e.preventDefault();
+//         // setBillingAddressLocation(e.target.value)
 //         const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
-//         const [billadd, id] = e.target.value.split(',')
+//         // const [billadd, id] = e.target.value.split(',')
 //         setLocationid(id)
-//         const billing_add = billadd;
-//         setBillingAddress(billadd)
+//         const billing_add = add;
+//         setBillingAddress(add)
 //         const invoicepefix = fin_year[0].invoice_ser;
 //         let invoicecitypre = (billing_add.substring(0, 3));
 //         invoicecitypre = invoicecitypre.toUpperCase();
@@ -328,9 +323,7 @@
 //         setInvoiceid(invoiceid);
 //     }
 
-//     const handleChangeCustomerAdd = (e) => {
-//         e.preventDefault();
-//         const [state, address_id, custaddgst] = e.target.value.split(' ')
+//     const handleChangeCustomerAdd = (state, address_id, custaddgst) => {
 //         setCustaddstate(state)
 //         setLocationCustAddid(address_id)
 //         setCustAddGst(custaddgst)
@@ -340,7 +333,8 @@
 //         e.preventDefault();
 //         let val = document.getElementById('Activity');
 //         let text = val.options[val.selectedIndex].text;
-//         let major_code = val.value;
+//         let activity_val = val.value;
+//         let major_code = activity_val.slice(0, activity_val.indexOf(','))
 
 //         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
 //         setActiveChargeCode(result)
@@ -381,8 +375,11 @@
 //         const billsubtotal = totalamout
 //         const total_tax = Math.max(...totalgst)
 //         const remark = document.getElementById('custnotes').value;
-//         let location = document.getElementById('locationadd')
-//         location = location.options[location.selectedIndex].text;
+
+//         // let location = document.getElementById('locationadd')
+//         // location = location.options[location.selectedIndex].text;
+//         let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
+
 //         let consignee = document.getElementById('custname')
 //         consignee = consignee.options[consignee.selectedIndex].text;
 //         const currency_type = document.getElementById('currency').value
@@ -392,12 +389,15 @@
 //         const sgst = document.getElementById('sutgstipt').value;
 //         const utgst = document.getElementById('sutgstipt').value;
 //         const igst = document.getElementById('igstipt').value;
-//         const Major = document.getElementById('Activity').value;
+//         let Major = document.getElementById('Activity').value;
+//         Major = Major.slice(Major.indexOf(',') + 1)
 //         let billing_code = document.getElementById('Activity')
 //         billing_code = billing_code.options[billing_code.selectedIndex].text;
 
-//         let custaddrs = document.getElementById('custaddr')
-//         custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+//         // let custaddrs = document.getElementById('custaddr')
+//         // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
+//         let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
+
 //         const invoice_destination = custaddress_state;
 //         const invoice_origin = billingaddress;
 
@@ -414,31 +414,36 @@
 //             cgstamount = taxableamt / 2
 //             sgstamount = taxableamt / 2
 //             utgstamount = taxableamt / 2
-
 //         }
 
-//         // console.log(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-//         //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-//         //     paymentterm, Duedate, User_id)
-
-//         const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
-//             squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-//             total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-//             paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
-
-
-
-//         if (btn_type !== 'save') {
-//             const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+//         // Insert Data
+//         if (!custid || !billsubtotal || !consignee) {
+//             alert('Please Select Customer');
 //         }
+//         else {
 
-//         amount.map(async (amt, index) => {
-//             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
 
-//         })
-//         if (result) {
-//             alert('Added')
-//             window.location.reload();
+//             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+//                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+//                 total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+//                 paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
+
+
+//             if (result === 'Added') {
+//                 amount.map(async (amt, index) => {
+//                     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
+//                 })
+
+//                 if (btn_type !== 'save') {
+//                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+//                 }
+//                 alert('Added')
+//                 window.location.href = './SaveInvoice';
+//             }
+//             else {
+//                 alert('Server not Response');
+//                 window.location.reload();
+//             }
 //         }
 
 //     }
@@ -480,7 +485,7 @@
 //                                                 <div className="form-row mt-2">
 //                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
 //                                                     <div className="d-flex col-md-4">
-//                                                         <select
+//                                                         {/* <select
 //                                                             id="custaddr"
 //                                                             className="form-control"
 //                                                             onChange={handleChangeCustomerAdd}>
@@ -492,14 +497,27 @@
 //                                                                 ))
 //                                                             }
 
-//                                                         </select>
+//                                                         </select> */}
+
+
+//                                                         <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
+//                                                         onClick={(e)=>{
+//                                                             e.preventDefault();
+//                                                             setTimeout(() => {
+//                                                                 document.getElementById('searchCustAddress').focus()
+//                                                             }, 700)
+//                                                         }}>
+//                                                             {
+//                                                                 custAddressLocation.length > 0 ? custAddressLocation : 'Select Customer Address Location'
+//                                                             }
+//                                                         </button>
 //                                                     </div>
 //                                                 </div>
 
 //                                                 <div className="form-row mt-2">
 //                                                     <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
 //                                                     <div className="d-flex col-md-4">
-//                                                         <select
+//                                                         {/* <select
 //                                                             id="locationadd"
 //                                                             className="form-control"
 //                                                             onChange={handlechnageaddress}>
@@ -509,7 +527,20 @@
 //                                                                     <option key={index} value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</option>
 //                                                                 )
 //                                                             }
-//                                                         </select>
+//                                                         </select> */}
+
+
+
+//                                                         <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
+//                                                             e.preventDefault();
+//                                                             setTimeout(() => {
+//                                                                 document.getElementById('searchBillingAddress').focus()
+//                                                             }, 700)
+//                                                         }}>
+//                                                             {
+//                                                                 billingAddressLocation.length > 0 ? billingAddressLocation : 'Select Billing Address Location'
+//                                                             }
+//                                                         </button>
 //                                                     </div>
 //                                                 </div>
 //                                                 <div className="form-row mt-3">
@@ -556,7 +587,6 @@
 //                                                     <div className="d-flex col-md-3" >
 //                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
 //                                                         <input type="date" className={`form-control col-md-6  cursor-notallow`} id="Duedate" disabled />
-
 //                                                     </div>
 //                                                 </div>
 
@@ -568,7 +598,7 @@
 //                                                             <option value='' hidden>Select Activity</option>
 //                                                             {
 //                                                                 Activeaccount.map((items, index) => (
-//                                                                     <option key={index} value={items.account_type_code}>{items.account_name}</option>
+//                                                                     <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
 //                                                                 ))
 //                                                             }
 //                                                         </select>
@@ -605,7 +635,7 @@
 //                                                                 <tr key={index}>
 //                                                                     <div id='trdiv'>
 //                                                                         <td className="col-md-2 pl-0 pr-0">
-//                                                                             <select onChange={handleChangeItems} id="gstvalue" className={`form-control col-md-9 `}>
+//                                                                             <select onChange={(e) => { handleChangeItems(e.target.value, index) }} id="gstvalue" className={`form-control col-md-9 `}>
 //                                                                                 <option value='' hidden > Select item</option>
 //                                                                                 {
 //                                                                                     activechargecode.map((item, index) => (
@@ -619,18 +649,18 @@
 //                                                                         <input className={`form-control col-md-10 `} type="number" id="Quality" placeholder="0" onChange={(e) => {
 //                                                                             const quantity = e.target.value
 //                                                                             setIndex(index)
-//                                                                             setQuantity(quantity)
+//                                                                             Quantitys[index] = quantity
 //                                                                         }} /></td>
 
 //                                                                     <td className='col-md-2 pl-0 pr-0'>
 //                                                                         <input className="form-control col-md-10" type="number" id="Rate" placeholder="0"
-//                                                                             onChange={handleChangerate} />
+//                                                                             onChange={(e) => { handleChangerate(e.target.value, index) }} />
 //                                                                     </td>
 //                                                                     <td id="gst" className='col-md-1'>
 //                                                                         <input type='text' className="form-control col cursor-notallow" defaultValue={gstvalues[index]} disabled /></td>
 
 //                                                                     <td className='pl-0 pr-0 col-md-2'>
-//                                                                         <select onChange={handleChangeUnit} className={`form-control col-md-10 `} id='unitdrop'>
+//                                                                         <select onChange={(e) => { handleChangeUnit(e.target.value, index) }} className={`form-control col-md-10 `} id='unitdrop'>
 //                                                                             <option value='' hidden> Select Unit</option>
 //                                                                             {
 //                                                                                 activeunit.map((item, index) => (
@@ -640,10 +670,10 @@
 //                                                                         </select>
 //                                                                     </td>
 //                                                                     <td id="amountvalue" className='col-md-1'>
-//                                                                         <input type='text' className="form-control col cursor-notallow" defaultValue={amount[index] ? amount[index] : 0} disabled />
+//                                                                         <input type='text' className="form-control col cursor-notallow" id={`amount${index}`} disabled />
 //                                                                     </td>
 //                                                                     <td id="Totalsum" className='col-md-1'>
-//                                                                         <input type='text' className="form-control col cursor-notallow" defaultValue={Totalamountnew[index] ? Totalamountnew[index] : 0} disabled />
+//                                                                         <input type='text' className="form-control col cursor-notallow" id={`TotalAmount${index}`} disabled />
 //                                                                     </td>
 //                                                                 </tr>
 //                                                             ))
@@ -652,9 +682,7 @@
 //                                                 </table>
 //                                                 <button className="btn btn-primary" onClick={handleAdd} id='additembtm'>Add Item</button>   &nbsp;
 //                                                 <button className="btn btn-danger" onClick={handleRemove} id='removeitembtm'>Remove</button>
-
 //                                                 <hr />
-
 //                                                 <div className='d-flex'>
 //                                                     <div style={{ width: "40%" }}>
 //                                                         <div className="form mt-3">
@@ -662,7 +690,6 @@
 //                                                             <div className="d-flex col-md">
 //                                                                 <textarea type="text" className={`form-control col-md-10 `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
 //                                                             </div>
-
 //                                                         </div>
 //                                                     </div>
 //                                                     <div className={`rounded py-1 px-2`} style={{ width: "55%", background: '#eee' }}>
@@ -750,8 +777,8 @@
 //                                                     </div>
 //                                                 </div>
 //                                                 {
-//                                                     localStorage.getItem('gststatus') == true ?
-//                                                         <InvoicePreviewWithGst Allinvoicedata={allInvoiceData} Allitems={items} /> :
+//                                                     localStorage.getItem('gststatus') !== 'true' ?
+//                                                         <InvoicePreviewWithoutGst Allinvoicedata={allInvoiceData} Allitems={items} /> :
 //                                                         <InvoicePreview Allinvoicedata={allInvoiceData} Allitems={items} />
 
 
@@ -781,6 +808,103 @@
 //                 </div>
 //                 <Footer />
 //             </div>
+
+
+//             {/* modal Bill Address  Start*/}
+//             <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+//                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+//                     <div className="modal-content " >
+//                         <div className="modal-header">
+//                             <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
+//                             <div className="form-group col-md-5">
+//                                 <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress" />
+//                             </div>
+//                         </div>
+//                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+
+//                             <table className='table'>
+//                                 <thead>
+//                                     <tr>
+//                                         <th>City </th>
+//                                         <th>Address</th>
+//                                     </tr>
+//                                 </thead>
+//                                 <tbody>
+//                                     {
+//                                         locationstate.length > 0 ?
+//                                             locationstate.map((items, index) => (
+//                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+//                                                     onClick={() => {
+//                                                         handlechnageaddress(items.location_state, items.location_id);
+//                                                         setBillingAddressLocation([items.location_add1, items.location_city, items.location_country])
+//                                                     }}>
+//                                                     <td>{items.location_city}</td>
+//                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+
+//                                                 </tr>
+//                                             ))
+//                                             : 'Select Customer'
+//                                     }
+//                                 </tbody>
+//                             </table>
+
+//                         </div>
+//                         <div className="modal-footer">
+//                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//             {/* modal Bill Address  End*/}
+
+//             {/* modal Customer Address  Start*/}
+//             <div className="modal fade  bd-example-modal-lg" id="custAddnmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+//                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+//                     <div className="modal-content " >
+//                         <div className="modal-header">
+//                             <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
+//                             <div className="form-group col-md-5">
+//                                 <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress" />
+//                             </div>
+//                         </div>
+//                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+
+//                             <table className='table'>
+//                                 <thead>
+//                                     <tr>
+//                                         <th>City</th>
+//                                         <th>Address </th>
+
+//                                     </tr>
+//                                 </thead>
+//                                 <tbody>
+//                                     {
+//                                         cutomerAddress.length > 0 ?
+//                                             cutomerAddress.map((items, index) => (
+//                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+//                                                     onClick={() => {
+//                                                         handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
+//                                                         setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
+//                                                     }}>
+//                                                     <td>{items.billing_address_city}</td>
+//                                                     <td style={{ fontSize: "15px" }}>{items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</td>
+
+//                                                 </tr>
+//                                             ))
+//                                             : 'Select Customer'
+//                                     }
+//                                 </tbody>
+//                             </table>
+
+//                         </div>
+//                         <div className="modal-footer">
+//                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//             {/* modal Customer Address  End*/}
+
 //         </>
 //     )
 // }

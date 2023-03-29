@@ -5,7 +5,6 @@ import InvoicePreview from './PreviewInvoice';
 import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm,
-    // ActiveUser
     SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount
 } from '../../../api/index'
 import './invoice.css'
@@ -18,7 +17,6 @@ function Invoices() {
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [cutomerAddress, setCutomerAddress] = useState([])
     const [locationstate, setLocationstate] = useState([])
-    // const [activeuser, setActiveUser] = useState([])
     const [custdetail, setCustdetail] = useState({})
     const [gstvalue, setGstvalue] = useState('0')
     const [amount, setAmount] = useState([])
@@ -79,6 +77,11 @@ function Invoices() {
 
     const [items, setItems] = useState([])
 
+    const [itemsdata, setItemdata] = useState([[]])
+    const [itemdetails, setItemdetails] = useState([])
+
+
+
     useEffect(() => {
         const fetchdata = async () => {
             setTimeout(() => {
@@ -102,8 +105,6 @@ function Invoices() {
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
             setActivePaymentTerm(result1)
-            // const result2 = await ActiveUser()
-            // setActiveUser(result2)
             Todaydate()
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
@@ -329,15 +330,23 @@ function Invoices() {
         setCustAddGst(custaddgst)
     }
 
-    const handleChangeActivity = async (e) => {
+    const handleChangeActivity = async (e, index) => {
         e.preventDefault();
+        console.log(e.target.value, ' nsdjbc', index)
+        const datwe = e.target.value.split(',')
+        console.log(datwe[1])
+        const result2 = await ActiveItems(localStorage.getItem('Organisation'), datwe[0]);
+        itemsdata[index] = result2;
+        console.log(itemsdata)
+        console.log(result2)
+        return 0
         let val = document.getElementById('Activity');
         let text = val.options[val.selectedIndex].text;
         let activity_val = val.value;
         let major_code = activity_val.slice(0, activity_val.indexOf(','))
 
         const result = await ActiveItems(localStorage.getItem('Organisation'), major_code);
-        setActiveChargeCode(result)
+        activechargecode[index] = result
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }
@@ -349,111 +358,104 @@ function Invoices() {
 
     const handlesavebtn = async (e) => {
         e.preventDefault();
-        document.getElementById('savebtn').disabled = true;
-        document.getElementById('postbtn').disabled = true;
-        let invoiceids = "";
-        let squ_nos = ""
-        const btn_type = e.target.value;
-        const fin_year = localStorage.getItem('fin_year')
-        if (btn_type === 'save') {
-            invoiceids = 'Random' + Math.floor(Math.random() * 10000) + 1;
-            squ_nos = ""
-        }
-        else {
-            invoiceids = document.getElementById('invoiceid').value;
-            squ_nos = invoiceprefix;
-        }
+        // document.getElementById('savebtn').disabled = true;
+        // document.getElementById('postbtn').disabled = true;
+        // let invoiceids = "";
+        // let squ_nos = ""
+        // const btn_type = e.target.value;
+        // const fin_year = localStorage.getItem('fin_year')
+        // if (btn_type === 'save') {
+        //     invoiceids = 'Random' + Math.floor(Math.random() * 10000) + 1;
+        //     squ_nos = ""
+        // }
+        // else {
+        //     invoiceids = document.getElementById('invoiceid').value;
+        //     squ_nos = invoiceprefix;
+        // }
 
-        const squ_no = invoiceprefix;
-        const Invoicedate = document.getElementById('Invoicedate').value
-        const ordernumber = document.getElementById('ordernumber').value
-        const invoiceamt = grandtotal;
-        const User_id = localStorage.getItem('User_id')
-        const periodfrom = document.getElementById('fromdate').value;
-        const periodto = document.getElementById('todate').value;
-        const custid = document.getElementById('custname').value;
-        const billsubtotal = totalamout
-        const total_tax = Math.max(...totalgst)
-        const remark = document.getElementById('custnotes').value;
+        // const squ_no = invoiceprefix;
+        // const Invoicedate = document.getElementById('Invoicedate').value
+        // const ordernumber = document.getElementById('ordernumber').value
+        // const invoiceamt = grandtotal;
+        // const User_id = localStorage.getItem('User_id')
+        // const periodfrom = document.getElementById('fromdate').value;
+        // const periodto = document.getElementById('todate').value;
+        // const custid = document.getElementById('custname').value;
+        // const billsubtotal = totalamout
+        // const total_tax = Math.max(...totalgst)
+        // const remark = document.getElementById('custnotes').value;
 
-        // let location = document.getElementById('locationadd')
-        // location = location.options[location.selectedIndex].text;
-        let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
+        // let location = billingAddressLocation[0] + ' , ' + billingAddressLocation[1] + ' , ' + billingAddressLocation[2];
 
-        let consignee = document.getElementById('custname')
-        consignee = consignee.options[consignee.selectedIndex].text;
-        const currency_type = document.getElementById('currency').value
-        const paymentterm = document.getElementById('paymentterm').value;
-        const Duedate = document.getElementById('Duedate').value;
-        const cgst = document.getElementById('cgstipt').value;
-        const sgst = document.getElementById('sutgstipt').value;
-        const utgst = document.getElementById('sutgstipt').value;
-        const igst = document.getElementById('igstipt').value;
-        let Major = document.getElementById('Activity').value;
-        Major = Major.slice(Major.indexOf(',') + 1)
-        let billing_code = document.getElementById('Activity')
-        billing_code = billing_code.options[billing_code.selectedIndex].text;
+        // let consignee = document.getElementById('custname')
+        // consignee = consignee.options[consignee.selectedIndex].text;
+        // const currency_type = document.getElementById('currency').value
+        // const paymentterm = document.getElementById('paymentterm').value;
+        // const Duedate = document.getElementById('Duedate').value;
+        // const cgst = document.getElementById('cgstipt').value;
+        // const sgst = document.getElementById('sutgstipt').value;
+        // const utgst = document.getElementById('sutgstipt').value;
+        // const igst = document.getElementById('igstipt').value;
+        // let Major = document.getElementById('Activity').value;
+        // Major = Major.slice(Major.indexOf(',') + 1)
+        // let billing_code = document.getElementById('Activity')
+        // billing_code = billing_code.options[billing_code.selectedIndex].text;
 
-        // let custaddrs = document.getElementById('custaddr')
-        // custaddrs = custaddrs.options[custaddrs.selectedIndex].text;
-        let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
+        // let custaddrs = custAddressLocation[0] + ' , ' + custAddressLocation[1] + ' , ' + custAddressLocation[2];
 
-        const invoice_destination = custaddress_state;
-        const invoice_origin = billingaddress;
+        // const invoice_destination = custaddress_state;
+        // const invoice_origin = billingaddress;
 
-        let cgstamount = 0;
-        let sgstamount = 0;
-        let utgstamount = 0;
-        let igstamount = 0;
-        const taxableamt = gstvalue;
+        // let cgstamount = 0;
+        // let sgstamount = 0;
+        // let utgstamount = 0;
+        // let igstamount = 0;
+        // const taxableamt = gstvalue;
 
-        if (igst > 0) {
-            igstamount = taxableamt
+        // if (igst > 0) {
+        //     igstamount = taxableamt
 
-        } else {
-            cgstamount = taxableamt / 2
-            sgstamount = taxableamt / 2
-            utgstamount = taxableamt / 2
-        }
+        // } else {
+        //     cgstamount = taxableamt / 2
+        //     sgstamount = taxableamt / 2
+        //     utgstamount = taxableamt / 2
+        // }
 
-        // Insert Data
-        if (!custid || !billsubtotal || !consignee) {
-            alert('Please Select Customer');
-        }
-        else {
+        // // Insert Data
+        // if (!custid || !billsubtotal || !consignee) {
+        //     alert('Please Select Customer');
+        // }
+        // else {
 
 
-            const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
-                squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-                total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-                paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
+        //     const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+        //         squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
+        //         total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+        //         paymentterm, Duedate, User_id, custaddrs, custAddgst, invoice_destination, invoice_origin)
 
 
-            if (result === 'Added') {
-                amount.map(async (amt, index) => {
-                    const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
-                })
+        //     if (result === 'Added') {
+        //         amount.map(async (amt, index) => {
+        //             const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
+        //         })
 
-                if (btn_type !== 'save') {
-                    const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
-                }
-                alert('Added')
-                window.location.href = './SaveInvoice';
-            }
-            else {
-                alert('Server not Response');
-                window.location.reload();
-            }
-        }
+        //         if (btn_type !== 'save') {
+        //             const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+        //         }
+        //         alert('Added')
+        //         window.location.href = './SaveInvoice';
+        //     }
+        //     else {
+        //         alert('Server not Response');
+        //         window.location.reload();
+        //     }
+        // }
 
     }
 
     return (
         <>
             <div className="wrapper">
-                {/* <div className="preloader flex-column justify-content-center align-items-center">
-                                <div className="spinner-border" role="status"> </div>
-                            </div> */}
                 <Header />
 
                 <div className={`content-wrapper `} >
@@ -485,28 +487,13 @@ function Invoices() {
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        {/* <select
-                                                            id="custaddr"
-                                                            className="form-control"
-                                                            onChange={handleChangeCustomerAdd}>
-
-                                                            <option value='' hidden>Select Address</option>
-                                                            {
-                                                                cutomerAddress.map((items, index) => (
-                                                                    <option key={index} value={`${items.billing_address_state} ${items.cust_addressid} ${items.gst_no}`}>{items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</option>
-                                                                ))
-                                                            }
-
-                                                        </select> */}
-
-
                                                         <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
-                                                        onClick={(e)=>{
-                                                            e.preventDefault();
-                                                            setTimeout(() => {
-                                                                document.getElementById('searchCustAddress').focus()
-                                                            }, 700)
-                                                        }}>
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                setTimeout(() => {
+                                                                    document.getElementById('searchCustAddress').focus()
+                                                                }, 700)
+                                                            }}>
                                                             {
                                                                 custAddressLocation.length > 0 ? custAddressLocation : 'Select Customer Address Location'
                                                             }
@@ -517,20 +504,6 @@ function Invoices() {
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        {/* <select
-                                                            id="locationadd"
-                                                            className="form-control"
-                                                            onChange={handlechnageaddress}>
-                                                            <option value='' hidden>Select Address</option>
-                                                            {
-                                                                locationstate.map((item, index) =>
-                                                                    <option key={index} value={`${item.location_state},${item.location_id}`}>{item.location_add1},{item.location_city},{item.location_country}</option>
-                                                                )
-                                                            }
-                                                        </select> */}
-
-
-
                                                         <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
                                                             e.preventDefault();
                                                             setTimeout(() => {
@@ -546,7 +519,7 @@ function Invoices() {
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md">
-                                                        <input type="text" className={`form-control col-md-5  cursor-notallow`} id="invoiceid" value={invoiceid} disabled />
+                                                        <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
 
                                                     </div>
                                                 </div>
@@ -554,7 +527,7 @@ function Invoices() {
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                     <div className="d-flex col-md">
-                                                        <input type="text" className={`form-control col-md-5 `} id="ordernumber" placeholder='Enter the order number' />
+                                                        <input type="text" className='form-control col-md-5 ' id="ordernumber" placeholder='Enter the order number' />
                                                     </div>
                                                 </div>
 
@@ -563,16 +536,16 @@ function Invoices() {
                                                     <div className="d-flex col-md-3">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
 
-                                                        <input type="date" className={`form-control col-md-6  cursor-notallow`} id="Invoicedate" disabled />
+                                                        <input type="date" className='form-control col-md-6  cursor-notallow' id="Invoicedate" disabled />
                                                     </div>
 
 
-                                                    <div className="d-flex col-md-5">
-                                                        <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
+                                                    <div className="d-flex col-md-4 ">
+                                                        <label className="col-md-3 text-center col-form-label font-weight-normal" >Terms</label>
 
                                                         <select
                                                             id="paymentterm"
-                                                            className={`col-md-6  mr-0 form-control `}
+                                                            className='col-md-6  mr-0 form-control '
                                                             onChange={handleAccountTerm}
                                                         >
                                                             <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
@@ -586,11 +559,11 @@ function Invoices() {
 
                                                     <div className="d-flex col-md-3" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                        <input type="date" className={`form-control col-md-6  cursor-notallow`} id="Duedate" disabled />
+                                                        <input type="date" className={`form-control col-md-7  cursor-notallow`} id="Duedate" disabled />
                                                     </div>
                                                 </div>
 
-                                                <hr />
+                                                {/* <hr />
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Activity <span className='text-danger'>*</span></label>
                                                     <div className="d-flex col-md-4">
@@ -603,23 +576,24 @@ function Invoices() {
                                                             }
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                                 <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
                                                     <div className="d-flex col-md-3">
                                                         <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                                        <input type="date" className={`form-control col-md-6 `} id="fromdate" />
+                                                        <input type="date" className='form-control col-md-6 ' id="fromdate" />
                                                     </div>
                                                     <div className="d-flex col-md-5">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                                        <input type="date" className={`form-control col-md-6 `} id="todate" />
+                                                        <input type="date" className='form-control col-md-6 ' id="todate" />
                                                     </div>
                                                 </div>
                                                 <br />
 
 
-                                                <table className="table">
+                                                <table className="table  table-striped table-bordered">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Activity</th>
                                                             <th scope="col">Items</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Rate</th>
@@ -633,34 +607,38 @@ function Invoices() {
                                                         {
                                                             totalValues.map((element, index) => (
                                                                 <tr key={index}>
-                                                                    <div id='trdiv'>
-                                                                        <td className="col-md-2 pl-0 pr-0">
-                                                                            <select onChange={(e) => { handleChangeItems(e.target.value, index) }} id="gstvalue" className={`form-control col-md-9 `}>
-                                                                                <option value='' hidden > Select item</option>
-                                                                                {
-                                                                                    activechargecode.map((item, index) => (
-                                                                                        <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
-                                                                                    ))
-                                                                                }
-                                                                            </select>
-                                                                        </td>
-                                                                    </div>
-                                                                    <td className='col-md-2 pl-0 pr-0'>
-                                                                        <input className={`form-control col-md-10 `} type="number" id="Quality" placeholder="0" onChange={(e) => {
-                                                                            const quantity = e.target.value
-                                                                            setIndex(index)
-                                                                            Quantitys[index] = quantity
-                                                                        }} /></td>
-
-                                                                    <td className='col-md-2 pl-0 pr-0'>
-                                                                        <input className="form-control col-md-10" type="number" id="Rate" placeholder="0"
-                                                                            onChange={(e) => { handleChangerate(e.target.value, index) }} />
+                                                                    <td className="col-md-2 px-0">
+                                                                        <select id={`Activity-${index}`} className="form-control" onChange={(e) => handleChangeActivity(e, index)}>
+                                                                            <option value='' hidden>Select Activity</option>
+                                                                            {
+                                                                                Activeaccount.map((items, index) => (
+                                                                                    <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
+                                                                                ))
+                                                                            }
+                                                                        </select>
                                                                     </td>
-                                                                    <td id="gst" className='col-md-1'>
+                                                                    <td className="col-md-2 px-0">
+
+                                                                        <select id="gstvalue" className='form-control col' onChange={(e)=>{handleChangeItems(e.target.value,index)}}>
+                                                                            <option value='' hidden > Select item</option>
+                                                                            {
+                                                                                itemsdata[index].map((item, index) => (
+                                                                                    <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
+                                                                                ))
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td className='col-md-2 px-0'>
+                                                                        <input className='form-control col' type="number" id="Quality" placeholder="0" /></td>
+
+                                                                    <td className='col-md-2 px-0'>
+                                                                        <input className="form-control col" type="number" id="Rate" placeholder="0" />
+                                                                    </td>
+                                                                    <td id="gst" className='col-md-1 px-0'>
                                                                         <input type='text' className="form-control col cursor-notallow" defaultValue={gstvalues[index]} disabled /></td>
 
-                                                                    <td className='pl-0 pr-0 col-md-2'>
-                                                                        <select onChange={(e) => { handleChangeUnit(e.target.value, index) }} className={`form-control col-md-10 `} id='unitdrop'>
+                                                                    <td className='px-0 col-md-2'>
+                                                                        <select className='form-control col' id='unitdrop'>
                                                                             <option value='' hidden> Select Unit</option>
                                                                             {
                                                                                 activeunit.map((item, index) => (
@@ -669,10 +647,10 @@ function Invoices() {
                                                                             }
                                                                         </select>
                                                                     </td>
-                                                                    <td id="amountvalue" className='col-md-1'>
+                                                                    <td id="amountvalue" className='col-md-1 px-0'>
                                                                         <input type='text' className="form-control col cursor-notallow" id={`amount${index}`} disabled />
                                                                     </td>
-                                                                    <td id="Totalsum" className='col-md-1'>
+                                                                    <td id="Totalsum" className='col-md-1 px-0'>
                                                                         <input type='text' className="form-control col cursor-notallow" id={`TotalAmount${index}`} disabled />
                                                                     </td>
                                                                 </tr>
@@ -688,15 +666,15 @@ function Invoices() {
                                                         <div className="form mt-3">
                                                             <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
                                                             <div className="d-flex col-md">
-                                                                <textarea type="text" className={`form-control col-md-10 `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
+                                                                <textarea type="text" className='form-control col-md-10' rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className={`rounded py-1 px-2`} style={{ width: "55%", background: '#eee' }}>
+                                                    <div className='rounded py-1 px-2' style={{ width: "55%", background: '#eee' }}>
                                                         <table className='w-100'>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td><button className="btn btn-primary" onClick={handleSubTotal} id='subtotalbtn'>Sub Total</button></td>
+                                                                    <td><button className="btn btn-primary" id='subtotalbtn'>Sub Total</button></td>
                                                                     <td></td>
                                                                     <td>{totalamout}</td>
                                                                 </tr>
@@ -705,7 +683,7 @@ function Invoices() {
                                                                     <td>CGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1">
-                                                                            <input type="number" className={`form-control col-md-5  cursor-notallow`} id='cgstipt' disabled />
+                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='cgstipt' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -717,7 +695,7 @@ function Invoices() {
                                                                     <td>SGST/UTGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5  cursor-notallow`} id='sutgstipt' disabled />
+                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='sutgstipt' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -729,7 +707,7 @@ function Invoices() {
                                                                     <td>IGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5 gstinpt  cursor-notallow`} id='igstipt' disabled />
+                                                                            <input type="number" className='form-control col-md-5 gstinpt  cursor-notallow' id='igstipt' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -740,7 +718,7 @@ function Invoices() {
                                                                     <td>Total GST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control col-md-5  cursor-notallow`} id='gstipt ' value={Math.max(...totalgst)} disabled />
+                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='gstipt ' value={Math.max(...totalgst)} disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
@@ -755,7 +733,7 @@ function Invoices() {
                                                                     </td>
                                                                     <td>
                                                                         <div className="input-group mb-1">
-                                                                            <select className={`form-control col-md-5 `} id="currency" >
+                                                                            <select className='form-control col-md-5' id="currency" >
                                                                                 <option value={custdetail.currency} hidden >{custdetail.currency}</option>
                                                                                 {
                                                                                     currencylist.map((item, index) =>
