@@ -931,7 +931,7 @@ function Bills() {
                                 </div>
                             </div>
                             <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
-                                <table className='table'>
+                                <table className='table table-sm table-hover'>
                                     <thead >
                                         <tr >
                                             <th>City</th>
