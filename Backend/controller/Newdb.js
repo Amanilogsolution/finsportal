@@ -911,6 +911,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         inv_date date NULL,
         total_amt nvarchar(50) NULL,
         net_amt nvarchar(50) NULL,
+        total_cn_amt nvarchar(100) NULL
         remark nvarchar(300) NULL,
         gl_code nvarchar(50) NULL,
         location nvarchar(150) NULL,
