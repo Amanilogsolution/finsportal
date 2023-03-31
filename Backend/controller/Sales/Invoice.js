@@ -128,4 +128,47 @@ const UpdateSaveInvoiceToPost = async (req, res) => {
 
 }
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost }
+const GetInvoicesByCustomer = async (req, res) => {
+    const org = req.body.org;
+    const customer_id = req.body.customer_id;
+    console.log(org, customer_id)
+    
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`SELECT * from ilogsolution.dbo.tbl_invoice where custid = 'CUST230001' and flagsave = 'post'`)
+        res.send(result.recordset)
+
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+const filterInvoicebyCN = async (req, res) => {
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const custid = req.body.custid;
+    const locationid = req.body.locationid;
+    const invoice_no = req.body.invoice_no;
+    try {
+        await sql.connect(sqlConfig)
+        if (custid === 'all') {
+            const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
+            and '${lastDate}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' order by sno desc;`)
+            res.send(result.recordset)
+        }
+        else {
+            const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
+            and '${lastDate}' and custid='${custid}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' order by sno desc;`)
+            res.send(result.recordset)
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+
+module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost,GetInvoicesByCustomer,filterInvoicebyCN }

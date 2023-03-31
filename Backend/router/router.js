@@ -43,6 +43,7 @@ const LoginLogsController = require('../controller/LoginLOgs')
 const Twofa = require('../controller/2faAuthentication/Twofa')
 const UserRightsController = require('../controller/UserRolePermission/userRoll')
 const pomasterController = require('../controller/Purchases/PurchaseOrder/po')
+const CNController = require('../controller/Sales/CreditNote')
 
 //Routes
 
@@ -168,6 +169,8 @@ router.post('/userlogout', LoginController.User_logout)
 router.post('/InsertUserLogin', LoginController.InsertUserLogin)
 router.post('/ShowUserLogin', LoginController.showLoginuser)
 router.post('/ChangePassword', LoginController.ChangePassword)
+router.post('/CheckLoginUser', LoginController.CheckLoginUser)
+
 
 //Organisation
 router.post('/insertorg', OrganisationController.Insertorg)
@@ -209,7 +212,6 @@ router.post('/UpdatecomplianceType',ComplianceTypeController.UpdatecomplianceTyp
 router.post('/compliancesstatus',ComplianceTypeController.Compliancesstatus)
 router.post('/showactivecompliancestype',ComplianceTypeController.ShowActivecompliancesType)
 
-
 router.post('/compliancestatus',ComplianceController.Compliancestatus)
 router.post('/importcompliances',ComplianceController.ImportCompliances)
 router.post('/compliancesduedate',ComplianceController.Compliancesduedate)
@@ -223,8 +225,6 @@ router.post('/getfincialyearid',FincialyearController.Getfincialyearid)
 router.post('/updatefinancialcount',FincialyearController.Updatefinancialcount)
 router.post('/updatefinancialtwocount',FincialyearController.UpdatefinancialTwocount)
 router.post('/getfincialyearnavbar',FincialyearController.GetfincialyearNavbar)
-
-
 
 router.post('/insertitems',ItemsController.InsertItems)
 router.post('/totalitems',ItemsController.TotalItems)
@@ -325,6 +325,8 @@ router.post('/filterinvoice',InvoiceController.filterInvoice)
 router.post('/getinvoice',InvoiceController.getInvoice)
 router.post('/getsaveinvoice',InvoiceController.getSaveInvoice)
 router.post('/updatesaveinvoicetopost',InvoiceController.UpdateSaveInvoiceToPost)
+router.post('/getinvoicesbycustomer',InvoiceController.GetInvoicesByCustomer)
+router.post('/filterinvoicebycn',InvoiceController.filterInvoicebyCN)
 
 
 
@@ -372,17 +374,12 @@ router.post('/filterpo',pomasterController.filterPO)
 router.post('/getPoDetailsPreview',pomasterController.getPoDetailsPreview)
 router.post('/getSubPoDetailsPreview',pomasterController.getSubPoDetailsPreview)
 
-
-
-
-
+router.post('/insertcreditnote',CNController.InsertCreditNote)
+router.post('/allcndata',CNController.AllCNData)
+router.post('/changecstatus',CNController.ChangeCNStatus)
 
 
 
 
 
 module.exports = router;
-
-
-
-

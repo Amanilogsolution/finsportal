@@ -127,4 +127,24 @@ async function ChangePassword(req, res) {
     }
 }
 
-module.exports = { User_login, User_logout, InsertUserLogin, showLoginuser, ChangePassword }
+async function CheckLoginUser(req, res) {
+    const user_id = req.body.user_id;
+    const user_password = req.body.user_password;
+    console.log(`select * from FINSDB.dbo.tbl_Login  with (nolock) where user_id = '${user_id}' and user_password='${user_password}'`);
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from FINSDB.dbo.tbl_Login  with (nolock) where user_id = '${user_id}' and user_password='${user_password}'`)
+        if(result.recordset[0]){
+            res.send('Confirmed')
+        }else{
+            res.send('Not Confirmed')
+
+        }
+        console.log(result)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = { User_login, User_logout, InsertUserLogin, showLoginuser, ChangePassword,CheckLoginUser }

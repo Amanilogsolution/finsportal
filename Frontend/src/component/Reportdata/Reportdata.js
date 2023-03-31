@@ -47,15 +47,16 @@ const Reportdata = () => {
 
   const Todaydate = () => {
     var date = new Date();
-    // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
     var today = year + "-" + month + "-" + day;
-    document.getElementById("from_date").defaultValue = today;
-    document.getElementById("to_date").defaultValue = today;    
+    setTimeout(()=>{
+      document.getElementById("from_date").value = today;
+      document.getElementById("to_date").value = today;  
+    },500)   
 }
 
   const handleapply = async () => {
@@ -179,6 +180,19 @@ const Reportdata = () => {
                       </div>
                     </div>
 
+
+                    <div className="form-row" id='customerdiv'>
+                      <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Customer</label>
+                      <div className="col form-group" >
+                        <select className="form-control col" id='customer' >
+                          <option value='all'>All</option>
+                          {
+                            customerlist.map((item, index) =>
+                              <option value={item.cust_id} key={index}>{item.cust_name}</option>)
+                          }
+                        </select>
+                      </div>
+                    </div>
 
                     <div className="form-row" id='customerdiv'>
                       <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Customer</label>
