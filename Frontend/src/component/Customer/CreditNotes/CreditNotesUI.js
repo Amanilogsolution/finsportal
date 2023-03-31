@@ -1,17 +1,24 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO } from '../../../api/index'
+import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO,AllCNData } from '../../../api/index'
+import Select from 'react-select';
+import CNReport from './Report/CNReport'
+import CNDetails from './Report/CNDetails'
+
 
 
 function CreditNotes() {
-    const [loading, setLoading] = useState(false)
-  const [data, setData] = useState()
+  const [loading, setLoading] = useState(false)
   const [customerlist, setCustomerlist] = useState([])
-  const [vendorlist, setVendorlist] = useState([])
-  const [vendcustname, setVendcustname] = useState('')
+  const [custname, setcustname] = useState('all')
   const [locationlist, setLocationlist] = useState([])
+  const [custInvoices, setCustInvoices] = useState([])
+  const [vendlocation,setVendlocation] = useState('')
+  const [invoiceno,setInvoiceNo] =useState('')
+  const [data,setData] = useState([])
+  const [cndata,setCndata] = useState([])
 
   const themebtncolor = localStorage.getItem('themebtncolor') || 'primary'
 
@@ -24,46 +31,106 @@ function CreditNotes() {
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
 
-
-      const vend = await ActiveVendor(org)
-      setVendorlist(vend)
-    //   Todaydate()
-
-
+      const CNdetails = await AllCNData(org)
+      console.log(CNdetails)
+      setCndata(CNdetails)
+     
+      Todaydate()
       setLoading(true)
       const UserRights_invoice = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_invoice')
       if (UserRights_invoice.reports_invoice_view === 'true') {
         document.getElementById('invoicedropdown').style.display = 'block'
       }
-
       const UserRights_bill = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_bill')
       if (UserRights_bill.reports_bill_view === 'true') {
         document.getElementById('billdropdown').style.display = 'block'
       }
     }
     fetchData()
-  }, [data])
+  }, [])
+
+  const Todaydate = () => {
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;
+    setTimeout(() => {
+      document.getElementById("from_date").value = today;
+      document.getElementById("to_date").value = today;
+    }, 500)
+  }
+
+  const handleCustomer = async (e) => {
+    console.log(e.value)
+    setcustname(e.value)
+    const result = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), e.value)
+    console.log(result)
+    setCustInvoices(result)
+  }
+
+  const handleCustlocation = (e) => {
+    setVendlocation(e.value)
+  }
+  const handleInvoice = (e) => {
+    setInvoiceNo(e.value)
+  }
 
   
-    return (
-        <div className="wrapper">
+
+  let Invoice = custInvoices.map((ele) => {
+    return { value: ele.invoice_no, label: `${ele.invoice_no} ` };
+  })
+  Invoice.unshift({ value: 'All', label: 'All' })
+
+  let location = locationlist.map((ele) => {
+    return { value: ele.location_id, label: `${ele.location_city} , ${ele.location_id}` };
+  })
+  location.unshift({ value: 'All', label: 'All' })
+
+  let Customer = customerlist.map((ele) => {
+    return { value: ele.cust_id, label: `${ele.cust_name} ` };
+  })
+  Customer.unshift({ value: 'all', label: 'All' })
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const org = localStorage.getItem('Organisation')
+    const startDate = document.getElementById('from_date').value
+    const lastDate = document.getElementById('to_date').value
+
+    console.log(org, startDate, lastDate, custname, vendlocation, invoiceno)
+
+    const result = await filterInvoicebyCN(org, startDate, lastDate, custname, vendlocation, invoiceno)
+    console.log(result)
+    setData(result)
+  }
+
+
+  return (
+    <div className="wrapper">
       {
         loading ?
           <>
-            {/* <div className="preloader flex-column justify-content-center align-items-center">
-              <div className="spinner-border" role="status"> </div>
-            </div> */}
             <Header />
             <div className={`content-wrapper`}>
               <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                 <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
 
               <div className="container-fluid">
-                <br /> <h3 className="text-left ml-5">Invoices</h3>
+                <br /> <h3 className="text-left ml-5">Credit Notes</h3>
                 <div className="card w-100">
                   <article className={`card-body`}>
                     <form>
-                     
+                    {
+                        data.length>0 ? (
+                          <CNReport displaydata={data}/>
+                                )
+                          : <CNDetails displaydata={cndata}/>
+                      }
                     </form>
                   </article>
 
@@ -84,58 +151,44 @@ function CreditNotes() {
                   <div className="modal-body">
 
                     <div className="form-row" >
-                     
                     </div>
                     <div className="form-row" id='locationdiv'>
                       <label htmlFor="location" className="col-md-3 col-form-label font-weight-normal">Location</label>
                       <div className="col form-group" >
-                        <select type="text" className="form-control col" id='location' >
-                          <option value='' hidden>Select Loaction</option>
-                          {
-                            locationlist.map((item, index) =>
-                              <option value={item.location_id} key={index}>{item.location_city}</option>)
-                          }
-                        </select>
+                        <Select
+                          className="col text-dark"
+                          options={location}
+                          isMulti={false}
+                          placeholder="Select Location"
+                        onChange={handleCustlocation}
+                        />
                       </div>
                     </div>
-
 
                     <div className="form-row" id='customerdiv'>
                       <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Customer</label>
                       <div className="col form-group" >
-                        <select className="form-control col" id='customer' >
-                          <option value='all'>All</option>
-                          {
-                            customerlist.map((item, index) =>
-                              <option value={item.cust_id} key={index}>{item.cust_name}</option>)
-                          }
-                        </select>
+                        <Select
+                          className="col text-dark"
+                          options={Customer}
+                          isMulti={false}
+                          placeholder="Select Customer"
+                          onChange={handleCustomer}
+                        />
                       </div>
                     </div>
 
                     <div className="form-row" id='customerdiv'>
                       <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Invoice</label>
                       <div className="col form-group" >
-                        <select className="form-control col" id='customer' >
-                          <option value='all'>All</option>
-                          {
-                            customerlist.map((item, index) =>
-                              <option value={item.cust_id} key={index}>{item.cust_name}</option>)
-                          }
-                        </select>
-                      </div>
-                    </div>
+                        <Select
+                          className="col text-dark"
+                          options={Invoice}
+                          isMulti={false}
+                          placeholder="Select Invoice"
+                          onChange={handleInvoice}
 
-                    <div className="form-row" style={{ display: "none" }} id='vendordiv'>
-                      <label htmlFor="vendor" className="col-md-3 col-form-label font-weight-normal">Vendor</label>
-                      <div className="col form-group" >
-                        <select className="form-control col" id='vendor' >
-                          <option value='all'>All</option>
-                          {
-                            vendorlist.map((item, index) =>
-                              <option value={item.vend_id} key={index}>{item.vend_name}</option>)
-                          }
-                        </select>
+                        />
                       </div>
                     </div>
 
@@ -143,7 +196,6 @@ function CreditNotes() {
                       <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='from_date' />
-
                       </div>
                     </div>
                     <div className="form-row" >
@@ -155,7 +207,7 @@ function CreditNotes() {
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" className={`btn btn-${themebtncolor}`} data-dismiss="modal" >Apply</button>
+                      <button type="button" className={`btn btn-${themebtncolor}`} onClick={handleSubmit} data-dismiss="modal" >Apply</button>
                     </div>
                   </div>
                 </div>
@@ -171,7 +223,7 @@ function CreditNotes() {
           </div>)
       }
     </div >
-    )
+  )
 }
 
 export default CreditNotes

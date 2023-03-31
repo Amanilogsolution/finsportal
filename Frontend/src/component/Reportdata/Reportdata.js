@@ -56,9 +56,7 @@ const Reportdata = () => {
     setTimeout(()=>{
       document.getElementById("from_date").value = today;
       document.getElementById("to_date").value = today;  
-    },500)
-    
-     
+    },500)   
 }
 
   const handleapply = async () => {

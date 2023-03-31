@@ -313,7 +313,7 @@ const Menu = (props) => {
                   </a>
                 </li>
                 <li className="nav-item" style={{ display: "none" }} id='creditNoteMenu'>
-                  <a href="/CreditNotes" className="nav-link active">
+                  <a href="/CreditNotesUI" className="nav-link active">
                     <i className="fa fa-credit-card nav-icon" />
                     <p>CreditNotes</p>
                   </a>
