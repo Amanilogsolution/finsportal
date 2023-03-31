@@ -133,7 +133,7 @@ function CreditNotes() {
                                             <hr />
 
                                          
-                                            <table class="table">
+                                            <table className="table">
                                                 <thead>
                                                     <th scope="col">Iteam Details</th>
                                                     <th scope="col">Quality</th>

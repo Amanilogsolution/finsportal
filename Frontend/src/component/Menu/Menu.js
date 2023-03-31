@@ -43,6 +43,7 @@ const Menu = (props) => {
       document.getElementById('deliverychallansmrnu').style.display = "none"
       document.getElementById('pmtRecMenu').style.display = "none"
       document.getElementById('recInvoiceMenu').style.display = "none"
+      document.getElementById('creditNoteMenu').style.display = "none"
       document.getElementById('vendcredMenu').style.display = "none"
 
       document.getElementById('vendRecurrMenu').style.display = "none"
@@ -256,7 +257,7 @@ const Menu = (props) => {
 
             {/* ################# Sales Section Start ############## */}
             <li className="nav-item" id='salesMenu'>
-              <a href="#" className="nav-link active">
+              <a href='#' className="nav-link active">
                 <i className="nav-icon material-icons" style={{ marginLeft: "-5px" }}>shopping_cart</i>
                 <p >
                   Sales
@@ -323,7 +324,7 @@ const Menu = (props) => {
             </li>
             {/* Purchases Menu Start */}
             <li className="nav-item" style={{ display: "none" }} id='purchasesMenu'>
-              <a href="/Customer" className="nav-link active">
+              <a href='#'  className="nav-link active">
                 <i className="fa fa-shopping-bag" aria-hidden="true"></i>
                 <p >
                   &nbsp;  Purchases
@@ -378,7 +379,7 @@ const Menu = (props) => {
             </li>
             {/* Accountant Master */}
             <li className="nav-item" style={{ display: "none" }} id="accountantMenu">
-              <a href="/Customer" className="nav-link active">
+              <a href="#" className="nav-link active">
                 <i className="fa fa-user-plus" aria-hidden="true"></i>
                 <p >
                   &nbsp;  Accountant
@@ -426,7 +427,7 @@ const Menu = (props) => {
             </li>
             {/* Master Menu */}
             <li className="nav-item" style={{ display: "none" }} id='masterMenu'>
-              <a href="/Customer" className="nav-link active">
+              <a href="#" className="nav-link active">
                 <i className="fa fa-user-plus" aria-hidden="true"></i>
                 <p >
                   &nbsp;  Master

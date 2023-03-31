@@ -126,14 +126,14 @@ const CNReport = (props) => {
                 </div>
 
                 {/* Modal Start */}
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Verification</h5>
+                <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLongTitle">Verification</h5>
 
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor="userid">Email address</label>
@@ -146,9 +146,9 @@ const CNReport = (props) => {
                                 </form>
 
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={handleClickConfirm}>Save changes</button>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={handleClickConfirm}>Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -158,41 +158,41 @@ const CNReport = (props) => {
                 {/* Modal CN Details Start */}
                 <div className='position-absolute' id="cndetails" style={{ top: "0%", left: "40%", transform: "translate(-40%,-5%)", width: "70%", display: "none" }}>
 
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLongTitle">Details</h5>
 
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <form>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                    <div className="form-row">
+                                        <div className="form-group col-md-6">
                                             <label htmlFor="userid">Invoice Number</label>
                                             <input type="text" className="form-control" id="invno" aria-describedby="emailHelp" disabled />
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div className="form-group col-md-6">
                                             <label htmlFor="userid">Invoice Date</label>
                                             <input type="date" className="form-control" id="invdate" aria-describedby="emailHelp" disabled />
                                         </div>
                                     </div>
 
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                    <div className="form-row">
+                                        <div className="form-group col-md-6">
                                             <label htmlFor="userid">Financial Year</label>
                                             <input type="text" className="form-control" id="invyear" aria-describedby="emailHelp" disabled />
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div className="form-group col-md-6">
                                             <label htmlFor="userid">Invoice Amount</label>
                                             <input type="text" className="form-control" id="invamount" aria-describedby="emailHelp" disabled />
                                         </div>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                    <div className="form-row">
+                                        <div className="form-group col-md-6">
                                             <label htmlFor="userid">Customer</label>
                                             <input type="text" className="form-control" id="customer" aria-describedby="emailHelp" disabled />
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div className="form-group col-md-6">
                                             <label htmlFor="userid">Total CR Amount</label>
                                             <input type="number" className="form-control" id="total_cn_amt" aria-describedby="emailHelp" placeholder="Enter Amount" />
                                         </div>
@@ -205,9 +205,9 @@ const CNReport = (props) => {
                                 </form>
 
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" onClick={() => { document.getElementById('cndetails').style.display = 'none' }}>Close</button>
-                                <button type="button" class="btn btn-primary" onClick={handleClickSendMail}>Send Mail</button>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={() => { document.getElementById('cndetails').style.display = 'none' }}>Close</button>
+                                <button type="button" className="btn btn-primary" onClick={handleClickSendMail}>Send Mail</button>
                             </div>
                         </div>
                     </div>
