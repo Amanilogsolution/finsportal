@@ -156,7 +156,7 @@ const CNReport = (props) => {
                 {/* Modal End */}
 
                 {/* Modal CN Details Start */}
-                <div className='position-absolute' id="cndetails" style={{ top: "85%", left: "40%", transform: "translate(-40%,-40%)", width: "70%", display: "none" }}>
+                <div className='position-absolute' id="cndetails" style={{ top: "0%", left: "40%", transform: "translate(-40%,-5%)", width: "70%", display: "none" }}>
 
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
