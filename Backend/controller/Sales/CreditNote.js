@@ -35,7 +35,6 @@ const InsertCreditNote = async (req, res) => {
 
 const AllCNData = async (req, res) => {
     const org = req.body.org;
-    
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as Joindate  from ${org}.dbo.tbl_cn `)
@@ -63,4 +62,19 @@ const ChangeCNStatus = async (req, res) => {
     }
 }
 
-module.exports = {InsertCreditNote,AllCNData,ChangeCNStatus}
+const getCNData = async (req, res) => {
+    const org = req.body.org;
+    const sno = req.body.sno;
+    
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_cn where sno = ${sno} `)
+        res.send(result.recordset[0])
+        
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = {InsertCreditNote,AllCNData,ChangeCNStatus,getCNData}

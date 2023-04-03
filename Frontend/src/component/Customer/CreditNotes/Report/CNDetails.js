@@ -55,8 +55,9 @@ const CNDetails = (props) => {
             selector: "null",
             cell: (row) => {
                     if(row.status == "Confirmed"){
-                        return  <button id='previewbtn' type="button" onClick={(e) => {
+                        return  <button id={`previewbtn${row.sno}`} type="button" onClick={(e) => {
                             e.preventDefault();
+                            localStorage.setItem("cnno",row.sno)
                             window.location.href = "/CreditNotes"
                         }} className="btn btn-success"
                              >{row.status} </button>

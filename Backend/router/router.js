@@ -377,6 +377,8 @@ router.post('/getSubPoDetailsPreview',pomasterController.getSubPoDetailsPreview)
 router.post('/insertcreditnote',CNController.InsertCreditNote)
 router.post('/allcndata',CNController.AllCNData)
 router.post('/changecstatus',CNController.ChangeCNStatus)
+router.post('/getcndata',CNController.getCNData)
+
 
 
 

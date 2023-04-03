@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
+import {getCNData} from '../../../api/index'
 
 function CreditNotes() {
     const [totalValues, setTotalValues] = useState([1])
     const [amount,setAmount]= useState()
+    const [data,setData]= useState({})
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -13,6 +15,17 @@ function CreditNotes() {
             document.getElementById("Upload").click()
         }
     }
+
+    useEffect(()=>{
+        const fetchData = async () =>{
+            const org = localStorage.getItem('Organisation')
+
+            const result = await getCNData(org,localStorage.getItem('cnno'))
+            console.log(result)
+            setData(result)
+        }
+        fetchData()
+    },[])
 
     const handleChangeQuantity =(e)=>{
         e.preventDefault()
@@ -70,22 +83,14 @@ function CreditNotes() {
                                         <form autoComplete="off">
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="AccountType"
-                                                        className="form-control"
-                                                    // onChange={handleAccountType}
-                                                    >
-                                                        <option defaultValue hidden>Choose</option>
-
-                                                    </select>
-                                                    <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
+                                                <div className="d-flex col">
+                                                <input type="text" className="form-control col-md-5" id="Accountname" value={data.cust_id}/>
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Credit Note#<span style={{ color: "red" }}>*</span> </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Credit Note<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="CN-00001" />
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={data.cust_id} />
 
                                                 </div>
                                             </div>
@@ -135,10 +140,12 @@ function CreditNotes() {
                                          
                                             <table className="table">
                                                 <thead>
+                                                <tr>
                                                     <th scope="col">Iteam Details</th>
                                                     <th scope="col">Quality</th>
                                                     <th scope="col">Rate</th>
                                                     <th scope="col">Amount</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                     {

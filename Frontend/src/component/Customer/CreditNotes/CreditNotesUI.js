@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, AllCNData } from '../../../api/index'
+import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocationAddress, getUserRolePermission, filterPO,AllCNData } from '../../../api/index'
 import Select from 'react-select';
 import CNReport from './Report/CNReport'
 import CNDetails from './Report/CNDetails'
-
-
 
 function CreditNotes() {
   const [loading, setLoading] = useState(false)
@@ -35,14 +33,7 @@ function CreditNotes() {
 
       Todaydate()
       setLoading(true)
-      const UserRights_invoice = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_invoice')
-      if (UserRights_invoice.reports_invoice_view === 'true') {
-        document.getElementById('invoicedropdown').style.display = 'block'
-      }
-      const UserRights_bill = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_bill')
-      if (UserRights_bill.reports_bill_view === 'true') {
-        document.getElementById('billdropdown').style.display = 'block'
-      }
+
     }
     fetchData()
   }, [])
