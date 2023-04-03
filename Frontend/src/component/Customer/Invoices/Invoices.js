@@ -33,6 +33,7 @@ function Invoices() {
 
     const [activecustomer, setActiveCustomer] = useState([])
     const [Activeaccount, setActiveAccount] = useState([])
+    const [index111,setIndex] = useState()
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -73,17 +74,22 @@ function Invoices() {
 
     const handleChangeActivity = async (e, index) => {
         e.preventDefault();
+        console.log(index)
         itemtoggle[index] = true
         const datwe = e.target.value.split(',')
         const result2 = await ActiveItems(localStorage.getItem('Organisation'), datwe[0]);
-        itemsdata[index] = result2;
         console.log(result2)
-        console.log(index)
+        itemsdata[index] = result2;
+        
+        setIndex(index)
+   
 
         let val = document.getElementById(`Activity-${index}`);
         let text = val.options[val.selectedIndex].text;
+       
         if (text === 'WAREHOUSING') {
-            document.getElementById('FTdate').style.display = "flex"
+              document.getElementById('FTdate').style.display = "flex"
+             
         }
         else {
             document.getElementById('FTdate').style.display = "none"
