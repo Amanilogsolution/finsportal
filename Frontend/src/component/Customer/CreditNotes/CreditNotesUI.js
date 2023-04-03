@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
-// import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocationAddress, getUserRolePermission, filterPO,AllCNData } from '../../../api/index'
 import Select from 'react-select';
@@ -30,7 +29,6 @@ function CreditNotes() {
       setLocationlist(location)
 
       const CNdetails = await AllCNData(org)
-      console.log(CNdetails)
       setCndata(CNdetails)
 
       Todaydate()
@@ -55,10 +53,8 @@ function CreditNotes() {
   }
 
   const handleCustomer = async (e) => {
-    console.log(e.value)
     setcustname(e.value)
     const result = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), e.value)
-    console.log(result)
     setCustInvoices(result)
   }
 
@@ -93,10 +89,7 @@ function CreditNotes() {
     const startDate = document.getElementById('from_date').value
     const lastDate = document.getElementById('to_date').value
 
-    console.log(org, startDate, lastDate, custname, vendlocation, invoiceno)
-
     const result = await filterInvoicebyCN(org, startDate, lastDate, custname, vendlocation, invoiceno)
-    console.log(result)
     setData(result)
   }
 
@@ -107,7 +100,6 @@ function CreditNotes() {
       {
         loading ?
           <>
-
             <div className='content-wrapper'>
               <div className="container-fluid">
                 <div className='d-flex justify-content-between px-3 py-3'>
@@ -118,11 +110,11 @@ function CreditNotes() {
                 <div className="card w-100">
                   <article className={`card-body`}>
                     {
-                        data.length>0 ? (
-                          <CNReport displaydata={data}/>
-                                )
-                          : <CNDetails displaydata={cndata}/>
-                      }
+                      data.length > 0 ? (
+                        <CNReport displaydata={data} />
+                      )
+                        : <CNDetails displaydata={cndata} />
+                    }
                   </article>
 
                 </div>
@@ -151,7 +143,7 @@ function CreditNotes() {
                           options={location}
                           isMulti={false}
                           placeholder="Select Location"
-                        onChange={handleCustlocation}
+                          onChange={handleCustlocation}
                         />
                       </div>
                     </div>
