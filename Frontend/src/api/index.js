@@ -1518,6 +1518,11 @@ export const ChangeCNStatus = async (org,status,sno) => {
     return axios.post(url, {org,status,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const getCNData = async (org,sno) => {
+    const url = `http://localhost:3008/api/getcndata`
+    return axios.post(url, {org,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 
 
