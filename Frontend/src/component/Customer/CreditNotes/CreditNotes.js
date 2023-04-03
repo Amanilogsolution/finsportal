@@ -1,13 +1,13 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import {getCNData} from '../../../api/index'
+import { getCNData,GetSubInvoice } from '../../../api/index'
 
 function CreditNotes() {
     const [totalValues, setTotalValues] = useState([1])
-    const [amount,setAmount]= useState()
-    const [data,setData]= useState({})
+    const [amount, setAmount] = useState()
+    const [data, setData] = useState({})
     const handleChange = (e) => {
         console.log(e.target.value)
         var desktop = e.target.value
@@ -16,27 +16,30 @@ function CreditNotes() {
         }
     }
 
-    useEffect(()=>{
-        const fetchData = async () =>{
+    useEffect(() => {
+        const fetchData = async () => {
             const org = localStorage.getItem('Organisation')
-            const result = await getCNData(org,localStorage.getItem('cnno'))
+            const result = await getCNData(org, localStorage.getItem('cnno'))
             console.log(result)
             setData(result)
+            const result1 = await GetSubInvoice(org, result.inv_no)
+            console.log(result1)
+
         }
         fetchData()
-    },[])
+    }, [])
 
-    const handleChangeQuantity =(e)=>{
+    const handleChangeQuantity = (e) => {
         e.preventDefault()
         console.log(e.target.value)
     }
 
-    const handleBlur = ()=> {
+    const handleBlur = () => {
         const quality = document.getElementById('Quality').value
         const rate = document.getElementById('Rate').value
-        console.log(quality,rate)
-        console.log(quality*rate)
-        setAmount(quality*rate)
+        console.log(quality, rate)
+        console.log(quality * rate)
+        setAmount(quality * rate)
     }
 
     const handleAdd = (e) => {
@@ -83,19 +86,19 @@ function CreditNotes() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col">
-                                                <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cust_id} disabled/>
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cust_id} disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal">Location <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col">
-                                                <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.location} disabled/>
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.location} disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Credit Note<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cn_no} disabled/>
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cn_no} disabled />
 
                                                 </div>
                                             </div>
@@ -103,45 +106,41 @@ function CreditNotes() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Credit Note Date<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cndate} disabled/>
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cndate} disabled />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.inv_Date} disabled/>
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.inv_Date} disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Financial Year<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.fins_year} disabled/>
-
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.fins_year} disabled />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice Number<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.inv_no} disabled/>
-
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.inv_no} disabled />
                                                 </div>
                                             </div>
-                                    
+
                                             <hr />
 
-                                            <table className="table">
+                                            <table className="table w-100">
                                                 <thead>
-                                                <tr>
-                                                    <th scope="col">Activity</th>
-                                                    <th scope="col">Charge Code</th>
-                                                    <th scope="col">Amount</th>
-                                                    <th scope="col">AmountBal</th>
-                                                    <th scope="col">PassAmt</th>
-                                                    <th scope="col">Remark</th>
-
-
+                                                    <tr>
+                                                        <th scope="col">Activity</th>
+                                                        <th scope="col">Charge Code</th>
+                                                        <th scope="col">Amount</th>
+                                                        <th scope="col">AmountBal</th>
+                                                        <th scope="col">PassAmt</th>
+                                                        <th scope="col">Remark</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -150,9 +149,9 @@ function CreditNotes() {
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
-                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td>{amount}</td>
                                                             </tr>
 
