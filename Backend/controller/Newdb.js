@@ -897,6 +897,61 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
             update_date_time datetime NULL,
             cust_name_uuid nvarchar(300) NULL
     );
+
+    CREATE TABLE ${dbname}.dbo.tbl_cn (
+        sno bigint IDENTITY(1,1) NOT NULL,
+        cn_no nvarchar(50) NULL,
+        cn_type nvarchar(50) NULL,
+        cn_date date NULL,
+        mast_id nvarchar(50) NULL,
+        cust_id nvarchar(50) NULL,
+        charge_code nvarchar(50) NULL,
+        cn_source nvarchar(50) NULL,
+        inv_no nvarchar(50) NULL,
+        inv_date date NULL,
+        total_amt nvarchar(50) NULL,
+        net_amt nvarchar(50) NULL,
+        total_cn_amt nvarchar(100) NULL
+        remark nvarchar(300) NULL,
+        gl_code nvarchar(50) NULL,
+        location nvarchar(150) NULL,
+        total_gstrate nvarchar(50) NULL,
+        cgst_rate nvarchar(50) NULL,
+        sgst_rate nvarchar(50) NULL,
+        igst_rate nvarchar(50) NULL,
+        total_gst_amt nvarchar(50) NULL,
+        cgst_amt nvarchar(50) NULL,
+        sgst_amt nvarchar(50) NULL,
+        igst_amt nvarchar(50) NULL,
+        sac_hsn nvarchar(50) NULL,
+        pas_amt nvarchar(50) NULL,
+        cn_flag nvarchar(50) NULL,
+        
+        fins_year nvarchar(50) NULL,
+        
+        reqtoappr_date_time datetime NULL,
+        reqtoappr_user_name nvarchar(50) NULL,
+        reqtoappr_system_name nvarchar(50) NULL,
+        reqtoappr_ip_address nvarchar(50) NULL,
+        
+        appr_date_time datetime NULL,
+        appr_user_name nvarchar(50) NULL,
+        appr_system_name nvarchar(50) NULL,
+        appr_ip_address nvarchar(50) NULL,
+        
+        add_date_time datetime NULL,
+        add_user_name nvarchar(50) NULL,
+        add_system_name nvarchar(50) NULL,
+        add_ip_address nvarchar(50) NULL,
+        
+        update_date_time datetime NULL,
+        update_user_name nvarchar(50) NULL,
+        update_system_name nvarchar(100) NULL,
+        update_ip_address nvarchar(50) NULL,
+        
+        status nvarchar(50) NULL,
+        newcn_uuid nvarchar(100) NULL
+        );
             `)
             res.send('created')
         }

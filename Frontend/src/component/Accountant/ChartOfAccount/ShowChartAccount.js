@@ -286,13 +286,21 @@ function ShowChartAccount() {
       </div>
       <Header />
       <div className={`content-wrapper `}>
-        <button type="button" id='addchartofacct' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: 'none' }} onClick={() => {
-          financialstatus !== 'Lock' ? window.location.href = "./ChartOfAccount" : alert('You are not in Current Financial Year')
-        }} className="btn btn-primary">Add Chart Of Account</button>
-        <button type="button" id='excelchartofacct' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+        <div className='d-flex justify-content-between pt-4 pb-3 px-5'>
+          <h3 className="">Chart Of Account</h3>
+          <div className='d-flex'>
+          <button type="button" id='excelchartofacct' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <button type="button" id='addchartofacct' style={{ display: 'none' }} onClick={() => {
+              financialstatus !== 'Lock' ? window.location.href = "./ChartOfAccount" : alert('You are not in Current Financial Year')}} className="btn btn-primary mx-2">Add Chart Of Account</button>
+           
+           <button onClick={() => {window.location.href = "./ShowAccountname" }} className="btn btn-primary mx-2"> Total Account Major</button>
+           <button onClick={() => {window.location.href = "./ShowAccountMinorCode" }} className="btn btn-primary"> Total Account Minor</button>
+          </div>
+        </div>
+
 
         <div className="container-fluid">
-          <h3 className="py-2 ml-5">Chart Of Account</h3>
+
           <div className="card w-100" >
             <article className={`card-body py-1`}>
               <DataTableExtensions

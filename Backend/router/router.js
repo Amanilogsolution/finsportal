@@ -139,7 +139,10 @@ router.post('/custaddress', AddressController.CustAddress);
 router.post('/updatecustaddress', AddressController.UpdateCustAddress);
 router.post('/selectcustaddress', AddressController.SelectCustAddress)
 router.post('/importcustaddress', AddressController.Importcustaddress)
+router.post('/searchcustaddress', AddressController.SearchCustAddress)
 router.post('/selectvendoraddress', AddressController.getVendorAddress)
+router.post('/searchvendaddress', AddressController.SearchVendAddress)
+
 
 // Vendor
 router.post('/insertvendor', vendorController.InsertVendor);
@@ -189,6 +192,8 @@ router.post('/UpdateLocationAddress', LocationController.UpdateLocationAddress)
 router.post('/InsertLocationAddress', LocationController.InsertLocationAddress)
 router.post('/importlocationaddress', LocationController.ImportLocationAddress)
 router.post('/activelocationaddress', LocationController.ActiveLocationAddress)
+router.post('/searchlocationaddress', LocationController.SearchLocationAddress)
+
 router.post('/locationstatus', LocationController.Locationstatus)
 // router.post('/lastlocationid',LocationController.LastLocationid)
 router.post('/importlocationmaster',LocationController.ImportLocationMaster)

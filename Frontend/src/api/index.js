@@ -582,6 +582,11 @@ export const ShowCustAddress = async (cust_id, org) => {
     const url = 'https://finsbackend.awlinternational.com/api/showcustaddress'
     return axios.post(url, { cust_id, org }).then(response => response.data).catch(error => console.log(error));
 }
+export const SearchCustAddress = async (org,cust_id,val) => {
+    const url = 'http://localhost:3008/api/searchcustaddress'
+    return axios.post(url, {org,cust_id,val}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const ShowVendAddress = async (vend_id, org) => {
     const url = 'https://finsbackend.awlinternational.com/api/showvendaddress'
@@ -634,6 +639,10 @@ export const EditCustAddress = async (org, sno, cust_id, billing_address_attenti
 export const VendAddress = async (sno, org) => {
     const url = 'https://finsbackend.awlinternational.com/api/vendoraddress'
     return axios.post(url, { sno, org }).then(response => response.data).catch(error => console.log(error));
+}
+export const SearchVendAddress = async (org,vend_id,val) => {
+    const url = 'http://localhost:3008/api/searchvendaddress'
+    return axios.post(url, { org,vend_id,val}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const EditVendAddress = async (sno, vendid, vendname, billing_address_gstno, billing_address_attention, billing_address_country, city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id) => {
@@ -709,6 +718,11 @@ export const ActiveLocationAddress = async (org) => {
     const url = `https://finsbackend.awlinternational.com/api/activelocationaddress`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+export const SearchLocationAddress = async (org,val) => {
+    const url = `http://localhost:3008/api/searchlocationaddress`
+    return axios.post(url, { org,val }).then(response => response.data).catch(error => console.log(error));
+}
+
 
 export const Locationstatus = async (org, location_id, status) => {
     const url = `https://finsbackend.awlinternational.com/api/locationstatus`

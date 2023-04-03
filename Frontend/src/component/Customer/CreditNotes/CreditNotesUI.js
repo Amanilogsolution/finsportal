@@ -13,10 +13,10 @@ function CreditNotes() {
   const [custname, setcustname] = useState('all')
   const [locationlist, setLocationlist] = useState([])
   const [custInvoices, setCustInvoices] = useState([])
-  const [vendlocation,setVendlocation] = useState('')
-  const [invoiceno,setInvoiceNo] =useState('')
-  const [data,setData] = useState([])
-  const [cndata,setCndata] = useState([])
+  const [vendlocation, setVendlocation] = useState('')
+  const [invoiceno, setInvoiceNo] = useState('')
+  const [data, setData] = useState([])
+  const [cndata, setCndata] = useState([])
 
   const themebtncolor = localStorage.getItem('themebtncolor') || 'primary'
 
@@ -32,7 +32,7 @@ function CreditNotes() {
       const CNdetails = await AllCNData(org)
       console.log(CNdetails)
       setCndata(CNdetails)
-     
+
       Todaydate()
       setLoading(true)
 
@@ -69,7 +69,7 @@ function CreditNotes() {
     setInvoiceNo(e.value)
   }
 
-  
+
 
   let Invoice = custInvoices.map((ele) => {
     return { value: ele.invoice_no, label: `${ele.invoice_no} ` };
@@ -103,26 +103,26 @@ function CreditNotes() {
 
   return (
     <div className="wrapper">
+      <Header />
       {
         loading ?
           <>
-            <Header />
-            <div className={`content-wrapper`}>
-              <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
-                <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
 
+            <div className='content-wrapper'>
               <div className="container-fluid">
-                <br /> <h3 className="text-left ml-5">Credit Notes</h3>
+                <div className='d-flex justify-content-between px-3 py-3'>
+                  <h3 className="ml-5">Credit Notes</h3>
+                  <button type="button" className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
+                    <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
+                </div>
                 <div className="card w-100">
                   <article className={`card-body`}>
-                    <form>
                     {
                         data.length>0 ? (
                           <CNReport displaydata={data}/>
                                 )
                           : <CNDetails displaydata={cndata}/>
                       }
-                    </form>
                   </article>
 
                 </div>
@@ -205,7 +205,7 @@ function CreditNotes() {
               </div>
             </div>
 
-            {/* ########################## Modal End ###################################3 */}
+            {/* ########################## Modal End ################################### */}
             <Footer />
           </>
           :

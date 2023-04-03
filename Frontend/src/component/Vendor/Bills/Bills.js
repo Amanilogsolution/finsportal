@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
 
 
@@ -141,7 +141,6 @@ function Bills() {
     const handlevendorselect = async (e) => {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result[0])
-        console.log(result[0])
 
         Duedate(result[0].payment_terms);
 
@@ -516,7 +515,17 @@ function Bills() {
 
     }
 
-
+    const handleSearchVendid = async (e) => {
+        const org = localStorage.getItem('Organisation')
+        if (e.target.value.length > 2) {
+            const get = await SearchVendAddress(org, vendorselectedlist.vend_id, e.target.value)
+            setVendorLocation(get)
+        }
+        else if (e.target.value === 0) {
+            const result1 = await SelectVendorAddress(org, vendorselectedlist.vend_id);
+            setVendorLocation(result1)
+        }
+    }
 
     return (
         <>
@@ -918,11 +927,11 @@ function Bills() {
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
                                 <div className="form-group col-md-5">
-                                    <input type="text" className='form-control col' placeholder='Search Location' id="searchLocation" />
+                                    <input type="text" className='form-control col' placeholder='Search Vendor Location' id="searchLocation" onChange={handleSearchVendid} />
                                 </div>
                             </div>
                             <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
-                                <table className='table'>
+                                <table className='table table-sm table-hover'>
                                     <thead >
                                         <tr >
                                             <th>City</th>
@@ -942,7 +951,7 @@ function Bills() {
 
                                                     </tr>
                                                 ))
-                                                : <tr><td colSpan='2' className='text-center'>Select Vendor</td></tr>
+                                                : <tr><td colSpan='2' className='text-center'>Select Vendor Or this vendor have't multiple address</td></tr>
                                         }
                                     </tbody>
                                 </table>
