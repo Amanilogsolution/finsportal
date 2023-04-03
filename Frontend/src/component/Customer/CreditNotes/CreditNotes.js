@@ -19,7 +19,6 @@ function CreditNotes() {
     useEffect(()=>{
         const fetchData = async () =>{
             const org = localStorage.getItem('Organisation')
-
             const result = await getCNData(org,localStorage.getItem('cnno'))
             console.log(result)
             setData(result)
@@ -84,67 +83,65 @@ function CreditNotes() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col">
-                                                <input type="text" className="form-control col-md-5" id="Accountname" value={data.cust_id}/>
+                                                <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cust_id} disabled/>
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal">Location <span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col">
+                                                <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.location} disabled/>
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Credit Note<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={data.cust_id} />
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cn_no} disabled/>
 
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Reference#</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" />
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Credit Note Date<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-7">
-                                                    <input type="date" className="form-control col-md-6" id="Accountname" placeholder="EST-00001" />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 " > </label>
-                                                <div className="d-flex col-md-4">
-                                                    <small>To create transaction dated before 01/07/2017</small>
-                                                </div>
-                                            </div>
-                                          
-
-                                            <hr />
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Salesperson </label>
-                                                <div className="d-flex col-md-4">
-                                                    <select id="AccountType" className="form-control">
-                                                        <option defaultValue hidden>Select or Add Salesperson</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <hr />
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Subject </label>
                                                 <div className="d-flex col-md">
-                                                <textarea  className="form-control col-md-7" id="Accountname" placeholder="Let your customer know what this invoice is for"></textarea>
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.cndate} disabled/>
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.inv_Date} disabled/>
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Financial Year<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.fins_year} disabled/>
 
                                                 </div>
                                             </div>
+
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice Number<span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-4 text-center" id="Accountname" value={data.inv_no} disabled/>
+
+                                                </div>
+                                            </div>
+                                    
                                             <hr />
 
-                                         
                                             <table className="table">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">Iteam Details</th>
-                                                    <th scope="col">Quality</th>
-                                                    <th scope="col">Rate</th>
+                                                    <th scope="col">Activity</th>
+                                                    <th scope="col">Charge Code</th>
                                                     <th scope="col">Amount</th>
+                                                    <th scope="col">AmountBal</th>
+                                                    <th scope="col">PassAmt</th>
+                                                    <th scope="col">Remark</th>
+
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -153,6 +150,8 @@ function CreditNotes() {
                                                             <tr key={index}>
                                                                 <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
                                                                 <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
+                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
+                                                                <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td><input style={{ border: "none" }} type="number"id="Rate"  onBlur={handleBlur} placeholder="0.00" /></td>
                                                                 <td>{amount}</td>
                                                             </tr>

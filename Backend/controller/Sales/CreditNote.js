@@ -68,7 +68,7 @@ const getCNData = async (req, res) => {
     
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cn where sno = ${sno} `)
+        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as inv_Date,convert(varchar(15),cn_date,121) as cndate from ${org}.dbo.tbl_cn where sno = ${sno} `)
         res.send(result.recordset[0])
         
     }
