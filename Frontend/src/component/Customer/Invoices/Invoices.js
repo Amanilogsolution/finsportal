@@ -660,12 +660,12 @@ function Invoices() {
                                                 } */}
 
                                                 <div className="form-group mt-3">
-                                                    <button id="savebtn" type='submit' name="save" className="btn btn-danger" disabled
+                                                    <button id="savebtn" type='button' name="save" className="btn btn-danger" disabled
                                                         // onClick={handlesavebtn} 
                                                         value='save'>
                                                         Save
                                                     </button>
-                                                    <button id="postbtn" name="save" type='submit' className="btn btn-danger mx-2" disabled
+                                                    <button id="postbtn" name="save" type='button' className="btn btn-danger mx-2" disabled
                                                         onClick={handlesavebtn}
                                                         value='post' >
                                                         Post
