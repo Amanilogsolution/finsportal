@@ -1537,6 +1537,16 @@ export const getCNData = async (org,sno) => {
     return axios.post(url, {org,sno}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const InsertCnSub = async (org,data,userid) => {
+    const url = `http://localhost:3008/api/insertcnsub`
+    return axios.post(url, {org,data,userid}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const SelectCnSubDetails = async (org,cn_no,inv_no,topcount) => {
+    const url = `http://localhost:3008/api/selectcnsubdetails`
+    return axios.post(url, {org,cn_no,inv_no,topcount}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 
 

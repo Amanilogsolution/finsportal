@@ -69,12 +69,42 @@ const getCNData = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as inv_Date,convert(varchar(15),cn_date,121) as cndate from ${org}.dbo.tbl_cn where sno = ${sno} `)
-        res.send(result.recordset[0])
-        
+        res.send(result.recordset[0]) 
     }
     catch (err) {
         res.send(err)
     }
 }
 
-module.exports = {InsertCreditNote,AllCNData,ChangeCNStatus,getCNData}
+const InsertCnSub = async (req,res) => {
+    const org= req.body.org
+    const data = req.body.data
+    const userid = req.body.userid
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`insert into ${org}.dbo.tbl_sub_cn (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
+            remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,sub_inv_id)
+            values('${data.cn_no}','${data.invoice_no}','${data.activity}','${data.item}','${data.amount}','${data.balance_amt}','${data.pass_amt}',
+            '${data.remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}')`)
+        res.send('Added')
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+const SelectCnSubDetails = async (req,res) => {
+    const org = req.body.org;
+    const cn_no= req.body.cn_no;
+    const inv_no = req.body.inv_no;
+    const topcount = req.body.topcount;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select Top ${topcount} * from ${org}.dbo.tbl_sub_cn where cn_no='${cn_no}' and invoice_no ='${inv_no}' ORDER BY sno DESC  `)
+        res.send(result.recordset) 
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = {InsertCreditNote,AllCNData,ChangeCNStatus,getCNData,InsertCnSub,SelectCnSubDetails}

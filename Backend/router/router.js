@@ -378,10 +378,8 @@ router.post('/insertcreditnote',CNController.InsertCreditNote)
 router.post('/allcndata',CNController.AllCNData)
 router.post('/changecstatus',CNController.ChangeCNStatus)
 router.post('/getcndata',CNController.getCNData)
-
-
-
-
+router.post('/insertcnsub',CNController.InsertCnSub)
+router.post('/selectcnsubdetails',CNController.SelectCnSubDetails)
 
 
 module.exports = router;
