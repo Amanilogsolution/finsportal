@@ -952,6 +952,27 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         status nvarchar(50) NULL,
         newcn_uuid nvarchar(100) NULL
         );
+        
+        CREATE TABLE ${dbname}.dbo.tbl_sub_cn (
+            sno bigint IDENTITY(1,1) NOT NULL,
+            cn_no  nvarchar(100) NULL,
+            invoice_no varchar(100) NULL,
+            activity nvarchar(100) NULL,
+            items nvarchar(100) NULL,
+            amt nvarchar(100) NULL,
+            balance_amt nvarchar(100) NULL,
+            pass_amt nvarchar(100) NULL,
+            remark nvarchar(100) NULL,
+            add_date_time datetime NULL,
+            add_user_name varchar(50) NULL,
+            add_system_name varchar(50) NULL,
+            add_ip_address varchar(30) NULL,
+            update_date_time datetime NULL,
+            update_user_name varchar(50) NULL,
+            update_system_name varchar(100) NULL,
+            update_ip_address varchar(50) NULL,
+            status varchar(30) NULL
+        );
             `)
             res.send('created')
         }

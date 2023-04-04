@@ -12,19 +12,37 @@ import './invoice.css'
 function Invoices() {
     const [loading, setLoading] = useState(false)
 
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
     const [arry, setArry] = useState([0]);
     const [itemsrowval, setItemsrowval] = useState([{
         activity: '',
         majorCode: '',
         items: '',
+        taxPer: 0,
+        taxAmt: 0,
+        taxable: '',
+        glcode: '',
         Quantity: '',
         rate: '',
-        tax: '',
         unit: '',
         amount: '',
         total: ''
     }]);
+    const [allInvoiceData, setAllInvoiceData] = useState({
+        TaxInvoice: "",
+        InvoiceData: "",
+        GrandTotal: "",
+        TotalTaxamount: "",
+        Totalamounts: "",
+        CGSTPer: "",
+        SGSTPer: "",
+        IGSTPer: "",
+        BillTo: "",
+        SupplyTo: "",
+        BillToGst: "",
+        OriginState: "",
+        DestinationState: ""
+    })
 
 
     const [itemsdata, setItemdata] = useState([])
@@ -33,63 +51,85 @@ function Invoices() {
 
     const [activecustomer, setActiveCustomer] = useState([])
     const [Activeaccount, setActiveAccount] = useState([])
-    const [index111,setIndex] = useState()
+    const [activeunit, setActiveUnit] = useState([])
+    const [custdetail, setCustdetail] = useState({})
+    const [masterid, setMasterid] = useState([])
+    const [cutomerAddress, setCutomerAddress] = useState([])
+    const [custAddressLocation, setCustAddressLocation] = useState([])
+    const [billingAddressLocation, setBillingAddressLocation] = useState([])
+    const [locationstate, setLocationstate] = useState([])
+    const [currencylist, setCurrencylist] = useState([]);
+    const [custadddetail, setCustadddetail] = useState({ state: '', custAddId: '', custAddGst: '' })
+
+    const [invoiceid, setInvoiceid] = useState('')
+    const [invoiceprefix, setInvoiceprefix] = useState('')
+    const [locationid, setLocationid] = useState('')
+    const [billingaddress, setBillingAddress] = useState('')
+    const [updateinvcount, setUpdateInvCount] = useState()
+    const [activepaymentterm, setActivePaymentTerm] = useState([])
+
+    const [totalGstamt, setTotalGstamt] = useState('')
+
+    const [index111, setIndex] = useState()
 
     useEffect(() => {
         const fetchdata = async () => {
             setLoading(true)
-            //     const localdata = localStorage.getItem('gststatus');
-            //     if (localdata === 'false') {
-            //         document.getElementById('cgstinp').style.display = 'none';
-            //         document.getElementById('sgstinp').style.display = 'none';
-            //         document.getElementById('igstinp').style.display = 'none';
-            //         document.getElementById('tgstinp').style.display = 'none';
-            //     }
-
-            // }, 2000);
-
-            // document.getElementById('subtotalbtn').disabled = true;
-            // document.getElementById('savebtn').disabled = true;
-            // document.getElementById('postbtn').disabled = true;
+            const localdata = localStorage.getItem('gststatus');
+            if (localdata === 'false') {
+                document.getElementById('cgstinp').style.display = 'none';
+                document.getElementById('sgstinp').style.display = 'none';
+                document.getElementById('igstinp').style.display = 'none';
+                document.getElementById('tgstinp').style.display = 'none';
+            }
 
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
             setActiveCustomer(result)
-            // const result1 = await ActivePaymentTerm(org)
-            // setActivePaymentTerm(result1)
-            // Todaydate()
-            // const locatonstateres = await ActiveLocationAddress(org)
-            // setLocationstate(locatonstateres)
-            // const ActiveUnit = await Activeunit(org)
-            // setActiveUnit(ActiveUnit)
-            // const currencydata = await ActiveCurrency(org)
-            // setCurrencylist(currencydata)
+            const result1 = await ActivePaymentTerm(org)
+            setActivePaymentTerm(result1)
+            Todaydate()
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+            const ActiveUnit = await Activeunit(org)
+            setActiveUnit(ActiveUnit)
+            const currencydata = await ActiveCurrency(org)
+            setCurrencylist(currencydata)
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
         }
         fetchdata()
     }, [])
 
-
+    const Todaydate = () => {
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("Invoicedate").value = today;
+    }
 
     const handleChangeActivity = async (e, index) => {
         e.preventDefault();
-        console.log(index)
         itemtoggle[index] = true
         const datwe = e.target.value.split(',')
+        itemsrowval[index].majorCode = datwe[1]
         const result2 = await ActiveItems(localStorage.getItem('Organisation'), datwe[0]);
-        console.log(result2)
         itemsdata[index] = result2;
-        
+
         setIndex(index)
-   
+
 
         let val = document.getElementById(`Activity-${index}`);
         let text = val.options[val.selectedIndex].text;
-       
+        itemsrowval[index].activity = text;
+
         if (text === 'WAREHOUSING') {
-              document.getElementById('FTdate').style.display = "flex"
-             
+            document.getElementById('FTdate').style.display = "flex"
+
         }
         else {
             document.getElementById('FTdate').style.display = "none"
@@ -103,6 +143,12 @@ function Invoices() {
         setCount(val);
         setArry([...arry, val]);
         itemtoggle.push(false)
+        let obj = { activity: '', majorCode: '', items: '', taxPer: 0, taxAmt: 0, taxable: '', glcode: '', Quantity: '', rate: '', unit: '', amount: '', total: '' }
+        itemsrowval.push(obj)
+
+
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
     };
 
     const RemoveRow = (e) => {
@@ -118,13 +164,189 @@ function Invoices() {
             let objval = [...itemsrowval];
             objval.pop();
             setItemsrowval(objval)
+
+
+            document.getElementById('savebtn').disabled = true;
+            document.getElementById('postbtn').disabled = true;
         }
     };
+    const handleCustname = async (e) => {
+        e.preventDefault();
+        const cust_id = e.target.value;
+        const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
+        setCustdetail(cust_detail)
+        setMasterid(cust_detail.mast_id)
+        const terms = cust_detail.payment_terms
+        let [val, Ter] = terms.split(" ")
+
+        Duedate(Number(Ter))
+        const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
+        setCutomerAddress(cust_add)
+    }
+    const Duedate = (lastday) => {
+        var myDate = new Date(new Date().getTime() + (lastday * 24 * 60 * 60 * 1000));
+        var day = myDate.getDate();
+        var month = myDate.getMonth() + 1;
+        var year = myDate.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("Duedate").value = today;
+    }
+    const handleChangeCustomerAdd = (state, address_id, custaddgst) => {
+        custadddetail.state = state;
+        custadddetail.custAddId = address_id;
+        custadddetail.custAddGst = custaddgst;
+    }
+
+    const handlechnageaddress = async (add, id) => {
+        // e.preventDefault();
+        const fin_year = await Getfincialyearid(localStorage.getItem('Organisation'))
+        setLocationid(id)
+        const billing_add = add;
+        setBillingAddress(add)
+        const invoicepefix = fin_year[0].invoice_ser;
+        let invoicecitypre = (billing_add.substring(0, 3));
+        invoicecitypre = invoicecitypre.toUpperCase();
+        let invoicecount = Number(fin_year[0].invoice_count);
+        invoicecount = invoicecount + 1;
+        setUpdateInvCount(invoicecount)
+        invoicecount = String(invoicecount)
+        const invoiceidauto = invoicecount.padStart(5, '0')
+        const invoiceid = invoicepefix + invoicecitypre + fin_year[0].year + invoiceidauto;
+        setInvoiceprefix(invoicepefix)
+        setInvoiceid(invoiceid);
+    }
+
+    const handleChangeItems = async (value, index) => {
+        const [gstper, item, glcodes] = value.split('^')
+        itemsrowval[index].items = item
+        itemsrowval[index].taxPer = Number(gstper)
+
+        itemsrowval[index].glcode = glcodes
+
+        if (gstper > 0) {
+            itemsrowval[index].taxable = 'yes'
+        } else {
+            itemsrowval[index].taxable = 'No'
+        }
 
 
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
+    }
+
+    const handleChangeQuantity_Rate = (index) => {
+        let qty = Number(document.getElementById(`Quality-${index}`).value) || 0
+        let rate = Number(document.getElementById(`Rate-${index}`).value) || 0
+        let gst = Number(itemsrowval[index].taxPer) || 0
+        let amt = qty * rate
+        let tax = Math.round(amt * gst / 100)
+
+        setTimeout(() => {
+            document.getElementById(`tax-${index}`).value = tax
+            document.getElementById(`amount-${index}`).value = amt
+            document.getElementById(`TotalAmount-${index}`).value = amt + tax
+
+            itemsrowval[index].Quantity = qty;
+            itemsrowval[index].rate = rate;
+            itemsrowval[index].taxAmt = tax;
+            itemsrowval[index].amount = amt;
+            itemsrowval[index].total = amt + tax;
+        }, 1000)
+
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
+    }
+
+    const handleChangeUnit = (index, e) => {
+        itemsrowval[index].unit = e.target.value;
+
+    }
+
+    const handleSubBtn = (e) => {
+        e.preventDefault();
+
+        let totalgstamt = 0;
+        let totalgstper = 0;
+        let totalinvamt = 0;
+        let totalnetamt = 0;
+        itemsrowval.map(item => {
+            totalgstamt = totalgstamt + item.taxAmt
+            totalinvamt = totalinvamt + item.total
+            totalnetamt = totalnetamt + item.amount
+
+            if (item.taxPer > totalgstper) { totalgstper = item.taxPer }
+        })
+        setTotalGstamt(totalgstamt)
 
 
+        if ((custadddetail.state.trim()).toUpperCase() === (billingaddress.trim()).toUpperCase()) {
+            document.getElementById('cgstipt').value = (totalgstper / 2) || 0
+            document.getElementById('sutgstipt').value = (totalgstper / 2) || 0
+            document.getElementById('igstipt').value = 0
 
+            setAllInvoiceData({
+                ...allInvoiceData,
+                CGST: (totalgstper / 2), SGST: (totalgstper / 2), IGST: 0,
+            })
+        }
+        else {
+            document.getElementById('cgstipt').value = 0
+            document.getElementById('sutgstipt').value = 0
+            document.getElementById('igstipt').value = totalgstper || 0
+
+            setAllInvoiceData({
+                ...allInvoiceData,
+                CGST: 0, SGST: 0, IGST: totalgstper,
+            })
+        }
+
+        setAllInvoiceData({
+            ...allInvoiceData,
+            TaxInvoice: invoiceid, InvoiceData: document.getElementById('Invoicedate').value,
+            GrandTotal: totalinvamt, TotalTaxamount: totalgstamt,
+            BillTo: custAddressLocation, SupplyTo: billingAddressLocation, BillToGst: custadddetail.custAddGst,
+            TotalNetAmounts: totalnetamt, OriginState: billingaddress, DestinationState: custadddetail.state
+        })
+        document.getElementById('totalgstper').value = totalgstper;
+        document.getElementById('grandtotaltd').innerHTML = totalinvamt || 0;
+        document.getElementById('totalnetamt').innerHTML = totalnetamt || 0;
+
+        document.getElementById('savebtn').disabled = false;
+        document.getElementById('postbtn').disabled = false;
+    }
+
+
+    const handleSearchBillingLoc = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchLocationAddress(org, e.target.value);
+            setLocationstate(getLocation)
+        }
+        else if (e.target.value.length === 0) {
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+        }
+    }
+    const handleSearchCustLoc = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchCustAddress(org, custdetail.cust_id, e.target.value);
+            setCutomerAddress(getLocation)
+        }
+        else if (e.target.value.length === 0) {
+            const locatonstateres = await ShowCustAddress(custdetail.cust_id, org)
+            console.log(locatonstateres)
+            setCutomerAddress(locatonstateres)
+        }
+    }
+
+
+    const handlesavebtn = (e) => {
+        e.preventDefault();
+        console.log(itemsrowval, allInvoiceData)
+    }
     return (
         <>
             <div className="wrapper">
@@ -145,7 +367,7 @@ function Invoices() {
                                                         <select
                                                             id="custname"
                                                             className="form-control"
-                                                        // onChange={handleCustname}
+                                                            onChange={handleCustname}
                                                         >
                                                             <option value='' hidden>Select Customer</option>
                                                             {
@@ -161,16 +383,16 @@ function Invoices() {
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
                                                         <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
-                                                        // onClick={(e) => {
-                                                        //     e.preventDefault();
-                                                        //     setTimeout(() => {
-                                                        //         document.getElementById('searchCustAddress').focus()
-                                                        //     }, 700)
-                                                        // }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                setTimeout(() => {
+                                                                    document.getElementById('searchCustAddress').focus()
+                                                                }, 700)
+                                                            }}
                                                         >
-                                                            {/* {
+                                                            {
                                                                 custAddressLocation.length > 0 ? custAddressLocation : 'Select Customer Address Location'
-                                                            } */}
+                                                            }
                                                         </button>
                                                     </div>
                                                 </div>
@@ -179,25 +401,23 @@ function Invoices() {
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
                                                         <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal"
-                                                        // onClick={(e) => {
-                                                        //     e.preventDefault();
-                                                        //     setTimeout(() => {
-                                                        //         document.getElementById('searchBillingAddress').focus()
-                                                        //     }, 700)
-                                                        // }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                setTimeout(() => {
+                                                                    document.getElementById('searchBillingAddress').focus()
+                                                                }, 700)
+                                                            }}
                                                         >
-                                                            {/* {
+                                                            {
                                                                 billingAddressLocation.length > 0 ? billingAddressLocation : 'Select Billing Address Location'
-                                                            } */}
+                                                            }
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md">
-                                                        <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid"
-                                                            // value={invoiceid} 
-                                                            disabled />
+                                                        <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
 
                                                     </div>
                                                 </div>
@@ -226,12 +446,12 @@ function Invoices() {
                                                             className='col-md-6  mr-0 form-control'
                                                         // onChange={handleAccountTerm}
                                                         >
-                                                            {/* <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
+                                                            <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
                                                             {
                                                                 activepaymentterm.map((item, index) => (
                                                                     <option key={index} value={item.term_days}>{item.term}</option>
                                                                 ))
-                                                            } */}
+                                                            }
                                                         </select>
                                                     </div>
 
@@ -262,7 +482,7 @@ function Invoices() {
                                                             <th scope="col">Items</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Rate</th>
-                                                            <th scope="col">Tax</th>
+                                                            <th scope="col">Tax Amt</th>
                                                             <th scope="col">Unit</th>
                                                             <th scope="col">Amount</th>
                                                             <th scope="col">Total</th>
@@ -286,74 +506,52 @@ function Invoices() {
                                                                     </td>
                                                                     <td className="col-md-2 px-1">
                                                                         {
-                                                                            itemtoggle[index] === true ?
-                                                                                <select id={`items-${index}`} className='form-control col'
-                                                                                // onChange={(e) => { handleChangeItems(e.target.value, index) }}
-                                                                                >
-                                                                                    <option value='' hidden > Select item</option>
-                                                                                    {
-                                                                                        itemtoggle[index]== true ?
-                                                                                            itemsdata[index].map((item, index) => (
-                                                                                                <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
-                                                                                            ))
-                                                                                            : <option>nnc</option>
-                                                                                    }
-                                                                                </select> :
-                                                                                'dnc'
+                                                                            <select id={`items-${index}`} className='form-control col'
+                                                                                onChange={(e) => { handleChangeItems(e.target.value, index) }}
+                                                                            >
+                                                                                <option value='' hidden > Select item</option>
+                                                                                {
+                                                                                    itemtoggle[index] == true ?
+                                                                                        itemsdata[index].map((item, index) => (
+                                                                                            <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.chart_of_acct_id}`} >{item.item_name}</option>
+                                                                                        ))
+                                                                                        : null
+                                                                                }
+                                                                            </select>
                                                                         }
-                                                                        {/* <select id="gstvalue" className='form-control col'
-                                                                        // onChange={(e) => { handleChangeItems(e.target.value, index) }}
-                                                                        >
-                                                                            <option value='' hidden > Select item</option>
-                                                                            {
-                                                                                itemtoggle[index].checkItem ===true ?
-                                                                                    itemsdata[index].map((item, index) => (
-                                                                                        <option key={index} value={`${item.gst_rate},${item.item_name},${item.chart_of_acct_id}`} >{item.item_name}</option>
-                                                                                    ))
-                                                                                    : <option>nnc</option>
-                                                                            }
-                                                                        </select> */}
                                                                     </td>
-                                                                    <td className='col-md-2 px-1'>
-                                                                        <input className='form-control col' type="number" id="Quality" placeholder="0" /></td>
-
-                                                                    <td className='col-md-2 px-1'>
-                                                                        <input className="form-control col" type="number" id="Rate" placeholder="0" />
+                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                        <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                    </td>
+                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                        <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
                                                                     </td>
                                                                     <td id="gst" className='col-md-1 px-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow"
-                                                                            // defaultValue={gstvalues[index]} 
-                                                                            disabled /></td>
+                                                                        <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled /></td>
 
                                                                     <td className='px-1 col-md-2'>
-                                                                        <select className='form-control col' id='unitdrop'>
-                                                                            <option value='' hidden> Select Unit</option>
-                                                                            {/* {
+                                                                        <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
+                                                                            <option value='' hidden > Select Unit</option>
+                                                                            {
                                                                                 activeunit.map((item, index) => (
                                                                                     <option key={index} value={item.unit_name}>{item.unit_name}</option>
                                                                                 ))
-                                                                            } */}
+                                                                            }
                                                                         </select>
                                                                     </td>
                                                                     <td id="amountvalue" className='col-md-1 px-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow" id={`amount${index}`} disabled />
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
                                                                     </td>
                                                                     <td id="Totalsum" className='col-md-1 px-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow" id={`TotalAmount${index}`} disabled />
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
                                                                     </td>
                                                                 </tr>
                                                             ))
                                                         }
                                                     </tbody>
                                                 </table>
-                                                <button className="btn btn-primary"
-                                                    // onClick={handleAdd} 
-                                                    onClick={addRow}
-                                                    id='additembtm'>Add Item</button>   &nbsp;
-                                                <button className="btn btn-danger"
-                                                    //  onClick={handleRemove}
-                                                    onClick={RemoveRow}
-                                                    id='removeitembtm'>Remove</button>
+                                                <button className="btn btn-primary" onClick={addRow} id='additembtm'>Add Item</button>   &nbsp;
+                                                <button className="btn btn-danger" onClick={RemoveRow} id='removeitembtm'>Remove</button>
                                                 <hr />
                                                 <div className='d-flex'>
                                                     <div style={{ width: "40%" }}>
@@ -368,11 +566,8 @@ function Invoices() {
                                                         <table className='w-100'>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td><button className="btn btn-primary" id='subtotalbtn' onClick={(e) => { e.preventDefault();console.log(itemtoggle); console.log(itemsdata) }}>Sub Total</button></td>
-                                                                    <td></td>
-                                                                    <td>
-                                                                        {/* {totalamout} */}
-                                                                    </td>
+                                                                    <td><button className="btn btn-primary" id='subtotalbtn' onClick={handleSubBtn}>Calcu. Total</button></td>
+                                                                    <td colSpan='2' className='text-right  px-5' id='totalnetamt'> {/* {totalamout} */}</td>
                                                                 </tr>
 
                                                                 <tr id='cgstinp'>
@@ -414,16 +609,14 @@ function Invoices() {
                                                                     <td>Total GST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='gstipt '
-                                                                                // value={Math.max(...totalgst)} 
-                                                                                disabled />
+                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='totalgstper' disabled />
                                                                             <div className="input-group-append">
                                                                                 <span className="input-group-text">%</span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td id="Totalvaluerd">
-                                                                        {/* {gstvalue} */}
+                                                                    <td id="TotalgstAmt">
+                                                                        {totalGstamt}
                                                                     </td>
                                                                 </tr>
 
@@ -434,11 +627,11 @@ function Invoices() {
                                                                     <td>
                                                                         <div className="input-group mb-1">
                                                                             <select className='form-control col-md-5' id="currency" >
-                                                                                {/* <option value={custdetail.currency} hidden >{custdetail.currency}</option>
+                                                                                <option value={custdetail.currency} hidden >{custdetail.currency}</option>
                                                                                 {
                                                                                     currencylist.map((item, index) =>
                                                                                         <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
-                                                                                } */}
+                                                                                }
                                                                             </select>
 
                                                                         </div>
@@ -447,9 +640,7 @@ function Invoices() {
                                                                 <tr className='mt-2'>
                                                                     <td><h3>Total</h3></td>
                                                                     <td></td>
-                                                                    <td id="grandtotaltd">
-                                                                        {/* {grandtotal} */}
-                                                                    </td>
+                                                                    <td id="grandtotaltd"> </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -475,7 +666,7 @@ function Invoices() {
                                                         Save
                                                     </button>
                                                     <button id="postbtn" name="save" type='submit' className="btn btn-danger mx-2" disabled
-                                                        // onClick={handlesavebtn} 
+                                                        onClick={handlesavebtn}
                                                         value='post' >
                                                         Post
                                                     </button>
@@ -507,7 +698,7 @@ function Invoices() {
                             <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
                             <div className="form-group col-md-5">
                                 <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress"
-                                // onChange={handleSearchBillingLoc}
+                                    onChange={handleSearchBillingLoc}
                                 />
                             </div>
                         </div>
@@ -521,21 +712,22 @@ function Invoices() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* {
+                                    {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                     onClick={() => {
                                                         handlechnageaddress(items.location_state, items.location_id);
                                                         setBillingAddressLocation([items.location_add1, items.location_city, items.location_country])
-                                                    }}>
+                                                    }}
+                                                >
                                                     <td>{items.location_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
 
                                                 </tr>
                                             ))
                                             : 'Select Customer'
-                                    } */}
+                                    }
                                 </tbody>
                             </table>
 
@@ -556,7 +748,7 @@ function Invoices() {
                             <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
                             <div className="form-group col-md-5">
                                 <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress"
-                                // onChange={handleSearchCustLoc}
+                                    onChange={handleSearchCustLoc}
                                 />
                             </div>
                         </div>
@@ -571,21 +763,22 @@ function Invoices() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* {
+                                    {
                                         cutomerAddress.length > 0 ?
                                             cutomerAddress.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                     onClick={() => {
                                                         handleChangeCustomerAdd(items.billing_address_state, items.cust_addressid, items.gst_no);
                                                         setCustAddressLocation([items.billing_address_attention, items.billing_address_city, items.billing_address_country])
-                                                    }}>
+                                                    }}
+                                                >
                                                     <td>{items.billing_address_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.billing_address_attention},{items.billing_address_city},{items.billing_address_country}</td>
 
                                                 </tr>
                                             ))
                                             : 'Select Customer'
-                                    } */}
+                                    }
                                 </tbody>
                             </table>
 
