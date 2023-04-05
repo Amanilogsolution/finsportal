@@ -1387,10 +1387,8 @@ export const GetSaveBill = async (org) => {
 // ############################ For Role api Start #################################
 
 
-export const AddUserRole = async (org, roles, role_id, description,
-    sales_all, customer_view, customer_create, customer_edit, customer_delete,
-    invoice_view, invoice_create, invoice_edit, invoice_delete,
-    purchases_all,
+export const AddUserRole = async (org, roles, role_id, description,sales_all, customer_view, customer_create, customer_edit, customer_delete,
+    invoice_view, invoice_create, invoice_edit, invoice_delete,purchases_all,
     vendor_view, vendor_create, vendor_edit, vendor_delete,
     bills_view, bills_create, bills_edit, bills_delete,
     accountant_all,
@@ -1546,7 +1544,3 @@ export const SelectCnSubDetails = async (org,cn_no,inv_no,topcount) => {
     const url = `http://localhost:3008/api/selectcnsubdetails`
     return axios.post(url, {org,cn_no,inv_no,topcount}).then(response => response.data).catch(error => console.log(error));
 }
-
-
-
-

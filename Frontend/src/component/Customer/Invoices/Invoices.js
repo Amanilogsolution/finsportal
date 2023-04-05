@@ -83,6 +83,8 @@ function Invoices() {
                 document.getElementById('tgstinp').style.display = 'none';
             }
 
+          
+
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
             setActiveCustomer(result)
@@ -97,6 +99,9 @@ function Invoices() {
             setCurrencylist(currencydata)
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
+
+            document.getElementById('savebtn').disabled = true;
+            document.getElementById('postbtn').disabled = true;
         }
         fetchdata()
     }, [])
@@ -345,7 +350,7 @@ function Invoices() {
 
     const handlesavebtn = (e) => {
         e.preventDefault();
-        console.log(itemsrowval, allInvoiceData)
+        console.log('hlo')
     }
     return (
         <>
@@ -633,7 +638,6 @@ function Invoices() {
                                                                                         <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
                                                                                 }
                                                                             </select>
-
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -660,12 +664,12 @@ function Invoices() {
                                                 } */}
 
                                                 <div className="form-group mt-3">
-                                                    <button id="savebtn" type='button' name="save" className="btn btn-danger" disabled
+                                                    <button id="savebtn" type='button' name="save" className="btn btn-danger" 
                                                         // onClick={handlesavebtn} 
                                                         value='save'>
                                                         Save
                                                     </button>
-                                                    <button id="postbtn" name="save" type='button' className="btn btn-danger mx-2" disabled
+                                                    <button id="postbtn" name="save" type='button' className="btn btn-danger mx-2" 
                                                         onClick={handlesavebtn}
                                                         value='post' >
                                                         Post

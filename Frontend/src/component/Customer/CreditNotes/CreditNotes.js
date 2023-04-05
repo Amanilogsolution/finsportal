@@ -25,7 +25,10 @@ function CreditNotes() {
             const org = localStorage.getItem('Organisation')
             const result = await getCNData(org, localStorage.getItem('cnno'))
             setData(result)
+            console.log(result)
             const result1 = await GetSubInvoice(org, result.inv_no)
+            console.log(result1)
+
 
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
             setSubDetails(Subdata)
@@ -128,44 +131,46 @@ function CreditNotes() {
                                     <article
                                         className="card-body"
                                     >
-                                        <h3 className="text-left">Credit Note</h3>
+                                        <h3 className="text-left"><span className='text-danger'>C</span>redit Note</h3>
                                         <br />
 
                                         <form autoComplete="off">
                                             <div className="form-row mt-2 ">
                                                 <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Customer Name  </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Accountname" disabled />
                                                 </div>
                                                 <div className="d-flex col-md-6">
-                                                    <label className="col-md-3 col-form-label font-weight-normal">Location <span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-3 col-form-label font-weight-normal">Location  </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.location} disabled />
                                                 </div>
                                             </div>
+
                                             <div className="form-row mt-2 ">
                                                 <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Credit Note<span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Credit Note </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Cn_no" value={data.cn_no} disabled />
                                                 </div>
                                                 <div className="d-flex col-md-6">
-                                                    <label className="col-md-3 col-form-label font-weight-normal" >Credit Note Date<span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-3 col-form-label font-weight-normal" >Credit Note Date </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.cndate} disabled />
                                                 </div>
                                             </div>
+
                                             <div className="form-row mt-2">
                                                 <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Invoice Date<span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Invoice Date </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.inv_Date} disabled />
                                                 </div>
                                                 <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-3 col-form-label font-weight-normal" >Financial Year<span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-3 col-form-label font-weight-normal" >Financial Year </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.fins_year} disabled />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-2">
                                                 <div className="d-flex col-md-6">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Invoice Number<span style={{ color: "red" }}>*</span> </label>
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Invoice Number </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Invoice" value={data.inv_no} disabled />
                                                 </div>
                                             </div>
@@ -173,7 +178,6 @@ function CreditNotes() {
                                             <hr />
                                             <table className="table table-bordered">
                                                 <thead>
-
                                                     <tr>
                                                         <th scope="col" className='text-center'>Activity</th>
                                                         <th scope="col" className='text-center'>Charge Code</th>
@@ -201,40 +205,25 @@ function CreditNotes() {
                                                     }
                                                 </tbody>
                                             </table>
-
                                             <hr />
                                             <div style={{ display: "flex" }}>
-                                                <div style={{ width: "40%" }}>
+                                                <div style={{ flex:2}}>
                                                 </div>
-                                                <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                                <div style={{ flex:1, padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                                     <table style={{ width: "100%" }}>
                                                         <thead></thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>Sub Total</td>
-                                                                <td></td>
-                                                                <td>0.00</td>
+                                                                <td>Total</td>
+                                                                <td>{data.total_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Discount</td>
-                                                                <td><input type="" /></td>
-                                                                <td>0.00</td>
+                                                                <td>CN Approved Amount</td>
+                                                                <td>{data.total_cn_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input placeholder="Adjustment" /></td>
-                                                                <td><input type="" /></td>
-                                                                <td>0.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>TCS</td>
-                                                                <td><input type="text" placeholder="Select Tax" /></td>
-                                                                <td>0.00</td>
-                                                            </tr>
-                                                            <br />
-                                                            <tr>
-                                                                <td><h3>Total(₹)</h3></td>
-                                                                <td></td>
-                                                                <td>0.00</td>
+                                                                <td><h3>Net Total(₹)</h3></td>
+                                                                <td><h4>{data.net_amt}</h4></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

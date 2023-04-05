@@ -29,12 +29,10 @@ const Menu = (props) => {
       document.getElementById('pmtRecMenu').style.display = "block"
       document.getElementById('recInvoiceMenu').style.display = "block"
       document.getElementById('creditNoteMenu').style.display = "block"
-
       document.getElementById('vendRecurrMenu').style.display = "block"
       document.getElementById('purchaseOrderMenu').style.display = "block"
       document.getElementById('vendrecbillMenu').style.display = "block"
       document.getElementById('vendcredMenu').style.display = "block"
-
 
     }
     else {
@@ -50,8 +48,6 @@ const Menu = (props) => {
       document.getElementById('purchaseOrderMenu').style.display = "none"
       document.getElementById('vendrecbillMenu').style.display = "none"
       document.getElementById('vendcredMenu').style.display = "none"
-
-
     }
 
     // ####################  ALL Access to Admin End  #######################################################
@@ -371,10 +367,9 @@ const Menu = (props) => {
                 <li className="nav-item" id='vendcredMenu' style={{ display: "none" }}>
                   <a href="/VendorCredits" className="nav-link active">
                     <i className="fa fa-credit-card nav-icon" />
-                    <p>Vendor Credits</p>
+                    <p>Debit Notes</p>
                   </a>
                 </li>
-
               </ul>
             </li>
             {/* Accountant Master */}

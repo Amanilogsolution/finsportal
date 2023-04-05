@@ -103,6 +103,7 @@ import SaveInvoice from './component/Customer/Invoices/SaveInvoice/Saveinvoice'
 import RecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
 import CreditNotes from './component/Customer/CreditNotes/CreditNotes';
 import CreditNotesUI from './component/Customer/CreditNotes/CreditNotesUI';
+import DebitNotes from './component/Vendor/VendorCredits/DebitNote';
 
 import PaymentsReceived from './component/Customer/PaymentReceived/PaymentReceived';
 
@@ -119,7 +120,6 @@ import EditBill from './component/Vendor/Bills/EditBill/EditBill'
 
 import ShowAccountMinorCode from './component/Master/ShowAccountMinorCode/ShowAccountMinorCode';
 import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAccountMinorCode';
-
 
 
 import BillPayment from './component/Vendor/PaymentMade/BillPayment'
@@ -271,16 +271,14 @@ const App = () => {
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
           <PrivatRoute exact path="/Invoices" component={Invoices} />
 
-        
-
           <PrivatRoute exact path="/EditInvoice" component={EditInvoice} />
           <PrivatRoute exact path="/SaveInvoice" component={SaveInvoice} />
 
           <PrivatRoute exact path="/RecurringInvoices" component={RecurringInvoices} />
           <PrivatRoute exact path="/CreditNotes" component={CreditNotes} />
           <PrivatRoute exact path="/CreditNotesUI" component={CreditNotesUI} />
-
-          
+          <PrivatRoute exact path="/DebitNotes" component={DebitNotes} />
+         
           <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived} />
 
           <PrivatRoute exact path="/PurchaseOrder" component={PurchaseOrder} />

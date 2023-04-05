@@ -9,7 +9,6 @@ const InsertAccountType = async (req, res) => {
     const account_type_code = req.body.account_type_code;
     const accountTypedesc = req.body.accountTypedesc;
     const User_id = req.body.User_id;
-
     try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from ${org}.dbo.tbl_account_type where account_type_code='${account_type_code}' OR account_type='${account_type}'`)
@@ -32,7 +31,6 @@ const UpdateAccountName = async (req, res) => {
     const org = req.body.org;
     const uniqueID = req.body.uniqueID
     const User_id = req.body.User_id;
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_account_type set account_type='${account_type}',account_type_code ='${account_type_code}',update_user_name='${User_id}',
@@ -87,7 +85,6 @@ const ImportAccountName = (req, res) => {
     const datas = req.body.datas;
     const org = req.body.org;
     const User_id = req.body.User_id;
-
     sql.connect(sqlConfig).then(() => {
         sql.query(`select * from ${org}.dbo.tbl_account_type where account_type_code in ('${datas.map(data => data.account_type_code).join("', '")}') OR account_type in ('${datas.map(data => data.account_type).join("', '")}')`)
             .then((resp) => {
