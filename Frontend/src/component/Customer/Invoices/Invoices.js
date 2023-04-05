@@ -37,6 +37,9 @@ function Invoices() {
         CGSTPer: "",
         SGSTPer: "",
         IGSTPer: "",
+        CGST: "",
+        SGST: "",
+        IGST: "",
         BillTo: "",
         SupplyTo: "",
         BillToGst: "",
@@ -74,7 +77,7 @@ function Invoices() {
 
     useEffect(() => {
         const fetchdata = async () => {
-            setLoading(true)
+
             const localdata = localStorage.getItem('gststatus');
             if (localdata === 'false') {
                 document.getElementById('cgstinp').style.display = 'none';
@@ -90,7 +93,7 @@ function Invoices() {
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
             setActivePaymentTerm(result1)
-            Todaydate()
+
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
             const ActiveUnit = await Activeunit(org)
@@ -99,7 +102,8 @@ function Invoices() {
             setCurrencylist(currencydata)
             const ActiveAccount = await ActiveAccountMinorCode(org)
             setActiveAccount(ActiveAccount)
-
+            setLoading(true)
+            Todaydate()
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
         }
@@ -123,10 +127,15 @@ function Invoices() {
         const datwe = e.target.value.split(',')
         itemsrowval[index].majorCode = datwe[1]
         const result2 = await ActiveItems(localStorage.getItem('Organisation'), datwe[0]);
-        itemsdata[index] = result2;
+
+        let value = [...itemsdata]
+
+        value[index] = result2;
+        setItemdata(value)
+        console.log(value)
+
 
         setIndex(index)
-
 
         let val = document.getElementById(`Activity-${index}`);
         let text = val.options[val.selectedIndex].text;
@@ -134,7 +143,6 @@ function Invoices() {
 
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
-
         }
         else {
             document.getElementById('FTdate').style.display = "none"
@@ -285,33 +293,50 @@ function Invoices() {
         })
         setTotalGstamt(totalgstamt)
 
+        let cgstper = 0
+        let sgstper = 0
+        let igstper = 0
+
+        let cgstamt = 0
+        let sgstamt = 0
+        let igstamt = 0
 
         if ((custadddetail.state.trim()).toUpperCase() === (billingaddress.trim()).toUpperCase()) {
             document.getElementById('cgstipt').value = (totalgstper / 2) || 0
             document.getElementById('sutgstipt').value = (totalgstper / 2) || 0
             document.getElementById('igstipt').value = 0
 
-            setAllInvoiceData({
-                ...allInvoiceData,
-                CGST: (totalgstper / 2), SGST: (totalgstper / 2), IGST: 0,
-            })
+            cgstper = (totalgstper / 2) || 0
+            sgstper = (totalgstper / 2) || 0
+            igstper = 0
+
+            cgstamt = (totalgstamt / 2) || 0
+            sgstamt = (totalgstamt / 2) || 0
+            igstamt = 0
         }
         else {
             document.getElementById('cgstipt').value = 0
             document.getElementById('sutgstipt').value = 0
             document.getElementById('igstipt').value = totalgstper || 0
 
-            setAllInvoiceData({
-                ...allInvoiceData,
-                CGST: 0, SGST: 0, IGST: totalgstper,
-            })
+            cgstper = 0
+            sgstper = 0
+            igstper = totalgstper || 0
+
+            cgstamt = 0
+            sgstamt = 0
+            igstamt = totalgstamt
+
         }
+        console.log('custAddressLocation', custAddressLocation)
+        console.log('billingAddressLocation', billingAddressLocation)
 
         setAllInvoiceData({
             ...allInvoiceData,
             TaxInvoice: invoiceid, InvoiceData: document.getElementById('Invoicedate').value,
-            GrandTotal: totalinvamt, TotalTaxamount: totalgstamt,
-            BillTo: custAddressLocation, SupplyTo: billingAddressLocation, BillToGst: custadddetail.custAddGst,
+            GrandTotal: totalinvamt, TotalTaxamount: totalgstamt, CGSTPer: cgstper, SGSTPer: sgstper, IGSTPer: igstper,
+            CGST: cgstamt, SGST: sgstamt, IGST: igstamt,
+            BillTo: `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`, SupplyTo: `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}`, BillToGst: custadddetail.custAddGst,
             TotalNetAmounts: totalnetamt, OriginState: billingaddress, DestinationState: custadddetail.state
         })
         document.getElementById('totalgstper').value = totalgstper;
@@ -348,9 +373,113 @@ function Invoices() {
     }
 
 
-    const handlesavebtn = (e) => {
+    const handlesavebtn = async (e) => {
         e.preventDefault();
-        console.log('hlo')
+        console.log(itemsrowval, allInvoiceData)
+
+        // document.getElementById('savebtn').disabled = true;
+        // document.getElementById('postbtn').disabled = true;
+
+        let invoiceids = "";
+        let squ_nos = ""
+        const btn_type = e.target.value;
+        const fin_year = localStorage.getItem('fin_year')
+        if (btn_type === 'save') {
+            invoiceids = 'Random' + Math.floor(Math.random() * 10000) + 1;
+            squ_nos = ""
+        }
+        else {
+            invoiceids = allInvoiceData.TaxInvoice;
+            squ_nos = invoiceprefix;
+        }
+
+        // const squ_no = invoiceprefix;
+
+        const Invoicedate = allInvoiceData.InvoiceData;
+        const ordernumber = document.getElementById('ordernumber').value;
+        const invoiceamt = allInvoiceData.GrandTotal;
+        const User_id = localStorage.getItem('User_id')
+        const periodfrom = document.getElementById('fromdate').value;
+        const periodto = document.getElementById('todate').value;
+        const custid = document.getElementById('custname').value;
+        const billsubtotal = allInvoiceData.TotalNetAmounts
+        const total_tax =allInvoiceData.CGSTPer+ allInvoiceData.IGSTPer+ allInvoiceData.SGSTPer
+        const remark = document.getElementById('custnotes').value;
+
+        let location = `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}`
+
+        let consignee = document.getElementById('custname')
+        consignee = consignee.options[consignee.selectedIndex].text;
+        const currency_type = document.getElementById('currency').value
+        const paymentterm = document.getElementById('paymentterm').value;
+        const Duedate = document.getElementById('Duedate').value;
+        const cgst = allInvoiceData.CGSTPer;
+        const sgst = allInvoiceData.SGSTPer
+        const utgst = allInvoiceData.SGSTPer
+        const igst = allInvoiceData.IGSTPer
+        // let Major = document.getElementById('Activity').value;
+        // Major = Major.slice(Major.indexOf(',') + 1)
+        // let billing_code = document.getElementById('Activity')
+        // billing_code = billing_code.options[billing_code.selectedIndex].text;
+
+        let custaddrs = `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`
+
+        const invoice_destination = allInvoiceData.DestinationState
+        const invoice_origin = allInvoiceData.OriginState
+
+
+        let cgstamount = allInvoiceData.CGST
+        let sgstamount = allInvoiceData.SGST
+        let utgstamount = allInvoiceData.SGST
+        let igstamount = allInvoiceData.IGST
+        const taxableamt = allInvoiceData.TotalTaxamount;
+
+
+
+        // // Insert Data
+        if (!custid || !billsubtotal || !consignee) {
+            alert('Please Select Customer');
+        }
+        else {
+            // console.log(localStorage.getItem('Organisation'), fin_year, invoiceids,
+            //     squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
+            //     total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+            //     paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
+
+            console.log('sdncskcs')
+            const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+                squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
+                total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+                paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
+
+            if (result === 'Added') {
+
+                // itemsrowval.map(async (item, index) => {
+                //     console.log(localStorage.getItem('Organisation'), fin_year, allInvoiceData.TaxInvoice,  item.majorCode,item.items, item.glcode,
+                //         item.activity, item.Quantity, item.rate, item.unit, allInvoiceData.GrandTotal, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                //         item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                // })
+
+                // (localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee,
+                //  custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
+
+                itemsrowval.map(async (item, index) => {
+                    const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids,  item.majorCode,item.items, item.glcode,
+                    item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                    item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                })
+
+                if (btn_type !== 'save') {
+                    const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+                }
+                // alert('Added')
+                // window.location.href = './SaveInvoice';
+            }
+            else {
+                alert('Server not Response');
+                window.location.reload();
+            }
+        }
     }
     return (
         <>
@@ -396,7 +525,7 @@ function Invoices() {
                                                             }}
                                                         >
                                                             {
-                                                                custAddressLocation.length > 0 ? custAddressLocation : 'Select Customer Address Location'
+                                                                custAddressLocation.length > 0 ? `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}` : 'Select Customer Address Location'
                                                             }
                                                         </button>
                                                     </div>
@@ -414,7 +543,7 @@ function Invoices() {
                                                             }}
                                                         >
                                                             {
-                                                                billingAddressLocation.length > 0 ? billingAddressLocation : 'Select Billing Address Location'
+                                                                billingAddressLocation.length > 0 ? `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}` : 'Select Billing Address Location'
                                                             }
                                                         </button>
                                                     </div>
@@ -651,25 +780,23 @@ function Invoices() {
 
                                                     </div>
                                                 </div>
-                                                {/* {
+                                                {
                                                     localStorage.getItem('gststatus') !== 'true' ?
                                                         <InvoicePreviewWithoutGst
-                                                        //  Allinvoicedata={allInvoiceData} Allitems={items} 
+                                                            Allinvoicedata={allInvoiceData} Allitems={itemsrowval}
                                                         /> :
                                                         <InvoicePreview
-                                                        // Allinvoicedata={allInvoiceData} Allitems={items}
+                                                            Allinvoicedata={allInvoiceData} Allitems={itemsrowval}
                                                         />
-
-
-                                                } */}
+                                                }
 
                                                 <div className="form-group mt-3">
-                                                    <button id="savebtn" type='button' name="save" className="btn btn-danger" 
-                                                        // onClick={handlesavebtn} 
+                                                    <button id="savebtn" type='button' name="save" className="btn btn-danger"
+                                                        onClick={handlesavebtn} 
                                                         value='save'>
                                                         Save
                                                     </button>
-                                                    <button id="postbtn" name="save" type='button' className="btn btn-danger mx-2" 
+                                                    <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2"
                                                         onClick={handlesavebtn}
                                                         value='post' >
                                                         Post

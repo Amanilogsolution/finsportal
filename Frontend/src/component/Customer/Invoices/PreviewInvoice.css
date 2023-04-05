@@ -6,7 +6,7 @@
 
 .modeldivcard {
   width: 60vw;
-  transform: translate(-10%);
+  /* transform: translate(-10%); */
 }
 
 .topdiv {
@@ -67,11 +67,11 @@
   width: 30%;
 }
 
-
+/* 
 .secondinvoicediv,
 .thirdinvoicediv {
   border-right: 2px solid #000;
-}
+} */
 
 .forthinvoicediv {
   width: 35%;
@@ -377,9 +377,9 @@
 }
 
 @media screen and (max-width:1700px) {
-  .secondinvoicediv {
+  /* .secondinvoicediv {
     width: 20%;
-  }
+  } */
 
 }
 
@@ -441,9 +441,9 @@
     transform: translate(-18%);
   }
 
-  .secondinvoicediv {
+  /* .secondinvoicediv {
     width: 30%;
-  }
+  } */
 
 
 }

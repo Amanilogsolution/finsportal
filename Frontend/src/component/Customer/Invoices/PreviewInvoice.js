@@ -1,4 +1,4 @@
-import React, { useRef,memo,useEffect,useState } from 'react'
+import React, { useRef, memo, useEffect, useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
@@ -19,14 +19,12 @@ const InvoicePreview = (props) => {
       },
       html2canvas: { scale: 0.233 },
       margin: [5, 0, 0, 5],
-
-
     });
   };
 
   useEffect(() => {
     const fetchdata = async () => {
-      let org=localStorage.getItem('Organisation');
+      let org = localStorage.getItem('Organisation');
       const result = await showOrganisation(org)
       setOrgdata(result)
     }
@@ -54,12 +52,10 @@ const InvoicePreview = (props) => {
               </div>
               <div className="invoicediv">
                 <div className="inerinvoicediv">
-                  <div className="firstinvoicediv"><b>Activity :</b>{props.Allinvoicedata.Activity}</div>
-                  <div className="secondinvoicediv" >
-                    <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.TaxInvoice} &nbsp;
-                  </div>
-                  <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.InvoiceData} &nbsp;</div>
-                  <div className="forthinvoicediv"><b> INR.</b>{props.Allinvoicedata.GrandTotal}</div>
+                  <div className="firstinvoicediv"><b>Date: </b>{props.Allinvoicedata.InvoiceData}</div>
+                  <div className="secondinvoicediv " ><b>TAX INVOICE NO: </b>{props.Allinvoicedata.TaxInvoice}</div>
+                  {/* <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.} &nbsp;</div> */}
+                  <div className="forthinvoicediv"><b> INR: </b>{props.Allinvoicedata.GrandTotal}</div>
                 </div>
               </div>
 
@@ -105,6 +101,7 @@ const InvoicePreview = (props) => {
                   <thead className='itemheadsec'>
                     <tr>
                       <th>Sno</th>
+                      <th>Activity</th>
                       <th>Items</th>
                       <th>Quantity</th>
                       <th>Rate</th>
@@ -119,21 +116,22 @@ const InvoicePreview = (props) => {
                       props.Allitems.map((item, index) => (
                         <tr key={index} className='itemtrsec'>
                           <th>{index + 1}</th>
-                          <td>{item.itemsvalue}</td>
-                          <td>{item.quantity}</td>
+                          <td>{item.activity}</td>
+                          <td>{item.items}</td>
+                          <td>{item.Quantity}</td>
                           <td>{item.rate}</td>
-                          <td>{item.tax}</td>
+                          <td>{item.taxAmt}</td>
                           <td>{item.unit}</td>
                           <td>{item.amount}</td>
-                          <td>{item.Totalamount}</td>
+                          <td>{item.total}</td>
                         </tr>
                       ))
                     }
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
-                      <th colSpan='6'>Total</th>
-                      <td>{props.Allinvoicedata.Totalamounts}</td>
+                      <th colSpan='7'>Total</th>
+                      <td>{props.Allinvoicedata.TotalNetAmounts}</td>
                       <td>{props.Allinvoicedata.GrandTotal}</td>
                     </tr>
                   </tfoot>
@@ -145,7 +143,7 @@ const InvoicePreview = (props) => {
                 <h4><b>Total Invoice Value (In Words) :</b></h4>
                 <h4>{props.Allinvoicedata.GrandTotal}</h4>
               </div>
-              <div className="invoicevalword">
+              <div className="invoicevalword mb-2">
                 <h5><b>Total Invoice Value (In Figure) :</b></h5>
                 <h4>{DecamalNumber.toWords(Number(props.Allinvoicedata.GrandTotal))} only </h4>
               </div>

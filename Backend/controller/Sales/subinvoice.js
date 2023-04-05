@@ -29,7 +29,7 @@ const InsertSubInvoice = async (req, res) => {
     const igst_amt = req.body.igst_amt;
     const taxableamt = req.body.taxableamt;
     const User_id = req.body.User_id;
-console.log(taxableamt)
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_subinvoice(fin_year,invoice_no ,major,minor,revgl_code,billing_code,quantity,
@@ -44,19 +44,19 @@ console.log(taxableamt)
     }
 }
 
-const getSubInvoice = async(req,res) =>{
- const org = req.body.org;
- const invoiceno = req.body.invoiceno;
- try{
-    await sql.connect(sqlConfig)
-    const result = await sql.query(`select * from ${org}.dbo.tbl_subinvoice with (nolock) where invoice_no='${invoiceno}'`)
-    res.send(result.recordset)   
+const getSubInvoice = async (req, res) => {
+    const org = req.body.org;
+    const invoiceno = req.body.invoiceno;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_subinvoice with (nolock) where invoice_no='${invoiceno}'`)
+        res.send(result.recordset)
 
 
- }
- catch (err) {
-    res.send(err)
-}
+    }
+    catch (err) {
+        res.send(err)
+    }
 
 }
 
@@ -81,4 +81,4 @@ const UpdateSaveSubInvoiceToPost = async (req, res) => {
 
 }
 
-module.exports = { InsertSubInvoice,getSubInvoice,UpdateSaveSubInvoiceToPost }
+module.exports = { InsertSubInvoice, getSubInvoice, UpdateSaveSubInvoiceToPost }

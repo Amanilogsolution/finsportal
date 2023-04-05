@@ -1237,7 +1237,7 @@ export const FilterInvoice = async (org, startDate, lastDate, custid, locationid
 }
 
 export const GetInvoice = async (org, invoiceno) => {
-    const url = `https://finsbackend.awlinternational.com/api/getinvoice`
+    const url = `http://localhost:3008/api/getinvoice`
     return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetSaveInvoice = async (org) => {
@@ -1269,7 +1269,7 @@ export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, 
 }
 
 export const GetSubInvoice = async (org, invoiceno) => {
-    const url = `https://finsbackend.awlinternational.com/api/getsubinvoice`
+    const url = `http://localhost:3008/api/getsubinvoice`
     return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
 export const UpdateSaveSubInvoiceToPost = async (org, invoice_no, new_invoice_no) => {

@@ -42,9 +42,11 @@ const InvoicePreview = () => {
       const result = await GetInvoice(org, preview)
       setData(result[0])
 
-      const activity_code = await GetAccountMinorCodeName(org, result[0].major)
-      setActivity(activity_code)
+      // const activity_code = await GetAccountMinorCodeName(org, result[0].major)
+      // setActivity(activity_code)
+      console.log('njksjc',org, preview)
       const result1 = await GetSubInvoice(org, preview)
+      console.log('dfc',result1)
       setSubInv(result1)
       const orgdata = await showOrganisation(org)
       setOrgdata(orgdata)
@@ -88,11 +90,10 @@ const InvoicePreview = () => {
               </div>
               <div className="invoicediv">
                 <div className="inerinvoicediv">
-                  <div className="firstinvoicediv"><b>Activity :</b>{activity.account_name}</div>
-                  <div className="secondinvoicediv" >
-                    <b>TAX INVOICE NO :</b>&nbsp; {data.invoice_no} &nbsp;
-                  </div>
-                  <div className="thirdinvoicediv"> &nbsp;{data.startdate} &nbsp;</div>
+                  {/* <div className="firstinvoicediv"><b>Activity :</b>{activity.account_name}</div> */}
+                  <div className="firstinvoicediv"><b>Date: </b>{data.startdate}</div>
+                  <div className="secondinvoicediv" ><b>TAX INVOICE NO :</b>{data.invoice_no}</div>
+                  {/* <div className="thirdinvoicediv"> &nbsp;{data.startdate} &nbsp;</div> */}
                   <div className="forthinvoicediv"><b>{data.currency_type || 'INR'}. </b>{data.invoice_amt}</div>
                 </div>
               </div>
@@ -137,6 +138,7 @@ const InvoicePreview = () => {
                   <thead className='itemheadsec'>
                     <tr>
                       <th>Sno</th>
+                      <th>Activity</th>
                       <th>Items</th>
                       <th>Quantity</th>
                       <th>Rate</th>
@@ -151,6 +153,7 @@ const InvoicePreview = () => {
                       subinv.map((item, index) => (
                         <tr className='itemtrsec'>
                           <th>{index + 1}</th>
+                          <td>{item.billing_code}</td>
                           <td>{item.minor}</td>
                           <td>{item.quantity}</td>
                           <td>{item.rate}</td>
