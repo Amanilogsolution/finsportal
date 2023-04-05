@@ -17,14 +17,20 @@ function EditInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await GetInvoice(org, invoice_no)
+            console.log(Invoiceresult)
 
             setInvoice_detail(Invoiceresult[0])
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)
+            console.log(result1)
             const activity_code = await GetAccountMinorCodeName(org, Invoiceresult[0].major)
             setActivity(activity_code)
             setLoading(true)
 
+            for(let i=0;i<result1.length;i++){
+                document.getElementById('FTdate').style.display='flex';
+                return 0;
+            }
         }
         fetchdata()
     }, [])
@@ -37,7 +43,7 @@ function EditInvoice() {
         setLoading(false)
 
         const fin_year = await Getfincialyearid(org)
-        const billing_add = invoice_detail.location;
+        const billing_add = invoice_detail.origin;
         const invoicepefix = fin_year[0].invoice_ser;
         let invoicecitypre = (billing_add.substring(0, 3));
         invoicecitypre = invoicecitypre.toUpperCase();
@@ -131,9 +137,7 @@ function EditInvoice() {
                 {
                     loading ?
                         <>
-                            {/* // <div className="preloader flex-column justify-content-center align-items-center"> */}
-                            {/* //     <div className="spinner-border" role="status"> </div> */}
-                            {/* // </div> */}
+                          
                             <Header />
 
                             <div className={`content-wrapper `} >
@@ -213,26 +217,14 @@ function EditInvoice() {
                                                     </div>
                                                 </div>
 
-                                                <hr />
-                                                <div className="form-row mt-2">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Activity <span className='text-danger'>*</span></label>
-                                                    <div className="d-flex col-md-4">
-                                                        {/* <select id="Activity" className={`form-control  `} >
-                                                <option value={invoice_detail.major} hidden>{invoice_detail.major} </option>
-
-                                            </select> */}
-                                                        <span className='border p-2 rounded'>{activity.account_name}</span>
-
-                                                    </div>
-                                                </div>
                                                 <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
                                                     <div className="d-flex col-md-3">
                                                         <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                                        <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom} />
+                                                        <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom_date} />
                                                     </div>
                                                     <div className="d-flex col-md-5">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                                        <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto} />
+                                                        <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto_date} />
                                                     </div>
                                                 </div>
                                                 <br />
@@ -241,6 +233,7 @@ function EditInvoice() {
                                                 <table className="table">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Activity</th>
                                                             <th scope="col">Items</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Rate</th>
@@ -255,6 +248,7 @@ function EditInvoice() {
                                                             invoicesub.map((item, index) => (
                                                                 <tr key={index}>
 
+                                                                    <td>{item.billing_code}</td>
                                                                     <td>{item.minor}</td>
                                                                     <td>{item.quantity}</td>
                                                                     <td>{item.rate}</td>

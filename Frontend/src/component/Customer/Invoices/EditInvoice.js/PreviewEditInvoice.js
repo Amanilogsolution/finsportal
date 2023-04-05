@@ -22,6 +22,7 @@ const InvoicePreview = (props) => {
 
     });
   };
+  console.log('mcdm',props)
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -53,12 +54,10 @@ const InvoicePreview = (props) => {
               </div>
               <div className="invoicediv">
                 <div className="inerinvoicediv">
-                  <div className="firstinvoicediv"><b>Activity :</b>{props.activity.account_name}</div>
-                  <div className="secondinvoicediv" >
-                    <b>TAX INVOICE NO :</b>&nbsp; {props.Allinvoicedata.invoice_no} &nbsp;
-                  </div>
-                  <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.startdate} &nbsp;</div>
-                  <div className="forthinvoicediv"><b> {props.Allinvoicedata.currency_type || 'INR'}</b>{props.Allinvoicedata.invoice_amt}</div>
+                  <div className="firstinvoicediv"><b>Date: </b>{props.Allinvoicedata.startdate}</div>
+                  <div className="secondinvoicediv" ><b>TAX INVOICE NO:</b> {props.Allinvoicedata.invoice_no}</div>
+                  {/* <div className="thirdinvoicediv"> &nbsp;{props.Allinvoicedata.startdate} &nbsp;</div> */}
+                  <div className="forthinvoicediv"><b> {props.Allinvoicedata.currency_type || 'INR'}: </b>{props.Allinvoicedata.invoice_amt}</div>
                 </div>
               </div>
 
@@ -104,6 +103,7 @@ const InvoicePreview = (props) => {
                   <thead className='itemheadsec'>
                     <tr>
                       <th>Sno</th>
+                      <th>Activity</th>
                       <th>Items</th>
                       <th>Quantity</th>
                       <th>Rate</th>
@@ -118,6 +118,7 @@ const InvoicePreview = (props) => {
                       props.Allitems.map((item, index) => (
                         <tr key={index} className='itemtrsec'>
                           <th>{index + 1}</th>
+                          <td>{item.billing_code}</td>
                           <td>{item.minor}</td>
                           <td>{item.quantity}</td>
                           <td>{item.rate}</td>
@@ -131,7 +132,7 @@ const InvoicePreview = (props) => {
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
-                      <th colSpan='6'>Total</th>
+                      <th colSpan='7'>Total</th>
                       <td>{props.Allinvoicedata.billsubtotal}</td>
                       <td>{props.Allinvoicedata.invoice_amt}</td>
                     </tr>

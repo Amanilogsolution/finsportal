@@ -86,7 +86,9 @@ const getInvoice = async (req, res) => {
     const invoiceno = req.body.invoiceno;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as startdate,convert(varchar(15),due_date,121) as lastdate from ${org}.dbo.tbl_invoice with (nolock) where invoice_no='${invoiceno}'`)
+        const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as startdate,convert(varchar(15),due_date,121) as lastdate,
+        convert(varchar(15),periodfrom,121) as periodfrom_date,convert(varchar(15),periodto,121) as periodto_date
+         from ${org}.dbo.tbl_invoice with (nolock) where invoice_no='${invoiceno}'`)
         res.send(result.recordset)
     }
     catch (err) {
