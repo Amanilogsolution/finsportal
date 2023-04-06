@@ -20,7 +20,7 @@ const InsertCreditNote = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_cn (cn_no,cn_type,cn_date,mast_id,
+        const result = await sql.query(`insert into ${org}.dbo.tbl_creditnote (cn_no,cn_type,cn_date,mast_id,
             cust_id,inv_no,inv_date,total_amt,net_amt,remark,location,cn_flag,fins_year,reqtoappr_date_time,
             reqtoappr_user_name,reqtoappr_system_name,reqtoappr_ip_address,status,total_cn_amt)
             values('${cn_no}','CR','${cn_date}','${mast_id}',
@@ -35,9 +35,10 @@ const InsertCreditNote = async (req, res) => {
 
 const AllCNData = async (req, res) => {
     const org = req.body.org;
+    console.log(`select *,convert(varchar(15),inv_date,121) as Joindate  from ${org}.dbo.tbl_creditnote `)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as Joindate  from ${org}.dbo.tbl_cn `)
+        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as Joindate  from ${org}.dbo.tbl_creditnote `)
         res.send(result.recordset)
     }
     catch (err) {
@@ -52,7 +53,7 @@ const ChangeCNStatus = async (req, res) => {
     
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_cn set status='${status}' where sno = ${sno} `)
+        const result = await sql.query(`update ${org}.dbo.tbl_creditnote set status='${status}' where sno = ${sno} `)
         if(result.recordset.length>0){
             res.send('Updated')
         }
@@ -68,7 +69,7 @@ const getCNData = async (req, res) => {
     
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as inv_Date,convert(varchar(15),cn_date,121) as cndate from ${org}.dbo.tbl_cn where sno = ${sno} `)
+        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as inv_Date,convert(varchar(15),cn_date,121) as cndate from ${org}.dbo.tbl_creditnote where sno = ${sno} `)
         res.send(result.recordset[0]) 
     }
     catch (err) {

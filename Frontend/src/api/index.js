@@ -1381,6 +1381,17 @@ export const GetSaveBill = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const GetBillVendorID = async (org,vendor_id) => {
+    const url = `http://localhost:3008/api/GetBillVendorid`
+    return axios.post(url, { org,vendor_id }).then(response => response.data).catch(error => console.log(error));
+}
+export const filterInvoicebyDN = async (org,startDate,lastDate,vendorid,locationid,bill_no) => {
+    const url = `http://localhost:3008/api/filterInvoicebyDN`
+    return axios.post(url, { org,startDate,lastDate,vendorid,locationid,bill_no }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
 // ############################ For Purchases Bill api End #################################
 
 

@@ -4,14 +4,14 @@ import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
 import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 import {
-    ActiveCustomer, ActivePaymentTerm,
-    SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount, SearchLocationAddress, SearchCustAddress
+    ActiveCustomer, ActivePaymentTerm,SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, 
+    Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount, 
+    SearchLocationAddress, SearchCustAddress
 } from '../../../api/index'
 import './invoice.css'
 
 function Invoices() {
     const [loading, setLoading] = useState(false)
-
     const [count, setCount] = useState(1);
     const [arry, setArry] = useState([0]);
     const [itemsrowval, setItemsrowval] = useState([{
@@ -46,12 +46,9 @@ function Invoices() {
         OriginState: "",
         DestinationState: ""
     })
-
-
     const [itemsdata, setItemdata] = useState([])
     const [itemdetails, setItemdetails] = useState([])
     const [itemtoggle, setItemtoggle] = useState([false])
-
     const [activecustomer, setActiveCustomer] = useState([])
     const [Activeaccount, setActiveAccount] = useState([])
     const [activeunit, setActiveUnit] = useState([])
@@ -63,21 +60,17 @@ function Invoices() {
     const [locationstate, setLocationstate] = useState([])
     const [currencylist, setCurrencylist] = useState([]);
     const [custadddetail, setCustadddetail] = useState({ state: '', custAddId: '', custAddGst: '' })
-
     const [invoiceid, setInvoiceid] = useState('')
     const [invoiceprefix, setInvoiceprefix] = useState('')
     const [locationid, setLocationid] = useState('')
     const [billingaddress, setBillingAddress] = useState('')
     const [updateinvcount, setUpdateInvCount] = useState()
     const [activepaymentterm, setActivePaymentTerm] = useState([])
-
     const [totalGstamt, setTotalGstamt] = useState('')
-
     const [index111, setIndex] = useState()
 
     useEffect(() => {
         const fetchdata = async () => {
-
             const localdata = localStorage.getItem('gststatus');
             if (localdata === 'false') {
                 document.getElementById('cgstinp').style.display = 'none';
@@ -86,14 +79,11 @@ function Invoices() {
                 document.getElementById('tgstinp').style.display = 'none';
             }
 
-
-
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
             setActivePaymentTerm(result1)
-
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
             const ActiveUnit = await Activeunit(org)
@@ -127,27 +117,19 @@ function Invoices() {
         const datwe = e.target.value.split(',')
         itemsrowval[index].majorCode = datwe[1]
         const result2 = await ActiveItems(localStorage.getItem('Organisation'), datwe[0]);
-
         let value = [...itemsdata]
-
         value[index] = result2;
         setItemdata(value)
-        console.log(value)
-
-
         setIndex(index)
-
         let val = document.getElementById(`Activity-${index}`);
         let text = val.options[val.selectedIndex].text;
         itemsrowval[index].activity = text;
-
         if (text === 'WAREHOUSING') {
             document.getElementById('FTdate').style.display = "flex"
         }
         else {
             document.getElementById('FTdate').style.display = "none"
         }
-
     }
 
     const addRow = (e) => {
@@ -158,8 +140,6 @@ function Invoices() {
         itemtoggle.push(false)
         let obj = { activity: '', majorCode: '', items: '', taxPer: 0, taxAmt: 0, taxable: '', glcode: '', Quantity: '', rate: '', unit: '', amount: '', total: '' }
         itemsrowval.push(obj)
-
-
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
     };
@@ -171,18 +151,14 @@ function Invoices() {
             val.pop();
             setCount(val.length);
             setArry(val);
-
             itemtoggle.pop();
-
             let objval = [...itemsrowval];
             objval.pop();
             setItemsrowval(objval)
-
-
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
         }
-    };
+    }
     const handleCustname = async (e) => {
         e.preventDefault();
         const cust_id = e.target.value;
@@ -191,7 +167,6 @@ function Invoices() {
         setMasterid(cust_detail.mast_id)
         const terms = cust_detail.payment_terms
         let [val, Ter] = terms.split(" ")
-
         Duedate(Number(Ter))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
@@ -235,16 +210,12 @@ function Invoices() {
         const [gstper, item, glcodes] = value.split('^')
         itemsrowval[index].items = item
         itemsrowval[index].taxPer = Number(gstper)
-
         itemsrowval[index].glcode = glcodes
-
         if (gstper > 0) {
             itemsrowval[index].taxable = 'yes'
         } else {
             itemsrowval[index].taxable = 'No'
         }
-
-
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
     }
@@ -265,26 +236,22 @@ function Invoices() {
             document.getElementById(`tax-${index}`).value = tax
             document.getElementById(`amount-${index}`).value = amt
             document.getElementById(`TotalAmount-${index}`).value = amt + tax
-
             itemsrowval[index].Quantity = qty;
             itemsrowval[index].rate = rate;
             itemsrowval[index].taxAmt = tax;
             itemsrowval[index].amount = amt;
             itemsrowval[index].total = amt + tax;
         }, 1000)
-
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
     }
 
     const handleChangeUnit = (index, e) => {
         itemsrowval[index].unit = e.target.value;
-
     }
 
     const handleSubBtn = (e) => {
         e.preventDefault();
-
         let totalgstamt = 0;
         let totalgstper = 0;
         let totalinvamt = 0;
@@ -293,7 +260,6 @@ function Invoices() {
             totalgstamt = totalgstamt + item.taxAmt
             totalinvamt = totalinvamt + item.total
             totalnetamt = totalnetamt + item.amount
-
             if (item.taxPer > totalgstper) { totalgstper = item.taxPer }
         })
         setTotalGstamt(totalgstamt)
@@ -331,10 +297,7 @@ function Invoices() {
             cgstamt = 0
             sgstamt = 0
             igstamt = totalgstamt
-
         }
-        console.log('custAddressLocation', custAddressLocation)
-        console.log('billingAddressLocation', billingAddressLocation)
 
         setAllInvoiceData({
             ...allInvoiceData,
@@ -347,7 +310,6 @@ function Invoices() {
         document.getElementById('totalgstper').value = totalgstper;
         document.getElementById('grandtotaltd').innerHTML = totalinvamt || 0;
         document.getElementById('totalnetamt').innerHTML = totalnetamt || 0;
-
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
     }
