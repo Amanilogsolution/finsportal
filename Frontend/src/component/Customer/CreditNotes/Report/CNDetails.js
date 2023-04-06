@@ -5,8 +5,8 @@ import { CheckLoginUser, ChangeCNStatus } from '../../../../api/index'
 
 const CNDetails = (props) => {
     const [data, setData] = useState([])
-    const [sno,setSno] = useState()
-   
+    const [sno, setSno] = useState()
+
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
@@ -15,9 +15,9 @@ const CNDetails = (props) => {
         const result = await CheckLoginUser(useremail, userpassword)
         console.log(result)
         if (result == 'Confirmed') {
-            const status = await ChangeCNStatus(localStorage.getItem('Organisation'),'Confirmed',sno)
+            const status = await ChangeCNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
             console.log(status)
-            if(status){
+            if (status) {
                 window.location.reload()
             }
         }
@@ -45,6 +45,11 @@ const CNDetails = (props) => {
             sortable: true
         },
         {
+            name: 'CN Amount',
+            selector: 'total_cn_amt',
+            sortable: true
+        },
+        {
             name: 'Location',
             selector: 'location',
             sortable: true
@@ -54,23 +59,20 @@ const CNDetails = (props) => {
             sortable: false,
             selector: "null",
             cell: (row) => {
-                    if(row.status == "Confirmed"){
-                        return  <button id={`previewbtn${row.sno}`} type="button" onClick={(e) => {
-                            e.preventDefault();
-                            localStorage.setItem("cnno",row.sno)
-                            window.location.href = "/CreditNotes"
-                        }} className="btn btn-success"
-                             >{row.status} </button>
-                    }else{
-                      return  <button id='previewbtn' type="button" onClick={(e) => {
-                            e.preventDefault();
-                            setSno(row.sno)
-                        }} className="btn btn-danger"
-                            data-toggle="modal" data-target="#exampleModalCenter" >{row.status} </button>
-                    }
+                if (row.status == "Confirmed") {
+                    return <button id={`previewbtn${row.sno}`} type="button" onClick={(e) => {
+                        e.preventDefault();
+                        localStorage.setItem("cnno", row.sno)
+                        window.location.href = "/CreditNotes"
+                    }} className="btn btn-success"
+                    >{row.status} </button>
+                } else {
+                    return <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); setSno(row.sno) }} className="btn btn-danger"
+                        data-toggle={localStorage.getItem('Role') === 'Admin' ? `modal` : ''} data-target={localStorage.getItem('Role') === 'Admin' ? `#exampleModalCenter` : ''} >{row.status} </button>
+                }
             }
-               
-            
+
+
         }
 
     ]
@@ -118,7 +120,7 @@ const CNDetails = (props) => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={handleClickConfirm}>Save changes</button>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={handleClickConfirm}>Verify</button>
                             </div>
                         </div>
                     </div>

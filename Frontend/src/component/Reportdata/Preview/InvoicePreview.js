@@ -92,9 +92,9 @@ const InvoicePreview = () => {
                 <div className="inerinvoicediv">
                   {/* <div className="firstinvoicediv"><b>Activity :</b>{activity.account_name}</div> */}
                   <div className="firstinvoicediv"><b>Date: </b>{data.startdate}</div>
-                  <div className="secondinvoicediv" ><b>TAX INVOICE NO :</b>{data.invoice_no}</div>
+                  <div className="secondinvoicediv" ><b>TAX INVOICE NO: </b>{data.invoice_no}</div>
                   {/* <div className="thirdinvoicediv"> &nbsp;{data.startdate} &nbsp;</div> */}
-                  <div className="forthinvoicediv"><b>{data.currency_type || 'INR'}. </b>{data.invoice_amt}</div>
+                  <div className="forthinvoicediv"><b>{data.currency_type || 'INR'}: </b>{data.invoice_amt}</div>
                 </div>
               </div>
 
@@ -167,7 +167,7 @@ const InvoicePreview = () => {
                   </tbody>
                   <tfoot className='itemfootsec'>
                     <tr className='itemfoottrsec'>
-                      <th colSpan='6'>Total</th>
+                      <th colSpan='7'>Total</th>
                       <td>{data.billsubtotal}</td>
                       <td>{data.invoice_amt}</td>
                     </tr>

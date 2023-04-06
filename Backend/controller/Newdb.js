@@ -674,7 +674,9 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     cgst_amt nvarchar(100) NULL,
     sgst_amt nvarchar(100) NULL,
     igst_amt nvarchar(100) NULL,
-
+    dnflag nvarchar(100) NULL,
+    dn_amt nvarchar(100) NULL,
+    
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
@@ -898,7 +900,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
             cust_name_uuid nvarchar(300) NULL
     );
 
-    CREATE TABLE ${dbname}.dbo.tbl_cn (
+    CREATE TABLE ${dbname}.dbo.tbl_creditnote (
         sno bigint IDENTITY(1,1) NOT NULL,
         cn_no nvarchar(50) NULL,
         cn_type nvarchar(50) NULL,
@@ -953,7 +955,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         newcn_uuid nvarchar(100) NULL
         );
         
-        CREATE TABLE ${dbname}.dbo.tbl_sub_cn (
+        CREATE TABLE ${dbname}.dbo.tbl_sub_creditnote (
             sno bigint IDENTITY(1,1) NOT NULL,
             cn_no  nvarchar(100) NULL,
             invoice_no varchar(100) NULL,
@@ -973,6 +975,98 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
             update_ip_address varchar(50) NULL,
             status varchar(30) NULL
         );
+        CREATE TABLE ${dbname}.dbo.tbl_debitnote (
+            sno bigint IDENTITY(1,1) NOT NULL,
+            dn_no nvarchar(50) NULL,
+            dn_type nvarchar(50) NULL,
+            dn_date date NULL,
+            mast_id nvarchar(50) NULL,
+            vend_id nvarchar(50) NULL,
+            charge_code nvarchar(50) NULL,
+            dn_source nvarchar(50) NULL,
+            voucher_no nvarchar(50) NULL,
+            bill_no nvarchar(50) NULL,
+            bill_date date NULL,
+            total_bill_amt nvarchar(50) NULL,
+            net_amt nvarchar(50) NULL,
+            total_dn_amt nvarchar(100) NULL,
+            remark nvarchar(300) NULL,
+            gl_code nvarchar(50) NULL,
+            location nvarchar(150) NULL,
+            total_gstrate nvarchar(50) NULL,
+            cgst_rate nvarchar(50) NULL,
+            sgst_rate nvarchar(50) NULL,
+            igst_rate nvarchar(50) NULL,
+            total_gst_amt nvarchar(50) NULL,
+            cgst_amt nvarchar(50) NULL,
+            sgst_amt nvarchar(50) NULL,
+            igst_amt nvarchar(50) NULL,
+            tds_head nvarchar(50) NULL,
+            tds_comp nvarchar(50) NULL,
+            tds_amt nvarchar(50) NULL,
+            tds_per nvarchar(50) NULL,
+            expense_amt nvarchar(50) NULL,
+            sac_hsn nvarchar(50) NULL,
+            pas_amt nvarchar(50) NULL,
+            dn_flag nvarchar(50) NULL,
+            
+            fins_year nvarchar(50) NULL,
+            
+            reqtoappr_date_time datetime NULL,
+            reqtoappr_user_name nvarchar(50) NULL,
+            reqtoappr_system_name nvarchar(50) NULL,
+            reqtoappr_ip_address nvarchar(50) NULL,
+            
+            appr_date_time datetime NULL,
+            appr_user_name nvarchar(50) NULL,
+            appr_system_name nvarchar(50) NULL,
+            appr_ip_address nvarchar(50) NULL,
+            
+            add_date_time datetime NULL,
+            add_user_name nvarchar(50) NULL,
+            add_system_name nvarchar(50) NULL,
+            add_ip_address nvarchar(50) NULL,
+            
+            update_date_time datetime NULL,
+            update_user_name nvarchar(50) NULL,
+            update_system_name nvarchar(100) NULL,
+            update_ip_address nvarchar(50) NULL,
+            
+            status nvarchar(50) NULL,
+            newdn_uuid nvarchar(300) NULL
+            );
+            
+            CREATE TABLE ${dbname}.dbo.tbl_sub_debitnote (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                dn_no  nvarchar(100) NULL,
+                voucher_no nvarchar(100) NULL,
+                bill_no varchar(100) NULL,
+                location nvarchar(100) NULL,
+                items nvarchar(100) NULL,
+                emp_name nvarchar(100) NULL,
+                glcode nvarchar(100) NULL,
+                qty nvarchar(100) NULL,
+                rate nvarchar(100) NULL,
+                amt nvarchar(100) NULL,
+                unit nvarchar(100) NULL,
+                file_no nvarchar(100) NULL,
+                deduction nvarchar(100) NULL,
+                sac_hsn nvarchar(100) NULL,
+                net_amt nvarchar(100) NULL,
+                fin_year nvarchar(100) NULL,
+                balance_amt nvarchar(100) NULL,
+                pass_amt nvarchar(100) NULL,
+                remark nvarchar(300) NULL,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(30) NULL
+            );
             `)
             res.send('created')
         }

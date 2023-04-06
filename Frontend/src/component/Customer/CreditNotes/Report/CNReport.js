@@ -35,12 +35,19 @@ const CNReport = (props) => {
         const cn_no = 'CN00001'
         const remark = document.getElementById('remark').value
         const userid = localStorage.getItem('User_id');
-        const total_cn_amt = document.getElementById('total_cn_amt').value
-        console.log(org, cn_no, cndetails.cn_date, cndetails.mast_id, cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt, remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
-        const result = await InsertCreditNote(org, cn_no, cndetails.cn_date, cndetails.mast_id, cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt, remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
-        console.log(result)
-        if(result=='Added'){
-            window.location.reload()
+        const total_cn_amt = document.getElementById('total_cn_amt').value;
+
+        if (Number(total_cn_amt) > Number(cndetails.net_amt)) {
+            alert('Cr amount must be less than or equal to Invoice Amount')
+        }
+        else {
+            const result = await InsertCreditNote(org, cn_no, cndetails.cn_date, cndetails.mast_id,
+                cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt,
+                remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
+
+            if (result == 'Added') {
+                window.location.reload()
+            }
         }
     }
 
@@ -147,7 +154,7 @@ const CNReport = (props) => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={handleClickConfirm}>Save changes</button>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={handleClickConfirm}>Verify</button>
                             </div>
                         </div>
                     </div>
