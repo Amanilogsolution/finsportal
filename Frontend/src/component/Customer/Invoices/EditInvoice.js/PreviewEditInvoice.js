@@ -22,7 +22,6 @@ const InvoicePreview = (props) => {
 
     });
   };
-  console.log('mcdm',props)
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -32,6 +31,7 @@ const InvoicePreview = (props) => {
     }
     fetchdata()
   }, [props])
+  
   return (
     <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 

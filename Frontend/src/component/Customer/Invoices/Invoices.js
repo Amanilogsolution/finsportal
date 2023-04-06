@@ -86,7 +86,7 @@ function Invoices() {
                 document.getElementById('tgstinp').style.display = 'none';
             }
 
-          
+
 
             const org = localStorage.getItem('Organisation');
             const result = await ActiveCustomer(org)
@@ -249,6 +249,11 @@ function Invoices() {
         document.getElementById('postbtn').disabled = true;
     }
 
+    const handleAccountTerm = (e) => {
+        const days = Number(e.target.value)
+        Duedate(days)
+    }
+
     const handleChangeQuantity_Rate = (index) => {
         let qty = Number(document.getElementById(`Quality-${index}`).value) || 0
         let rate = Number(document.getElementById(`Rate-${index}`).value) || 0
@@ -375,10 +380,8 @@ function Invoices() {
 
     const handlesavebtn = async (e) => {
         e.preventDefault();
-        console.log(itemsrowval, allInvoiceData)
-
-        // document.getElementById('savebtn').disabled = true;
-        // document.getElementById('postbtn').disabled = true;
+        document.getElementById('savebtn').disabled = true;
+        document.getElementById('postbtn').disabled = true;
 
         let invoiceids = "";
         let squ_nos = ""
@@ -393,8 +396,6 @@ function Invoices() {
             squ_nos = invoiceprefix;
         }
 
-        // const squ_no = invoiceprefix;
-
         const Invoicedate = allInvoiceData.InvoiceData;
         const ordernumber = document.getElementById('ordernumber').value;
         const invoiceamt = allInvoiceData.GrandTotal;
@@ -403,7 +404,7 @@ function Invoices() {
         const periodto = document.getElementById('todate').value;
         const custid = document.getElementById('custname').value;
         const billsubtotal = allInvoiceData.TotalNetAmounts
-        const total_tax =allInvoiceData.CGSTPer+ allInvoiceData.IGSTPer+ allInvoiceData.SGSTPer
+        const total_tax = allInvoiceData.CGSTPer + allInvoiceData.IGSTPer + allInvoiceData.SGSTPer
         const remark = document.getElementById('custnotes').value;
 
         let location = `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}`
@@ -417,10 +418,7 @@ function Invoices() {
         const sgst = allInvoiceData.SGSTPer
         const utgst = allInvoiceData.SGSTPer
         const igst = allInvoiceData.IGSTPer
-        // let Major = document.getElementById('Activity').value;
-        // Major = Major.slice(Major.indexOf(',') + 1)
-        // let billing_code = document.getElementById('Activity')
-        // billing_code = billing_code.options[billing_code.selectedIndex].text;
+
 
         let custaddrs = `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`
 
@@ -441,39 +439,24 @@ function Invoices() {
             alert('Please Select Customer');
         }
         else {
-            // console.log(localStorage.getItem('Organisation'), fin_year, invoiceids,
-            //     squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
-            //     total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            //     paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
 
-            console.log('sdncskcs')
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
                 total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
                 paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
 
             if (result === 'Added') {
-
-                // itemsrowval.map(async (item, index) => {
-                //     console.log(localStorage.getItem('Organisation'), fin_year, allInvoiceData.TaxInvoice,  item.majorCode,item.items, item.glcode,
-                //         item.activity, item.Quantity, item.rate, item.unit, allInvoiceData.GrandTotal, consignee, custadddetail.state, custid, custadddetail.custAddId,
-                //         item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
-                // })
-
-                // (localStorage.getItem('Organisation'), fin_year, invoiceids, Major, chargecodes[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee,
-                //  custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, items[index].tax, User_id)
-
                 itemsrowval.map(async (item, index) => {
-                    const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids,  item.majorCode,item.items, item.glcode,
-                    item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
-                    item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                    const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
+                        item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                        item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
                 })
 
                 if (btn_type !== 'save') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }
-                // alert('Added')
-                // window.location.href = './SaveInvoice';
+                alert('Added')
+                window.location.href = './SaveInvoice';
             }
             else {
                 alert('Server not Response');
@@ -578,7 +561,7 @@ function Invoices() {
                                                         <select
                                                             id="paymentterm"
                                                             className='col-md-6  mr-0 form-control'
-                                                        // onChange={handleAccountTerm}
+                                                            onChange={handleAccountTerm}
                                                         >
                                                             <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
                                                             {
@@ -792,7 +775,7 @@ function Invoices() {
 
                                                 <div className="form-group mt-3">
                                                     <button id="savebtn" type='button' name="save" className="btn btn-danger"
-                                                        onClick={handlesavebtn} 
+                                                        onClick={handlesavebtn}
                                                         value='save'>
                                                         Save
                                                     </button>
