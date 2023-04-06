@@ -126,6 +126,20 @@ const GetBillData = async (req, res) => {
     }
 }
 
+const GetBillVendorID = async (req, res) => {
+    const org = req.body.org;
+    const vendor_id = req.body.vendor_id;
+    try {
+        await sql.connect(sqlConfig)
+        const Bill = await sql.query(`select * from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
+        res.send(Bill.recordset)
+    }
+    catch (err) {
+        res.send(err)
+
+    }
+}
+
 const UpdateSaveBillToPost = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
@@ -143,7 +157,34 @@ const UpdateSaveBillToPost = async (req, res) => {
     catch (err) {
         res.send(err)
     }
+}
+
+const filterInvoicebyDN = async (req, res) => {
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const vendorid = req.body.vendorid;
+    const locationid = req.body.locationid;
+    const bill_no = req.body.bill_no;
+    console.log(`select * from ${org}.dbo.tbl_bill with (nolock) where convert(date,bill_date) between '${startDate}'and '${lastDate}' or vend_id='${vendorid}' or bill_no='${bill_no}' and flagsave = 'post' 
+    order by sno desc`)
+    try {
+        await sql.connect(sqlConfig)
+        if (vendorid == 'all') {
+            const result = await sql.query(`select *,convert(varchar(15),bill_date,121) as Joindate from ${org}.dbo.tbl_bill with (nolock) where convert(date,bill_date) between '${startDate}'and '${lastDate}' or bill_no='${bill_no}' and flagsave = 'post' 
+            order by sno desc`)
+            res.send(result.recordset)
+        }
+        else {
+            const result = await sql.query(`select *,convert(varchar(15),bill_date,121) as Joindate from ${org}.dbo.tbl_bill with (nolock) where convert(date,bill_date) between '${startDate}'and '${lastDate}' or vend_id='${vendorid}' or bill_no='${bill_no}' and flagsave = 'post' 
+            order by sno desc`)
+            res.send(result.recordset)
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
 
 }
 
-module.exports = { InsertBill, FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost }
+module.exports = { InsertBill, FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN }

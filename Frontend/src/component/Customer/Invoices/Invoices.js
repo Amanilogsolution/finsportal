@@ -12,7 +12,6 @@ import './invoice.css'
 
 function Invoices() {
     const [loading, setLoading] = useState(false)
-
     const [count, setCount] = useState(1);
     const [arry, setArry] = useState([0]);
     const [itemsrowval, setItemsrowval] = useState([{
@@ -159,7 +158,7 @@ function Invoices() {
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
         }
-    };
+    }
     const handleCustname = async (e) => {
         e.preventDefault();
         const cust_id = e.target.value;
@@ -217,8 +216,6 @@ function Invoices() {
         } else {
             itemsrowval[index].taxable = 'No'
         }
-
-
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
     }
@@ -234,26 +231,22 @@ function Invoices() {
             document.getElementById(`tax-${index}`).value = tax
             document.getElementById(`amount-${index}`).value = amt
             document.getElementById(`TotalAmount-${index}`).value = amt + tax
-
             itemsrowval[index].Quantity = qty;
             itemsrowval[index].rate = rate;
             itemsrowval[index].taxAmt = tax;
             itemsrowval[index].amount = amt;
             itemsrowval[index].total = amt + tax;
         }, 1000)
-
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
     }
 
     const handleChangeUnit = (index, e) => {
         itemsrowval[index].unit = e.target.value;
-
     }
 
     const handleSubBtn = (e) => {
         e.preventDefault();
-
         let totalgstamt = 0;
         let totalgstper = 0;
         let totalinvamt = 0;
@@ -262,7 +255,6 @@ function Invoices() {
             totalgstamt = totalgstamt + item.taxAmt
             totalinvamt = totalinvamt + item.total
             totalnetamt = totalnetamt + item.amount
-
             if (item.taxPer > totalgstper) { totalgstper = item.taxPer }
         })
         setTotalGstamt(totalgstamt)
@@ -300,10 +292,7 @@ function Invoices() {
             cgstamt = 0
             sgstamt = 0
             igstamt = totalgstamt
-
         }
-        console.log('custAddressLocation', custAddressLocation)
-        console.log('billingAddressLocation', billingAddressLocation)
 
         setAllInvoiceData({
             ...allInvoiceData,
@@ -316,7 +305,6 @@ function Invoices() {
         document.getElementById('totalgstper').value = totalgstper;
         document.getElementById('grandtotaltd').innerHTML = totalinvamt || 0;
         document.getElementById('totalnetamt').innerHTML = totalnetamt || 0;
-
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
     }
