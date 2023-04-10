@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { GetBillVendorID, filterInvoicebyDN, ActiveVendor, ActiveLocationAddress, getUserRolePermission, filterPO,AllCNData } from '../../../api/index'
+import { GetBillVendorID, filterInvoicebyDN, ActiveVendor, ActiveLocationAddress, getUserRolePermission, filterPO,AllDNData,InsertDebitNote } from '../../../api/index'
 import Select from 'react-select';
 import CNReport from './Report/CNReport'
 import CNDetails from './Report/CNDetails'
@@ -30,7 +30,7 @@ function DebitNotes() {
 
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
-      const CNdetails = await AllCNData(org)
+      const CNdetails = await AllDNData(org)
       console.log(CNdetails)
       setCndata(CNdetails)
       Todaydate()
@@ -55,6 +55,7 @@ function DebitNotes() {
 
   const handleCustomer = async (e) => {
     setcustname(e.value)
+    console.log(e.value)
     const result = await GetBillVendorID(localStorage.getItem('Organisation'), e.value)
     console.log(result)
     setCustInvoices(result)

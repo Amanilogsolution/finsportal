@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, ChangeCNStatus } from '../../../../api/index'
+import { CheckLoginUser, ChangeDNStatus } from '../../../../api/index'
 
 
 const CNDetails = (props) => {
@@ -15,7 +15,7 @@ const CNDetails = (props) => {
         const result = await CheckLoginUser(useremail, userpassword)
         console.log(result)
         if (result === 'Confirmed') {
-            const status = await ChangeCNStatus(localStorage.getItem('Organisation'),'Confirmed',sno)
+            const status = await ChangeDNStatus(localStorage.getItem('Organisation'),'Confirmed',sno)
             console.log(status)
             if(status){
                 window.location.reload()
@@ -25,13 +25,13 @@ const CNDetails = (props) => {
 
     const columns = [
         {
-            name: 'Customer Name',
-            selector: 'cust_id',
+            name: 'DN Number',
+            selector: 'dn_no',
             sortable: true
         },
         {
-            name: 'Invoice Number',
-            selector: 'inv_no',
+            name: 'Bill Number',
+            selector: 'bill_no',
             sortable: true
         },
         {
@@ -40,13 +40,13 @@ const CNDetails = (props) => {
             sortable: true
         },
         {
-            name: 'Invoice Amount',
-            selector: 'net_amt',
+            name: 'Debit Number Amount',
+            selector: 'total_dn_amt',
             sortable: true
         },
         {
-            name: 'Location',
-            selector: 'location',
+            name: 'Voucher_No',
+            selector: 'voucher_no',
             sortable: true
         },
         {
@@ -54,19 +54,19 @@ const CNDetails = (props) => {
             sortable: false,
             selector: "null",
             cell: (row) => {
-                    if(row.status === "Confirmed"){
+                    if(row.dn_flag === "Confirmed"){
                         return  <button id={`previewbtn${row.sno}`} type="button" onClick={(e) => {
                             e.preventDefault();
-                            localStorage.setItem("cnno",row.sno)
-                            window.location.href = "/CreditNotes"
+                            localStorage.setItem("dnno",row.sno)
+                            window.location.href = "/VendorCredits"
                         }} className="btn btn-success"
-                             >{row.status} </button>
+                             >{row.dn_flag} </button>
                     }else{
                       return  <button id='previewbtn' type="button" onClick={(e) => {
                             e.preventDefault();
                             setSno(row.sno)
                         }} className="btn btn-danger"
-                            data-toggle="modal" data-target="#exampleModalCenter" >{row.status} </button>
+                            data-toggle="modal" data-target="#exampleModalCenter" >{row.dn_flag} </button>
                     }
             }
                  

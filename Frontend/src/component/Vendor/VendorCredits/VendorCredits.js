@@ -1,23 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Header from "../../Header/Header";
+import {getDNData,GetBillData} from "../../../api/index"
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 
 function VendorCredits() {
     const [totalValues, setTotalValues] = useState([1])
     const [amount, setAmount] = useState()
+    const [billdata,setBillData] = useState({})
+    const [Dndata,setDnData] = useState({})
+
+
+    useEffect(() =>{
+        const fetchData = async () => {
+            const org = localStorage.getItem('Organisation')
+            const result = await getDNData(org, localStorage.getItem('dnno'))
+            console.log(result)
+            setDnData(result)
+
+            const BillData = await GetBillData(org,result.voucher_no)
+            setBillData(BillData)
+            console.log(BillData)
+
+        }
+        fetchData()
+
+
+    },[])
+
     const handleChange = (e) => {
-        console.log(e.target.value)
         var desktop = e.target.value
         if (desktop === 'Desktop') {
             document.getElementById("Upload").click()
         }
     }
 
-    // const handleChangeQuantity =(e)=>{
-    //     e.preventDefault()
-    //     console.log(e.target.value)
-    // }
+
 
     const handleBlur = () => {
         const quality = document.getElementById('Quality').value
@@ -27,25 +45,9 @@ function VendorCredits() {
         setAmount(quality * rate)
     }
 
-    const handleAdd = (e) => {
-        e.preventDefault()
-        setTotalValues([...totalValues, 1])
-        // setAmount(0)
-    }
 
-    const handleRemove = (e) => {
-        e.preventDefault()
-        var newvalue = [...totalValues]
-        console.log(newvalue.length)
-        if (newvalue.length == 1) {
-            setTotalValues(newvalue)
 
-        } else {
-            newvalue.pop()
-
-            setTotalValues(newvalue)
-        }
-    }
+  
     return (
         <div>
             <div className="wrapper">
@@ -68,31 +70,32 @@ function VendorCredits() {
                                         <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="AccountType"
-                                                        className="form-control"
-                                                    // onChange={handleAccountType}
-                                                    >
-                                                        <option defaultValue hidden>Choose</option>
+                                                <input type="text" className="form-control col" id="Accountname"  value={billdata.location} />
 
-                                                    </select>
-                                                    <button className="ml-2 bg-white" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }} style={{ borderRadius: "50%", border: "1px solid blue", height: "25px", width: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ color: "blue" }}>+</span></button>
                                                 </div>
                                             </div>
-                                            <hr/>
                                             
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Credit Notes<span style={{ color: "red" }}>#</span> </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Location<span style={{ color: "red" }}>#</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="" />
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={billdata.vend_name} />
+                                                </div>
+                                            </div>
+
+                                         
+
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Voucher Number</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={billdata.vourcher_no}  />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Notes</label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Voucher Date</label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="" />
+                                                    <input type="date" className="form-control col-md-5" id="Accountname" value={billdata.voudate}  />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
@@ -101,15 +104,36 @@ function VendorCredits() {
                                                     <input type="date" className="form-control col-md-5" id="Accountname" placeholder="EST-00001" />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 " > </label>
-                                                <div className="d-flex col-md-4">
-                                                    <small>To create transaction dated before 01/07/2017</small>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Bill Number</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={billdata.bill_no}  />
                                                 </div>
                                             </div>
-
-                                         
-
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Bill Date</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="date" className="form-control col-md-5" id="Accountname" value={billdata.billdate}  />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >DN Number</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={Dndata.dn_no}  />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Dn Date</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="date" className="form-control col-md-5" id="Accountname" value={billdata.dn_Date}  />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >DN Amount</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={Dndata.total_dn_amt}  />
+                                                </div>
+                                            </div>
                                             <hr />
                                             <table class="table">
                                                 <thead>
@@ -133,13 +157,7 @@ function VendorCredits() {
 
                                                 </tbody>
                                             </table>
-                                            <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
-
-
-
                                             <hr />
-
                                             <div style={{ display: "flex" }}>
                                                 <div style={{ width: "40%" }}>
                                                     <div className="form mt-3">
@@ -185,32 +203,7 @@ function VendorCredits() {
 
                                                 </div>
                                             </div>
-                                            <hr />
-                                            <div style={{ display: "flex" }}>
-                                                <div style={{ width: "55%" }}>
-                                                    <div className="form mt-3">
-                                                        <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
-                                                        <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder=" "></textarea>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div style={{ width: "40%", marginLeft: "3px", padding: "10px 10px 10px 10px", borderLeft: "1px solid grey" }}>
-                                                    <label className="font-weight-normal" >Attach file(s) to Estimate</label>
-                                                    <input type="file" id="Upload" style={{ visibility: "hidden" }} />
-                                                    <div style={{ marginLeft: "10px" }}>
-                                                        <buttton onClick={(e) => { e.preventDefault(); document.getElementById("Upload").click() }}>Upload</buttton>
-                                                        <select onChange={handleChange}>
-                                                            <option hidden defaultValue>Upload File</option>
-                                                            <option value="Desktop">Attach from Desktop</option>
-                                                            <option>Attach from Cloud</option>
-                                                        </select>
-                                                    </div>
-                                                    <small>You can upload a maximum size 5MB</small>
-
-                                                </div>
-                                            </div>
+                                           
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>

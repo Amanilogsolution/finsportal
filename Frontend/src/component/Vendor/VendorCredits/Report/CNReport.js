@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, InsertCreditNote } from '../../../../api/index'
+import { CheckLoginUser, InsertDebitNote } from '../../../../api/index'
 
 
 const CNReport = (props) => {
     const [data, setData] = useState([])
     const [button, setButton] = useState('Send Mail')
+    const [date, setDate] = useState()
     const [cndetails, setCndetails] = useState({
-        cn_date: "",
-        mast_id: "",
-        cust_id: "",
-        inv_no: "",
-        inv_date: "",
-        total_amt: "",
-        net_amt: "",
-        location: "",
-        fins_year: ""
+        bill_no: "",
+        vourcher_no: ""
+     
     })
 
     const handleClickConfirm = async (e) => {
@@ -32,11 +27,11 @@ const CNReport = (props) => {
     const handleClickSendMail = async (e) => {
         e.preventDefault()
         const org = localStorage.getItem('Organisation')
-        const cn_no = `DB000${Math.random() * 100}`
+        const Dn_no = `DN000${Math.floor(Math.random() * 100)}`
         const remark = document.getElementById('remark').value
         const userid = localStorage.getItem('User_id');
         const total_cn_amt = document.getElementById('total_cn_amt').value
-        const result = await InsertCreditNote(org, cn_no, cndetails.cn_date, cndetails.mast_id, cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt, remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
+        const result = await InsertDebitNote(org,Dn_no,date,total_cn_amt,remark,cndetails.bill_no,cndetails.vourcher_no,userid)
         console.log(result)
         if(result==='Added'){
             window.location.reload()
@@ -80,21 +75,15 @@ const CNReport = (props) => {
                     e.preventDefault();
                     document.getElementById('invno').value = row.bill_no
                     document.getElementById('invdate').value = row.Joindate
-                    document.getElementById('invyear').value = row.fin_year
+                    document.getElementById('invyear').value = row.vourcher_no
                     document.getElementById('invamount').value = row.bill_amt
                     document.getElementById('customer').value = row.vend_name
 
                     setCndetails({
                         ...cndetails,
-                        cn_date: row.Joindate,
-                        mast_id: row.cust_family,
-                        cust_id: row.custid,
-                        inv_no: row.invoice_no,
-                        inv_date: row.Joindate,
-                        total_amt: row.billsubtotal,
-                        net_amt: row.invoice_amt,
-                        location: row.location,
-                        fins_year: row.fin_year
+                        bill_no: row.bill_no,
+                        vourcher_no: row.vourcher_no,
+                     
 
                     })
                 }} className="btn btn-success"
@@ -107,10 +96,23 @@ const CNReport = (props) => {
     useEffect(() => {
         async function fetchdata() {
             setData(props.displaydata)
-            console.log(props.displaydata)
+            Todaydate()
+
         }
         fetchdata()
     }, [])
+    const Todaydate = () => {
+        var date = new Date();
+        // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        setDate(today)
+      
+    }
 
     const tableData = {
         columns, data
@@ -178,7 +180,7 @@ const CNReport = (props) => {
 
                                     <div className="form-row">
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Financial Year</label>
+                                            <label htmlFor="userid">Voucher No</label>
                                             <input type="text" className="form-control" id="invyear" aria-describedby="emailHelp" disabled />
                                         </div>
                                         <div className="form-group col-md-6">

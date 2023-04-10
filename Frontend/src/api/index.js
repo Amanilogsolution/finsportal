@@ -1555,3 +1555,25 @@ export const SelectCnSubDetails = async (org,cn_no,inv_no,topcount) => {
     const url = `http://localhost:3008/api/selectcnsubdetails`
     return axios.post(url, {org,cn_no,inv_no,topcount}).then(response => response.data).catch(error => console.log(error));
 }
+
+
+
+export const InsertDebitNote = async (org,dn_no,dn_date,total_dn_amt,remark,bill_no,voucher_no,user_id) => {
+    const url = `http://localhost:3008/api/insertdebitnote`
+    return axios.post(url, { org,dn_no,dn_date,total_dn_amt,remark,bill_no,voucher_no,user_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const AllDNData = async (org) => {
+    const url = `http://localhost:3008/api/alldndata`
+    return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const ChangeDNStatus = async (org,status,sno) => {
+    const url = `http://localhost:3008/api/changednstatus`
+    return axios.post(url, {org,status,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const getDNData = async (org,sno) => {
+    const url = `http://localhost:3008/api/getdndata`
+    return axios.post(url, {org,sno}).then(response => response.data).catch(error => console.log(error));
+}
