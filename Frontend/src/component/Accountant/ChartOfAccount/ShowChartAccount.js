@@ -11,9 +11,9 @@ import customStyles from '../../customTableStyle';
 
 
 function ShowChartAccount() {
-
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
+  const [userRightsData, setUserRightsData] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
@@ -37,6 +37,7 @@ function ShowChartAccount() {
       document.getElementById('addchartofacct').style.background = '#7795fa';
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.chartof_accounts_create === 'true') {
@@ -57,11 +58,10 @@ function ShowChartAccount() {
           return <p title='Edit Chart Of Account is Lock'>{row.account_sub_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.chartof_accounts_edit === 'true') {
+          if (userRightsData.chartof_accounts_edit === 'true') {
             return (
               <a title='Edit Chart Of Account' className='pb-1' href="EditChartAccount" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('ChartAccountsno', `${row.sno}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.account_sub_name}</a>
@@ -89,11 +89,10 @@ function ShowChartAccount() {
           return <p title='Edit Chart Of Account is Lock'>{row.account_name_code}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.chartof_accounts_edit === 'true') {
+          if (userRightsData.chartof_accounts_edit === 'true') {
             return (
               <a title='Edit Account Name Code' className='pb-1' href="EditAccountMinorCode" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountMinorCode', `${row.account_name_code}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.account_name_code}</a>
@@ -115,11 +114,10 @@ function ShowChartAccount() {
           return <p title='Edit Chart Of Account is Lock'>{row.account_type_code}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.chartof_accounts_edit === 'true') {
+          if (userRightsData.chartof_accounts_edit === 'true') {
             return (
               <a title='Edit account_type_code' className='pb-1' href="EditAccountname" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.account_type_code}</a>
@@ -145,13 +143,12 @@ function ShowChartAccount() {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.chartof_accounts_delete === 'true') {
+            if (userRightsData.chartof_accounts_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
