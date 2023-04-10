@@ -57,8 +57,6 @@ const InsertBill = async (req, res) => {
         else {
             res.send('Already');
         }
-
-
     }
     catch (err) {
         res.send(err)
@@ -80,7 +78,7 @@ const FilterBillReport = async (req, res) => {
             const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
             convert(varchar(15),bill_date,121) as billdate
             from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
-                     and '${lastDate}' and flagsave='post' order by sno desc`)
+             and '${lastDate}' and flagsave='post' order by sno desc`)
             res.send(result.recordset)
         }
         else {
@@ -89,7 +87,6 @@ const FilterBillReport = async (req, res) => {
                 from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
                          and '${lastDate}' and vend_id='${vendid}' and flagsave='post' order by sno desc`)
             res.send(result.recordset)
-
         }
 
     }
@@ -114,6 +111,7 @@ const getSaveBill = async (req, res) => {
 const GetBillData = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
+    console.log(org, voucher_no)
     try {
         await sql.connect(sqlConfig)
         const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate,convert(varchar(15),due_date,121) as duedate,

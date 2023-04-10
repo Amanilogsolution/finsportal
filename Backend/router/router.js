@@ -44,6 +44,7 @@ const Twofa = require('../controller/2faAuthentication/Twofa')
 const UserRightsController = require('../controller/UserRolePermission/userRoll')
 const pomasterController = require('../controller/Purchases/PurchaseOrder/po')
 const CNController = require('../controller/Sales/CreditNote')
+const DNController = require('../controller/Purchases/DebitNote/DN')
 
 //Routes
 
@@ -362,9 +363,6 @@ router.post('/GetBillVendorid',BillController.GetBillVendorID)
 router.post('/filterInvoicebyDN',BillController.filterInvoicebyDN)
 
 
-
-
-
 router.post('/adduserrole',UserRightsController.AddUserRole)
 router.post('/getuserrole',UserRightsController.getUserRole)
 router.post('/activeuserrole',UserRightsController.ActiveUserRole)
@@ -386,6 +384,12 @@ router.post('/changecstatus',CNController.ChangeCNStatus)
 router.post('/getcndata',CNController.getCNData)
 router.post('/insertcnsub',CNController.InsertCnSub)
 router.post('/selectcnsubdetails',CNController.SelectCnSubDetails)
+
+router.post('/insertdebitnote',DNController.InsertDebitNote)
+router.post('/alldndata',DNController.AllDNData)
+router.post('/changednstatus',DNController.ChangeDNStatus)
+router.post('/getdndata',DNController.getDNData)
+
 
 
 module.exports = router;
