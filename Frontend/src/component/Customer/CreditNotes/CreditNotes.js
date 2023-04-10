@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails } from '../../../api/index'
+import './creditnote.css'
+import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails,locationAddress } from '../../../api/index'
+import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
     const [invoicesub, setInvoicesub] = useState([])
     const [data, setData] = useState({})
     const [subDetails, setSubDetails] = useState([])
+    const [location, setLocation] = useState([])
+    const [custname, setCustname] = useState('')
     const [ChargeCodeSub, setChargeCodeSub] = useState([{
         cn_no: '',
         invoice_no: '',
@@ -25,17 +29,18 @@ function CreditNotes() {
             const org = localStorage.getItem('Organisation')
             const result = await getCNData(org, localStorage.getItem('cnno'))
             setData(result)
-            console.log(result)
+            
             const result1 = await GetSubInvoice(org, result.inv_no)
-            console.log(result1)
-
-
+            setInvoicesub(result1)
+            const result2 = await locationAddress(org, result.location)
+            setLocation(result2)
+            
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
             setSubDetails(Subdata)
-
-            setInvoicesub(result1)
+            
             if (result1.length) {
                 document.getElementById('Accountname').value = result1[0].consignee
+                setCustname(result1[0].consignee)
             }
         }
         fetchData()
@@ -106,7 +111,6 @@ function CreditNotes() {
 
         ChargeCodeSub.forEach(async (item, index) => {
             var result = await InsertCnSub(org, item, userid)
-            console.log(result)
             if (result == "Added") {
                 window.location.href = "./CreditNotesUI"
             }
@@ -125,118 +129,121 @@ function CreditNotes() {
                 <div className="content-wrapper">
                     <div className="container-fluid">
                         <h3 className="pt-3 pl-4"><span className='text-danger'>C</span>redit Note</h3>
-                                <div className="card">
-                                    <article className="card-body" >
-                                        <form autoComplete="off">
-                                            <div className="form-row mt-2">
-                                                <div className="d-flex col-md-6">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Customer Name  </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" disabled />
-                                                </div>
-                                                <div className="d-flex col-md-6">
-                                                    <label className="col-md-4 col-form-label font-weight-normal">Location  </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.location} disabled />
-                                                </div>
-                                            </div>
+                        <div className="card">
+                            <article className="card-body" >
+                                <form autoComplete="off">
+                                    <div className="form-row mt-2">
+                                        <div className="d-flex col-md-6">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Customer Name  </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Accountname" disabled />
+                                        </div>
+                                        <div className="d-flex col-md-6">
+                                            <label className="col-md-4 col-form-label font-weight-normal">Location  </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={`${location.location_add1},${location.location_city},${location.location_state},${location.location_country}`} disabled />
+                                        </div>
+                                    </div>
 
-                                            <div className="form-row mt-2 ">
-                                                <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Credit Note </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Cn_no" value={data.cn_no} disabled />
-                                                </div>
-                                                <div className="d-flex col-md-6">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Credit Note Date </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.cndate} disabled />
-                                                </div>
-                                            </div>
+                                    <div className="form-row mt-2 ">
+                                        <div className="d-flex col-md-6 ">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Credit Note </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Cn_no" value={data.cn_no} disabled />
+                                        </div>
+                                        <div className="d-flex col-md-6">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Credit Note Date </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.cndate} disabled />
+                                        </div>
+                                    </div>
 
-                                            <div className="form-row mt-2">
-                                                <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Invoice Date </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.inv_Date} disabled />
-                                                </div>
-                                                <div className="d-flex col-md-6 ">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Financial Year </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.fins_year} disabled />
-                                                </div>
-                                            </div>
+                                    <div className="form-row mt-2">
+                                        <div className="d-flex col-md-6 ">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Invoice Date </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.inv_Date} disabled />
+                                        </div>
+                                        <div className="d-flex col-md-6 ">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Financial Year </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.fins_year} disabled />
+                                        </div>
+                                    </div>
 
-                                            <div className="form-row mt-2">
-                                                <div className="d-flex col-md-6">
-                                                    <label className="col-md-4 col-form-label font-weight-normal" >Invoice Number </label>
-                                                    <input type="text" className="form-control col-md-6 text-center" id="Invoice" value={data.inv_no} disabled />
-                                                </div>
-                                            </div>
-                                            <table className="table table-bordered mt-3">
-                                                <thead>
-                                                    <tr className='text-center'>
-                                                        <th scope="col" >Activity</th>
-                                                        <th scope="col" >Charge Code</th>
-                                                        <th scope="col" >Amount</th>
-                                                        <th scope="col" >AmountBal</th>
-                                                        <th scope="col" >PassAmt</th>
-                                                        <th scope="col" >Remark</th>
-                                                        <th scope="col" >AmountLeft</th>
+                                    <div className="form-row mt-2">
+                                        <div className="d-flex col-md-6">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Invoice Number </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Invoice" value={data.inv_no} disabled />
+                                        </div>
+                                    </div>
+                                    <div className='cn_table_div'>
+                                        <table className="table table-bordered mt-3">
+                                            <thead>
+                                                <tr className='text-center'>
+                                                    <th scope="col" >Activity</th>
+                                                    <th scope="col" >Charge Code</th>
+                                                    <th scope="col" >Amount</th>
+                                                    <th scope="col" >AmountBal</th>
+                                                    <th scope="col" >PassAmt</th>
+                                                    <th scope="col" >Remark</th>
+                                                    <th scope="col" >AmountLeft</th>
 
-                                                    </tr>
-                                                </thead>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    invoicesub.map((item, index) => (
+                                                        <tr key={index} className='text-center'>
+                                                            <td className="col-md-2 px-1  " id={`Activity${index}`}>{item.billing_code}</td>
+                                                            <td className="col-md-2 px-1  " id={`Item${index}`}>{item.minor}</td>
+                                                            <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td>
+                                                            <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
+                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
+                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="text" id={`Remark${index}`} placeholder="remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, item.sno) }} /></td>
+                                                            <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className='d-flex justify-content-end' >
+                                        <div style={{ padding: "15px", width: '330px', backgroundColor: "#eee", borderRadius: "7px" }}>
+                                            <table style={{ width: "100%" }}>
                                                 <tbody>
-                                                    {
-                                                        invoicesub.map((item, index) => (
-                                                            <tr key={index} className='text-center'>
-                                                                <td className="col-md-2 px-1  " id={`Activity${index}`}>{item.billing_code}</td>
-                                                                <td className="col-md-2 px-1  " id={`Item${index}`}>{item.minor}</td>
-                                                                <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td>
-                                                                <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
-                                                                <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
-                                                                <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="text" id={`Remark${index}`} placeholder="remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, item.sno) }} /></td>
-                                                                <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
-                                                            </tr>
-                                                        ))
-                                                    }
+                                                    <tr>
+                                                        <td>Net Total</td>
+                                                        <td>{data.total_amt}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>CN Approved Amount</td>
+                                                        <td>{data.total_cn_amt}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h3> Total(₹)</h3></td>
+                                                        <td><h4>{data.net_amt}</h4></td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
-                                            <div className='d-flex justify-content-end' >
-                                                <div style={{  padding: "15px", width:'330px', backgroundColor: "#eee", borderRadius: "7px" }}>
-                                                    <table style={{ width: "100%" }}>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Total</td>
-                                                                <td>{data.total_amt}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>CN Approved Amount</td>
-                                                                <td>{data.total_cn_amt}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><h3>Net Total(₹)</h3></td>
-                                                                <td><h4>{data.net_amt}</h4></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
 
-                                            <div className="form-group">
-                                                <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
-                                                        Post
-                                                    </button>
-                                                    <button id="clear" onClick={(e) => {
-                                                        e.preventDefault(); window.location.href = '/CreditNotesUI'
-                                                    }} name="clear" className="btn btn-secondary ml-2">
-                                                        Cancel
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </article>
-                            </div>
+                                    <div className="form-group">
+                                        <div className="col-md-20" style={{ width: "100%" }}>
+                                            <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
+                                                Post
+                                            </button>
+                                            <button id="clear" onClick={(e) => {
+                                                e.preventDefault(); window.location.href = '/CreditNotesUI'
+                                            }} name="clear" className="btn btn-secondary ml-2">
+                                                Cancel
+                                            </button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log(ChargeCodeSub); console.log(data) }}>  Preview</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </article>
+                        </div>
                     </div>
                 </div>
                 <Footer />
             </div>
+            <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname}/>
         </div>
     )
 }
