@@ -17,6 +17,7 @@ const ShowCurrency = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const ShowCurrency = () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'currency')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
@@ -59,11 +61,10 @@ const ShowCurrency = () => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return <p title='Edit Currency is Lock'>{row.currency_name}</p>
         } else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.currency_edit === 'true') {
+          if (userRightsData.currency_edit === 'true') {
             return (
               <a title='Edit Currency' className='pb-1' href="EditCurrency" id={`editactionbtns${row.sno}`}
                 onClick={() => localStorage.setItem('CurrencySno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}>{row.currency_name}</a>
@@ -99,18 +100,16 @@ const ShowCurrency = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.currency_delete === 'true') {
+            if (userRightsData.currency_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
-                    console.log(status)
                     await deleteCurrency(localStorage.getItem('Organisation'),row.sno, status)
                     window.location.href = 'ShowCurrency'
                   }}>

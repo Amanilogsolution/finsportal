@@ -17,6 +17,7 @@ const ShowState = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const ShowState = () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'state')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
@@ -57,11 +59,10 @@ const ShowState = () => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return  <p title='Edit State is Lock'>{row.state_name}</p>
         } else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.state_edit === 'true') {
+          if (userRightsData.state_edit === 'true') {
             return (
               <a title='Edit State' className='pb-1' href="EditState" id={`editactionbtns${row.sno}`}  onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} 
               style={{ borderBottom: '3px solid blue' }}>{row.state_name}</a>
@@ -106,13 +107,12 @@ const ShowState = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.state_delete === 'true') {
+            if (userRightsData.state_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

@@ -15,7 +15,6 @@ export default function SavePurchaseOrder() {
       const org = localStorage.getItem('Organisation')
 
       const result = await getSavePO(org)
-      console.log(result)
       setData(result)
       fetchRoles()
     }
@@ -67,17 +66,6 @@ export default function SavePurchaseOrder() {
       selector: 'po_location',
       sortable: true
     },
-    
-
-
-    // {
-    //   name: "Actions",
-    //   sortable: false,
-    //   selector: row => row.null,
-    //   cell: (row) => [
-    //      <button  type="button" onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
-    //   ]
-    // }
   ]
 
 

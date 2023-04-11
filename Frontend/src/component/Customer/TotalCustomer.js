@@ -11,6 +11,7 @@ import customStyles from '../customTableStyle'
 import './TotalCustomer.css'
 
 const TotalCustomer = () => {
+  const [userRightsData, setUserRightsData] = useState([]);
 
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
@@ -37,11 +38,6 @@ const TotalCustomer = () => {
       setNewmcountid(getids[0].mcust_count)
       setNewcountid(getids[0].cust_count)
 
-      // if(window.innerWidth<620 ){
-      //   setActionToogle(true)
-      //   document.getElementById('addtogglebtn').style.display='none'
-      // }
-
     }
     fetchdata();
 
@@ -51,6 +47,7 @@ const TotalCustomer = () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'customer')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
@@ -80,11 +77,10 @@ const TotalCustomer = () => {
           return <p title='Edit Customer is Lock'>{row.cust_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.customer_edit === 'true') {
+          if (userRightsData.customer_edit === 'true') {
             return (
               <a title='Edit Customer' className='pb-1' href="EditCustomer" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('CustSno', `${row.sno}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.cust_name}</a>
@@ -96,8 +92,6 @@ const TotalCustomer = () => {
 
         }
       }
-
-
     },
     {
       name: 'Company Name',
@@ -132,13 +126,12 @@ const TotalCustomer = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.customer_delete === 'true') {
+            if (userRightsData.customer_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

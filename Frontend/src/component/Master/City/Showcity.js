@@ -17,6 +17,7 @@ const Showcity = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const Showcity = () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'city')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
@@ -59,14 +61,13 @@ const Showcity = () => {
           return <p title='Edit City is Lock'>{row.city_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.city_edit === 'true') {
+          if (userRightsData.city_edit === 'true') {
             return (
               <a title='Edit City' className='pb-1' href="EditCity" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('citySno', `${row.sno}`)}
-               style={{ borderBottom: '3px solid blue' }}>{row.city_name}</a>
+                style={{ borderBottom: '3px solid blue' }}>{row.city_name}</a>
             );
           }
           else {
@@ -104,13 +105,12 @@ const Showcity = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.city_delete === 'true') {
+            if (userRightsData.city_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

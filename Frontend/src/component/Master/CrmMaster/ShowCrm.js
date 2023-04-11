@@ -9,6 +9,7 @@ import customStyles from '../../customTableStyle';
 const ShowCrm = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const ShowCrm = () => {
       document.getElementById('addcrmbtn').style.background = '#7795fa';
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'crm')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.crm_create === 'true') {
@@ -75,13 +77,12 @@ const ShowCrm = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.crm_delete === 'true') {
+            if (userRightsData.crm_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

@@ -11,6 +11,7 @@ import customStyles from '../../customTableStyle';
 const ShowFinancialyear = () => {
   const [data, setData] = useState([{}])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -33,6 +34,7 @@ const ShowFinancialyear = () => {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'fincial_year')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.fincial_year_create === 'true') {
@@ -54,11 +56,10 @@ const ShowFinancialyear = () => {
           return <p title='Edit Fincial Year is Lock'>{row.fin_year}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.fincial_year_edit === 'true') {
+          if (userRightsData.fincial_year_edit === 'true') {
             return (
               <a title='Edit Fincial Year' className='pb-1' href="/Updatefincialyear" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('FinsyearSno', `${row.sno}`)}
                style={{ borderBottom: '3px solid blue' }}>{row.fin_year}</a>
@@ -111,13 +112,12 @@ const ShowFinancialyear = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.fincial_year_delete === 'true') {
+            if (userRightsData.fincial_year_delete === 'true') {
               return (
                   <input type="checkbox" id={`deleteselect${row.sno}`}  checked={row.status === 'Active' ? true : false} onChange={async () => {
                     const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
