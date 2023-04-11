@@ -54,7 +54,7 @@ const AddUser = () => {
       const result = await InsertUser(employee_name, role, warehouse, user_name,
         password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'));
 
-      const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url, role)
+      const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url, role,phone)
       if (result === 'Added' && loginInsert === "Added") {
         alert('Data Added')
         window.location.href = '/ShowUser';

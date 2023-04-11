@@ -1065,7 +1065,8 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 update_user_name varchar(50) NULL,
                 update_system_name varchar(100) NULL,
                 update_ip_address varchar(50) NULL,
-                status varchar(30) NULL
+                status varchar(30) NULL,
+                bill_sub_sno nvarchar(100) NULL
             );
             `)
             res.send('created')

@@ -9,6 +9,7 @@ import customStyles from '../customTableStyle';
 
 const ShowItem = () => {
   const [data, setData] = useState([])
+  const [userRightsData, setUserRightsData] = useState([]);
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
 
@@ -34,6 +35,7 @@ const ShowItem = () => {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.items_create === 'true') {
@@ -56,11 +58,11 @@ const ShowItem = () => {
           return <p title='Edit Item is Lock'>{row.item_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+      
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.items_edit === 'true') {
+          if (userRightsData.items_edit === 'true') {
             return (
               <a title='Edit Item' className='pb-1' href="EditItem" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('ItemsSno', `${row.sno}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.item_name}</a>
@@ -114,13 +116,13 @@ const ShowItem = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+        
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.items_delete === 'true') {
+            if (userRightsData.items_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

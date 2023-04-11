@@ -5,8 +5,8 @@ import { CheckLoginUser, ChangeDNStatus } from '../../../../api/index'
 
 const CNDetails = (props) => {
     const [data, setData] = useState([])
-    const [sno,setSno] = useState()
-   
+    const [sno, setSno] = useState()
+
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
@@ -15,9 +15,9 @@ const CNDetails = (props) => {
         const result = await CheckLoginUser(useremail, userpassword)
         console.log(result)
         if (result === 'Confirmed') {
-            const status = await ChangeDNStatus(localStorage.getItem('Organisation'),'Confirmed',sno)
+            const status = await ChangeDNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
             console.log(status)
-            if(status){
+            if (status) {
                 window.location.reload()
             }
         }
@@ -54,22 +54,20 @@ const CNDetails = (props) => {
             sortable: false,
             selector: "null",
             cell: (row) => {
-                    if(row.dn_flag === "Confirmed"){
-                        return  <button id={`previewbtn${row.sno}`} type="button" onClick={(e) => {
-                            e.preventDefault();
-                            localStorage.setItem("dnno",row.sno)
-                            window.location.href = "/VendorCredits"
-                        }} className="btn btn-success"
-                             >{row.dn_flag} </button>
-                    }else{
-                      return  <button id='previewbtn' type="button" onClick={(e) => {
-                            e.preventDefault();
-                            setSno(row.sno)
-                        }} className="btn btn-danger"
-                            data-toggle="modal" data-target="#exampleModalCenter" >{row.dn_flag} </button>
-                    }
+                if (row.dn_flag === "Confirmed") {
+                    return <button id={`previewbtn${row.sno}`} type="button" onClick={(e) => {
+                        e.preventDefault(); localStorage.setItem("dnno", row.sno)
+                        window.location.href = "/VendorCredits"
+                    }} className="btn btn-success">{row.dn_flag} </button>
+                }
+                else {
+                    return <button id='previewbtn' type="button" onClick={(e) => {
+                        e.preventDefault(); setSno(row.sno)}}
+                        className="btn btn-danger"
+                        data-toggle={localStorage.getItem('Role') === 'Admin' ? `modal` : ''} data-target={localStorage.getItem('Role') === 'Admin' ? `#exampleModalCenter` : ''} >{row.dn_flag} </button>
+                }
             }
-                 
+
         }
 
     ]
@@ -77,7 +75,6 @@ const CNDetails = (props) => {
     useEffect(() => {
         async function fetchdata() {
             setData(props.displaydata)
-            console.log(props.displaydata)
         }
         fetchdata()
     }, [])
