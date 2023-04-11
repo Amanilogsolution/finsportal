@@ -1577,3 +1577,23 @@ export const getDNData = async (org,sno) => {
     const url = `http://localhost:3008/api/getdndata`
     return axios.post(url, {org,sno}).then(response => response.data).catch(error => console.log(error));
 }
+
+export const UpdateDebitNote = async (org,vend_id,bill_date,total_bill_amt,net_amt,location,total_gst_amt,cgst_amt,sgst_amt,igst_amt,tds_head,tds_amt,tds_per
+    ,expense_amt,fins_year,dn_no,voucher_no,user_id) => {
+    const url = `http://localhost:3008/api/updatedebitnote`
+    return axios.post(url, {org,vend_id,bill_date,total_bill_amt,net_amt,location,total_gst_amt,cgst_amt,sgst_amt,igst_amt,tds_head,tds_amt,tds_per
+        ,expense_amt,fins_year,dn_no,voucher_no,user_id}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertSubDebitNote = async (org,dn_no,voucher_no,bill_no,location,items,emp_name,glcode,amt,fin_year,balance_amt,pass_amt,remark,user_id,bill_sub_sno) => {
+    const url = `http://localhost:3008/api/insertsubdebitnote`
+    return axios.post(url, {org,dn_no,voucher_no,bill_no,location,items,emp_name,glcode,amt,fin_year,balance_amt,pass_amt,remark,user_id,bill_sub_sno}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const SelectDnSubDetails = async (org,dn_no,voucher_no,topcount) => {
+    const url = `http://localhost:3008/api/selectdnsubdetails`
+    return axios.post(url, {org,dn_no,voucher_no,topcount}).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
