@@ -1,53 +1,153 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
-import {getDNData,GetBillData} from "../../../api/index"
+import { getDNData, GetBillData, GetSubBillItems,UpdateDebitNote,InsertSubDebitNote,SelectDnSubDetails } from "../../../api/index"
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
 
 function VendorCredits() {
-    const [totalValues, setTotalValues] = useState([1])
-    const [amount, setAmount] = useState()
-    const [billdata,setBillData] = useState({})
-    const [Dndata,setDnData] = useState({})
+    const [billdata, setBillData] = useState({})
+    const [Dndata, setDnData] = useState({})
+    const [BillSub, setBillSub] = useState([])
+    const [subDetails, setSubDetails] = useState([])
+
+    const [DebitCodeSub, setDebitCodeSub] = useState([{
+        dn_no: '',
+        voucher_no: '',
+        bill_no: '',
+        location: '',
+        items: '',
+        emp_name: '',
+        gl_code: '',
+        amt: '',
+        pass_amt: '',
+        narration: '',
+        sub_id: '',
+        balance_amt:'',
+
+    }])
 
 
-    useEffect(() =>{
+    useEffect(() => {
         const fetchData = async () => {
             const org = localStorage.getItem('Organisation')
             const result = await getDNData(org, localStorage.getItem('dnno'))
-            console.log(result)
             setDnData(result)
 
-            const BillData = await GetBillData(org,result.voucher_no)
+            const BillData = await GetBillData(org, result.voucher_no)
             setBillData(BillData)
-            console.log(BillData)
 
+            const BillSub = await GetSubBillItems(org, result.voucher_no)
+            setBillSub(BillSub)
+
+            const Subdata = await SelectDnSubDetails(org,result.dn_no,result.voucher_no,BillSub.length)
+            setSubDetails(Subdata)
         }
         fetchData()
+    }, [])
 
+    const handleChangePassAmount = (value, index, id) => {
+        let dn_no = document.getElementById('DnAmount').value
+        let voucher_no = document.getElementById('Voucher_no').value
+        let bill_no = document.getElementById('Bill_no').value
+        let location = BillSub[index]['location']
+        let items = document.getElementById(`Items${index}`).innerHTML
+        let emp_name = BillSub[index]['emp_name']
+        let gl_code = document.getElementById(`glCode${index}`).innerHTML
+        let amt = document.getElementById(`Amt${index}`).innerHTML
+        let Balancevalue = amt - value
+        let Remark = document.getElementById(`Remark${index}`).value
 
-    },[])
+        if (Balancevalue < 0) {
+            alert(`You cannot pass More than ${amt}`)
+            document.getElementById(`PassAmount${index}`).value = ''
+            document.getElementById(`AmountLeft${index}`).innerHTML = amt
+            return
+        } else {
+            setTimeout(() => {
+                DebitCodeSub[index] = {
+                    dn_no: dn_no,
+                    voucher_no: voucher_no,
+                    bill_no: bill_no,
+                    location: location,
+                    items: items,
+                    emp_name: emp_name,
+                    gl_code: gl_code,
+                    amt: amt,
+                    pass_amt: value,
+                    narration: Remark,
+                    sub_id: id,
+                    balance_amt:Balancevalue
+                }
+                document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
 
-    const handleChange = (e) => {
-        var desktop = e.target.value
-        if (desktop === 'Desktop') {
-            document.getElementById("Upload").click()
+            }, 1000)
         }
     }
 
+    const handleChangePassRemark = (value, index, id) => {
+        let dn_no = document.getElementById('DnAmount').value
+        let voucher_no = document.getElementById('Voucher_no').value
+        let bill_no = document.getElementById('Bill_no').value
+        let location = BillSub[index]['location']
+        let items = document.getElementById(`Items${index}`).innerHTML
+        let emp_name = BillSub[index]['emp_name']
+        let gl_code = document.getElementById(`glCode${index}`).innerHTML
+        let amt = document.getElementById(`Amt${index}`).innerHTML
+        let Balancevalue = document.getElementById(`PassAmount${index}`).value
+        let bal =document.getElementById(`AmountLeft${index}`).innerHTML
 
-
-    const handleBlur = () => {
-        const quality = document.getElementById('Quality').value
-        const rate = document.getElementById('Rate').value
-        console.log(quality, rate)
-        console.log(quality * rate)
-        setAmount(quality * rate)
+        setTimeout(() => {
+            DebitCodeSub[index] = {
+                dn_no: dn_no,
+                voucher_no: voucher_no,
+                bill_no: bill_no,
+                location: location,
+                items: items,
+                emp_name: emp_name,
+                gl_code: gl_code,
+                amt: amt,
+                pass_amt: Balancevalue,
+                narration: value,
+                sub_id: id,
+                balance_amt:bal
+            }
+        }, 1000)
     }
 
+    const handleClick = async(e) => {
+        e.preventDefault();
+        const org = localStorage.getItem('Organisation')
+        let vend_id = billdata.vend_id
+        let voucher_no = Dndata.voucher_no
+        let bill_date = billdata.billdate
+        let total_bill_amt = billdata.bill_amt
+        let net_amt = billdata.total_bill_amt
+        let location = billdata.location
+        let total_gst_amount = billdata.taxable_amt
+        let cgst_amount = billdata.cgst_amt
+        let sgst_amount = billdata.sgst_amt
+        let igst_amount = billdata.igst_amt
+        let tds_head = billdata.tds_head
+        let tds_amt = billdata.tds_amt
+        let tds_per = billdata.tds_per
+        let expense_amt = billdata.expense_amt
+        let fins_year = billdata.fins_year
+        const dn_no = Dndata.dn_no
+        const user_id = localStorage.getItem('User_id')
+
+        const result = await UpdateDebitNote(org,vend_id,bill_date,total_bill_amt,net_amt,location,total_gst_amount,cgst_amount,sgst_amount,igst_amount,tds_head,tds_amt,tds_per
+            ,expense_amt,fins_year,dn_no,voucher_no,user_id)
+            console.log(result)
+        DebitCodeSub.forEach(async(item) =>{
+            const SubDn = await InsertSubDebitNote(org,dn_no,voucher_no,item.bill_no,item.location,item.items,item.emp_name,item.gl_code,item.amt,fins_year,item.balance_amt,item.pass_amt,item.narration,user_id,item.sub_id) 
+        })
+        if (result == "Added") {
+            window.location.href = "./DebitNotes"
+        }
 
 
-  
+    }
+
     return (
         <div>
             <div className="wrapper">
@@ -63,98 +163,84 @@ function VendorCredits() {
                                 <div className="card">
                                     <article
                                         className="card-body" >
-                                        <h3 className="text-left"> New Vendor Credits</h3>
+                                        <h3 className="text-left"> New Debit Note</h3>
                                         <br />
-
                                         <form autoComplete="off">
-                                        <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md-4">
-                                                <input type="text" className="form-control col" id="Accountname"  value={billdata.location} />
-
+                                            <div className="form-row mt-2">
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Vendor Name <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={billdata.vend_name} disabled />
+                                                </div>
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Location <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={billdata.location} disabled />
                                                 </div>
                                             </div>
-                                            
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Location<span style={{ color: "red" }}>#</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={billdata.vend_name} />
+                                            <div className="form-row mt-2">
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Voucher Number <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Voucher_no" value={billdata.vourcher_no} disabled />
                                                 </div>
-                                            </div>
-
-                                         
-
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Voucher Number</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={billdata.vourcher_no}  />
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Voucher Date <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={billdata.voudate} disabled />
                                                 </div>
                                             </div>
 
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Voucher Date</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-5" id="Accountname" value={billdata.voudate}  />
+                                            <div className="form-row mt-2">
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Bill Number <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Bill_no" value={billdata.bill_no} disabled />
+                                                </div>
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Bill Date <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={billdata.billdate} disabled />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal">Date<span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-5" id="Accountname" placeholder="EST-00001" />
+                                            <div className="form-row mt-2">
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >DN Number <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="DnAmount" value={Dndata.dn_no} disabled />
+                                                </div>
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Dn Date <span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={Dndata.dn_Date} disabled />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Bill Number</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={billdata.bill_no}  />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Bill Date</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-5" id="Accountname" value={billdata.billdate}  />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >DN Number</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={Dndata.dn_no}  />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Dn Date</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-5" id="Accountname" value={billdata.dn_Date}  />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >DN Amount</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" value={Dndata.total_dn_amt}  />
+                                            <div className="form-row mt-2">
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >DN Amount<span style={{ color: "red" }}>*</span> </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={Dndata.total_dn_amt} disabled />
                                                 </div>
                                             </div>
                                             <hr />
-                                            <table class="table">
+                                            <table className="table table-bordered">
                                                 <thead>
-                                                    <th scope="col">Iteam Details</th>
-                                                    <th scope="col">Quality</th>
-                                                    <th scope="col">Rate</th>
+                                                    <th scope="col">Item</th>
+                                                    <th scope="col">GL Code</th>
                                                     <th scope="col">Amount</th>
+                                                    <th scope="col">Balance Amount</th>
+                                                    <th scope="col">passAmount</th>
+                                                    <th scope="col">Narration</th>
+                                                    <th scope="col">AmountLeft</th>
+
+
                                                 </thead>
                                                 <tbody>
                                                     {
-                                                        totalValues.map((element, index) => (
+                                                        BillSub.map((element, index) => (
                                                             <tr key={index}>
-                                                                <td><input style={{ border: "none" }} type="text" placeholder="Type Items" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Quality" onBlur={handleBlur} placeholder="0" /></td>
-                                                                <td><input style={{ border: "none" }} type="number" id="Rate" onBlur={handleBlur} placeholder="0.00" /></td>
-                                                                <td>{amount}</td>
-                                                            </tr>
+                                                                <td className="col-md-2 px-1 text-center" id={`Items${index}`}>{element.item_name}</td>
+                                                                <td className="col-md-2 px-1 text-center" id={`glCode${index}`}>{element.glcode}</td>
+                                                                <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{element.amt}</td>
+                                                                <td className="col-md-2 px-1 text-center">{subDetails.length>0? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt:element.amt}</td>
+                                                                <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="number" id={`PassAmount${index}`} placeholder="Pass Amount" onChange={(e) => { handleChangePassAmount(e.target.value, index, element.sno) }} /></td>
+                                                                <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="text" id={`Remark${index}`} placeholder="Pass Remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, element.sno) }} /></td>
+                                                                <td className="col-md-2 px-1 text-center" id={`AmountLeft${index}`}></td>
 
+                                                            </tr>
                                                         ))
                                                     }
-
                                                 </tbody>
                                             </table>
                                             <hr />
@@ -165,50 +251,58 @@ function VendorCredits() {
                                                         <div className="d-flex col-md">
                                                             <textarea type="text" className="form-control " rows="3" id="Accountname" placeholder="Looking forward for your bussiness "></textarea>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                                 <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                                     <table style={{ width: "100%" }}>
-                                                        <thead></thead>
-                                                        <tbody>
+                                                        <thead>
                                                             <tr>
-                                                                <td>Sub Total</td>
+                                                                <th scope="col"></th>
+                                                                <th scope="col"></th>
+                                                                <th scope="col"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody style={{ position: "relative" }}>
+                                                            <tr scope="row">
+                                                                <td>Net Total</td>
                                                                 <td></td>
-                                                                <td>0.00</td>
+                                                                <td>{billdata.bill_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Discount</td>
-                                                                <td><input type="" /></td>
-                                                                <td>0.00</td>
+                                                                <td>IGST</td>
+                                                                <td></td>
+                                                                <td>{billdata.igst_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input placeholder="Adjustment" /></td>
-                                                                <td><input type="" /></td>
-                                                                <td>0.00</td>
+                                                                <td>CGST</td>
+                                                                <td></td>
+                                                                <td>{billdata.cgst_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>TCS</td>
-                                                                <td><input type="text" placeholder="Select Tax" /></td>
-                                                                <td>0.00</td>
+                                                                <td>SGST</td>
+                                                                <td></td>
+                                                                <td>{billdata.sgst_amt}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total GST</td>
+                                                                <td></td>
+                                                                <td>{billdata.taxable_amt}</td>
                                                             </tr>
                                                             <br />
                                                             <tr>
                                                                 <td><h3>Total(₹)</h3></td>
                                                                 <td></td>
-                                                                <td>0.00</td>
+                                                                <td>{billdata.total_bill_amt}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
-
                                                 </div>
                                             </div>
-                                           
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger">
-                                                        Save and Send
+                                                    <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
+                                                        Save
                                                     </button>
                                                     <button id="clear" onClick={(e) => {
                                                         e.preventDefault(); window.location.href = '/home'

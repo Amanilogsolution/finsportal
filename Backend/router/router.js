@@ -389,6 +389,10 @@ router.post('/insertdebitnote',DNController.InsertDebitNote)
 router.post('/alldndata',DNController.AllDNData)
 router.post('/changednstatus',DNController.ChangeDNStatus)
 router.post('/getdndata',DNController.getDNData)
+router.post('/updatedebitnote',DNController.UpdateDebitNote)
+router.post('/insertsubdebitnote',DNController.InsertSubDebitNote)
+router.post('/selectdnsubdetails',DNController.SelectDnSubDetails)
+
 
 
 
