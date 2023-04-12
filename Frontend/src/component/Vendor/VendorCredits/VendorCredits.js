@@ -232,26 +232,19 @@ function VendorCredits() {
                                                             <tr key={index}>
                                                                 <td className="col-md-2 px-1 text-center" id={`Items${index}`}>{element.item_name}</td>
                                                                 <td className="col-md-2 px-1 text-center" id={`glCode${index}`}>{element.glcode}</td>
-                                                                <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{element.amt}</td>
-                                                                <td className="col-md-2 px-1 text-center">{subDetails.length>0? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt:element.amt}</td>
+                                                                <td className="col-md-2 px-1 text-center">{element.amt}</td>
+                                                                <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{subDetails.length>0? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt:element.amt}</td>
                                                                 <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="number" id={`PassAmount${index}`} placeholder="Pass Amount" onChange={(e) => { handleChangePassAmount(e.target.value, index, element.sno) }} /></td>
                                                                 <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="text" id={`Remark${index}`} placeholder="Pass Remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, element.sno) }} /></td>
-                                                                <td className="col-md-2 px-1 text-center" id={`AmountLeft${index}`}></td>
-
+                                                                <td className="col-md-2 px-1 text-center text-danger" id={`AmountLeft${index}`}></td>
                                                             </tr>
                                                         ))
                                                     }
                                                 </tbody>
                                             </table>
-                                            <hr />
                                             <div style={{ display: "flex" }}>
                                                 <div style={{ width: "40%" }}>
-                                                    <div className="form mt-3">
-                                                        <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes</label>
-                                                        <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="3" id="Accountname" placeholder="Looking forward for your bussiness "></textarea>
-                                                        </div>
-                                                    </div>
+                                                   
                                                 </div>
                                                 <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                                     <table style={{ width: "100%" }}>
@@ -300,7 +293,7 @@ function VendorCredits() {
                                             </div>
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
-                                                <div className="col-md-20" style={{ width: "100%" }}>
+                                                <div className="col-md-20 " style={{ width: "100%" }}>
                                                     <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
                                                         Save
                                                     </button>
