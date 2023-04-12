@@ -16,6 +16,7 @@ const ShowUnit = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -24,13 +25,6 @@ const ShowUnit = () => {
       const result = await TotalUnit(Token, org)
       setData(result)
       fetchRoles()
-   
-      // }
-      // if (UserRights.unit_delete === 'true') {
-      //   for (let i = 0; i < result.length; i++) {
-      //     document.getElementById(`deletebtn${result[i].sno}`).style.display = "block"
-      //   }
-      // }
     }
     fetchdata()
   }, [])
@@ -39,6 +33,7 @@ const ShowUnit = () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
@@ -65,11 +60,10 @@ const ShowUnit = () => {
           return <p title='Edit Unit is Lock'>{row.unit_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.unit_edit === 'true') {
+          if (userRightsData.unit_edit === 'true') {
             return (
               <a title='Edit Unit' className='pb-1' href="EditUnit" id={`editactionbtns${row.sno}`}
                 onClick={() => localStorage.setItem('unitSno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.unit_name}</a>
@@ -102,13 +96,12 @@ const ShowUnit = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.unit_delete === 'true') {
+            if (userRightsData.unit_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
@@ -176,11 +169,11 @@ const ShowUnit = () => {
     }
     else {
       const result = await ImportUnit(importdata, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-      if (!(result == "Data Added")) {
+      if (!(result === "Data Added")) {
         setBackenddata(true);
         setDuplicateDate(result)
       }
-      else if (result == "Data Added") {
+      else if (result === "Data Added") {
         setBackenddata(false);
         document.getElementById("showdataModal").style.display = "none";
         alert("Data Added")
@@ -194,7 +187,7 @@ const ShowUnit = () => {
   //##########################  for convert array to json start  #################################
 
   const handleClick = () => {
-    if (importdata.length == 0) {
+    if (importdata.length === 0) {
       alert("please select the file")
       window.location.reload();
     }

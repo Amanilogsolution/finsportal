@@ -1,0 +1,6 @@
+
+@media screen and (max-width:768px) {
+    .cn_table_div{
+        overflow: auto;
+     }
+}

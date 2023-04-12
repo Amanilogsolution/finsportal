@@ -19,6 +19,7 @@ const TotalLocation = () => {
   let [errorno, setErrorno] = useState(0);
   const [btntype, setBtntype] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const TotalLocation = () => {
       document.getElementById('addbranchbtn').style.background = '#7795fa';
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'branch')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.branch_create === 'true') {
@@ -65,11 +67,10 @@ const TotalLocation = () => {
           return <p title='Edit Location is Lock'>{row.location_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.branch_edit === 'true') {
+          if (userRightsData.branch_edit === 'true') {
             return (
               <a title='Edit Location' className='pb-1' href="EditLocation" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('location_id', `${row.location_id}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.location_name}</a>
@@ -115,13 +116,12 @@ const TotalLocation = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.branch_delete === 'true') {
+            if (userRightsData.branch_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
@@ -157,11 +157,10 @@ const TotalLocation = () => {
           return
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.branch_create === 'true') {
+          if (userRightsData.branch_create === 'true') {
             return (
               <div id={`editactionbtns${row.sno}`}>
                 <a title="Add location Address" href="AddOrgAddress" className='px-0'>

@@ -9,6 +9,7 @@ import customStyles from '../../customTableStyle';
 const ShowEmployee = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -32,6 +33,7 @@ const ShowEmployee = () => {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'employee')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
     if (UserRights.employee_create === 'true') {
       document.getElementById('addempbtn').style.display = "block";
@@ -64,13 +66,12 @@ const ShowEmployee = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.employee_delete === 'true') {
+            if (userRightsData.employee_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
@@ -100,19 +101,17 @@ const ShowEmployee = () => {
       name: "Actions",
       sortable: false,
       selector: 'null',
-      cell: (row) => 
-      {
+      cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
-          return 
+          return
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.employee_edit === 'true') {
+          if (userRightsData.employee_edit === 'true') {
             return (
-              <button className='p-1 px-2 btn-success' onClick={(e)=>{e.preventDefault();localStorage.setItem('citySno', `${row.sno}`);window.location.href='/editemployee'}}>Edit</button>
+              <button className='p-1 px-2 btn-success' onClick={(e) => { e.preventDefault(); localStorage.setItem('citySno', `${row.sno}`); window.location.href = '/editemployee' }}>Edit</button>
             );
           }
           else {
@@ -121,7 +120,7 @@ const ShowEmployee = () => {
 
         }
       }
-      
+
       // [
 
       //   <a title='View Document' href="/" id={`editactionbtns${row.sno}`} style={{ display: "none" }}>

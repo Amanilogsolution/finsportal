@@ -59,14 +59,15 @@ const InsertUserLogin = async (req, res) => {
     const org_db_name = req.body.org_db_name;
     const user_profile_url = req.body.user_profile_url;
     const UserRole = req.body.UserRole
+    const phone = req.body.phone
 
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into FINSDB.dbo.tbl_Login(user_id,user_name,location,comp_name,comp_ip,
-            user_password,login_uuid,org_name ,org_db_name,user_profile_url,UserRole)
-            values ('${user_id}','${user_name}','${location}','${comp_name}','${req.ip}','${user_password}','${uuid}','${comp_name}','${org_db_name}','${user_profile_url}','${UserRole}')`)
+            user_password,login_uuid,org_name ,org_db_name,user_profile_url,UserRole,phone_no,theme_btn_color,theme_type)
+            values ('${user_id}','${user_name}','${location}','${comp_name}','${req.ip}','${user_password}','${uuid}','${comp_name}','${org_db_name}','${user_profile_url}','${UserRole}','${phone}','primary','light')`)
         res.send('Added')
     }
     catch (err) {

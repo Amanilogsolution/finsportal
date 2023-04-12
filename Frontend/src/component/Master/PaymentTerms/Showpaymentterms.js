@@ -9,6 +9,7 @@ import customStyles from '../../customTableStyle';
 const ShowFincialTerm = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const ShowFincialTerm = () => {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'payment_terms')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.payment_terms_create === 'true') {
@@ -51,11 +53,10 @@ const ShowFincialTerm = () => {
           return <p title='Edit Payment Term is Lock'>{row.term}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.payment_terms_edit === 'true') {
+          if (userRightsData.payment_terms_edit === 'true') {
             return (
               <a title='Edit Payment Term' className='pb-1' href="UpdatePaymentTerm" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('TermSno', `${row.sno}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.term}</a>
@@ -87,13 +88,12 @@ const ShowFincialTerm = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.payment_terms_delete === 'true') {
+            if (userRightsData.payment_terms_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

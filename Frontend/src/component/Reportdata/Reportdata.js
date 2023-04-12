@@ -112,18 +112,16 @@ const Reportdata = () => {
   }
   return (
     <div className="wrapper">
+      <Header />
       {
         loading ?
           <>
-            {/* <div className="preloader flex-column justify-content-center align-items-center">
-              <div className="spinner-border" role="status"> </div>
-            </div> */}
-            <Header />
             <div className={`content-wrapper`}>
+            <div className="container-fluid">
               <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                 <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
 
-              <div className="container-fluid">
+              
                 <br /> <h3 className="text-left ml-5">Report</h3>
                 <div className="card w-100">
                   <article className={`card-body`}>

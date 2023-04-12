@@ -18,6 +18,7 @@ const TotalBank = () => {
   const [duplicateData, setDuplicateDate] = useState([])
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -27,20 +28,6 @@ const TotalBank = () => {
       const result = await totalBank(org);
       setData(result)
       fetchRoles()
-
-      // if (UserRights. === 'true') {
-      //   for (let i = 0; i < result.length; i++) {
-      //     document.getElementById(`editactionbtns${result[i].sno}`).style.display = "block";
-      //   }
-      // }
-
-      // if (UserRights.banking_delete === 'true') {
-      //   for (let i = 0; i < result.length; i++) {
-      //     document.getElementById(`deleteselect${result[i].sno}`).style.display = "block";
-      //   }
-      // }
-
-
     }
 
     fetchdata();
@@ -50,6 +37,7 @@ const TotalBank = () => {
     const org = localStorage.getItem('Organisation')
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'banking')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
@@ -81,11 +69,10 @@ const TotalBank = () => {
           return <p title='Edit Bank is Lock'>{row.account_no}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.banking_edit === 'true') {
+          if (userRightsData.banking_edit === 'true') {
             return (
               <a title='Edit Bank' className='pb-1' href="EditBank" id={`editactionbtns${row.sno}`}
                 onClick={() => localStorage.setItem('BankSno', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.account_no}</a>
@@ -123,8 +110,7 @@ const TotalBank = () => {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) =>
-      {
+      cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
@@ -133,13 +119,12 @@ const TotalBank = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.banking_delete === 'true') {
+            if (userRightsData.banking_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

@@ -27,9 +27,9 @@ export const UserLogout = async (user_id, user_name, btntheme, themetype) => {
     return axios.post(url, { user_id, user_name, btntheme, themetype }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const insertUserLogin = async (user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url, UserRole) => {
-    const url = 'https://finsbackend.awlinternational.com/api/InsertUserLogin'
-    return axios.post(url, { user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url, UserRole }).then(response => response.data).catch(error => console.log(error));
+export const insertUserLogin = async (user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url, UserRole,phone) => {
+    const url = 'http://localhost:3008/api/InsertUserLogin'
+    return axios.post(url, { user_id, user_name, location, comp_name, user_password, org_db_name, user_profile_url, UserRole,phone }).then(response => response.data).catch(error => console.log(error));
 }
 export const updateImage = async (user_id, user_profile_url) => {
     const url = `https://finsbackend.awlinternational.com/api/updateimage`

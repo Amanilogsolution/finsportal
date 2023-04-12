@@ -10,6 +10,7 @@ import customStyles from '../../../customTableStyle';
 const InvoiceSave = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -33,12 +34,15 @@ const InvoiceSave = () => {
       document.getElementById('addivoicebtn').style.background = '#7795fa';
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.invoice_create === 'true') {
       document.getElementById('addivoicebtn').style.display = "block";
     }
   }
+
+  
   const columns = [
     {
       name: 'Vendor name',
@@ -55,11 +59,10 @@ const InvoiceSave = () => {
           return <p title='Edit Invoice is Lock' className='pb-0'>{row.invoice_no}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.invoice_edit === 'true') {
+          if (userRightsData.invoice_edit === 'true') {
             return (
               <a title='Edit Invoice ' href="/EditInvoice" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('invoiceNo', `${row.invoice_no}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.invoice_no}</a>

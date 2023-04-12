@@ -10,6 +10,8 @@ import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle';
 
 const Showvendor = () => {
+    const [userRightsData, setUserRightsData] = useState([]);
+
     const [data, setData] = useState([])
     const [importdata, setImportdata] = useState([]);
     let [errorno, setErrorno] = useState(0);
@@ -51,6 +53,7 @@ const Showvendor = () => {
             document.getElementById('addvendbtn').style.background = '#7795fa';
         }
         const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+        setUserRightsData(UserRights)
         localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
         if (UserRights.vendor_create === 'true') {
@@ -102,13 +105,12 @@ const Showvendor = () => {
                     )
                 }
                 else {
-                    let role = JSON.parse(localStorage.getItem('RolesDetais'))
-                    if (!role) {
+                    if (!userRightsData) {
                         fetchRoles()
                         window.location.reload()
                     }
                     else {
-                        if (role.vendor_delete === 'true') {
+                        if (userRightsData.vendor_delete === 'true') {
                             return (
                                 <div className='droplist'>
                                     <select id={`deleteselect${row.sno}`} onChange={async (e) => {
@@ -143,11 +145,10 @@ const Showvendor = () => {
                     return
                 }
                 else {
-                    let role = JSON.parse(localStorage.getItem('RolesDetais'))
-                    if (!role) {
+                    if (!userRightsData) {
                         fetchRoles()
                     }
-                    if (role.vendor_edit === 'true') {
+                    if (userRightsData.vendor_edit === 'true') {
                         return (
                             <button title='Edit Vendor' className='btn-success px-1' href="" id={`editactionbtns${row.sno}`}
                                 onClick={() => { localStorage.setItem('VendorSno', `${row.sno}`); window.location.href = '/Editvendor' }}>Edit</button>

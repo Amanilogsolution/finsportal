@@ -15,6 +15,7 @@ function Showcompliances() {
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function Showcompliances() {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.compliances_create === 'true') {
@@ -102,13 +104,12 @@ function Showcompliances() {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.compliances_delete === 'true') {
+            if (userRightsData.compliances_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

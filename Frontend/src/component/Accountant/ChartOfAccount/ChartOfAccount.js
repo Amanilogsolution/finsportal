@@ -31,15 +31,18 @@ function ChartOfAccount() {
 
 
     if (Accountnamecode.length === 3) {
-      await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-      await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
+      const result = await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
+      const result2 = await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
+      console.log(result2)
     }
     else if (Accountnamecode.length === 6) {
       if (check === true) {
-        await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        const dataresult = await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        console.log(dataresult)
       }
       else {
-        await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        const dataresult2 = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+        console.log(dataresult2)
       }
     }
   }
@@ -189,7 +192,7 @@ function ChartOfAccount() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

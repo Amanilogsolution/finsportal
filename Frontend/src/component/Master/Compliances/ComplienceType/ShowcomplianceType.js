@@ -10,6 +10,7 @@ import customStyles from '../../../customTableStyle';
 function ShowcomplianceType() {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -33,6 +34,7 @@ function ShowcomplianceType() {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'comp_type')
+    setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.comp_type_create === 'true') {
@@ -50,11 +52,10 @@ function ShowcomplianceType() {
           return <p title='Edit Compliance Type is Lock'>{row.compliance_type}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
           }
-          if (role.comp_type_edit === 'true') {
+          if (userRightsData.comp_type_edit === 'true') {
             return (
               <a title='Edit Compliance Type' className='pb-1' href="EditComplianceType" id={`editactionbtns${row.sno}`}
                 onClick={() => localStorage.setItem('ComplianceSnoType', `${row.sno}`)} style={{ borderBottom: '3px solid blue' }}> {row.compliance_type}</a>
@@ -80,13 +81,12 @@ function ShowcomplianceType() {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.users_delete === 'true') {
+            if (userRightsData.comp_type_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
