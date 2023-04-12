@@ -11,7 +11,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location,custname }) => {
             setOrgdata(result)
         }
         fetchdata()
-    }, [data])
+    }, [])
 
     console.log('nhieh', ChargeCodeSub)
     return (

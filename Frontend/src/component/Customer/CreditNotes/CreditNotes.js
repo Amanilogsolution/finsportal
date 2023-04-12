@@ -6,6 +6,7 @@ import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails,locationAddre
 import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
+    const [sendRequest, setSendRequest] = useState(false);
     const [invoicesub, setInvoicesub] = useState([])
     const [data, setData] = useState({})
     const [subDetails, setSubDetails] = useState([])
@@ -26,6 +27,11 @@ function CreditNotes() {
 
     useEffect(() => {
         const fetchData = async () => {
+            if(sendRequest){
+                //send the request
+                setSendRequest(false);
+             }
+
             const org = localStorage.getItem('Organisation')
             const result = await getCNData(org, localStorage.getItem('cnno'))
             setData(result)
@@ -44,7 +50,7 @@ function CreditNotes() {
             }
         }
         fetchData()
-    }, [])
+    }, [sendRequest])
 
     const handleChangePassAmount = (value, index, id) => {
         let AmtBalance = document.getElementById(`BalanceAmount${index}`).innerHTML
@@ -63,7 +69,8 @@ function CreditNotes() {
             return
         } else {
             setTimeout(() => {
-                ChargeCodeSub[index] = {
+                let data = ChargeCodeSub
+                data[index] = {
                     cn_no: CN_Number,
                     invoice_no: Invoice_no,
                     activity: Activity,
@@ -74,6 +81,8 @@ function CreditNotes() {
                     remark: Remark,
                     sub_id: id
                 }
+                setChargeCodeSub(data)
+                setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
             }, 1000)
         }
@@ -89,7 +98,9 @@ function CreditNotes() {
         let PassAmount = document.getElementById(`PassAmount${index}`).value
 
         setTimeout(() => {
-            ChargeCodeSub[index] = {
+            let data = ChargeCodeSub
+
+            data[index] = {
                 cn_no: CN_Number,
                 invoice_no: Invoice_no,
                 activity: Activity,
@@ -100,6 +111,10 @@ function CreditNotes() {
                 remark: value,
                 sub_id: id
             }
+            setChargeCodeSub(data)
+            setSendRequest(true)
+
+
         }, 1000)
 
     }
@@ -228,12 +243,15 @@ function CreditNotes() {
                                             <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
                                                 Post
                                             </button>
+                                            <button id="save" name="save" className="btn btn-danger">
+                                                adsa
+                                            </button>
                                             <button id="clear" onClick={(e) => {
                                                 e.preventDefault(); window.location.href = '/CreditNotesUI'
                                             }} name="clear" className="btn btn-secondary ml-2">
                                                 Cancel
                                             </button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log(ChargeCodeSub); console.log(data) }}>  Preview</button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log(ChargeCodeSub); console.log(data) }}>Preview</button>
                                         </div>
                                     </div>
                                 </form>
@@ -243,7 +261,11 @@ function CreditNotes() {
                 </div>
                 <Footer />
             </div>
+            {
+                ChargeCodeSub.length>0?
             <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname}/>
+            :null
+            }
         </div>
     )
 }
