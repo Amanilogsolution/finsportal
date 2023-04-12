@@ -34,13 +34,14 @@
 }
 
 .cn-detailsPreview {
-    height: 140px;
+    min-height: 140px;
 }
 .cn-detailsPreview .cn-detailsPreview1{
     width: 50%;
 }
 .cn-detailsPreview .cn-detailsPreview1,.cn-detailsPreview2{
-    padding: 20px;
+    padding: 15px;
+    width: 50%;
 }
 .detail-head{
     font-size: 18px;

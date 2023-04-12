@@ -296,7 +296,7 @@ function VendorCredits() {
                                                 Save</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                 name="clear" className="btn ml-2 btn-secondary">Cancel</button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log('mwo', billdata); console.log('wnked',Dndata);console.log('yutu',DebitCodeSub) }}>  Preview</button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault();}}>  Preview</button>
                                         </div>
                                     </div>
                                 </form>
@@ -306,7 +306,8 @@ function VendorCredits() {
                 </div>
                 <Footer />
             </div>
-            <VendorCreditsPreview data={billdata} Dndata={Dndata} DebitCodeSub={DebitCodeSub}/>
+            <VendorCreditsPreview data={billdata} Dndata={Dndata} DebitCodeSub={DebitCodeSub} />
+
         </div>
     )
 }

@@ -84,7 +84,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                         </thead>
                                         <tbody>
                                             {
-                                                DebitCodeSub.length>1?
+                                               
                                                 DebitCodeSub.map((item, index) => (
                                                     <tr key={index}>
                                                         <td>{item.items}</td>
@@ -94,7 +94,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                                         <td>{item.pass_amt}</td>
                                                         <td>{item.narration}</td>
                                                     </tr>
-                                                )):null
+                                                ))
                                             }
                                         </tbody>
                                     </table>
