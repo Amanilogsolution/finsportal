@@ -322,8 +322,10 @@ function PurchaseOrder() {
                                             className="form-control col-md-4">
                                             <option value='' hidden>select vendor</option>
                                             {
+                                                vendorlist.length>0?
                                                 vendorlist.map((item, index) =>
                                                     <option key={index} value={item.vend_id}>{item.vend_name}</option>)
+                                                    :null
                                             }
                                         </select>
                                     </div>

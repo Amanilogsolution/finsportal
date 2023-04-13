@@ -482,7 +482,7 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
     contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
     contact_person_department, remark, org, User_id, year) => {
 
-    const url = `https://finsbackend.awlinternational.com/api/insertvendor`
+    const url = `http://localhost:3008/api/insertvendor`
     return axios.post(url, {
         mast_id, vend_id, vend_name,
         company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation, department,

@@ -9,7 +9,6 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
             let org = localStorage.getItem('Organisation');
             const result = await showOrganisation(org)
             setOrgdata(result)
-            console.log('nuw',DebitCodeSub,DebitCodeSub.length)
         }
         fetchdata()
     }, [DebitCodeSub])
@@ -70,7 +69,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
 
                                     </div>
                                 </div>
-                                 <div className='cn-orgPreview-items'>
+                                <div className='cn-orgPreview-items'>
                                     <table className='table table-bordered border border-danger'>
                                         <thead>
                                             <tr >
@@ -84,7 +83,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                         </thead>
                                         <tbody>
                                             {
-                                               
+
                                                 DebitCodeSub.map((item, index) => (
                                                     <tr key={index}>
                                                         <td>{item.items}</td>
@@ -99,14 +98,14 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                         </tbody>
                                     </table>
 
-                                </div> 
-                                <div className='cn-detailsTotalPreview' style={{height:'200px'}}>
+                                </div>
+                                <div className='cn-detailsTotalPreview' style={{ height: '200px' }}>
                                     <div className='cn-detailsTotalPreviewsub h-100 float-right rounded'>
                                         <table className='w-100 m-2'>
                                             <tbody>
                                                 <tr>
                                                     <th><h5>Net Amount: </h5></th>
-                                                    <th>{Dndata.net_amt}</th>
+                                                    <th>{data.net_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>IGST:  </h5></th>

@@ -318,7 +318,7 @@ const Showvendor = () => {
                     <h3>Vendor</h3>
                     <div className='d-flex'>
                         <button type="button" id='excelvendbtn' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                        <button type="button" id='addvendbtn' style={{ display: 'none' }} onClick={() => { financialstatus === 'Active' ? window.location.href = "./Vendor" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Vendor</button>
+                        <button type="button" id='addvendbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Vendor" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Vendor</button>
                     </div>
                 </div>
 

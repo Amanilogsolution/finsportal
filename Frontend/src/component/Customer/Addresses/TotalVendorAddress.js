@@ -264,7 +264,7 @@ const TotalVendAddress = () => {
       <Header />
       <div className="content-wrapper">
         <div className="container-fluid ">
-          <div className='d-flex justify-content-between mt-3 px-2 addvend-heading'>
+          <div className='d-flex justify-content-between pt-3 px-2 addvend-heading'>
             <h3 className=" ml-4">Vendor Address</h3>
             <div className='d-flex'>
               <button type="button" style={{  display: 'none' }} id='upload-vend_address_btn' className="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>

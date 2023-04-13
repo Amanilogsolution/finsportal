@@ -161,68 +161,58 @@ function EditInvoice() {
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        {/* <select
-                                                id="custaddr" className={`form-control `}>
-                                                <option value={invoice_detail.cust_locationid} hidden>{invoice_detail.cust_location_add}</option>
-                                            </select> */}
-                                                        <span className='border p-2 rounded'>{invoice_detail.cust_location_add}</span>
+                                                        <span className='border p-2 rounded col'>{invoice_detail.cust_location_add}</span>
                                                     </div>
                                                 </div>
 
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        {/* <select
-                                                id="locationadd"
-                                                className={`form-control `}>
-                                                <option value={invoice_detail.location} hidden>{invoice_detail.location_name}</option>
-
-                                            </select> */}
-                                                        <span className='border p-2 rounded'>{invoice_detail.location_name}</span>
+                                                        <span className='border p-2 rounded col'>{invoice_detail.location_name}</span>
                                                     </div>
                                                 </div>
 
-                                                <div className="form-row mt-3">
+                                                <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
-                                                    <div className="d-flex col-md">
-                                                        <input type="text" className={`form-control  cursor-notallow col-md-5`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
+                                                    <div className="d-flex col-md-4">
+                                                        <input type="text" className={`form-control  cursor-notallow col`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
                                                     </div>
                                                 </div>
 
-                                                <div className="form-row mt-3">
+                                                <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                    <div className="d-flex col-md">
-                                                        <input type="text" className={`form-control  cursor-notallow col-md-5`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
+                                                    <div className="d-flex col-md-4">
+                                                        <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
                                                     </div>
                                                 </div>
 
-                                                <div className="form-row mt-3">
-                                                    <div className="d-flex col-md-3">
+                                                <div className="form-row mt-2">
+                                                    <div className="d-flex col-md-4 px-0">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-                                                        <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Invoicedate" disabled value={invoice_detail.startdate} />
+                                                        <input type="date" className='form-control  cursor-notallow col-md-6' id="Invoicedate" disabled value={invoice_detail.startdate} />
                                                     </div>
 
-                                                    <div className="d-flex col-md-5">
+                                                    <div className="d-flex col-md-4">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
                                                         <select
                                                             id="paymentterm"
                                                             className={`form-control   col-md-6`}>
-                                                            <option value={invoice_detail.payment_term} hidden>{invoice_detail.payment_term} </option>
+                                                            <option value={invoice_detail.payment_term} hidden>Net {invoice_detail.payment_term} </option>
                                                         </select>
                                                     </div>
 
-                                                    <div className="d-flex col-md-3" >
+                                                    <div className="d-flex col-md-4" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
                                                         <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Duedate" disabled value={invoice_detail.lastdate} />
                                                     </div>
                                                 </div>
 
-                                                <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
-                                                    <div className="d-flex col-md-3">
+                                                <div className="form-row mt-2" id='FTdate' style={{ display: "none" }}>
+                                                    <div className="d-flex col-md-4 px-0">
                                                         <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
                                                         <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom_date} />
                                                     </div>
-                                                    <div className="d-flex col-md-5">
+                                                    <div className="d-flex col-md-4">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
                                                         <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto_date} />
                                                     </div>

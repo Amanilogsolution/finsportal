@@ -4,7 +4,6 @@ import Footer from "../Footer/Footer";
 import "./Vendor.css";
 import {
   InsertVendor, Activecountries, showactivestate, getCity, VendorMastid,
-  // TotalVendId,TotalVendor
   Getfincialyearid, Updatefinancialcount, UpdatefinancialTwocount, ActivePaymentTerm, ActiveCurrency
 } from '../../api'
 
@@ -21,9 +20,7 @@ const Vendor = () => {
   const [enableportaltoggle, setEnableportaltoggle] = useState(false);
   const [countrylist, setCountrylist] = useState([]);
   const [paymentterm, setPaymentterm] = useState([]);
-  // const [billing_address_country, setBilling_address_country] = useState()
   const [selectState, setSelectState] = useState([])
-  // const [billing_address_state, setBilling_address_state] = useState();
   const [selectCity, setSelectCity] = useState([]);
   const [generateMast_id, setGenerateMast_id] = useState();
   const [generateVend_id, setGenerateVend_id] = useState();
@@ -107,6 +104,8 @@ const Vendor = () => {
   //  ###############   function for get data  #########
   const handleClick = async (e) => {
     e.preventDefault();
+    document.getElementById('submitbtn').disabled = 'true';
+
     const vend_sn = document.getElementById('inputSn').value;
     const vend_fname = document.getElementById('fname').value;
     const vend_lname = document.getElementById('lname').value;
@@ -152,9 +151,9 @@ const Vendor = () => {
 
     if (!vend_fname || !vend_display_name || !vend_work_phone || !gst_treatment || !source_of_supply || !currency || !payment_terms || !billing_address_attention || !billing_address_country_val || !billing_address_state_val || !billing_address_city_val || !billing_address_pincode || !billing_address_phone || !contact_person_name) {
       alert('Please Fill the Mandatory fields...')
+      document.getElementById('submitbtn').disabled = false;
     }
     else {
-
       if (showMaster === true) {
         const mast_id = document.getElementById('mast_idselected').value;
 
@@ -163,8 +162,10 @@ const Vendor = () => {
           portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
           billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
           contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id, year)
+
         if (result[0] > 0) {
           const result = await Updatefinancialcount(org, 'vend_count', increvend)
+
           if (result[0] > 0) {
             alert("data Added")
             window.location.href = '/Showvendor'
@@ -175,14 +176,15 @@ const Vendor = () => {
         const mast_id = generateMast_id;
         const vend_id = generateVend_id;
 
-        const result = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
+        const result2 = await InsertVendor(mast_id, vend_id, vend_name, company_name, vend_display_name, vend_email, vend_work_phone, vend_phone, skype_detail, designation,
           department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
           portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
           billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
           contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id, year)
 
-        if (result[0] > 0) {
+        if (result2[0] > 0) {
           const result1 = await UpdatefinancialTwocount(org, 'mvend_count', incremvend, 'vend_count', increvend)
+
           if (result1[0] > 0) {
             alert("data Added")
             window.location.href = '/Showvendor'
@@ -198,13 +200,11 @@ const Vendor = () => {
 
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
-    // setBilling_address_country(data);
     const statesresult = await showactivestate(data)
     setSelectState(statesresult)
   }
   const handleChangebillingState = async (e) => {
     let data = e.target.value;
-    // setBilling_address_state(data);
     const result = await getCity(data)
     setSelectCity(result)
   }
@@ -225,29 +225,15 @@ const Vendor = () => {
               <form autoComplete="off">
                 <div className="form-row">
                   <div className="col form-group" id="valexisting" >
-                    <label
-                      htmlFor="user_name"
-                      className="col-md-2 col-form-label font-weight-normal">
-                      <div className="tooltip1">
-                      </div>
+                    <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
+                      <div className="tooltip1"></div>
                     </label>
                     <label className="form-check form-check-inline">
-                      <input className="form-check-input" type="radio" name="masterid"
-                        onClick={(e) => { setShowMaster(false) }}
-                        checked="checked" />
-                      <span className="form-check-label font-weight-normal">
-                        Non Existing
-                      </span>
-                    </label>
+                      <input className="form-check-input" type="radio" name="masterid" onClick={(e) => { setShowMaster(false) }} defaultChecked />
+                      <span className="form-check-label font-weight-normal"> Non Existing </span></label>
                     <label className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="masterid"
-                        onClick={() => { setShowMaster(true) }} />
-                      <span className="form-check-label font-weight-normal">
-                        Existing Vendor
-                      </span>
+                      <input className="form-check-input" type="radio" name="masterid" onClick={() => { setShowMaster(true) }} />
+                      <span className="form-check-label font-weight-normal"> Existing Vendor</span>
                     </label>
                   </div>
                 </div>
@@ -272,12 +258,10 @@ const Vendor = () => {
                   </>
                   :
                   <>
-                    <div>
-                      <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
-                        <div className="col form-group">
-                          <input type="text" id="mast_id" className="form-control col-md-4" value={generateMast_id} disabled />
-                        </div>
+                    <div className="form-row">
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
+                      <div className="col form-group">
+                        <input type="text" id="mast_id" className="form-control col-md-4" value={generateMast_id} disabled />
                       </div>
                     </div>
                   </>
@@ -285,29 +269,14 @@ const Vendor = () => {
 
 
                 <div className="form-row">
-                  <label
-                    htmlFor="vend_id"
-                    className="col-md-2 col-form-label font-weight-normal"
-                  >
-                    Vendor Id
-                  </label>
+                  <label htmlFor="vend_id" className="col-md-2 col-form-label font-weight-normal" >Vendor Id</label>
                   <div className="col form-group">
-                    <input
-                      type="text"
-                      className="form-control col-md-4"
-                      id="vend_id"
-                      value={generateVend_id}
-                      disabled
-                    />
+                    <input type="text" className="form-control col-md-4" id="vend_id" value={generateVend_id} disabled />
                   </div>
                 </div>
 
-
-
                 <div className="form-row">
-                  <label
-                    htmlFor="user_name"
-                    className="col-md-2 col-form-label font-weight-normal">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
                     <div className="tooltip1">
                       Primary Contact <span className="text-danger">*</span>
                       <span className="tooltipcontent">
@@ -360,14 +329,7 @@ const Vendor = () => {
                     className="col-md-2 col-form-label font-weight-normal"
                   >
                     <div className="tooltip1" style={{ border: "none" }}>
-                      <span
-                        style={{
-                          color: "red",
-                          borderBottom: "1px dashed red",
-                        }}
-                      >
-                        Vendor Display Name*
-                      </span>
+                      <span className="text-danger " style={{ borderBottom: "1px dashed red", }}>Vendor Display Name* </span>
                       <span className="tooltipcontent">
                         This name will be displayed on the transaction
                         you create for this Vendor.
@@ -659,7 +621,6 @@ const Vendor = () => {
                         <option>Himachal Pradesh</option>
                       </select>
                     </div>
-                    {/* form-group end.// */}
                   </div>
 
                   <div className="form-row">
@@ -677,7 +638,7 @@ const Vendor = () => {
                         <option hidden value=''>Select currency</option>
                         {
                           currencylist.map((item, index) =>
-                            <option key={index} value={item.currency_name}>{item.currency_name}</option>)
+                            <option key={index} value={item.currency_code}>{item.currency_name}</option>)
                         }
                       </select>
                     </div>
@@ -715,7 +676,7 @@ const Vendor = () => {
                         <option hidden value=''>Select the term...</option>
                         {
                           paymentterm.map((item, index) =>
-                            <option key={index}>{item.term}</option>)
+                            <option key={index} value={item.term_days}>{item.term}</option>)
                         }
 
                       </select>
@@ -755,17 +716,8 @@ const Vendor = () => {
                       </div>
                     </label>
                     <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onClick={portaltoggle}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Allow portal access for this vendor
-                      </label>
+                      <input className="form-check-input" type="checkbox" onClick={portaltoggle} />
+                      <label className="form-check-label" htmlFor="flexCheckDefault" > Allow portal access for this vendor </label>
                     </div>
                   </div>
                   <div className="form-row">
@@ -1071,8 +1023,8 @@ const Vendor = () => {
               </form>
             </article>
             <div className="border-top card-footer">
-              <button className="btn btn-success mx-3" onClick={handleClick}>Save Vendor</button>
-              <button className="btn btn-secondary ml-3" onClick={(e)=>{e.preventDefault();window.location.href='./Showvendor'}}>Cancel</button>
+              <button className="btn btn-success mx-3" id="submitbtn" onClick={handleClick}>Save Vendor</button>
+              <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './Showvendor' }}>Cancel</button>
             </div>
           </div>
         </div>

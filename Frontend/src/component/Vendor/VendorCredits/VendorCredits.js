@@ -9,7 +9,7 @@ function VendorCredits() {
     const [Dndata, setDnData] = useState({})
     const [BillSub, setBillSub] = useState([])
     const [subDetails, setSubDetails] = useState([])
-
+    const [sendRequest, setSendRequest] = useState(false);
     const [DebitCodeSub, setDebitCodeSub] = useState([{
         dn_no: '',
         voucher_no: '',
@@ -29,10 +29,15 @@ function VendorCredits() {
 
     useEffect(() => {
         const fetchData = async () => {
+            if (sendRequest) {
+                //send the request
+                setSendRequest(false);
+            }
             const org = localStorage.getItem('Organisation')
             const result = await getDNData(org, localStorage.getItem('dnno'))
             setDnData(result)
 
+            console.log('moilh9',result)
             const BillData = await GetBillData(org, result.voucher_no)
             setBillData(BillData)
 
@@ -43,7 +48,7 @@ function VendorCredits() {
             setSubDetails(Subdata)
         }
         fetchData()
-    }, [])
+    }, [sendRequest])
 
     const handleChangePassAmount = (value, index, id) => {
         let dn_no = document.getElementById('DnAmount').value
@@ -78,6 +83,7 @@ function VendorCredits() {
                     sub_id: id,
                     balance_amt: Balancevalue
                 }
+                setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
 
             }, 1000)
@@ -111,6 +117,7 @@ function VendorCredits() {
                 sub_id: id,
                 balance_amt: bal
             }
+            setSendRequest(true)
         }, 1000)
     }
 
@@ -230,7 +237,7 @@ function VendorCredits() {
                                                         <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt : element.amt}</td>
                                                         <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="number" id={`PassAmount${index}`} placeholder="Pass Amount" onChange={(e) => { handleChangePassAmount(e.target.value, index, element.sno) }} /></td>
                                                         <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="text" id={`Remark${index}`} placeholder="Pass Remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, element.sno) }} /></td>
-                                                        <td className="col-md-2 px-1 text-center" id={`AmountLeft${index}`}></td>
+                                                        <td className="col-md-2 px-1 text-center text-danger" id={`AmountLeft${index}`}></td>
                                                     </tr>
                                                 ))
                                             }
@@ -238,7 +245,7 @@ function VendorCredits() {
                                     </table>
                                     <div style={{ display: "flex" }}>
                                         <div style={{ width: "40%" }}>
-                                           
+
                                         </div>
                                         <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                             <table style={{ width: "100%" }}>
@@ -291,7 +298,7 @@ function VendorCredits() {
                                                 Save</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                 name="clear" className="btn ml-2 btn-secondary">Cancel</button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault();}}>  Preview</button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log('nin',billdata)}}>  Preview</button>
                                         </div>
                                     </div>
                                 </form>
@@ -301,7 +308,10 @@ function VendorCredits() {
                 </div>
                 <Footer />
             </div>
-            <VendorCreditsPreview data={billdata} Dndata={Dndata} DebitCodeSub={DebitCodeSub} />
+            {
+                DebitCodeSub.length > 0 ? <VendorCreditsPreview data={billdata} Dndata={Dndata} DebitCodeSub={DebitCodeSub} /> : null
+            }
+
 
         </div>
     )
