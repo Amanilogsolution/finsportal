@@ -15,7 +15,6 @@ const Accounttype = async (req, res) => {
     }
 }
 
-
 const ParentAccount = async (req, res) => {
     const org = req.body.org;
     const account_type_code = req.body.account_type_code;
@@ -34,8 +33,8 @@ const ParentAccountNumber = async (req, res) => {
     const account_name_code = req.body.account_name_code;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT top 1 account_name_code from ${org}.dbo.tbl_account_name WHERE status='Active'  and account_type_code='${account_type_code}' order by sno desc;`)
-        const result1 = await sql.query(`SELECT top 1  account_sub_name_code,account_sub_name from ${org}.dbo.tbl_sub_account WHERE status='Active' and account_name_code='${account_name_code}' and account_type_code='${account_type_code}' order by sno desc;`)
+        const result = await sql.query(`SELECT top 1 account_name_code from ${org}.dbo.tbl_account_name WHERE  account_type_code='${account_type_code}' order by sno desc;`)
+        const result1 = await sql.query(`SELECT top 1  account_sub_name_code,account_sub_name from ${org}.dbo.tbl_sub_account WHERE  account_name_code='${account_name_code}' and account_type_code='${account_type_code}' order by sno desc;`)
         res.send({
             "result": result.recordset[0],
             "result1": result1.recordset[0],
@@ -82,25 +81,7 @@ const AddSubAccountName = async (req, res) => {
         res.send(err)
     }
 }
-const UpdateSubAccountName = async (req, res) => {
-    const account_sub_name = req.body.account_sub_name;
-    const account_sub_name_code = req.body.account_sub_name_code;
-    const description = req.body.description;
-    const account_type_code = req.body.account_type_code;
-    const account_name_code = req.body.account_name_code;
-    const org = req.body.org;
-    const User_id = req.body.User_id;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sub_account set account_sub_name='${account_sub_name}',account_sub_name_code='${account_sub_name_code}',add_user_name='${User_id}',
-        add_system_name='${os.hostname()}',add_ip_address='${req.ip}' ,add_date_time=GETDATE(),status='Active',account_description='${description}' 
-        WHERE account_type_code='${account_type_code}' and 
-        account_name_code='${account_name_code}' ;`)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+
 const AddNewSubAccountName = async (req, res) => {
     const account_sub_name = req.body.account_sub_name;
     const account_sub_name_code = req.body.account_sub_name_code;
@@ -157,4 +138,4 @@ const SelectSubAcconameByType = async (req, res) => {
 
 
 
-module.exports = { Accounttype, ParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, UpdateSubAccountName, AddNewSubAccountName, SelectSubAccountname, SelectSubAcconameByType }
+module.exports = { Accounttype, ParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName,  AddNewSubAccountName, SelectSubAccountname, SelectSubAcconameByType }
