@@ -970,6 +970,11 @@ export const SelectSubAcconameByType = async (org, account_type) => {
     return axios.post(url, { org, account_type }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const CountAccounttype = async (org) => {
+    const url = `http://localhost:3008/api/countaccounttype`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
 export const ImportAccountName = async (datas, org, User_id) => {
     const url = `https://finsbackend.awlinternational.com/api/importaccountname`
     return axios.post(url, { datas, org, User_id }).then(response => response.data).catch(error => console.log(error));

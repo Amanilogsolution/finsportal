@@ -1,10 +1,17 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { Insertaccounttype } from '../../../api'
+import { Insertaccounttype,CountAccounttype } from '../../../api'
 
 
 function InsertAccountType() {
+  useEffect(()=>{
+    const fetchData = async () => {
+      const result = await CountAccounttype(localStorage.getItem("Organisation"))
+      document.getElementById("AccountTypeCode").value =result.count+1
+    }
+    fetchData();
+  },[])
 
 
   const handleClick = async (e) => {
@@ -63,7 +70,7 @@ function InsertAccountType() {
               <div className="form-row">
                 <label htmlFor="AccountTypeCode" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
                 <div className="col form-group">
-                  <input type="number" className="form-control col-md-4" id='AccountTypeCode' />
+                  <input type="number" className="form-control col-md-4" id='AccountTypeCode' disabled />
                 </div>
               </div>
 

@@ -246,6 +246,8 @@ router.post('/addsubaccountname',ChartOfAccountController.AddSubAccountName)
 router.post('/addnewsubaccountname',ChartOfAccountController.AddNewSubAccountName)
 router.post('/selectsubaccountname',ChartOfAccountController.SelectSubAccountname)
 router.post('/selectsubacconameytype',ChartOfAccountController.SelectSubAcconameByType)
+router.post('/countaccounttype',ChartOfAccountController.CountAccounttype)
+
 
 
 router.post('/updateaccountname',AccountnameController.UpdateAccountName)
