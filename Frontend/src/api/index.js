@@ -913,7 +913,7 @@ export const ShowChartOfAccount = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const ChartOfAccountParentAccount = async (account_type_code, org) => {
-    const url = `https://finsbackend.awlinternational.com/api/parentaccount`
+    const url = `http://localhost:3008/api/parentaccount`
     return axios.post(url, { account_type_code, org }).then(response => response.data).catch(error => console.log(error));
 }
 
