@@ -9,17 +9,23 @@ const CNDetails = (props) => {
 
 
     const handleClickConfirm = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        const local_User_email = localStorage.getItem('User_id')
+
         const useremail = document.getElementById('userid').value
         const userpassword = document.getElementById('userPassword').value
-        const result = await CheckLoginUser(useremail, userpassword)
-        console.log(result)
-        if (result == 'Confirmed') {
-            const status = await ChangeCNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
-            console.log(status)
-            if (status) {
-                window.location.reload()
+
+        if (local_User_email === useremail) {
+            const result = await CheckLoginUser(useremail, userpassword)
+            if (result === 'Confirmed') {
+                const status = await ChangeCNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
+                if (status) {
+                    window.location.reload()
+                }
             }
+        }
+        else {
+            alert('Your are not valid user. Please verify only logined id !')
         }
     }
 
@@ -80,7 +86,6 @@ const CNDetails = (props) => {
     useEffect(() => {
         async function fetchdata() {
             setData(props.displaydata)
-            console.log(props.displaydata)
         }
         fetchdata()
     }, [])
