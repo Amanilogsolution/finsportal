@@ -45,7 +45,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                             <span>{data.vourcher_no}</span>
                                         </div>
                                         <div>
-                                            <span className='font-weight-bold detail-head' >Debit Note no.: </span>
+                                            <span className='font-weight-bold detail-head' >Debit Note Number: </span>
                                             <span>{Dndata.dn_no}</span>
                                         </div>
                                         <div>
@@ -63,7 +63,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                             <span>{data.voudate}</span>
                                         </div>
                                         <div>
-                                            <span className='font-weight-bold detail-head' >Debit Note amt.: </span>
+                                            <span className='font-weight-bold detail-head' >Debit Note Amount: </span>
                                             <span>{Dndata.total_dn_amt}</span>
                                         </div>
 
@@ -105,27 +105,27 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                             <tbody>
                                                 <tr>
                                                     <th><h5>Net Amount: </h5></th>
-                                                    <th>{data.net_amt}</th>
+                                                    <th>{data.total_bill_amt-data.taxable_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>IGST:  </h5></th>
-                                                    <th>{Dndata.igst_amt}</th>
+                                                    <th>{data.igst_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>CGST:  </h5></th>
-                                                    <th>{Dndata.cgst_amt}</th>
+                                                    <th>{data.cgst_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>SGST:  </h5></th>
-                                                    <th>{Dndata.sgst_amt}</th>
+                                                    <th>{data.sgst_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>Total GST:  </h5></th>
-                                                    <th>{Dndata.total_gst_amt}</th>
+                                                    <th>{data.taxable_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>Total Amount:  </h5></th>
-                                                    <th>{Dndata.total_bill_amt}</th>
+                                                    <th>{data.total_bill_amt}</th>
                                                 </tr>
                                             </tbody>
                                         </table>

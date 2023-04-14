@@ -22,6 +22,8 @@ function Bills() {
     const [vendorlocations, setVendorLocations] = useState('')
 
     const [netTotal, setNetTotal] = useState(0);
+    // net sub total amt 
+    const [billsubtotalamt, setBillsubtotalamt] = useState(0);
 
     const [cgstval, setCgstval] = useState(0)
     const [sgstval, setSgstval] = useState(0)
@@ -225,6 +227,7 @@ function Bills() {
         setCgstval(0)
         setSgstval(0)
         setIgstval(0)
+        setBillsubtotalamt(0)
 
         document.getElementById('cgst-inp').value = 0;
         document.getElementById('sgst-inp').value = 0;
@@ -249,6 +252,7 @@ function Bills() {
         setCgstval(0)
         setSgstval(0)
         setIgstval(0)
+        setBillsubtotalamt(0)
 
         document.getElementById('cgst-inp').value = 0;
         document.getElementById('sgst-inp').value = 0;
@@ -279,6 +283,7 @@ function Bills() {
         var sum = 0
         tabledata.map((item) => sum += item.netamount)
         setNetTotal(sum)
+        setBillsubtotalamt(sum)
         document.getElementById('totalamount').value = sum;
         if (document.getElementById('gstdiv').style.display === 'none') {
             document.getElementById('gstdiv').style.display = 'block';
