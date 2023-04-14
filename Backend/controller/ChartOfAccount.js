@@ -14,6 +14,17 @@ const Accounttype = async (req, res) => {
         res.send(err)
     }
 }
+const CountAccounttype = async (req, res) => {
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select count(sno) as count from ilogsolution.dbo.tbl_account_type 
+        `)
+        res.send(result.recordset[0])
+    } catch (err) {
+        res.send(err)
+    }
+}
 
 const ParentAccount = async (req, res) => {
     const org = req.body.org;
@@ -138,4 +149,4 @@ const SelectSubAcconameByType = async (req, res) => {
 
 
 
-module.exports = { Accounttype, ParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName,  AddNewSubAccountName, SelectSubAccountname, SelectSubAcconameByType }
+module.exports = { Accounttype, ParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName,  AddNewSubAccountName, SelectSubAccountname, SelectSubAcconameByType,CountAccounttype }
