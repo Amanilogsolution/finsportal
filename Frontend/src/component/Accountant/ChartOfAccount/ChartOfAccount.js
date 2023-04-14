@@ -69,8 +69,7 @@ function ChartOfAccount() {
     setAccountno(accountnamenum1)
 
     if (!number.result1) {
-      setAccountsubno(number.result.account_name_code + '0001')
-      setCheck(true)
+      setAccountsubno(account_name + '0001')
 
     } else {
       const accountsubnum = parseInt(number.result1.account_sub_name_code) + 1;
