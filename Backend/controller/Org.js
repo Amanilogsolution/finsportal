@@ -82,6 +82,7 @@ const UpdateOrganisation = async (req, res) => {
     const company_id = req.body.company_id;
     const tax_id = req.body.tax_id;
     const uploadimage = req.body.uploadimage
+  
 
     try {
         await sql.connect(sqlConfig)
