@@ -83,6 +83,7 @@ function Invoices() {
             const result = await ActiveCustomer(org)
             setActiveCustomer(result)
             const result1 = await ActivePaymentTerm(org)
+            console.log(result1)
             setActivePaymentTerm(result1)
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
@@ -166,8 +167,8 @@ function Invoices() {
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
         const terms = cust_detail.payment_terms
-        let [val, Ter] = terms.split(" ")
-        Duedate(Number(Ter))
+        // let [val, Ter] = terms.split(" ")
+        Duedate(Number(terms))
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
         setCutomerAddress(cust_add)
     }
@@ -221,6 +222,7 @@ function Invoices() {
     }
 
     const handleAccountTerm = (e) => {
+        // let [val, Ter] = e.target.value.split(" ")
         const days = Number(e.target.value)
         Duedate(days)
     }
@@ -525,7 +527,7 @@ function Invoices() {
                                                             className='col-md-6  mr-0 form-control'
                                                             onChange={handleAccountTerm}
                                                         >
-                                                            <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms}</option>
+                                                            <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms?`Net ${custdetail.payment_terms}`:'select term'}</option>
                                                             {
                                                                 activepaymentterm.map((item, index) => (
                                                                     <option key={index} value={item.term_days}>{item.term}</option>

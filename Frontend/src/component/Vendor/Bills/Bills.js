@@ -22,6 +22,8 @@ function Bills() {
     const [vendorlocations, setVendorLocations] = useState('')
 
     const [netTotal, setNetTotal] = useState(0);
+    // net sub total amt 
+    const [billsubtotalamt, setBillsubtotalamt] = useState(0);
 
     const [cgstval, setCgstval] = useState(0)
     const [sgstval, setSgstval] = useState(0)
@@ -121,8 +123,7 @@ function Bills() {
     }
 
     const Duedate = (lastday) => {
-        let [val, Ter] = lastday.split(" ")
-        Ter = Number(lastday) || 45;
+        let Ter = Number(lastday) || 45;
         let myDate = new Date(new Date().getTime() + (Ter * 24 * 60 * 60 * 1000));
         let day = myDate.getDate();
         let month = myDate.getMonth() + 1;
@@ -226,6 +227,7 @@ function Bills() {
         setCgstval(0)
         setSgstval(0)
         setIgstval(0)
+        setBillsubtotalamt(0)
 
         document.getElementById('cgst-inp').value = 0;
         document.getElementById('sgst-inp').value = 0;
@@ -250,6 +252,7 @@ function Bills() {
         setCgstval(0)
         setSgstval(0)
         setIgstval(0)
+        setBillsubtotalamt(0)
 
         document.getElementById('cgst-inp').value = 0;
         document.getElementById('sgst-inp').value = 0;
@@ -280,6 +283,7 @@ function Bills() {
         var sum = 0
         tabledata.map((item) => sum += item.netamount)
         setNetTotal(sum)
+        setBillsubtotalamt(sum)
         document.getElementById('totalamount').value = sum;
         if (document.getElementById('gstdiv').style.display === 'none') {
             document.getElementById('gstdiv').style.display = 'block';
@@ -562,7 +566,7 @@ function Bills() {
                                                 <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md">
 
-                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
+                                                    <button type="button" className="btn border col-md-4" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
                                                         e.preventDefault();
                                                         setTimeout(() => {
                                                             document.getElementById('searchLocation').focus()
@@ -628,10 +632,10 @@ function Bills() {
                                                     <select
                                                         id="payment_term_select"
                                                         className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value={vendorselectedlist.payment_terms} hidden>{vendorselectedlist.payment_terms}</option>
+                                                        <option value={vendorselectedlist.payment_terms} hidden>Net {vendorselectedlist.payment_terms}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
-                                                                <option key={index} value={item.term}>{item.term}</option>
+                                                                <option key={index} value={item.term_days}>{item.term}</option>
                                                             ))
                                                         }
                                                     </select>

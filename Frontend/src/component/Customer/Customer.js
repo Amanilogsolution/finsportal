@@ -37,6 +37,7 @@ const Customer = () => {
       const result = await Activecountries(org)
       setSelectedCountry(result)
       const datacurrency = await ActiveCurrency(org)
+      console.log(datacurrency)
       setCurrencylist(datacurrency)
 
       const Allmaster_id = await CustomerMastId(org);
@@ -790,7 +791,7 @@ const Customer = () => {
                         {
                           currencylist ?
                             currencylist.map((item, index) =>
-                              <option key={index}>{item.currency_name}</option>)
+                              <option key={index} value={item.currency_code}>{item.currency_name}</option>)
                             :
                             0
                         }
@@ -831,7 +832,7 @@ const Customer = () => {
                         {
                           paymentterm ?
                             paymentterm.map((item, index) =>
-                              <option key={index}>{item.term}</option>)
+                              <option key={index} value={item.term_days}>{item.term}</option>)
                             : 0
                         }
                       </select>
