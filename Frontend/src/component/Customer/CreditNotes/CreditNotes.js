@@ -140,7 +140,6 @@ function CreditNotes() {
                     <div className="spinner-border" role="status"> </div>
                 </div>
                 <Header />
-
                 <div className="content-wrapper">
                     <div className="container-fluid">
                         <h3 className="pt-3 pl-4"><span className='text-danger'>C</span>redit Note</h3>
@@ -157,7 +156,6 @@ function CreditNotes() {
                                             <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={`${location.location_add1},${location.location_city},${location.location_state},${location.location_country}`} disabled />
                                         </div>
                                     </div>
-
                                     <div className="form-row mt-2 ">
                                         <div className="d-flex col-md-6 ">
                                             <label className="col-md-4 col-form-label font-weight-normal" >Credit Note </label>
@@ -168,7 +166,6 @@ function CreditNotes() {
                                             <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.cndate} disabled />
                                         </div>
                                     </div>
-
                                     <div className="form-row mt-2">
                                         <div className="d-flex col-md-6 ">
                                             <label className="col-md-4 col-form-label font-weight-normal" >Invoice Date </label>
@@ -179,7 +176,6 @@ function CreditNotes() {
                                             <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={data.fins_year} disabled />
                                         </div>
                                     </div>
-
                                     <div className="form-row mt-2">
                                         <div className="d-flex col-md-6">
                                             <label className="col-md-4 col-form-label font-weight-normal" >Invoice Number </label>
@@ -237,14 +233,10 @@ function CreditNotes() {
                                             </table>
                                         </div>
                                     </div>
-
                                     <div className="form-group">
                                         <div className="col-md-20" style={{ width: "100%" }}>
                                             <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
                                                 Post
-                                            </button>
-                                            <button id="save" name="save" className="btn btn-danger">
-                                                adsa
                                             </button>
                                             <button id="clear" onClick={(e) => {
                                                 e.preventDefault(); window.location.href = '/CreditNotesUI'
