@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, UpdateSubAccountName, AddNewSubAccountName } from '../../../api'
+import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, AddNewSubAccountName } from '../../../api'
 
 
 function ChartOfAccount() {
@@ -16,7 +16,6 @@ function ChartOfAccount() {
     const fetchData = async () => {
       const result = await ShowChartOfAccount(localStorage.getItem("Organisation"));
       setchartofaccount(result)
-
     }
     fetchData();
   }, [])
@@ -29,60 +28,48 @@ function ChartOfAccount() {
     const description = document.getElementById('description').value;
     const parentaccount = document.getElementById('parentaccount').value;
 
+    const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+    if(result){
+      window.location.href='/ShowChartAccount'
+    }
 
-    if (Accountnamecode.length === 3) {
-      const result = await AddAccountName(AccountType, Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-      const result2 = await AddSubAccountName(AccountType, Accountnamecode, localStorage.getItem('Organisation'))
-      console.log(result2)
+    return 
     }
-    else if (Accountnamecode.length === 6) {
-      if (check === true) {
-        const dataresult = await UpdateSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
-        console.log(dataresult)
-      }
-      else {
-        const dataresult2 = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
-        console.log(dataresult2)
-      }
-    }
-  }
+ 
 
 
   const handleAccountType = async (e) => {
     const account_type = e.target.value;
+    localStorage.setItem('AccountType', account_type)
     setaccount_type(account_type)
     const org = localStorage.getItem('Organisation');
     const result = await ChartOfAccountParentAccount(account_type, org);
+    console.log(result);
     setaccount_name(result)
 
     const number = await ParentAccountNumber(account_type, account_name, org);
+    console.log(number)
 
-    if (!number.result) {
-      setAccountno(account_type + '01')
-    }
-    else {
-      const accountnamenum = parseInt(number.result.account_name_code) + 1;
-      const accountnamenum1 = String(accountnamenum).padStart(2, '0');
-      setAccountno(accountnamenum1)
+    document.getElementById('parent').style.display = 'block';
 
-      const accountsubnum = parseInt(number.result1.account_sub_name_code) + 1;
-      const accountsubnum1 = String(accountsubnum).padStart(3, '0');
-      setAccountsubno(accountsubnum1)
-    }
+
+    
 
   }
 
   const handleParentAccount = async (e) => {
     const account_name = e.target.value;
-    setaccount_type(account_name)
+    // setaccount_type(account_name)
+    console.log(account_name)
 
-    const number = await ParentAccountNumber(account_type, account_name);
+    const number = await ParentAccountNumber(account_type, account_name,localStorage.getItem('Organisation'));
+    console.log(`Minor`,number)
     const accountnamenum = parseInt(number.result.account_name_code) + 1;
     const accountnamenum1 = String(accountnamenum).padStart(2, '0');
     setAccountno(accountnamenum1)
 
     if (!number.result1) {
-      setAccountsubno(number.result.account_name_code + '001')
+      setAccountsubno(number.result.account_name_code + '0001')
       setCheck(true)
 
     } else {
@@ -120,7 +107,7 @@ function ChartOfAccount() {
             <h3 className='text-center'>Chart Of Account</h3>
             <form autoComplete="off">
               <div className="form-group">
-                <label>Account Type <span className='text-danger'>*</span> </label>
+                <label>Major Account <span className='text-danger'>*</span> </label>
                 <div className="d-flex">
                   <select
                     id="AccountType"
@@ -141,28 +128,16 @@ function ChartOfAccount() {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Account Name <span className='text-danger'>*</span> </label>
-                <input type="text" className="form-control" id="Accountname" onFocus={handleChange} />
-              </div>
-              <p>
-                Make this a sub-account
-                <input type="checkbox"
-                  id="checkboxgst"
-                  className='float-right'
-                  onClick={handleClick}
-                  style={{ height: '20px', wight: '20px' }} />
-              </p>
-
               <div className="form-group" id="parent" style={{ display: 'none' }}>
-                <label>Parent Account <span className='text-danger'>*</span> </label>
-                <select
-                  id="parentaccount"
-                  className="form-control"
-                  onChange={handleParentAccount}
-                >
-                  <option value='' default hidden >Choose</option>
-                  {
+                <label>Minor Account <span className='text-danger'>*</span> </label>
+                <div className="d-flex">
+                  <select
+                    id="parentaccount"
+                    className="form-control"
+                    onChange={handleParentAccount}
+                  >
+                    <option value='' hidden>Choose</option>
+                    {
                     account_name.map((item, index) => {
                       return (
                         <option key={index} value={item.account_name_code}>{item.account_name}</option>
@@ -170,11 +145,29 @@ function ChartOfAccount() {
                     }
                     )
                   }
-                </select>
+                  </select>
+                  <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertMinorCode"; localStorage.setItem('Chart', 'Chart') }}
+                    style={{ height: "30px", width: "30px" }}>+</button>
+                </div>
               </div>
+
+              <div className="form-group">
+                <label>Account Name <span className='text-danger'>*</span> </label>
+                <input type="text" className="form-control" id="Accountname" onFocus={handleChange} />
+              </div>
+              {/* <p>
+                Make this a sub-account
+                <input type="checkbox"
+                  id="checkboxgst"
+                  className='float-right'
+                  onClick={handleClick}
+                  style={{ height: '20px', wight: '20px' }} />
+              </p> */}
+
+             
               <div className="form-group">
                 <label>Account Code  </label>
-                <input type="text" value={account_type} className="form-control" id="Accountnamecode" />
+                <input type="text" value={accountsubno} className="form-control" id="Accountnamecode" />
               </div>
               <div className="form-group">
                 <label>Description  </label>

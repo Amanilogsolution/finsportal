@@ -924,7 +924,7 @@ export const SelectSubAccountname = async (org, account_type_code) => {
 
 export const ParentAccountNumber = async (account_type_code, account_name_code, org) => {
     console.log(account_type_code, account_name_code, org)
-    const url = `https://finsbackend.awlinternational.com/api/parentaccountNumber`
+    const url = `http://localhost:3008/api/parentaccountNumber`
     return axios.post(url, { account_type_code, account_name_code, org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -936,10 +936,7 @@ export const AddSubAccountName = async (account_type_code, account_name_code, or
     const url = `https://finsbackend.awlinternational.com/api/addsubaccountname`
     return axios.post(url, { account_type_code, account_name_code, org }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateSubAccountName = async (account_sub_name, account_sub_name_code, description, account_type_code, account_name_code, org, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updatesubaccountname`
-    return axios.post(url, { account_sub_name, account_sub_name_code, description, account_type_code, account_name_code, org, User_id }).then(response => response.data).catch(error => console.log(error));
-}
+
 
 export const AddNewSubAccountName = async (account_sub_name, account_sub_name_code, description, account_type_code, account_name_code, org, User_id) => {
     const url = `https://finsbackend.awlinternational.com/api/addnewsubaccountname`

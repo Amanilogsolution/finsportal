@@ -73,6 +73,7 @@ import ShowChartAccount from './component/Accountant/ChartOfAccount/ShowChartAcc
 import EditChartAccount from './component/Accountant/ChartOfAccount/EditChartAccount'
 
 import InsertAccountType from './component/Accountant/ChartOfAccount/InsertAccountType';
+import InsertMinorCode from './component/Accountant/ChartOfAccount/InsertMinorCode';
 import ShowAccountname from './component/Master/AccountNameMaster/ShowAccountname';
 import EditAccountname from './component/Master/AccountNameMaster/EditAccountname';
 
@@ -253,6 +254,9 @@ const App = () => {
 
 
           <PrivatRoute exact path="/InsertAccountType" component={InsertAccountType} />
+          <PrivatRoute exact path="/InsertMinorCode" component={InsertMinorCode} />
+
+          
           <PrivatRoute exact path="/ShowAccountname" component={ShowAccountname} />
           <PrivatRoute exact path="/EditAccountname" component={EditAccountname} />
           {/* <PrivatRoute exact path="/Items" component={Items}/> */}
