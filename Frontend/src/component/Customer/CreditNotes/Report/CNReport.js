@@ -5,7 +5,7 @@ import { CheckLoginUser, InsertCreditNote } from '../../../../api/index'
 
 const CNReport = (props) => {
     const [data, setData] = useState([])
-    const [button, setButton] = useState('Send Mail')
+    const [button, setButton] = useState('Send Request')
     const [cndetails, setCndetails] = useState({
         cn_date: "",
         mast_id: "",
