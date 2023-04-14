@@ -20,13 +20,21 @@ const CNReport = (props) => {
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
+        const local_User_email = localStorage.getItem('User_id')
+
         const useremail = document.getElementById('userid').value
         const userpassword = document.getElementById('userPassword').value
-        const result = await CheckLoginUser(useremail, userpassword)
-        console.log(result)
-        if (result == 'Confirmed') {
-            document.getElementById('cndetails').style.display = 'flex'
+
+        if (local_User_email === useremail) {
+            const result = await CheckLoginUser(useremail, userpassword)
+            if (result === 'Confirmed') {
+                document.getElementById('cndetails').style.display = 'flex';
+            }
         }
+        else {
+            alert('Your are not valid user. Please verify only logined id !')
+        }
+
     }
 
     const handleClickSendMail = async (e) => {
@@ -45,7 +53,7 @@ const CNReport = (props) => {
                 cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt,
                 remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
 
-            if (result == 'Added') {
+            if (result === 'Added') {
                 window.location.reload()
             }
         }
@@ -213,7 +221,7 @@ const CNReport = (props) => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => { document.getElementById('cndetails').style.display = 'none' }}>Close</button>
-                                <button type="button" className="btn btn-primary" onClick={handleClickSendMail}>Send Mail</button>
+                                <button type="button" className="btn btn-primary" onClick={handleClickSendMail}>Send Request</button>
                             </div>
                         </div>
                     </div>
