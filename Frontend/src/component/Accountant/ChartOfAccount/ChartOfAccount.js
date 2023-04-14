@@ -10,7 +10,6 @@ function ChartOfAccount() {
   const [account_name, setaccount_name] = useState([]);
   const [accountno, setAccountno] = useState('');
   const [accountsubno, setAccountsubno] = useState('');
-  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -166,7 +165,7 @@ function ChartOfAccount() {
              
               <div className="form-group">
                 <label>Account Code  </label>
-                <input type="text" value={accountsubno} className="form-control" id="Accountnamecode" />
+                <input type="text" value={accountsubno} className="form-control" id="Accountnamecode" disabled/>
               </div>
               <div className="form-group">
                 <label>Description  </label>
