@@ -42,7 +42,7 @@ const Login = () => {
         if (result.Loginstatus === 'Login') {
             alert('You are Already Login in Some Device')
         }
-        if (result.status == 'Success') {
+        if (result.status === 'Success') {
 
             document.getElementById('verifybtn').style.display = 'flex';
             document.getElementById('submitbtn').style.display = 'none';
@@ -146,7 +146,7 @@ const Login = () => {
     const handleClickOTP = (e) => {
         e.preventDefault()
         const otpinput = document.getElementById('Otp').value
-        if (otpinput == otps) {
+        if (otpinput === otps) {
             alert("Athorized successfully")
             window.location.href = '/home'
         } else {
@@ -201,7 +201,7 @@ const Login = () => {
                             </div>
                             {/* <button className='btn login-btn'>Login</button> */}
                             <button type="submit" id='submitbtn' onClick={handleClick} className="btn login-btn ">Sign In</button>
-                            <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn login-btn text-center" style={{ display: "none" }}>Verify</button>
+                            <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn login-btn" style={{ display: "none" }}><span className='m-auto'>Verify</span></button>
                             <div className='mt-1'>
                                 {/* <a href="forgot-password.html" className='text-danger float-left'>Forgot password ?</a> */}
                                 <a href="./otppage" className='float-right'>Login via OTP</a>

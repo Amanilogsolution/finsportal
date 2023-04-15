@@ -74,7 +74,7 @@ export const showOrganisation = async (org_db_name) => {
 }
 
 export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage) => {
-    const url = `https://finsbackend.awlinternational.com/api/UpdateOrganisation`
+    const url = `http://localhost:3008/api/UpdateOrganisation`
     return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage }).then(response => response.data).catch(error => console.log(error));
 }
 

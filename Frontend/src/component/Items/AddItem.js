@@ -117,15 +117,39 @@ const AddItem = () => {
                         <article className={`card-body`}>
                             <form autoComplete='off'>
                                 <div className="form-row" >
-                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span style={{ color: "red" }}>*</span></label>
+                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span className='text-danger'> *</span></label>
                                     <div className="col form-group " onChange={handletype} >
                                         <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
                                         <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
                                     </div>
                                 </div>
+                                <div className="form-row">
+                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span className='text-danger'>*</span></label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
+                                            <option value='' hidden>select the major Code</option>
+                                            {
+                                                data.map((item, index) =>
+                                                    <option key={index} value={item.account_type_code}>{item.account_type}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-row">
+                                    <label htmlFor="chartof_account" className="col-md-2 col-form-label font-weight-normal">Chart of Account<span className='text-danger'>*</span></label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='chartof_account' >
+                                            <option value='' hidden>Select the Chart of Account</option>
+                                            {
+                                                chartofaccountlist.map((item, index) =>
+                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div className="form-row">
-                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span style={{ color: "red" }}>*</span></label>
+                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span className='text-danger'>*</span></label>
                                     <div className="col form-group">
                                         <input type="text" className="form-control col-md-4" id='name' />
                                     </div>
@@ -144,7 +168,7 @@ const AddItem = () => {
                                 </div>
 
                                 <div className="form-row" id="gldiv" style={{ display: "none" }}>
-                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Sub GL<span style={{ color: "red" }}>*</span></label>
+                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Sub GL<span className='text-danger'>*</span></label>
                                     <div className="col form-group">
                                         <select
                                             id="glcode"
@@ -190,30 +214,7 @@ const AddItem = () => {
                                     </div>
                                 </div>
 
-                                <div className="form-row">
-                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span style={{ color: "red" }}>*</span></label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
-                                            <option value='' hidden>select the major Code</option>
-                                            {
-                                                data.map((item, index) =>
-                                                    <option key={index} value={item.account_type_code}>{item.account_type}</option>)
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-row">
-                                    <label htmlFor="chartof_account" className="col-md-2 col-form-label font-weight-normal">Chart of Account<span style={{ color: "red" }}>*</span></label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id='chartof_account' >
-                                            <option value='' hidden>Select the Chart of Account</option>
-                                            {
-                                                chartofaccountlist.map((item, index) =>
-                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
+
                                 <div className="form-row" >
                                     <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
                                     <div className="col form-group">
@@ -243,7 +244,7 @@ const AddItem = () => {
                                 </div>
 
                                 <div className="form-row" id="defaulttax" style={{ display: "none" }}>
-                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span style={{ color: "red" }}>*</span></label>
+                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span className='text-danger'>*</span></label>
                                     <div className="col form-group">
                                         <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
                                             if (e.target.value > 100) return false;
@@ -261,7 +262,7 @@ const AddItem = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 
