@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './creditnote.css'
-import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails,locationAddress } from '../../../api/index'
+import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice } from '../../../api/index'
 import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
+    const btn = useRef(null)
+
     const [sendRequest, setSendRequest] = useState(false);
     const [invoicesub, setInvoicesub] = useState([])
     const [data, setData] = useState({})
     const [subDetails, setSubDetails] = useState([])
     const [location, setLocation] = useState([])
     const [custname, setCustname] = useState('')
+    const [invoicedata, setInvoiceData] = useState({})
     const [ChargeCodeSub, setChargeCodeSub] = useState([{
         cn_no: '',
         invoice_no: '',
@@ -20,30 +23,35 @@ function CreditNotes() {
         amount: '',
         balance_amt: '',
         pass_amt: '',
-        remark: '',
         sub_id: ''
     }])
+    const [subTotal, setSubTotal] = useState([])
+
 
 
     useEffect(() => {
         const fetchData = async () => {
-            if(sendRequest){
+            if (sendRequest) {
                 //send the request
                 setSendRequest(false);
-             }
+            }
 
             const org = localStorage.getItem('Organisation')
             const result = await getCNData(org, localStorage.getItem('cnno'))
+            console.log(result)
             setData(result)
-            
+            const Invoice = await GetInvoice(org, result.inv_no)
+            setInvoiceData(Invoice[0])
+            console.log(Invoice)
+
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
-            
+
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
             setSubDetails(Subdata)
-            
+
             if (result1.length) {
                 document.getElementById('Accountname').value = result1[0].consignee
                 setCustname(result1[0].consignee)
@@ -58,8 +66,8 @@ function CreditNotes() {
         let Invoice_no = document.getElementById('Invoice').value
         let Activity = document.getElementById(`Activity${index}`).innerHTML
         let Amount = document.getElementById(`Amount${index}`).innerHTML;
-        let Remark = document.getElementById(`Remark${index}`).value
         let Item = document.getElementById(`Item${index}`).innerHTML
+        let sum = 0
 
         let Balancevalue = AmtBalance - value
         if (Balancevalue < 0) {
@@ -69,6 +77,7 @@ function CreditNotes() {
             return
         } else {
             setTimeout(() => {
+                subTotal[index] = value
                 let data = ChargeCodeSub
                 data[index] = {
                     cn_no: CN_Number,
@@ -78,58 +87,43 @@ function CreditNotes() {
                     amount: Amount,
                     balance_amt: AmtBalance,
                     pass_amt: Balancevalue,
-                    remark: Remark,
                     sub_id: id
                 }
+                subTotal.map(item => sum += Number(item))
                 setChargeCodeSub(data)
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
+                document.getElementById('totalCnAmt').innerHTML = sum
             }, 1000)
         }
     }
 
-    const handleChangePassRemark = (value, index, id) => {
-        let AmtBalance = document.getElementById(`AmountLeft${index}`).innerHTML
-        let CN_Number = document.getElementById('Cn_no').value
-        let Invoice_no = document.getElementById('Invoice').value
-        let Activity = document.getElementById(`Activity${index}`).innerHTML
-        let Amount = document.getElementById(`Amount${index}`).innerHTML;
-        let Item = document.getElementById(`Item${index}`).innerHTML
-        let PassAmount = document.getElementById(`PassAmount${index}`).value
 
-        setTimeout(() => {
-            let data = ChargeCodeSub
-
-            data[index] = {
-                cn_no: CN_Number,
-                invoice_no: Invoice_no,
-                activity: Activity,
-                item: Item,
-                amount: Amount,
-                balance_amt: AmtBalance,
-                pass_amt: PassAmount,
-                remark: value,
-                sub_id: id
-            }
-            setChargeCodeSub(data)
-            setSendRequest(true)
-
-
-        }, 1000)
-
-    }
 
     const handleClick = (e) => {
         e.preventDefault()
         const org = localStorage.getItem('Organisation')
         const userid = localStorage.getItem('User_id')
+        const remark = document.getElementById('Remark').value
 
         ChargeCodeSub.forEach(async (item, index) => {
-            var result = await InsertCnSub(org, item, userid)
+            var result = await InsertCnSub(org, item, userid, remark)
             if (result == "Added") {
                 window.location.href = "./CreditNotesUI"
             }
         })
+    }
+
+    const apiCAll = (e) => {
+        e.preventDefault()
+        const value = document.getElementById('totalCnAmt').innerHTML
+        if (Number(data.total_cn_amt) > value) {
+            btn.current.click()
+        } else {
+            handleClick()
+        }
+
+
     }
 
 
@@ -181,6 +175,10 @@ function CreditNotes() {
                                             <label className="col-md-4 col-form-label font-weight-normal" >Invoice Number </label>
                                             <input type="text" className="form-control col-md-6 text-center" id="Invoice" value={data.inv_no} disabled />
                                         </div>
+                                        <div className="d-flex col-md-6">
+                                            <label className="col-md-4 col-form-label font-weight-normal" >Approved Amount </label>
+                                            <input type="text" className="form-control col-md-6 text-center" id="Invoice" value={data.total_cn_amt} disabled />
+                                        </div>
                                     </div>
                                     <div className='cn_table_div'>
                                         <table className="table table-bordered mt-3">
@@ -190,8 +188,9 @@ function CreditNotes() {
                                                     <th scope="col" >Charge Code</th>
                                                     <th scope="col" >Amount</th>
                                                     <th scope="col" >AmountBal</th>
+                                                    <th scope="col" >Taxable Amount</th>
                                                     <th scope="col" >PassAmt</th>
-                                                    <th scope="col" >Remark</th>
+                                                    {/* <th scope="col" >Remark</th> */}
                                                     <th scope="col" >AmountLeft</th>
 
                                                 </tr>
@@ -204,8 +203,9 @@ function CreditNotes() {
                                                             <td className="col-md-2 px-1  " id={`Item${index}`}>{item.minor}</td>
                                                             <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td>
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
+                                                            <td className="col-md-2 px-1  "  >{item.taxableamount}</td>
                                                             <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
-                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="text" id={`Remark${index}`} placeholder="remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, item.sno) }} /></td>
+                                                            {/* <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="text" id={`Remark${index}`} placeholder="remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, item.sno) }} /></td> */}
                                                             <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
                                                         </tr>
                                                     ))
@@ -213,10 +213,23 @@ function CreditNotes() {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div className='d-flex justify-content-end' >
-                                        <div style={{ padding: "15px", width: '330px', backgroundColor: "#eee", borderRadius: "7px" }}>
+                                    <div className='d-flex my-2' >
+                                        <div style={{ width: "40%" }}>
+                                            <div className="form">
+                                                <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remark</label>
+                                                <div className="d-flex col-md">
+                                                    <textarea type="text" className="form-control " rows="5" id="Remark" placeholder="Remarks" style={{ resize: "none" }} ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style={{ width: "60%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                             <table style={{ width: "100%" }}>
                                                 <tbody>
+                                                    <tr scope="row">
+                                                        <td>Total CN Amount</td>
+                                                        <td></td>
+                                                        <td id="totalCnAmt" className="text-danger">0</td>
+                                                    </tr>
                                                     <tr>
                                                         <td>Net Total</td>
                                                         <td>{data.total_amt}</td>
@@ -224,6 +237,22 @@ function CreditNotes() {
                                                     <tr>
                                                         <td>CN Approved Amount</td>
                                                         <td>{data.total_cn_amt}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>CGST </td>
+                                                        <td>{invoicedata.cgst_amt}%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SGST / UTGST </td>
+                                                        <td>{invoicedata.sgst_amt}%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>IGST </td>
+                                                        <td>{invoicedata.igst_amt}%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total Taxable</td>
+                                                        <td>{invoicedata.taxable_amt}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><h3> Total(₹)</h3></td>
@@ -235,7 +264,7 @@ function CreditNotes() {
                                     </div>
                                     <div className="form-group">
                                         <div className="col-md-20" style={{ width: "100%" }}>
-                                            <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
+                                            <button id="save" name="save" className="btn btn-danger" onClick={apiCAll}>
                                                 Post
                                             </button>
                                             <button id="clear" onClick={(e) => {
@@ -251,13 +280,38 @@ function CreditNotes() {
                         </div>
                     </div>
                 </div>
+                <button type="button" ref={btn} class="btn" data-toggle="modal" data-target="#exampleModal1">
+                </button>
                 <Footer />
             </div>
             {
-                ChargeCodeSub.length>0?
-            <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname}/>
-            :null
+                ChargeCodeSub.length > 0 ?
+                    <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname} />
+                    : null
             }
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">DebitNote Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{`
+                            ${!data.total_cn_amt ? '0' : document.getElementById('totalCnAmt').innerHTML}
+                            is less than 
+                            ${data.total_cn_amt} 
+                            Are you Still want to make a Request`}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" onClick={handleClick}>Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

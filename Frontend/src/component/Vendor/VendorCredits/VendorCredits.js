@@ -122,7 +122,6 @@ function VendorCredits() {
         DebitCodeSub.forEach(async (item) => {
             const SubDn = await InsertSubDebitNote(org, dn_no, voucher_no, item.bill_no, item.location, item.items, item.emp_name, item.gl_code, item.amt, fins_year, item.balance_amt, item.pass_amt, remark, user_id, item.sub_id)
         })
-        console.log(result)
         if (result == "Updated") {
             window.location.href = "./DebitNotes"
         }
