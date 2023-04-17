@@ -123,7 +123,7 @@ const SelectSubAccountname = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select account_sub_name,account_sub_name_code from  ${org}.dbo.tbl_sub_account tsa with (nolock) WHERE account_type_code ='${account_type_code}'`)
+        const result = await sql.query(`select account_sub_name,account_sub_name_code from  ${org}.dbo.tbl_sub_account tsa with (nolock) WHERE account_name_code ='${account_type_code}'`)
         res.send(result.recordset)
     }
     catch (err) {

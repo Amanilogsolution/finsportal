@@ -918,7 +918,7 @@ export const ChartOfAccountParentAccount = async (account_type_code, org) => {
 }
 
 export const SelectSubAccountname = async (org, account_type_code) => {
-    const url = `https://finsbackend.awlinternational.com/api/selectsubaccountname`
+    const url = `http://localhost:3008/api/selectsubaccountname`
     return axios.post(url, { org, account_type_code }).then(response => response.data).catch(error => console.log(error));
 }
 

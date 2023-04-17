@@ -7,7 +7,6 @@ import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
     const btn = useRef(null)
-
     const [sendRequest, setSendRequest] = useState(false);
     const [invoicesub, setInvoicesub] = useState([])
     const [data, setData] = useState({})
@@ -27,28 +26,22 @@ function CreditNotes() {
     }])
     const [subTotal, setSubTotal] = useState([])
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             if (sendRequest) {
                 //send the request
                 setSendRequest(false);
             }
-
             const org = localStorage.getItem('Organisation')
             const result = await getCNData(org, localStorage.getItem('cnno'))
             console.log(result)
             setData(result)
             const Invoice = await GetInvoice(org, result.inv_no)
             setInvoiceData(Invoice[0])
-            console.log(Invoice)
-
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
-
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
             setSubDetails(Subdata)
 
@@ -68,7 +61,6 @@ function CreditNotes() {
         let Amount = document.getElementById(`Amount${index}`).innerHTML;
         let Item = document.getElementById(`Item${index}`).innerHTML
         let sum = 0
-
         let Balancevalue = AmtBalance - value
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
@@ -98,14 +90,11 @@ function CreditNotes() {
         }
     }
 
-
-
     const handleClick = (e) => {
         e.preventDefault()
         const org = localStorage.getItem('Organisation')
         const userid = localStorage.getItem('User_id')
         const remark = document.getElementById('Remark').value
-
         ChargeCodeSub.forEach(async (item, index) => {
             var result = await InsertCnSub(org, item, userid, remark)
             if (result == "Added") {
@@ -122,8 +111,6 @@ function CreditNotes() {
         } else {
             handleClick()
         }
-
-
     }
 
 
@@ -190,9 +177,7 @@ function CreditNotes() {
                                                     <th scope="col" >AmountBal</th>
                                                     <th scope="col" >Taxable Amount</th>
                                                     <th scope="col" >PassAmt</th>
-                                                    {/* <th scope="col" >Remark</th> */}
                                                     <th scope="col" >AmountLeft</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -205,7 +190,6 @@ function CreditNotes() {
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
                                                             <td className="col-md-2 px-1  "  >{item.taxableamount}</td>
                                                             <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
-                                                            {/* <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="text" id={`Remark${index}`} placeholder="remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, item.sno) }} /></td> */}
                                                             <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
                                                         </tr>
                                                     ))

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { GetItems, UpdateItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit } from "../../api";
+import { GetItems, UpdateItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit } from "../../api";
 
 
 const EditItem = () => {
@@ -15,10 +15,8 @@ const EditItem = () => {
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
-
             const result = await GetItems(org, localStorage.getItem('ItemsSno'))
             setData(result)
-
             if (result.item_type === 'Goods') {
                 document.getElementById('typeGoods').checked = true
                 setType('Goods')
@@ -34,20 +32,15 @@ const EditItem = () => {
             } else if (result.sales_account === 'Sales') {
                 document.getElementById('item_name_sales').checked = true
             }
-
-
             if (result.tax_preference === "Taxable") {
                 document.getElementById('defaulttax').style.display = "flex";
             } else {
                 document.getElementById('defaulttax').style.display = "none";
             }
-
-            const result2 = await ActiveAccountname(org)
+            const result2 = await ActiveAccountMinorCode(org)
             setMajorcodelist(result2)
-
             const chartofaccount = await SelectSubAccountname(org, result.major_code_id)
             setChartofaccountlist(chartofaccount)
-
             const result1 = await TotalActiveUnit(org);
             setUnitdata(result1)
         }
@@ -71,10 +64,8 @@ const EditItem = () => {
         const major_code = major_code1.options[major_code1.selectedIndex].textContent;
         const major_code_val = major_code1.value
         const chartofacc = document.getElementById('chartofaccount');
-
         const chartofaccount_id = chartofacc.value;
         const chartofaccount = chartofacc.options[chartofacc.selectedIndex].textContent;
-
         const taxpreference = document.getElementById("taxpreference").value;
         const Purchase = document.getElementById("item_name_purchase").checked === true ? 'Purchase' : '';
         const Sales = document.getElementById("item_name_sales").checked === true ? 'Sales' : '';
@@ -109,7 +100,6 @@ const EditItem = () => {
         }
         else {
             document.getElementById('defaulttax').style.display = "none";
-
         }
     }
 
@@ -149,8 +139,30 @@ const EditItem = () => {
                                         <input className="col-mt-2" type="radio" id="typeService" name="itemtype" value='Service' disabled />  Service
                                     </div>
                                 </div>
-
-
+                                <div className="form-row">
+                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Minor Code</label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='major_code' onChange={getchartofaccountdata}>
+                                            <option value={data.major_code_id} hidden>{data.major_code}</option>
+                                            {
+                                                majorcodelist.map((item, index) =>
+                                                    <option key={index} value={item.account_name_code}>{item.account_name}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-row">
+                                    <label htmlFor="chartofaccount" className="col-md-2 col-form-label font-weight-normal">Chart of Account</label>
+                                    <div className="col form-group">
+                                        <select className="form-control col-md-4" id='chartofaccount'   >
+                                            <option value={data.chart_of_acct_id} hidden>{data.chart_of_account}</option>
+                                            {
+                                                chartofaccountlist.map((item, index) =>
+                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
                                 <div className="form-row">
                                     <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span style={{ color: "red" }}>*</span></label>
                                     <div className="col form-group">
@@ -165,7 +177,6 @@ const EditItem = () => {
                                             {
                                                 unitdata.map((item, index) => (
                                                     <option value={item.unit_symbol} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
-
                                                 ))
                                             }
                                         </select>
@@ -181,31 +192,6 @@ const EditItem = () => {
                                     <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-normal" >SAC</label>
                                     <div className="col form-group">
                                         <input className="form-control col-md-4" type="text" id="saccode" defaultValue={data.sac_code} />
-                                    </div>
-                                </div>
-
-                                <div className="form-row">
-                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code</label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id='major_code' onChange={getchartofaccountdata}>
-                                            <option value={data.major_code_id} hidden>{data.major_code}</option>
-                                            {
-                                                majorcodelist.map((item, index) =>
-                                                    <option key={index} value={item.account_type_code}>{item.account_type}</option>)
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-row">
-                                    <label htmlFor="chartofaccount" className="col-md-2 col-form-label font-weight-normal">Chart of Account</label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id='chartofaccount'   >
-                                            <option value={data.chart_of_acct_id} hidden>{data.chart_of_account}</option>
-                                            {
-                                                chartofaccountlist.map((item, index) =>
-                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
-                                            }
-                                        </select>
                                     </div>
                                 </div>
                                 <div className="form-row" >
@@ -227,12 +213,10 @@ const EditItem = () => {
                                         <input className="form-control" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
                                     </div>
                                     <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
-
                                     <div className="form-group " style={{ marginTop: "10px" }} >
                                         <input className="form-control" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
                                     </div>
                                     <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
-
                                 </div>
                                 <div className="form-row" id="defaulttax" style={{ display: "none" }}>
                                     <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)</label>
@@ -240,7 +224,6 @@ const EditItem = () => {
                                         <input type="number" className="form-control col-md-4" id='gstrate' value={data.gst_rate} maxLength={3} onChange={handleGst_rate} />
                                     </div>
                                 </div>
-
                             </form>
                         </article>
                         <div className="border-top card-footer">
@@ -250,10 +233,9 @@ const EditItem = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
-
 }
 
 export default EditItem

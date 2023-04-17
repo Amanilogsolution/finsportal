@@ -23,10 +23,8 @@ function VendorCredits() {
         pass_amt: '',
         sub_id: '',
         balance_amt: '',
-
     }])
     const [subTotal, setSubTotal] = useState([])
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,7 +58,6 @@ function VendorCredits() {
         let amt = document.getElementById(`Amt${index}`).innerHTML
         let Balancevalue = amt - value
         let sum = 0
-
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${amt}`)
             document.getElementById(`PassAmount${index}`).value = ''
@@ -86,12 +83,9 @@ function VendorCredits() {
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
                 document.getElementById('totalCnAmt').innerHTML = sum
-
             }, 1000)
         }
     }
-
-
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -134,8 +128,6 @@ function VendorCredits() {
         } else {
             handleClick()
         }
-
-
     }
 
     return (
@@ -359,8 +351,6 @@ function VendorCredits() {
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 }

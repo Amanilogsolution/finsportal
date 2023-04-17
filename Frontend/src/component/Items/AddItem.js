@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { InsertItems, ActiveAccountname, SelectSubAccountname, TotalActiveUnit, ShowGlCode } from "../../api";
+import { InsertItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit, ShowGlCode } from "../../api";
 
 
 const AddItem = () => {
@@ -12,12 +12,9 @@ const AddItem = () => {
     const [gstvaluecount, setGstvaluecount] = useState();
     const [glcode, setglcode] = useState([]);
 
-
-
-
     useEffect(() => {
         const fetchdata = async () => {
-            const result = await ActiveAccountname(localStorage.getItem('Organisation'))
+            const result = await ActiveAccountMinorCode(localStorage.getItem('Organisation'))
             setData(result)
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
@@ -124,13 +121,13 @@ const AddItem = () => {
                                     </div>
                                 </div>
                                 <div className="form-row">
-                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Major Code<span className='text-danger'>*</span></label>
+                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Minor Code<span className='text-danger'>*</span></label>
                                     <div className="col form-group">
                                         <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
-                                            <option value='' hidden>select the major Code</option>
+                                            <option value='' hidden>select the minor Code</option>
                                             {
                                                 data.map((item, index) =>
-                                                    <option key={index} value={item.account_type_code}>{item.account_type}</option>)
+                                                    <option key={index} value={item.account_name_code}>{item.account_name}</option>)
                                             }
                                         </select>
                                     </div>
@@ -166,27 +163,6 @@ const AddItem = () => {
                                         />
                                     </div>
                                 </div>
-
-                                <div className="form-row" id="gldiv" style={{ display: "none" }}>
-                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Sub GL<span className='text-danger'>*</span></label>
-                                    <div className="col form-group">
-                                        <select
-                                            id="glcode"
-                                            className="form-control col-md-4"
-                                        // onChange={handleChange}
-                                        >
-                                            <option value='' hidden >Select GL Code</option>
-                                            {
-                                                glcode.map((data, index) => (
-                                                    <option key={index} value={`${data.account_sub_name_code},${data.account_sub_name}`}>{data.account_sub_name},{data.account_sub_name_code}</option>
-                                                ))
-                                            }
-
-                                        </select>
-                                    </div>
-                                </div>
-
-
                                 <div className="form-row" >
                                     <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
                                     <div className="col form-group">
