@@ -654,6 +654,7 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     bill_no nvarchar(50) NULL,
     bill_date date NULL ,
     bill_amt money NULL,
+    net_amt nvarchar(100) NULL,
     po_no nvarchar(100) NULL,
     bill_url nvarchar(400) NULL,
     payment_term nvarchar(50) NULL,

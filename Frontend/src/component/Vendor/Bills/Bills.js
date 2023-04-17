@@ -488,7 +488,7 @@ function Bills() {
                 const org = localStorage.getItem('Organisation')
                 const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                     bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no)
+                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no,billsubtotalamt)
 
                 if (result === 'Added') {
                     const result1 = await InsertSubBill(org, voucher_no, bill_no, tabledata, fins_year, userid)
