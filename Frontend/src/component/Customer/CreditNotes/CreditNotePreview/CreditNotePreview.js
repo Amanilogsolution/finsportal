@@ -32,8 +32,8 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location,custname }) => {
                                     </span>
                                 </div>
                                 <div className='cn-detailminiPreview d-flex justify-content-between align-items-center px-4'>
-                                    <span><span className='font-weight-bold'>Date:</span> {data.inv_Date} </span>
-                                    <span><span className='font-weight-bold'>Invoice Number:</span> {data.inv_no} </span>
+                                    <span><span className='font-weight-bold'>Credit Note Date:</span> {data.cndate} </span>
+                                    <span><span className='font-weight-bold'>Credit Note:</span> {data.cn_no} </span>
                                     <span><span className='font-weight-bold'>Amount:</span> {data.net_amt}</span>
                                 </div>
                                 <div className='cn-detailsPreview d-flex'>
@@ -42,49 +42,49 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location,custname }) => {
                                             <span className='font-weight-bold detail-head' >Customer Name: </span>
                                             <span>{custname}</span>
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             <span className='font-weight-bold detail-head' >Credit Note: </span>
                                             <span>{data.cn_no}</span>
-                                        </div>
-                                        <div>
+                                        </div> */}
+                                        {/* <div>
                                             <span className='font-weight-bold detail-head' >Invoice Date: </span>
                                             <span>{data.inv_Date}</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className='cn-detailsPreview2 '>
                                         <div>
                                             <span className='font-weight-bold detail-head' >Location: </span>
                                             <span>{`${location.location_add1},${location.location_city},${location.location_state},${location.location_country}- ${location.location_pin}`}</span>
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             <span className='font-weight-bold detail-head' >Credit Note: </span>
                                             <span>{data.cn_no}</span>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                 </div>
                                 <div className='cn-orgPreview-items'>
                                     <table className='table table-bordered border border-danger'>
                                         <thead>
-                                            <tr >
+                                            <tr className='text-center'>
                                                 <th className='py-1'>Activity</th>
-                                                <th className='py-1'>Charge Code</th>
+                                                {/* <th className='py-1'>Charge Code</th> */}
                                                 <th className='py-1'>Amount</th>
-                                                <th className='py-1'>Amount Balance</th>
+                                                {/* <th className='py-1'>Amount Balance</th> */}
                                                 <th className='py-1'>Pass Amount</th>
-                                                <th className='py-1'>Remark</th>
+                                                {/* <th className='py-1'>Remark</th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
                                                 ChargeCodeSub.map((item, index) => (
                                                     <tr key={index}>
-                                                        <td>{item.activity}</td>
+                                                        {/* <td>{item.activity}</td> */}
                                                         <td>{item.item}</td>
                                                         <td>{item.amount}</td>
-                                                        <td>{item.balance_amt}</td>
+                                                        {/* <td>{item.balance_amt}</td> */}
                                                         <td>{item.pass_amt}</td>
-                                                        <td>{item.remark}</td>
+                                                        {/* <td>{item.remark}</td> */}
                                                     </tr>
                                                 ))
                                             }
@@ -93,20 +93,24 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location,custname }) => {
 
                                 </div>
                                 <div className='cn-detailsTotalPreview'>
+                                    {/* <div className=''>
+                                        <label>Remark</label>
+                                        <textarea ></textarea>
+                                    </div> */}
                                     <div className='cn-detailsTotalPreviewsub h-100 float-right rounded'>
                                         <table className='w-100 m-2'>
                                             <tbody>
-                                                <tr>
+                                                {/* <tr>
                                                     <th><h5>Net Amount: </h5></th>
                                                     <th>{data.total_amt}</th>
-                                                </tr>
+                                                </tr> */}
                                                 <tr>
-                                                    <th><h5>Credit Note Amount:  </h5></th>
+                                                    <th><h5>Approved Credit Note Amount:  </h5></th>
                                                     <th>{data.total_cn_amt}</th>
                                                 </tr>
                                                 <tr>
-                                                    <th><h5>Total Amount:  </h5></th>
-                                                    <th>{data.net_amt}</th>
+                                                    <th><h5>Total Pass Amount:  </h5></th>
+                                                    {/* <th>{data.net_amt}</th> */}
                                                 </tr>
                                             </tbody>
                                         </table>
