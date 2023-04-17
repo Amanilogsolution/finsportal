@@ -80,12 +80,17 @@ const InsertCnSub = async (req, res) => {
     const org = req.body.org
     const data = req.body.data
     const userid = req.body.userid
+    const remark = req.body.remark
+    console.log(`insert into ${org}.dbo.tbl_sub_cn (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
+        remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,sub_inv_id)
+        values('${data.cn_no}','${data.invoice_no}','${data.activity}','${data.item}','${data.amount}','${data.balance_amt}','${data.pass_amt}',
+        '${remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}')`)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_sub_cn (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
+        const result = await sql.query(`insert into ${org}.dbo.tbl_sub_creditnote (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
             remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,sub_inv_id)
             values('${data.cn_no}','${data.invoice_no}','${data.activity}','${data.item}','${data.amount}','${data.balance_amt}','${data.pass_amt}',
-            '${data.remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}')`)
+            '${remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}')`)
         res.send('Added')
     }
     catch (err) {
