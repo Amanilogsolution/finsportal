@@ -168,7 +168,7 @@ function CreditNotes() {
                                         </div>
                                     </div>
                                     <div className='cn_table_div'>
-                                        <table className="table table-bordered mt-3">
+                                        <table className="table table-bordered mt-3 table-sm">
                                             <thead>
                                                 <tr className='text-center'>
                                                     <th scope="col" >Activity</th>
@@ -207,32 +207,28 @@ function CreditNotes() {
                                             </div>
                                         </div>
                                         <div style={{ width: "60%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
-                                            <table style={{ width: "100%" }}>
+                                            <table className='mx-3' style={{ width: "95%" }}>
                                                 <tbody>
                                                     <tr scope="row">
-                                                        <td>Total CN Amount</td>
-                                                        <td></td>
-                                                        <td id="totalCnAmt" className="text-danger">0</td>
+                                                        <td><h4>Total CN Amount</h4></td>
+                                                        <td className="text-danger"><h4 id="totalCnAmt">0</h4></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Net Total</td>
-                                                        <td>{data.total_amt}</td>
+                                                        <td><h4>Net Total</h4></td>
+                                                        <td><h4>{data.total_amt}</h4></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>CN Approved Amount</td>
-                                                        <td>{data.total_cn_amt}</td>
-                                                    </tr>
+
                                                     <tr>
                                                         <td>CGST </td>
-                                                        <td>{invoicedata.cgst_amt}%</td>
+                                                        <td >{invoicedata.cgst_amt} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>SGST / UTGST </td>
-                                                        <td>{invoicedata.sgst_amt}%</td>
+                                                        <td>{invoicedata.sgst_amt} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>IGST </td>
-                                                        <td>{invoicedata.igst_amt}%</td>
+                                                        <td>{invoicedata.igst_amt} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Total Taxable</td>
