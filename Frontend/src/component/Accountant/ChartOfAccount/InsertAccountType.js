@@ -13,7 +13,6 @@ function InsertAccountType() {
     fetchData();
   },[])
 
-
   const handleClick = async (e) => {
     e.preventDefault();
     const org = localStorage.getItem("Organisation");
