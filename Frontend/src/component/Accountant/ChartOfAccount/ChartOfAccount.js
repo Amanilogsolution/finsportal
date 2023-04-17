@@ -10,7 +10,6 @@ function ChartOfAccount() {
   const [account_name, setaccount_name] = useState([]);
   const [accountno, setAccountno] = useState('');
   const [accountsubno, setAccountsubno] = useState('');
-  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,13 +28,13 @@ function ChartOfAccount() {
     const parentaccount = document.getElementById('parentaccount').value;
 
     const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
-    if(result){
-      window.location.href='/ShowChartAccount'
+    if (result) {
+      window.location.href = '/ShowChartAccount'
     }
 
-    return 
-    }
- 
+    return
+  }
+
 
 
   const handleAccountType = async (e) => {
@@ -44,26 +43,21 @@ function ChartOfAccount() {
     setaccount_type(account_type)
     const org = localStorage.getItem('Organisation');
     const result = await ChartOfAccountParentAccount(account_type, org);
-    console.log(result);
     setaccount_name(result)
 
-    const number = await ParentAccountNumber(account_type, account_name, org);
-    console.log(number)
+    // const number = await ParentAccountNumber(account_type, account_name, org);
 
     document.getElementById('parent').style.display = 'block';
-
-
-    
 
   }
 
   const handleParentAccount = async (e) => {
     const account_name = e.target.value;
     // setaccount_type(account_name)
-    console.log(account_name)
+    // console.log(account_name)
 
-    const number = await ParentAccountNumber(account_type, account_name,localStorage.getItem('Organisation'));
-    console.log(`Minor`,number)
+    const number = await ParentAccountNumber(account_type, account_name, localStorage.getItem('Organisation'));
+    // console.log(`Minor`, number)
     const accountnamenum = parseInt(number.result.account_name_code) + 1;
     const accountnamenum1 = String(accountnamenum).padStart(2, '0');
     setAccountno(accountnamenum1)
@@ -79,10 +73,10 @@ function ChartOfAccount() {
     }
   }
 
-  const handleClick = () => {
-    document.getElementById('parent').style.display = 'block';
+  // const handleClick = () => {
+  //   document.getElementById('parent').style.display = 'block';
 
-  };
+  // };
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -137,13 +131,13 @@ function ChartOfAccount() {
                   >
                     <option value='' hidden>Choose</option>
                     {
-                    account_name.map((item, index) => {
-                      return (
-                        <option key={index} value={item.account_name_code}>{item.account_name}</option>
+                      account_name.map((item, index) => {
+                        return (
+                          <option key={index} value={item.account_name_code}>{item.account_name}</option>
+                        )
+                      }
                       )
                     }
-                    )
-                  }
                   </select>
                   <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertMinorCode"; localStorage.setItem('Chart', 'Chart') }}
                     style={{ height: "30px", width: "30px" }}>+</button>
@@ -163,10 +157,10 @@ function ChartOfAccount() {
                   style={{ height: '20px', wight: '20px' }} />
               </p> */}
 
-             
+
               <div className="form-group">
                 <label>Account Code  </label>
-                <input type="text" value={accountsubno} className="form-control" id="Accountnamecode" />
+                <input type="text" value={accountsubno} className="form-control" id="Accountnamecode" disabled />
               </div>
               <div className="form-group">
                 <label>Description  </label>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { showOrganisation } from '../../../../api'
-import '../../../Customer/CreditNotes/CreditNotePreview/CreditNotePreview.css'
+import './VendorCreditsPreview.css'
 
 const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
     const [orgdata, setOrgdata] = useState([])

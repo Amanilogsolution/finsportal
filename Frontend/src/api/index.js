@@ -74,7 +74,7 @@ export const showOrganisation = async (org_db_name) => {
 }
 
 export const updateOrganisation = async (org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage) => {
-    const url = `https://finsbackend.awlinternational.com/api/UpdateOrganisation`
+    const url = `http://localhost:3008/api/UpdateOrganisation`
     return axios.post(url, { org_name, org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, industry_type, fins_year, report_basic, company_id, tax_id, uploadimage }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -913,7 +913,7 @@ export const ShowChartOfAccount = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const ChartOfAccountParentAccount = async (account_type_code, org) => {
-    const url = `https://finsbackend.awlinternational.com/api/parentaccount`
+    const url = `http://localhost:3008/api/parentaccount`
     return axios.post(url, { account_type_code, org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1345,9 +1345,9 @@ export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) =>
 
 // ############################ For Purchases Bill api Start #################################
 
-export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave,po_no) => {
+export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave,po_no,net_amt) => {
     const url = `http://localhost:3008/api/insertbill`
-    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave,po_no }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave,po_no,net_amt }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetBillData = async (org, voucher_no) => {
     const url = `http://localhost:3008/api/getbilldata`
