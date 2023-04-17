@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
 import { getDNData, GetBillData, GetSubBillItems, UpdateDebitNote, InsertSubDebitNote, SelectDnSubDetails } from "../../../api/index"
 import Footer from "../../Footer/Footer";
 import VendorCreditsPreview from './VendorCreditsPreview/VendorCreditsPreview'
 
 function VendorCredits() {
+    const btn = useRef(null)
     const [billdata, setBillData] = useState({})
     const [Dndata, setDnData] = useState({})
     const [BillSub, setBillSub] = useState([])
@@ -20,11 +21,11 @@ function VendorCredits() {
         gl_code: '',
         amt: '',
         pass_amt: '',
-        narration: '',
         sub_id: '',
         balance_amt: '',
 
     }])
+    const [subTotal, setSubTotal] = useState([])
 
 
     useEffect(() => {
@@ -36,14 +37,12 @@ function VendorCredits() {
             const org = localStorage.getItem('Organisation')
             const result = await getDNData(org, localStorage.getItem('dnno'))
             setDnData(result)
-
-            console.log('moilh9',result)
+            console.log(result)
             const BillData = await GetBillData(org, result.voucher_no)
             setBillData(BillData)
-
             const BillSub = await GetSubBillItems(org, result.voucher_no)
             setBillSub(BillSub)
-
+            console.log(BillSub)
             const Subdata = await SelectDnSubDetails(org, result.dn_no, result.voucher_no, BillSub.length)
             setSubDetails(Subdata)
         }
@@ -60,7 +59,7 @@ function VendorCredits() {
         let gl_code = document.getElementById(`glCode${index}`).innerHTML
         let amt = document.getElementById(`Amt${index}`).innerHTML
         let Balancevalue = amt - value
-        let Remark = document.getElementById(`Remark${index}`).value
+        let sum = 0
 
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${amt}`)
@@ -69,6 +68,7 @@ function VendorCredits() {
             return
         } else {
             setTimeout(() => {
+                subTotal[index] = value
                 DebitCodeSub[index] = {
                     dn_no: dn_no,
                     voucher_no: voucher_no,
@@ -79,47 +79,19 @@ function VendorCredits() {
                     gl_code: gl_code,
                     amt: amt,
                     pass_amt: value,
-                    narration: Remark,
                     sub_id: id,
                     balance_amt: Balancevalue
                 }
+                subTotal.map(item => sum += Number(item))
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
+                document.getElementById('totalCnAmt').innerHTML = sum
 
             }, 1000)
         }
     }
 
-    const handleChangePassRemark = (value, index, id) => {
-        let dn_no = document.getElementById('DnAmount').value
-        let voucher_no = document.getElementById('Voucher_no').value
-        let bill_no = document.getElementById('Bill_no').value
-        let location = BillSub[index]['location']
-        let items = document.getElementById(`Items${index}`).innerHTML
-        let emp_name = BillSub[index]['emp_name']
-        let gl_code = document.getElementById(`glCode${index}`).innerHTML
-        let amt = document.getElementById(`Amt${index}`).innerHTML
-        let Balancevalue = document.getElementById(`PassAmount${index}`).value
-        let bal = document.getElementById(`AmountLeft${index}`).innerHTML
 
-        setTimeout(() => {
-            DebitCodeSub[index] = {
-                dn_no: dn_no,
-                voucher_no: voucher_no,
-                bill_no: bill_no,
-                location: location,
-                items: items,
-                emp_name: emp_name,
-                gl_code: gl_code,
-                amt: amt,
-                pass_amt: Balancevalue,
-                narration: value,
-                sub_id: id,
-                balance_amt: bal
-            }
-            setSendRequest(true)
-        }, 1000)
-    }
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -141,15 +113,27 @@ function VendorCredits() {
         let fins_year = billdata.fins_year
         const dn_no = Dndata.dn_no
         const user_id = localStorage.getItem('User_id')
+        const remark = document.getElementById('remarks').value
+        const value = document.getElementById('totalCnAmt').innerHTML
 
         const result = await UpdateDebitNote(org, vend_id, bill_date, total_bill_amt, net_amt, location, total_gst_amount, cgst_amount, sgst_amount, igst_amount, tds_head, tds_amt, tds_per
             , expense_amt, fins_year, dn_no, voucher_no, user_id)
 
         DebitCodeSub.forEach(async (item) => {
-            const SubDn = await InsertSubDebitNote(org, dn_no, voucher_no, item.bill_no, item.location, item.items, item.emp_name, item.gl_code, item.amt, fins_year, item.balance_amt, item.pass_amt, item.narration, user_id, item.sub_id)
+            const SubDn = await InsertSubDebitNote(org, dn_no, voucher_no, item.bill_no, item.location, item.items, item.emp_name, item.gl_code, item.amt, fins_year, item.balance_amt, item.pass_amt, remark, user_id, item.sub_id)
         })
-        if (result == "Added") {
+        console.log(result)
+        if (result == "Updated") {
             window.location.href = "./DebitNotes"
+        }
+    }
+    const apiCAll = (e)=>{
+        e.preventDefault()
+        const value = document.getElementById('totalCnAmt').innerHTML
+        if (Number(Dndata.total_dn_amt) > value) {
+            btn.current.click()
+        } else {
+            handleClick()
         }
 
 
@@ -223,7 +207,7 @@ function VendorCredits() {
                                                 <th scope="col">Amount</th>
                                                 <th scope="col">Balance Amount</th>
                                                 <th scope="col">passAmount</th>
-                                                <th scope="col">Narration</th>
+                                                {/* <th scope="col">Narration</th> */}
                                                 <th scope="col">AmountLeft</th>
                                             </tr>
                                         </thead>
@@ -236,7 +220,7 @@ function VendorCredits() {
                                                         <td className="col-md-2 px-1 text-center" >{element.amt}</td>
                                                         <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt : element.amt}</td>
                                                         <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="number" id={`PassAmount${index}`} placeholder="Pass Amount" onChange={(e) => { handleChangePassAmount(e.target.value, index, element.sno) }} /></td>
-                                                        <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="text" id={`Remark${index}`} placeholder="Pass Remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, element.sno) }} /></td>
+                                                        {/* <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="text" id={`Remark${index}`} placeholder="Pass Remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, element.sno) }} /></td> */}
                                                         <td className="col-md-2 px-1 text-center text-danger" id={`AmountLeft${index}`}></td>
                                                     </tr>
                                                 ))
@@ -245,7 +229,12 @@ function VendorCredits() {
                                     </table>
                                     <div style={{ display: "flex" }}>
                                         <div style={{ width: "40%" }}>
-
+                                            <div className="form">
+                                                <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remark</label>
+                                                <div className="d-flex col-md">
+                                                    <textarea type="text" className="form-control " rows="5" id="remarks" placeholder="Remarks" style={{ resize: "none" }} ></textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                             <table style={{ width: "100%" }}>
@@ -257,6 +246,11 @@ function VendorCredits() {
                                                     </tr>
                                                 </thead>
                                                 <tbody style={{ position: "relative" }}>
+                                                    <tr scope="row">
+                                                        <td>Total CN Amount</td>
+                                                        <td></td>
+                                                        <td id="totalCnAmt" className="text-danger">0</td>
+                                                    </tr>
                                                     <tr scope="row">
                                                         <td>Net Total</td>
                                                         <td></td>
@@ -282,6 +276,11 @@ function VendorCredits() {
                                                         <td></td>
                                                         <td>{billdata.taxable_amt}</td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>TDS</td>
+                                                        <td>{billdata.tds_per}%</td>
+                                                        <td>{billdata.tds_amt}</td>
+                                                    </tr>
                                                     <tr className='mt-2'>
                                                         <td><h3>Total(₹)</h3></td>
                                                         <td></td>
@@ -294,11 +293,11 @@ function VendorCredits() {
                                     <div className="form-group">
                                         <label className="col-md-4 control-label" htmlFor="save"></label>
                                         <div className="col-md-20" style={{ width: "100%" }}>
-                                            <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
+                                            <button id="save" name="save" className="btn btn-danger" onClick={apiCAll}>
                                                 Save</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
                                                 name="clear" className="btn ml-2 btn-secondary">Cancel</button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log('nin',billdata)}}>  Preview</button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log('nin', billdata) }}>  Preview</button>
                                         </div>
                                     </div>
                                 </form>
@@ -306,11 +305,37 @@ function VendorCredits() {
                         </div>
                     </div>
                 </div>
+                <button type="button" ref={btn} class="btn" data-toggle="modal" data-target="#exampleModal1">
+                </button>
                 <Footer />
             </div>
             {
                 DebitCodeSub.length > 0 ? <VendorCreditsPreview data={billdata} Dndata={Dndata} DebitCodeSub={DebitCodeSub} /> : null
             }
+            {/*  MOdal */}
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">DebitNote Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{`
+                            ${subTotal.length>0?document.getElementById('totalCnAmt').innerHTML:'0'}
+                            is less than 
+                            ${Dndata.total_dn_amt} 
+                            Are you Still want to make a Request`}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" onClick={handleClick}>Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
