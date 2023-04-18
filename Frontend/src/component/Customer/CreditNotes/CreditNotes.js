@@ -36,6 +36,7 @@ function CreditNotes() {
             const result = await getCNData(org, localStorage.getItem('cnno'))
             console.log(result)
             setData(result)
+            Invdate(result.inv_Date)
             const Invoice = await GetInvoice(org, result.inv_no)
             setInvoiceData(Invoice[0])
             const result1 = await GetSubInvoice(org, result.inv_no)
@@ -45,6 +46,7 @@ function CreditNotes() {
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
             setSubDetails(Subdata)
 
+
             if (result1.length) {
                 document.getElementById('Accountname').value = result1[0].consignee
                 setCustname(result1[0].consignee)
@@ -52,6 +54,16 @@ function CreditNotes() {
         }
         fetchData()
     }, [sendRequest])
+
+    const Invdate = (invdate) =>{
+        var date = new Date(invdate);
+        var year = date.getFullYear()+1
+        var today = year + "-" + '09' + "-" + '30';
+        if(invdate>today){
+            alert('Cannt Do GST')
+        }
+        console.log(today,invdate)
+    }
 
     const handleChangePassAmount = (value, index, id) => {
         let AmtBalance = document.getElementById(`BalanceAmount${index}`).innerHTML
@@ -113,7 +125,6 @@ function CreditNotes() {
         }
     }
 
-
     return (
         <div>
             <div className="wrapper">
@@ -125,7 +136,7 @@ function CreditNotes() {
                     <div className="container-fluid">
                         <h3 className="pt-3 pl-4"><span className='text-danger'>C</span>redit Note</h3>
                         <div className="card">
-                            <article className="card-body" >
+                            <article className="card-body">
                                 <form autoComplete="off">
                                     <div className="form-row mt-2">
                                         <div className="d-flex col-md-6">
@@ -245,7 +256,7 @@ function CreditNotes() {
                                     <div className="form-group">
                                         <div className="col-md-20" style={{ width: "100%" }}>
                                             <button id="save" name="save" className="btn btn-danger" onClick={apiCAll}>
-                                                Post
+                                                Create
                                             </button>
                                             <button id="clear" onClick={(e) => {
                                                 e.preventDefault(); window.location.href = '/CreditNotesUI'
@@ -269,7 +280,7 @@ function CreditNotes() {
                     <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname} />
                     : null
             }
-            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal1" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

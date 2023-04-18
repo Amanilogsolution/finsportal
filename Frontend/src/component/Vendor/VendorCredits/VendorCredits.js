@@ -38,6 +38,7 @@ function VendorCredits() {
             console.log(result)
             const BillData = await GetBillData(org, result.voucher_no)
             setBillData(BillData)
+            Billdate(BillData.billdate)
             const BillSub = await GetSubBillItems(org, result.voucher_no)
             setBillSub(BillSub)
             console.log(BillSub)
@@ -46,6 +47,16 @@ function VendorCredits() {
         }
         fetchData()
     }, [sendRequest])
+
+    const Billdate = (billdate) =>{
+        var date = new Date(billdate);
+        var year = date.getFullYear()+1
+        var today = year + "-" + '09' + "-" + '30';
+        if(billdate>today){
+            alert('Cannt Do GST')
+        }
+        console.log(today,billdate)
+    }
 
     const handleChangePassAmount = (value, index, id) => {
         let dn_no = document.getElementById('DnAmount').value
@@ -199,7 +210,6 @@ function VendorCredits() {
                                                     <th scope="col">Amount</th>
                                                     <th scope="col">Balance Amount</th>
                                                     <th scope="col">passAmount</th>
-                                                    {/* <th scope="col">Narration</th> */}
                                                     <th scope="col">Amount Left</th>
                                                 </tr>
                                             </thead>
@@ -212,7 +222,6 @@ function VendorCredits() {
                                                             <td className="col-md-2 px-1 text-center" >{element.amt}</td>
                                                             <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt : element.amt}</td>
                                                             <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="number" id={`PassAmount${index}`} placeholder="Pass Amount" onChange={(e) => { handleChangePassAmount(e.target.value, index, element.sno) }} /></td>
-                                                            {/* <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="text" id={`Remark${index}`} placeholder="Pass Remark" onChange={(e) => { handleChangePassRemark(e.target.value, index, element.sno) }} /></td> */}
                                                             <td className="col-md-2 px-1 text-center text-danger" id={`AmountLeft${index}`}></td>
                                                         </tr>
                                                     ))

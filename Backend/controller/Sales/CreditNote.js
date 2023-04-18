@@ -17,7 +17,6 @@ const InsertCreditNote = async (req, res) => {
     const fins_year = req.body.fins_year;
     const userid = req.body.userid;
     const total_cn_amt = req.body.total_cn_amt
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_creditnote (cn_no,cn_type,cn_date,mast_id,
@@ -37,7 +36,7 @@ const AllCNData = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as Joindate  from ${org}.dbo.tbl_creditnote order by sno desc`)
+        const result = await sql.query(`select *,convert(varchar(15),inv_date,121) as Joindate  from ilogsolution.dbo.tbl_creditnote where status='Confirmed' OR status='Waiting' order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -49,7 +48,6 @@ const ChangeCNStatus = async (req, res) => {
     const org = req.body.org;
     const status = req.body.status;
     const sno = req.body.sno;
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_creditnote set status='${status}' where sno = ${sno} `)
@@ -81,10 +79,7 @@ const InsertCnSub = async (req, res) => {
     const data = req.body.data
     const userid = req.body.userid
     const remark = req.body.remark
-    console.log(`insert into ${org}.dbo.tbl_sub_cn (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
-        remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,sub_inv_id)
-        values('${data.cn_no}','${data.invoice_no}','${data.activity}','${data.item}','${data.amount}','${data.balance_amt}','${data.pass_amt}',
-        '${remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}')`)
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_sub_creditnote (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
