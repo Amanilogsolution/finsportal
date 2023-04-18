@@ -113,7 +113,6 @@ const getSaveBill = async (req, res) => {
 const GetBillData = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
-    console.log(org, voucher_no)
     try {
         await sql.connect(sqlConfig)
         const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate,convert(varchar(15),due_date,121) as duedate,
@@ -166,8 +165,7 @@ const filterInvoicebyDN = async (req, res) => {
     const vendorid = req.body.vendorid;
     const locationid = req.body.locationid;
     const bill_no = req.body.bill_no;
-    console.log(`select * from ${org}.dbo.tbl_bill with (nolock) where convert(date,bill_date) between '${startDate}'and '${lastDate}' or vend_id='${vendorid}' or bill_no='${bill_no}' and flagsave = 'post' 
-    order by sno desc`)
+    
     try {
         await sql.connect(sqlConfig)
         if (vendorid == 'all') {

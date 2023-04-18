@@ -63,7 +63,7 @@ const AllDNData = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),dn_date,121) as Joindate  from ilogsolution.dbo.tbl_debitnote`)
+        const result = await sql.query(`select *,convert(varchar(15),dn_date,121) as Joindate  from ilogsolution.dbo.tbl_debitnote  ORDER BY sno DESC`)
         res.send(result.recordset)
     }
     catch (err) {
