@@ -220,19 +220,19 @@ function CreditNotes() {
 
                                                     <tr>
                                                         <td>CGST </td>
-                                                        <td >{invoicedata.cgst_amt} %</td>
+                                                        <td >{invoicedata?invoicedata.cgst_amt:""} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>SGST / UTGST </td>
-                                                        <td>{invoicedata.sgst_amt} %</td>
+                                                        <td>{invoicedata?invoicedata.sgst_amt:""} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>IGST </td>
-                                                        <td>{invoicedata.igst_amt} %</td>
+                                                        <td>{invoicedata?invoicedata.igst_amt:""} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Total Taxable</td>
-                                                        <td>{invoicedata.taxable_amt}</td>
+                                                        <td>{invoicedata?invoicedata.taxable_amt:""}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><h3> Total(₹)</h3></td>

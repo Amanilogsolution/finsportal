@@ -16,6 +16,7 @@ const AddItem = () => {
         const fetchdata = async () => {
             const result = await ActiveAccountMinorCode(localStorage.getItem('Organisation'))
             setData(result)
+
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
 
@@ -59,9 +60,7 @@ const AddItem = () => {
         }
         else {
             document.getElementById('gldiv').style.display = 'none'
-
         }
-
     }
 
     const handleClick = async (e) => {
@@ -98,7 +97,6 @@ const AddItem = () => {
                 alert('Server Error')
             }
         }
-
     }
 
     return (
@@ -127,7 +125,7 @@ const AddItem = () => {
                                             <option value='' hidden>select the minor Code</option>
                                             {
                                                 data.map((item, index) =>
-                                                    <option key={index} value={item.account_name_code}>{item.account_name}</option>)
+                                                 <option key={index} value={item.account_name_code}>{item.account_name}</option>)
                                             }
                                         </select>
                                     </div>
@@ -139,7 +137,7 @@ const AddItem = () => {
                                             <option value='' hidden>Select the Chart of Account</option>
                                             {
                                                 chartofaccountlist.map((item, index) =>
-                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
+                                                <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
                                             }
                                         </select>
                                     </div>
@@ -190,7 +188,6 @@ const AddItem = () => {
                                     </div>
                                 </div>
 
-
                                 <div className="form-row" >
                                     <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
                                     <div className="col form-group">
@@ -200,7 +197,6 @@ const AddItem = () => {
                                             <option value='Non-Taxable' >Non-Taxable</option>
                                             <option value='Out-of-Scope' >Out of Scope</option>
                                             <option value='Non-GST Supply' >Non-GST Supply </option>
-
                                         </select>
                                     </div>
                                 </div>
@@ -216,7 +212,6 @@ const AddItem = () => {
                                         <input className="form-control mt-2" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
                                         <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
                                     </div>
-
                                 </div>
 
                                 <div className="form-row" id="defaulttax" style={{ display: "none" }}>
