@@ -82,8 +82,8 @@ const ShowItem = () => {
     },
 
     {
-      name: 'Major Code',
-      selector: 'major_code',
+      name: 'Minor Code',
+      selector: 'minor_code',
       sortable: true
     },
     {

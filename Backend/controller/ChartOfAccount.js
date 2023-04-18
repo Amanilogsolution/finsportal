@@ -120,7 +120,6 @@ const AddNewSubAccountName = async (req, res) => {
 const SelectSubAccountname = async (req, res) => {
     const account_type_code = req.body.account_type_code;
     const org = req.body.org;
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select account_sub_name,account_sub_name_code from  ${org}.dbo.tbl_sub_account tsa with (nolock) WHERE account_name_code ='${account_type_code}'`)
