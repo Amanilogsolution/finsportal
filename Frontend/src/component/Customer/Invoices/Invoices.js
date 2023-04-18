@@ -4,8 +4,8 @@ import Footer from "../../Footer/Footer";
 import InvoicePreview from './PreviewInvoice';
 import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 import {
-    ActiveCustomer, ActivePaymentTerm,SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid, 
-    Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount, 
+    ActiveCustomer, ActivePaymentTerm, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid,
+    Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount,
     SearchLocationAddress, SearchCustAddress
 } from '../../../api/index'
 import './invoice.css'
@@ -371,9 +371,7 @@ function Invoices() {
         const billsubtotal = allInvoiceData.TotalNetAmounts
         const total_tax = allInvoiceData.CGSTPer + allInvoiceData.IGSTPer + allInvoiceData.SGSTPer
         const remark = document.getElementById('custnotes').value;
-
         let location = `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}`
-
         let consignee = document.getElementById('custname')
         consignee = consignee.options[consignee.selectedIndex].text;
         const currency_type = document.getElementById('currency').value
@@ -383,40 +381,29 @@ function Invoices() {
         const sgst = allInvoiceData.SGSTPer
         const utgst = allInvoiceData.SGSTPer
         const igst = allInvoiceData.IGSTPer
-
-
         let custaddrs = `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`
-
         const invoice_destination = allInvoiceData.DestinationState
         const invoice_origin = allInvoiceData.OriginState
-
-
         let cgstamount = allInvoiceData.CGST
         let sgstamount = allInvoiceData.SGST
         let utgstamount = allInvoiceData.SGST
         let igstamount = allInvoiceData.IGST
         const taxableamt = allInvoiceData.TotalTaxamount;
-
-
-
         // // Insert Data
         if (!custid || !billsubtotal || !consignee) {
             alert('Please Select Customer');
         }
         else {
-
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
                 total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
                 paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
-
             if (result === 'Added') {
                 itemsrowval.map(async (item, index) => {
                     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
                         item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
                         item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
                 })
-
                 if (btn_type !== 'save') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }
@@ -433,7 +420,6 @@ function Invoices() {
         <>
             <div className="wrapper">
                 <Header />
-
                 <div className={`content-wrapper `} >
                     <div className="container-fluid" >
                         <h3 className="pt-3 px-3"> New Invoice</h3>
@@ -460,7 +446,6 @@ function Invoices() {
                                                         </select>
                                                     </div>
                                                 </div>
-
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
@@ -478,7 +463,6 @@ function Invoices() {
                                                         </button>
                                                     </div>
                                                 </div>
-
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
@@ -500,10 +484,8 @@ function Invoices() {
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md">
                                                         <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
-
                                                     </div>
                                                 </div>
-
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                     <div className="d-flex col-md">
@@ -512,13 +494,10 @@ function Invoices() {
                                                 </div>
 
                                                 <div className="form-row mt-3">
-
                                                     <div className="d-flex col-md-3">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-
                                                         <input type="date" className='form-control col-md-6  cursor-notallow' id="Invoicedate" disabled />
                                                     </div>
-
 
                                                     <div className="d-flex col-md-4 ">
                                                         <label className="col-md-3 text-center col-form-label font-weight-normal" >Terms</label>
@@ -528,7 +507,7 @@ function Invoices() {
                                                             className='col-md-6  mr-0 form-control'
                                                             onChange={handleAccountTerm}
                                                         >
-                                                            <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms?`Net ${custdetail.payment_terms}`:'select term'}</option>
+                                                            <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
                                                             {
                                                                 activepaymentterm.map((item, index) => (
                                                                     <option key={index} value={item.term_days}>{item.term}</option>
@@ -768,7 +747,6 @@ function Invoices() {
                 <Footer />
             </div>
 
-
             {/* modal Bill Address  Start*/}
             <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -782,7 +760,6 @@ function Invoices() {
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
-
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -809,7 +786,6 @@ function Invoices() {
                                     }
                                 </tbody>
                             </table>
-
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -832,7 +808,6 @@ function Invoices() {
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
-
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -860,7 +835,6 @@ function Invoices() {
                                     }
                                 </tbody>
                             </table>
-
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -869,7 +843,6 @@ function Invoices() {
                 </div>
             </div>
             {/* modal Customer Address  End*/}
-
         </>
     )
 }
