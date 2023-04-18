@@ -212,6 +212,7 @@ function Invoices() {
         itemsrowval[index].items = item
         itemsrowval[index].taxPer = Number(gstper)
         itemsrowval[index].glcode = glcodes
+        console.log(glcodes)
         if (gstper > 0) {
             itemsrowval[index].taxable = 'yes'
         } else {

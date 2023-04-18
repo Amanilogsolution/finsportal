@@ -17,11 +17,14 @@ const EditItem = () => {
             const org = localStorage.getItem('Organisation');
             const result = await GetItems(org, localStorage.getItem('ItemsSno'))
             setData(result)
+
             if (result.item_type === 'Goods') {
                 document.getElementById('typeGoods').checked = true
+                document.getElementById('hsncodetoogle').style.display = 'flex';
                 setType('Goods')
             } else {
                 document.getElementById('typeService').checked = true
+                document.getElementById('saccodetoogle').style.display = 'flex';
                 setType('Service')
             }
             if (result.purchase_account === 'Purchase' && result.sales_account === 'Sales') {
@@ -32,14 +35,21 @@ const EditItem = () => {
             } else if (result.sales_account === 'Sales') {
                 document.getElementById('item_name_sales').checked = true
             }
+
+
             if (result.tax_preference === "Taxable") {
                 document.getElementById('defaulttax').style.display = "flex";
             } else {
                 document.getElementById('defaulttax').style.display = "none";
             }
+
+            if (result.glcode.length > 0) {
+                document.getElementById('checkboxgst').checked = true
+            }
+
             const result2 = await ActiveAccountMinorCode(org)
             setMajorcodelist(result2)
-            const chartofaccount = await SelectSubAccountname(org, result.major_code_id)
+            const chartofaccount = await SelectSubAccountname(org, result.minor_code_id)
             setChartofaccountlist(chartofaccount)
             const result1 = await TotalActiveUnit(org);
             setUnitdata(result1)
@@ -49,8 +59,11 @@ const EditItem = () => {
 
 
     const getchartofaccountdata = async (e) => {
-        setChartofaccountlist([])
-        const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), e.target.value)
+        data.chart_of_account = 'Select Chart of Account';
+        data.chart_of_acct_id = '';
+        const minor_val = e.target.value;
+        const minor_arr_val = minor_val.split('^')
+        const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), minor_arr_val[1])
         setChartofaccountlist(chartofaccount)
     }
 
@@ -58,11 +71,16 @@ const EditItem = () => {
         e.preventDefault();
         const Name = document.getElementById("name").value;
         const Unit = document.getElementById("unit").value;
-        const hsncode = document.getElementById("hsncode").value;
-        const saccode = document.getElementById("saccode").value
-        const major_code1 = document.getElementById("major_code");
-        const major_code = major_code1.options[major_code1.selectedIndex].textContent;
-        const major_code_val = major_code1.value
+        const hsncode = type === 'Goods' ? document.getElementById("hsncode").value : ''
+        const saccode = type === 'Service' ? document.getElementById("saccode").value : ''
+
+        const minor_val = document.getElementById('major_code')
+        const minor_arr_val = minor_val.value.split('^')
+
+        const minor_code = minor_val.options[minor_val.selectedIndex].textContent;
+        const major_code_id = minor_arr_val[0];
+        const minor_code_id = minor_arr_val[1];
+
         const chartofacc = document.getElementById('chartofaccount');
         const chartofaccount_id = chartofacc.value;
         const chartofaccount = chartofacc.options[chartofacc.selectedIndex].textContent;
@@ -74,11 +92,15 @@ const EditItem = () => {
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
 
-        if (!Name || !major_code || !chartofaccount_id || !taxpreference) {
+        if (!Name || !minor_code_id || !chartofaccount_id || !taxpreference) {
             alert('Enter the Mandatory field...')
         }
         else {
-            const result = await UpdateItems(sno, org, type, Name, Unit, saccode, hsncode, major_code_val, major_code, chartofaccount, chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id);
+            const checkbox = document.getElementById('checkboxgst').checked || false
+            let glcode = '';
+            if (checkbox) { glcode = data.glcode }
+
+            const result = await UpdateItems(sno, org, type, Name, Unit, hsncode, saccode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, glcode, user_id);
             if (result === "updated") {
                 alert('Data Updated')
                 localStorage.removeItem('ItemsSno');
@@ -135,18 +157,18 @@ const EditItem = () => {
                                 <div className="form-row" >
                                     <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type</label>
                                     <div className="col form-group " onChange={handletype} >
-                                        <input className="col-mt-2" type="radio" id="typeGoods" name="itemtype" value='Goods' disabled />  Goods  &nbsp; &nbsp;
-                                        <input className="col-mt-2" type="radio" id="typeService" name="itemtype" value='Service' disabled />  Service
+                                        <input className="col-mt-2" type="radio" id="typeGoods" name="itemtype" value='Goods' />  Goods  &nbsp; &nbsp;
+                                        <input className="col-mt-2" type="radio" id="typeService" name="itemtype" value='Service' />  Service
                                     </div>
                                 </div>
                                 <div className="form-row">
                                     <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Minor Code</label>
                                     <div className="col form-group">
                                         <select className="form-control col-md-4" id='major_code' onChange={getchartofaccountdata}>
-                                            <option value={data.major_code_id} hidden>{data.major_code}</option>
+                                            <option value={`${data.major_code_id}^${data.minor_code_id}`} hidden>{data.minor_code}</option>
                                             {
                                                 majorcodelist.map((item, index) =>
-                                                    <option key={index} value={item.account_name_code}>{item.account_name}</option>)
+                                                    <option key={index} value={`${item.account_type_code}^${item.account_name_code}`}>{item.account_name}</option>)
                                             }
                                         </select>
                                     </div>
@@ -169,6 +191,13 @@ const EditItem = () => {
                                         <input type="text" className="form-control col-md-4" id='name' defaultValue={data.item_name} />
                                     </div>
                                 </div>
+                                <div className="form-row">
+                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
+                                    <div className="col form-group">
+                                        <span className='text-danger '>Make this a sub-account</span>
+                                        <input type="checkbox" id="checkboxgst" className='ml-4' style={{ height: '18px', width: '18px' }} />
+                                    </div>
+                                </div>
                                 <div className="form-row" >
                                     <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
                                     <div className="col form-group">
@@ -182,7 +211,7 @@ const EditItem = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className="form-row" id="hsncodetoogle">
+                                <div className="form-row" id="hsncodetoogle" style={{ display: "none" }}>
                                     <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
                                     <div className="col form-group">
                                         <input className="form-control col-md-4" type="text" id="hsncode" defaultValue={data.hsn_code} />

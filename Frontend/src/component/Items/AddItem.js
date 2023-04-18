@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { InsertItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit, ShowGlCode } from "../../api";
+import { InsertItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit } from "../../api";
 
 
 const AddItem = () => {
@@ -10,7 +10,6 @@ const AddItem = () => {
     const [type, setType] = useState('Goods');
     const [unitdata, setUnitdata] = useState([]);
     const [gstvaluecount, setGstvaluecount] = useState();
-    const [glcode, setglcode] = useState([]);
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -19,16 +18,16 @@ const AddItem = () => {
 
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
-
-            const result2 = await ShowGlCode(localStorage.getItem("Organisation"));
-            setglcode(result2)
         }
         fetchdata()
     }, [])
 
 
     const handlegetchartofaccount = async (e) => {
-        const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), e.target.value)
+        e.preventDefault()
+        const minor_val = e.target.value;
+        const minor_arr_val = minor_val.split('^')
+        const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), minor_arr_val[1])
         setChartofaccountlist(chartofaccount)
     }
 
@@ -54,14 +53,6 @@ const AddItem = () => {
         }
     }
 
-    const handleSubgl = (e) => {
-        if (document.getElementById('checkboxgst').checked == true) {
-            document.getElementById('gldiv').style.display = 'flex'
-        }
-        else {
-            document.getElementById('gldiv').style.display = 'none'
-        }
-    }
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -69,9 +60,15 @@ const AddItem = () => {
         const unit = document.getElementById("unit").value;
         const HSNcode = document.getElementById('hsncode').value
         const SACcode = document.getElementById('saccode').value
-        const major_code1 = document.getElementById('major_code');
-        const major_code = major_code1.options[major_code1.selectedIndex].textContent;
-        const major_code_val = major_code1.value;
+
+
+        const minor_val = document.getElementById('major_code')
+        const minor_arr_val = minor_val.value.split('^')
+
+        const minor_code = minor_val.options[minor_val.selectedIndex].textContent;
+        const major_code_id = minor_arr_val[0];
+        const minor_code_id = minor_arr_val[1];
+
         const chartofacct = document.getElementById('chartof_account');
         const chartofaccount_id = chartofacct.value;
         const chartofaccount = chartofacct.options[chartofacct.selectedIndex].textContent;
@@ -81,13 +78,18 @@ const AddItem = () => {
         const gstrate = document.getElementById("gstrate").value;
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
-        const [glcode, glname] = document.getElementById('glcode').value.split(',')
 
-        if (!Name || !major_code || !taxpreference) {
+        if (!Name || !chartofaccount_id || !taxpreference || !minor_code_id) {
             alert('Please Enter the mandatory field')
         }
         else {
-            const result = await InsertItems(org, type, Name, unit, SACcode, HSNcode, major_code_val, major_code, chartofaccount, chartofaccount_id, taxpreference, Sales, Purchase, gstrate, user_id, glname, glcode);
+            const checkbox = document.getElementById('checkboxgst').checked || false
+            let glcode = '';
+            if (checkbox) {
+                glcode = Name.slice(0, 3) + Math.floor(Math.random() * 10000)
+            }
+
+            const result = await InsertItems(type, Name, unit, HSNcode, SACcode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, org, user_id, glcode);
             if (result === "Added") {
                 alert('Data Added')
                 localStorage.removeItem('ChargecodeSno');
@@ -125,7 +127,7 @@ const AddItem = () => {
                                             <option value='' hidden>select the minor Code</option>
                                             {
                                                 data.map((item, index) =>
-                                                 <option key={index} value={item.account_name_code}>{item.account_name}</option>)
+                                                    <option key={index} value={`${item.account_type_code}^${item.account_name_code}`}>{item.account_name}</option>)
                                             }
                                         </select>
                                     </div>
@@ -153,12 +155,8 @@ const AddItem = () => {
                                 <div className="form-row">
                                     <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
                                     <div className="col form-group">
-                                        <span style={{ color: "red" }}>Make this a sub-account</span>
-                                        <input type="checkbox"
-                                            id="checkboxgst"
-                                            onClick={handleSubgl}
-                                            style={{ marginLeft: "150px" }}
-                                        />
+                                        <span className='text-danger '>Make this a sub-account</span>
+                                        <input type="checkbox" id="checkboxgst" className='ml-4' style={{ height: '18px', width: '18px' }} />
                                     </div>
                                 </div>
                                 <div className="form-row" >

@@ -355,12 +355,11 @@ CREATE TABLE  ${dbname}.dbo.tbl_items_account (
     sac_code nvarchar(30) NULL,
     hsn_code nvarchar(30) NULL,
     major_code_id nvarchar (30) NULL,
-    major_code nvarchar (50) NULL,
     chart_of_account nvarchar (100) NULL,
     chart_of_acct_id nvarchar(100) NULL,
-    tax_preference  nvarchar (30) NULL,
     sales_account nvarchar(100) NULL,
     purchase_account nvarchar(100) NULL,
+    tax_preference  nvarchar (30) NULL,
     gst_rate nvarchar (30) NULL,
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
@@ -371,7 +370,9 @@ CREATE TABLE  ${dbname}.dbo.tbl_items_account (
     update_ip_address nvarchar(30) NULL,
     update_date_time datetime NULL,
     status nvarchar(30) NULL,
-    item_uuid nvarchar(350) NULL
+    item_uuid nvarchar(350) NULL,
+    minor_code_id nvarchar(100) NULL,
+    minor_code nvarchar(100) NULL
 );
 
 
