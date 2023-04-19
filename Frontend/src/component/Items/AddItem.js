@@ -139,19 +139,17 @@ const AddItem = () => {
                                             <option value='' hidden>Select the Chart of Account</option>
                                             {
                                                 chartofaccountlist.map((item, index) =>
-                                                <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
+                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
                                             }
                                         </select>
                                     </div>
                                 </div>
-
                                 <div className="form-row">
                                     <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span className='text-danger'>*</span></label>
                                     <div className="col form-group">
                                         <input type="text" className="form-control col-md-4" id='name' />
                                     </div>
                                 </div>
-
                                 <div className="form-row">
                                     <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
                                     <div className="col form-group">
@@ -172,7 +170,6 @@ const AddItem = () => {
                                         </select>
                                     </div>
                                 </div>
-
                                 <div className="form-row" id="hsncodetoogle">
                                     <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
                                     <div className="col form-group">
@@ -185,7 +182,6 @@ const AddItem = () => {
                                         <input className="form-control col-md-4" type="text" id="saccode" />
                                     </div>
                                 </div>
-
                                 <div className="form-row" >
                                     <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
                                     <div className="col form-group">
@@ -198,20 +194,17 @@ const AddItem = () => {
                                         </select>
                                     </div>
                                 </div>
-
                                 <div className="form-row col-md-6">
                                     <div className="form-group d-flex col-md-4" ></div>
                                     <div className="form-group d-flex col-md-3" >
                                         <input className="form-control mt-2" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
                                         <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
                                     </div>
-
                                     <div className="form-group d-flex ml-5">
                                         <input className="form-control mt-2" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
                                         <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
                                     </div>
                                 </div>
-
                                 <div className="form-row" id="defaulttax" style={{ display: "none" }}>
                                     <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span className='text-danger'>*</span></label>
                                     <div className="col form-group">
@@ -221,7 +214,6 @@ const AddItem = () => {
                                         }} />
                                     </div>
                                 </div>
-
                             </form>
                         </article>
                         <div className="border-top card-footer">
@@ -234,7 +226,5 @@ const AddItem = () => {
             <Footer />
         </div>
     )
-
 }
-
 export default AddItem

@@ -747,6 +747,7 @@ function Invoices() {
                 <Footer />
             </div>
 
+
             {/* modal Bill Address  Start*/}
             <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
