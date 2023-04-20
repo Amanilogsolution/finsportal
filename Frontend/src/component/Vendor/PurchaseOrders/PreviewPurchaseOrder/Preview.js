@@ -17,7 +17,7 @@ const PreviewPO = (props) => {
         }
         fetchdata()
     }, [])
-
+console.log(props)
     const print = (e) => {
         e.preventDefault();
         const content = pdfRef.current;
@@ -55,7 +55,7 @@ const PreviewPO = (props) => {
                                     <table id="po_first_table">
                                         <tbody>
                                             <tr >
-                                                <td><strong>Vendor Name :</strong> {props.data.vendor_id}</td>
+                                                <td><strong>Vendor Name :</strong> {props.data.vendor_name}</td>
                                                 <td><strong> Address :</strong> {props.data.po_location}</td>
                                             </tr>
                                             <tr>
@@ -80,10 +80,10 @@ const PreviewPO = (props) => {
                                                 props.Allitems.map((item, index) => (
                                                     <tr key={index} className='text-center'>
                                                         <td>{index + 1}</td>
-                                                        <td>{item.items}</td>
-                                                        <td>{item.quantity}</td>
+                                                        <td>{item.item}</td>
+                                                        <td>{item.qty}</td>
                                                         <td>{item.rate}</td>
-                                                        <td>{item.amount}</td>
+                                                        <td>{item.amt}</td>
                                                         <td>{item.unit}</td>
                                                     </tr>
                                                 ))

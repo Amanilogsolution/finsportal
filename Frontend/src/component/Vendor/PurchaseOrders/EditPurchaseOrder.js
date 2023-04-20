@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import Preview from './PreviewPurchaseOrder/Preview';
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, Editpurchaseorder, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, Updatefinancialcount, SelectVendorAddress, Getfincialyearid, Editpurchaseorder, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
 
 export default function EditPurchaseOrder() {
     const [data, setData] = useState({})
@@ -47,43 +47,35 @@ export default function EditPurchaseOrder() {
             const items = await ActivePurchesItems(org)
             setItemlist(items)
 
+
+        }
+        fetchdata();
+    }, [])
+
+
+    const handleSubmit = async (btntype) => {
+
+        if (btntype === 'save') {
+            alert('Data Saved')
+            window.location.href = "./SavePurchaseOrder"
+        }
+        else {
+            const org = localStorage.getItem('Organisation')
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].po_count) + 1
             setPOcount(lastno)
             let po = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
-            Todaydate();
-        }
-        fetchdata();
-    }, [])
-    const Todaydate = () => {
-        var date = new Date();
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-        var today = year + "-" + month + "-" + day;
-        // document.getElementById("po_date").value = today;
-    }
 
-    const handleSubmit = async(e) =>{
-        e.preventDefault()
-        const result = await Editpurchaseorder(localStorage.getItem('Organisation'),data.po_number,'Save');
-        if(result == "Updated"){
-            window.location.href="./SavePurchaseOrder"
+            const result = await Editpurchaseorder(localStorage.getItem('Organisation'), po, 'post');
+
+            if (result === "Updated") {
+                await Updatefinancialcount(org, 'po_count', lastno)
+                window.location.href = "./SavePurchaseOrder"
+            }
         }
     }
 
-    const handleSubmitPost = async(e) =>{
-        e.preventDefault()
-        const result = await Editpurchaseorder(localStorage.getItem('Organisation'),data.po_number,'post');
-    
-        if(result == "Updated"){
-            window.location.href="./SavePurchaseOrder"
-        }
 
-
-    }
     return (
         <div className="wrapper">
             <div className="preloader flex-column justify-content-center align-items-center">
@@ -115,7 +107,6 @@ export default function EditPurchaseOrder() {
                                     <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
                                     <div className="d-flex col-md">
                                         <select
-                                            // onChange={handleVendorLocation}
                                             id="polocation"
                                             className="form-control col-md-4">
                                             <option value='' hidden>{data.po_location}</option>
@@ -137,8 +128,7 @@ export default function EditPurchaseOrder() {
                                     </div>
                                 </div>
 
-                                <hr />
-                                <table className="table">
+                                <table className="table mt-4 table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">Location</th>
@@ -167,11 +157,8 @@ export default function EditPurchaseOrder() {
                                                         </select>
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                        <select className="form-control ml-0"
-                                                        //  onChange={(e) => { handleChangeItems(e.target.value, index) }}
-                                                        >
+                                                        <select className="form-control ml-0">
                                                             <option value='' hidden>{element.items}</option>
-
                                                             {
                                                                 itemlist.map((items, index) => (
                                                                     <option key={index} value={items.item_name} >{items.item_name}</option>
@@ -181,24 +168,17 @@ export default function EditPurchaseOrder() {
                                                         </select>
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                        <input type='number' id={`Quantity${index}`}
-                                                            value={element.quantity}
-                                                            // onChange={(e) => { setIndex(index); quantity[index] = e.target.value }} 
-                                                            className="form-control" />
+                                                        <input type='number' id={`Quantity${index}`} value={element.quantity} className="form-control" />
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                         <input type='number' id="Rate"
-                                                            value={element.rate}
-                                                            //  onChange={handleChangeRate} 
-                                                            className="form-control" />
+                                                            value={element.rate} className="form-control" />
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                        <input type='number' id={`Amount${index}`}  value={element.amount} className="form-control cursor-notallow" disabled />
+                                                        <input type='number' id={`Amount${index}`} value={element.amount} className="form-control cursor-notallow" disabled />
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                        <select className="form-control ml-0"
-                                                        // onChange={(e) => { handleChangeUnit(e.target.value, index) }}
-                                                        >
+                                                        <select className="form-control ml-0">
                                                             <option value='' hidden>{element.unit}</option>
                                                             {
                                                                 unitlist.map((item, index) =>
@@ -211,8 +191,6 @@ export default function EditPurchaseOrder() {
                                         }
                                     </tbody>
                                 </table>
-                                {/* <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp; */}
-                                {/* <button className="btn btn-danger" onClick={handleRemove}>Remove</button> */}
                             </form>
                         </article>
                         <hr />
@@ -239,17 +217,17 @@ export default function EditPurchaseOrder() {
 
 
                         <div className="card-footer border-top">
-                            <button id="save" name="save" className="btn btn-danger" 
-                            onClick={handleSubmit}
+                            <button id="save" name="save" className="btn btn-danger"
+                                onClick={() => { handleSubmit('save') }}
                             >Save</button>
-                    <button id="save" name="save" className="btn btn-danger ml-2"
-                     onClick={handleSubmitPost}
-                     >Post</button>
-                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
-                    <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
+                            <button id="save" name="save" className="btn btn-danger ml-2"
+                                onClick={() => { handleSubmit('post') }}
+                            >Post</button>
+                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
+                            <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
 
                         </div>
-                        <Preview data={poalldetail} Allitems={poitem}/>
+                        <Preview data={poalldetail} Allitems={poitem} />
 
                     </div>
                 </div>
