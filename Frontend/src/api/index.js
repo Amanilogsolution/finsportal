@@ -1603,5 +1603,10 @@ export const InsertSalesorder = async (org,cust_id,cust_addressid,so_no,so_date,
     return axios.post(url, { org,cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,User_id,flagsave}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const getSaveSO = async (org) => {
+    const url = `http://localhost:3008/api/getsaveso`
+    return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
+}
+
 
 

@@ -94,6 +94,9 @@ import EditSubCode from './component/Master/SubCode/EditSubCode';
 
 import Estimates from './component/Customer/Estimates/Estimates';
 import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
+import SaveSalesOrder from './component/Customer/SalesOrders/SaveSalesOrder';
+
+
 import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChallans';
 import Invoices from './component/Customer/Invoices/Invoices';
 
@@ -272,6 +275,8 @@ const App = () => {
 
           <PrivatRoute exact path="/Estimates" component={Estimates} />
           <PrivatRoute exact path="/SalesOrder" component={SalesOrder} />
+          <PrivatRoute exact path="/SaveSalesOrder" component={SaveSalesOrder} />
+
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
           <PrivatRoute exact path="/Invoices" component={Invoices} />
 

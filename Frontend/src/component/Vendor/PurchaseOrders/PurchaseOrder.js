@@ -30,24 +30,7 @@ function PurchaseOrder() {
         poamount: ''
     })          
     const [poitem, setPOitems] = useState([])
-<<<<<<< HEAD
-    const [subtotal,setSubtotal] = useState()
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const org = localStorage.getItem('Organisation');
-        const userid = localStorage.getItem('User_id');
-        const vendorname = document.getElementById('vend_name').value
-        const polocation = document.getElementById('polocation').value
-        const ponumber = document.getElementById('po_no').value;
-        const podate = document.getElementById('po_date').value;
-        const poamount = document.getElementById('Subtotal').innerHTML;
-        const flagsave = 'Save'
-        console.log(poamount)
-=======
     const [subtotal, setSubtotal] = useState(0);
->>>>>>> 4e06b4ff79187c448d4f054856ac7929d24e9838
 
 
     const [itemsData, setItemsData] = useState([{
