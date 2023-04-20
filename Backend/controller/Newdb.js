@@ -1070,6 +1070,53 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 status varchar(30) NULL,
                 bill_sub_sno nvarchar(100) NULL
             );
+            CREATE TABLE ${dbname}.dbo.tbl_sales_order (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                cust_id  nvarchar(100) NULL,
+                cust_addressid varchar(100) NULL,
+                so_no varchar(100) NULL,
+                so_date date NULL,
+                net_amt nvarchar(100) NULL,
+                gst_rate nvarchar(100) NULL,
+                gst_amt nvarchar(100) NULL,
+                total_amt nvarchar(100) NULL,
+                remark nvarchar(100) NULL,
+                flagsave nvarchar(100) NULL,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(30) NULL,
+                so_uuid varchar(300) NULL
+                );  
+                   
+                CREATE TABLE ${dbname}.dbo.tbl_sub_sales_order (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                so_no varchar(100) NULL,
+                activity nvarchar(100) NULL,
+                item nvarchar(100) NULL,
+                qty nvarchar(100) NULL,
+                rate nvarchar(100) NULL,
+                gst_rate nvarchar(100) NULL,
+                gst_amt nvarchar(100) NULL,
+                unit nvarchar(100) NULL,
+                net_amt nvarchar(100) NULL,
+                total_amt nvarchar(100) NULL,
+                add_date_time datetime NULL,
+                add_user_name varchar(50) NULL,
+                add_system_name varchar(50) NULL,
+                add_ip_address varchar(30) NULL,
+                update_date_time datetime NULL,
+                update_user_name varchar(50) NULL,
+                update_system_name varchar(100) NULL,
+                update_ip_address varchar(50) NULL,
+                status varchar(30) NULL,
+                sub_so_uuid varchar(300) NULL
+                ); 
             `)
             res.send('created')
         }

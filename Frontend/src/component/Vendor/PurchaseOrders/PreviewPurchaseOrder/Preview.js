@@ -39,77 +39,84 @@ const PreviewPO = (props) => {
                     <div className="modal-content modelbillcard" >
 
                         <div className="modal-body" ref={pdfRef}>
-                            <div className="po_main_div">
-                                <div className="podiv_for_border">
-                                    <div className="head_div">
-                                        <div className="company_logo">
-                                            <img src="./awl.png" />
-                                        </div>
-                                        <div className="company_details">
-                                            <h3>AWL INDIA PVT LTD</h3>
-                                            <p>KILLA NO: 242//18, 23 Vill-Bhondsi, Teh-Sohna, Gurgaon Haryana 122102 India</p>
-                                            <p>GSTIN : 06AAGCA4705P1ZH</p>
-                                            <p>Ack No. 132314628817778</p>
-                                            <p>Ack Date. 17-04-2023</p>
-                                        </div>
+                            <div className="podiv_for_border">
+                                <div className="po_head_div d-flex justify-content-between border border-dark">
+                                    <div className="po_company_logo">
+                                        <img src={orgdata.org_logo} alt='Organisation Logo' />
                                     </div>
-                                    <div className="Sales_order">
-                                        <h1>Sales Order</h1>
-                                        <table id="first_table" style={{ width: '100%' }}>
-                                            <tbody><tr>
-                                                <td><strong>Customer Name : Rupesh Kumar</strong></td>
-                                                <td><strong>Customer Address : KILLA NO: 242//18, 23 Vill-Bhondsi, Teh-Sohna, Gurgaon 122102 India</strong></td>
+                                    <div className="po_company_details">
+                                        <h3>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
+                                        <p>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
+                                        <p>GSTIN : {orgdata.org_gst}</p>
+                                    </div>
+                                </div>
+                                <div className="purchases_order">
+                                    <h1 className='mb-0 po_h1 text-center'>Purchase Order</h1>
+                                    <table id="po_first_table">
+                                        <tbody>
+                                            <tr >
+                                                <td><strong>Vendor Name :</strong> {props.data.vendor_id}</td>
+                                                <td><strong> Address :</strong> {props.data.po_location}</td>
                                             </tr>
-                                                <tr>
-                                                    <td><strong>Sales Order No. : 06AAGCA4705P</strong></td>
-                                                    <td><strong>Sales Order Date : 30-04-2022</strong></td>
-                                                </tr>
-                                            </tbody></table>
-                                        <table id="second_table" style={{ width: '100%' }}>
-                                            <tbody><tr>
+                                            <tr>
+                                                <td><strong>Purchase Order No. :</strong> {props.data.po_number}</td>
+                                                <td><strong>Purchase Order Date :</strong> {props.data.po_date}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div className='items_top_div'></div>
+                                    <table id="items_table" style={{ width: '100%' }}>
+                                        <tbody>
+                                            <tr className='text-center'>
                                                 <th>SNo.</th>
-                                                <th>Activity</th>
                                                 <th>Item</th>
                                                 <th>Qty</th>
                                                 <th>Rate</th>
                                                 <th>Amount</th>
                                                 <th>Unit</th>
                                             </tr>
+                                            {
+
+                                                props.Allitems.map((item, index) => (
+                                                    <tr key={index} className='text-center'>
+                                                        <td>{index + 1}</td>
+                                                        <td>{item.items}</td>
+                                                        <td>{item.quantity}</td>
+                                                        <td>{item.rate}</td>
+                                                        <td>{item.amount}</td>
+                                                        <td>{item.unit}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody></table>
+
+                                    <div className="Grand_po_Order border border-dark border-top-0 border-left-0">
+                                        <table>
+                                            <tbody>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>LOGISTICS SERVICES</td>
-                                                    <td>943242</td>
-                                                    <td>1</td>
-                                                    <td>4232</td>
-                                                    <td>43200.00</td>
-                                                    <td>43200.00</td>
+                                                    <td><strong>Total Amount in Numbers :</strong></td>
+                                                    <td><strong> INR {props.data.poamount}</strong></td>
                                                 </tr>
-                                            </tbody></table>
-                                        <div className="Total_Amount">
-                                            <strong style={{ margin: '12px 5px' }}>Total</strong>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><strong>Amount : ₹ 40500.00</strong></td>
-                                                        <td><strong>GST : 18%</strong></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="Grand_Sales_Order">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><strong>Total Amount in Numbers. :</strong></td>
-                                                        <td><strong> ₹ 40500.00</strong></td>
-                                                    </tr>
-                                                    <tr style={{ borderBottom: 'none' }}>
-                                                        <td><strong>Total Amount in words : </strong></td>
-                                                        <td><strong>Fourty thousand five hundred only</strong></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                <tr style={{ borderBottom: 'none' }}>
+                                                    <td><strong>Total Amount in words : </strong></td>
+                                                    <td>{DecamalNumber.toWords(Number(props.data.poamount)).toUpperCase()} Only</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {/* <div className="total_po_amount d-flex border border-dark border-top-0">
+                                        <strong className='total_po_amount_text mx-3 my-3' >Total</strong>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>Amount : ₹ 40500.00</strong></td>
+                                                    <td><strong>GST : 18%</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> */}
+                                    <div className="Total_div px-2 py-3">
+                                        <strong>Signature of Authorizated Representative :</strong>
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +125,6 @@ const PreviewPO = (props) => {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" className="btn btn-success" onClick={print}>Print</button>
-
                         </div>
                     </div>
                 </div>
