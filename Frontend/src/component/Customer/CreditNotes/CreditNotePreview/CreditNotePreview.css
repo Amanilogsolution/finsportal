@@ -1,17 +1,184 @@
-.cnPreview-modal {
-    /* min-width: 65vw; */
-    position: relative;
-    /* transform: translate(-50%); */
-}
+ .cnPreview-modal {
+     position: relative;
+ }
 
-.cnPreview-modalContainer {
-    min-height: 60vh;
-    width: 100%;
-    position: relative;
-    padding: 5px;
-    border: 2px solid black;
-}
+ .cnPreview-modalContainer {
+     min-height: 60vh;
+     width: 100%;
+     position: relative;
+     padding: 5px;
+     /* border: 2px solid black; */
+ }
 
+ .cn-main_div {
+     border: 1px solid;
+     width: 100%;
+     padding: 9px;
+ }
+
+ .div_for_border {
+     width: 100%;
+ }
+
+ .company_logo {
+     width: 450px;
+     max-height: 25%;
+     padding: 20px;
+ }
+
+ .company_logo img {
+     max-width: 90%;
+     max-height: 100%;
+ }
+
+ .company_details {
+     width: 75%;
+     line-height: 1.9;
+ }
+
+ .credit_Note h1 {
+     background: #cccccc;
+     font-size: 26px;
+     border: 1px solid black;
+ }
+
+ #cn_first_table {
+     width: 100%;
+     border: 1px solid black;
+     border-collapse: collapse;
+     line-height: 2.5;
+     padding: 0 6px;
+ }
+
+ #cn_first_table tbody tr td {
+     border: 1px solid black;
+     border-collapse: collapse;
+     line-height: 2.5;
+     padding: 0 6px;
+     width: 50%;
+ }
+
+
+
+ .cn_bill {
+     width: 50%;
+     border: 1px solid;
+     border-top: none;
+     border-bottom: none;
+     line-height: 2;
+ }
+
+ .cn_bill h3 {
+     font-size: 25px;
+     background: #cccccc;
+ }
+
+ .ship {
+     width: 50%;
+     border: 1px solid;
+     border-top: none;
+     border-left: none;
+     border-bottom: none;
+     line-height: 2;
+ }
+
+ .ship h3 {
+     font-size: 25px;
+     background: #cccccc;
+ }
+
+ #second_table {
+     border: 1px solid;
+     border-collapse: collapse;
+ }
+
+ #second_table th {
+     border: 1px solid;
+     border-collapse: collapse;
+     font-size: 14px;
+     padding: 0 5px;
+ }
+
+ #second_table td {
+     border: 1px solid;
+     border-collapse: collapse;
+     font-size: 14px;
+     padding: 0 5px;
+ }
+
+ .Total_div {
+     border: 1px solid;
+     border-top: none;
+ }
+
+ .Amount_tax {
+     border: 1px solid;
+     border-top: none;
+     background: #f7eaea;
+ }
+
+ .Amount_tax strong {
+     width: 50%;
+ }
+
+ .Amount_tax table {
+     width: 50%;
+     border-collapse: collapse;
+ }
+
+ .Amount_tax td {
+     border: 1px solid;
+     border-bottom: none;
+     border-right: none;
+     border-collapse: collapse;
+     font-size: 16px;
+     padding: 0 5px;
+ }
+
+ @media only screen and (max-width: 1190px) {
+     .cn-main_div {
+         border: 1px solid;
+         width: 80%;
+         padding: 9px;
+     }
+ }
+
+ @media only screen and (max-width: 1030px) {
+     .cn-main_div {
+         border: 1px solid;
+         width: 90%;
+         padding: 9px;
+     }
+ }
+
+ @media only screen and (max-width: 920px) {
+     .company_logo img {
+         width: 150px;
+         margin: 30px 0
+     }
+
+     .cn-main_div {
+         border: 1px solid;
+         padding: 9px;
+     }
+
+     #second_table {
+         overflow: auto;
+         display: inline-block
+     }
+ }
+
+ @media only screen and (max-width: 580px) {
+     .company_logo img {
+         width: 100px;
+         margin: 30px 0
+     }
+ }
+
+
+
+
+ /*
 .cnPreview-orgdetail {
     height: 24vh;
     width: 100%;
@@ -91,4 +258,4 @@
         background-color: #eee;
         width: 65%;
     }
-}
+} */

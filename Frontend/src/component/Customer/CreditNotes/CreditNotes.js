@@ -178,7 +178,7 @@ function CreditNotes() {
                                             <input type="text" className="form-control col-md-6 text-center" id="Invoice" value={data.total_cn_amt} disabled />
                                         </div>
                                     </div>
-                                    <div className='cn_table_div'>
+                                    <div className='cn_table_div overflow-auto'>
                                         <table className="table table-bordered mt-3 table-sm">
                                             <thead>
                                                 <tr className='text-center'>
