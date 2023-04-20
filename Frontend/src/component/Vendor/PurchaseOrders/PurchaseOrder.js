@@ -27,11 +27,9 @@ function PurchaseOrder() {
         po_location: '',
         po_date: '',
         poamount: ''
-    })
+    })          
     const [poitem, setPOitems] = useState([])
     const [subtotal,setSubtotal] = useState()
-
-
 
 
     const handleSubmit = async (e) => {
