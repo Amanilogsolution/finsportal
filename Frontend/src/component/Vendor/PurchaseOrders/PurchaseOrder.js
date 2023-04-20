@@ -120,15 +120,13 @@ function PurchaseOrder() {
 
     const handleRemove = (e) => {
         e.preventDefault()
-        var newvalue = [...totalValues]
-
-        if (newvalue.length == 1) {
-            setTotalValues(newvalue)
-            setItemsData(itemsData)
-        }
-        else {
-            newvalue.pop()
+        if (!(totalValues.length === 1)) {
+            console.log('knlk')
+            let newvalue = [...totalValues]
+            totalValues.pop()
             itemsData.pop()
+            console.log('mkl',totalValues)
+            console.log('mkl',itemsData)
         }
     }
 
@@ -163,7 +161,7 @@ function PurchaseOrder() {
     }
 
     const handleSubmit = async (btntype) => {
-        console.log(itemsData,poalldetail)
+        console.log(itemsData, poalldetail)
         return
         const org = localStorage.getItem('Organisation');
         const userid = localStorage.getItem('User_id');
