@@ -23,7 +23,13 @@ function PurchaseOrder() {
         po_location: '',
         po_date: '',
         poamount: ''
+
     })
+
+    const [poitem, setPOitems] = useState([])
+    const [subtotal, setSubtotal] = useState()
+
+
 
     const [itemsData, setItemsData] = useState([{
         location_id: '',
@@ -176,7 +182,9 @@ function PurchaseOrder() {
             }
             const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, btntype, poamount)
             if (result === "Insert") {
-                await Updatefinancialcount(org, 'po_count', pocount)
+                if (btntype !== 'save') {
+                    await Updatefinancialcount(org, 'po_count', pocount)
+                }
 
                 itemsData.map(async (item) => {
                     await InsertSubPurchaseorder(org, vendorname, ponumber, item.location_id, item.item, item.qty, item.rate, item.amt, item.unit)

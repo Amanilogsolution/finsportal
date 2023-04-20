@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 // import Menu from "../../Menu/Menu";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit } from '../../../api/index'
+import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit,InsertSalesorder } from '../../../api/index'
 
 function SalesOrder() {
     const [totalValues, setTotalValues] = useState([1])
@@ -67,6 +67,7 @@ function SalesOrder() {
         e.preventDefault();
         const cust_id = e.target.value;
         const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
+        console.log(cust_add)
         setCutomerAddress(cust_add)
     }
 
@@ -136,13 +137,14 @@ function SalesOrder() {
             subTotal.map(item => sum += Number(item))
             gstTotal.map(item => gstamt += Number(item))
             grandTotal.map(item => grandamt += Number(item))
-            console.log(Math.max(gstpercent))
+            console.log(gstpercent)
+            const maxgst = gstpercent.reduce((a, b) => Math.max(a, b), -Infinity);
 
 
             document.getElementById('subTotal').innerHTML = sum;
             document.getElementById('totalgst').innerHTML = gstamt;
             document.getElementById('totalgrand').innerHTML = grandamt;
-            document.getElementById('gstper').innerHTML = `${Math.max(gstpercent)} %`
+            document.getElementById('gstper').innerHTML = `${maxgst} %`
 
 
 
@@ -152,6 +154,25 @@ function SalesOrder() {
     }
     const handleChangeUnit = (index, e) => {
         itemsrowval[index].unit = e.target.value;
+    }
+
+    const handleClick = async(e) =>{
+        e.preventDefault();
+        const org = localStorage.getItem('Organisation');
+        const cust_id = document.getElementById('cust_id').value;
+        const cust_addressid = `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`
+        const so_no = document.getElementById('so_no').value;
+        const so_date = document.getElementById('Sodate').value 
+        const net_amt = document.getElementById('subTotal').innerHTML
+        const gst_rate = document.getElementById('gstper').innerHTML
+        const gst_amt = document.getElementById('totalgst').innerHTML
+        const total_amt = document.getElementById('totalgrand').innerHTML
+        const remark = document.getElementById('remark').value
+        const User_id = localStorage.getItem('User_id')
+        const flagsave = 'Save'
+
+        const result = await InsertSalesorder(org,cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,User_id,flagsave)
+        
     }
     const handleAdd = (e) => {
         e.preventDefault()
@@ -206,7 +227,7 @@ function SalesOrder() {
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
                                                     <select
-                                                        id="AccountType"
+                                                        id="cust_id"
                                                         className="form-control col-md-5"
                                                         onChange={handleCustname}
                                                     >
@@ -240,7 +261,7 @@ function SalesOrder() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >SO Number<span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="Accountname" placeholder="SO-00001" />
+                                                    <input type="text" className="form-control col-md-5" id="so_no" placeholder="SO-00001" />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
@@ -333,7 +354,7 @@ function SalesOrder() {
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Customer Notes</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="3" id="Accountname" placeholder="Looking forward for your bussiness "></textarea>
+                                                            <textarea type="text" className="form-control " rows="3" id="remark" placeholder="Looking forward for your bussiness "></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,7 +389,6 @@ function SalesOrder() {
                                                         <div className="d-flex col-md">
                                                             <textarea type="text" className="form-control " id="Accountname" rows="3" placeholder=" "></textarea>
                                                         </div>
-
                                                     </div>
                                                 </div>
 
@@ -376,7 +396,7 @@ function SalesOrder() {
                                             <div className="form-group">
                                                 <label className="col-md-4 control-label" htmlFor="save"></label>
                                                 <div className="col-md-20" style={{ width: "100%" }}>
-                                                    <button id="save" name="save" className="btn btn-danger">
+                                                    <button id="save" name="save" className="btn btn-danger" onClick={handleClick}>
                                                         Save and Send
                                                     </button>
                                                     <button id="clear" onClick={(e) => {

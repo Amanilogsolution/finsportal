@@ -955,7 +955,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         inv_date date NULL,
         total_amt nvarchar(50) NULL,
         net_amt nvarchar(50) NULL,
-        total_cn_amt nvarchar(100) NULL
+        total_cn_amt nvarchar(100) NULL,
         remark nvarchar(300) NULL,
         gl_code nvarchar(50) NULL,
         location nvarchar(150) NULL,
@@ -1050,30 +1050,24 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
             expense_amt nvarchar(50) NULL,
             sac_hsn nvarchar(50) NULL,
             pas_amt nvarchar(50) NULL,
-            dn_flag nvarchar(50) NULL,
-            
+            dn_flag nvarchar(50) NULL,  
             fins_year nvarchar(50) NULL,
-            
             reqtoappr_date_time datetime NULL,
             reqtoappr_user_name nvarchar(50) NULL,
             reqtoappr_system_name nvarchar(50) NULL,
             reqtoappr_ip_address nvarchar(50) NULL,
-            
             appr_date_time datetime NULL,
             appr_user_name nvarchar(50) NULL,
             appr_system_name nvarchar(50) NULL,
             appr_ip_address nvarchar(50) NULL,
-            
             add_date_time datetime NULL,
             add_user_name nvarchar(50) NULL,
             add_system_name nvarchar(50) NULL,
             add_ip_address nvarchar(50) NULL,
-            
             update_date_time datetime NULL,
             update_user_name nvarchar(50) NULL,
             update_system_name nvarchar(100) NULL,
             update_ip_address nvarchar(50) NULL,
-            
             status nvarchar(50) NULL,
             newdn_uuid nvarchar(300) NULL
             );

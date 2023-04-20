@@ -23,7 +23,6 @@ async function Insertorg(req, res) {
     const last_year = req.body.last_year;
     const startdate = req.body.startdate;
     const toyear = req.body.toyear;
-
     const uuid = uuidv1()
 
     try {
@@ -56,6 +55,7 @@ async function Insertorg(req, res) {
 
 const ShowOrganisation = async (req, res) => {
     const org_db_name = req.body.org_db_name;
+    console.log(`select * from FinsDB.dbo.organisation with (nolock) where org_db_name = '${org_db_name}'`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FinsDB.dbo.organisation with (nolock) where org_db_name = '${org_db_name}'`)

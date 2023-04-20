@@ -45,6 +45,7 @@ const UserRightsController = require('../controller/UserRolePermission/userRoll'
 const pomasterController = require('../controller/Purchases/PurchaseOrder/po')
 const CNController = require('../controller/Sales/CreditNote')
 const DNController = require('../controller/Purchases/DebitNote/DN')
+const somasterController = require('../controller/Sales/SalesOrder/so')
 
 //Routes
 
@@ -367,5 +368,7 @@ router.post('/getdndata', DNController.getDNData)
 router.post('/updatedebitnote', DNController.UpdateDebitNote)
 router.post('/insertsubdebitnote', DNController.InsertSubDebitNote)
 router.post('/selectdnsubdetails', DNController.SelectDnSubDetails)
+
+router.post('/insertsalesorder', somasterController.InsertSalesorder)
 
 module.exports = router;
