@@ -1,12 +1,155 @@
-.modalbill {
-    font-family: sans-serif;
-}
-
 .modelbillcard {
     width: 60vw;
     transform: translate(-10%);
 }
-/*  */
+.podiv_for_border{
+    border: 1px solid;
+    width: 100%;
+    margin: auto;
+    padding: 10px;
+}
+.head_div{
+    border:1px solid;
+    display:flex;
+    justify-content: space-between;
+}
+.company_logo{
+    width: 25%;
+    padding: 20px;
+}
+.company_logo img{
+    width: 70%
+}
+.company_details{
+    width: 75%;
+    line-height: 1.9;
+}
+
+.Sales_order h1{
+  text-align: center;
+ background: #cccccc;
+ font-size: 26px;
+ border-left: 1px solid;
+ border-right: 1px solid;
+}
+#first_table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    
+    line-height: 2.5;
+    padding: 0 6px;
+}
+#first_table th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    line-height: 2.5;
+    padding: 0 6px;
+}
+#first_table td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    line-height: 2.5;
+    padding: 0 6px;
+}
+#second_table{
+    border-top: none;
+    border-collapse: collapse;
+    line-height: 2.2;
+    /* margin-top: 10px; */
+}
+#second_table th{
+    border: 1px solid;
+    border-top: none;
+    border-collapse: collapse;
+    padding: 0 5px;
+}
+#second_table td{
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 0 5px;
+}
+.Total_Amount{
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    background: #ffcece;
+    border-top: none;
+    /* margin-top: 10px; */
+}
+.Total_Amount strong{
+    width: 40%;
+}
+.Total_Amount table{
+    width: 60%;
+    border-collapse: collapse;
+
+}
+.Total_Amount td{
+    border: 1px solid;
+    border-top:none ;
+    border-bottom: none;
+    border-right: none;
+    border-collapse: collapse;
+    font: 13px;
+    padding: 0 5px;
+}
+.Grand_Sales_Order{
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    border-top: none;
+}
+.Grand_Sales_Order table{
+    width: 100%;
+    border-collapse: collapse;
+    line-height: 2.3;
+}
+.Grand_Sales_Order table tr{
+  border: 1px solid;
+  border-collapse: collapse;
+  border-top: none;
+  border-right: none;
+}
+.Grand_Sales_Order table tr td{
+    padding: 0 5px;
+}
+@media only screen and (max-width: 1030px) {
+    .podiv_for_border{
+        border:1px solid;
+        /* height: 130vh; */
+        width: 90%;
+        margin: auto;
+        padding: 9px;
+    }
+ }
+ @media only screen and (max-width: 800px) {
+    .podiv_for_border{
+        border:1px solid;
+        /* height: 130vh; */
+        width: 95%;
+        margin: auto;
+        padding: 9px;
+    }
+    .company_logo img{
+        width: 100%;
+        margin: auto;
+    }
+ }
+ @media only screen and (max-width: 490px) {
+    #second_table{
+        overflow: auto;
+        display: inline-block
+        
+    }
+ }
+
+
+/* 
+.modalbill {
+    font-family: sans-serif;
+}
+
 .modalbill .bill-orgname {
     border-bottom: 1px solid rgb(184, 182, 182);
     padding: 10px 0px 5px 0px;
@@ -47,7 +190,6 @@
 
 .modalbill .bill-bottomdetail table {
     width: 45%;
-    /* border-top: 1px solid #000; */
 }
 
 .modalbill .bill-bottomdetail table #billborderbottom {
@@ -75,9 +217,6 @@
 .modalbill .bill-items .items-table tr .first-col {
     width: 4%;
     padding: 5px 0 0px 0px;
-    /* border-bottom: 1px solid rgb(174, 172, 172); */
-    /* border-right: 1px solid rgb(174, 172, 172); */
-
 }
 
 .modalbill .bill-items .items-table tr .second-col {
@@ -199,4 +338,4 @@
         transform: translate(-10%);
     }
 
-}
+} */

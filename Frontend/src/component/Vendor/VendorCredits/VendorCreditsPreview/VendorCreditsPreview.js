@@ -1,9 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { showOrganisation } from '../../../../api'
 import './VendorCreditsPreview.css'
+import jsPDF from "jspdf";
 
 const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
     const [orgdata, setOrgdata] = useState([])
+
+    const pdfRef = useRef(null);
+
+    const print = (e) => {
+        e.preventDefault();
+        const content = pdfRef.current;
+        const doc = new jsPDF();
+        doc.html(content, {
+            callback: function (doc) {
+                doc.save(`Invoice-${Dndata.dn_no}.pdf`);
+            },
+            html2canvas: { scale: 0.253 },
+            margin: [5, 0, 0, 5],
+        });
+    };
+
     useEffect(() => {
         const fetchdata = async () => {
             let org = localStorage.getItem('Organisation');
@@ -17,7 +34,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
             <div className="modal fade bd-example-modal-lg" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg cnPreview-modal " role="document">
                     <div className="modal-content">
-                        <div className="modal-body">
+                        <div className="modal-body" ref={pdfRef}>
                             <div className='cnPreview-modalContainer'>
                                 <div className='cnPreview-orgdetail d-flex'>
                                     <span className='cn-orgPreviewlogo'>
@@ -105,7 +122,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                                             <tbody>
                                                 <tr>
                                                     <th><h5>Net Amount: </h5></th>
-                                                    <th>{data.total_bill_amt-data.taxable_amt}</th>
+                                                    <th>{data.total_bill_amt - data.taxable_amt}</th>
                                                 </tr>
                                                 <tr>
                                                     <th><h5>IGST:  </h5></th>
@@ -135,7 +152,7 @@ const VendorCreditsPreview = ({ data, Dndata, DebitCodeSub }) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-success">Print</button>
+                            <button type="button" className="btn btn-success" onClick={print}>Print</button>
                         </div>
                     </div>
                 </div>

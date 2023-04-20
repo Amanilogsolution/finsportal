@@ -29,7 +29,7 @@ function PurchaseOrder() {
         poamount: ''
     })
     const [poitem, setPOitems] = useState([])
-    const [subtotal,setSubtotal] = useState()
+    const [subtotal, setSubtotal] = useState(0)
 
 
 
@@ -46,7 +46,7 @@ function PurchaseOrder() {
         const flagsave = 'Save'
         console.log(poamount)
 
-        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave,poamount)
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave, poamount)
         if (result == "Insert") {
             const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
             alert("PO Generated")
@@ -71,7 +71,7 @@ function PurchaseOrder() {
         const flagsave = 'Post'
 
 
-        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave,poamount)
+        const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, flagsave, poamount)
         if (result == "Insert") {
             const updatefintable = await Updatefinancialcount(org, 'po_count', pocount)
             alert("PO Generated")
@@ -129,18 +129,18 @@ function PurchaseOrder() {
         setSubtotal(sum)
 
         // setTimeout(()=>{
-            newvalue[i] = {
-                location:location[i],
-                items:items[i],
-                quantity:quantity[i],
-                rate:rate[i],
-                amount:amount[i],
-                unit:unit[i],
-                total:document.getElementById('Subtotal').innerHTML
-    
-            }
-            setPOitems(newvalue)
-       
+        newvalue[i] = {
+            location: location[i],
+            items: items[i],
+            quantity: quantity[i],
+            rate: rate[i],
+            amount: amount[i],
+            unit: unit[i],
+            total: document.getElementById('Subtotal').innerHTML
+
+        }
+        setPOitems(newvalue)
+
     }
 
     const handleChangeItems = (value, i) => {
@@ -153,18 +153,18 @@ function PurchaseOrder() {
         var newvalue = [...poitem]
 
         // setTimeout(()=>{
-            newvalue[i] = {
-                location:location[i],
-                items:items[i],
-                quantity:quantity[i],
-                rate:rate[i],
-                amount:amount[i],
-                unit:unit[i],
-                total:document.getElementById('Subtotal').innerHTML
+        newvalue[i] = {
+            location: location[i],
+            items: items[i],
+            quantity: quantity[i],
+            rate: rate[i],
+            amount: amount[i],
+            unit: unit[i],
+            total: document.getElementById('Subtotal').innerHTML
 
-    
-            }
-            setPOitems(newvalue)
+
+        }
+        setPOitems(newvalue)
 
 
         // },1000)
@@ -183,7 +183,7 @@ function PurchaseOrder() {
             vendor_id: e.target.value,
             po_location: document.getElementById('polocation').value,
             po_date: document.getElementById('po_date').value,
-            poamount:document.getElementById('Subtotal').innerHTML
+            poamount: document.getElementById('Subtotal').innerHTML
         })
     }
 
@@ -195,7 +195,7 @@ function PurchaseOrder() {
             vendor_id: document.getElementById('vend_name').value,
             po_location: e.target.value,
             po_date: document.getElementById('po_date').value,
-            poamount:document.getElementById('Subtotal').innerHTML
+            poamount: document.getElementById('Subtotal').innerHTML
 
         })
     }
@@ -209,25 +209,25 @@ function PurchaseOrder() {
 
         setTimeout(() => {
             var sum = 0
-        amount.map((item) => sum += item)
-        setSubtotal(sum)
+            amount.map((item) => sum += item)
+            setSubtotal(sum)
             rate[index] = e.target.value
             amount[index] = total
             document.getElementById(`Amount${index}`).value = total
             newvalue[index] = {
-                location:location[index],
-                items:items[index],
-                quantity:quantity[index],
-                rate:rate[index],
-                amount:amount[index],
-                unit:unit[index],
-                total:document.getElementById('Subtotal').innerHTML
+                location: location[index],
+                items: items[index],
+                quantity: quantity[index],
+                rate: rate[index],
+                amount: amount[index],
+                unit: unit[index],
+                total: document.getElementById('Subtotal').innerHTML
 
-    
+
             }
             setPOalldetail({
                 ...poalldetail,
-                poamount:document.getElementById('Subtotal').innerHTML
+                poamount: document.getElementById('Subtotal').innerHTML
             })
             setPOitems(newvalue)
 
@@ -244,25 +244,25 @@ function PurchaseOrder() {
         setSubtotal(sum)
 
 
-        setTimeout(()=>{
+        setTimeout(() => {
             newvalue[i] = {
-                location:location[i],
-                items:items[i],
-                quantity:quantity[i],
-                rate:rate[i],
-                amount:amount[i],
-                unit:unit[i],
-                total:document.getElementById('Subtotal').innerHTML
+                location: location[i],
+                items: items[i],
+                quantity: quantity[i],
+                rate: rate[i],
+                amount: amount[i],
+                unit: unit[i],
+                total: document.getElementById('Subtotal').innerHTML
 
-    
+
             }
             setPOalldetail({
                 ...poalldetail,
-                poamount:document.getElementById('Subtotal').innerHTML
+                poamount: document.getElementById('Subtotal').innerHTML
             })
             setPOitems(newvalue)
 
-        },500)
+        }, 500)
     }
 
     const handleRemove = (e) => {
@@ -322,10 +322,10 @@ function PurchaseOrder() {
                                             className="form-control col-md-4">
                                             <option value='' hidden>select vendor</option>
                                             {
-                                                vendorlist.length>0?
-                                                vendorlist.map((item, index) =>
-                                                    <option key={index} value={item.vend_id}>{item.vend_name}</option>)
-                                                    :null
+                                                vendorlist.length > 0 ?
+                                                    vendorlist.map((item, index) =>
+                                                        <option key={index} value={item.vend_id}>{item.vend_name}</option>)
+                                                    : null
                                             }
                                         </select>
                                     </div>
@@ -356,8 +356,7 @@ function PurchaseOrder() {
                                     </div>
                                 </div>
 
-                                <hr />
-                                <table className="table">
+                                <table className="table table-bordered mt-3">
                                     <thead>
                                         <tr>
                                             <th scope="col">Location</th>
@@ -423,25 +422,19 @@ function PurchaseOrder() {
                                 <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
                             </form>
                         </article>
-                        <hr />
-                        <div className='d-flex'>
-                                                    <div style={{ width: "40%" }}>
-                                                       
-                                                    </div>
-                                                    <div className={`rounded py-1 px-2`} style={{ width: "55%"}}>
-                                                        <table className='w-100'>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><button className="btn btn-primary" id='subtotalbtn'> Total</button></td>
-                                                                    <td></td>
-                                                                    <td id="Subtotal">{subtotal}</td>
-                                                                </tr>
+                        <div className='d-flex justify-content-end '>
+                            <div className='rounded py-1 px-2' style={{ width: "35%" }}>
+                                <table className='w-100'>
+                                    <tbody>
+                                        <tr>
+                                            <td><h4 id='subtotalbtn'>Total</h4> </td>
+                                            <td id="Subtotal">INR {subtotal}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-                                                </div>
+                            </div>
+                        </div>
 
 
                         <div className="card-footer border-top">
@@ -451,7 +444,7 @@ function PurchaseOrder() {
                             <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
 
                         </div>
-                        <Preview data={poalldetail} Allitems={poitem}/>
+                        <Preview data={poalldetail} Allitems={poitem} />
 
                     </div>
                 </div>
