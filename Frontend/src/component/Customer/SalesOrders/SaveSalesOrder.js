@@ -49,7 +49,7 @@ export default function SaveSalesOrder() {
       sortable: true,
       cell:(row)=>{
         return (
-          <a href='EditPurchaseOrder' onClick={() => localStorage.setItem('poNo', `${row.so_no}`)}>
+          <a href='EditSalesOrder' onClick={() => localStorage.setItem('soNo', `${row.so_no}`)}>
             {row.so_no}
           </a>
         )

@@ -1608,5 +1608,20 @@ export const getSaveSO = async (org) => {
     return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
 }
 
+export const InsertSubSalesorder = async (org,so_no,activity,item,qty,rate,gst_rate,gst_amt,unit,net_amt,total_amt,User_id,glcode,major_code) => {
+    const url = `http://localhost:3008/api/insertsubsalesorder`
+    return axios.post(url, {org,so_no,activity,item,qty,rate,gst_rate,gst_amt,unit,net_amt,total_amt,User_id,glcode,major_code}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const getSoDetails = async (org,so_no) => {
+    const url = `http://localhost:3008/api/getsodetails`
+    return axios.post(url, {org,so_no}).then(response => response.data).catch(error => console.log(error));
+}
+export const getSubSoDetails = async (org,so_no) => {
+    const url = `http://localhost:3008/api/getsubsodetails`
+    return axios.post(url, {org,so_no}).then(response => response.data).catch(error => console.log(error));
+}
+
+
 
 
