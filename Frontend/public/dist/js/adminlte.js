@@ -2190,7 +2190,7 @@
     maxResults: 7,
     highlightName: true,
     highlightPath: false,
-    highlightClass: 'text-light',
+    highlightClass: 'text-danger',
     notFoundText: 'No element found!'
   };
   var SearchItems = [];
@@ -2332,13 +2332,13 @@
 
         if (this.options.highlightName) {
           name = name.replace(regExp, function (str) {
-            return "<strong class=\"" + _this4.options.highlightClass + "\">" + str + "</strong>";
+            return "<strong class=\"" + _this4.options.highlightClass +  "\">" + str + "</strong>";
           });
         }
 
         if (this.options.highlightPath) {
           path = path.replace(regExp, function (str) {
-            return "<strong class=\"" + _this4.options.highlightClass + "\">" + str + "</strong>";
+            return "<strong class=\"" + _this4.options.highlightClass +  "\">" + str + "</strong>";
           });
         }
       }
@@ -2348,7 +2348,7 @@
         class: 'list-group-item'
       });
       var searchTitleElement = $__default["default"]('<div/>', {
-        class: 'search-title'
+        class: 'search-title '
       }).html(name);
       var searchPathElement = $__default["default"]('<div/>', {
         class: 'search-path'

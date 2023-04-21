@@ -117,6 +117,7 @@ const getPoDetailsPreview = async(req,res) => {
 const getSubPoDetailsPreview = async(req,res) => { 
     const org=req.body.org;
     const po_number=req.body.po_number;
+    console.log(`select * from ${org}.dbo.tbl_sub_purchase_order WHERE  po_number ='${po_number}'`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_sub_purchase_order WHERE  po_number ='${po_number}'`)
