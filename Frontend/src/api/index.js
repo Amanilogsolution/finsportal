@@ -1600,7 +1600,6 @@ export const SelectDnSubDetails = async (org,dn_no,voucher_no,topcount) => {
 }
 
 export const InsertSalesorder = async (org,cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,User_id,flagsave) => {
-    console.log(org,cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,User_id,flagsave)
     const url = `http://localhost:3008/api/insertsalesorder`
     return axios.post(url, { org,cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,User_id,flagsave}).then(response => response.data).catch(error => console.log(error));
 }

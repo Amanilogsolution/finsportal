@@ -23,7 +23,13 @@ const InsertSalesorder = async (req, res) => {
         const result = await sql.query
             (`insert into ${org}.dbo.tbl_sales_order  (cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,so_uuid,flagsave)
             values('${cust_id}','${cust_addressid}','${so_no}','${so_date}','${net_amt}','${gst_rate}','${gst_amt}','${total_amt}','${remark}',getDate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuid}','${flagsave}')`)
-        res.send('Insert')
+
+        if (result.rowsAffected[0] > 0) {
+            res.send('Insert')
+        }
+        else {
+            res.send('Error')
+        }
     }
     catch (err) {
         res.send(err)
@@ -46,7 +52,7 @@ const InsertSubSalesorder = async (req, res) => {
     const uuid = uuidv1()
     const glcode = req.body.glcode;
     const major_code = req.body.major_code;
-   
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query
@@ -72,9 +78,9 @@ const getSaveSO = async (req, res) => {
 
 }
 
-const getSoDetails = async(req,res) => { 
-    const org=req.body.org;
-    const so_no=req.body.so_no;
+const getSoDetails = async (req, res) => {
+    const org = req.body.org;
+    const so_no = req.body.so_no;
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select *,convert(varchar(15),so_date,121) as sodate from ${org}.dbo.tbl_sales_order WHERE  so_no ='${so_no}'`)
@@ -85,9 +91,9 @@ const getSoDetails = async(req,res) => {
     }
 }
 
-const getSubSoDetails = async(req,res) => { 
-    const org=req.body.org;
-    const so_no=req.body.so_no;
+const getSubSoDetails = async (req, res) => {
+    const org = req.body.org;
+    const so_no = req.body.so_no;
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_sub_sales_order WHERE  so_no ='${so_no}'`)
@@ -98,7 +104,7 @@ const getSubSoDetails = async(req,res) => {
     }
 }
 
-const EditSalesOrder = async(req, res) => {
+const EditSalesOrder = async (req, res) => {
     const org = req.body.org;
     const so_no = req.body.so_no;
     const status = req.body.status;
@@ -113,4 +119,4 @@ const EditSalesOrder = async(req, res) => {
     }
 }
 
-module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder,getSoDetails,getSubSoDetails,EditSalesOrder }
+module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder }
