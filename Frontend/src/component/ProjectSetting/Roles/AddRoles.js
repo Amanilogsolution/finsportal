@@ -276,7 +276,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment','salesorder','purchasesorder','creditnote','debitnote'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -286,9 +286,11 @@ const AddRoles = () => {
 
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'table-row'
+
             }
         }
         setTransition(!transition)
+       
     }
 
     const handlemaster = () => {
@@ -304,10 +306,11 @@ const AddRoles = () => {
             }
         }
         setMastertoggle(!mastertoggle)
+       
     }
 
     const handlereport = () => {
-        const innerreport = ['reportbill', 'reportinvoice','reportsalesorder','reportpurchasesorder','reportdebitnote','reportcreditnote'];
+        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
         if (reporttoggle) {
             for (let i = 0; i < innerreport.length; i++) {
                 document.getElementById(innerreport[i]).style.display = 'none'
@@ -677,7 +680,7 @@ const AddRoles = () => {
                         </div>
                     </div>
                 </div>
-                <Footer  />
+                <Footer />
             </div>
         </>
     )
