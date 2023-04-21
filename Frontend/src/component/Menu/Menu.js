@@ -24,7 +24,7 @@ const Menu = (props) => {
     // ####################  ALL Access to Admin Start #######################################################
     if (localStorage.getItem('Role') === 'Admin') {
       // document.getElementById('estimatesMenu').style.display = "block"
-      // document.getElementById('orderMenu').style.display = "block"
+      document.getElementById('orderMenu').style.display = "block"
       // document.getElementById('deliverychallansmrnu').style.display = "block"
       // document.getElementById('pmtRecMenu').style.display = "block"
       // document.getElementById('recInvoiceMenu').style.display = "block"
@@ -280,7 +280,7 @@ const Menu = (props) => {
                   </a>
                 </li>
                 <li className="nav-item" style={{ display: "none" }} id='orderMenu'>
-                  <a href="/SalesOrder" className="nav-link active">
+                  <a href="/SaveSalesOrder" className="nav-link active">
                     <i className="far fa-circle nav-icon" />
                     <p>Sales Order</p>
                   </a>

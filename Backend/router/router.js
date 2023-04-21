@@ -352,7 +352,7 @@ router.post('/getpodetailsvendor', pomasterController.getPoDetailsVendor)
 router.post('/getsavepo', pomasterController.getSavePO)
 router.post('/filterpo', pomasterController.filterPO)
 router.post('/getPoDetailsPreview', pomasterController.getPoDetailsPreview)
-router.post('/getSubPoDetailsPreview', pomasterController.getSubPoDetailsPreview)
+router.post('/editpurchaseorder', pomasterController.EditPurchaseOrder)
 
 router.post('/insertcreditnote', CNController.InsertCreditNote)
 router.post('/allcndata', CNController.AllCNData)
@@ -370,5 +370,7 @@ router.post('/insertsubdebitnote', DNController.InsertSubDebitNote)
 router.post('/selectdnsubdetails', DNController.SelectDnSubDetails)
 
 router.post('/insertsalesorder', somasterController.InsertSalesorder)
+router.post('/getsaveso', somasterController.getSaveSO)
+
 
 module.exports = router;
