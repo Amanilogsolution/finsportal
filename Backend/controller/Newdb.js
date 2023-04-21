@@ -752,6 +752,27 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     bills_create nvarchar(20) NULL,
     bills_edit nvarchar(20) NULL,
     bills_delete nvarchar(20) NULL,
+
+    salesorder_view nvarchar(20) NULL,
+    salesorder_create nvarchar(20) NULL,
+    salesorder_edit nvarchar(20) NULL,
+    salesorder_delete nvarchar(20) NULL,
+
+    creditnotes_view nvarchar(20) NULL,
+    creditnotes_create nvarchar(20) NULL,
+    creditnotes_edit nvarchar(20) NULL,
+    creditnotes_delete nvarchar(20) NULL,
+
+    purchasesorder_view nvarchar(20) NULL,
+    purchasesorder_create nvarchar(20) NULL,
+    purchasesorder_edit nvarchar(20) NULL,
+    purchasesorder_delete nvarchar(20) NULL,
+
+    debitnote_view nvarchar(20) NULL,
+    debitnote_create nvarchar(20) NULL,
+    debitnote_edit nvarchar(20) NULL,
+    debitnote_delete nvarchar(20) NULL,
+
     chartof_accounts_view nvarchar(20) NULL,
     chartof_accounts_create nvarchar(20) NULL,
     chartof_accounts_edit nvarchar(20) NULL,
@@ -1107,7 +1128,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
             CREATE TABLE ${dbname}.dbo.tbl_sales_order (
                 sno bigint IDENTITY(1,1) NOT NULL,
                 cust_id  nvarchar(100) NULL,
-                cust_addressid varchar(100) NULL,
+                cust_addressid nvarchar(200) NULL,
                 so_no varchar(100) NULL,
                 so_date date NULL,
                 net_amt nvarchar(100) NULL,

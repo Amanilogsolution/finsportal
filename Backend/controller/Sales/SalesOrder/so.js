@@ -17,6 +17,7 @@ const InsertSalesorder = async (req, res) => {
     const User_id = req.body.User_id;
     const uuid = uuidv1()
     const flagsave = req.body.flagsave;
+  
 
     try {
         await sql.connect(sqlConfig)
