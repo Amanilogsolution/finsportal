@@ -17,7 +17,7 @@ const PreviewPO = (props) => {
         }
         fetchdata()
     }, [])
-console.log(props)
+
     const print = (e) => {
         e.preventDefault();
         const content = pdfRef.current;
@@ -26,7 +26,7 @@ console.log(props)
             callback: function (doc) {
                 doc.save(`PurchaseOrder-${props.data.po_number}.pdf`);
             },
-            html2canvas: { scale: 0.233 },
+            html2canvas: { scale: 0.19 },
             margin: [5, 0, 0, 6],
         });
     };
@@ -55,8 +55,8 @@ console.log(props)
                                     <table id="po_first_table">
                                         <tbody>
                                             <tr >
-                                                <td><strong>Vendor Name :</strong> {props.data.vendor_name}</td>
-                                                <td><strong> Address :</strong> {props.data.po_location}</td>
+                                                <td><strong>Vendor Name :</strong> {props.vendordata}</td>
+                                                <td><strong> Address :</strong> {props.locationdata}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Purchase Order No. :</strong> {props.data.po_number}</td>
@@ -80,10 +80,10 @@ console.log(props)
                                                 props.Allitems.map((item, index) => (
                                                     <tr key={index} className='text-center'>
                                                         <td>{index + 1}</td>
-                                                        <td>{item.item}</td>
-                                                        <td>{item.qty}</td>
+                                                        <td>{item.items}</td>
+                                                        <td>{item.quantity}</td>
                                                         <td>{item.rate}</td>
-                                                        <td>{item.amt}</td>
+                                                        <td>{item.amount}</td>
                                                         <td>{item.unit}</td>
                                                     </tr>
                                                 ))
@@ -129,116 +129,8 @@ console.log(props)
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
 
 export default PreviewPO
-
-
-
-
-{/* <div className="modalbill border border-dark">
-
-<div className="bill-orgname d-flex justify-content-around align-items-center " >
-    <div>
-        <img className='billorglogo' src={localStorage.getItem('Orglogo')} alt='' />
-    </div>
-    <div className="toporgname text-center " >
-        <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
-        <p>
-            {localStorage.getItem('Organisation Name').toLocaleUpperCase()} &nbsp;
-            ADDRESS-GROUND FLOOR,TOWER B,VATIKA ATRIUM <br />GOLF COURSE  ROAD SECTOR 53,GURGOAN
-        </p>
-
-    </div>
-</div>
-<div className="billorgbottomdiv text-center"><h5 className='m-0 font-weight-bold'>Purchase Order</h5></div>
-<div className='bill-detail d-flex'>
-    <div className='left-bill-detail' style={{ width: "49%" }}>
-        <table>
-            <tbody>
-                <tr >
-                    <th >PO No :</th>
-                    <td >{props.data.po_number}</td>
-                </tr>
-                <tr >
-                    <th >Dated :</th>
-                    <td >{props.data.po_date}</td>
-                </tr>
-               
-            </tbody>
-        </table>
-
-    </div>
-    <div className='right-bill-detail ml-2' style={{ width: "48%" }}>
-        <table >
-            <tbody>
-                <tr >
-                    <th >Vendor Name: </th>
-                    <td >{props.data.vendor_id}</td>
-                </tr>
-                <tr >
-                    <th >Location:</th>
-                    <td > {props.data.po_location}</td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-
-</div>
-
-<div className='bill-items '>
-    <table className='table items-table table-borderless m-0' >
-    <tbody>
-        <tr className='billitemrow'>
-            <th className='first-col billitem text-center'>SNO.</th>
-            <th className='second-col billitem text-center'>Location</th>
-            <th className='third-col billitem text-center'>Item</th>
-            <th className='four-col billitem text-center'>Quantity</th>
-            <th className='five-col billitem text-center'>Rate</th>
-            <th className='six-col billitem text-center'>Amount</th>
-            <th className='seven-col billitem text-center'>Unit</th>
-        </tr>
-        {
-        
-            props.Allitems.map((item, index) => (
-                <tr key={index} className='billitemrow'>
-                    <td className='first-col billitem text-center'>{index + 1}</td>
-                    <td className='second-col billitem text-center'>{item.location}</td>
-                    <td className='third-col billitem text-center'>{item.items}</td>
-                    <td className='four-col billitem text-center'>{item.quantity}</td>
-                    <td className='five-col billitem text-center'>{item.rate}</td>
-                    <td className='six-col billitem text-center'>{item.amount}</td>
-                    <td className='seven-col billitem text-center'>{item.unit}</td>
-                </tr>
-            ))
-        }
-       
-        </tbody>
-    </table>
-
-</div>
-
-<div className='bill-bottomdetail d-flex justify-content-end' >
-
-    <table className='table table-borderless m-0' >
-    <tbody>
-        <tr id='billborderbottom'>
-            <th className='text-right'  >Net Amount</th>
-            <td className='text-center'>{props.data.poamount}</td>
-        </tr>
-       
-   
-     
-     
-     
-        </tbody>
-    </table>
-</div>
-<div className='bill-footerdiv d-flex pt-3 pl-3' style={{ borderTop: "1px solid #000" }}>
-    <h4>Naration: </h4>
-</div>
-</div> */}

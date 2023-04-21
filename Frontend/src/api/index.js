@@ -562,7 +562,8 @@ export const ActiveVendor = async (org) => {
 }
 
 export const ActiveSelectedVendor = async (org, vend_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/activeselectedvendor`
+    console.log('api',org, vend_id)
+    const url = `http://localhost:3008/api/activeselectedvendor`
     return axios.post(url, { org, vend_id }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1523,9 +1524,10 @@ export const getSubPoDetailsPreview = async (org, po_number) => {
     return axios.post(url, { org, po_number }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const Editpurchaseorder = async (org,po_number,status) => {
+export const Editpurchaseorder = async (org,new_po_number,status,po_num) => {
+    console.log(org,new_po_number,status,po_num)
     const url = `http://localhost:3008/api/editpurchaseorder`
-    return axios.post(url, { org,po_number,status}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,new_po_number,status,po_num}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertCreditNote = async (org,cn_no,cn_date,mast_id,cust_id,inv_no,inv_date,total_amt,net_amt,remark,location,fins_year,userid,total_cn_amt) => {

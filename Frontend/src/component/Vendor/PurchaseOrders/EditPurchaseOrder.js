@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import Preview from './PreviewPurchaseOrder/Preview';
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, Updatefinancialcount, SelectVendorAddress, Getfincialyearid, Editpurchaseorder, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, Updatefinancialcount, showLocation, Getfincialyearid, Editpurchaseorder, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
 
 export default function EditPurchaseOrder() {
     const [data, setData] = useState({})
@@ -15,25 +15,21 @@ export default function EditPurchaseOrder() {
     const [subinv, setSubPo] = useState([])
     const [poitem, setPOitems] = useState([])
     const [poalldetail, setPOalldetail] = useState({})
-
-
-
+    const [vendordata, setVendordata] = useState([]);
+    const [locationdata, setLocationdata] = useState([]);
 
     useEffect(() => {
         const fetchdata = async () => {
-
             const org = localStorage.getItem('Organisation');
             const po_no = localStorage.getItem('poNo');
+
             const result = await getPoDetailsPreview(org, po_no)
-            console.log(result)
             setData(result[0])
             setPOalldetail(result[0])
 
             const result1 = await getSubPoDetailsPreview(org, po_no)
-            console.log(result1)
             setSubPo(result1)
             setPOitems(result1)
-
 
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
@@ -47,6 +43,11 @@ export default function EditPurchaseOrder() {
             const items = await ActivePurchesItems(org)
             setItemlist(items)
 
+            const vendordata = await ActiveSelectedVendor(org, result[0].vendor_id);
+            setVendordata(vendordata[0])
+
+            const locationdata = await showLocation(org, result[0].po_location);
+            setLocationdata(locationdata)
 
         }
         fetchdata();
@@ -64,12 +65,13 @@ export default function EditPurchaseOrder() {
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].po_count) + 1
             setPOcount(lastno)
-            let po = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
+            let new_po_num = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
 
-            const result = await Editpurchaseorder(localStorage.getItem('Organisation'), po, 'post');
+            const result = await Editpurchaseorder(localStorage.getItem('Organisation'), new_po_num, 'post', localStorage.getItem('poNo'));
 
             if (result === "Updated") {
                 await Updatefinancialcount(org, 'po_count', lastno)
+                alert('Po Posted')
                 window.location.href = "./SavePurchaseOrder"
             }
         }
@@ -93,9 +95,8 @@ export default function EditPurchaseOrder() {
                                     <div className="d-flex col-md">
                                         <select
                                             id="vend_name"
-                                            // onChange={handleVendorName}
-                                            className="form-control col-md-4">
-                                            <option value={data.vendor_id} hidden>{data.vendor_id}</option>
+                                            className="form-control col-md-4" disabled>
+                                            <option value={data.vendor_id} hidden>{vendordata.vend_name}</option>
                                             {
                                                 vendorlist.map((item, index) =>
                                                     <option key={index} value={item.vend_id}>{item.vend_name}</option>)
@@ -108,8 +109,8 @@ export default function EditPurchaseOrder() {
                                     <div className="d-flex col-md">
                                         <select
                                             id="polocation"
-                                            className="form-control col-md-4">
-                                            <option value='' hidden>{data.po_location}</option>
+                                            className="form-control col-md-4" disabled>
+                                            <option value='' hidden>{locationdata.location_name}</option>
                                             {
                                                 locationstate.map((item, index) =>
                                                     <option key={index} value={item.location_id}>{item.location_name}</option>)
@@ -144,9 +145,7 @@ export default function EditPurchaseOrder() {
                                             subinv.map((element, index) => (
                                                 <tr key={index}>
                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                        <select className="form-control ml-0"
-                                                        //  onChange={(e) => { handleChangeLocation(e.target.value, index) }}
-                                                        >
+                                                        <select className="form-control ml-0" disabled>
                                                             <option value='' hidden>{element.location}</option>
                                                             {
                                                                 locationstate.map((item, index) => (
@@ -157,7 +156,7 @@ export default function EditPurchaseOrder() {
                                                         </select>
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                        <select className="form-control ml-0">
+                                                        <select className="form-control ml-0" disabled>
                                                             <option value='' hidden>{element.items}</option>
                                                             {
                                                                 itemlist.map((items, index) => (
@@ -168,17 +167,17 @@ export default function EditPurchaseOrder() {
                                                         </select>
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                        <input type='number' id={`Quantity${index}`} value={element.quantity} className="form-control" />
+                                                        <input type='number' id={`Quantity${index}`} value={element.quantity} className="form-control" disabled />
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                         <input type='number' id="Rate"
-                                                            value={element.rate} className="form-control" />
+                                                            value={element.rate} className="form-control" disabled />
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                         <input type='number' id={`Amount${index}`} value={element.amount} className="form-control cursor-notallow" disabled />
                                                     </td>
                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                        <select className="form-control ml-0">
+                                                        <select className="form-control ml-0" disabled>
                                                             <option value='' hidden>{element.unit}</option>
                                                             {
                                                                 unitlist.map((item, index) =>
@@ -193,42 +192,27 @@ export default function EditPurchaseOrder() {
                                 </table>
                             </form>
                         </article>
-                        <hr />
-                        <div className='d-flex'>
-                            <div style={{ width: "40%" }}>
-
-                            </div>
-                            <div className={`rounded py-1 px-2`} style={{ width: "55%" }}>
+                        <div className='d-flex justify-content-end '>
+                            <div className='rounded py-1 mx-5' style={{ width: "25%" }}>
                                 <table className='w-100'>
                                     <tbody>
                                         <tr>
-                                            <td><button className="btn btn-primary" id='subtotalbtn'> Total</button></td>
-                                            <td></td>
-                                            <td id="Subtotal">
-                                                {data.poamount}
-                                            </td>
+                                            <td><h4 id='subtotalbtn'> Total</h4></td>
+                                            <td id="Subtotal"><h5>INR {data.poamount}</h5></td>
                                         </tr>
-
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
 
 
                         <div className="card-footer border-top">
-                            <button id="save" name="save" className="btn btn-danger"
-                                onClick={() => { handleSubmit('save') }}
-                            >Save</button>
-                            <button id="save" name="save" className="btn btn-danger ml-2"
-                                onClick={() => { handleSubmit('post') }}
-                            >Post</button>
-                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
+                            <button id="save" name="save" className="btn btn-danger" onClick={() => { handleSubmit('save') }}>Save</button>
+                            <button id="save" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button>
+                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SavePurchaseOrder' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                             <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
-
                         </div>
-                        <Preview data={poalldetail} Allitems={poitem} />
-
+                        <Preview data={poalldetail} Allitems={poitem} vendordata={vendordata.vend_name} locationdata={locationdata.location_name} />
                     </div>
                 </div>
             </div>
