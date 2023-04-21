@@ -276,7 +276,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -286,9 +286,11 @@ const AddRoles = () => {
 
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'table-row'
+
             }
         }
         setTransition(!transition)
+       
     }
 
     const handlemaster = () => {
@@ -304,10 +306,11 @@ const AddRoles = () => {
             }
         }
         setMastertoggle(!mastertoggle)
+       
     }
 
     const handlereport = () => {
-        const innerreport = ['reportbill', 'reportinvoice'];
+        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
         if (reporttoggle) {
             for (let i = 0; i < innerreport.length; i++) {
                 document.getElementById(innerreport[i]).style.display = 'none'
@@ -371,7 +374,7 @@ const AddRoles = () => {
                                                             transition ? <i className="ion-arrow-down-b"></i> :
                                                                 <i className="ion-arrow-right-b"></i>
                                                         }
-                                                        &nbsp;<span style={{ color: "red" }}>Transition</span>&nbsp;
+                                                        &nbsp;<span className="text-danger">Transaction</span>&nbsp;
                                                     </th>
                                                 </tr>
 
@@ -408,7 +411,38 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='bills_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='bills_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
-
+                                                <tr id='salesorder' style={displaynone}>
+                                                    <th className="text-left">Sales Order</th>
+                                                    <td><input type='checkbox' id='salesorder_full' style={checkboxstyle} onClick={() => fullaccess('salesorder_full', 'salesorder_view', 'salesorder_create', 'salesorder_edit', 'salesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='salesorder_view' style={checkboxstyle} onClick={() => viewoff('salesorder_full', 'salesorder_view', 'salesorder_create', 'salesorder_edit', 'salesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='salesorder_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='salesorder_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='salesorder_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='purchasesorder' style={displaynone}>
+                                                    <th className="text-left">Purchases Order</th>
+                                                    <td><input type='checkbox' id='purchasesorder_full' style={checkboxstyle} onClick={() => fullaccess('purchasesorder_full', 'purchasesorder_view', 'purchasesorder_create', 'purchasesorder_edit', 'purchasesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='purchasesorder_view' style={checkboxstyle} onClick={() => viewoff('purchasesorder_full', 'purchasesorder_view', 'purchasesorder_create', 'purchasesorder_edit', 'purchasesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='purchasesorder_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='purchasesorder_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='purchasesorder_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='creditnote' style={displaynone}>
+                                                    <th className="text-left">Credit Notes</th>
+                                                    <td><input type='checkbox' id='creditnotes_full' style={checkboxstyle} onClick={() => fullaccess('creditnotes_full', 'creditnotes_view', 'creditnotes_create', 'creditnotes_edit', 'creditnotes_delete')} /></td>
+                                                    <td><input type='checkbox' id='creditnotes_view' style={checkboxstyle} onClick={() => viewoff('creditnotes_full', 'creditnotes_view', 'creditnotes_create', 'creditnotes_edit', 'creditnotes_delete')} /></td>
+                                                    <td><input type='checkbox' id='creditnotes_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='creditnotes_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='creditnotes_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='debitnote' style={displaynone}>
+                                                    <th className="text-left">Debit Notes</th>
+                                                    <td><input type='checkbox' id='debitnote_full' style={checkboxstyle} onClick={() => fullaccess('debitnote_full', 'debitnote_view', 'debitnote_create', 'debitnote_edit', 'debitnote_delete')} /></td>
+                                                    <td><input type='checkbox' id='debitnote_view' style={checkboxstyle} onClick={() => viewoff('debitnote_full', 'debitnote_view', 'debitnote_create', 'debitnote_edit', 'debitnote_delete')} /></td>
+                                                    <td><input type='checkbox' id='debitnote_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='debitnote_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='debitnote_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
                                                 <tr id='chartofaccount' style={displaynone}>
                                                     <th className="text-left">Chart of Accounts</th>
                                                     <td><input type='checkbox' id='chartacct_full' style={checkboxstyle} onClick={() => fullaccess('chartacct_full', 'chartacct_view', 'chartacct_create', 'chartacct_edit', 'chartacct_delete')} /></td>
@@ -601,6 +635,38 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='reports_invoice_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='reports_invoice_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
+                                                <tr id='reportsalesorder' style={displaynone}>
+                                                    <th className="text-left" >Reports Sales Order</th>
+                                                    <td><input type='checkbox' id='reports_salesorder_full' style={checkboxstyle} onClick={() => fullaccess('reports_salesorder_full', 'reports_salesorder_view', 'reports_salesorder_create', 'reports_salesorder_edit', 'reports_salesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_salesorder_view' style={checkboxstyle} onClick={() => viewoff('reports_salesorder_full', 'reports_salesorder_view', 'reports_salesorder_create', 'reports_salesorder_edit', 'reports_salesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_salesorder_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_salesorder_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_salesorder_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='reportpurchasesorder' style={displaynone}>
+                                                    <th className="text-left" >Reports Purchases Order</th>
+                                                    <td><input type='checkbox' id='reports_purchasesorder_full' style={checkboxstyle} onClick={() => fullaccess('reports_purchasesorder_full', 'reports_purchasesorder_view', 'reports_purchasesorder_create', 'reports_purchasesorder_edit', 'reports_purchasesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_purchasesorder_view' style={checkboxstyle} onClick={() => viewoff('reports_purchasesorder_full', 'reports_purchasesorder_view', 'reports_purchasesorder_create', 'reports_purchasesorder_edit', 'reports_purchasesorder_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_purchasesorder_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_purchasesorder_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_purchasesorder_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='reportcreditnote' style={displaynone}>
+                                                    <th className="text-left" >Reports Credit Note</th>
+                                                    <td><input type='checkbox' id='reports_creditnote_full' style={checkboxstyle} onClick={() => fullaccess('reports_creditnote_full', 'reports_creditnote_view', 'reports_creditnote_create', 'reports_creditnote_edit', 'reports_creditnote_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_creditnote_view' style={checkboxstyle} onClick={() => viewoff('reports_creditnote_full', 'reports_creditnote_view', 'reports_creditnote_create', 'reports_creditnote_edit', 'reports_creditnote_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_creditnote_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_creditnote_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_creditnote_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='reportdebitnote' style={displaynone}>
+                                                    <th className="text-left" >Reports Debit Note</th>
+                                                    <td><input type='checkbox' id='reports_debitnote_full' style={checkboxstyle} onClick={() => fullaccess('reports_debitnote_full', 'reports_debitnote_view', 'reports_debitnote_create', 'reports_debitnote_edit', 'reports_debitnote_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_debitnote_view' style={checkboxstyle} onClick={() => viewoff('reports_debitnote_full', 'reports_debitnote_view', 'reports_debitnote_create', 'reports_debitnote_edit', 'reports_debitnote_delete')} /></td>
+                                                    <td><input type='checkbox' id='reports_debitnote_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_debitnote_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='reports_debitnote_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -614,7 +680,7 @@ const AddRoles = () => {
                         </div>
                     </div>
                 </div>
-                <Footer  />
+                <Footer />
             </div>
         </>
     )
