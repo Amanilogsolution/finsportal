@@ -219,13 +219,13 @@ const Menu = (props) => {
     <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
       <a href="/home" className="brand-link" >
         <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
-        <span className="brand-text " style={{ color: "red", fontSize: "18px" }}>{currentorg}</span>
+        <span className="brand-text text-danger" style={{  fontSize: "18px" }}>{currentorg}</span>
       </a>
 
       <div className="sidebar pb-3 " >
         <div className="form-inline mt-3 pb-3 mb-3 d-flex">
-          <div className="input-group " data-widget="sidebar-search">
-            <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
+          <div className="input-group text-danger" data-widget="sidebar-search">
+            <input className="form-control form-control-sidebar " type="search" placeholder="Search" aria-label="Search" />
             <div className="input-group-append">
               <button className="btn btn-sidebar">
                 <i className="fas fa-search fa-fw" />
