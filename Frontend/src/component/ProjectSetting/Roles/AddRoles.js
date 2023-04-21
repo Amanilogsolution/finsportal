@@ -85,7 +85,18 @@ const AddRoles = () => {
         const invoice_edit = document.getElementById('invoice_edit').checked === true ? true : false;
         const invoice_delete = document.getElementById('invoice_delete').checked === true ? true : false;
 
-        const sales_all = cust_view || invoice_view;
+        const salesorder_view = document.getElementById('salesorder_view').checked === true ? true : false;
+        const salesorder_create = document.getElementById('salesorder_create').checked === true ? true : false;
+        const salesorder_edit = document.getElementById('salesorder_edit').checked === true ? true : false;
+        const salesorder_delete = document.getElementById('salesorder_delete').checked === true ? true : false;
+
+        const creditnotes_view = document.getElementById('creditnotes_view').checked === true ? true : false;
+        const creditnotes_create = document.getElementById('creditnotes_create').checked === true ? true : false;
+        const creditnotes_edit = document.getElementById('creditnotes_edit').checked === true ? true : false;
+        const creditnotes_delete = document.getElementById('creditnotes_delete').checked === true ? true : false;
+
+
+        const sales_all = cust_view || invoice_view || salesorder_view || creditnotes_view;
 
         // Purchases
         const vend_view = document.getElementById('vend_view').checked === true ? true : false;
@@ -98,7 +109,17 @@ const AddRoles = () => {
         const bills_edit = document.getElementById('bills_edit').checked === true ? true : false;
         const bills_delete = document.getElementById('bills_delete').checked === true ? true : false;
 
-        const purchases_all = vend_view || bills_view;
+        const purchasesorder_view = document.getElementById('purchasesorder_view').checked === true ? true : false;
+        const purchasesorder_create = document.getElementById('purchasesorder_create').checked === true ? true : false;
+        const purchasesorder_edit = document.getElementById('purchasesorder_edit').checked === true ? true : false;
+        const purchasesorder_delete = document.getElementById('purchasesorder_delete').checked === true ? true : false;
+
+        const debitnote_view = document.getElementById('debitnote_view').checked === true ? true : false;
+        const debitnote_create = document.getElementById('debitnote_create').checked === true ? true : false;
+        const debitnote_edit = document.getElementById('debitnote_edit').checked === true ? true : false;
+        const debitnote_delete = document.getElementById('debitnote_delete').checked === true ? true : false;
+
+        const purchases_all = vend_view || bills_view || purchasesorder_view || debitnote_view;
 
         // Accountant
 
@@ -261,7 +282,9 @@ const AddRoles = () => {
                 comptype_view, comptype_create, comptype_edit, comptype_delete, users_view, users_create, users_edit, users_delete,
                 empmaster_view, empmaster_create, empmaster_edit, empmaster_delete,
                 reports_all, reports_bills_view, reports_bills_create, reports_bills_edit, reports_bills_delete,
-                reports_invoice_view, reports_invoice_create, reports_invoice_edit, reports_invoice_delete, user_id)
+                reports_invoice_view, reports_invoice_create, reports_invoice_edit, reports_invoice_delete, user_id,
+                salesorder_view, salesorder_create, salesorder_edit, salesorder_delete, creditnotes_view, creditnotes_create, creditnotes_edit, creditnotes_delete,
+                purchasesorder_view, purchasesorder_create, purchasesorder_edit, purchasesorder_delete, debitnote_view, debitnote_create, debitnote_edit, debitnote_delete)
 
             if (submitdata === 'Role Already') {
                 setAlreadyrole(true)
@@ -290,7 +313,7 @@ const AddRoles = () => {
             }
         }
         setTransition(!transition)
-       
+
     }
 
     const handlemaster = () => {
@@ -306,8 +329,75 @@ const AddRoles = () => {
             }
         }
         setMastertoggle(!mastertoggle)
-       
+
     }
+
+    const handleChangeAllAccess = (e) => {
+        const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
+            'org', 'paymentTerm', 'financial', 'branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
+            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote']
+        const arr2 = ['full', 'view', 'create', 'edit', 'delete']
+
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow'];
+        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
+
+
+        if (e.target.checked === true) {
+            for (var val of arr1) {
+                // console.log(val)
+                for (let val2 of arr2) {
+                    document.getElementById(`${val}_${val2}`).checked = true
+                }
+                fullaccess(`${val}_full`, `${val}_view`, `${val}_create`, `${val}_edit`, `${val}_delete`)
+            }
+
+            for (let i = 0; i < innertransition.length; i++) {
+                document.getElementById(innertransition[i]).style.display = 'table-row'
+            }
+
+            for (let i = 0; i < innermaster.length; i++) {
+                document.getElementById(innermaster[i]).style.display = 'table-row'
+            }
+
+            for (let i = 0; i < innerreport.length; i++) {
+                document.getElementById(innerreport[i]).style.display = 'table-row'
+            }
+            setTransition(true)
+            setMastertoggle(true)
+            setReporttoggle(true)
+
+        } else {
+            for (var val of arr1) {
+                // console.log(val)
+                for (let val2 of arr2) {
+                    document.getElementById(`${val}_${val2}`).checked = false
+                }
+                fullaccess(`${val}_full`, `${val}_view`, `${val}_create`, `${val}_edit`, `${val}_delete`)
+
+            }
+            for (let i = 0; i < innertransition.length; i++) {
+                document.getElementById(innertransition[i]).style.display = 'none'
+            }
+
+            for (let i = 0; i < innermaster.length; i++) {
+                document.getElementById(innermaster[i]).style.display = 'none'
+            }
+            for (let i = 0; i < innerreport.length; i++) {
+                document.getElementById(innerreport[i]).style.display = 'none'
+            }
+            setTransition(false)
+            setMastertoggle(false)
+            setReporttoggle(false)
+
+
+
+        }
+    }
+
+
+
+
 
     const handlereport = () => {
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
@@ -367,6 +457,10 @@ const AddRoles = () => {
                                             <tbody>
 
                                                 {/* #############################  Transition #################################################### */}
+                                                <tr>
+                                                    <th className="text-left pl-4">All Rights <input type="checkbox" onChange={handleChangeAllAccess} /></th>
+
+                                                </tr>
 
                                                 <tr >
                                                     <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handletransition}>

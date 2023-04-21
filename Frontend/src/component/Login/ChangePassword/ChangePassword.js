@@ -35,27 +35,35 @@ function ChangePassword() {
     }
     const handleClick = async (e) => {
         e.preventDefault()
+        const userid = document.getElementById('userid').value
         const CurrentPassword = document.getElementById('CurrentPassword').value;
         const newpassword = document.getElementById('newpassword').value;
         const confirmpassword = document.getElementById('confirmpassword').value
+
+     
 
         if (!CurrentPassword || !newpassword || !confirmpassword) {
             setCheckpass(!checkpass)
         }
         else {
-            if (newpassword === confirmpassword) {
-                const result = await UserChangePassword(localStorage.getItem('User_id'), newpassword, CurrentPassword)
-                if (result === 'Incorrect Current Password') {
-                    setCheckpass(!checkpass)
+            if(userid === localStorage.getItem('User_id')){
+                if (newpassword === confirmpassword) {
+                    const result = await UserChangePassword(localStorage.getItem('User_id'), newpassword, CurrentPassword)
+                    if (result === 'Incorrect Current Password') {
+                        setCheckpass(!checkpass)
+                    }
+                    else {
+                        alert("Password changed successfully ...");
+                        window.location.href = '/home'
+                    }
                 }
                 else {
-                    alert("Password changed successfully ...");
-                    window.location.href = '/home'
-                }
+                    setShowalert(true);
+                }           
+             }else{
+                alert('Not User')
             }
-            else {
-                setShowalert(true);
-            }
+            
         }
     }
 
@@ -75,6 +83,13 @@ function ChangePassword() {
                                     <h2 className='cp_heading'>Change Your Password</h2>
                                     <hr style={{ marginTop: "13px" }} />
                                     <form autoComplete='off' className='form-div'>
+                                        <div className="form-group">
+                                            <label htmlFor='password'>User ID:-</label>
+                                            <div className="input-group">
+                                                <input id="userid" name="CurrentPassword" placeholder="User id" className="form-control" type={"text"} onChange={handleDisableAlert} />
+
+                                            </div>
+                                        </div>
                                         <div className="form-group">
                                             <label htmlFor='password'>Current Password:-</label>
                                             <div className="input-group">
@@ -118,7 +133,7 @@ function ChangePassword() {
                                     </form>
                                 </div>
                                 <div className="div_cp_2 d-flex justify-content-center align-items-center">
-                                    <img src={img} alt="img" loading="lazy"/>
+                                    <img src={img} alt="img" loading="lazy" />
                                 </div>
 
                             </article>

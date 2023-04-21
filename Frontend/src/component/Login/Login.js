@@ -81,7 +81,14 @@ const Login = () => {
             setErrormsg(true);
         }
     }
-    const handleClickVerify = async () => {
+
+    const ResendOTP = async(e)=>{
+        e.preventDefault();
+        const OTP = Math.floor(Math.random() * 1000000)
+        setOpts(OTP)
+        const result1 = await OTPVerification(phones, OTP)
+    }
+     const handleClickVerify = async () => {
         if (twacheck === 'msg') {
             const otpinput = document.getElementById('otp').value
             if (otpinput == otps) {
@@ -196,8 +203,11 @@ const Login = () => {
                             <div className="input-group mb-3" id='tokendiv' style={{ display: "none" }} >
                                 <input type="number" className="form-control" placeholder="Enter Token" id="token" autoComplete='off' required />
                             </div>
-                            <div className="input-group mb-3" id='otpdiv' style={{ display: "none" }}>
-                                <input type="number" className="form-control" placeholder="Enter OTP" id="otp" autoComplete='off' required />
+                            <div className="input-group mb-3 " id='otpdiv' style={{ display: "none" }}>
+                                <input type="number" className="form-control " placeholder="Enter OTP" id="otp" autoComplete='off' required />
+                                <div className='mt-0'>
+                                <button className='float-right btn btn-danger' onClick={ResendOTP}>Resend OTP</button>
+                            </div>                                
                             </div>
                             {/* <button className='btn login-btn'>Login</button> */}
                             <button type="submit" id='submitbtn' onClick={handleClick} className="btn login-btn ">Sign In</button>
