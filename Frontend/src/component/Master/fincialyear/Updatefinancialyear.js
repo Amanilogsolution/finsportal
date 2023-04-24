@@ -32,6 +32,8 @@ const Updatefincialyear = () => {
     const lock = document.getElementById('lockFinancialyear').checked;
     let lockscreen
     lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
+
+    
     if (invoice_ser.length > 6 || voucher_ser.length > 4 || po_ser.length > 6) {
       alert("invoice Series is must be smaller then 6 char and voucher is 4")
     }
@@ -51,20 +53,6 @@ const Updatefincialyear = () => {
   }
 
 
-  const handleChangeinvoice = (e) => {
-    setData({ ...data, invoice_ser: e.target.value })
-
-  }
-  const handleChangevoucher = (e) => {
-    setData({ ...data, voucher_ser: e.target.value })
-
-  }
-  const handlePoseries = (e) => {
-    setData({ ...data, po_ser: e.target.value })
-
-  }
-
-  
 
   return (
     <div className="wrapper">
@@ -74,7 +62,7 @@ const Updatefincialyear = () => {
       <Header />
       <div className={`content-wrapper `}>
         <div className="container-fluid">
-          <br /> <h3 className="text-left ml-5">Edit Financial Year</h3> <br />
+          <br /> <h3 className=" ml-5">Edit Financial Year</h3> 
           <div className="card w-100">
             <article className={`card-body `}>
               <form>
@@ -105,19 +93,19 @@ const Updatefincialyear = () => {
                 <div className="form-row">
                   <label htmlFor="invoiceser" className="col-md-2 col-form-label font-weight-normal">Invoice Series</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='invoiceser' value={data.invoice_ser} onChange={handleChangeinvoice} maxLength={6} />
+                    <input type="text" className="form-control col-md-4" id='invoiceser' defaultValue={data.invoice_ser}  maxLength={6} />
                   </div>
                 </div>
                 <div className="form-row">
                   <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Voucher Series</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='voucher' value={data.voucher_ser} onChange={handleChangevoucher} maxLength={4} />
+                    <input type="text" className="form-control col-md-4" id='voucher' defaultValue={data.voucher_ser} maxLength={4} />
                   </div>
                 </div>
                 <div className="form-row">
                   <label htmlFor="po_series" className="col-md-2 col-form-label font-weight-normal">PO Series</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='po_series' value={data.po_ser} onChange={handlePoseries} maxLength={4} />
+                    <input type="text" className="form-control col-md-4" id='po_series' defaultValue={data.po_ser}  maxLength={4} />
                   </div>
                 </div>
                 <div className="form-row">

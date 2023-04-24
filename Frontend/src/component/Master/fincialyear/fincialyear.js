@@ -63,19 +63,18 @@ const Fincialyear = () => {
       }
 
       else {
-        console.log(org, fincialyear, year, from_date, to_date, 'invoice_ser', invoice_ser, 'voucher_ser', voucher_ser, User_id, 'purchase_ser', purchase_ser,
-          'salesorder_ser', salesorder_ser, 'creditNotes', creditNotes, 'debitNotes', debitNotes)
+        console.log(org, fincialyear, year, from_date, to_date,invoice_ser,voucher_ser,purchase_ser,salesorder_ser,creditNotes,debitNotes, User_id)
 
-        // const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id, purchase_ser)
+        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date,invoice_ser,voucher_ser,purchase_ser,salesorder_ser,creditNotes,debitNotes, User_id)
 
-        // if (result.rowsAffected[0] > 0) {
-        //   alert("Data Added");
-        //   window.location.href = "./ShowFinancialyear"
-        // }
-        // else {
-        //   alert("Server error !")
+        if (result.rowsAffected[0] > 0) {
+          alert("Data Added");
+          window.location.href = "./ShowFinancialyear"
+        }
+        else {
+          alert("Server error !")
 
-        // }
+        }
       }
 
     }
