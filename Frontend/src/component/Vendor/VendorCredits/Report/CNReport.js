@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, InsertDebitNote } from '../../../../api/index'
+import { CheckLoginUser, InsertDebitNote,Getfincialyearid,Updatefinancialcount } from '../../../../api/index'
 
 
 const CNReport = (props) => {
@@ -12,6 +12,9 @@ const CNReport = (props) => {
         vourcher_no: ""
      
     })
+
+    const [dn_no,setDN_NO] = useState('')
+    const [DNcount,setDNCount] = useState(0)
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
@@ -27,12 +30,13 @@ const CNReport = (props) => {
     const handleClickSendMail = async (e) => {
         e.preventDefault()
         const org = localStorage.getItem('Organisation')
-        const Dn_no = `DN000${Math.floor(Math.random() * 100)}`
         const remark = document.getElementById('remark').value
         const userid = localStorage.getItem('User_id');
         const total_cn_amt = document.getElementById('total_cn_amt').value
-        const result = await InsertDebitNote(org,Dn_no,date,total_cn_amt,remark,cndetails.bill_no,cndetails.vourcher_no,userid)
+        const result = await InsertDebitNote(org,dn_no,date,total_cn_amt,remark,cndetails.bill_no,cndetails.vourcher_no,userid)
         console.log(result)
+        await Updatefinancialcount(org, 'dn_count', DNcount)
+
         if(result==='Added'){
             window.location.reload()
         }
@@ -95,9 +99,16 @@ const CNReport = (props) => {
 
     useEffect(() => {
         async function fetchdata() {
+            const org = localStorage.getItem('Organisation')
+
             setData(props.displaydata)
             Todaydate()
 
+            const id = await Getfincialyearid(org)
+            console.log(id)
+            const lastno = Number(id[0].dn_count) + 1
+            setDN_NO(id[0].dn_ser + id[0].year + String(lastno).padStart(5, '0'))
+            setDNCount(lastno)
         }
         fetchdata()
     }, [])

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, InsertSalesorder, InsertSubSalesorder,showOrganisation } from '../../../api/index'
+import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, InsertSalesorder, InsertSubSalesorder,showOrganisation,Getfincialyearid,Updatefinancialcount } from '../../../api/index'
 import Preview from './PreviewSalesOrder/PreviewSalesOrder';
 
 function SalesOrder() {
@@ -47,6 +47,8 @@ function SalesOrder() {
         total: ''
     }]);
 
+    const [socount,setSocount] = useState(0)
+
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
@@ -62,6 +64,12 @@ function SalesOrder() {
 
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
+
+            const id = await Getfincialyearid(org)
+            console.log(id)
+            const lastno = Number(id[0].so_count) + 1
+           document.getElementById('so_no').value = id[0].so_ser + id[0].year + String(lastno).padStart(5, '0')
+           setSocount(lastno)
 
             Todaydate()
         }
@@ -193,6 +201,7 @@ function SalesOrder() {
             }
 
             const result = await InsertSalesorder(org, cust_id, cust_addressid, so_no, so_date, net_amt, gst_rate, gst_amt, total_amt, remark, User_id, flag)
+            await Updatefinancialcount(org, 'so_count', socount)
 
             itemsrowval.forEach(async (item) => {
                 const result1 = await InsertSubSalesorder(org, so_no, item.activity, item.items, item.Quantity, item.rate, item.taxPer, item.taxAmt, item.unit, item.amount, item.total, User_id, item.glcode, item.majorCode)
