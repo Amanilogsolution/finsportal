@@ -76,7 +76,7 @@ function CreditNotes() {
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
             document.getElementById(`PassAmount${index}`).value = ''
-            document.getElementById(`AmountLeft${index}`).innerHTML = AmtBalance
+            document.getElementById(`AmountLeft${index}`).innerHTML = 0
             return
         } else {
             setTimeout(() => {
@@ -88,8 +88,8 @@ function CreditNotes() {
                     activity: Activity,
                     item: Item,
                     amount: Amount,
-                    balance_amt: AmtBalance,
-                    pass_amt: Balancevalue,
+                    balance_amt: Balancevalue,
+                    pass_amt: value,
                     sub_id: id
                 }
                 subTotal.map(item => sum += Number(item))
