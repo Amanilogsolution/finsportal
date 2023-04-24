@@ -84,7 +84,7 @@ console.log('wnl',ChargeCodeSub, data, location, custname)
                                             </div>
                                         </div>
                                         <table id="second_table" style={{ width: '100%' }}>
-                                            <thead>
+                                            <thead className='text-center'>
                                                 <tr>
                                                     <th rowSpan="2">SNo.</th>
                                                     <th rowSpan="2">Activity</th>
