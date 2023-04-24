@@ -11,7 +11,6 @@ function PurchaseOrder() {
     const [vendorlist, setVendorlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
     const [itemlist, setItemlist] = useState([])
-
     const [unitlist, setUnitlist] = useState([])
     const [pocount, setPOcount] = useState(0)
 
