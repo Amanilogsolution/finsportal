@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './creditnote.css'
-import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice ,Getfincialyearid} from '../../../api/index'
+import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice, Getfincialyearid ,ChangeCNStatus} from '../../../api/index'
 import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
@@ -54,14 +54,14 @@ function CreditNotes() {
         fetchData()
     }, [sendRequest])
 
-    const Invdate = (invdate) =>{
+    const Invdate = (invdate) => {
         var date = new Date(invdate);
-        var year = date.getFullYear()+1
+        var year = date.getFullYear() + 1
         var today = year + "-" + '09' + "-" + '30';
-        if(invdate>today){
+        if (invdate > today) {
             alert('Cannt Do GST')
         }
-        console.log(today,invdate)
+        console.log(today, invdate)
     }
 
     const handleChangePassAmount = (value, index, id) => {
@@ -101,17 +101,22 @@ function CreditNotes() {
         }
     }
 
-    const handleClick = (e) => {
-        e.preventDefault()
+    const handleClick = async () => {
         const org = localStorage.getItem('Organisation')
         const userid = localStorage.getItem('User_id')
         const remark = document.getElementById('Remark').value
+
+        var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {
-            var result = await InsertCnSub(org, item, userid, remark)
-            if (result == "Added") {
-                window.location.href = "./CreditNotesUI"
-            }
+            resultAddedCN = await InsertCnSub(org, item, userid, remark)
         })
+
+        if (resultAddedCN === "Added") {
+            let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
+            console.log(statusUpdate)
+            // window.location.href = "./CreditNotesUI"
+        }
+
     }
 
     const apiCAll = (e) => {
@@ -230,19 +235,19 @@ function CreditNotes() {
 
                                                     <tr>
                                                         <td>CGST </td>
-                                                        <td >{invoicedata?invoicedata.cgst_amt:""} %</td>
+                                                        <td >{invoicedata ? invoicedata.cgst_amt : ""} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>SGST / UTGST </td>
-                                                        <td>{invoicedata?invoicedata.sgst_amt:""} %</td>
+                                                        <td>{invoicedata ? invoicedata.sgst_amt : ""} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>IGST </td>
-                                                        <td>{invoicedata?invoicedata.igst_amt:""} %</td>
+                                                        <td>{invoicedata ? invoicedata.igst_amt : ""} %</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Total Taxable</td>
-                                                        <td>{invoicedata?invoicedata.taxable_amt:""}</td>
+                                                        <td>{invoicedata ? invoicedata.taxable_amt : ""}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><h3> Total(₹)</h3></td>

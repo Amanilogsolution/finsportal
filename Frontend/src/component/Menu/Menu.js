@@ -24,12 +24,12 @@ const Menu = (props) => {
 
     // ####################  ALL Access to Admin Start #######################################################
     if (localStorage.getItem('Role') === 'Admin') {
-      // document.getElementById('estimatesMenu').style.display = "block"
-      // document.getElementById('deliverychallansmrnu').style.display = "block"
-      // document.getElementById('pmtRecMenu').style.display = "block"
-      // document.getElementById('recInvoiceMenu').style.display = "block"
-      // document.getElementById('vendRecurrMenu').style.display = "block"
-      // document.getElementById('vendrecbillMenu').style.display = "block"
+      document.getElementById('estimatesMenu').style.display = "block"
+      document.getElementById('deliverychallansmrnu').style.display = "block"
+      document.getElementById('pmtRecMenu').style.display = "block"
+      document.getElementById('recInvoiceMenu').style.display = "block"
+      document.getElementById('vendRecurrMenu').style.display = "block"
+      document.getElementById('vendrecbillMenu').style.display = "block"
     }
     else {
       // document.getElementById('estimatesMenu').style.display = "none"

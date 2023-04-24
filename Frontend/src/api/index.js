@@ -4,7 +4,7 @@ import axios from 'axios';
 // ############################ For USER Login start #################################
 
 export const UserLogin = async (user_id, user_password) => {
-    const url = 'https://finsbackend.awlinternational.com/api/userlogin'
+    const url = 'http://localhost:3008/api/userlogin'
     return axios.post(url, { user_id, user_password }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -64,7 +64,7 @@ export const CreateOrgTable = async (dbname, org_name, User_id, fins_year, last_
 
 
 export const TotalOrganistion = async () => {
-    const url = `https://finsbackend.awlinternational.com/api/TotalOrganistion`
+    const url = `http://localhost:3008/api/TotalOrganistion`
     return axios.get(url).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -442,7 +442,7 @@ export const ImportCustomer = async (data, org, User_id) => {
 }
 
 export const ActiveCustomer = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/activecustomer`
+    const url = `http://localhost:3008/api/activecustomer`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1455,26 +1455,26 @@ export const AddUserRole = async (org, roles, role_id, description, sales_all, c
 }
 
 export const getUserRole = async (org, role) => {
-    const url = `https://finsbackend.awlinternational.com/api/getuserrole`
+    const url = `http://localhost:3008/api/getuserrole`
     return axios.post(url, { org, role }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ActiveUserRole = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/activeuserrole`
+    const url = `http://localhost:3008/api/activeuserrole`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const getUserRolePermission = async (org, role, type) => {
-    const url = `https://finsbackend.awlinternational.com/api/getuserrolepermission`
+    const url = `http://localhost:3008/api/getuserrolepermission`
     return axios.post(url, { org, role, type }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const TotalUserRole = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/totaluserrole`
+    const url = `http://localhost:3008/api/totaluserrole`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const DeleteUserRole = async (org, sno, status) => {
-    const url = `https://finsbackend.awlinternational.com/api/deleteuserrole`
+    const url = `http://localhost:3008/api/deleteuserrole`
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1487,12 +1487,12 @@ export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number
 }
 
 export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity, rate, amount, unit) => {
-    const url = `https://finsbackend.awlinternational.com/api/InsertSubPurchaseorder`
+    const url = `http://localhost:3008/api/InsertSubPurchaseorder`
     return axios.post(url, { org, vendor_id, po_number, location, items, quantity, rate, amount, unit }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetPodetailsVendor = async (org, vendor_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/getpodetailsvendor`
+    const url = `http://localhost:3008/api/getpodetailsvendor`
     return axios.post(url, { org, vendor_id }).then(response => response.data).catch(error => console.log(error));
 }
 
