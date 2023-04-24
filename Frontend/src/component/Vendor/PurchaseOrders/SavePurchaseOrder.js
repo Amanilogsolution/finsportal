@@ -7,6 +7,8 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 
 export default function SavePurchaseOrder() {
+  const [userRightsData, setUserRightsData] = useState([]);
+
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
@@ -30,13 +32,14 @@ export default function SavePurchaseOrder() {
     setFinancialstatus(financstatus);
 
     if (financstatus === 'Lock') {
-      document.getElementById('addbillbtn').style.background = '#7795fa';
+      document.getElementById('addpobtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bills')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'purchasesorder')
+    setUserRightsData(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
-    if (UserRights.bills_create === 'true') {
-      document.getElementById('addbillbtn').style.display = "block";
+    if (UserRights.purchasesorder_create === 'true') {
+      document.getElementById('addpobtn').style.display = "block";
 
     }
   }
@@ -46,14 +49,26 @@ export default function SavePurchaseOrder() {
       name: 'PO No',
       selector: 'po_number',
       sortable: true,
-      cell:(row)=>{
-        return (
-          <a href='EditPurchaseOrder' onClick={() => localStorage.setItem('poNo', `${row.po_number}`)}>
-            {row.po_number}
-          </a>
-        )
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit PurchaseOrder is Lock'>{row.po_number}</p>
+        }
+        else {
+          if (!userRightsData) {
+            fetchRoles()
+          }
+          if (userRightsData.purchasesorder_edit === 'true') {
+            return (
+              <a title='Edit Purchase Order' className='pb-1' href="EditPurchaseOrder" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('poNo', `${row.po_number}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.po_number}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Customer City'>{row.po_number}</p>
+          }
+
+        }
       }
-      
     },
     {
       name: 'PO Date',
@@ -82,9 +97,9 @@ export default function SavePurchaseOrder() {
         </div>
         <Header />
         <div className={`content-wrapper `}>
-          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./PurchaseOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  PO</button>
+          <button type="button " id='addpobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./PurchaseOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  PO</button>
           <div className="container-fluid">
-            <h3 className="py-4 ml-5"> Save Bill </h3>
+            <h3 className="py-4 ml-5"> Save Purchases Order</h3>
             <div className="card" >
               <article className={`card-body py-1`}>
                 <DataTableExtensions {...tableData}>

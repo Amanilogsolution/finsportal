@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { GetBillVendorID, filterInvoicebyDN, ActiveVendor, ActiveLocationAddress, getUserRolePermission, filterPO,AllDNData,InsertDebitNote } from '../../../api/index'
+import { GetBillVendorID, filterInvoicebyDN, ActiveVendor, ActiveLocationAddress, getUserRolePermission, filterPO, AllDNData, InsertDebitNote } from '../../../api/index'
 import Select from 'react-select';
 import CNReport from './Report/CNReport'
 import CNDetails from './Report/CNDetails'
@@ -22,19 +22,22 @@ function DebitNotes() {
   useEffect(() => {
     const fetchData = async () => {
       const org = localStorage.getItem('Organisation')
-  
+
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-      console.log(vend)
 
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
       const CNdetails = await AllDNData(org)
-      console.log(CNdetails)
       setCndata(CNdetails)
       Todaydate()
       setLoading(true)
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'debitnote')
+      console.log(UserRights)
+      if (UserRights.debitnote_create === 'true') {
+        document.getElementById('gendnbtn').style.display = 'block'
+      }
     }
     fetchData()
   }, [])
@@ -90,7 +93,6 @@ function DebitNotes() {
     const lastDate = document.getElementById('to_date').value
 
     const result = await filterInvoicebyDN(org, startDate, lastDate, custname, vendlocation, invoiceno)
-    console.log(result)
     setData(result)
   }
 
@@ -105,7 +107,7 @@ function DebitNotes() {
               <div className="container-fluid">
                 <div className='d-flex justify-content-between px-3 py-3'>
                   <h3 className="ml-5">Debit Notes</h3>
-                  <button type="button" className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
+                  <button type="button" id='gendnbtn' style={{display:'none'}} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                     <i className="fa fa-filter" aria-hidden="true"></i> Generate Debit Note</button>
                 </div>
                 <div className="card w-100">
@@ -114,7 +116,7 @@ function DebitNotes() {
                       data.length > 0 ? (
                         <CNReport displaydata={data} />
                       )
-                        : 
+                        :
                         <CNDetails displaydata={cndata} />
                     }
                   </article>
