@@ -785,10 +785,12 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     chartof_accounts_create nvarchar(20) NULL,
     chartof_accounts_edit nvarchar(20) NULL,
     chartof_accounts_delete nvarchar(20) NULL,
+
     users_view nvarchar(20) NULL,
     users_create nvarchar(20) NULL,
     users_edit nvarchar(20) NULL,
     users_delete nvarchar(20) NULL,
+
     payment_terms_view nvarchar(20) NULL,
     payment_terms_create nvarchar(20) NULL,
     payment_terms_edit nvarchar(20) NULL,
@@ -859,19 +861,19 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     currency_addj_delete nvarchar(30) NULL,
 
     branch_view nvarchar(30) NULL,
-branch_create nvarchar(30) NULL,
-branch_edit nvarchar(30) NULL,
-branch_delete nvarchar(30) NULL,
+    branch_create nvarchar(30) NULL,
+    branch_edit nvarchar(30) NULL,
+    branch_delete nvarchar(30) NULL,
 
-crm_view nvarchar(30) NULL,
-crm_create nvarchar(30) NULL,
-crm_edit nvarchar(30) NULL,
-crm_delete nvarchar(30) NULL,
+    crm_view nvarchar(30) NULL,
+    crm_create nvarchar(30) NULL,
+    crm_edit nvarchar(30) NULL,
+    crm_delete nvarchar(30) NULL,
 
-compliances_view nvarchar(30) NULL,
-compliances_create nvarchar(30) NULL,
-compliances_edit nvarchar(30) NULL,
-compliances_delete nvarchar(30) NULL,
+    compliances_view nvarchar(30) NULL,
+    compliances_create nvarchar(30) NULL,
+    compliances_edit nvarchar(30) NULL,
+    compliances_delete nvarchar(30) NULL,
 
     compliance_view nvarchar(20) NULL,   
     compliance_create nvarchar(20) NULL,   
@@ -884,9 +886,9 @@ compliances_delete nvarchar(30) NULL,
     user_roles_delete nvarchar(20) NULL, 
 
     roles_view nvarchar(30) NULL,
-roles_create nvarchar(30) NULL,
-roles_edit nvarchar(30) NULL,
-roles_delete nvarchar(30) NULL,
+    roles_create nvarchar(30) NULL,
+    roles_edit nvarchar(30) NULL,
+    roles_delete nvarchar(30) NULL,
 
     fincial_year_view nvarchar(30) NULL,
     fincial_year_create nvarchar(30) NULL,
@@ -915,7 +917,7 @@ roles_delete nvarchar(30) NULL,
     update_date_time datetime NULL,
     status nvarchar(30) NULL,
     roles_uuid nvarchar(350) NULL
-);
+    );
 
 CREATE TABLE ${dbname}.dbo.tbl_purchase_order (
     sno bigint IDENTITY(1,1) NOT NULL,
@@ -1157,7 +1159,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 so_uuid varchar(300) NULL
                 );  
                    
-                CREATE TABLE ${dbname}.dbo.tbl_sub_sales_order (
+            CREATE TABLE ${dbname}.dbo.tbl_sub_sales_order (
                 sno bigint IDENTITY(1,1) NOT NULL,
                 so_no varchar(100) NULL,
                 activity nvarchar(100) NULL,
@@ -1183,9 +1185,6 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 sub_so_uuid varchar(300) NULL
                 ); 
 
-
-
-
                 insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,
                     sales_all,customer_view,customer_create,customer_edit,customer_delete,
                     invoice_view,invoice_create,invoice_edit,invoice_delete,
@@ -1202,12 +1201,10 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                     fincial_year_view,fincial_year_create,fincial_year_edit,fincial_year_delete,
                     branch_view,branch_create,branch_edit,branch_delete,
                     crm_view,crm_create,crm_edit,crm_delete,
-    
                     compliances_view,compliances_create,compliances_edit,compliances_delete,
                     roles_view,roles_create,roles_edit,roles_delete,
                     items_view,items_create,items_edit,items_delete,
                     master_all,
-    
                     country_view,country_create,country_edit,country_delete,
                     state_view,state_create,state_edit,state_delete,
                     city_view,city_create,city_edit,city_delete,
@@ -1223,32 +1220,27 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                     
                     reports_bill_view,reports_bill_create,reports_bill_edit,reports_bill_delete,
                     reports_invoice_view,reports_invoice_create,reports_invoice_edit,reports_invoice_delete,
+
+                    salesorder_view,salesorder_create,salesorder_edit,salesorder_delete,
+                    creditnotes_view,creditnotes_create,creditnotes_edit,creditnotes_delete,
+                    purchasesorder_view,purchasesorder_create,purchasesorder_edit,purchasesorder_delete,
+                    debitnote_view,debitnote_create,debitnote_edit,debitnote_delete,
                     
                     add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid )
                           
-          values('ADMIN','admin','','true',
-          'true','true','true','true',
-          'true','true','true','true','true',
-
-          'true','true','true','true',
-          'true','true','true','true','true',
-
-          'true','true','true','true',
-          'true','true','true','true',
+          values('ADMIN','admin','Full Access','true',
           'true','true','true','true','true','true','true','true','true',
-    
-          'true','true','true','true','true','true','true','true','true','true','true','true',
-    
-          'true','true','true','true','true','true','true','true','true','true','true','true','true',
-    
-          'true','true','true','true','true','true','true','true','true','true','true','true',
-    
-          'true','true','true','true','true','true','true','true','true','true','true','true',
-          
-          'true','true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true',
           'true','true','true','true','true','true','true','true',
-          '','','::1',getDate(),'Active','') 
-            `)
+          'true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true',
+          'true','true','true','true','true','true','true','true','true','true','true','true',
+          '','','::1',getDate(),'Active','') `)
             res.send('created')
         }
         else {

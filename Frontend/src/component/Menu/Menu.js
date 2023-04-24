@@ -12,6 +12,7 @@ const Menu = (props) => {
     const fetchdata = async () => {
       const result = await getUserRole(localStorage.getItem('Organisation'), localStorage.getItem('Role'))
       Rolefunction(result)
+      console.log(result)
       const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
       setFinancialYearData(financialyear)
 
@@ -24,30 +25,20 @@ const Menu = (props) => {
     // ####################  ALL Access to Admin Start #######################################################
     if (localStorage.getItem('Role') === 'Admin') {
       // document.getElementById('estimatesMenu').style.display = "block"
-      document.getElementById('orderMenu').style.display = "block"
       // document.getElementById('deliverychallansmrnu').style.display = "block"
       // document.getElementById('pmtRecMenu').style.display = "block"
       // document.getElementById('recInvoiceMenu').style.display = "block"
-      document.getElementById('creditNoteMenu').style.display = "block"
       // document.getElementById('vendRecurrMenu').style.display = "block"
-      document.getElementById('purchaseOrderMenu').style.display = "block"
       // document.getElementById('vendrecbillMenu').style.display = "block"
-      document.getElementById('vendcredMenu').style.display = "block"
-
     }
     else {
-      document.getElementById('estimatesMenu').style.display = "none"
-      document.getElementById('orderMenu').style.display = "none"
-      document.getElementById('deliverychallansmrnu').style.display = "none"
-      document.getElementById('pmtRecMenu').style.display = "none"
-      document.getElementById('recInvoiceMenu').style.display = "none"
-      document.getElementById('creditNoteMenu').style.display = "none"
-      document.getElementById('vendcredMenu').style.display = "none"
+      // document.getElementById('estimatesMenu').style.display = "none"
+      // document.getElementById('deliverychallansmrnu').style.display = "none"
+      // document.getElementById('pmtRecMenu').style.display = "none"
+      // document.getElementById('recInvoiceMenu').style.display = "none"
 
-      document.getElementById('vendRecurrMenu').style.display = "none"
-      document.getElementById('purchaseOrderMenu').style.display = "none"
-      document.getElementById('vendrecbillMenu').style.display = "none"
-      document.getElementById('vendcredMenu').style.display = "none"
+      // document.getElementById('vendRecurrMenu').style.display = "none"
+      // document.getElementById('vendrecbillMenu').style.display = "none"
     }
 
     // ####################  ALL Access to Admin End  #######################################################
@@ -70,11 +61,26 @@ const Menu = (props) => {
         document.getElementById('CustomerMenu').style.display = "none"
         document.getElementById('custaddressMenu').style.display = "none"
       }
+      // Invoice Menu
       if (result.invoice_view === "true") {
         document.getElementById('Invoicemenu').style.display = "block"
       } else {
         document.getElementById('Invoicemenu').style.display = "none"
       }
+      // Credit Notes
+
+      if (result.creditnotes_view === "true") {
+        document.getElementById('creditNoteMenu').style.display = "block"
+      } else {
+        document.getElementById('creditNoteMenu').style.display = "none"
+      }
+         // Sales Order
+
+         if (result.salesorder_view === "true") {
+          document.getElementById('orderMenu').style.display = "block"
+        } else {
+          document.getElementById('orderMenu').style.display = "none"
+        }
     }
     else {
       document.getElementById('salesMenu').style.display = "none"
@@ -95,6 +101,18 @@ const Menu = (props) => {
         document.getElementById('vendBillsMenu').style.display = "block"
       } else {
         document.getElementById('vendBillsMenu').style.display = "none"
+      }
+
+      if (result.purchasesorder_view === "true") {
+        document.getElementById('purchaseOrderMenu').style.display = "block"
+      } else {
+        document.getElementById('purchaseOrderMenu').style.display = "none"
+      }
+
+      if (result.debitnote_view === "true") {
+        document.getElementById('vendcredMenu').style.display = "block"
+      } else {
+        document.getElementById('vendcredMenu').style.display = "none"
       }
     }
     else {

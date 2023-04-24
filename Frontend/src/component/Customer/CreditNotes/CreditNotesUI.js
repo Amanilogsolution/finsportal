@@ -31,6 +31,8 @@ function CreditNotes() {
       const CNdetails = await AllCNData(org)
       setCndata(CNdetails)
 
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'salesorder')
+      console.log(UserRights)
       Todaydate()
       setLoading(true)
 
@@ -104,7 +106,7 @@ function CreditNotes() {
               <div className="container-fluid">
                 <div className='d-flex justify-content-between px-3 py-3'>
                   <h3 className="ml-5">Credit Notes</h3>
-                  <button type="button" className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
+                  <button type="button" id='addcreditnotesbtn' className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                     <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
                 </div>
                 <div className="card w-100">
