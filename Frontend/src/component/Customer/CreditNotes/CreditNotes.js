@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './creditnote.css'
-import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice } from '../../../api/index'
+import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice ,Getfincialyearid} from '../../../api/index'
 import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
@@ -26,6 +26,7 @@ function CreditNotes() {
     }])
     const [subTotal, setSubTotal] = useState([])
 
+
     useEffect(() => {
         const fetchData = async () => {
             if (sendRequest) {
@@ -34,7 +35,6 @@ function CreditNotes() {
             }
             const org = localStorage.getItem('Organisation')
             const result = await getCNData(org, localStorage.getItem('cnno'))
-            console.log(result)
             setData(result)
             Invdate(result.inv_Date)
             const Invoice = await GetInvoice(org, result.inv_no)
@@ -45,7 +45,6 @@ function CreditNotes() {
             setLocation(result2)
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
             setSubDetails(Subdata)
-
 
             if (result1.length) {
                 document.getElementById('Accountname').value = result1[0].consignee

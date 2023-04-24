@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, InsertCreditNote } from '../../../../api/index'
+import { CheckLoginUser, InsertCreditNote,Getfincialyearid,Updatefinancialcount } from '../../../../api/index'
 
 
 const CNReport = (props) => {
@@ -17,6 +17,8 @@ const CNReport = (props) => {
         location: "",
         fins_year: ""
     })
+    const [cn_no,setCN_NO] = useState('')
+    const [CNcount,setCNCount] = useState(0)
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
@@ -40,10 +42,11 @@ const CNReport = (props) => {
     const handleClickSendMail = async (e) => {
         e.preventDefault()
         const org = localStorage.getItem('Organisation')
-        const cn_no = 'CN00001'
         const remark = document.getElementById('remark').value
         const userid = localStorage.getItem('User_id');
         const total_cn_amt = document.getElementById('total_cn_amt').value;
+
+        console.log(cn_no,CNcount)
 
         if (Number(total_cn_amt) > Number(cndetails.net_amt)) {
             alert('Cr amount must be less than or equal to Invoice Amount')
@@ -52,6 +55,9 @@ const CNReport = (props) => {
             const result = await InsertCreditNote(org, cn_no, cndetails.cn_date, cndetails.mast_id,
                 cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt,
                 remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
+
+                await Updatefinancialcount(org, 'cn_count', CNcount)
+
 
             if (result === 'Added') {
                 window.location.reload()
@@ -122,7 +128,13 @@ const CNReport = (props) => {
 
     useEffect(() => {
         async function fetchdata() {
+            const org = localStorage.getItem('Organisation')
             setData(props.displaydata)
+            const id = await Getfincialyearid(org)
+            console.log(id)
+            const lastno = Number(id[0].cn_count) + 1
+            setCN_NO(id[0].cn_ser + id[0].year + String(lastno).padStart(5, '0'))
+            setCNCount(lastno)
         }
         fetchdata()
     }, [])
