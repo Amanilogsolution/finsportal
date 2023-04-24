@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, InsertCreditNote,Getfincialyearid,Updatefinancialcount } from '../../../../api/index'
+import { CheckLoginUser, InsertCreditNote, Getfincialyearid, Updatefinancialcount } from '../../../../api/index'
 
 
 const CNReport = (props) => {
@@ -17,8 +17,8 @@ const CNReport = (props) => {
         location: "",
         fins_year: ""
     })
-    const [cn_no,setCN_NO] = useState('')
-    const [CNcount,setCNCount] = useState(0)
+    const [cn_no, setCN_NO] = useState('')
+    const [CNcount, setCNCount] = useState(0)
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
@@ -46,21 +46,26 @@ const CNReport = (props) => {
         const userid = localStorage.getItem('User_id');
         const total_cn_amt = document.getElementById('total_cn_amt').value;
 
-        console.log(cn_no,CNcount)
-
-        if (Number(total_cn_amt) > Number(cndetails.net_amt)) {
-            alert('Cr amount must be less than or equal to Invoice Amount')
+        if (!total_cn_amt) {
+            alert('Please Enter CN Amount')
         }
         else {
-            const result = await InsertCreditNote(org, cn_no, cndetails.cn_date, cndetails.mast_id,
-                cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt,
-                remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
+
+
+            if (Number(total_cn_amt) > Number(cndetails.net_amt)) {
+                alert('Cr amount must be less than or equal to Invoice Amount')
+            }
+            else {
+                const result = await InsertCreditNote(org, cn_no, cndetails.cn_date, cndetails.mast_id,
+                    cndetails.cust_id, cndetails.inv_no, cndetails.inv_date, cndetails.total_amt, cndetails.net_amt,
+                    remark, cndetails.location, cndetails.fins_year, userid, total_cn_amt)
 
                 await Updatefinancialcount(org, 'cn_count', CNcount)
 
 
-            if (result === 'Added') {
-                window.location.reload()
+                if (result === 'Added') {
+                    window.location.reload()
+                }
             }
         }
     }
@@ -219,7 +224,7 @@ const CNReport = (props) => {
                                             <input type="text" className="form-control" id="customer" aria-describedby="emailHelp" disabled />
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Total CR Amount</label>
+                                            <label htmlFor="userid">Total CR Amount <span className='text-danger'>*</span></label>
                                             <input type="number" className="form-control" id="total_cn_amt" aria-describedby="emailHelp" placeholder="Enter Amount" />
                                         </div>
                                     </div>

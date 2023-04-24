@@ -29,8 +29,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
         fetchdata()
     }, [])
 
-    console.log('nhieh', ChargeCodeSub)
-    console.log('er', data)
+
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

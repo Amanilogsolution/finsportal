@@ -61,16 +61,19 @@ const Updatefincialyear = async (req,res) =>{
     const voucher_ser = req.body.voucher_ser;
     const user_id = req.body.user_id;
     const sno = req.body.sno;
-    const financial_year_lock = req.body.financial_year_lock;
+    const financial_year_lock = req.body.lockscreen;
     const po_ser = req.body.po_ser;
-    console.log(`UPDATE ${org}.dbo.tbl_fin_year set invoice_ser='${invoice_ser}',voucher_ser='${voucher_ser}',update_user_name='${user_id}',
-    update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=getdate(),financial_year_lock='${financial_year_lock}' where sno='${sno}';`)
+    const so_ser = req.body.so_ser;
+    const cn_ser = req.body.cn_ser;
+    const dn_ser = req.body.dn_ser;
+
 
     try {
         await sql.connect(sqlConfig)
   
         const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set invoice_ser='${invoice_ser}',voucher_ser='${voucher_ser}',update_user_name='${user_id}',
-        update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=getdate(),financial_year_lock='${financial_year_lock}',po_ser='${po_ser}' where sno='${sno}';`)
+        update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=getdate(),financial_year_lock='${financial_year_lock}',po_ser='${po_ser}',
+        so_ser='${so_ser}',cn_ser='${cn_ser}',dn_ser='${dn_ser}' where sno='${sno}';`)
         res.send(result.rowsAffected)
     }
     catch (err) {
