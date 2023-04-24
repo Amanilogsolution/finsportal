@@ -381,7 +381,7 @@ function SalesOrder() {
                                     <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
                                     <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
 
-                                    <div style={{ display: "flex" }}>
+                                    <div className='d-flex justify-content-between'>
                                         <div style={{ width: "40%" }}>
                                             <div className="form mt-3">
                                                 <label className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
