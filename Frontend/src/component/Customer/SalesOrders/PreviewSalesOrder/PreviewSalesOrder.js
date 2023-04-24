@@ -96,7 +96,7 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
                                     </div>
                                     <div className="Total_so_div p-2">
                                         <strong>Total Amount Value (In Words)</strong>
-                                        <strong className='float-right'>{DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()}</strong>
+                                        <strong className='float-right'>{DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()} Only</strong>
                                     </div>
                                     <div className="so_Amount_tax d-flex ">
                                         <strong style={{ margin: '12px 5px' }}>Amount Of Tax:</strong>

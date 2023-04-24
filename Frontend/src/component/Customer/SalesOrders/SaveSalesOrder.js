@@ -7,6 +7,8 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 
 export default function SaveSalesOrder() {
+  const [userRightsData, setUserRightsData] = useState([]);
+
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
@@ -15,7 +17,6 @@ export default function SaveSalesOrder() {
       const org = localStorage.getItem('Organisation')
 
       const result = await getSaveSO(org)
-      console.log(result)
       setData(result)
       fetchRoles()
     }
@@ -31,14 +32,14 @@ export default function SaveSalesOrder() {
     setFinancialstatus(financstatus);
 
     if (financstatus === 'Lock') {
-      document.getElementById('addbillbtn').style.background = '#7795fa';
+      document.getElementById('addsobtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bills')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'salesorder')
+    setUserRightsData(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
-    if (UserRights.bills_create === 'true') {
-      document.getElementById('addbillbtn').style.display = "block";
-
+    if (UserRights.salesorder_create === 'true') {
+      document.getElementById('addsobtn').style.display = "block";
     }
   }
 
@@ -47,14 +48,26 @@ export default function SaveSalesOrder() {
       name: 'SO No',
       selector: 'so_no',
       sortable: true,
-      cell:(row)=>{
-        return (
-          <a href='EditSalesOrder' onClick={() => localStorage.setItem('soNo', `${row.so_no}`)}>
-            {row.so_no}
-          </a>
-        )
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit SalesOrder is Lock'>{row.so_no}</p>
+        }
+        else {
+          if (!userRightsData) {
+            fetchRoles()
+          }
+          if (userRightsData.salesorder_edit === 'true') {
+            return (
+              <a title='Edit SalesOrder' className='pb-1' href="EditSalesOrder" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('soNo', `${row.so_no}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.so_no}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Customer City'>{row.so_no}</p>
+          }
+
+        }
       }
-      
     },
     {
       name: 'PO Date',
@@ -83,7 +96,7 @@ export default function SaveSalesOrder() {
         </div>
         <Header />
         <div className={`content-wrapper `}>
-          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./SalesOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  SO</button>
+          <button type="button " id='addsobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./SalesOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  SO</button>
           <div className="container-fluid">
             <h3 className="py-4 ml-5"> Save Sales Order </h3>
             <div className="card" >

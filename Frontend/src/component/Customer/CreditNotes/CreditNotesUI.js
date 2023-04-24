@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocationAddress, getUserRolePermission, filterPO,AllCNData } from '../../../api/index'
+import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocationAddress, getUserRolePermission, filterPO, AllCNData } from '../../../api/index'
 import Select from 'react-select';
 import CNReport from './Report/CNReport'
 import CNDetails from './Report/CNDetails'
@@ -31,8 +31,13 @@ function CreditNotes() {
       const CNdetails = await AllCNData(org)
       setCndata(CNdetails)
 
-      Todaydate()
+      const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'creditnotes')
       setLoading(true)
+      console.log(UserRights)
+      if (UserRights.creditnotes_create === 'true') {
+        document.getElementById('addcreditnotesbtn').style.display = 'block';
+      }
+      Todaydate()
 
     }
     fetchData()
@@ -104,7 +109,7 @@ function CreditNotes() {
               <div className="container-fluid">
                 <div className='d-flex justify-content-between px-3 py-3'>
                   <h3 className="ml-5">Credit Notes</h3>
-                  <button type="button" className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
+                  <button type="button" id='addcreditnotesbtn' className={`btn btn-${themebtncolor}`} style={{display:'none'}} data-toggle="modal" data-target="#exampleModal">
                     <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
                 </div>
                 <div className="card w-100">
