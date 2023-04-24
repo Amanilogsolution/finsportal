@@ -92,6 +92,16 @@ const Reportdata = () => {
       setData(result)
 
     }
+    else if (report_type === 'SO') {
+      const Customer = document.getElementById('customer');
+      const Customerid = Customer.value;
+      const locationid = document.getElementById('location').value;
+    }
+    else if (report_type === 'CN') {
+      const Customer = document.getElementById('customer');
+      const Customerid = Customer.value;
+      const locationid = document.getElementById('location').value;
+    }
 
   }
 
@@ -104,7 +114,26 @@ const Reportdata = () => {
     else if (e.target.value === 'Invoice') {
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
-    } else if (e.target.value === 'PO') {
+      document.getElementById('locationdiv').style.display = 'flex';
+
+    } 
+    else if (e.target.value === 'PO') {
+      document.getElementById('locationdiv').style.display = 'flex';
+      document.getElementById('customerdiv').style.display = 'none';
+      document.getElementById('vendordiv').style.display = 'flex';
+    }
+    else if(e.target.value === 'SO'){
+      document.getElementById('customerdiv').style.display = 'flex';
+      document.getElementById('vendordiv').style.display = 'none';
+      document.getElementById('locationdiv').style.display = 'none';
+    }
+    else if (e.target.value === 'CN') {
+      document.getElementById('locationdiv').style.display = 'flex';
+      document.getElementById('customerdiv').style.display = 'flex';
+      document.getElementById('vendordiv').style.display = 'none';
+    }
+
+    else if (e.target.value === 'DN') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
@@ -161,6 +190,9 @@ const Reportdata = () => {
                           <option id='invoicedropdown' style={{ display: "none" }} value='Invoice'>Invoice</option>
                           <option id='billdropdown' style={{ display: "none" }} value='Bills'>Bills</option>
                           <option id='podropdown' value='PO'>Purchase Order</option>
+                          <option id="sodropdown" value='SO'>Sales Order</option>
+                          <option id="codropdown" value='CN'>Credit Note</option>
+                          <option id="dodropdown" value='DN'>Debit Note</option>
 
                         </select>
                       </div>
@@ -192,7 +224,7 @@ const Reportdata = () => {
                       </div>
                     </div>
 
-                    <div className="form-row" id='customerdiv'>
+                    {/* <div className="form-row" id='customerdiv'>
                       <label htmlFor="customer" className="col-md-3 col-form-label font-weight-normal">Customer</label>
                       <div className="col form-group" >
                         <select className="form-control col" id='customer' >
@@ -203,7 +235,7 @@ const Reportdata = () => {
                           }
                         </select>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="form-row" style={{ display: "none" }} id='vendordiv'>
                       <label htmlFor="vendor" className="col-md-3 col-form-label font-weight-normal">Vendor</label>
