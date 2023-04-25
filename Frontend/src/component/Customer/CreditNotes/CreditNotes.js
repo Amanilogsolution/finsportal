@@ -76,12 +76,10 @@ function CreditNotes() {
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
             setTimeout(() => {
-
             document.getElementById(`PassAmount${index}`).value = ''
             document.getElementById(`AmountLeft${index}`).innerHTML = AmtBalance
             document.getElementById('totalCnAmt').innerHTML = 0
         }, 1000)
-
             return
         } else {
             setTimeout(() => {
