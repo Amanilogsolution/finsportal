@@ -64,9 +64,10 @@ const CNReport = (props) => {
 
 
                 if (result === 'Added') {
+                    const InvoiceFlag = await UpdateInvoiceCNFlag(org, '1', total_cn_amt, cndetails.inv_no)
+
                     window.location.reload()
                 }
-                const InvoiceFlag = await UpdateInvoiceCNFlag(org, '1', total_cn_amt, cndetails.inv_no)
 
             }
         }
