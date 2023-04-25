@@ -109,17 +109,20 @@ function CreditNotes() {
         const userid = localStorage.getItem('User_id')
         const remark = document.getElementById('Remark').value
 
+        let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
+
         var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {
             resultAddedCN = await InsertCnSub(org, item, userid, remark)
+            console.log(ChargeCodeSub.length-1,index)
+            if(ChargeCodeSub.length-1 == index){
+                let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
+                             window.location.href = "./CreditNotesUI"
+
+            }
         })
 
-        if (resultAddedCN === "Added") {
-            let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
-            console.log(statusUpdate)
-            // window.location.href = "./CreditNotesUI"
-        }
-
+      
     }
 
     const apiCAll = (e) => {
@@ -235,7 +238,6 @@ function CreditNotes() {
                                                         <td><h4>Net Total</h4></td>
                                                         <td><h4>{data.total_amt}</h4></td>
                                                     </tr>
-
                                                     <tr>
                                                         <td>CGST </td>
                                                         <td >{invoicedata ? invoicedata.cgst_amt : ""} %</td>

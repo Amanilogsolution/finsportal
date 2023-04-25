@@ -48,6 +48,7 @@ const ChangeCNStatus = async (req, res) => {
     const org = req.body.org;
     const status = req.body.status;
     const sno = req.body.sno;
+    console.log(`update ${org}.dbo.tbl_creditnote set status='${status}' where sno = ${sno}`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_creditnote set status='${status}' where sno = ${sno} `)
@@ -97,10 +98,9 @@ const SelectCnSubDetails = async (req, res) => {
     const cn_no = req.body.cn_no;
     const inv_no = req.body.inv_no;
     const topcount = req.body.topcount;
-    console.log(`select Top ${topcount} * from ${org}.dbo.tbl_sub_cn where cn_no='${cn_no}' and invoice_no ='${inv_no}' ORDER BY sno DESC `)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select Top ${topcount} * from ${org}.dbo.tbl_sub_creditnote where cn_no='${cn_no}' and invoice_no ='${inv_no}' ORDER BY sno DESC  `)
+        const result = await sql.query(`select Top ${topcount} * from ${org}.dbo.tbl_sub_creditnote where invoice_no ='${inv_no}' ORDER BY sno DESC  `)
         res.send(result.recordset)
     }
     catch (err) {
