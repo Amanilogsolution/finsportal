@@ -18,9 +18,6 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
             margin: [5, 0, 0, 5],
         });
     };
-
-
-    console.log('nnl', somajorData, items, org)
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="salesOrderPreview" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
