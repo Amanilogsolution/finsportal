@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, InsertDebitNote,Getfincialyearid,Updatefinancialcount } from '../../../../api/index'
+import { CheckLoginUser, InsertDebitNote,Getfincialyearid,Updatefinancialcount,UpdateBillDNFlag } from '../../../../api/index'
 
 
 const CNReport = (props) => {
@@ -38,6 +38,7 @@ const CNReport = (props) => {
         await Updatefinancialcount(org, 'dn_count', DNcount)
 
         if(result==='Added'){
+            const DnFlag =await UpdateBillDNFlag(org,'1',total_cn_amt,cndetails.vourcher_no)
             window.location.reload()
         }
     }

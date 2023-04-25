@@ -340,6 +340,8 @@ router.post('/filterbillreport', BillController.FilterBillReport)
 router.post('/GetSaveBill', BillController.getSaveBill)
 router.post('/GetBillVendorid', BillController.GetBillVendorID)
 router.post('/filterInvoicebyDN', BillController.filterInvoicebyDN)
+router.post('/updatebilldnflag', BillController.UpdateBillDNFlag)
+
 
 router.post('/adduserrole', UserRightsController.AddUserRole)
 router.post('/getuserrole', UserRightsController.getUserRole)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
-import { getDNData, GetBillData, GetSubBillItems, UpdateDebitNote, InsertSubDebitNote, SelectDnSubDetails } from "../../../api/index"
+import { getDNData, GetBillData, GetSubBillItems, UpdateDebitNote, InsertSubDebitNote, SelectDnSubDetails,UpdateBillDNFlag } from "../../../api/index"
 import Footer from "../../Footer/Footer";
 import VendorCreditsPreview from './VendorCreditsPreview/VendorCreditsPreview'
 
@@ -128,9 +128,13 @@ function VendorCredits() {
             const SubDn = await InsertSubDebitNote(org, dn_no, voucher_no, item.bill_no, item.location, item.items, item.emp_name, item.gl_code, item.amt, fins_year, item.balance_amt, item.pass_amt, remark, user_id, item.sub_id)
         })
         if (result == "Updated") {
+            const DnFlag =await UpdateBillDNFlag(org,'3',Dndata.total_dn_amt,billdata.vourcher_no)
+
             window.location.href = "./DebitNotes"
         }
     }
+
+
     const apiCAll = (e) => {
         e.preventDefault()
         const value = document.getElementById('totalCnAmt').innerHTML

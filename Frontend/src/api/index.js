@@ -1391,6 +1391,11 @@ export const filterInvoicebyDN = async (org, startDate, lastDate, vendorid, loca
     return axios.post(url, { org, startDate, lastDate, vendorid, locationid, bill_no }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const UpdateBillDNFlag = async (org, dnflag, dn_amt, vourcher_no) => {
+    const url = `http://localhost:3008/api/updatebilldnflag`
+    return axios.post(url, {org, dnflag, dn_amt, vourcher_no}).then(response => response.data).catch(error => console.log(error));
+}
+
 // ############################ For Purchases Bill api End #################################
 
 // ############################ For Role api Start #################################
