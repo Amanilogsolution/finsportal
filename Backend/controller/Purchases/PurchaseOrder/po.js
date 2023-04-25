@@ -85,11 +85,11 @@ const filterPO = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         if (vendor_id === 'all') {
-            const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order tpo where  po_date between '${startDate}' and '${lastDate}' and po_location='${po_location}' and flagsave='post'`)
+            const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order tpo where po_date between '${startDate}' and '${lastDate}' and po_location='${po_location}' and flagsave='post'`)
             res.send(result.recordset)
         }
         else {
-            const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order tpo where   po_date between '${startDate}' and '${lastDate}' and vendor_id ='${vendor_id}'and po_location='${po_location}' and flagsave='post'`)
+            const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order tpo where po_date between '${startDate}' and '${lastDate}' and vendor_id ='${vendor_id}'and po_location='${po_location}' and flagsave='post'`)
             res.send(result.recordset)
         }
     }

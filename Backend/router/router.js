@@ -380,6 +380,8 @@ router.post('/insertsubsalesorder', somasterController.InsertSubSalesorder)
 router.post('/getsodetails', somasterController.getSoDetails)
 router.post('/getsubsodetails', somasterController.getSubSoDetails)
 router.post('/editsalesorder', somasterController.EditSalesOrder)
+router.post('/filterso', somasterController.filterSO)
+
 
 
 

@@ -1631,3 +1631,10 @@ export const EditsalesOrder = async (org,new_so_num,status, so_no) => {
     return axios.post(url, { org,new_so_num,status, so_no }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const filterSO = async (org,startDate,lastDate, cust_id) => {
+    const url = `http://localhost:3008/api/filterso`
+    return axios.post(url, { org,startDate,lastDate, cust_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
