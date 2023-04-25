@@ -41,7 +41,7 @@ const PreviewPO = (props) => {
                     <div className="modal-content modelbillcard" >
 
                         <div className="modal-body" ref={pdfRef}>
-                            <div className="podiv_for_border">
+                            <div className="podiv_for_border" style={{letterSpacing:'0.1px'}}>
                                 <div className="po_head_div d-flex justify-content-between border border-dark">
                                     <div className="po_company_logo">
                                         <img src={orgdata.org_logo} alt='Organisation Logo' />

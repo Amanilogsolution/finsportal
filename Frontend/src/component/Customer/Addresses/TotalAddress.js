@@ -9,9 +9,11 @@ import * as XLSX from "xlsx";
 import './TotalAddress.css';
 import Excelfile from '../../../excelformate/customer_address_formate.xlsx'
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 
 const TotalCustAddress = () => {
+  const [loading, setLoading] = useState(false)
 
   const [data, setData] = useState([])
   const [selectedCustname, setSelectedCustname] = useState([])
@@ -23,6 +25,8 @@ const TotalCustAddress = () => {
 
   useEffect(() => {
     async function fetchdata() {
+      setLoading(true)
+
       fetchRoles()
     }
     fetchdata()
@@ -245,54 +249,55 @@ const TotalCustAddress = () => {
   return (
     <>
       <div className="wrapper" >
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
         <Header />
-        <div className="content-wrapper">
-          <div className='d-flex pt-4 pb-3  justify-content-between heading-div'>
-            <h3 className=" ">Customer Address</h3>
-            <div className='btn-heading-div'>
-              <button type="button" id='uploadCustAddress-btn' style={{ display: 'none' }} className="btn btn-success mr-11" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
-              <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCustAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary ml-4" id='addCustAddress-btn'>Add Address</button>
-            </div>
-          </div>
-          <div className="container-fluid position-relative">
-            <form className="form-inline ml-4 mb-1" >
-              <label htmlFor='cust_entered_id'>Customer name:- </label>
-              <input className="form-control mr-sm-2 mx-3" type="search" placeholder="Enter Customer name" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
-              <ul className="ulstyle rounded overflow-hidden" >
-                <div className='overflow-auto' style={{ height: "300px" }}>
-                  {
-                    selectedCustname.map((value, index) => (
-                      <a onClick={
-                        async (e) => { e.preventDefault(); const result = await ShowCustAddress(value.cust_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedCustname([]) } }}
-                      ><li key={index} className={themeval === 'dark' ? 'darkliststyle' : 'liststyle'}>{value.cust_name}</li></a>
-                    ))
-                  }
+        {
+          loading ?
+            <div className="content-wrapper">
+              <div className='d-flex pt-4 pb-3  justify-content-between heading-div'>
+                <h3 className=" ">Customer Address</h3>
+                <div className='btn-heading-div'>
+                  <button type="button" id='uploadCustAddress-btn' style={{ display: 'none' }} className="btn btn-success mr-11" data-toggle="modal" data-target="#exampleModal">Import Customer Address</button>
+                  <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCustAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary ml-4" id='addCustAddress-btn'>Add Address</button>
                 </div>
-              </ul>
-            </form>
-          </div>
-          <div className={`card mb-0  mx-2`}>
-            <article className={`card-body  py-1`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  dense
-                  highlightOnHover
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
+              </div>
+              <div className="container-fluid position-relative">
+                <form className="form-inline ml-4 mb-1" >
+                  <label htmlFor='cust_entered_id'>Customer name:- </label>
+                  <input className="form-control mr-sm-2 mx-3" type="search" placeholder="Enter Customer name" id="cust_entered_id" aria-label="Search" onChange={handleChange} autoComplete="off" />
+                  <ul className="ulstyle rounded overflow-hidden" >
+                    <div className='overflow-auto' style={{ height: "300px" }}>
+                      {
+                        selectedCustname.map((value, index) => (
+                          <a onClick={
+                            async (e) => { e.preventDefault(); const result = await ShowCustAddress(value.cust_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedCustname([]) } }}
+                          ><li key={index} className={themeval === 'dark' ? 'darkliststyle' : 'liststyle'}>{value.cust_name}</li></a>
+                        ))
+                      }
+                    </div>
+                  </ul>
+                </form>
+              </div>
+              <div className={`card mb-0  mx-2`}>
+                <article className={`card-body  py-1`}>
+                  <DataTableExtensions
+                    {...tableData}
+                  >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      dense
+                      highlightOnHover
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
 
-        </div>
+            </div>
+            : <LoadingPage />
+        }
         <Footer />
       </div>
 

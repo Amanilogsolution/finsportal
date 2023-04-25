@@ -10,8 +10,10 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/Vendor Address formate.xlsx'
 import customStyles from '../../customTableStyle';
 import './TotalVendorAddress.css';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 const TotalVendAddress = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [selectedvendname, setSelectedvendname] = useState([])
   const [importdata, setImportdata] = useState([]);
@@ -24,6 +26,7 @@ const TotalVendAddress = () => {
 
   useEffect(() => {
     async function fetchdata() {
+      setLoading(true)
       fetchRoles()
     }
     fetchdata()
@@ -258,56 +261,57 @@ const TotalVendAddress = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"> </div>
-      </div>
       <Header />
-      <div className="content-wrapper">
-        <div className="container-fluid ">
-          <div className='d-flex justify-content-between pt-3 px-2 addvend-heading'>
-            <h3 className=" ml-4">Vendor Address</h3>
-            <div className='d-flex'>
-              <button type="button" style={{  display: 'none' }} id='upload-vend_address_btn' className="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
-              <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary" id='add-vend_address_btn'>Add Address</button>
+      {
+        loading ?
+          <div className="content-wrapper">
+            <div className="container-fluid ">
+              <div className='d-flex justify-content-between pt-3 px-2 addvend-heading'>
+                <h3 className=" ml-4">Vendor Address</h3>
+                <div className='d-flex'>
+                  <button type="button" style={{ display: 'none' }} id='upload-vend_address_btn' className="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">Import Vendor Address</button>
+                  <button type="button" style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddVendAddress" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary" id='add-vend_address_btn'>Add Address</button>
+                </div>
+              </div>
+              <form className="form-inline ml-4 position-relative" autoComplete="off">
+                <label htmlFor='vend_name'>Vendor name:- </label>
+                <input className={`form-control mr-sm-2 mx-2`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />
+                <ul className=" ulstyle rounded overflow-hidden mt-5" >
+                  <div className='overflow-auto' style={{ height: "300px" }}>
+                    {
+                      selectedvendname.map((value, index) => (
+                        <a key={index} onClick={
+                          async (e) => {
+                            e.preventDefault();
+                            const result = await ShowVendAddress(value.vend_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedvendname([]) }
+                          }} ><li className={themetype === 'dark' ? 'darkliststyle' : 'liststyle'} >{value.vend_name}</li></a>
+                      ))
+                    }
+                  </div>
+                </ul>
+              </form>
+              <br />
+              <div className={`card w-100`}>
+                <article className="card-body py-0">
+                  <DataTableExtensions
+                    {...tableData}
+                  >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
             </div>
           </div>
-          <form className="form-inline ml-4 position-relative" autoComplete="off">
-            <label htmlFor='vend_name'>Vendor name:- </label>
-            <input className={`form-control mr-sm-2 mx-2`} type="search" placeholder="Enter vendor name" id="vend_name" onChange={handleChange} />
-            <ul className=" ulstyle rounded overflow-hidden mt-5" >
-              <div className='overflow-auto' style={{ height: "300px" }}>
-                {
-                  selectedvendname.map((value, index) => (
-                    <a key={index} onClick={
-                      async (e) => {
-                        e.preventDefault();
-                        const result = await ShowVendAddress(value.vend_id, localStorage.getItem("Organisation")); setData(result); if (result) { setSelectedvendname([]) }
-                      }} ><li className={themetype === 'dark' ? 'darkliststyle' : 'liststyle'} >{value.vend_name}</li></a>
-                  ))
-                }
-              </div>
-            </ul>
-          </form>
-          <br />
-          <div className={`card w-100`}>
-            <article className="card-body py-0">
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div

@@ -24,7 +24,7 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
                 <div className="modal-dialog modal-lg soPreview-modal " role="document">
                     <div className="modal-content ">
                         <div className="modal-body" ref={pdfRef}>
-                            <div className="so-main_div m-auto">
+                            <div className="so-main_div m-auto" style={{letterSpacing:'0.1px'}}>
                                 <div className="sodiv_for_border">
                                     <div className="so-head_div d-flex border border-dark">
                                         <div className="so_company_logo">
@@ -40,7 +40,7 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
                                         <h1 className='mb-0 border-top-0 text-center'>Sales Order</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Customer Name:</strong> {somajorData.customer_name}</div>
+                                                <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Customer Name:</strong>{somajorData.customer_name}</div>
                                                 <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Address:</strong> {somajorData.cust_address} </div>
                                             </div>
                                             <div className=' d-flex'>

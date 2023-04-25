@@ -8,8 +8,10 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../excelformate/tbl_vendor_formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle';
+import LoadingPage from '../loadingPage/loadingPage';
 
 const Showvendor = () => {
+    const [loading, setLoading] = useState(false)
     const [userRightsData, setUserRightsData] = useState([]);
 
     const [data, setData] = useState([])
@@ -28,7 +30,6 @@ const Showvendor = () => {
             const org = localStorage.getItem('Organisation')
             const result = await Vendor(org)
             setData(result)
-            fetchRoles()
             const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
 
             const financialyear = await Getfincialyearid(org)
@@ -38,6 +39,8 @@ const Showvendor = () => {
             setMvendid(mvendid)
             setVendid(vendid)
             const year = financialyear[0].year;
+            setLoading(true)
+            fetchRoles()
         }
         fetchdata();
 
@@ -309,38 +312,40 @@ const Showvendor = () => {
     }
     return (
         <div className="wrapper">
-            <div className="preloader flex-column justify-content-center align-items-center">
-                <div className="spinner-border" role="status"> </div>
-            </div>
-            <Header />
-            <div className={`content-wrapper `}>
-                <div className='d-flex justify-content-between px-4 pt-4 pb-2'>
-                    <h3>Vendor</h3>
-                    <div className='d-flex'>
-                        <button type="button" id='excelvendbtn' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-                        <button type="button" id='addvendbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Vendor" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Vendor</button>
-                    </div>
-                </div>
 
-                <div className="container-fluid">
-                    <div className="card mb-2 w-100" >
-                        <article className={`card-body py-0`}>
-                            <DataTableExtensions
-                                {...tableData}>
-                                <DataTable
-                                    noHeader
-                                    defaultSortField="id"
-                                    defaultSortAsc={false}
-                                    pagination
-                                    highlightOnHover
-                                    dense
-                                    customStyles={customStyles}
-                                />
-                            </DataTableExtensions>
-                        </article>
+            <Header />
+            {
+                loading ?
+                    <div className={`content-wrapper `}>
+                        <div className='d-flex justify-content-between px-4 pt-4 pb-2'>
+                            <h3>Vendor</h3>
+                            <div className='d-flex'>
+                                <button type="button" id='excelvendbtn' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                                <button type="button" id='addvendbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Vendor" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Vendor</button>
+                            </div>
+                        </div>
+
+                        <div className="container-fluid">
+                            <div className="card mb-2 w-100" >
+                                <article className={`card-body py-0`}>
+                                    <DataTableExtensions
+                                        {...tableData}>
+                                        <DataTable
+                                            noHeader
+                                            defaultSortField="id"
+                                            defaultSortAsc={false}
+                                            pagination
+                                            highlightOnHover
+                                            dense
+                                            customStyles={customStyles}
+                                        />
+                                    </DataTableExtensions>
+                                </article>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                    : <LoadingPage />
+            }
             <Footer />
 
             {/* ------------------ Modal start -----------------------------*/}

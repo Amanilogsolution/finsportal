@@ -9,6 +9,7 @@ import {
     SearchLocationAddress, SearchCustAddress
 } from '../../../api/index'
 import './invoice.css'
+import LoadingPage from '../../loadingPage/loadingPage';
 
 function Invoices() {
     const [loading, setLoading] = useState(false)
@@ -345,6 +346,8 @@ function Invoices() {
 
     const handlesavebtn = async (e) => {
         e.preventDefault();
+        setLoading(false)
+
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
 
@@ -392,6 +395,7 @@ function Invoices() {
         // // Insert Data
         if (!custid || !billsubtotal || !consignee) {
             alert('Please Select Customer');
+            setLoading(true)
         }
         else {
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
@@ -412,6 +416,7 @@ function Invoices() {
             }
             else {
                 alert('Server not Response');
+                setLoading(true)
                 window.location.reload();
             }
         }
@@ -420,330 +425,329 @@ function Invoices() {
         <>
             <div className="wrapper">
                 <Header />
-                <div className={`content-wrapper `} >
-                    <div className="container-fluid" >
-                        <h3 className="pt-3 px-3"> New Invoice</h3>
-                        {
-                            loading ?
-                                (
-                                    <div className="card my-2" >
-                                        <article className="card-body">
-                                            <form autoComplete="off">
-                                                <div className="form-row">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
-                                                    <div className="d-flex col-md-4">
-                                                        <select
-                                                            id="custname"
-                                                            className="form-control"
-                                                            onChange={handleCustname}
-                                                        >
-                                                            <option value='' hidden>Select Customer</option>
-                                                            {
-                                                                activecustomer.map((items, index) => (
-                                                                    <option key={index} value={items.cust_id} >{items.cust_name}</option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="form-row mt-2">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
-                                                    <div className="d-flex col-md-4">
-                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                setTimeout(() => {
-                                                                    document.getElementById('searchCustAddress').focus()
-                                                                }, 700)
-                                                            }}
-                                                        >
-                                                            {
-                                                                custAddressLocation.length > 0 ? `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}` : 'Select Customer Address Location'
-                                                            }
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div className="form-row mt-2">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
-                                                    <div className="d-flex col-md-4">
-                                                        <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                setTimeout(() => {
-                                                                    document.getElementById('searchBillingAddress').focus()
-                                                                }, 700)
-                                                            }}
-                                                        >
-                                                            {
-                                                                billingAddressLocation.length > 0 ? `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}` : 'Select Billing Address Location'
-                                                            }
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div className="form-row mt-3">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
-                                                    <div className="d-flex col-md">
-                                                        <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
-                                                    </div>
-                                                </div>
-                                                <div className="form-row mt-3">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                    <div className="d-flex col-md">
-                                                        <input type="text" className='form-control col-md-5 ' id="ordernumber" placeholder='Enter the order number' />
-                                                    </div>
-                                                </div>
+                {
+                    loading ?
 
-                                                <div className="form-row mt-3">
-                                                    <div className="d-flex col-md-3">
-                                                        <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-                                                        <input type="date" className='form-control col-md-6  cursor-notallow' id="Invoicedate" disabled />
-                                                    </div>
+                        <div className={`content-wrapper `} >
+                            <div className="container-fluid" >
+                                <h3 className="pt-3 px-3"> New Invoice</h3>
 
-                                                    <div className="d-flex col-md-4 ">
-                                                        <label className="col-md-3 text-center col-form-label font-weight-normal" >Terms</label>
-
-                                                        <select
-                                                            id="paymentterm"
-                                                            className='col-md-6  mr-0 form-control'
-                                                            onChange={handleAccountTerm}
-                                                        >
-                                                            <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
-                                                            {
-                                                                activepaymentterm.map((item, index) => (
-                                                                    <option key={index} value={item.term_days}>{item.term}</option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </div>
-
-                                                    <div className="d-flex col-md-3" >
-                                                        <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                        <input type="date" className={`form-control col-md-7  cursor-notallow`} id="Duedate" disabled />
-                                                    </div>
-                                                </div>
-
-
-                                                <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
-                                                    <div className="d-flex col-md-3">
-                                                        <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
-                                                        <input type="date" className='form-control col-md-6 ' id="fromdate" />
-                                                    </div>
-                                                    <div className="d-flex col-md-5">
-                                                        <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
-                                                        <input type="date" className='form-control col-md-6 ' id="todate" />
-                                                    </div>
-                                                </div>
-                                                <br />
-
-
-                                                <table className="table  table-striped table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Activity</th>
-                                                            <th scope="col">Items</th>
-                                                            <th scope="col">Quantity</th>
-                                                            <th scope="col">Rate</th>
-                                                            <th scope="col">Tax Amt</th>
-                                                            <th scope="col">Unit</th>
-                                                            <th scope="col">Amount</th>
-                                                            <th scope="col">Total</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                <div className="card my-2" >
+                                    <article className="card-body">
+                                        <form autoComplete="off">
+                                            <div className="form-row">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select
+                                                        id="custname"
+                                                        className="form-control"
+                                                        onChange={handleCustname}
+                                                    >
+                                                        <option value='' hidden>Select Customer</option>
                                                         {
-                                                            arry.map((element, index) => (
-                                                                <tr key={index}>
-                                                                    <td className="col-md-2 px-1">
-                                                                        <select id={`Activity-${index}`} className="form-control"
-                                                                            onChange={(e) => handleChangeActivity(e, index)}
-                                                                        >
-                                                                            <option value='' hidden>Select Activity</option>
-                                                                            {
-                                                                                Activeaccount.map((items, index) => (
-                                                                                    <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
-                                                                                ))
-                                                                            }
-                                                                        </select>
-                                                                    </td>
-                                                                    <td className="col-md-2 px-1">
-                                                                        {
-                                                                            <select id={`items-${index}`} className='form-control col'
-                                                                                onChange={(e) => { handleChangeItems(e.target.value, index) }}
-                                                                            >
-                                                                                <option value='' hidden > Select item</option>
-                                                                                {
-                                                                                    itemtoggle[index] == true ?
-                                                                                        itemsdata[index].map((item, index) => (
-                                                                                            <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.chart_of_acct_id}`} >{item.item_name}</option>
-                                                                                        ))
-                                                                                        : null
-                                                                                }
-                                                                            </select>
-                                                                        }
-                                                                    </td>
-                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
-                                                                        <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
-                                                                    </td>
-                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
-                                                                        <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
-                                                                    </td>
-                                                                    <td id="gst" className='col-md-1 px-1'>
-                                                                        <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled /></td>
-
-                                                                    <td className='px-1 col-md-2'>
-                                                                        <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
-                                                                            <option value='' hidden > Select Unit</option>
-                                                                            {
-                                                                                activeunit.map((item, index) => (
-                                                                                    <option key={index} value={item.unit_name}>{item.unit_name}</option>
-                                                                                ))
-                                                                            }
-                                                                        </select>
-                                                                    </td>
-                                                                    <td id="amountvalue" className='col-md-1 px-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
-                                                                    </td>
-                                                                    <td id="Totalsum" className='col-md-1 px-1'>
-                                                                        <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
-                                                                    </td>
-                                                                </tr>
+                                                            activecustomer.map((items, index) => (
+                                                                <option key={index} value={items.cust_id} >{items.cust_name}</option>
                                                             ))
                                                         }
-                                                    </tbody>
-                                                </table>
-                                                <button className="btn btn-primary" onClick={addRow} id='additembtm'>Add Item</button>   &nbsp;
-                                                <button className="btn btn-danger" onClick={RemoveRow} id='removeitembtm'>Remove</button>
-                                                <hr />
-                                                <div className='d-flex'>
-                                                    <div style={{ width: "40%" }}>
-                                                        <div className="form mt-3">
-                                                            <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
-                                                            <div className="d-flex col-md">
-                                                                <textarea type="text" className='form-control col-md-10' rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
-                                                            </div>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setTimeout(() => {
+                                                                document.getElementById('searchCustAddress').focus()
+                                                            }, 700)
+                                                        }}
+                                                    >
+                                                        {
+                                                            custAddressLocation.length > 0 ? `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}` : 'Select Customer Address Location'
+                                                        }
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setTimeout(() => {
+                                                                document.getElementById('searchBillingAddress').focus()
+                                                            }, 700)
+                                                        }}
+                                                    >
+                                                        {
+                                                            billingAddressLocation.length > 0 ? `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}` : 'Select Billing Address Location'
+                                                        }
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className='form-control col-md-5 ' id="ordernumber" placeholder='Enter the order number' />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row mt-3">
+                                                <div className="d-flex col-md-3">
+                                                    <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
+                                                    <input type="date" className='form-control col-md-6  cursor-notallow' id="Invoicedate" disabled />
+                                                </div>
+
+                                                <div className="d-flex col-md-4 ">
+                                                    <label className="col-md-3 text-center col-form-label font-weight-normal" >Terms</label>
+
+                                                    <select
+                                                        id="paymentterm"
+                                                        className='col-md-6  mr-0 form-control'
+                                                        onChange={handleAccountTerm}
+                                                    >
+                                                        <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
+                                                        {
+                                                            activepaymentterm.map((item, index) => (
+                                                                <option key={index} value={item.term_days}>{item.term}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div className="d-flex col-md-3" >
+                                                    <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
+                                                    <input type="date" className={`form-control col-md-7  cursor-notallow`} id="Duedate" disabled />
+                                                </div>
+                                            </div>
+
+
+                                            <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
+                                                <div className="d-flex col-md-3">
+                                                    <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
+                                                    <input type="date" className='form-control col-md-6 ' id="fromdate" />
+                                                </div>
+                                                <div className="d-flex col-md-5">
+                                                    <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
+                                                    <input type="date" className='form-control col-md-6 ' id="todate" />
+                                                </div>
+                                            </div>
+                                            <br />
+
+
+                                            <table className="table  table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Activity</th>
+                                                        <th scope="col">Items</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Rate</th>
+                                                        <th scope="col">Tax Amt</th>
+                                                        <th scope="col">Unit</th>
+                                                        <th scope="col">Amount</th>
+                                                        <th scope="col">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        arry.map((element, index) => (
+                                                            <tr key={index}>
+                                                                <td className="col-md-2 px-1">
+                                                                    <select id={`Activity-${index}`} className="form-control"
+                                                                        onChange={(e) => handleChangeActivity(e, index)}
+                                                                    >
+                                                                        <option value='' hidden>Select Activity</option>
+                                                                        {
+                                                                            Activeaccount.map((items, index) => (
+                                                                                <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td className="col-md-2 px-1">
+                                                                    {
+                                                                        <select id={`items-${index}`} className='form-control col'
+                                                                            onChange={(e) => { handleChangeItems(e.target.value, index) }}
+                                                                        >
+                                                                            <option value='' hidden > Select item</option>
+                                                                            {
+                                                                                itemtoggle[index] == true ?
+                                                                                    itemsdata[index].map((item, index) => (
+                                                                                        <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.chart_of_acct_id}`} >{item.item_name}</option>
+                                                                                    ))
+                                                                                    : null
+                                                                            }
+                                                                        </select>
+                                                                    }
+                                                                </td>
+                                                                <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                    <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                </td>
+                                                                <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                    <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                </td>
+                                                                <td id="gst" className='col-md-1 px-1'>
+                                                                    <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled /></td>
+
+                                                                <td className='px-1 col-md-2'>
+                                                                    <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
+                                                                        <option value='' hidden > Select Unit</option>
+                                                                        {
+                                                                            activeunit.map((item, index) => (
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td id="amountvalue" className='col-md-1 px-1'>
+                                                                    <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
+                                                                </td>
+                                                                <td id="Totalsum" className='col-md-1 px-1'>
+                                                                    <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            <button className="btn btn-primary" onClick={addRow} id='additembtm'>Add Item</button>   &nbsp;
+                                            <button className="btn btn-danger" onClick={RemoveRow} id='removeitembtm'>Remove</button>
+                                            <hr />
+                                            <div className='d-flex'>
+                                                <div style={{ width: "40%" }}>
+                                                    <div className="form mt-3">
+                                                        <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
+                                                        <div className="d-flex col-md">
+                                                            <textarea type="text" className='form-control col-md-10' rows="4" id="custnotes" placeholder="Looking forward for your bussiness " style={{ resize: 'none' }}></textarea>
                                                         </div>
                                                     </div>
-                                                    <div className='rounded py-1 px-2' style={{ width: "55%", background: '#eee' }}>
-                                                        <table className='w-100'>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><button className="btn btn-primary" id='subtotalbtn' onClick={handleSubBtn}>Calcu. Total</button></td>
-                                                                    <td colSpan='2' className='text-right  px-5' id='totalnetamt'> {/* {totalamout} */}</td>
-                                                                </tr>
-
-                                                                <tr id='cgstinp'>
-                                                                    <td>CGST</td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1">
-                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='cgstipt' disabled />
-                                                                            <div className="input-group-append">
-                                                                                <span className="input-group-text">%</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-
-                                                                </tr>
-                                                                <tr id='sgstinp'>
-                                                                    <td>SGST/UTGST</td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1" >
-                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='sutgstipt' disabled />
-                                                                            <div className="input-group-append">
-                                                                                <span className="input-group-text">%</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-
-                                                                </tr>
-                                                                <tr id='igstinp'>
-                                                                    <td>IGST</td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1" >
-                                                                            <input type="number" className='form-control col-md-5 gstinpt  cursor-notallow' id='igstipt' disabled />
-                                                                            <div className="input-group-append">
-                                                                                <span className="input-group-text">%</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr id='tgstinp'>
-                                                                    <td>Total GST</td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1" >
-                                                                            <input type="number" className='form-control col-md-5  cursor-notallow' id='totalgstper' disabled />
-                                                                            <div className="input-group-append">
-                                                                                <span className="input-group-text">%</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td id="TotalgstAmt">
-                                                                        {totalGstamt}
-                                                                    </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                    <td>
-                                                                        Currency
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1">
-                                                                            <select className='form-control col-md-5' id="currency" >
-                                                                                <option value={custdetail.currency} hidden >{custdetail.currency}</option>
-                                                                                {
-                                                                                    currencylist.map((item, index) =>
-                                                                                        <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
-                                                                                }
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr className='mt-2'>
-                                                                    <td><h3>Total</h3></td>
-                                                                    <td></td>
-                                                                    <td id="grandtotaltd"> </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
                                                 </div>
-                                                {
-                                                    localStorage.getItem('gststatus') !== 'true' ?
-                                                        <InvoicePreviewWithoutGst
-                                                            Allinvoicedata={allInvoiceData} Allitems={itemsrowval}
-                                                        /> :
-                                                        <InvoicePreview
-                                                            Allinvoicedata={allInvoiceData} Allitems={itemsrowval}
-                                                        />
-                                                }
+                                                <div className='rounded py-1 px-2' style={{ width: "55%", background: '#eee' }}>
+                                                    <table className='w-100'>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><button className="btn btn-primary" id='subtotalbtn' onClick={handleSubBtn}>Calcu. Total</button></td>
+                                                                <td colSpan='2' className='text-right  px-5' id='totalnetamt'> {/* {totalamout} */}</td>
+                                                            </tr>
 
-                                                <div className="form-group mt-3">
-                                                    <button id="savebtn" type='button' name="save" className="btn btn-danger"
-                                                        onClick={handlesavebtn}
-                                                        value='save'>
-                                                        Save
-                                                    </button>
-                                                    <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2"
-                                                        onClick={handlesavebtn}
-                                                        value='post' >
-                                                        Post
-                                                    </button>
-                                                    <button id="clear"
-                                                        // onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
-                                                        name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
-                                                    <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                                                            <tr id='cgstinp'>
+                                                                <td>CGST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1">
+                                                                        <input type="number" className='form-control col-md-5  cursor-notallow' id='cgstipt' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr id='sgstinp'>
+                                                                <td>SGST/UTGST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className='form-control col-md-5  cursor-notallow' id='sutgstipt' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr id='igstinp'>
+                                                                <td>IGST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className='form-control col-md-5 gstinpt  cursor-notallow' id='igstipt' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id='tgstinp'>
+                                                                <td>Total GST</td>
+                                                                <td>
+                                                                    <div className="input-group mb-1" >
+                                                                        <input type="number" className='form-control col-md-5  cursor-notallow' id='totalgstper' disabled />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td id="TotalgstAmt">
+                                                                    {totalGstamt}
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    Currency
+                                                                </td>
+                                                                <td>
+                                                                    <div className="input-group mb-1">
+                                                                        <select className='form-control col-md-5' id="currency" >
+                                                                            <option value={custdetail.currency} hidden >{custdetail.currency}</option>
+                                                                            {
+                                                                                currencylist.map((item, index) =>
+                                                                                    <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr className='mt-2'>
+                                                                <td><h3>Total</h3></td>
+                                                                <td></td>
+                                                                <td id="grandtotaltd"> </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
                                                 </div>
-                                            </form>
-                                        </article>
-                                    </div>
-                                )
-                                :
-                                (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-                                    <div className="spinner-border" role="status"> </div>
-                                </div>)
-                        }
-                    </div>
-                </div>
+                                            </div>
+                                            {
+                                                localStorage.getItem('gststatus') !== 'true' ?
+                                                    <InvoicePreviewWithoutGst
+                                                        Allinvoicedata={allInvoiceData} Allitems={itemsrowval}
+                                                    /> :
+                                                    <InvoicePreview
+                                                        Allinvoicedata={allInvoiceData} Allitems={itemsrowval}
+                                                    />
+                                            }
+
+                                            <div className="form-group mt-3">
+                                                <button id="savebtn" type='button' name="save" className="btn btn-danger"
+                                                    onClick={handlesavebtn}
+                                                    value='save'>
+                                                    Save
+                                                </button>
+                                                <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2"
+                                                    onClick={handlesavebtn}
+                                                    value='post' >
+                                                    Post
+                                                </button>
+                                                <button id="clear"
+                                                    // onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                                    name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
+                                                <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
+                                            </div>
+                                        </form>
+                                    </article>
+                                </div>
+
+                            </div>
+                        </div>
+                :
+                <LoadingPage />
+                }
                 <Footer />
             </div>
 

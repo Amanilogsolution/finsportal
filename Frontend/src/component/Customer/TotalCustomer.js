@@ -9,8 +9,10 @@ import Excelfile from '../../excelformate/tbl_customer.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle'
 import './TotalCustomer.css'
+import LoadingPage from '../loadingPage/loadingPage';
 
 const TotalCustomer = () => {
+  const [loading, setLoading] = useState(false)
   const [userRightsData, setUserRightsData] = useState([]);
 
   const [data, setData] = useState([])
@@ -30,10 +32,10 @@ const TotalCustomer = () => {
     const fetchdata = async () => {
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
-
+      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
+      setLoading(true)
       fetchRoles()
 
-      let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
       setYear(getids[0].year);
       setNewmcountid(getids[0].mcust_count)
       setNewcountid(getids[0].cust_count)
@@ -327,43 +329,44 @@ const TotalCustomer = () => {
   return (
     <>
       <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
         <Header />
-        <div className="content-wrapper">
-          <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden customer-addDiv'>
-            <h3 className="pl-5 ">Total Customer</h3>
-            <div className='d-flex overflow-hidden addbtn-div'>
-              {/* <button className='btn btn-danger mr-2' id='addtogglebtn' onClick={handleAction}>
+        {
+          loading ?
+            <div className="content-wrapper">
+              <div className=' px-3 pt-3 pb-2 d-flex justify-content-between overflow-hidden customer-addDiv'>
+                <h3 className="pl-5 ">Total Customer</h3>
+                <div className='d-flex overflow-hidden addbtn-div'>
+                  {/* <button className='btn btn-danger mr-2' id='addtogglebtn' onClick={handleAction}>
                 <span><i className={ActionToogle ? "fas fa-angle-right" : "fas fa-angle-left"} /></span>
               </button> */}
-              <div className={ActionToogle ? 'showAction' : 'hideAction'}>
-                <button title='Upload Excel File' type="button" id='excelcustbtn' style={{ display: 'none' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                  <span className='uploadbtn-text'>Import excel file</span>
-                  <span className='uploadbtn-icons'><i className="fa fa-upload" aria-hidden="true"></i></span></button>
-                <button type="button" id='addcustbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
-                <button type="button" id='updatecustNamebtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./CustomerNames" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-1">Update Cust Names</button>
+                  <div className={ActionToogle ? 'showAction' : 'hideAction'}>
+                    <button title='Upload Excel File' type="button" id='excelcustbtn' style={{ display: 'none' }} onClick={() => { window.location.href = "#" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                      <span className='uploadbtn-text'>Import excel file</span>
+                      <span className='uploadbtn-icons'><i className="fa fa-upload" aria-hidden="true"></i></span></button>
+                    <button type="button" id='addcustbtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Customer" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-2">Add Customer</button>
+                    <button type="button" id='updatecustNamebtn' style={{ display: 'none' }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./CustomerNames" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-1">Update Cust Names</button>
+                  </div>
+                </div>
+              </div>
+              <div className="card mb-2 mx-2">
+                <article className="card-body py-1">
+                  <DataTableExtensions
+                    {...tableData}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
               </div>
             </div>
-          </div>
-          <div className="card mb-2 mx-2">
-            <article className="card-body py-1">
-              <DataTableExtensions
-                {...tableData}>
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
-        </div>
+            : <LoadingPage />
+        }
         <Footer />
       </div>
       {/* ------------------ Modal start -----------------------------*/}
