@@ -1258,6 +1258,11 @@ export const filterInvoicebyCN = async (org, startDate, lastDate, custid, locati
     const url = `http://localhost:3008/api/filterinvoicebycn`
     return axios.post(url, { org, startDate, lastDate, custid, locationid, invoice_no }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const UpdateInvoiceCNFlag = async (org, cnflag, cnamount, invoice_no) => {
+    const url = `http://localhost:3008/api/updateinvoicecnflag`
+    return axios.post(url, { org, cnflag, cnamount, invoice_no }).then(response => response.data).catch(error => console.log(error));
+}
 // ###########################  For Invoice api End ############################
 
 // ############################ For InvoiceSub api Start #################################

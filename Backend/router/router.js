@@ -309,6 +309,8 @@ router.post('/getsaveinvoice', InvoiceController.getSaveInvoice)
 router.post('/updatesaveinvoicetopost', InvoiceController.UpdateSaveInvoiceToPost)
 router.post('/getinvoicesbycustomer', InvoiceController.GetInvoicesByCustomer)
 router.post('/filterinvoicebycn', InvoiceController.filterInvoicebyCN)
+router.post('/updateinvoicecnflag', InvoiceController.UpdateInvoiceCNFlag)
+
 
 router.post('/insertsubinvoice', InvoiceSubController.InsertSubInvoice)
 router.post('/getsubinvoice', InvoiceSubController.getSubInvoice)
