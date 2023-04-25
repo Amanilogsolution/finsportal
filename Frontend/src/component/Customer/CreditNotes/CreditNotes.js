@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './creditnote.css'
-import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice, Getfincialyearid ,ChangeCNStatus} from '../../../api/index'
+import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice, Getfincialyearid ,ChangeCNStatus,UpdateInvoiceCNFlag} from '../../../api/index'
 import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
@@ -110,6 +110,7 @@ function CreditNotes() {
         const remark = document.getElementById('Remark').value
 
         let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
+        const InvoiceFlag = await UpdateInvoiceCNFlag(org, '3', data.total_cn_amt, data.inv_no)
 
         var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {

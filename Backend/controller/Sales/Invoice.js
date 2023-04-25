@@ -158,12 +158,12 @@ const filterInvoicebyCN = async (req, res) => {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' order by sno desc;`)
+            and '${lastDate}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
             res.send(result.recordset)
         }
         else {
             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and custid='${custid}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' order by sno desc;`)
+            and '${lastDate}' and custid='${custid}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
             res.send(result.recordset)
         }
     }
@@ -181,8 +181,12 @@ const UpdateInvoiceCNFlag = async(req,res) =>{
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(` update ${org}.dbo.tbl_invoice set cnflag='${cnflag}' ,cnamount='${cnamount}' WHERE invoice_no='${invoice_no}'`)
-        console.log(result)
-
+        if (result.rowsAffected > 0) {
+            res.send('Updated')
+        }
+        else {
+            res.send('Error')
+        }
     }
     catch(err){
 
@@ -190,4 +194,4 @@ const UpdateInvoiceCNFlag = async(req,res) =>{
 
 }
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost,GetInvoicesByCustomer,filterInvoicebyCN,UpdateInvoiceCNFlag }
+module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost,GetInvoicesByCustomer,filterInvoicebyCN,UpdateInvoiceCNFlag } 

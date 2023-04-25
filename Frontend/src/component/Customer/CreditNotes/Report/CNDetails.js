@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import { CheckLoginUser, ChangeCNStatus } from '../../../../api/index'
+import { CheckLoginUser, ChangeCNStatus,UpdateInvoiceCNFlag } from '../../../../api/index'
 
 
 const CNDetails = (props) => {
@@ -14,14 +14,19 @@ const CNDetails = (props) => {
 
         const useremail = document.getElementById('userid').value
         const userpassword = document.getElementById('userPassword').value
+        const obj = data.find(data => data.sno =sno)
 
         if (local_User_email === useremail) {
             const result = await CheckLoginUser(useremail, userpassword)
             if (result === 'Confirmed') {
+
                 const status = await ChangeCNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
+
                 if (status) {
                     window.location.reload()
                 }
+                const InvoiceFlag = await UpdateInvoiceCNFlag(localStorage.getItem('Organisation'), '2', obj.total_cn_amt, obj.inv_no)
+
             }
         }
         else {
