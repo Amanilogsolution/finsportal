@@ -137,7 +137,7 @@ const SelectDnSubDetails = async (req,res) => {
     const topcount = req.body.topcount;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select Top ${topcount} * from ${org}.dbo.tbl_sub_debitnote where dn_no='${dn_no}' and voucher_no ='${voucher_no}' ORDER BY sno DESC`)
+        const result = await sql.query(`select Top ${topcount} * from ${org}.dbo.tbl_sub_debitnote where  voucher_no ='${voucher_no}' ORDER BY sno DESC`)
         res.send(result.recordset) 
     }
     catch (err) {
