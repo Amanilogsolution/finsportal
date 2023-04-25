@@ -10,13 +10,20 @@ export default function EditPurchaseOrder() {
     const [unitlist, setUnitlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
     const [itemlist, setItemlist] = useState([])
-    const [pocount, setPOcount] = useState(0)
-    const [totalValues, setTotalValues] = useState([1])
     const [subinv, setSubPo] = useState([])
-    const [poitem, setPOitems] = useState([])
-    const [poalldetail, setPOalldetail] = useState({})
     const [vendordata, setVendordata] = useState([]);
     const [locationdata, setLocationdata] = useState([]);
+
+    const [poalldetail, setPOalldetail] = useState({
+        po_number: '',
+        vendor_id: '',
+        vendor_name: '',
+        po_location_id: '',
+        po_location: '',
+        po_date: '',
+        poamount: ''
+    })
+    const [poitem, setPOitems] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -25,17 +32,12 @@ export default function EditPurchaseOrder() {
 
             const result = await getPoDetailsPreview(org, po_no)
             setData(result[0])
-            setPOalldetail(result[0])
 
             const result1 = await getSubPoDetailsPreview(org, po_no)
             setSubPo(result1)
-            setPOitems(result1)
 
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
-
-            const units = await Activeunit(org)
-            setUnitlist(units)
 
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
@@ -48,6 +50,29 @@ export default function EditPurchaseOrder() {
 
             const locationdata = await showLocation(org, result[0].po_location);
             setLocationdata(locationdata)
+
+            setPOalldetail({
+                ...poalldetail,
+                po_number: result[0].po_number,
+                vendor_name: vendordata[0].vend_name,
+                po_location: locationdata.location_name,
+                po_date: result[0].po_date,
+                poamount: result[0].poamount
+            })
+
+            result1.map((d, index) => {
+                let obj = {
+                    item: d.items,
+                    qty: d.quantity,
+                    rate: d.rate,
+                    amt: d.amount,
+                    unit: d.unit
+                }
+                poitem.push(obj)
+            })
+            
+            const units = await Activeunit(org)
+            setUnitlist(units)
 
         }
         fetchdata();
@@ -64,7 +89,6 @@ export default function EditPurchaseOrder() {
             const org = localStorage.getItem('Organisation')
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].po_count) + 1
-            setPOcount(lastno)
             let new_po_num = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
 
             const result = await Editpurchaseorder(localStorage.getItem('Organisation'), new_po_num, 'post', localStorage.getItem('poNo'));
