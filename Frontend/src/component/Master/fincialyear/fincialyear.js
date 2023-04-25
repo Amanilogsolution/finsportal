@@ -63,19 +63,18 @@ const Fincialyear = () => {
       }
 
       else {
-        console.log(org, fincialyear, year, from_date, to_date, 'invoice_ser', invoice_ser, 'voucher_ser', voucher_ser, User_id, 'purchase_ser', purchase_ser,
-          'salesorder_ser', salesorder_ser, 'creditNotes', creditNotes, 'debitNotes', debitNotes)
+        console.log(org, fincialyear, year, from_date, to_date,invoice_ser,voucher_ser,purchase_ser,salesorder_ser,creditNotes,debitNotes, User_id)
 
-        // const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, User_id, purchase_ser)
+        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date,invoice_ser,voucher_ser,purchase_ser,salesorder_ser,creditNotes,debitNotes, User_id)
 
-        // if (result.rowsAffected[0] > 0) {
-        //   alert("Data Added");
-        //   window.location.href = "./ShowFinancialyear"
-        // }
-        // else {
-        //   alert("Server error !")
+        if (result.rowsAffected[0] > 0) {
+          alert("Data Added");
+          window.location.href = "./ShowFinancialyear"
+        }
+        else {
+          alert("Server error !")
 
-        // }
+        }
       }
 
     }
@@ -95,14 +94,14 @@ const Fincialyear = () => {
               <form autoComplete='off'>
                 <div className="form-row">
                   <div className="col form-row">
-                    <label htmlFor="from_date" className="col-md-4 col-form-label font-weight-normal">From date</label>
+                    <label htmlFor="from_date" className="col-md-4 col-form-label font-weight-normal">From date <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="date" className="form-control col-md-10" id='from_date' onChange={handleChangefromdate} />
                     </div>
                   </div>
 
                   <div className="col form-row">
-                    <label htmlFor="from_date" className="col-md-4 col-form-label font-weight-normal">To date</label>
+                    <label htmlFor="from_date" className="col-md-4 col-form-label font-weight-normal">To date <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="date" className="form-control col-md-10" id='to_date' onChange={handleChangetodate} />
                     </div>
@@ -111,14 +110,14 @@ const Fincialyear = () => {
 
                 <div className="form-row">
                   <div className="col form-row">
-                    <label htmlFor="fincialyear" className="col-md-4 col-form-label font-weight-normal">Fincial year</label>
+                    <label htmlFor="fincialyear" className="col-md-4 col-form-label font-weight-normal">Fincial year <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10" id='fincialyear' disabled value={from_date + "-" + to_date} />
                     </div>
                   </div>
 
                   <div className="col form-row">
-                    <label htmlFor="fincialyear" className="col-md-4 col-form-label font-weight-normal">Year</label>
+                    <label htmlFor="fincialyear" className="col-md-4 col-form-label font-weight-normal">Year <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10" id='lastyear' disabled value={year} />
                     </div>
@@ -127,7 +126,7 @@ const Fincialyear = () => {
 
                 <div className="form-row">
                   <div className="col form-row">
-                    <label htmlFor="invoiceser" className="col-md-4 col-form-label font-weight-normal">Invoice Series</label>
+                    <label htmlFor="invoiceser" className="col-md-4 col-form-label font-weight-normal">Invoice Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10 text-uppercase" id='invoiceser' maxLength={5} />
                       <small >Invoice Series not more than 5 Character</small>
@@ -135,46 +134,46 @@ const Fincialyear = () => {
                   </div>
 
                   <div className="col form-row">
-                    <label htmlFor="voucher" className="col-md-4 col-form-label font-weight-normal">Voucher Series</label>
+                    <label htmlFor="voucher" className="col-md-4 col-form-label font-weight-normal">Voucher Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10 text-uppercase" id='voucher' maxLength={4} />
-                      <small >Voucher Series must be 4 Character</small>
+                      <small >Voucher Series not more than 4 Character</small>
                     </div>
                   </div>
                 </div>
 
                 <div className="form-row">
                   <div className="col form-row">
-                    <label htmlFor="po" className="col-md-4 col-form-label font-weight-normal">Purchase Order Series</label>
+                    <label htmlFor="po" className="col-md-4 col-form-label font-weight-normal">Purchase Order Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10 text-uppercase" id='po' maxLength={4} />
-                      <small >Purchase Order Series must be 4 Character</small>
+                      <small >Purchase Order Series not more than 4 Character</small>
                     </div>
                   </div>
 
                   <div className="col form-row">
-                    <label htmlFor="so" className="col-md-4 col-form-label font-weight-normal">Sales Order Series</label>
+                    <label htmlFor="so" className="col-md-4 col-form-label font-weight-normal">Sales Order Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10 text-uppercase" id='so' minLength={4} maxLength={4} />
-                      <small >Sales Order Series must be 4 Character</small>
+                      <small >Sales Order Series not more than 4 Character</small>
                     </div>
                   </div>
                 </div>
 
                 <div className="form-row">
                   <div className="col form-row">
-                    <label htmlFor="po" className="col-md-4 col-form-label font-weight-normal">CreditNotes Series</label>
+                    <label htmlFor="po" className="col-md-4 col-form-label font-weight-normal">CreditNotes Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10 text-uppercase" id='creditnotes' maxLength={4} />
-                      <small >CreditNotes Series must be 4 Character</small>
+                      <small >CreditNotes Series not more than 4 Character</small>
                     </div>
                   </div>
 
                   <div className="col form-row">
-                    <label htmlFor="so" className="col-md-4 col-form-label font-weight-normal">DebitNotes Series</label>
+                    <label htmlFor="so" className="col-md-4 col-form-label font-weight-normal">DebitNotes Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10 text-uppercase" id='debitnotes' minLength={4} maxLength={4} />
-                      <small >DebitNotes Series must be 4 Character</small>
+                      <small >DebitNotes Series not more than 4 Character</small>
                     </div>
                   </div>
                 </div>

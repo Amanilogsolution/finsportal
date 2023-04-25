@@ -29,8 +29,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
         fetchdata()
     }, [])
 
-    console.log('nhieh', ChargeCodeSub)
-    console.log('er', data)
+console.log('wnl',ChargeCodeSub, data, location, custname)
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -69,8 +68,10 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                                 <div className='px-2'>
                                                     <strong>Name: {custname}</strong><br />
                                                     <strong>Address: </strong>
+                                                    {location.location_add1},{location.location_city}, {location.location_state}, 
+                                                    {location.location_country} - {location.location_pin}
                                                     <br />
-                                                    GSTIN: <strong></strong>
+                                                    <strong>GSTIN: </strong>{location.gstin_no}
                                                 </div>
                                             </div>
                                             <div className="ship">
@@ -83,7 +84,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                             </div>
                                         </div>
                                         <table id="second_table" style={{ width: '100%' }}>
-                                            <thead>
+                                            <thead className='text-center'>
                                                 <tr>
                                                     <th rowSpan="2">SNo.</th>
                                                     <th rowSpan="2">Activity</th>
@@ -131,7 +132,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                     </div>
                                     <div className="Total_div p-2">
                                         <strong>Total Amount Value (In Words)</strong>
-                                        <strong className='float-right'>{DecamalNumber.toWords(Number(data.total_cn_amt)).toUpperCase()}</strong>
+                                        <strong className='float-right'>{DecamalNumber.toWords(Number(data.total_cn_amt)).toUpperCase()} Only</strong>
                                     </div>
                                     <div className="Amount_tax d-flex ">
                                         <strong style={{ margin: '12px 5px' }}>Amount Of Tax:</strong>
