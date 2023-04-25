@@ -172,5 +172,22 @@ const filterInvoicebyCN = async (req, res) => {
     }
 
 }
+const UpdateInvoiceCNFlag = async(req,res) =>{
+    const org = req.body.org;
+    const cnflag = req.body.cnflag;
+    const cnamount = req.body.cnamount;
+    const invoice_no = req.body.invoice_no;
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost,GetInvoicesByCustomer,filterInvoicebyCN }
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(` update ${org}.dbo.tbl_invoice set cnflag='${cnflag}' ,cnamount='${cnamount}' WHERE invoice_no='${invoice_no}'`)
+        console.log(result)
+
+    }
+    catch(err){
+
+    }
+
+}
+
+module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost,GetInvoicesByCustomer,filterInvoicebyCN,UpdateInvoiceCNFlag }

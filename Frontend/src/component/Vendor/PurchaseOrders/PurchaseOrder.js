@@ -153,7 +153,10 @@ function PurchaseOrder() {
 
     const handleChangeUnit = (index) => {
         const unit_data = document.getElementById(`unit-${index}`).value;
-        poitem[index].unit = unit_data
+        let data = [...poitem] 
+        data[index].unit = unit_data
+        setPOitems(data)
+
     }
 
     const handleSubmit = async (btntype) => {

@@ -14,6 +14,8 @@ const PreviewPO = (props) => {
             let org = localStorage.getItem('Organisation');
             const result = await showOrganisation(org)
             setOrgdata(result)
+
+            console.log(props.Allitems)
         }
         fetchdata()
     }, [])

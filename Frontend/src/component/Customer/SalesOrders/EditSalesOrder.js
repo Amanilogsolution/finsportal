@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
+import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, getSoDetails, getSubSoDetails,EditsalesOrder,showOrganisation,Getfincialyearid,Updatefinancialcount } from '../../../api/index'
 import Preview from './PreviewSalesOrder/PreviewSalesOrder'
-import { ActiveCustomer, ActiveAccountMinorCode, showOrganisation, Activeunit, getSoDetails, getSubSoDetails } from '../../../api/index'
 
 export default function EditSalesOrder() {
     const [totalValues, setTotalValues] = useState([1])
@@ -76,19 +76,19 @@ export default function EditSalesOrder() {
             window.location.href = "./SaveSalesOrder"
         }
         else {
-            // const org = localStorage.getItem('Organisation')
-            // const id = await Getfincialyearid(org)
-            // const lastno = Number(id[0].po_count) + 1
-            // setPOcount(lastno)
-            // let new_po_num = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
+            const org = localStorage.getItem('Organisation')
+            const id = await Getfincialyearid(org)
+            const lastno = Number(id[0].so_count) + 1
+            let new_so_num = id[0].so_ser + id[0].year + String(lastno).padStart(5, '0')
+            console.log(new_so_num)
 
-            // const result = await Editpurchaseorder(localStorage.getItem('Organisation'), new_po_num, 'post', localStorage.getItem('poNo'));
+            const result = await EditsalesOrder(localStorage.getItem('Organisation'), new_so_num, 'post', localStorage.getItem('soNo'));
 
-            // if (result === "Updated") {
-            //     await Updatefinancialcount(org, 'po_count', lastno)
-            //     alert('Po Posted')
-            //     window.location.href = "./SavePurchaseOrder"
-            // }
+            if (result === "Updated") {
+                await Updatefinancialcount(org, 'po_count', lastno)
+                alert('So Posted')
+                window.location.href = "./SaveSalesOrder"
+            }
         }
     }
     return (
