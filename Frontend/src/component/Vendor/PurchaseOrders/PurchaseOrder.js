@@ -23,8 +23,7 @@ function PurchaseOrder() {
         po_date: '',
         poamount: ''
     })          
-
-    const [itemsData, setItemsData] = useState([{
+    const [poitem, setPOitems] = useState([{
         location_id: '',
         location: '',
         item: '',
@@ -75,32 +74,32 @@ function PurchaseOrder() {
         const location_data = document.getElementById(`location-${index}`)
         let location_name = location_data.options[location_data.selectedIndex].text;
         let location_id = location_data.value
-        itemsData[index].location_id = location_id
-        itemsData[index].location = location_name
+        poitem[index].location_id = location_id
+        poitem[index].location = location_name
     }
 
     const handleChangeItems = (index) => {
         const item_data = document.getElementById(`item-${index}`).value;
-        itemsData[index].item = item_data
+        poitem[index].item = item_data
     }
 
     const handleAdd = (e) => {
         e.preventDefault()
         setTotalValues([...totalValues, 1])
         let obj = { location_id: '', location: '', item: '', qty: '', rate: '', amt: '', unit: '' }
-        itemsData.push(obj)
+        poitem.push(obj)
     }
     const handleChangeRate = (index) => {
         const qty = document.getElementById(`quantity-${index}`).value || 0;
         const rate = document.getElementById(`rate-${index}`).value || 0;
         let amt = Number(qty) * Number(rate)
-        itemsData[index].qty = qty
-        itemsData[index].rate = rate
-        itemsData[index].amt = amt
+        poitem[index].qty = qty
+        poitem[index].rate = rate
+        poitem[index].amt = amt
 
         document.getElementById(`amount-${index}`).value = amt
         let total_amt = 0
-        itemsData.map((d) => { total_amt = total_amt + Number(d.amt) })
+        poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
         document.getElementById('subtotalval').innerHTML = total_amt;
 
         setPOalldetail({
@@ -115,10 +114,10 @@ function PurchaseOrder() {
             let newvalue = [...totalValues]
             newvalue.pop()
             setTotalValues(newvalue)
-            itemsData.pop()
+            poitem.pop()
 
             let total_amt = 0
-            itemsData.map((d) => { total_amt = total_amt + Number(d.amt) })
+            poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
             document.getElementById('subtotalval').innerHTML = total_amt;
             setPOalldetail({
                 ...poalldetail,
@@ -154,7 +153,7 @@ function PurchaseOrder() {
 
     const handleChangeUnit = (index) => {
         const unit_data = document.getElementById(`unit-${index}`).value;
-        itemsData[index].unit = unit_data
+        poitem[index].unit = unit_data
     }
 
     const handleSubmit = async (btntype) => {
@@ -179,7 +178,7 @@ function PurchaseOrder() {
                     await Updatefinancialcount(org, 'po_count', pocount)
                 }
 
-                itemsData.map(async (item) => {
+                poitem.map(async (item) => {
                     await InsertSubPurchaseorder(org, vendorname, ponumber, item.location_id, item.item, item.qty, item.rate, item.amt, item.unit)
                 })
                 alert("PO Generated")
@@ -329,7 +328,7 @@ function PurchaseOrder() {
                             <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
 
                         </div>
-                        <Preview data={poalldetail} Allitems={itemsData} />
+                        <Preview data={poalldetail} Allitems={poitem} />
 
                     </div>
                 </div>

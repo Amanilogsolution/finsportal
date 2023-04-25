@@ -26,11 +26,11 @@ const PreviewPO = (props) => {
             callback: function (doc) {
                 doc.save(`PurchaseOrder-${props.data.po_number}.pdf`);
             },
-            html2canvas: { scale: 0.19 },
+            html2canvas: { scale: 0.23 },
             margin: [5, 0, 0, 6],
         });
     };
-
+    
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -55,8 +55,8 @@ const PreviewPO = (props) => {
                                     <table id="po_first_table">
                                         <tbody>
                                             <tr >
-                                                <td><strong>Vendor Name :</strong> {props.vendordata}</td>
-                                                <td><strong> Address :</strong> {props.locationdata}</td>
+                                                <td><strong>Vendor Name :</strong> {props.data.vendor_name}</td>
+                                                <td><strong> Address :</strong> {props.data.po_location}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Purchase Order No. :</strong> {props.data.po_number}</td>
@@ -80,10 +80,10 @@ const PreviewPO = (props) => {
                                                 props.Allitems.map((item, index) => (
                                                     <tr key={index} className='text-center'>
                                                         <td>{index + 1}</td>
-                                                        <td>{item.items}</td>
-                                                        <td>{item.quantity}</td>
+                                                        <td>{item.item}</td>
+                                                        <td>{item.qty}</td>
                                                         <td>{item.rate}</td>
-                                                        <td>{item.amount}</td>
+                                                        <td>{item.amt}</td>
                                                         <td>{item.unit}</td>
                                                     </tr>
                                                 ))

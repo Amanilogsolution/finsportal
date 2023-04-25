@@ -66,7 +66,7 @@ const getSavePO = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),po_date,121) as podate from ${org}.dbo.tbl_purchase_order with (nolock) where flagsave='Save'`)
+        const result = await sql.query(`select *,convert(varchar(15),po_date,121) as podate from ${org}.dbo.tbl_purchase_order with (nolock) where flagsave='Save' order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {
