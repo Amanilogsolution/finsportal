@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, getSoDetails, getSubSoDetails } from '../../../api/index'
+import Preview from './PreviewSalesOrder/PreviewSalesOrder'
+import { ActiveCustomer, ActiveAccountMinorCode, showOrganisation, Activeunit, getSoDetails, getSubSoDetails } from '../../../api/index'
 
 export default function EditSalesOrder() {
     const [totalValues, setTotalValues] = useState([1])
     const [itemtoggle, setItemtoggle] = useState([false])
     const [itemsdata, setItemdata] = useState([])
+    const [orgdata, setOrgdata] = useState([])
 
     const [activecustomer, setActiveCustomer] = useState([])
     const [Activeaccount, setActiveAccount] = useState([])
@@ -15,7 +17,30 @@ export default function EditSalesOrder() {
 
     const [soData, setSoData] = useState({})
     const [soSubData, setSoSubData] = useState([])
-
+    const [somajorData, setSomajorData] = useState({
+        customer_name: '',
+        cust_address: '',
+        salesOrder_no: '',
+        salesOrder_date: '',
+        remark: '',
+        total_amt:'',
+        total_gst_rate:'',
+        total_gst_amt:''
+    })
+    const [itemsrowval, setItemsrowval] = useState([{
+        activity: '',
+        majorCode: '',
+        items: '',
+        taxPer: 0,
+        taxAmt: 0,
+        taxable: '',
+        glcode: '',
+        Quantity: '',
+        rate: '',
+        unit: '',
+        amount: '',
+        total: ''
+    }]);
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -32,42 +57,16 @@ export default function EditSalesOrder() {
 
             const Sodata = await getSoDetails(org, so_no)
             setSoData(Sodata[0])
-
+            console.log(Sodata[0])
+            setSomajorData({})
             const Sosubdata = await getSubSoDetails(org, so_no)
             setSoSubData(Sosubdata)
+
+            const orgdata = await showOrganisation(org)
+            setOrgdata(orgdata)
         }
         fetchdata()
     }, [])
-
-    const handleAdd = (e) => {
-        e.preventDefault()
-        setTotalValues([...totalValues, 1])
-        // let obj = { activity: '', majorCode: '', items: '', taxPer: 0, taxAmt: 0, taxable: '', glcode: '', Quantity: '', rate: '', unit: '', amount: '', total: '' }
-        // itemsrowval.push(obj)
-    }
-    const handleRemove = (e) => {
-        e.preventDefault()
-        var newvalue = [...totalValues]
-        // let objval = [...itemsrowval];
-        // objval.pop();
-        // setItemsrowval(objval)
-        // let subtotal = [...subTotal]
-        // subtotal.pop();
-        // setSubTotal(subtotal)
-        // let gstamt = [...gstTotal]
-        // gstamt.pop()
-        // setGSTTotal(gstamt)
-        // let grandtotalamt = [...grandTotal]
-        // grandtotalamt.pop()
-        // setGrandTotal(grandtotalamt)
-        console.log(newvalue.length)
-        if (newvalue.length == 1) {
-            setTotalValues(newvalue)
-        } else {
-            newvalue.pop()
-            setTotalValues(newvalue)
-        }
-    }
 
 
 
@@ -221,8 +220,6 @@ export default function EditSalesOrder() {
 
                                         </tbody>
                                     </table>
-                                    {/* <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                    <button className="btn btn-danger" onClick={handleRemove}>Remove</button> */}
 
                                     <div className='d-flex justify-content-between'>
                                         <div style={{ width: "40%" }}>
@@ -267,10 +264,12 @@ export default function EditSalesOrder() {
                                     <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleSubmit("Save") }}>  Save</button>
                                     <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleSubmit("Post") }} > Post</button>
                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SaveSalesOrder' }} name="clear" className="btn ml-2 btn-secondary">Cancel </button>
+                                    <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#salesOrderPreview" >Preview SO</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <Preview somajorData={somajorData} items={itemsrowval} org={orgdata}/>
                 </div>
                 <Footer />
             </div>
