@@ -70,7 +70,7 @@ const getSaveSO = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),so_date,121) as sodate from ${org}.dbo.tbl_sales_order with (nolock) where flagsave='Save'`)
+        const result = await sql.query(`select *,convert(varchar(15),so_date,121) as sodate from ${org}.dbo.tbl_sales_order with (nolock) where flagsave='Save' order by sno desc`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -107,12 +107,13 @@ const getSubSoDetails = async (req, res) => {
 
 const EditSalesOrder = async (req, res) => {
     const org = req.body.org;
+    const new_so_num = req.body.new_so_num
     const so_no = req.body.so_no;
     const status = req.body.status;
-    console.log(org, po_number, status)
+    console.log(org, so_no, status)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sales_order set flagsave='${status}',so_no='${so_no}' where so_no ='${so_no}' `)
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sales_order set flagsave='${status}',so_no='${new_so_num}' where so_no ='${so_no}' `)
         res.send("Updated")
     }
     catch (err) {
