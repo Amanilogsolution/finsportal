@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, getSoDetails, getSubSoDetails } from '../../../api/index'
+import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, getSoDetails, getSubSoDetails,EditSalesOrder } from '../../../api/index'
 
 export default function EditSalesOrder() {
     const [totalValues, setTotalValues] = useState([1])
@@ -48,18 +48,7 @@ export default function EditSalesOrder() {
     const handleRemove = (e) => {
         e.preventDefault()
         var newvalue = [...totalValues]
-        // let objval = [...itemsrowval];
-        // objval.pop();
-        // setItemsrowval(objval)
-        // let subtotal = [...subTotal]
-        // subtotal.pop();
-        // setSubTotal(subtotal)
-        // let gstamt = [...gstTotal]
-        // gstamt.pop()
-        // setGSTTotal(gstamt)
-        // let grandtotalamt = [...grandTotal]
-        // grandtotalamt.pop()
-        // setGrandTotal(grandtotalamt)
+       
         console.log(newvalue.length)
         if (newvalue.length == 1) {
             setTotalValues(newvalue)
@@ -77,19 +66,18 @@ export default function EditSalesOrder() {
             window.location.href = "./SaveSalesOrder"
         }
         else {
-            // const org = localStorage.getItem('Organisation')
-            // const id = await Getfincialyearid(org)
-            // const lastno = Number(id[0].po_count) + 1
-            // setPOcount(lastno)
-            // let new_po_num = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
+            const org = localStorage.getItem('Organisation')
+            const id = await Getfincialyearid(org)
+            const lastno = Number(id[0].po_count) + 1
+            let new_po_num = id[0].po_ser + id[0].year + String(lastno).padStart(5, '0')
 
-            // const result = await Editpurchaseorder(localStorage.getItem('Organisation'), new_po_num, 'post', localStorage.getItem('poNo'));
+            const result = await Editpurchaseorder(localStorage.getItem('Organisation'), new_po_num, 'post', localStorage.getItem('poNo'));
 
-            // if (result === "Updated") {
-            //     await Updatefinancialcount(org, 'po_count', lastno)
-            //     alert('Po Posted')
-            //     window.location.href = "./SavePurchaseOrder"
-            // }
+            if (result === "Updated") {
+                await Updatefinancialcount(org, 'po_count', lastno)
+                alert('Po Posted')
+                window.location.href = "./SavePurchaseOrder"
+            }
         }
     }
     return (

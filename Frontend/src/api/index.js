@@ -1615,3 +1615,9 @@ export const getSubSoDetails = async (org, so_no) => {
     const url = `http://localhost:3008/api/getsubsodetails`
     return axios.post(url, { org, so_no }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const EditSalesOrder = async (org, so_no,status) => {
+    const url = `http://localhost:3008/api/editsalesorder`
+    return axios.post(url, { org, so_no,status }).then(response => response.data).catch(error => console.log(error));
+}
+

@@ -112,7 +112,7 @@ const EditSalesOrder = async (req, res) => {
     console.log(org, po_number, status)
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sales_order set flagsave='${status}' where so_no ='${so_no}' `)
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_sales_order set flagsave='${status}',so_no='${so_no}' where so_no ='${so_no}' `)
         res.send("Updated")
     }
     catch (err) {
