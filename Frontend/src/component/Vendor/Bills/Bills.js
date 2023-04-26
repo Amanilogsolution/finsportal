@@ -4,6 +4,7 @@ import Footer from "../../Footer/Footer";
 import './bill.css'
 import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 
 function Bills() {
@@ -88,9 +89,6 @@ function Bills() {
             setActiveUser(result2)
             const items = await ActivePurchesItems(org)
             setItemlist(items)
-            console.log(items)
-
-
 
             const result = await showOrganisation(org)
             setOrgdata(result)
@@ -535,15 +533,13 @@ function Bills() {
     return (
         <>
             <div className="wrapper">
-                {/* <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div> */}
                 <Header />
-                <div className={`content-wrapper `}>
-                    <div className="container-fluid ">
-                        <h3 className="pt-3 pb-1 ml-5"> New Bill</h3>
-                        {
-                            loading ?
+                {
+                    loading ?
+                        <div className={`content-wrapper `}>
+                            <div className="container-fluid ">
+                                <h3 className="pt-3 pb-1 ml-5"> New Bill</h3>
+
                                 <div className={`card mb-2 `}>
 
                                     <article className="card-body">
@@ -916,13 +912,12 @@ function Bills() {
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview Bill</button>
                                     </div>
                                 </div>
-                                :
-                                (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-                                    <div className="spinner-border" role="status"> </div>
-                                </div>)
-                        }
-                    </div>
-                </div>
+
+                            </div>
+                        </div>
+                        :
+                        <LoadingPage />
+                }
                 <Footer />
 
                 {/* #######################  modal Vendor Location  Start ###################################### */}

@@ -3,6 +3,7 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import { GetBillData, GetSubBillItems, showOrganisation, Getfincialyearid, UpdateSaveBillToPost, UpdateSaveSubBillToPost, Updatefinancialcount } from '../../../../api'
 import PreviewBill from './EditPreviewBill';
+import LoadingPage from '../../../loadingPage/loadingPage';
 
 
 function Bills() {
@@ -36,6 +37,7 @@ function Bills() {
 
     const handlePost = async (e) => {
         e.preventDefault();
+        setLoading(false)
         const org = localStorage.getItem('Organisation')
         let vouNo = localStorage.getItem('vourcher_no')
 
@@ -47,26 +49,31 @@ function Bills() {
         if (update_vou_no === 'Updated') {
             const update_sub_vouno = await UpdateSaveSubBillToPost(org, vouNo, new_voucher_no)
             if (update_sub_vouno === 'Updated') {
-
                 const invcount = await Updatefinancialcount(org, 'voucher_count', lastno)
                 alert('Bill Posted');
                 localStorage.removeItem('vourcher_no');
                 window.location.href = '/SaveBillReport'
             }
+            else {
+                alert('Server Not Response');
+                setLoading(true)
+            }
+        }
+        else {
+            alert('Server Not Response');
+            setLoading(true)
         }
     }
     return (
         <>
             <div className="wrapper">
-                {/* <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div> */}
                 <Header />
-                <div className={`content-wrapper `}>
-                    <div className="container-fluid ">
-                        <h3 className="pt-3 pb-1 ml-5"> New Bill</h3>
-                        {
-                            loading ?
+                {
+                    loading ?
+                        <div className={`content-wrapper `}>
+                            <div className="container-fluid ">
+                                <h3 className="pt-3 pb-1 ml-5"> Update Bill</h3>
+
                                 <div className={`card mb-2 `}>
                                     <article className="card-body">
                                         <form autoComplete="off">
@@ -311,13 +318,10 @@ function Bills() {
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Bill</button>
                                     </div>
                                 </div>
-                                :
-                                (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-                                    <div className="spinner-border" role="status"> </div>
-                                </div>)
-                        }
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                        : <LoadingPage />
+                }
                 <Footer />
 
 

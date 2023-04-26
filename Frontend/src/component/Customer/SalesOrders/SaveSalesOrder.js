@@ -5,8 +5,10 @@ import { getSaveSO, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 export default function SaveSalesOrder() {
+  const [loading, setLoading] = useState(false)
   const [userRightsData, setUserRightsData] = useState([]);
 
   const [data, setData] = useState([])
@@ -18,6 +20,7 @@ export default function SaveSalesOrder() {
 
       const result = await getSaveSO(org)
       setData(result)
+      setLoading(true)
       fetchRoles()
     }
 
@@ -90,34 +93,36 @@ export default function SaveSalesOrder() {
 
   return (
     <>
+
       <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
         <Header />
-        <div className={`content-wrapper `}>
-          <button type="button " id='addsobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./SalesOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  SO</button>
-          <div className="container-fluid">
-            <h3 className="py-4 ml-5"> Save Sales Order </h3>
-            <div className="card" >
-              <article className={`card-body py-1`}>
-                <DataTableExtensions {...tableData}>
-                  <DataTable
-                    noHeader
-                    defaultSortField="id"
-                    defaultSortAsc={false}
-                    pagination
-                    dense
-                    highlightOnHover
-                    customStyles={customStyles}
-                  />
-                </DataTableExtensions>
-              </article>
+        
+            <div className={`content-wrapper `}>
+              <button type="button " id='addsobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./SalesOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  SO</button>
+              <div className="container-fluid">
+                <h3 className="py-4 ml-5"> Save Sales Order </h3>
+                <div className="card" >
+                  <article className={`card-body py-1`}>
+                    <DataTableExtensions {...tableData}>
+                      <DataTable
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        pagination
+                        dense
+                        highlightOnHover
+                        customStyles={customStyles}
+                      />
+                    </DataTableExtensions>
+                  </article>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+            : <LoadingPage />
+        }
         <Footer />
       </div>
+
     </>
   )
 }

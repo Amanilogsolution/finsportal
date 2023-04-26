@@ -17,7 +17,6 @@ const CNDetails = (props) => {
         console.log(result)
         if (result === 'Confirmed') {
             const status = await ChangeDNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
-            console.log(status)
             if (status) {
                 const DnFlag =await UpdateBillDNFlag(localStorage.getItem('Organisation'),'2',obj.total_dn_amt,obj.voucher_no)
 

@@ -10,18 +10,17 @@ const CNReport = (props) => {
     const [cndetails, setCndetails] = useState({
         bill_no: "",
         vourcher_no: ""
-     
+
     })
 
-    const [dn_no,setDN_NO] = useState('')
-    const [DNcount,setDNCount] = useState(0)
+    const [dn_no, setDN_NO] = useState('')
+    const [DNcount, setDNCount] = useState(0)
 
     const handleClickConfirm = async (e) => {
         e.preventDefault()
         const useremail = document.getElementById('userid').value
         const userpassword = document.getElementById('userPassword').value
         const result = await CheckLoginUser(useremail, userpassword)
-        console.log(result)
         if (result === 'Confirmed') {
             document.getElementById('cndetails').style.display = 'flex'
         }
@@ -33,13 +32,15 @@ const CNReport = (props) => {
         const remark = document.getElementById('remark').value
         const userid = localStorage.getItem('User_id');
         const total_cn_amt = document.getElementById('total_cn_amt').value
-        const result = await InsertDebitNote(org,dn_no,date,total_cn_amt,remark,cndetails.bill_no,cndetails.vourcher_no,userid)
-        console.log(result)
+        const result = await InsertDebitNote(org, dn_no, date, total_cn_amt, remark, cndetails.bill_no, cndetails.vourcher_no, userid)
         await Updatefinancialcount(org, 'dn_count', DNcount)
         const DnFlag =await UpdateBillDNFlag(org,'1',total_cn_amt,cndetails.vourcher_no)
 
         if(result==='Added'){
             window.location.reload()
+        }
+        else {
+            alert('Server Not Response')
         }
     }
 
@@ -88,7 +89,7 @@ const CNReport = (props) => {
                         ...cndetails,
                         bill_no: row.bill_no,
                         vourcher_no: row.vourcher_no,
-                     
+
 
                     })
                 }} className="btn btn-success"
@@ -106,7 +107,6 @@ const CNReport = (props) => {
             Todaydate()
 
             const id = await Getfincialyearid(org)
-            console.log(id)
             const lastno = Number(id[0].dn_count) + 1
             setDN_NO(id[0].dn_ser + id[0].year + String(lastno).padStart(5, '0'))
             setDNCount(lastno)
@@ -123,7 +123,7 @@ const CNReport = (props) => {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         setDate(today)
-      
+
     }
 
     const tableData = {
@@ -181,38 +181,38 @@ const CNReport = (props) => {
                                 <form>
                                     <div className="form-row">
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Bill Number</label>
+                                            <label htmlFor="invno">Bill Number</label>
                                             <input type="text" className="form-control" id="invno" aria-describedby="emailHelp" disabled />
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Bill Date</label>
+                                            <label htmlFor="invdate">Bill Date</label>
                                             <input type="date" className="form-control" id="invdate" aria-describedby="emailHelp" disabled />
                                         </div>
                                     </div>
 
                                     <div className="form-row">
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Voucher No</label>
+                                            <label htmlFor="invyear">Voucher No</label>
                                             <input type="text" className="form-control" id="invyear" aria-describedby="emailHelp" disabled />
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Bill Amount</label>
+                                            <label htmlFor="invamount">Bill Amount</label>
                                             <input type="text" className="form-control" id="invamount" aria-describedby="emailHelp" disabled />
                                         </div>
                                     </div>
                                     <div className="form-row">
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Vendor</label>
+                                            <label htmlFor="customer">Vendor</label>
                                             <input type="text" className="form-control" id="customer" aria-describedby="emailHelp" disabled />
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="userid">Total CR Amount</label>
+                                            <label htmlFor="total_cn_amt">Total CR Amount</label> <span className='text-danger'>*</span>
                                             <input type="number" className="form-control" id="total_cn_amt" aria-describedby="emailHelp" placeholder="Enter Amount" />
                                         </div>
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="userid">Reason</label>
+                                        <label htmlFor="remark">Reason</label>
                                         <textarea type="text" className="form-control" id="remark" aria-describedby="emailHelp" placeholder="Enter Reason" />
                                     </div>
                                 </form>

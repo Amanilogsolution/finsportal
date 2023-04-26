@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { InsertItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit } from "../../api";
+import LoadingPage from '../loadingPage/loadingPage';
 
 
 const AddItem = () => {
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState([{}])
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
     const [type, setType] = useState('Goods');
@@ -18,6 +20,7 @@ const AddItem = () => {
 
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
+            setLoading(true)
         }
         fetchdata()
     }, [])
@@ -56,6 +59,8 @@ const AddItem = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        setLoading(false)
+
         const Name = document.getElementById("name").value;
         const unit = document.getElementById("unit").value;
         const HSNcode = document.getElementById('hsncode').value
@@ -81,6 +86,8 @@ const AddItem = () => {
 
         if (!Name || !chartofaccount_id || !taxpreference || !minor_code_id) {
             alert('Please Enter the mandatory field')
+            setLoading(true)
+
         }
         else {
             const checkbox = document.getElementById('checkboxgst').checked || false
@@ -97,132 +104,136 @@ const AddItem = () => {
             }
             else {
                 alert('Server Error')
+                setLoading(true)
+
             }
         }
     }
 
     return (
         <div className="wrapper">
-            <div className="preloader flex-column justify-content-center align-items-center">
-                <div className="spinner-border" role="status"> </div>
-            </div>
+
             <Header />
-            <div className={`content-wrapper`}>
-                <div className="container-fluid">
-                    <h3 className="py-3 ml-5">Add Item</h3>
-                    <div className="card mb-2" >
-                        <article className={`card-body`}>
-                            <form autoComplete='off'>
-                                <div className="form-row" >
-                                    <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span className='text-danger'> *</span></label>
-                                    <div className="col form-group " onChange={handletype} >
-                                        <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
-                                        <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
-                                    </div>
+            {
+                loading ?
+                    <div className={`content-wrapper`}>
+                        <div className="container-fluid">
+                            <h3 className="py-1 ml-5">Add Item</h3>
+                            <div className="card mb-2" >
+                                <article className={`card-body`}>
+                                    <form autoComplete='off'>
+                                        <div className="form-row" >
+                                            <label htmlFor="type" className="col-md-2 col-form-label font-weight-normal"  >Type<span className='text-danger'> *</span></label>
+                                            <div className="col form-group " onChange={handletype} >
+                                                <input className="col-mt-2" type="radio" id="type" name="itemtype" value='Goods' defaultChecked={true} />  Goods  &nbsp; &nbsp;
+                                                <input className="col-mt-2 ml-3" type="radio" id="type" name="itemtype" value='Service' />  Service
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Minor Code<span className='text-danger'>*</span></label>
+                                            <div className="col form-group">
+                                                <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
+                                                    <option value='' hidden>select the minor Code</option>
+                                                    {
+                                                        data.map((item, index) =>
+                                                            <option key={index} value={`${item.account_type_code}^${item.account_name_code}`}>{item.account_name}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <label htmlFor="chartof_account" className="col-md-2 col-form-label font-weight-normal">Chart of Account<span className='text-danger'>*</span></label>
+                                            <div className="col form-group">
+                                                <select className="form-control col-md-4" id='chartof_account' >
+                                                    <option value='' hidden>Select the Chart of Account</option>
+                                                    {
+                                                        chartofaccountlist.map((item, index) =>
+                                                            <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span className='text-danger'>*</span></label>
+                                            <div className="col form-group">
+                                                <input type="text" className="form-control col-md-4" id='name' />
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
+                                            <div className="col form-group">
+                                                <span className='text-danger '>Make this a sub-account</span>
+                                                <input type="checkbox" id="checkboxgst" className='ml-4' style={{ height: '18px', width: '18px' }} />
+                                            </div>
+                                        </div>
+                                        <div className="form-row" >
+                                            <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
+                                            <div className="col form-group">
+                                                <select className="form-control col-md-4" id="unit">
+                                                    <option value='' hidden>Select Unit</option>
+                                                    {
+                                                        unitdata.map((item, index) => (
+                                                            <option value={item.unit_name} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="form-row" id="hsncodetoogle">
+                                            <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
+                                            <div className="col form-group">
+                                                <input className="form-control col-md-4" type="text" id="hsncode" />
+                                            </div>
+                                        </div>
+                                        <div className="form-row" id="saccodetoogle" style={{ display: "none" }} >
+                                            <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-normal" >SAC</label>
+                                            <div className="col form-group">
+                                                <input className="form-control col-md-4" type="text" id="saccode" />
+                                            </div>
+                                        </div>
+                                        <div className="form-row" >
+                                            <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
+                                            <div className="col form-group">
+                                                <select className="form-control col-md-4" id="taxpreference" onChange={handletaxprefrnce}>
+                                                    <option value='' hidden>Select Tax Preference</option>
+                                                    <option value='Taxable' >Taxable</option>
+                                                    <option value='Non-Taxable' >Non-Taxable</option>
+                                                    <option value='Out-of-Scope' >Out of Scope</option>
+                                                    <option value='Non-GST Supply' >Non-GST Supply </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="form-row col-md-6">
+                                            <div className="form-group d-flex col-md-4" ></div>
+                                            <div className="form-group d-flex col-md-3" >
+                                                <input className="form-control mt-2" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
+                                                <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
+                                            </div>
+                                            <div className="form-group d-flex ml-5">
+                                                <input className="form-control mt-2" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
+                                                <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
+                                            </div>
+                                        </div>
+                                        <div className="form-row" id="defaulttax" style={{ display: "none" }}>
+                                            <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span className='text-danger'>*</span></label>
+                                            <div className="col form-group">
+                                                <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
+                                                    if (e.target.value > 100) return false;
+                                                    setGstvaluecount(e.target.value)
+                                                }} />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </article>
+                                <div className="border-top card-footer">
+                                    <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
+                                    <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
                                 </div>
-                                <div className="form-row">
-                                    <label htmlFor="major_code" className="col-md-2 col-form-label font-weight-normal">Minor Code<span className='text-danger'>*</span></label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id='major_code' onChange={handlegetchartofaccount}>
-                                            <option value='' hidden>select the minor Code</option>
-                                            {
-                                                data.map((item, index) =>
-                                                    <option key={index} value={`${item.account_type_code}^${item.account_name_code}`}>{item.account_name}</option>)
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-row">
-                                    <label htmlFor="chartof_account" className="col-md-2 col-form-label font-weight-normal">Chart of Account<span className='text-danger'>*</span></label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id='chartof_account' >
-                                            <option value='' hidden>Select the Chart of Account</option>
-                                            {
-                                                chartofaccountlist.map((item, index) =>
-                                                    <option key={index} value={item.account_sub_name_code}>{item.account_sub_name}</option>)
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-row">
-                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Name<span className='text-danger'>*</span></label>
-                                    <div className="col form-group">
-                                        <input type="text" className="form-control col-md-4" id='name' />
-                                    </div>
-                                </div>
-                                <div className="form-row">
-                                    <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal"></label>
-                                    <div className="col form-group">
-                                        <span className='text-danger '>Make this a sub-account</span>
-                                        <input type="checkbox" id="checkboxgst" className='ml-4' style={{ height: '18px', width: '18px' }} />
-                                    </div>
-                                </div>
-                                <div className="form-row" >
-                                    <label htmlFor="unit" className="col-md-2 col-form-label font-weight-normal " >Unit</label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id="unit">
-                                            <option value='' hidden>Select Unit</option>
-                                            {
-                                                unitdata.map((item, index) => (
-                                                    <option value={item.unit_name} key={index} >{item.unit_name}&nbsp;&nbsp;({item.unit_symbol})</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-row" id="hsncodetoogle">
-                                    <label htmlFor="hsncode" className="col-md-2 col-form-label font-weight-normal" >HSN CODE</label>
-                                    <div className="col form-group">
-                                        <input className="form-control col-md-4" type="text" id="hsncode" />
-                                    </div>
-                                </div>
-                                <div className="form-row" id="saccodetoogle" style={{ display: "none" }} >
-                                    <label htmlFor="saccode" className="col-md-2 col-form-label font-weight-normal" >SAC</label>
-                                    <div className="col form-group">
-                                        <input className="form-control col-md-4" type="text" id="saccode" />
-                                    </div>
-                                </div>
-                                <div className="form-row" >
-                                    <label htmlFor="taxpreference" className="col-md-2 col-form-label font-weight-normal " >Tax Preference<span style={{ color: "rgba(210,0,0,0.7)" }}> *</span></label>
-                                    <div className="col form-group">
-                                        <select className="form-control col-md-4" id="taxpreference" onChange={handletaxprefrnce}>
-                                            <option value='' hidden>Select Tax Preference</option>
-                                            <option value='Taxable' >Taxable</option>
-                                            <option value='Non-Taxable' >Non-Taxable</option>
-                                            <option value='Out-of-Scope' >Out of Scope</option>
-                                            <option value='Non-GST Supply' >Non-GST Supply </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-row col-md-6">
-                                    <div className="form-group d-flex col-md-4" ></div>
-                                    <div className="form-group d-flex col-md-3" >
-                                        <input className="form-control mt-2" type="checkbox" id="item_name_purchase" style={{ height: "16px", width: "16px" }} />
-                                        <label htmlFor="item_name" className="col col-form-label font-weight-normal">Purchase</label>
-                                    </div>
-                                    <div className="form-group d-flex ml-5">
-                                        <input className="form-control mt-2" type="checkbox" id="item_name_sales" style={{ height: "16px", width: "16px" }} />
-                                        <label htmlFor="item_name" className="col col-form-label font-weight-normal">Sales</label>
-                                    </div>
-                                </div>
-                                <div className="form-row" id="defaulttax" style={{ display: "none" }}>
-                                    <label htmlFor="gstrate" className="col-md-2 col-form-label font-weight-normal">GST Rate(in %)<span className='text-danger'>*</span></label>
-                                    <div className="col form-group">
-                                        <input type="number" className="form-control col-md-4" id='gstrate' value={gstvaluecount} onChange={(e) => {
-                                            if (e.target.value > 100) return false;
-                                            setGstvaluecount(e.target.value)
-                                        }} />
-                                    </div>
-                                </div>
-                            </form>
-                        </article>
-                        <div className="border-top card-footer">
-                            <button type='submit' className="btn btn-success" onClick={handleClick}>Add</button>
-                            <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = "./ShowItem" }}>Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    : <LoadingPage />
+            }
             <Footer />
         </div>
     )

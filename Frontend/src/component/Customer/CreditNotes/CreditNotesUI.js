@@ -5,6 +5,7 @@ import { GetInvoicesByCustomer, filterInvoicebyCN, ActiveCustomer, ActiveLocatio
 import Select from 'react-select';
 import CNReport from './Report/CNReport'
 import CNDetails from './Report/CNDetails'
+import LoadingPage from '../../loadingPage/loadingPage';
 
 function CreditNotes() {
   const [loading, setLoading] = useState(false)
@@ -33,7 +34,6 @@ function CreditNotes() {
 
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'creditnotes')
       setLoading(true)
-      console.log(UserRights)
       if (UserRights.creditnotes_create === 'true') {
         document.getElementById('addcreditnotesbtn').style.display = 'block';
       }
@@ -205,11 +205,8 @@ function CreditNotes() {
             {/* ########################## Modal End ################################### */}
             <Footer />
           </>
-          :
-          (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-            <div className="spinner-border" role="status"> </div>
-          </div>)
-      }
+             : <LoadingPage />
+            }
     </div >
   )
 }

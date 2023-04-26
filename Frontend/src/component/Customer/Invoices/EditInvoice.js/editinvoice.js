@@ -3,6 +3,7 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import InvoicePreview from './PreviewEditInvoice';
 import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, Getfincialyearid, UpdateSaveInvoiceToPost, UpdateSaveSubInvoiceToPost, Updatefinancialcount } from '../../../../api/index'
+import LoadingPage from '../../../loadingPage/loadingPage';
 
 
 function EditInvoice() {
@@ -21,13 +22,13 @@ function EditInvoice() {
             setInvoice_detail(Invoiceresult[0])
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)
-            
+
             const activity_code = await GetAccountMinorCodeName(org, Invoiceresult[0].major)
             setActivity(activity_code)
             setLoading(true)
 
-            for(let i=0;i<result1.length;i++){
-                document.getElementById('FTdate').style.display='flex';
+            for (let i = 0; i < result1.length; i++) {
+                document.getElementById('FTdate').style.display = 'flex';
                 return 0;
             }
         }
@@ -36,10 +37,10 @@ function EditInvoice() {
 
 
 
-    const handlesavebtn = async (e) => {
+    const handlePostbtn = async (e) => {
         e.preventDefault();
-        const org = localStorage.getItem('Organisation')
         setLoading(false)
+        const org = localStorage.getItem('Organisation')
 
         const fin_year = await Getfincialyearid(org)
         const billing_add = invoice_detail.origin;
@@ -67,78 +68,15 @@ function EditInvoice() {
             setLoading(true)
 
         }
-
-
-        // const squ_no = invoiceprefix;
-        // const Invoicedate = document.getElementById('Invoicedate').value
-        // const ordernumber = document.getElementById('ordernumber').value
-        // const invoiceamt = grandtotal;
-        // const User_id = localStorage.getItem('User_id')
-        // const periodfrom = document.getElementById('fromdate').value;
-        // const periodto = document.getElementById('todate').value;
-        // const custid = document.getElementById('custname').value;
-        // const billsubtotal = totalamout
-        // const total_tax = Math.max(...totalgst)
-        // const remark = document.getElementById('custnotes').value;
-        // let location = document.getElementById('locationadd')
-        // location = location.options[location.selectedIndex].text;
-        // let consignee = document.getElementById('custname')
-        // consignee = consignee.options[consignee.selectedIndex].text;
-        // const currency_type = document.getElementById('currency').value
-        // const paymentterm = document.getElementById('paymentterm').value;
-        // const Duedate = document.getElementById('Duedate').value;
-        // const cgst = document.getElementById('cgstipt').value;
-        // const sgst = document.getElementById('sutgstipt').value;
-        // const utgst = document.getElementById('sutgstipt').value;
-        // const igst = document.getElementById('igstipt').value;
-        // const Major = document.getElementById('Activity').value;
-        // let billing_code = document.getElementById('Activity')
-        // billing_code = billing_code.options[billing_code.selectedIndex].text;
-
-        // let cgstamount = 0;
-        // let sgstamount = 0;
-        // let utgstamount = 0;
-        // let igstamount = 0;
-        // const taxableamt = gstvalue;
-
-        // if (igst > 0) {
-        //     igstamount = taxableamt
-
-        // } else {
-        //     cgstamount = taxableamt / 2
-        //     sgstamount = taxableamt / 2
-        //     utgstamount = taxableamt / 2
-
-        // }
-
-
-
-        // const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, Major, locationid, custid, billsubtotal,
-        //     total_tax, locationcustaddid, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-        //     paymentterm, Duedate, User_id)
-
-        // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
-
-        // amount.map(async (amt, index) => {
-        //     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, Major, minor[index], glcode[index], billing_code, Quantitys[index], rate[index], unit[index], amt, consignee, custaddress_state, custid, locationcustaddid, taxable[index], cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, User_id)
-
-        // })
-        // if (result) {
-        //     alert('Added')
-        //     window.location.reload();
-        // }
-
     }
 
     return (
         <>
             <div className="wrapper">
+                <Header />
                 {
                     loading ?
                         <>
-                          
-                            <Header />
-
                             <div className={`content-wrapper `} >
                                 <div className="container-fluid" >
                                     <h3 className="pt-3 px-5"> Edit Invoice</h3>
@@ -367,7 +305,7 @@ function EditInvoice() {
                                                     alert('Invoice Saved');
                                                     localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice'
                                                 }}>Save</button>
-                                            <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' onClick={handlesavebtn}>Post</button>
+                                            <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' onClick={handlePostbtn}>Post</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice' }}
                                                 className="btn ml-2 btn btn-primary">Cancel </button>
                                             <button id='previewbtn' type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
@@ -376,13 +314,12 @@ function EditInvoice() {
 
                                 </div>
                             </div>
-                            <Footer />
+
                         </>
                         :
-                        (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-                            <div className="spinner-border" role="status"> </div>
-                        </div>)
+                        <LoadingPage />
                 }
+                <Footer />
             </div>
         </>
     )

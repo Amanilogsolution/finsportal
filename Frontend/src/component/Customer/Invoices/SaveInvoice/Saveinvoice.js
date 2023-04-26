@@ -5,9 +5,11 @@ import { GetSaveInvoice, getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../../customTableStyle';
+import LoadingPage from '../../../loadingPage/loadingPage';
 
 
 const InvoiceSave = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
@@ -18,6 +20,7 @@ const InvoiceSave = () => {
       const org = localStorage.getItem('Organisation')
       const result = await GetSaveInvoice(org)
       setData(result)
+      setLoading(true)
       fetchRoles()
     }
 
@@ -42,7 +45,7 @@ const InvoiceSave = () => {
     }
   }
 
-  
+
   const columns = [
     {
       name: 'Vendor name',
@@ -100,32 +103,33 @@ const InvoiceSave = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"> </div>
-      </div>
       <Header />
-      <div className="content-wrapper ">
-        <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Invoice </button>
-        <div className="container-fluid">
-          <h3 className="py-4 ml-5"> Save Invoice </h3>
-          <div className="card w-100">
-            <article className="card-body py-1">
-              <DataTableExtensions
-                {...tableData}>
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
+      {
+        loading ?
+          <div className="content-wrapper ">
+            <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Invoices" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Invoice </button>
+            <div className="container-fluid">
+              <h3 className="py-4 ml-5"> Save Invoice </h3>
+              <div className="card w-100">
+                <article className="card-body py-1">
+                  <DataTableExtensions
+                    {...tableData}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       <Footer />
     </div>
   )

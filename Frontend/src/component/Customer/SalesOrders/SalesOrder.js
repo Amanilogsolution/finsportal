@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, InsertSalesorder, InsertSubSalesorder,showOrganisation,Getfincialyearid,Updatefinancialcount } from '../../../api/index'
+import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, InsertSalesorder, InsertSubSalesorder, showOrganisation, Getfincialyearid, Updatefinancialcount } from '../../../api/index'
 import Preview from './PreviewSalesOrder/PreviewSalesOrder';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 function SalesOrder() {
+    const [loading, setLoading] = useState(false)
+
     const [totalValues, setTotalValues] = useState([1])
     const [amount, setAmount] = useState()
     const [activecustomer, setActiveCustomer] = useState([])
@@ -28,9 +31,9 @@ function SalesOrder() {
         salesOrder_no: '',
         salesOrder_date: '',
         remark: '',
-        total_amt:'',
-        total_gst_rate:'',
-        total_gst_amt:''
+        total_amt: '',
+        total_gst_rate: '',
+        total_gst_amt: ''
     })
     const [itemsrowval, setItemsrowval] = useState([{
         activity: '',
@@ -47,7 +50,7 @@ function SalesOrder() {
         total: ''
     }]);
 
-    const [socount,setSocount] = useState(0)
+    const [socount, setSocount] = useState(0)
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -66,10 +69,10 @@ function SalesOrder() {
             setOrgdata(orgdata)
 
             const id = await Getfincialyearid(org)
-            console.log(id)
             const lastno = Number(id[0].so_count) + 1
-           document.getElementById('so_no').value = id[0].so_ser + id[0].year + String(lastno).padStart(5, '0')
-           setSocount(lastno)
+            setLoading(true)
+            document.getElementById('so_no').value = id[0].so_ser + id[0].year + String(lastno).padStart(5, '0')
+            setSocount(lastno)
 
             Todaydate()
         }
@@ -157,28 +160,29 @@ function SalesOrder() {
             document.getElementById('totalgrand').innerHTML = grandamt;
             document.getElementById('gstper').innerHTML = `${maxgst} %`
 
-        
-         
+
+
         }, 1000)
     }
     const handleChangeUnit = (index, e) => {
         itemsrowval[index].unit = e.target.value;
-        let cust_name =document.getElementById('cust_id')
+        let cust_name = document.getElementById('cust_id')
         cust_name = cust_name.options[cust_name.selectedIndex].text;
 
-        
+
         setSomajorData({
             customer_name: cust_name,
             cust_address: `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`,
             salesOrder_no: document.getElementById('so_no').value,
             salesOrder_date: document.getElementById('Sodate').value,
-            total_amt:document.getElementById('totalgrand').innerHTML,
+            total_amt: document.getElementById('totalgrand').innerHTML,
             total_gst_rate: document.getElementById('gstper').innerHTML,
-            total_gst_amt:document.getElementById('totalgst').innerHTML
+            total_gst_amt: document.getElementById('totalgst').innerHTML
         })
     }
 
     const handleClick = async (flag) => {
+        setLoading(false)
         const org = localStorage.getItem('Organisation');
         const cust_id = document.getElementById('cust_id').value;
         const cust_addressid = `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`
@@ -193,6 +197,7 @@ function SalesOrder() {
 
         if (!cust_id || !cust_addressid) {
             alert('Please Enter Mandatory Fields')
+            setLoading(true)
         }
         else {
 
@@ -201,17 +206,22 @@ function SalesOrder() {
             }
 
             const result = await InsertSalesorder(org, cust_id, cust_addressid, so_no, so_date, net_amt, gst_rate, gst_amt, total_amt, remark, User_id, flag)
-            await Updatefinancialcount(org, 'so_count', socount)
+
 
             itemsrowval.forEach(async (item) => {
                 const result1 = await InsertSubSalesorder(org, so_no, item.activity, item.items, item.Quantity, item.rate, item.taxPer, item.taxAmt, item.unit, item.amount, item.total, User_id, item.glcode, item.majorCode)
             })
 
             if (result == "Insert") {
+                if (flag !== 'Save') {
+                    await Updatefinancialcount(org, 'so_count', socount)
+                }
+                alert('Sales Order Added')
                 window.location.href = "/SaveSalesOrder"
             }
             else {
                 alert('Server Not Response')
+                setLoading(true)
             }
         }
 
@@ -246,186 +256,186 @@ function SalesOrder() {
     }
 
     const handleRemark = (e) => {
-        setSomajorData({...somajorData,remark: e.target.value})
+        setSomajorData({ ...somajorData, remark: e.target.value })
     }
     return (
-        <div>
+        <>
             <div className="wrapper">
-                <div className="preloader flex-column justify-content-center align-items-center">
-                    <div className="spinner-border" role="status"> </div>
-                </div>
                 <Header />
-                <div className="content-wrapper">
-                    <h3 className="px-5 pt-3">New Sales Order</h3>
-                    <div className="container-fluid">
-                        <div className="card">
-                            <article className="card-body">
-                                <br />
-                                <form autoComplete="off">
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
-                                        <div className="d-flex col-md">
-                                            <select
-                                                id="cust_id"
-                                                className="form-control col-md-5"
-                                                onChange={handleCustname}
-                                            >
-                                                <option value='' hidden>Select Customer</option>
-                                                {
-                                                    activecustomer.map((items, index) => (
-                                                        <option key={index} value={items.cust_id} >{items.cust_name}</option>
-                                                    ))
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >Customer Location <span style={{ color: "red" }}>*</span> </label>
-                                        <div className="d-flex col-md">
-                                            <button type="button" className="btn border col-md-5" data-toggle="modal" data-target="#custAddnmodal"
-                                                onClick={(e) => { e.preventDefault(); setTimeout(() => { document.getElementById('searchCustAddress').focus() }, 700) }}>
-                                                {
-                                                    custAddressLocation.length > 0 ? `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}` : 'Select Customer Address Location'
-                                                }
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="form-row mt-2">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >SO Number</label>
-                                        <div className="d-flex col-md">
-                                            <input type="text" className="form-control col-md-5" id="so_no" placeholder="SO-00001"  />
-                                        </div>
-                                    </div>
-                                    <div className="form-row mt-3">
-                                        <label className="col-md-2 col-form-label font-weight-normal" >SO Date </label>
-                                        <div className="d-flex col-md">
-                                            <input type="date" className="form-control col-md-5" id="Sodate" disabled />
-                                        </div>
-                                    </div>
-                                    <table className="table  table-striped table-bordered mt-3">
-                                        <thead className='text-center'>
-                                            <tr>
-                                                <th scope="col">Activity</th>
-                                                <th scope="col">Items</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">Rate</th>
-                                                <th scope="col">Tax Amt</th>
-                                                <th scope="col">Unit</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            {
-                                                totalValues.map((element, index) => (
-                                                    <tr key={index}>
-                                                        <td className='px-1' style={{ width: "200px" }}>
-                                                            <select id={`Activity-${index}`} className="form-control"
-                                                                onChange={(e) => handleChangeActivity(e, index)}>
-                                                                <option value='' hidden>Select Activity</option>
-                                                                {
-                                                                    Activeaccount.map((items, index) => (
-                                                                        <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
-                                                                    ))
-                                                                }
-                                                            </select>
-                                                        </td>
-                                                        <td className="col-md-2 px-1">
-                                                            {
-                                                                <select id={`items-${index}`} className='form-control col'
-                                                                    onChange={(e) => { handleChangeItems(e.target.value, index) }}
-                                                                >
-                                                                    <option value='' hidden > Select item</option>
-                                                                    {
-                                                                        itemtoggle[index] == true ?
-                                                                            itemsdata[index].map((item, index) => (
-                                                                                <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.chart_of_acct_id}`} >{item.item_name}</option>
-                                                                            ))
-                                                                            : null
-                                                                    }
-                                                                </select>
-                                                            }
-                                                        </td>
-                                                        <td className='px-1' style={{ width: "140px" }}>
-                                                            <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={(e) => { handleChangeQuantity_Rate(index) }} />
-                                                        </td>
-                                                        <td className='px-1' style={{ maxWidth: '10px' }}>
-                                                            <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
-                                                        </td>
-                                                        <td id="gst" className='col-md-1 px-1'>
-                                                            <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled />
-                                                        </td>
-                                                        <td className='px-1 col-md-2'>
-                                                            <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
-                                                                <option value='' hidden > Select Unit</option>
-                                                                {
-                                                                    activeunit.map((item, index) => (
-                                                                        <option key={index} value={item.unit_name}>{item.unit_name}</option>
-                                                                    ))
-                                                                }
-                                                            </select>
-                                                        </td>
-                                                        <td id="amountvalue" className='col-md-1 px-1'>
-                                                            <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
-                                                        </td>
-                                                        <td id="Totalsum" className='col-md-1 px-1'>
-                                                            <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-
-                                        </tbody>
-                                    </table>
-                                    <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                    <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
-
-                                    <div className='d-flex justify-content-between'>
-                                        <div style={{ width: "40%" }}>
-                                            <div className="form mt-3">
-                                                <label className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
+                {
+                    loading ?
+                        <div className="content-wrapper">
+                            <h3 className="px-5 pt-3">New Sales Order</h3>
+                            <div className="container-fluid">
+                                <div className="card">
+                                    <article className="card-body">
+                                        <form autoComplete="off">
+                                            <div className="form-row">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <textarea type="text" className="form-control " rows="2" id="remark" placeholder="Looking forward for your bussiness " onBlur={handleRemark}></textarea>
+                                                    <select
+                                                        id="cust_id"
+                                                        className="form-control col-md-5"
+                                                        onChange={handleCustname}
+                                                    >
+                                                        <option value='' hidden>Select Customer</option>
+                                                        {
+                                                            activecustomer.map((items, index) => (
+                                                                <option key={index} value={items.cust_id} >{items.cust_name}</option>
+                                                            ))
+                                                        }
+                                                    </select>
                                                 </div>
-                                                <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
                                             </div>
-                                        </div>
-                                        <div style={{ width: "55%", marginLeft: "3px", padding: "20px", backgroundColor: "#eee", borderRadius: "7px" }}>
-                                            <table style={{ width: "100%" }}>
-                                                <tbody>
+
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Location <span style={{ color: "red" }}>*</span> </label>
+                                                <div className="d-flex col-md">
+                                                    <button type="button" className="btn border col-md-5" data-toggle="modal" data-target="#custAddnmodal"
+                                                        onClick={(e) => { e.preventDefault(); setTimeout(() => { document.getElementById('searchCustAddress').focus() }, 700) }}>
+                                                        {
+                                                            custAddressLocation.length > 0 ? `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}` : 'Select Customer Address Location'
+                                                        }
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >SO Number</label>
+                                                <div className="d-flex col-md">
+                                                    <input type="text" className="form-control col-md-5" id="so_no" placeholder="SO-00001" disabled />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >SO Date </label>
+                                                <div className="d-flex col-md">
+                                                    <input type="date" className="form-control col-md-5" id="Sodate" disabled />
+                                                </div>
+                                            </div>
+                                            <table className="table  table-striped table-bordered mt-3">
+                                                <thead className='text-center'>
                                                     <tr>
-                                                        <td>Sub Total</td>
-                                                        <td></td>
-                                                        <td id="subTotal">0.00</td>
+                                                        <th scope="col">Activity</th>
+                                                        <th scope="col">Items</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Rate</th>
+                                                        <th scope="col">Tax Amt</th>
+                                                        <th scope="col">Unit</th>
+                                                        <th scope="col">Amount</th>
+                                                        <th scope="col">Total</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Total GST</td>
-                                                        <td id="gstper"> </td>
-                                                        <td id="totalgst">0.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><h3>Total(₹)</h3></td>
-                                                        <td></td>
-                                                        <td id="totalgrand">0.00</td>
-                                                    </tr>
+                                                </thead>
+                                                <tbody >
+                                                    {
+                                                        totalValues.map((element, index) => (
+                                                            <tr key={index}>
+                                                                <td className='px-1' style={{ width: "200px" }}>
+                                                                    <select id={`Activity-${index}`} className="form-control"
+                                                                        onChange={(e) => handleChangeActivity(e, index)}>
+                                                                        <option value='' hidden>Select Activity</option>
+                                                                        {
+                                                                            Activeaccount.map((items, index) => (
+                                                                                <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td className="col-md-2 px-1">
+                                                                    {
+                                                                        <select id={`items-${index}`} className='form-control col'
+                                                                            onChange={(e) => { handleChangeItems(e.target.value, index) }}
+                                                                        >
+                                                                            <option value='' hidden > Select item</option>
+                                                                            {
+                                                                                itemtoggle[index] == true ?
+                                                                                    itemsdata[index].map((item, index) => (
+                                                                                        <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.chart_of_acct_id}`} >{item.item_name}</option>
+                                                                                    ))
+                                                                                    : null
+                                                                            }
+                                                                        </select>
+                                                                    }
+                                                                </td>
+                                                                <td className='px-1' style={{ width: "140px" }}>
+                                                                    <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={(e) => { handleChangeQuantity_Rate(index) }} />
+                                                                </td>
+                                                                <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                    <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                </td>
+                                                                <td id="gst" className='col-md-1 px-1'>
+                                                                    <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled />
+                                                                </td>
+                                                                <td className='px-1 col-md-2'>
+                                                                    <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
+                                                                        <option value='' hidden > Select Unit</option>
+                                                                        {
+                                                                            activeunit.map((item, index) => (
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td id="amountvalue" className='col-md-1 px-1'>
+                                                                    <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
+                                                                </td>
+                                                                <td id="Totalsum" className='col-md-1 px-1'>
+                                                                    <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    }
+
                                                 </tbody>
                                             </table>
-                                        </div>
-                                    </div>
-                                </form>
-                            </article>
+                                            <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
+                                            <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
 
-                            <div className=" card-footer border border-top">
-                                <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleClick("Save") }}> Save </button>
-                                <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleClick("Post") }}>  Post </button>
-                                <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn ml-2 btn-secondary">  Cancel </button>
-                                <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#salesOrderPreview" >Preview SO</button>
+                                            <div className='d-flex justify-content-between'>
+                                                <div style={{ width: "40%" }}>
+                                                    <div className="form mt-3">
+                                                        <label className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
+                                                        <div className="d-flex col-md">
+                                                            <textarea type="text" className="form-control " rows="2" id="remark" placeholder="Looking forward for your bussiness " onBlur={handleRemark}></textarea>
+                                                        </div>
+                                                        <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
+                                                    </div>
+                                                </div>
+                                                <div style={{ width: "55%", marginLeft: "3px", padding: "20px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                                    <table style={{ width: "100%" }}>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Sub Total</td>
+                                                                <td></td>
+                                                                <td id="subTotal">0.00</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total GST</td>
+                                                                <td id="gstper"> </td>
+                                                                <td id="totalgst">0.00</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><h3>Total(₹)</h3></td>
+                                                                <td></td>
+                                                                <td id="totalgrand">0.00</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </article>
+
+                                    <div className=" card-footer border border-top">
+                                        <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleClick("Save") }}> Save </button>
+                                        <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleClick("Post") }}>  Post </button>
+                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn ml-2 btn-secondary">  Cancel </button>
+                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#salesOrderPreview" >Preview SO</button>
+                                    </div>
+                                    <Preview somajorData={somajorData} items={itemsrowval} org={orgdata} />
+                                </div>
                             </div>
-                            <Preview somajorData={somajorData} items={itemsrowval} org={orgdata}/>
                         </div>
-                    </div>
-                </div>
+                        : <LoadingPage />
+                }
                 <Footer />
             </div>
 
@@ -478,7 +488,7 @@ function SalesOrder() {
             {/* Address Modal Stop */}
 
 
-        </div>
+        </>
     )
 }
 

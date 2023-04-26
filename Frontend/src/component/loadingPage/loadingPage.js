@@ -1,16 +1,14 @@
-import './loadingpage.css'
+import ImageUrl from '../../images/Spinner.gif'
 
 const LoadingPage = () => {
     return (
         <>
-            <div id='outerloadingdiv position-relative' >
-                <div id='innerloadingdiv position-absolute d-flex flex-column align-items-center' >
-                    <div className="lds-spinner">
-                        <div></div><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div></div>
-                    <h1>Wait a sec.</h1>
+            <div className='d-flex flex-column justify-content-center ' style={{ height: '90vh' }}>
+                <div className='d-flex flex-column justify-content-center align-items-center '>
+                    <img src={ImageUrl} alt='Loading Image ' style={{ margin: "auto" }} />
+                    <h5>Loading...</h5>
                 </div>
+
             </div>
         </>
     )

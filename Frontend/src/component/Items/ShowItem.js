@@ -5,9 +5,11 @@ import { TotalItems, deleteItems, getUserRolePermission } from '../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../customTableStyle';
+import LoadingPage from '../loadingPage/loadingPage';
 
 
 const ShowItem = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [userRightsData, setUserRightsData] = useState([]);
   const [financialstatus, setFinancialstatus] = useState('Lock')
@@ -18,6 +20,7 @@ const ShowItem = () => {
       const org = localStorage.getItem('Organisation')
       const result = await TotalItems(org)
       setData(result)
+      setLoading(true)
       fetchRoles();
     }
 
@@ -58,7 +61,7 @@ const ShowItem = () => {
           return <p title='Edit Item is Lock'>{row.item_name}</p>
         }
         else {
-      
+
           if (!userRightsData) {
             fetchRoles()
           }
@@ -105,9 +108,7 @@ const ShowItem = () => {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) =>
-
-      {
+      cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
@@ -116,7 +117,7 @@ const ShowItem = () => {
           )
         }
         else {
-        
+
           if (!userRightsData) {
             fetchRoles()
             window.location.reload()
@@ -160,37 +161,37 @@ const ShowItem = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"> </div>
-      </div>
+      
       <Header />
-
-      <div className="content-wrapper">
-        <div className='d-flex justify-content-between pt-3 px-4 '>
-          <h3 className="px-5">Total Items</h3>
-          <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
-        </div>
-        <div className="container-fluid mt-2">
-          <div className="card mb-2 w-100">
-            <article className={`card-body py-0`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
+      {
+        loading ?
+          <div className="content-wrapper">
+            <div className='d-flex justify-content-between pt-3 px-4 '>
+              <h3 className="px-5">Total Items</h3>
+              <button type="button " id='additemsbtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddItem" }} className="btn btn-primary mx-4">Add Item</button>
+            </div>
+            <div className="container-fluid mt-2">
+              <div className="card mb-2 w-100">
+                <article className={`card-body py-0`}>
+                  <DataTableExtensions
+                    {...tableData}
+                  >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-
+          : <LoadingPage />
+      }
       <Footer />
     </div>
   )
