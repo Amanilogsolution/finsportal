@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './creditnote.css'
-import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice, Getfincialyearid ,ChangeCNStatus,UpdateInvoiceCNFlag} from '../../../api/index'
+import { getCNData, GetSubInvoice, InsertCnSub, SelectCnSubDetails, locationAddress, GetInvoice, Getfincialyearid, ChangeCNStatus, UpdateInvoiceCNFlag } from '../../../api/index'
 import CreditNotePreview from './CreditNotePreview/CreditNotePreview'
 
 function CreditNotes() {
@@ -25,7 +25,6 @@ function CreditNotes() {
         sub_id: ''
     }])
     const [subTotal, setSubTotal] = useState([])
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,10 +75,10 @@ function CreditNotes() {
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
             setTimeout(() => {
-            document.getElementById(`PassAmount${index}`).value = ''
-            document.getElementById(`AmountLeft${index}`).innerHTML = AmtBalance
-            document.getElementById('totalCnAmt').innerHTML = 0
-        }, 1000)
+                document.getElementById(`PassAmount${index}`).value = ''
+                document.getElementById(`AmountLeft${index}`).innerHTML = AmtBalance
+                document.getElementById('totalCnAmt').innerHTML = 0
+            }, 1000)
             return
         } else {
             setTimeout(() => {
@@ -108,22 +107,18 @@ function CreditNotes() {
         const org = localStorage.getItem('Organisation')
         const userid = localStorage.getItem('User_id')
         const remark = document.getElementById('Remark').value
-
         let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
         const InvoiceFlag = await UpdateInvoiceCNFlag(org, '3', data.total_cn_amt, data.inv_no)
 
         var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {
             resultAddedCN = await InsertCnSub(org, item, userid, remark)
-            console.log(ChargeCodeSub.length-1,index)
-            if(ChargeCodeSub.length-1 == index){
+            console.log(ChargeCodeSub.length - 1, index)
+            if (ChargeCodeSub.length - 1 == index) {
                 let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
-                             window.location.href = "./CreditNotesUI"
-
+                window.location.href = "./CreditNotesUI"
             }
         })
-
-      
     }
 
     const apiCAll = (e) => {

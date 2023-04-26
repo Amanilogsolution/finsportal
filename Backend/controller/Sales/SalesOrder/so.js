@@ -121,4 +121,28 @@ const EditSalesOrder = async (req, res) => {
     }
 }
 
-module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder }
+const filterSO = async (req, res) => {
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const cust_id = req.body.cust_id;
+    const po_location = req.body.po_location;
+    console.log(org,startDate,lastDate,cust_id)
+
+    try {
+        await sql.connect(sqlConfig)
+        if (cust_id === 'all') {
+            const result = await sql.query(`select *,convert(varchar(15),so_date,121) as Joindate from ${org}.dbo.tbl_sales_order tso where so_date between '${startDate}' and '${lastDate}' and flagsave='post'`)
+            res.send(result.recordset)
+        }
+        else {
+            const result = await sql.query(`select *,convert(varchar(15),so_date,121) as Joindate from ${org}.dbo.tbl_sales_order tso where so_date between '${startDate}' and '${lastDate}' and cust_id = '${cust_id}' and flagsave='post'`)
+            res.send(result.recordset)
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder,filterSO }

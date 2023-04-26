@@ -154,8 +154,7 @@ const filterInvoicebyCN = async (req, res) => {
     const custid = req.body.custid;
     const locationid = req.body.locationid;
     const invoice_no = req.body.invoice_no;
-    console.log(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-    and '${lastDate}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post' and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
+  
     try {
         await sql.connect(sqlConfig)
         if (custid === 'all') {

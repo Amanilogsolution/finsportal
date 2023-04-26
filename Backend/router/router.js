@@ -340,6 +340,8 @@ router.post('/filterbillreport', BillController.FilterBillReport)
 router.post('/GetSaveBill', BillController.getSaveBill)
 router.post('/GetBillVendorid', BillController.GetBillVendorID)
 router.post('/filterInvoicebyDN', BillController.filterInvoicebyDN)
+router.post('/updatebilldnflag', BillController.UpdateBillDNFlag)
+
 
 router.post('/adduserrole', UserRightsController.AddUserRole)
 router.post('/getuserrole', UserRightsController.getUserRole)
@@ -363,6 +365,8 @@ router.post('/changecstatus', CNController.ChangeCNStatus)
 router.post('/getcndata', CNController.getCNData)
 router.post('/insertcnsub', CNController.InsertCnSub)
 router.post('/selectcnsubdetails', CNController.SelectCnSubDetails)
+router.post('/filtercn', CNController.filterCN)
+
 
 router.post('/insertdebitnote', DNController.InsertDebitNote)
 router.post('/alldndata', DNController.AllDNData)
@@ -371,6 +375,8 @@ router.post('/getdndata', DNController.getDNData)
 router.post('/updatedebitnote', DNController.UpdateDebitNote)
 router.post('/insertsubdebitnote', DNController.InsertSubDebitNote)
 router.post('/selectdnsubdetails', DNController.SelectDnSubDetails)
+router.post('/filterdn', DNController.filterDN)
+
 
 router.post('/insertsalesorder', somasterController.InsertSalesorder)
 router.post('/getsaveso', somasterController.getSaveSO)
@@ -378,6 +384,8 @@ router.post('/insertsubsalesorder', somasterController.InsertSubSalesorder)
 router.post('/getsodetails', somasterController.getSoDetails)
 router.post('/getsubsodetails', somasterController.getSubSoDetails)
 router.post('/editsalesorder', somasterController.EditSalesOrder)
+router.post('/filterso', somasterController.filterSO)
+
 
 
 
