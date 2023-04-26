@@ -145,4 +145,29 @@ const SelectDnSubDetails = async (req,res) => {
     }
 }
 
-module.exports = {InsertDebitNote,AllDNData,ChangeDNStatus,getDNData,UpdateDebitNote,InsertSubDebitNote,SelectDnSubDetails}
+const filterDN = async (req, res) => {
+    const org = req.body.org;
+    const startDate = req.body.startDate;
+    const lastDate = req.body.lastDate;
+    const vendid = req.body.vendid;
+    const locationid = req.body.locationid;
+
+    try {
+        await sql.connect(sqlConfig)
+        if (vendid === 'all') {
+            const result = await sql.query(`select *,convert(varchar(15),cn_date,121) as Joindate from ${org}.dbo.tbl_debitnote with (nolock) where dn_date between '${startDate}' 
+            and '${lastDate}' or location ='${locationid}'  order by sno desc; `)
+            res.send(result.recordset)
+        }
+        else {
+            const result = await sql.query(`select *,convert(varchar(15),cn_date,121) as Joindate from ${org}.dbo.tbl_debitnote with (nolock) where dn_date between '${startDate}' 
+            and '${lastDate}' and vend_id='${vendid}' or location ='${locationid}'  order by sno desc;`)
+            res.send(result.recordset)
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = {InsertDebitNote,AllDNData,ChangeDNStatus,getDNData,UpdateDebitNote,InsertSubDebitNote,SelectDnSubDetails,filterDN}

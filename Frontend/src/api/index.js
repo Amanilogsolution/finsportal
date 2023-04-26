@@ -1561,6 +1561,13 @@ export const SelectCnSubDetails = async (org, cn_no, inv_no, topcount) => {
     return axios.post(url, { org, cn_no, inv_no, topcount }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const filterCN = async (org, startDate, lastDate, custid,locationid) => {
+    const url = `http://localhost:3008/api/filtercn`
+    return axios.post(url, { org, startDate, lastDate, custid,locationid }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
 
 
 export const InsertDebitNote = async (org, dn_no, dn_date, total_dn_amt, remark, bill_no, voucher_no, user_id) => {
@@ -1601,6 +1608,13 @@ export const SelectDnSubDetails = async (org, dn_no, voucher_no, topcount) => {
     const url = `http://localhost:3008/api/selectdnsubdetails`
     return axios.post(url, { org, dn_no, voucher_no, topcount }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const filterDN = async (org, startDate, lastDate, vendid,locationid) => {
+    const url = `http://localhost:3008/api/filterdn`
+    return axios.post(url, { org, startDate, lastDate, vendid,locationid }).then(response => response.data).catch(error => console.log(error));
+}
+
+
 
 export const InsertSalesorder = async (org,cust_id,cust_addressid,so_no,so_date,net_amt,gst_rate,gst_amt,total_amt,remark,User_id,flagsave) => {
     const url = `http://localhost:3008/api/insertsalesorder`

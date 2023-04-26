@@ -190,7 +190,6 @@ const UpdateBillDNFlag = async(req,res) =>{
     const dnflag = req.body.dnflag;
     const dn_amt = req.body.dn_amt;
     const vourcher_no = req.body.vourcher_no;
-    console.log(org,dnflag,dn_amt,vourcher_no)
 
     try{
         await sql.connect(sqlConfig)
@@ -208,4 +207,4 @@ const UpdateBillDNFlag = async(req,res) =>{
 
 }
 
-module.exports = { InsertBill, FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 
+module.exports = { InsertBill,FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 

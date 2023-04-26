@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO,filterSO } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO,filterSO,filterCN,filterDN } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
+import CNReport from './Reports/CNReport';
+import DNReport from './Reports/DNReport';
 
 const Reportdata = () => {
   const [loading, setLoading] = useState(false)
@@ -99,16 +101,25 @@ const Reportdata = () => {
       const locationid = document.getElementById('location').value;
       setVendcustname(Customer.options[Customer.selectedIndex].text)
       const result = await filterSO(org, fromdate, todate, Customerid)
-      console.log(result)
       setData(result)
-
-
-
     }
     else if (report_type === 'CN') {
       const Customer = document.getElementById('customer');
       const Customerid = Customer.value;
       const locationid = document.getElementById('location').value;
+
+      setVendcustname(Customer.options[Customer.selectedIndex].text)
+      const result = await filterCN(org, fromdate, todate, Customerid,locationid)
+      setData(result)
+    }
+    else if(report_type === 'DN'){
+      const vend = document.getElementById('vendor');
+      const vendid = vend.value;
+      const locationid = document.getElementById('location').value;
+      setVendcustname(vend.options[vend.selectedIndex].text)
+      const result = await filterDN(org, fromdate, todate, vendid,locationid)
+      setData(result)
+
     }
 
   }
@@ -169,7 +180,9 @@ const Reportdata = () => {
                             <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
                               ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'PO') ?
                                 <POReport displaydata={data} name={vendcustname} /> :(document.getElementById('report_type').value == 'SO')?
-                                <SOReport displaydata={data} name={vendcustname}/> : null)
+                                <SOReport displaydata={data} name={vendcustname}/> : (document.getElementById('report_type').value == 'CN')?
+                                <CNReport displaydata={data} name={vendcustname}/> :(document.getElementById('report_type').value == 'DN')?
+                                <DNReport displaydata={data} name={vendcustname}/> : null)
                           : <h3 className='text-center'>Filter to show data</h3>
                       }
                     </form>
