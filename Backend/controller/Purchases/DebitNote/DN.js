@@ -75,7 +75,6 @@ const ChangeDNStatus = async (req, res) => {
     const org = req.body.org;
     const status = req.body.status;
     const sno = req.body.sno;
-    
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_debitnote set dn_flag='${status}' where sno = ${sno} `)
@@ -152,15 +151,16 @@ const filterDN = async (req, res) => {
     const vendid = req.body.vendid;
     const locationid = req.body.locationid;
 
+
     try {
         await sql.connect(sqlConfig)
         if (vendid === 'all') {
-            const result = await sql.query(`select *,convert(varchar(15),cn_date,121) as Joindate from ${org}.dbo.tbl_debitnote with (nolock) where dn_date between '${startDate}' 
+            const result = await sql.query(`select *,convert(varchar(15),dn_date,121) as Joindate from ${org}.dbo.tbl_debitnote with (nolock) where dn_date between '${startDate}' 
             and '${lastDate}' or location ='${locationid}'  order by sno desc; `)
             res.send(result.recordset)
         }
         else {
-            const result = await sql.query(`select *,convert(varchar(15),cn_date,121) as Joindate from ${org}.dbo.tbl_debitnote with (nolock) where dn_date between '${startDate}' 
+            const result = await sql.query(`select *,convert(varchar(15),dn_date,121) as Joindate from ${org}.dbo.tbl_debitnote with (nolock) where dn_date between '${startDate}' 
             and '${lastDate}' and vend_id='${vendid}' or location ='${locationid}'  order by sno desc;`)
             res.send(result.recordset)
         }
