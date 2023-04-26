@@ -82,6 +82,7 @@ const filterPO = async (req, res) => {
     const vendor_id = req.body.vendor_id;
     const po_location = req.body.po_location;
 
+    console.log(`select * from ${org}.dbo.tbl_purchase_order tpo where po_date between '${startDate}' and '${lastDate}' and po_location='${po_location}' and flagsave='post'`)
     try {
         await sql.connect(sqlConfig)
         if (vendor_id === 'all') {

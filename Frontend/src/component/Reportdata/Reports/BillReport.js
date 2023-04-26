@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import BillPreview from '../Preview/BillPreview'
+import BillPreview from '../Preview/BillPreview/BillPreview'
 
 
 const BillReport = (props) => {

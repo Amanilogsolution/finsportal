@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react'
-import '../../Vendor/Bills/PreviewBill/PreviewBill'
+import '../../../Vendor/Bills/PreviewBill/PreviewBill'
 import jsPDF from "jspdf";
 import { memo } from "react";
-import { GetBillData, GetSubBillItems,showOrganisation } from '../../../api'
+import { GetBillData, GetSubBillItems,showOrganisation } from '../../../../api'
 
 
 const BillPreview = (props) => {

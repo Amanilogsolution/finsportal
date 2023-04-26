@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import POPreview from '../Preview/POPreview';
+import POPreview from '../Preview/POPreview/POPreview';
 
 
 

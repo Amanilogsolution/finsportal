@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import './PreviewInvoice.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, showOrganisation } from '../../../api/index'
+import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, showOrganisation } from '../../../../api/index'
 
 
 const InvoicePreview = () => {
