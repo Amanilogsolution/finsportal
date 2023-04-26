@@ -40,7 +40,6 @@ const POReport = (props) => {
             cell: (row) => [
                 <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault();setPonum(row.po_number) ; setTooglecomponent(true) }} className="btn btn-success ml-2"
                     data-toggle="modal" data-target="#exampleModalCenter" >PO Preview </button>
-
             ]
         }
 
@@ -62,7 +61,6 @@ const POReport = (props) => {
         <div>
 
             <div>
-
                 <h4 className='text-center'>PO Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
                 {

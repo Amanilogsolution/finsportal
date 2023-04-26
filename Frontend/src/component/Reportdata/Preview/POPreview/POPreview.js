@@ -5,9 +5,10 @@ import jsPDF from "jspdf";
 import { getPoDetailsPreview, getSubPoDetailsPreview, showOrganisation, ActiveSelectedVendor, showLocation } from '../../../../api/index'
 import LoadingPage from '../../../loadingPage/loadingPage';
 
-const POPreview = (props) => {
+const POPreview = ({ponum}) => {
     const pdfRef = useRef(null);
     const [loading, setLoading] = useState(false)
+
     const [data, setData] = useState({})
     const [subpo, setSubPo] = useState([])
     const [orgdata, setOrgdata] = useState([]);
@@ -16,14 +17,14 @@ const POPreview = (props) => {
 
     useEffect(() => {
         const fetch = async () => {
-            const preview = props
+            const preview = ponum
             const org = localStorage.getItem('Organisation')
 
             const result = await getPoDetailsPreview(org, preview)
             setData(result[0])
             const result1 = await getSubPoDetailsPreview(org, preview)
-            console.log(result1)
             setSubPo(result1)
+
             const orgdata = await showOrganisation(localStorage.getItem('Organisation'))
             setOrgdata(orgdata)
 
@@ -36,7 +37,7 @@ const POPreview = (props) => {
         }
         fetch()
 
-    }, [localStorage.getItem('preview')])
+    }, [ponum])
 
     const print = (e) => {
         e.preventDefault();
@@ -66,8 +67,8 @@ const POPreview = (props) => {
                                                 <img src={orgdata.org_logo} alt='Organisation Logo' />
                                             </div>
                                             <div className="po_company_details">
-                                                <h3>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
-                                                <p>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
+                                                <h3 className='my-2'>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
+                                                <p className='mb-0'>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
                                                 <p>GSTIN : {orgdata.org_gst}</p>
                                             </div>
                                         </div>
