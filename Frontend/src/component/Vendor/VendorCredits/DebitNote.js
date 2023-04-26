@@ -5,6 +5,7 @@ import { GetBillVendorID, filterInvoicebyDN, ActiveVendor, ActiveLocationAddress
 import Select from 'react-select';
 import CNReport from './Report/CNReport'
 import CNDetails from './Report/CNDetails'
+import LoadingPage from '../../loadingPage/loadingPage';
 
 function DebitNotes() {
   const [loading, setLoading] = useState(false)
@@ -23,7 +24,6 @@ function DebitNotes() {
     const fetchData = async () => {
       const org = localStorage.getItem('Organisation')
 
-
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
 
@@ -31,10 +31,9 @@ function DebitNotes() {
       setLocationlist(location)
       const CNdetails = await AllDNData(org)
       setCndata(CNdetails)
-      Todaydate()
       setLoading(true)
+      Todaydate()
       const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'debitnote')
-      console.log(UserRights)
       if (UserRights.debitnote_create === 'true') {
         document.getElementById('gendnbtn').style.display = 'block'
       }
@@ -58,9 +57,7 @@ function DebitNotes() {
 
   const handleCustomer = async (e) => {
     setcustname(e.value)
-    console.log(e.value)
     const result = await GetBillVendorID(localStorage.getItem('Organisation'), e.value)
-    console.log(result)
     setCustInvoices(result)
   }
 
@@ -107,7 +104,7 @@ function DebitNotes() {
               <div className="container-fluid">
                 <div className='d-flex justify-content-between px-3 py-3'>
                   <h3 className="ml-5">Debit Notes</h3>
-                  <button type="button" id='gendnbtn' style={{display:'none'}} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
+                  <button type="button" id='gendnbtn' style={{ display: 'none' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                     <i className="fa fa-filter" aria-hidden="true"></i> Generate Debit Note</button>
                 </div>
                 <div className="card w-100">
@@ -195,13 +192,10 @@ function DebitNotes() {
             </div>
 
             {/* ########################## Modal End ################################### */}
-            <Footer />
           </>
-          :
-          (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-            <div className="spinner-border" role="status"> </div>
-          </div>)
+          : <LoadingPage />
       }
+      <Footer />
     </div >
   )
 }

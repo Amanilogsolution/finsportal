@@ -94,11 +94,10 @@ export default function SavePurchaseOrder() {
 
   return (
     <>
-      {
-        loading ?
-          <div className="wrapper">
-
-            <Header />
+      <div className="wrapper">
+        <Header />
+        {
+          loading ?
             <div className={`content-wrapper `}>
               <button type="button " id='addpobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./PurchaseOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  PO</button>
               <div className="container-fluid">
@@ -120,10 +119,11 @@ export default function SavePurchaseOrder() {
                 </div>
               </div>
             </div>
-            <Footer />
-          </div>
-          : <LoadingPage />
-      }
+            : <LoadingPage />
+        }
+        <Footer />
+      </div>
+
     </>
   )
 }

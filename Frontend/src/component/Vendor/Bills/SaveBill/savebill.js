@@ -5,9 +5,11 @@ import { GetSaveBill, getUserRolePermission } from '../../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../../customTableStyle';
+import LoadingPage from '../../../loadingPage/loadingPage';
 
 
 const BillSave = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
 
@@ -17,6 +19,7 @@ const BillSave = () => {
 
       const result = await GetSaveBill(org)
       setData(result)
+      setLoading(true)
       fetchRoles()
     }
 
@@ -90,8 +93,9 @@ const BillSave = () => {
       sortable: false,
       selector: row => row.null,
       cell: (row) => [
-         <button  type="button" onClick={()=> { 
-          window.location.href="/EditBill";localStorage.setItem('vourcher_no',row.vourcher_no)}}  className="btn btn-danger">Edit</button>
+        <button type="button" onClick={() => {
+          window.location.href = "/EditBill"; localStorage.setItem('vourcher_no', row.vourcher_no)
+        }} className="btn btn-danger">Edit</button>
       ]
     }
     ,
@@ -114,31 +118,32 @@ const BillSave = () => {
   return (
     <>
       <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
         <Header />
-        <div className={`content-wrapper `}>
-          <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Bills" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add Bill </button>
-          <div className="container-fluid">
-            <h3 className="py-4 ml-5"> Save Bill </h3>
-            <div className="card" >
-              <article className={`card-body py-1`}>
-                <DataTableExtensions {...tableData}>
-                  <DataTable
-                    noHeader
-                    defaultSortField="id"
-                    defaultSortAsc={false}
-                    pagination
-                    dense
-                    highlightOnHover
-                    customStyles={customStyles}
-                  />
-                </DataTableExtensions>
-              </article>
+        {
+          loading ?
+            <div className={`content-wrapper `}>
+              <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Bills" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add Bill </button>
+              <div className="container-fluid">
+                <h3 className="py-4 ml-5"> Save Bill </h3>
+                <div className="card" >
+                  <article className={`card-body py-1`}>
+                    <DataTableExtensions {...tableData}>
+                      <DataTable
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        pagination
+                        dense
+                        highlightOnHover
+                        customStyles={customStyles}
+                      />
+                    </DataTableExtensions>
+                  </article>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+            : <LoadingPage />
+        }
         <Footer />
       </div>
     </>

@@ -13,10 +13,9 @@ const CNDetails = (props) => {
         const useremail = document.getElementById('userid').value
         const userpassword = document.getElementById('userPassword').value
         const result = await CheckLoginUser(useremail, userpassword)
-        console.log(result)
+        
         if (result === 'Confirmed') {
             const status = await ChangeDNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
-            console.log(status)
             if (status) {
                 window.location.reload()
             }
