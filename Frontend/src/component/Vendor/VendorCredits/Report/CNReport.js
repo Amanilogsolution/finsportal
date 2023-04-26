@@ -34,9 +34,9 @@ const CNReport = (props) => {
         const total_cn_amt = document.getElementById('total_cn_amt').value
         const result = await InsertDebitNote(org, dn_no, date, total_cn_amt, remark, cndetails.bill_no, cndetails.vourcher_no, userid)
         await Updatefinancialcount(org, 'dn_count', DNcount)
+        const DnFlag =await UpdateBillDNFlag(org,'1',total_cn_amt,cndetails.vourcher_no)
 
         if(result==='Added'){
-            const DnFlag =await UpdateBillDNFlag(org,'1',total_cn_amt,cndetails.vourcher_no)
             window.location.reload()
         }
         else {
