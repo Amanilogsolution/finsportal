@@ -42,6 +42,7 @@ function CreditNotes() {
             setInvoiceData(Invoice[0])
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
+            console.log(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)

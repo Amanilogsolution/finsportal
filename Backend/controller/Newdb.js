@@ -1184,6 +1184,24 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 status varchar(30) NULL,
                 sub_so_uuid varchar(300) NULL
                 ); 
+                CREATE TABLE ${dbname}.dbo.tbl_recurring_freq (
+                    sno bigint IDENTITY(1,1) NOT NULL,
+                    recurring_type varchar(100) NULL,
+                    recurring_month varchar(100) NULL,
+                    remark varchar(100) NULL,
+                    
+                    add_date_time datetime NULL,
+                    add_user_name varchar(50) NULL,
+                    add_system_name varchar(50) NULL,
+                    add_ip_address varchar(30) NULL,
+                    
+                    update_date_time datetime NULL,
+                    update_user_name varchar(50) NULL,
+                    update_system_name varchar(100) NULL,
+                    update_ip_address varchar(50) NULL,
+                    status varchar(30) NULL,
+                    recurring_freq_uuid varchar(300) NULL
+                    ); 
 
                 insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,
                     sales_all,customer_view,customer_create,customer_edit,customer_delete,
