@@ -15,10 +15,11 @@ const AddRecurringFreq = () => {
       alert('Enter data')
     }
     else {
-      const result = await InsertRecurringFreq(localStorage.getItem('Organisation'),recurring_type, recurring_month,remark, localStorage.getItem('User_id'));
-      if (result == "Already") {
+      const result = await InsertRecurringFreq(localStorage.getItem('Organisation'), recurring_type, recurring_month, remark, localStorage.getItem('User_id'));
+      if (result === "Already") {
         alert('Frequency Already ')
-      } else {
+      } 
+      else {
         alert('Frequency Added')
         window.location.href = '/TotalRecurringFrequency'
       }
@@ -68,7 +69,7 @@ const AddRecurringFreq = () => {
           </div>
         </div>
       </div>
-      <Footer  />
+      <Footer />
     </div>
   )
 
