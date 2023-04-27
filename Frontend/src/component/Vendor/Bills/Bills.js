@@ -678,7 +678,7 @@ function Bills() {
                                                                         <option value='' hidden>Select Item</option>
                                                                         {
                                                                             itemlist.map((items, index) => (
-                                                                                <option key={index} value={`${items.item_name}^${items.chart_of_acct_id}^${items.hsn_code}^ ${items.sac_code}`}>{items.item_name}</option>
+                                                                                <option key={index} value={`${items.item_name}^${items.glcode}^${items.hsn_code}^ ${items.sac_code}`}>{items.item_name}</option>
 
                                                                             ))
                                                                         }

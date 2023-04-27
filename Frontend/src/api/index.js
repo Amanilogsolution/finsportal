@@ -858,7 +858,7 @@ export const GetfincialyearNavbar = async (org) => {
 }
 
 export const Updatefinancialcount = async (org, countkey, countvalue) => {
-    const url = `https://finsbackend.awlinternational.com/api/updatefinancialcount`
+    const url = `http://localhost:3008/api/updatefinancialcount`
     return axios.post(url, { org, countkey, countvalue }).then(response => response.data).catch(error => console.log(error));
 }
 export const UpdatefinancialTwocount = async (org, countkey, countvalue, countkey2, countvalue2) => {
@@ -1496,9 +1496,9 @@ export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number
     return axios.post(url, { org, vendor_id, po_location, po_number, po_date, User_id, flagsave, poamount }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity, rate, amount, unit) => {
+export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity, rate, amount, unit,glcode) => {
     const url = `http://localhost:3008/api/InsertSubPurchaseorder`
-    return axios.post(url, { org, vendor_id, po_number, location, items, quantity, rate, amount, unit }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vendor_id, po_number, location, items, quantity, rate, amount, unit,glcode }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetPodetailsVendor = async (org, vendor_id) => {

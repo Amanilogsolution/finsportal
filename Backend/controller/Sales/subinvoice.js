@@ -32,7 +32,7 @@ const InsertSubInvoice = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_subinvoice(fin_year,invoice_no ,major,minor,revgl_code,billing_code,quantity,
+        const result = await sql.query(`insert into ${org}.dbo.tbl_subinvoice(fin_year,invoice_no ,major,minor,glcode,billing_code,quantity,
             rate,unit,amount,consignee,city,custid,cust_locationid,taxable,cgst_rate,sgst_rate,utgst_rate ,
             igst_rate ,cgst_amt ,sgst_amt ,utgst_amt ,igst_amt,add_date_time ,add_user_name ,add_system_name ,add_ip_address,status,taxableamount)
             values ('${fin_year}','${invoice_no}','${major}','${minor}','${revgl_code}','${billing_code}','${quantity}','${rate}','${unit}','${amount}','${consignee}','${city}',

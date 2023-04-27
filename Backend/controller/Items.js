@@ -28,9 +28,13 @@ const InsertItems = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` INSERT into ${org}.dbo.tbl_items_account
-        (item_type,item_name,item_unit,sac_code,hsn_code,major_code_id,chart_of_account,chart_of_acct_id,tax_preference,sales_account,purchase_account,gst_rate,
-       add_user_name,add_system_name ,add_ip_address ,add_date_time,status,item_uuid,minor_code_id,minor_code,glcode )
+        const result = await sql.query(`INSERT into ${org}.dbo.tbl_items_account
+        (item_type,item_name,item_unit,sac_code,hsn_code,
+        major_code_id,chart_of_account,glcode,
+        tax_preference,sales_account,purchase_account,gst_rate,
+       add_user_name,add_system_name ,add_ip_address ,
+       add_date_time,status,item_uuid,minor_code_id,
+       minor_code,subglcode )
        values('${item_type}','${item_name}','${item_unit}','${sac_code}','${hsn_code}','${major_code_id}','${chart_of_account}','${chartofaccount_id}','${tax_preference}','${sales_account}','${purchase_account}','${gst_rate}','${add_user_name}','${os.hostname()}','${req.ip}',getdate(),'Active',
        '${uuidv1()}','${minor_code_id}','${minor_code}','${glcode}')`)
 

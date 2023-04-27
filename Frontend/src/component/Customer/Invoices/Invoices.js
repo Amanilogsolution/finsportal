@@ -580,7 +580,7 @@ function Invoices() {
                                                                             {
                                                                                 itemtoggle[index] == true ?
                                                                                     itemsdata[index].map((item, index) => (
-                                                                                        <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.chart_of_acct_id}`} >{item.item_name}</option>
+                                                                                        <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.glcode}`} >{item.item_name}</option>
                                                                                     ))
                                                                                     : null
                                                                             }

@@ -36,11 +36,13 @@ const InsertSubPurchaseorder = async (req, res) => {
     const rate = req.body.rate;
     const amount = req.body.amount;
     const unit = req.body.unit;
+    const glcode = req.body.glcode;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query
-            (`insert into ${org}.dbo.tbl_sub_purchase_order (vendor_id,po_number,location,items,quantity,rate,amount,unit)
-            values('${vendor_id}','${po_number}','${location}','${items}','${quantity}','${rate}','${amount}','${unit}')`)
+            (`insert into ${org}.dbo.tbl_sub_purchase_order (vendor_id,po_number,location,items,quantity,rate,amount,unit,glcode)
+            values('${vendor_id}','${po_number}','${location}','${items}','${quantity}','${rate}','${amount}','${unit}','${glcode}')`)
         res.send("Insert")
     }
     catch (err) {
