@@ -22,7 +22,13 @@ function CreditNotes() {
         amount: '',
         balance_amt: '',
         pass_amt: '',
-        sub_id: ''
+        sub_id: '',
+        cgstper:'',
+        cgstamt:'',
+        igstper:'',
+        igstamt:'',
+        sgstper:'',
+        sgst:'',
     }])
     const [subTotal, setSubTotal] = useState([])
     const [TotalCN,setTotalCN] = useState([])
@@ -107,7 +113,7 @@ function CreditNotes() {
                     amount: Amount,
                     balance_amt: Balancevalue,
                     pass_amt: value,
-                    sub_id: id
+                    sub_id: id,
                 }
                 subTotal.map(item => sum += Number(item))
                 TotalCN.map(item => totalcn += Number(item))
