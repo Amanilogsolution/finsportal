@@ -25,6 +25,9 @@ function CreditNotes() {
         sub_id: ''
     }])
     const [subTotal, setSubTotal] = useState([])
+    const [TotalCN,setTotalCN] = useState([])
+    const [taxvalue,settaxvalue] = useState([])
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,15 +72,17 @@ function CreditNotes() {
         let CN_Number = document.getElementById('Cn_no').value
         let Invoice_no = document.getElementById('Invoice').value
         let Activity = document.getElementById(`Activity${index}`).innerHTML
-        let Amount = document.getElementById(`Amount${index}`).innerHTML;
+        let Amount = invoicesub[index].amount
         let Item = document.getElementById(`Item${index}`).innerHTML
         console.log(invoicesub[index])
         const TotalTax = Number(invoicesub[index].cgst_rate) + Number(invoicesub[index].igst_rate) +Number(invoicesub[index].sgst_rate)
         console.log(TotalTax)
-        const valTax = (value * 18)/100
+        const valTax = Math.round((value * 18)/100)
         console.log(Number(value)+valTax)
         let TotalTaxValue = Number(value)+ Number(valTax)
         let sum = 0
+        let totalcn = 0
+        let taxval = 0 
         let Balancevalue = AmtBalance - TotalTaxValue
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
@@ -85,11 +90,13 @@ function CreditNotes() {
                 document.getElementById(`PassAmount${index}`).value = ''
                 document.getElementById(`AmountLeft${index}`).innerHTML = AmtBalance
                 document.getElementById('totalCnAmt').innerHTML = 0
-                document.getElementById(`Total${index}`).innerHTML = 0
+                // document.getElementById(`Total${index}`).innerHTML = 0
             }, 1000)
             return
         } else {
             setTimeout(() => {
+                taxvalue[index] = valTax
+                TotalCN[index] = TotalTaxValue
                 subTotal[index] = value
                 let data = ChargeCodeSub
                 data[index] = {
@@ -103,11 +110,28 @@ function CreditNotes() {
                     sub_id: id
                 }
                 subTotal.map(item => sum += Number(item))
+                TotalCN.map(item => totalcn += Number(item))
+                taxvalue.map(item => taxval += Number(item))
+
+
                 setChargeCodeSub(data)
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
                 document.getElementById('totalCnAmt').innerHTML = sum
-                document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
+                // document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
+                document.getElementById('grandTotal').innerHTML = totalcn
+                if(Number(invoicesub[index].igst_rate) > 0){
+                    document.getElementById('igstamt').innerHTML = taxval
+                    document.getElementById('cgst').innerHTML = 0
+                    document.getElementById('sgst').innerHTML = 0
+                }else{
+                    document.getElementById('igstamt').innerHTML = 0
+                    document.getElementById('cgst').innerHTML = taxval/2
+                    document.getElementById('sgst').innerHTML = taxval/2
+
+                }
+
+
             }, 1000)
         }
     }
@@ -199,11 +223,11 @@ function CreditNotes() {
                                                 <tr className='text-center'>
                                                     <th scope="col" >Activity</th>
                                                     <th scope="col" >Charge Code</th>
-                                                    <th scope="col" >Amount</th>
+                                                    {/* <th scope="col" >Amount</th> */}
                                                     <th scope="col" >AmountBal</th>
-                                                    <th scope="col" >Taxable Amount</th>
+                                                    {/* <th scope="col" >Taxable Amount</th> */}
                                                     <th scope="col" >PassAmt</th>
-                                                    <th scope="col" > TotalCN </th>
+                                                    {/* <th scope="col" > TotalCN </th> */}
                                                     <th scope="col" >AmountLeft</th>
                                                 </tr>
                                             </thead>
@@ -213,11 +237,11 @@ function CreditNotes() {
                                                         <tr key={index} className='text-center'>
                                                             <td className="col-md-2 px-1  " id={`Activity${index}`}>{item.billing_code}</td>
                                                             <td className="col-md-2 px-1  " id={`Item${index}`}>{item.minor}</td>
-                                                            <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td>
+                                                            {/* <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td> */}
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
-                                                            <td className="col-md-2 px-1  "  >{item.taxableamount}</td>
+                                                            {/* <td className="col-md-2 px-1  "  >{item.taxableamount}</td> */}
                                                             <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
-                                                            <td className="col-md-2 px-1  " id={`Total${index}`} ></td>
+                                                            {/* <td className="col-md-2 px-1  " id={`Total${index}`} ></td> */}
                                                             <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
                                                         </tr>
                                                     ))
@@ -238,32 +262,30 @@ function CreditNotes() {
                                             <table className='mx-3' style={{ width: "95%" }}>
                                                 <tbody>
                                                     <tr scope="row">
-                                                        <td><h4>Total CN Amount</h4></td>
+                                                        <td><h4>Net Total</h4></td>
+                                                        <td></td>
+
                                                         <td className="text-danger"><h4 id="totalCnAmt">0</h4></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><h4>Net Total</h4></td>
-                                                        <td><h4>{data.total_amt}</h4></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td>CGST </td>
-                                                        <td >{invoicedata ? invoicedata.cgst_amt : ""} %</td>
+                                                        <td>{invoicedata ? invoicedata.cgst_amt : ""} %</td>
+                                                        <td id="cgst"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>SGST / UTGST </td>
                                                         <td>{invoicedata ? invoicedata.sgst_amt : ""} %</td>
+                                                        <td id="sgst"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>IGST </td>
                                                         <td>{invoicedata ? invoicedata.igst_amt : ""} %</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Total Taxable</td>
-                                                        <td>{invoicedata ? invoicedata.taxable_amt : ""}</td>
+                                                        <td id="igstamt"></td>
                                                     </tr>
                                                     <tr>
                                                         <td><h3> Total(₹)</h3></td>
-                                                        <td><h4>{data.net_amt}</h4></td>
+                                                        <td></td>
+                                                        <td><h4 id="grandTotal"></h4></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

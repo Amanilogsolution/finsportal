@@ -136,7 +136,7 @@ const ShowRecurring = () => {
       <Header />
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
-          <h3 className="text-left ml-5">Payment Terms</h3>
+          <h3 className="text-left ml-5">Recurring Frequency</h3>
           <button type="button" id="addpaymenttermbtn" style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddRecurringFrequency" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Frequency</button>
         </div>
         <div className="container-fluid">
