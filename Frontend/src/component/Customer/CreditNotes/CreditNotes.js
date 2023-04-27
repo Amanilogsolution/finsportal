@@ -121,7 +121,6 @@ function CreditNotes() {
                         glcode:invoicesub[index].glcode
                     }
                     setChargeCodeSub(data)
-
                 }else{
                     let data = ChargeCodeSub
                     data[index] = {
@@ -140,17 +139,13 @@ function CreditNotes() {
                         sgstper:invoicesub[index].sgst_rate,
                         sgstamt:valTax/2,
                         glcode:invoicesub[index].glcode
-
                     }
                     setChargeCodeSub(data)
-
-
                 }
              
                 subTotal.map(item => sum += Number(item))
                 TotalCN.map(item => totalcn += Number(item))
                 taxvalue.map(item => taxval += Number(item))
-
 
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
@@ -165,10 +160,7 @@ function CreditNotes() {
                     document.getElementById('igstamt').innerHTML = 0
                     document.getElementById('cgst').innerHTML = taxval / 2
                     document.getElementById('sgst').innerHTML = taxval / 2
-
                 }
-
-
             }, 1000)
         }
     }
@@ -180,7 +172,6 @@ function CreditNotes() {
         let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
         const InvoiceFlag = await UpdateInvoiceCNFlag(org, '3', data.total_cn_amt, data.inv_no)
 
-        console.log(ChargeCodeSub)
         var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {
             resultAddedCN = await InsertCnSub(org, item, userid, remark)
