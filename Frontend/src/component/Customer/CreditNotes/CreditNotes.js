@@ -40,6 +40,7 @@ function CreditNotes() {
             setInvoiceData(Invoice[0])
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
+            console.log(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
@@ -70,14 +71,21 @@ function CreditNotes() {
         let Activity = document.getElementById(`Activity${index}`).innerHTML
         let Amount = document.getElementById(`Amount${index}`).innerHTML;
         let Item = document.getElementById(`Item${index}`).innerHTML
+        console.log(invoicesub[index])
+        const TotalTax = Number(invoicesub[index].cgst_rate) + Number(invoicesub[index].igst_rate) +Number(invoicesub[index].sgst_rate)
+        console.log(TotalTax)
+        const valTax = (value * 18)/100
+        console.log(Number(value)+valTax)
+        let TotalTaxValue = Number(value)+ Number(valTax)
         let sum = 0
-        let Balancevalue = AmtBalance - value
+        let Balancevalue = AmtBalance - TotalTaxValue
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
             setTimeout(() => {
                 document.getElementById(`PassAmount${index}`).value = ''
                 document.getElementById(`AmountLeft${index}`).innerHTML = AmtBalance
                 document.getElementById('totalCnAmt').innerHTML = 0
+                document.getElementById(`Total${index}`).innerHTML = 0
             }, 1000)
             return
         } else {
@@ -99,6 +107,7 @@ function CreditNotes() {
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
                 document.getElementById('totalCnAmt').innerHTML = sum
+                document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
             }, 1000)
         }
     }
@@ -194,6 +203,7 @@ function CreditNotes() {
                                                     <th scope="col" >AmountBal</th>
                                                     <th scope="col" >Taxable Amount</th>
                                                     <th scope="col" >PassAmt</th>
+                                                    <th scope="col" > TotalCN </th>
                                                     <th scope="col" >AmountLeft</th>
                                                 </tr>
                                             </thead>
@@ -207,6 +217,7 @@ function CreditNotes() {
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
                                                             <td className="col-md-2 px-1  "  >{item.taxableamount}</td>
                                                             <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
+                                                            <td className="col-md-2 px-1  " id={`Total${index}`} ></td>
                                                             <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
                                                         </tr>
                                                     ))

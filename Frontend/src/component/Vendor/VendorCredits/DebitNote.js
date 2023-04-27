@@ -23,10 +23,8 @@ function DebitNotes() {
   useEffect(() => {
     const fetchData = async () => {
       const org = localStorage.getItem('Organisation')
-
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
       const CNdetails = await AllDNData(org)
@@ -88,7 +86,6 @@ function DebitNotes() {
     const org = localStorage.getItem('Organisation')
     const startDate = document.getElementById('from_date').value
     const lastDate = document.getElementById('to_date').value
-
     const result = await filterInvoicebyDN(org, startDate, lastDate, custname, vendlocation, invoiceno)
     setData(result)
   }

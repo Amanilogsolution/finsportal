@@ -24,7 +24,6 @@ const Addcity = () => {
     const city_name = document.getElementById('city_name').value;
     const User_id = localStorage.getItem("User_id");
 
-
     if (!country_name || !state || !city_id || !city_name) {
       alert('Enter data')
     }
@@ -71,7 +70,6 @@ const Addcity = () => {
                     </select>
                   </div>
                 </div>
-
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State Name</label>
                   <div className="col form-group">
@@ -119,6 +117,5 @@ const Addcity = () => {
     </div>
   )
 }
-
 
 export default Addcity

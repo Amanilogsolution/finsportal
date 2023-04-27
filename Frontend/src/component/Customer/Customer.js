@@ -102,7 +102,6 @@ const Customer = () => {
     const facebook_url = document.getElementById('facebook_url').value;
     const twitter_url = document.getElementById('twitter_url').value;
     const billing_address_attention = document.getElementById('billing_address_attention').value;
-
     // const billing_address_city = document.getElementById('billing_address_city').value;
 
     const billing_address_pincode = document.getElementById('billing_address_pincode').value;
@@ -119,14 +118,11 @@ const Customer = () => {
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem("User_id");
 
-
     if (!customer_firstname) {
       alert('Please Enter Mandatory field')
       setLoading(true)
-
     }
     else {
-
       if (showMaster) {
         const result = await AddCustomer(org, User_id, generatedmcust, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
           opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
@@ -146,14 +142,11 @@ const Customer = () => {
       }
       else {
         const masterid = document.getElementById('selectedmasterid').value;
-
-
         const result = await AddCustomer(org, User_id, masterid, generatedcust, cust_type, cust_name, company_name, cust_display_name, cust_email, cust_work_phone, cust_phone, skype_detail, designation, department, website, gst_treatment, gstin_uin, pan_no, place_of_supply, tax_preference, exemption_reason, selectedcurrency,
           opening_balance, payment_terms, enable_portal, language, facebook_url, twitter_url, billing_address_attention, billing_address_country,
           billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name,
           contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
           contact_person_department, remark);
-
         if (result[0] > 0) {
           alert('Data Added')
           window.location.href = "/TotalCustomer";
@@ -161,9 +154,7 @@ const Customer = () => {
         else {
           alert('Server not Response');
           setLoading(true)
-
         }
-
       }
 
     }

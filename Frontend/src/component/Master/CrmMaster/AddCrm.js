@@ -11,7 +11,6 @@ const AddCrm = () => {
     const [custvendval, setCustvendval] = useState('');
     const [typeselect, setTypeSelect] = useState('Vendor')
 
-
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
@@ -19,7 +18,6 @@ const AddCrm = () => {
             setCustomerlist(customer)
             const vendor = await ActiveVendor(org)
             setVendorlist(vendor)
-
         }
         fetchdata()
     }, [])
@@ -29,7 +27,6 @@ const AddCrm = () => {
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value;
         const from_date = document.getElementById('from_date').value;
-
         const to_date = new Date(from_date);
         to_date.setDate(to_date.getDate() - 1);
         var day = to_date.getDate();
@@ -68,7 +65,6 @@ const AddCrm = () => {
             setCrmType(false)
             setCustvendval('')
         }
-
     }
 
     let options = customerlist.map((ele) => {
@@ -125,7 +121,6 @@ const AddCrm = () => {
                                                     options={options2}
                                                     isMulti={true}
                                                     onChange={handleCustvendval}
-
                                                 />
                                         }
                                     </div>

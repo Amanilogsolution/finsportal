@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback } from 'react';
 import Finslogo from '../../images/finslogo.png'
 import { getUserRole, GetfincialyearNavbar } from '../../api/index'
 import './menu.css'
@@ -8,7 +8,17 @@ const Menu = (props) => {
 
   const currentorg = localStorage.getItem('Organisation Name');
 
+  // const handleKeyPress = useCallback((event) => {
+  //   if(event.key == 'D'){
+  //     window.location.href = 'Bills'
+  //   }
+  //   console.log(`Key pressed: ${event.key}`);
+  // }, []);
+
   useEffect(() => {
+
+    // document.addEventListener('keydown', handleKeyPress);
+
     const fetchdata = async () => {
       const result = await getUserRole(localStorage.getItem('Organisation'), localStorage.getItem('Role'))
       Rolefunction(result)
@@ -16,9 +26,13 @@ const Menu = (props) => {
       const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
       setFinancialYearData(financialyear)
 
+
+
     }
     fetchdata()
-  }, [])
+  }, [
+    // handleKeyPress
+  ])
 
   const Rolefunction = (result) => {
 
@@ -538,6 +552,16 @@ const Menu = (props) => {
                   </a>
                 </li>
               </ul>
+              <ul className="nav nav-treeview" >
+                <li className="nav-item" id='coacctMenu'>
+                  <a href="/TotalRecurringFrequency" className="nav-link active">
+                    <i className="far fa-circle nav-icon" />
+                    <p>Recurring Frequency</p>
+                  </a>
+                </li>
+              </ul>
+
+              
               {/* <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">
                     <p className=""> Chart Of Accounts</p>

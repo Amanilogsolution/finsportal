@@ -20,7 +20,6 @@ const EditCrm = () => {
             const vendor = await ActiveVendor(org)
             setVendorlist(vendor)
 
-
             const result = await GetCrm(org, localStorage.getItem('CrmmasterSno'))
             setData(result)
 
@@ -37,7 +36,6 @@ const EditCrm = () => {
             else {
                 alert('Invalid Type')
             }
-
         }
         fetchdata()
     }, [])

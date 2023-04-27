@@ -77,6 +77,10 @@ import InsertMinorCode from './component/Accountant/ChartOfAccount/InsertMinorCo
 import ShowAccountname from './component/Master/AccountNameMaster/ShowAccountname';
 import EditAccountname from './component/Master/AccountNameMaster/EditAccountname';
 
+import TotalRecurringFrequency from './component/Master/RecurringFrequency/TotalRecurringFrequency'
+import AddRecurringFrequency from './component/Master/RecurringFrequency/AddRecurringFrequency'
+import EditRecurringFreq from './component/Master/RecurringFrequency/UpdateRecurringFrequency'
+
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
 
@@ -268,6 +272,10 @@ const App = () => {
           <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
           <PrivatRoute exact path="/AddAccountInfo" component={AddAccountInfo}/>
           <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/> */}
+
+          <PrivatRoute exact path="/TotalRecurringFrequency" component={TotalRecurringFrequency} />
+          <PrivatRoute exact path="/AddRecurringFrequency" component={AddRecurringFrequency} />
+          <PrivatRoute exact path="/EditRecurringFreq" component={EditRecurringFreq} />
 
           <PrivatRoute exact path="/RecurringExpenses" component={RecurringExpenses} />
           <PrivatRoute exact path="/AddSubCode" component={AddSubCode} />
