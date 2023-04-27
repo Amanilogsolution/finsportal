@@ -337,7 +337,7 @@ const Menu = (props) => {
                 </li>
                 <li className="nav-item" style={{ display: "none" }} id='recInvoiceMenu'>
                   <a href="/RecurringInvoices" className="nav-link active">
-                    <i className="far fa-file nav-icon" />
+                    <i className="fa fa-retweet nav-icon" />
                     <p>Recurring Invoices</p>
                   </a>
                 </li>
@@ -374,7 +374,7 @@ const Menu = (props) => {
                 </li>
                 <li className="nav-item" style={{ display: "none" }} id='vendRecurrMenu'>
                   <a href="/RecurringExpenses" className="nav-link active">
-                    <i className="far fa-circle nav-icon" aria-hidden="true" />
+                    <i className="fa fa-retweet nav-icon" aria-hidden="true" />
                     <p>Recurring Expenses</p>
                   </a>
                 </li>
@@ -392,7 +392,7 @@ const Menu = (props) => {
                 </li>
                 <li className="nav-item" id='vendrecbillMenu' style={{ display: "none" }}>
                   <a href="/RecurringBills" className="nav-link active">
-                    <i className="far fa-file nav-icon" />
+                    <i className="fa fa-retweet nav-icon" />
                     <p>Recurring Bills</p>
                   </a>
                 </li>
@@ -555,7 +555,7 @@ const Menu = (props) => {
               <ul className="nav nav-treeview" >
                 <li className="nav-item" id='coacctMenu'>
                   <a href="/TotalRecurringFrequency" className="nav-link active">
-                    <i className="far fa-circle nav-icon" />
+                  <i className="fa fa-retweet nav-icon" ></i>
                     <p>Recurring Frequency</p>
                   </a>
                 </li>
