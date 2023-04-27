@@ -32,7 +32,8 @@ function PurchaseOrder() {
         qty: '',
         rate: '',
         amt: '',
-        unit: ''
+        unit: '',
+        glcode: ''
     }])
 
     useEffect(() => {
@@ -79,7 +80,9 @@ function PurchaseOrder() {
 
     const handleChangeItems = (index) => {
         const item_data = document.getElementById(`item-${index}`).value;
-        poitem[index].item = item_data
+        const [item, glcodes] = item_data.split('^')
+        poitem[index].item = item
+        poitem[index].glcode = glcodes
     }
 
     const handleAdd = (e) => {
@@ -172,13 +175,14 @@ function PurchaseOrder() {
                 ponumber = 'Random' + Math.floor(Math.random() * 10000)
             }
             const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, btntype, poamount)
+
             if (result === "Insert") {
                 if (btntype !== 'save') {
                     await Updatefinancialcount(org, 'po_count', pocount)
                 }
 
                 poitem.map(async (item) => {
-                    await InsertSubPurchaseorder(org, vendorname, ponumber, item.location_id, item.item, item.qty, item.rate, item.amt, item.unit)
+                    await InsertSubPurchaseorder(org, vendorname, ponumber, item.location_id, item.item, item.qty, item.rate, item.amt, item.unit, item.glcode)
                 })
                 alert("PO Generated")
                 window.location.href = "/SavePurchaseOrder"
@@ -272,7 +276,7 @@ function PurchaseOrder() {
                                                                         <option value='' hidden>Select Item</option>
                                                                         {
                                                                             itemlist.map((items, index) => (
-                                                                                <option key={index} value={items.item_name} >{items.item_name}</option>
+                                                                                <option key={index} value={`${items.item_name}^${items.glcode}`} >{items.item_name}</option>
 
                                                                             ))
                                                                         }

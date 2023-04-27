@@ -96,7 +96,8 @@ export default function SaveSalesOrder() {
 
       <div className="wrapper">
         <Header />
-        
+        {
+          loading ?
             <div className={`content-wrapper `}>
               <button type="button " id='addsobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./SalesOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  SO</button>
               <div className="container-fluid">

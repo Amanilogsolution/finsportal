@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import InvoicePreview from '../Preview/InvoicePreview';
+import InvoicePreview from '../Preview/InvoicePreview/InvoicePreview';
 
 
 const InvoiceReport = (props) => {
     const [data, setData] = useState([])
     const [sno, setSno] = useState()
+    const [invoiceno, setInvoicesno] = useState('')
     const [tooglecomponent, setTooglecomponent] = useState(false)
-    console.log('PropsSatadd', props)
+    
     const columns = [
         {
             name: 'Vendor Name',
@@ -42,7 +43,7 @@ const InvoiceReport = (props) => {
 
             selector: "null",
             cell: (row) => [
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.invoice_no); setSno(row.sno); setTooglecomponent(true) }} className="btn btn-success ml-2"
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.invoice_no);setInvoicesno(row.invoice_no); setSno(row.sno); setTooglecomponent(true) }} className="btn btn-success ml-2"
                     data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
 
             ]
@@ -70,7 +71,7 @@ const InvoiceReport = (props) => {
                 <Table Tabledta={tableData} />
 
                 {
-                    tooglecomponent ? <InvoicePreview /> : null
+                    tooglecomponent ? <InvoicePreview invoiceno={invoiceno}/> : null
                 }
 
 

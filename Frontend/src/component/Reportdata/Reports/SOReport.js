@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import POPreview from '../Preview/POPreview';
-
+import SoPreview from '../Preview/SOPreview/SoPreview';
 
 
 
 const SOReport = (props) => {
     const [data, setData] = useState([])
+    const [soNum,setSoNum] = useState('')
     const [tooglecomponent, setTooglecomponent] = useState(false)
 
 
@@ -37,8 +37,8 @@ const SOReport = (props) => {
 
             selector: "null",
             cell: (row) => [
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.po_number); setTooglecomponent(true) }} className="btn btn-success ml-2"
-                    data-toggle="modal" data-target="#exampleModalCenter" >PO Preview </button>
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); setSoNum(row.so_no); setTooglecomponent(true) }} className="btn btn-success ml-2"
+                    data-toggle="modal" data-target="#salesOrderPreview" >SO Preview </button>
 
             ]
         }
@@ -66,7 +66,7 @@ const SOReport = (props) => {
                 <h4 className='text-center'>SO Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
                 {
-                    tooglecomponent ? <POPreview /> : null
+                    tooglecomponent ? <SoPreview soNum={soNum}/> : null
                 }
             </div>
         </div>

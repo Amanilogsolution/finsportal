@@ -364,11 +364,14 @@ CREATE TABLE  ${dbname}.dbo.tbl_items_account (
     hsn_code nvarchar(30) NULL,
     major_code_id nvarchar (30) NULL,
     chart_of_account nvarchar (100) NULL,
-    chart_of_acct_id nvarchar(100) NULL,
+    glcode nvarchar(100) NULL,
+    subglcode nvarchar(100) NULL,
     sales_account nvarchar(100) NULL,
     purchase_account nvarchar(100) NULL,
     tax_preference  nvarchar (30) NULL,
     gst_rate nvarchar (30) NULL,
+    minor_code_id nvarchar(100) NULL,
+    minor_code nvarchar(100) NULL,
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
@@ -378,9 +381,7 @@ CREATE TABLE  ${dbname}.dbo.tbl_items_account (
     update_ip_address nvarchar(30) NULL,
     update_date_time datetime NULL,
     status nvarchar(30) NULL,
-    item_uuid nvarchar(350) NULL,
-    minor_code_id nvarchar(100) NULL,
-    minor_code nvarchar(100) NULL
+    item_uuid nvarchar(350) NULL
 );
 
 
@@ -604,7 +605,7 @@ CREATE TABLE ${dbname}.dbo.tbl_subinvoice(
     invoice_no nvarchar(100) NULL,
     major nvarchar(100) NULL,
     minor nvarchar(100) NULL,
-    revgl_code nvarchar(100) NULL,
+    glcode nvarchar(100) NULL,
     billing_code nvarchar(100) NULL,
     quantity  nvarchar(100) NULL,
     rate  nvarchar(100) NULL,
@@ -943,6 +944,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         po_number varchar(100) NULL,
         location nvarchar(100) NULL,
         items nvarchar(100) NULL,
+        glcode nvarchar(100) NULL,
         quantity nvarchar(100) NULL,
         rate nvarchar(100) NULL,
         amount nvarchar(100) NULL,
@@ -1184,6 +1186,24 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 status varchar(30) NULL,
                 sub_so_uuid varchar(300) NULL
                 ); 
+                CREATE TABLE ${dbname}.dbo.tbl_recurring_freq (
+                    sno bigint IDENTITY(1,1) NOT NULL,
+                    recurring_type varchar(100) NULL,
+                    recurring_month varchar(100) NULL,
+                    remark varchar(100) NULL,
+                    
+                    add_date_time datetime NULL,
+                    add_user_name varchar(50) NULL,
+                    add_system_name varchar(50) NULL,
+                    add_ip_address varchar(30) NULL,
+                    
+                    update_date_time datetime NULL,
+                    update_user_name varchar(50) NULL,
+                    update_system_name varchar(100) NULL,
+                    update_ip_address varchar(50) NULL,
+                    status varchar(30) NULL,
+                    recurring_freq_uuid varchar(300) NULL
+                    ); 
 
                 insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,
                     sales_all,customer_view,customer_create,customer_edit,customer_delete,

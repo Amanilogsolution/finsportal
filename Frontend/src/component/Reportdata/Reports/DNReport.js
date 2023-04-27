@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import POPreview from '../Preview/POPreview';
-
+import DnPreview from '../Preview/DNPreview/DnPreview'
 
 
 
 const DNReport = (props) => {
     const [data, setData] = useState([])
+    const [dnSno, setDnSno] = useState('')
     const [tooglecomponent, setTooglecomponent] = useState(false)
-
 
     const columns = [
         {
@@ -37,9 +36,8 @@ const DNReport = (props) => {
 
             selector: "null",
             cell: (row) => [
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.po_number); setTooglecomponent(true) }} className="btn btn-success ml-2"
-                    data-toggle="modal" data-target="#exampleModalCenter" >PO Preview </button>
-
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault();setDnSno(row.sno);setTooglecomponent(true) }} className="btn btn-success ml-2"
+                    data-toggle="modal" data-target="#DNPreviewModal" >DN Preview </button>
             ]
         }
 
@@ -66,7 +64,7 @@ const DNReport = (props) => {
                 <h4 className='text-center'>DN Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
                 {
-                    tooglecomponent ? <POPreview /> : null
+                    tooglecomponent ? <DnPreview dnSno={dnSno}/> : null
                 }
             </div>
         </div>

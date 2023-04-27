@@ -50,6 +50,7 @@ export default function EditSalesOrder() {
 
             const cust_name = await SelectedCustomer(org, Sodata[0].cust_id)
             setCustName(cust_name.cust_name)
+            
             setSomajorData({
                 ...somajorData,
                 customer_name: cust_name.cust_name,

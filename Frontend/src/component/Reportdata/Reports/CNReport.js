@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import POPreview from '../Preview/POPreview';
-
+// import CNPreview from '../Preview/POPreview/POPreview';
+import CnPreview from '../Preview/CNPreview/CnPreview'
 
 
 
 const CNReport = (props) => {
     const [data, setData] = useState([])
+    const [cnSNum,setCnSNum] = useState('')
     const [tooglecomponent, setTooglecomponent] = useState(false)
 
 
@@ -37,8 +38,8 @@ const CNReport = (props) => {
 
             selector: "null",
             cell: (row) => [
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.po_number); setTooglecomponent(true) }} className="btn btn-success ml-2"
-                    data-toggle="modal" data-target="#exampleModalCenter" >PO Preview </button>
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault();setCnSNum(row.sno); setTooglecomponent(true) }} className="btn btn-success ml-2"
+                    data-toggle="modal" data-target="#CNPreviewModal" >CN Preview </button>
 
             ]
         }
@@ -66,7 +67,7 @@ const CNReport = (props) => {
                 <h4 className='text-center'>CN Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
                 {
-                    tooglecomponent ? <POPreview /> : null
+                    tooglecomponent ? <CnPreview cnSNum={cnSNum}/> : null
                 }
             </div>
         </div>

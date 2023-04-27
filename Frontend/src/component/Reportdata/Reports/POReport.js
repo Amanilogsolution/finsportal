@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Table from './Table/Table'
-import POPreview from '../Preview/POPreview';
+import POPreview from '../Preview/POPreview/POPreview';
 
 
 
 
 const POReport = (props) => {
     const [data, setData] = useState([])
+    const [ponum, setPonum] = useState('')
     const [tooglecomponent, setTooglecomponent] = useState(false)
 
 
@@ -37,9 +38,8 @@ const POReport = (props) => {
 
             selector: "null",
             cell: (row) => [
-                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault(); localStorage.setItem('preview', row.po_number); setTooglecomponent(true) }} className="btn btn-success ml-2"
+                <button id='previewbtn' type="button" onClick={(e) => { e.preventDefault();setPonum(row.po_number) ; setTooglecomponent(true) }} className="btn btn-success ml-2"
                     data-toggle="modal" data-target="#exampleModalCenter" >PO Preview </button>
-
             ]
         }
 
@@ -61,11 +61,10 @@ const POReport = (props) => {
         <div>
 
             <div>
-
                 <h4 className='text-center'>PO Report <span className='text-danger'>({props.name})</span></h4>
                 <Table Tabledta={tableData} />
                 {
-                    tooglecomponent ? <POPreview /> : null
+                    tooglecomponent ? <POPreview ponum={ponum}/> : null
                 }
             </div>
         </div>

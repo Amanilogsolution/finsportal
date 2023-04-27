@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO,filterSO,filterCN,filterDN } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
 import CNReport from './Reports/CNReport';
 import DNReport from './Reports/DNReport';
+import Loading from '../loadingPage/loadingPage'
 
 const Reportdata = () => {
   const [loading, setLoading] = useState(false)
+
   const [data, setData] = useState()
   const [customerlist, setCustomerlist] = useState([])
   const [vendorlist, setVendorlist] = useState([])
@@ -56,15 +58,14 @@ const Reportdata = () => {
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
     var today = year + "-" + month + "-" + day;
-    setTimeout(()=>{
+    setTimeout(() => {
       document.getElementById("from_date").value = today;
-      document.getElementById("to_date").value = today;  
-    },500)   
-}
+      document.getElementById("to_date").value = today;
+    }, 500)
+  }
 
   const handleapply = async () => {
     document.getElementById('report_type').disabled = true;
-
     const org = localStorage.getItem('Organisation');
     const report_type = document.getElementById('report_type').value;
     const fromdate = document.getElementById('from_date').value;
@@ -92,6 +93,7 @@ const Reportdata = () => {
 
       setVendcustname(vend.options[vend.selectedIndex].text)
       const result = await filterPO(org, fromdate, todate, vendid, locationid)
+      console.log(result)
       setData(result)
 
     }
@@ -109,15 +111,15 @@ const Reportdata = () => {
       const locationid = document.getElementById('location').value;
 
       setVendcustname(Customer.options[Customer.selectedIndex].text)
-      const result = await filterCN(org, fromdate, todate, Customerid,locationid)
+      const result = await filterCN(org, fromdate, todate, Customerid, locationid)
       setData(result)
     }
-    else if(report_type === 'DN'){
+    else if (report_type === 'DN') {
       const vend = document.getElementById('vendor');
       const vendid = vend.value;
       const locationid = document.getElementById('location').value;
       setVendcustname(vend.options[vend.selectedIndex].text)
-      const result = await filterDN(org, fromdate, todate, vendid,locationid)
+      const result = await filterDN(org, fromdate, todate, vendid, locationid)
       setData(result)
 
     }
@@ -135,13 +137,13 @@ const Reportdata = () => {
       document.getElementById('vendordiv').style.display = 'none';
       document.getElementById('locationdiv').style.display = 'flex';
 
-    } 
+    }
     else if (e.target.value === 'PO') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
     }
-    else if(e.target.value === 'SO'){
+    else if (e.target.value === 'SO') {
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
       document.getElementById('locationdiv').style.display = 'none';
@@ -165,11 +167,11 @@ const Reportdata = () => {
         loading ?
           <>
             <div className={`content-wrapper`}>
-            <div className="container-fluid">
-              <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
-                <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
+              <div className="container-fluid">
+                <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
+                  <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
 
-              
+
                 <br /> <h3 className="text-left ml-5">Report</h3>
                 <div className="card w-100">
                   <article className={`card-body`}>
@@ -179,10 +181,10 @@ const Reportdata = () => {
                           (document.getElementById('report_type').value == 'Invoice') ?
                             <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
                               ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'PO') ?
-                                <POReport displaydata={data} name={vendcustname} /> :(document.getElementById('report_type').value == 'SO')?
-                                <SOReport displaydata={data} name={vendcustname}/> : (document.getElementById('report_type').value == 'CN')?
-                                <CNReport displaydata={data} name={vendcustname}/> :(document.getElementById('report_type').value == 'DN')?
-                                <DNReport displaydata={data} name={vendcustname}/> : null)
+                                <POReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'SO') ?
+                                  <SOReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'CN') ?
+                                    <CNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'DN') ?
+                                      <DNReport displaydata={data} name={vendcustname} /> : null)
                           : <h3 className='text-center'>Filter to show data</h3>
                       }
                     </form>
@@ -299,9 +301,7 @@ const Reportdata = () => {
             <Footer />
           </>
           :
-          (<div className="d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-            <div className="spinner-border" role="status"> </div>
-          </div>)
+          <Loading />
       }
     </div >
   )
