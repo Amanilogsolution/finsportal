@@ -22,7 +22,14 @@ function CreditNotes() {
         amount: '',
         balance_amt: '',
         pass_amt: '',
-        sub_id: ''
+        sub_id: '',
+        cgstper:'',
+        cgstamt:'',
+        igstper:'',
+        igstamt:'',
+        sgstper:'',
+        sgstamt:'',
+        glcode:''
     }])
     const [subTotal, setSubTotal] = useState([])
     const [TotalCN, setTotalCN] = useState([])
@@ -43,6 +50,7 @@ function CreditNotes() {
             setInvoiceData(Invoice[0])
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
+            console.log(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
@@ -93,23 +101,57 @@ function CreditNotes() {
                 taxvalue[index] = valTax
                 TotalCN[index] = TotalTaxValue
                 subTotal[index] = value
-                let data = ChargeCodeSub
-                data[index] = {
-                    cn_no: CN_Number,
-                    invoice_no: Invoice_no,
-                    activity: Activity,
-                    item: Item,
-                    amount: Amount,
-                    balance_amt: Balancevalue,
-                    pass_amt: value,
-                    sub_id: id
+                if (Number(invoicesub[index].igst_rate) > 0) {
+                    let data = ChargeCodeSub
+                    data[index] = {
+                        cn_no: CN_Number,
+                        invoice_no: Invoice_no,
+                        activity: Activity,
+                        item: Item,
+                        amount: Amount,
+                        balance_amt: Balancevalue,
+                        pass_amt: value,
+                        sub_id: id,
+                        cgstper:invoicesub[index].cgst_rate,
+                        cgstamt:0,
+                        igstper:invoicesub[index].igst_rate,
+                        igstamt:valTax,
+                        sgstper:invoicesub[index].sgst_rate,
+                        sgstamt:0,
+                        glcode:invoicesub[index].glcode
+                    }
+                    setChargeCodeSub(data)
+
+                }else{
+                    let data = ChargeCodeSub
+                    data[index] = {
+                        cn_no: CN_Number,
+                        invoice_no: Invoice_no,
+                        activity: Activity,
+                        item: Item,
+                        amount: Amount,
+                        balance_amt: Balancevalue,
+                        pass_amt: value,
+                        sub_id: id,
+                        cgstper:invoicesub[index].cgst_rate,
+                        cgstamt:valTax/2,
+                        igstper:invoicesub[index].igst_rate,
+                        igstamt:0,
+                        sgstper:invoicesub[index].sgst_rate,
+                        sgstamt:valTax/2,
+                        glcode:invoicesub[index].glcode
+
+                    }
+                    setChargeCodeSub(data)
+
+
                 }
+             
                 subTotal.map(item => sum += Number(item))
                 TotalCN.map(item => totalcn += Number(item))
                 taxvalue.map(item => taxval += Number(item))
 
 
-                setChargeCodeSub(data)
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
                 document.getElementById('totalCnAmt').innerHTML = sum
@@ -138,6 +180,7 @@ function CreditNotes() {
         let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
         const InvoiceFlag = await UpdateInvoiceCNFlag(org, '3', data.total_cn_amt, data.inv_no)
 
+        console.log(ChargeCodeSub)
         var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {
             resultAddedCN = await InsertCnSub(org, item, userid, remark)
