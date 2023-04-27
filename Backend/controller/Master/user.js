@@ -4,9 +4,10 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const Totaluser = async (req, res) => {
+    const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from FINSDB.dbo.tbl_usermaster with (nolock) order by sno desc`)
+        const result = await sql.query(` select * from FINSDB.dbo.tbl_usermaster with (nolock) WHERE org_db_name='${org}' order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
         res.send(err)
@@ -26,16 +27,28 @@ const InsertUser = async (req, res) => {
     const reporting_to = req.body.reporting_to;
     const user_profile_url = req.body.user_profile_url;
     const designation = req.body.designation;
-    // const user_profile_url = 'https://thispersondoesnotexist.com/image'
     const two_factor_authentication = req.body.two_factor_authentication;
     const User_id = req.body.User_id;
+    const org = req.body.org;
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into FINSDB.dbo.tbl_usermaster (employee_name,role,warehouse,user_id,password,email_id,phone,operate_mode,status,customer,reporting_to,designation,two_factor_authentication,user_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,user_profile_url)
-        values('${employee_name}','${role}','${warehouse}','${username}','${password}','${email_id}','${phone}','${operatemode}','Active','${customer}','${reporting_to}','${designation}','${two_factor_authentication}','${uuid}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${user_profile_url}')`)
-        res.send('Added')
+        const getUser = await sql.query(` select * from FINSDB.dbo.tbl_usermaster tu with (nolock) WHERE user_id='${username}' and org_db_name='${org}'`)
+
+        if (!(getUser.recordset.length > 0)) {
+            const result = await sql.query(`insert into FINSDB.dbo.tbl_usermaster (employee_name,role,warehouse,user_id,password,email_id,phone,operate_mode,status,customer,reporting_to,designation,two_factor_authentication,org_db_name,user_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,user_profile_url)
+                 values('${employee_name}','${role}','${warehouse}','${username}','${password}','${email_id}','${phone}','${operatemode}','Active','${customer}','${reporting_to}','${designation}','${two_factor_authentication}','${org}','${uuid}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${user_profile_url}')`)
+            if (result.rowsAffected[0] > 0) {
+                res.send('Added')
+            }
+            else {
+                res.send('Server Error')
+            }
+        }
+        else {
+            res.send('Already')
+        }
     }
     catch (err) {
         res.send(err)

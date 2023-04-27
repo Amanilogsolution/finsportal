@@ -31,7 +31,7 @@ const AddUser = () => {
     setUserProfile(UploadLink)
   }
 
-  const Toogle = async (e) => {
+  const handleSaveUser = async (e) => {
     e.preventDefault();
     const employee_name = document.getElementById('employee_name').value;
     const role = document.getElementById('role').value;
@@ -52,12 +52,16 @@ const AddUser = () => {
     }
     else {
       const result = await InsertUser(employee_name, role, warehouse, user_name,
-        password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'));
+        password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'), localStorage.getItem('Organisation'));
 
-      const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url, role,phone)
-      if (result === 'Added' && loginInsert === "Added") {
+      if (result === 'Added') {
+        const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url, role, phone)
+        console.log(loginInsert)
         alert('Data Added')
         window.location.href = '/ShowUser';
+      }
+      else if (result === 'Already') {
+        alert('This User Id Already Exist')
       }
       else {
         alert('Server Error')
@@ -224,7 +228,7 @@ const AddUser = () => {
               </form>
             </article>
             <div className={`mt-1 border-top card-footer`}>
-              <button type="submit" className="btn btn-success" onClick={Toogle} >Save</button>
+              <button type="submit" className="btn btn-success" onClick={handleSaveUser} >Save</button>
               <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowUser" }}>Cancel</button>
             </div>
           </div>
