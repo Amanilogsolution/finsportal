@@ -69,9 +69,7 @@ const CNDetails = (props) => {
                         data-toggle={localStorage.getItem('Role') === 'Admin' ? `modal` : ''} data-target={localStorage.getItem('Role') === 'Admin' ? `#exampleModalCenter` : ''} >{row.dn_flag} </button>
                 }
             }
-
         }
-
     ]
 
     useEffect(() => {
@@ -99,7 +97,6 @@ const CNDetails = (props) => {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLongTitle">Verification</h5>
-
                             </div>
                             <div className="modal-body">
                                 <form>
@@ -112,7 +109,6 @@ const CNDetails = (props) => {
                                         <input type="password" className="form-control" id="userPassword" placeholder="Password" />
                                     </div>
                                 </form>
-
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -122,12 +118,9 @@ const CNDetails = (props) => {
                     </div>
                 </div>
                 {/* Modal End */}
-
             </div>
-
         </>
     )
-
 }
 
 export default CNDetails

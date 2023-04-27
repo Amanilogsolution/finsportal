@@ -47,6 +47,8 @@ const CNController = require('../controller/Sales/CreditNote')
 const DNController = require('../controller/Purchases/DebitNote/DN')
 const somasterController = require('../controller/Sales/SalesOrder/so')
 
+const RecurringFreq = require('../controller/Master/RecurringFrequency')
+
 //Routes
 
 //DB
@@ -367,7 +369,6 @@ router.post('/insertcnsub', CNController.InsertCnSub)
 router.post('/selectcnsubdetails', CNController.SelectCnSubDetails)
 router.post('/filtercn', CNController.filterCN)
 
-
 router.post('/insertdebitnote', DNController.InsertDebitNote)
 router.post('/alldndata', DNController.AllDNData)
 router.post('/changednstatus', DNController.ChangeDNStatus)
@@ -377,7 +378,6 @@ router.post('/insertsubdebitnote', DNController.InsertSubDebitNote)
 router.post('/selectdnsubdetails', DNController.SelectDnSubDetails)
 router.post('/filterdn', DNController.filterDN)
 
-
 router.post('/insertsalesorder', somasterController.InsertSalesorder)
 router.post('/getsaveso', somasterController.getSaveSO)
 router.post('/insertsubsalesorder', somasterController.InsertSubSalesorder)
@@ -385,6 +385,12 @@ router.post('/getsodetails', somasterController.getSoDetails)
 router.post('/getsubsodetails', somasterController.getSubSoDetails)
 router.post('/editsalesorder', somasterController.EditSalesOrder)
 router.post('/filterso', somasterController.filterSO)
+
+router.post('/totalrecurringfreq', RecurringFreq.TotalRecurringFreq)
+router.post('/insertrecurringfreq', RecurringFreq.InsertRecurringFreq)
+router.post('/updaterecurringfreq', RecurringFreq.UpdateRecurringFreq)
+router.post('/showrecurringfreq', RecurringFreq.ShowRecurringFreq)
+router.post('/deleterecurringfreq', RecurringFreq.deleteRecurringFreq)
 
 
 

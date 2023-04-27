@@ -115,9 +115,7 @@ const Header = () => {
     else {
       localStorage.setItem('themetype', 'light')
       window.location.reload();
-
     }
-
   }
 
   const handlebtncolor = (e) => {
@@ -127,9 +125,7 @@ const Header = () => {
 
   return (
     <div>
-
       <Menu theme={themeval} btncolor={btntheme} />
-
       <nav className={`main-header navbar navbar-expand navbar-${themeval}`}>
         <ul className='navbar-nav'>
           <li className="nav-item">
@@ -166,17 +162,13 @@ const Header = () => {
                           {/* <i className={`fa fa-building text-${btntheme}`} ></i> &nbsp; */}
                           <span className="orgnamehover" >{item.fin_year}</span>
                         </a>
-
                       </li>
                     ))
                   }
                 </ul>
-
               </div>
-
             </div>
           </li>
-
           {/*########################## All Organisation Start ################################# */}
           <li className="nav-item dropdown" >
             <a className="nav-link" data-toggle="dropdown">
@@ -189,7 +181,6 @@ const Header = () => {
                     alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)", borderRadius: "50%", border: "1px solid black" }} />
                 </div>
                 <ul className="list-group list-group-flush">
-
                   <li className={`list-group-item bg-${themeval}`}><b >My Organisation</b>
                     <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
                   </li>
@@ -211,9 +202,7 @@ const Header = () => {
                     ))
                   }
                 </ul>
-
               </div>
-
             </div>
           </li>
           {/*########################## All Organisation Start ################################# */}
@@ -333,8 +322,6 @@ const Header = () => {
                       <button title='Primary' className='colordiv bg-primary' onClick={handlebtncolor} value="primary"></button>
                       <button title='Red' className='colordiv bg-danger' onClick={handlebtncolor} value="danger"></button>
                     </div>
-
-
                   </div>
                 </div>
               </div>
@@ -344,7 +331,6 @@ const Header = () => {
           {/*------ Profile Div end ---------------*/}
         </ul>
       </nav>
-
     </div>
   );
 };

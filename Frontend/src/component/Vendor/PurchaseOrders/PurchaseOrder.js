@@ -42,16 +42,12 @@ function PurchaseOrder() {
             const org = localStorage.getItem('Organisation');
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
-
             const units = await Activeunit(org)
             setUnitlist(units)
-
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-
             const items = await ActivePurchesItems(org)
             setItemlist(items)
-
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].po_count) + 1
             setPOcount(lastno)
@@ -102,7 +98,6 @@ function PurchaseOrder() {
         poitem[index].qty = qty
         poitem[index].rate = rate
         poitem[index].amt = amt
-
         document.getElementById(`amount-${index}`).value = amt
         let total_amt = 0
         poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
@@ -121,7 +116,6 @@ function PurchaseOrder() {
             newvalue.pop()
             setTotalValues(newvalue)
             poitem.pop()
-
             let total_amt = 0
             poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
             document.getElementById('subtotalval').innerHTML = total_amt;
@@ -138,7 +132,6 @@ function PurchaseOrder() {
         const vendor_data = document.getElementById('vend_name')
         let vendor_name = vendor_data.options[vendor_data.selectedIndex].text;
         let venddor_id = vendor_data.value;
-
         const location_data = document.getElementById('polocation')
         let location_name = location_data.options[location_data.selectedIndex].text;
         let location_id = location_data.value;
@@ -154,8 +147,6 @@ function PurchaseOrder() {
             poamount: document.getElementById('subtotalval').innerHTML
         })
     }
-
-
 
     const handleChangeUnit = (index) => {
         const unit_data = document.getElementById(`unit-${index}`).value;
@@ -255,7 +246,6 @@ function PurchaseOrder() {
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
                                                 </div>
                                             </div>
-
                                             <table className="table table-bordered mt-3">
                                                 <thead>
                                                     <tr>
@@ -339,7 +329,6 @@ function PurchaseOrder() {
                                         <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
-
                                     </div>
                                     <Preview data={poalldetail} Allitems={poitem} />
 
@@ -351,7 +340,6 @@ function PurchaseOrder() {
 
                 <Footer />
             </div>
-
         </>
     )
 }

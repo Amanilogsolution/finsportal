@@ -13,15 +13,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData=async()=>{
-   
     const due_date = await Compliancesduedate(localStorage.getItem("Organisation"))
-
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     let num = 0;
-
     due_date.map((n) => {
       const datedi = due_date[num].due_date.split("-");
       num = num + 1;
@@ -34,11 +31,10 @@ const Dashboard = () => {
       }
 
     }
-
     );
   }
   fetchData();
-  }, [])
+  },[])
 
   return (
       <div className={`content-wrapper`}>

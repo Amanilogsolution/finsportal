@@ -1,70 +1,86 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { TotalCrm, DeleteCrm, getUserRolePermission } from '../../../api';
+import { TotalRecurringFreq, deleteRecurringFreq, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 
-const ShowCrm = () => {
+const ShowRecurring = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
 
+
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await TotalCrm(localStorage.getItem('Organisation'))
+      const org = localStorage.getItem('Organisation');
+      const result = await TotalRecurringFreq(org)
+      console.log(result)
       setData(result)
       fetchRoles()
     }
+
     fetchdata();
   }, [])
 
+
   const fetchRoles = async () => {
     const org = localStorage.getItem('Organisation')
-
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
     if (financstatus === 'Lock') {
-      document.getElementById('addcrmbtn').style.background = '#7795fa';
+      document.getElementById('addpaymenttermbtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'crm')
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'payment_terms')
     setUserRightsData(UserRights)
     localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
-    if (UserRights.crm_create === 'true') {
-      document.getElementById('addcrmbtn').style.display = "block";
+    if (UserRights.payment_terms_create === 'true') {
+      document.getElementById('addpaymenttermbtn').style.display = "block";
     }
   }
 
+
   const columns = [
     {
-      name: 'Person name',
-      selector: row => row.user_name,
-      sortable: true
+      name: 'Recurring Type',
+      selector: 'null',
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Payment Recurring Type is Lock'>{row.term}</p>
+        }
+        else {
+          if (!userRightsData) {
+            fetchRoles()
+          }
+          if (userRightsData.payment_terms_edit === 'true') {
+            return (
+              <a title='Edit Payment Term' className='pb-1' href="EditRecurringFreq" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('FreqSno', `${row.sno}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.recurring_type}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Payment Term'>{row.recurring_type}</p>
+          }
+
+        }
+      }
     },
+
     {
-      name: 'Type',
-      selector: row => row.type,
-      sortable: true
-    },
-    {
-      name: 'Date',
-      selector: row => row.Joindate,
-      sortable: true
-    },
-    {
-      name: 'Customer/Vendor name',
-      selector: row => row.cust_vend,
+      name: 'Remark',
+      selector: row => row.remark,
       sortable: true
     },
     {
       name: 'Status',
       sortable: true,
       selector: 'null',
-      cell: (row) =>
-      {
+      cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
@@ -78,13 +94,13 @@ const ShowCrm = () => {
             window.location.reload()
           }
           else {
-            if (userRightsData.crm_delete === 'true') {
+            if (userRightsData.payment_terms_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
-                    await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
-                    window.location.href = '/ShowCrm'
+                    await deleteRecurringFreq(localStorage.getItem('Organisation'), status, row.sno)
+                    window.location.href = 'TotalRecurringFrequency'
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -103,24 +119,8 @@ const ShowCrm = () => {
           }
         }
       }
-    },
-    // {
-    //   name: "Actions",
-    //   sortable: false,
-
-    //   selector: row => row.null,
-    //   cell: (row) => [
-
-    //     <a title='View Document' href="/EditCrm">
-    //       <button className="editbtn btn-success " onClick={() => localStorage.setItem('CrmmasterSno', `${row.sno}`)} >Edit</button></a>
-
-    //   ]
-    // }
-
-
+    }
   ]
-
-
 
 
 
@@ -136,9 +136,8 @@ const ShowCrm = () => {
       <Header />
       <div className={`content-wrapper `}>
         <div className='d-flex justify-content-between py-4 px-4'>
-          <h3 className="text-left ml-5"> CRM Master </h3>
-          <button type="button " id='addcrmbtn' style={{ display: "none" }} onClick={() => {financialstatus !== 'Lock' ?  window.location.href = "./AddCrm" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Crm </button>
-
+          <h3 className="text-left ml-5">Payment Terms</h3>
+          <button type="button" id="addpaymenttermbtn" style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddRecurringFrequency" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Frequency</button>
         </div>
         <div className="container-fluid">
           <div className="card w-100">
@@ -156,9 +155,7 @@ const ShowCrm = () => {
                   customStyles={customStyles}
                 />
               </DataTableExtensions>
-
             </article>
-
           </div>
         </div>
       </div>
@@ -168,4 +165,4 @@ const ShowCrm = () => {
 
 }
 
-export default ShowCrm;
+export default ShowRecurring
