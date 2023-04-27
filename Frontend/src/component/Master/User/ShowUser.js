@@ -21,7 +21,7 @@ const ShowUser = () => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await TotalUser()
+      const result = await TotalUser(localStorage.getItem('Organisation'))
       setData(result)
       fetchRoles();
     }

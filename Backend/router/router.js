@@ -109,7 +109,7 @@ router.post('/updatebank', bankController.UpdateBank)
 router.post('/importbank', bankController.ImportBank)
 
 //User
-router.get('/totaluser', userController.Totaluser)
+router.post('/totaluser', userController.Totaluser)
 router.post('/insertuser', userController.InsertUser)
 router.post('/showuser', userController.showuser)
 router.post('/updateuser', userController.updateuser)
