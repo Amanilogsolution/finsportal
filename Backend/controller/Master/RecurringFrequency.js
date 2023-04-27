@@ -76,4 +76,18 @@ async function ShowRecurringFreq(req, res) {
     }
 }
 
-module.exports={TotalRecurringFreq,InsertRecurringFreq,UpdateRecurringFreq,ShowRecurringFreq}
+async function deleteRecurringFreq(req, res) {
+    const sno = req.body.sno;
+    const status = req.body.status;
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_recurring_freq set status='${status}' where sno = ${sno}`)
+        res.send(result)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports={TotalRecurringFreq,InsertRecurringFreq,UpdateRecurringFreq,ShowRecurringFreq,deleteRecurringFreq}

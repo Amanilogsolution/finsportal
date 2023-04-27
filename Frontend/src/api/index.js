@@ -1669,4 +1669,9 @@ export const ShowRecurringFreq = async (org,sno) => {
     return axios.post(url, { org,sno }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const deleteRecurringFreq = async (org,status,sno) => {
+    const url = `http://localhost:3008/api/deleterecurringfreq`
+    return axios.post(url, { org,status,sno}).then(response => response.data).catch(error => console.log(error));
+}
+
 

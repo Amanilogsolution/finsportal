@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { TotalRecurringFreq, DeletePaymentTerm, getUserRolePermission } from '../../../api';
+import { TotalRecurringFreq, deleteRecurringFreq, getUserRolePermission } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
@@ -99,8 +99,8 @@ const ShowRecurring = () => {
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
-                    await DeletePaymentTerm(localStorage.getItem('Organisation'), status, row.sno)
-                    window.location.href = 'ShowPaymentTerm'
+                    await deleteRecurringFreq(localStorage.getItem('Organisation'), status, row.sno)
+                    window.location.href = 'TotalRecurringFrequency'
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>

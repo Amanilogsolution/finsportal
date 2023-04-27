@@ -390,6 +390,8 @@ router.post('/totalrecurringfreq', RecurringFreq.TotalRecurringFreq)
 router.post('/insertrecurringfreq', RecurringFreq.InsertRecurringFreq)
 router.post('/updaterecurringfreq', RecurringFreq.UpdateRecurringFreq)
 router.post('/showrecurringfreq', RecurringFreq.ShowRecurringFreq)
+router.post('/deleterecurringfreq', RecurringFreq.deleteRecurringFreq)
+
 
 
 
