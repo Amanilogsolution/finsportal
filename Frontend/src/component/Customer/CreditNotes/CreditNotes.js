@@ -25,8 +25,8 @@ function CreditNotes() {
         sub_id: ''
     }])
     const [subTotal, setSubTotal] = useState([])
-    const [TotalCN,setTotalCN] = useState([])
-    const [taxvalue,settaxvalue] = useState([])
+    const [TotalCN, setTotalCN] = useState([])
+    const [taxvalue, settaxvalue] = useState([])
 
 
     useEffect(() => {
@@ -43,7 +43,6 @@ function CreditNotes() {
             setInvoiceData(Invoice[0])
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
-            console.log(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
@@ -64,7 +63,6 @@ function CreditNotes() {
         if (invdate > today) {
             alert('Cannt Do GST')
         }
-        console.log(today, invdate)
     }
 
     const handleChangePassAmount = (value, index, id) => {
@@ -74,15 +72,12 @@ function CreditNotes() {
         let Activity = document.getElementById(`Activity${index}`).innerHTML
         let Amount = invoicesub[index].amount
         let Item = document.getElementById(`Item${index}`).innerHTML
-        console.log(invoicesub[index])
-        const TotalTax = Number(invoicesub[index].cgst_rate) + Number(invoicesub[index].igst_rate) +Number(invoicesub[index].sgst_rate)
-        console.log(TotalTax)
-        const valTax = Math.round((value * 18)/100)
-        console.log(Number(value)+valTax)
-        let TotalTaxValue = Number(value)+ Number(valTax)
+        const TotalTax = Number(invoicesub[index].cgst_rate) + Number(invoicesub[index].igst_rate) + Number(invoicesub[index].sgst_rate)
+        const valTax = Math.round((value * 18) / 100)
+        let TotalTaxValue = Number(value) + Number(valTax)
         let sum = 0
         let totalcn = 0
-        let taxval = 0 
+        let taxval = 0
         let Balancevalue = AmtBalance - TotalTaxValue
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
@@ -120,14 +115,14 @@ function CreditNotes() {
                 document.getElementById('totalCnAmt').innerHTML = sum
                 // document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
                 document.getElementById('grandTotal').innerHTML = totalcn
-                if(Number(invoicesub[index].igst_rate) > 0){
+                if (Number(invoicesub[index].igst_rate) > 0) {
                     document.getElementById('igstamt').innerHTML = taxval
                     document.getElementById('cgst').innerHTML = 0
                     document.getElementById('sgst').innerHTML = 0
-                }else{
+                } else {
                     document.getElementById('igstamt').innerHTML = 0
-                    document.getElementById('cgst').innerHTML = taxval/2
-                    document.getElementById('sgst').innerHTML = taxval/2
+                    document.getElementById('cgst').innerHTML = taxval / 2
+                    document.getElementById('sgst').innerHTML = taxval / 2
 
                 }
 
@@ -262,30 +257,50 @@ function CreditNotes() {
                                             <table className='mx-3' style={{ width: "95%" }}>
                                                 <tbody>
                                                     <tr scope="row">
-                                                        <td><h4>Net Total</h4></td>
-                                                        <td></td>
-
-                                                        <td className="text-danger"><h4 id="totalCnAmt">0</h4></td>
+                                                        <td className="col-md-3"><h4>Net Total</h4></td>
+                                                        <td className="col-md-5"></td>
+                                                        <td className="col-md-2 text-danger"><h4 id="totalCnAmt">0</h4></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>CGST </td>
-                                                        <td>{invoicedata ? invoicedata.cgst_amt : ""} %</td>
-                                                        <td id="cgst"></td>
+                                                        <td className="col-md-3">CGST </td>
+                                                        <td>
+                                                            <div className="input-group  col-md-5" >
+                                                                <input type="number" className='form-control col  cursor-notallow' defaultValue={invoicedata ? invoicedata.cgst_amt : ""} disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="col-md-2" id="cgst">0</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>SGST / UTGST </td>
-                                                        <td>{invoicedata ? invoicedata.sgst_amt : ""} %</td>
-                                                        <td id="sgst"></td>
+                                                        <td className="col-md-3">SGST / UTGST </td>
+                                                        <td>
+                                                            <div className="input-group  col-md-5" >
+                                                                <input type="number" className='form-control col  cursor-notallow' defaultValue={invoicedata ? invoicedata.sgst_amt : ""} disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="col-md-2" id="sgst">0</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>IGST </td>
-                                                        <td>{invoicedata ? invoicedata.igst_amt : ""} %</td>
-                                                        <td id="igstamt"></td>
+                                                        <td className="col-md-3" >IGST </td>
+                                                        <td>
+                                                            <div className="input-group  col-md-5" >
+                                                                <input type="number" className='form-control col  cursor-notallow' defaultValue={invoicedata ? invoicedata.igst_amt : ""} disabled />
+                                                                <div className="input-group-append">
+                                                                    <span className="input-group-text">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="col-md-2" id="igstamt">0</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><h3> Total(₹)</h3></td>
-                                                        <td></td>
-                                                        <td><h4 id="grandTotal"></h4></td>
+                                                        <td className="col-md-3"><h3> Total(₹)</h3></td>
+                                                        <td className="col-md-5"></td>
+                                                        <td className="col-md-2"><h4 id="grandTotal">0</h4></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -309,7 +324,7 @@ function CreditNotes() {
                         </div>
                     </div>
                 </div>
-                <button type="button" ref={btn} class="btn" data-toggle="modal" data-target="#exampleModal1">
+                <button type="button" ref={btn} className="btn" data-toggle="modal" data-target="#exampleModal1">
                 </button>
                 <Footer />
             </div>
@@ -318,25 +333,25 @@ function CreditNotes() {
                     <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname} />
                     : null
             }
-            <div class="modal fade" id="exampleModal1" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">DebitNote Request</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="exampleModal1" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">DebitNote Request</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <p>{`
                             ${!data.total_cn_amt ? '0' : document.getElementById('totalCnAmt').innerHTML}
                             is less than 
                             ${data.total_cn_amt} 
                             Are you Still want to make a Request`}</p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                            <button type="button" class="btn btn-primary" onClick={handleClick}>Yes</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="button" className="btn btn-primary" onClick={handleClick}>Yes</button>
                         </div>
                     </div>
                 </div>
