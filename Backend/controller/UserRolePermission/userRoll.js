@@ -171,6 +171,41 @@ const AddUserRole = async (req, res) => {
     const debitnote_edit = req.body.debitnote_edit
     const debitnote_delete = req.body.debitnote_delete
 
+    const reports_salesorder_view = req.body.reports_salesorder_view
+    const reports_salesorder_create = req.body.reports_salesorder_create
+    const reports_salesorder_edit = req.body.reports_salesorder_edit
+    const reports_salesorder_delete = req.body.reports_salesorder_delete
+
+    const reports_purchasesorder_view = req.body.reports_purchasesorder_view
+    const reports_purchasesorder_create = req.body.reports_purchasesorder_create
+    const reports_purchasesorder_edit = req.body.reports_purchasesorder_edit
+    const reports_purchasesorder_delete = req.body.reports_purchasesorder_delete
+
+    const reports_creditnote_view = req.body.reports_creditnote_view
+    const reports_creditnote_create = req.body.reports_creditnote_create
+    const reports_creditnote_edit = req.body.reports_creditnote_edit
+    const reports_creditnote_delete = req.body.reports_creditnote_delete
+
+    const reports_debitnote_view = req.body.reports_debitnote_view
+    const reports_debitnote_create = req.body.reports_debitnote_create
+    const reports_debitnote_edit = req.body.reports_debitnote_edit
+    const reports_debitnote_delete = req.body.reports_debitnote_delete
+
+    const recurring_freq_view = req.body.recurring_freq_view
+    const recurring_freq_create = req.body.recurring_freq_create
+    const recurring_freq_edit = req.body.recurring_freq_edit
+    const recurring_freq_delete = req.body.recurring_freq_delete
+
+    const recurring_invoice_view = req.body.recurring_invoice_view
+    const recurring_invoice_create = req.body.recurring_invoice_create
+    const recurring_invoice_edit = req.body.recurring_invoice_edit
+    const recurring_invoice_delete = req.body.recurring_invoice_delete
+
+    const recurring_bill_view = req.body.recurring_bill_view
+    const recurring_bill_create = req.body.recurring_bill_create
+    const recurring_bill_edit = req.body.recurring_bill_edit
+    const recurring_bill_delete = req.body.recurring_bill_delete
+    
 
     try {
         await sql.connect(sqlConfig)
@@ -197,20 +232,20 @@ const AddUserRole = async (req, res) => {
                 fincial_year_view,fincial_year_create,fincial_year_edit,fincial_year_delete,
                 branch_view,branch_create,branch_edit,branch_delete,
                 crm_view,crm_create,crm_edit,crm_delete,
-
+            
                 compliances_view,compliances_create,compliances_edit,compliances_delete,
                 roles_view,roles_create,roles_edit,roles_delete,
                 items_view,items_create,items_edit,items_delete,
                 master_all,
-
+            
                 country_view,country_create,country_edit,country_delete,
                 state_view,state_create,state_edit,state_delete,
                 city_view,city_create,city_edit,city_delete,
-
+            
                 currency_view,currency_create,currency_edit,currency_delete,
                 unit_view,unit_create,unit_edit,unit_delete,
                 banking_view,banking_create,banking_edit,banking_delete,
-
+            
                 comp_type_view,comp_type_create,comp_type_edit,comp_type_delete ,
                 users_view,users_create,users_edit,users_delete,
                 employee_view,employee_create,employee_edit,employee_delete,
@@ -219,53 +254,74 @@ const AddUserRole = async (req, res) => {
                 reports_bill_view,reports_bill_create,reports_bill_edit,reports_bill_delete,
                 reports_invoice_view,reports_invoice_create,reports_invoice_edit,reports_invoice_delete,
                 
-                add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid,
                  salesorder_view,salesorder_create,salesorder_edit,salesorder_delete,
                  creditnotes_view,creditnotes_create,creditnotes_edit,creditnotes_delete,
                  purchasesorder_view,purchasesorder_create,purchasesorder_edit,purchasesorder_delete,
-                 debitnote_view,debitnote_create,debitnote_edit,debitnote_delete)
+                 debitnote_view,debitnote_create,debitnote_edit,debitnote_delete,
+            
+                 reports_so_view,reports_so_create,reports_so_edit,reports_so_delete,
+                 reports_po_view,reports_po_create,reports_po_edit,reports_po_delete,
+                 reports_cn_view,reports_cn_create,reports_cn_edit ,reports_cn_delete ,
+                 reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
+            
+                 recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
+                 recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
+                 recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
+                 add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
+                 
+                 )
                       
-      values('${roles}','${role_id}','${description}','${sales_all}',
-      '${customer_view}','${customer_create}','${customer_edit}','${customer_delete}',
-      '${invoice_view}','${invoice_create}','${invoice_edit}','${invoice_delete}',
-      '${purchases_all}',
-      '${vendor_view}','${vendor_create}','${vendor_edit}','${vendor_delete}',
-      '${bills_view}','${bills_create}','${bills_edit}','${bills_delete}',
-      '${accountant_all}',
-      '${chartof_accounts_view}','${chartof_accounts_create}','${chartof_accounts_edit}','${chartof_accounts_delete}',
-      '${currency_addj_view}','${currency_addj_create}','${currency_addj_edit}','${currency_addj_delete}',
-      '${setting_all}',
-      '${org_profile_view}','${org_profile_create}','${org_profile_edit}','${org_profile_delete}',
-      '${payment_terms_view}','${payment_terms_create}','${payment_terms_edit}','${payment_terms_delete}',
-
-      '${fincial_year_view}','${fincial_year_create}','${fincial_year_edit}','${fincial_year_delete}',
-      '${branch_view}','${branch_create}','${branch_edit}','${branch_delete}',
-      '${crm_view}','${crm_create}','${crm_edit}','${crm_delete}',
-
-      '${compliances_view}','${compliances_create}','${compliances_edit}','${compliances_delete}',
-      '${roles_view}','${roles_create}','${roles_edit}','${roles_delete}',
-      '${items_view}','${items_create}','${items_edit}','${items_delete}',
-      '${master_all}',
-
-      '${country_view}','${country_create}','${country_edit}','${country_delete}',
-      '${state_view}','${state_create}','${state_edit}','${state_delete}',
-      '${city_view}','${city_create}','${city_edit}','${city_delete}',
-
-      '${currency_view}','${currency_create}','${currency_edit}','${currency_delete}',
-      '${unit_view}','${unit_create}','${unit_edit}','${unit_delete}',
-      '${banking_view}','${banking_create}','${banking_edit}','${banking_delete}',
-      
-      '${comp_type_view}','${comp_type_create}','${comp_type_edit}','${comp_type_delete}',
-      '${users_view}','${users_create}','${users_edit}','${users_delete}',
-      '${employee_view}','${employee_create}','${employee_edit}','${employee_delete}',
-      '${reports_all}',
-      '${reports_bill_view}','${reports_bill_create}','${reports_bill_edit}','${reports_bill_delete}',
-      '${reports_invoice_view}','${reports_invoice_create}','${reports_invoice_edit}','${reports_invoice_delete}',
-      '${user_id}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuid}',
-      '${salesorder_view}','${salesorder_create}','${salesorder_edit}','${salesorder_delete}',
-      '${creditnotes_view}','${creditnotes_create}','${creditnotes_edit}','${creditnotes_delete}',
-      '${purchasesorder_view}','${purchasesorder_create}','${purchasesorder_edit}','${purchasesorder_delete}',
-      '${debitnote_view}','${debitnote_create}','${debitnote_edit}','${debitnote_delete}')`)
+            values('${roles}','${role_id}','${description}','${sales_all}',
+            '${customer_view}','${customer_create}','${customer_edit}','${customer_delete}',
+            '${invoice_view}','${invoice_create}','${invoice_edit}','${invoice_delete}',
+            '${purchases_all}',
+            '${vendor_view}','${vendor_create}','${vendor_edit}','${vendor_delete}',
+            '${bills_view}','${bills_create}','${bills_edit}','${bills_delete}',
+            '${accountant_all}',
+            '${chartof_accounts_view}','${chartof_accounts_create}','${chartof_accounts_edit}','${chartof_accounts_delete}',
+            '${currency_addj_view}','${currency_addj_create}','${currency_addj_edit}','${currency_addj_delete}',
+            '${setting_all}',
+            '${org_profile_view}','${org_profile_create}','${org_profile_edit}','${org_profile_delete}',
+            '${payment_terms_view}','${payment_terms_create}','${payment_terms_edit}','${payment_terms_delete}',
+            
+            '${fincial_year_view}','${fincial_year_create}','${fincial_year_edit}','${fincial_year_delete}',
+            '${branch_view}','${branch_create}','${branch_edit}','${branch_delete}',
+            '${crm_view}','${crm_create}','${crm_edit}','${crm_delete}',
+            
+            '${compliances_view}','${compliances_create}','${compliances_edit}','${compliances_delete}',
+            '${roles_view}','${roles_create}','${roles_edit}','${roles_delete}',
+            '${items_view}','${items_create}','${items_edit}','${items_delete}',
+            '${master_all}',
+            
+            '${country_view}','${country_create}','${country_edit}','${country_delete}',
+            '${state_view}','${state_create}','${state_edit}','${state_delete}',
+            '${city_view}','${city_create}','${city_edit}','${city_delete}',
+            
+            '${currency_view}','${currency_create}','${currency_edit}','${currency_delete}',
+            '${unit_view}','${unit_create}','${unit_edit}','${unit_delete}',
+            '${banking_view}','${banking_create}','${banking_edit}','${banking_delete}',
+            
+            '${comp_type_view}','${comp_type_create}','${comp_type_edit}','${comp_type_delete}',
+            '${users_view}','${users_create}','${users_edit}','${users_delete}',
+            '${employee_view}','${employee_create}','${employee_edit}','${employee_delete}',
+            '${reports_all}',
+            '${reports_bill_view}','${reports_bill_create}','${reports_bill_edit}','${reports_bill_delete}',
+            '${reports_invoice_view}','${reports_invoice_create}','${reports_invoice_edit}','${reports_invoice_delete}',
+            
+            '${salesorder_view}','${salesorder_create}','${salesorder_edit}','${salesorder_delete}',
+            '${creditnotes_view}','${creditnotes_create}','${creditnotes_edit}','${creditnotes_delete}',
+            '${purchasesorder_view}','${purchasesorder_create}','${purchasesorder_edit}','${purchasesorder_delete}',
+            '${debitnote_view}','${debitnote_create}','${debitnote_edit}','${debitnote_delete}',
+            
+            '${reports_salesorder_view}','${reports_salesorder_create}','${reports_salesorder_edit}','${reports_salesorder_delete}',
+            '${reports_purchasesorder_view}','${reports_purchasesorder_create}','${reports_purchasesorder_edit}','${reports_purchasesorder_delete}',
+            '${reports_creditnote_view}','${reports_creditnote_create}','${reports_creditnote_edit}','${reports_creditnote_delete}',
+            '${reports_debitnote_view}','${reports_debitnote_create}','${reports_debitnote_edit}','${reports_debitnote_delete}',
+            
+            '${recurring_freq_view}','${recurring_freq_create}','${recurring_freq_edit}','${recurring_freq_delete}',
+            '${recurring_invoice_view}','${recurring_invoice_create}','${recurring_invoice_edit}','${recurring_invoice_delete}',
+            '${recurring_bill_view}','${recurring_bill_create}','${recurring_bill_edit}','${recurring_bill_delete}',
+            '${user_id}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')`)
 
             res.send('Added')
         }
