@@ -84,9 +84,13 @@ const InsertCnSub = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_sub_creditnote (cn_no,invoice_no,activity,items,amt,balance_amt,pass_amt,
-            remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,sub_inv_id)
+            remark,add_date_time,add_user_name,add_system_name,add_ip_address,status,sub_inv_id,
+            cgst_rate,cgst_amt,sgst_rate,sgst_amt,igst_rate,igst_amt,glcode)
             values('${data.cn_no}','${data.invoice_no}','${data.activity}','${data.item}','${data.amount}','${data.balance_amt}','${data.pass_amt}',
-            '${remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}')`)
+            '${remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}',
+            '${data.cgstper}','${data.cgstamt}','${data.sgstper}','${data.sgstamt}','${data.igstper}','${data.igstamt}','${data.glcode}')`)
+
+            console.log(result)
         res.send('Added')
     }
     catch (err) {
@@ -132,4 +136,4 @@ const filterCN = async (req, res) => {
     }
 }
 
-module.exports = { InsertCreditNote, AllCNData, ChangeCNStatus, getCNData, InsertCnSub, SelectCnSubDetails,filterCN }
+module.exports = { InsertCreditNote, AllCNData, ChangeCNStatus, getCNData, InsertCnSub, SelectCnSubDetails, filterCN }

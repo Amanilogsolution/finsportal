@@ -53,8 +53,8 @@ const CnPreview = ({ cnSNum }) => {
 
     return (
         <>
-            <div className="modal fade bd-example-modal-lg border border-danger" id="CNPreviewModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" onClick={console.log('mkdclk')}>
-                <div className="modal-dialog modal-lg cnPreview-modal border border-danger" role="document">
+            <div className="modal fade bd-example-modal-lg " id="CNPreviewModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                <div className="modal-dialog modal-lg cnPreview-modal " role="document">
 
                     <div className="modal-content">
                         {
@@ -113,10 +113,8 @@ const CnPreview = ({ cnSNum }) => {
                                                             <tr>
                                                                 <th rowSpan="2">SNo.</th>
                                                                 <th rowSpan="2">Activity</th>
-                                                                <th rowSpan="2">Qty</th>
                                                                 <th rowSpan="2">Amount</th>
                                                                 <th rowSpan="2">Pass Amt</th>
-                                                                <th rowSpan="2">Taxable Amt</th>
                                                                 <th colSpan="2">CGST </th>
                                                                 <th colSpan="2">SGST </th>
                                                                 <th colSpan="2">IGST </th>
@@ -135,16 +133,14 @@ const CnPreview = ({ cnSNum }) => {
                                                                 return (<tr key={index}>
                                                                     <td>{index + 1}</td>
                                                                     <td>{item.items}</td>
-                                                                    <td></td>
                                                                     <td>{item.amt}</td>
                                                                     <td>{item.pass_amt}</td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
+                                                                    <td>{item.cgst_rate}</td>
+                                                                    <td>{item.cgst_amt}</td>
+                                                                    <td>{item.sgst_rate}</td>
+                                                                    <td>{item.sgst_amt}</td>
+                                                                    <td>{item.igst_rate}</td>
+                                                                    <td>{item.igst_amt}</td>
                                                                 </tr>)
                                                             })}
 

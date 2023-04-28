@@ -50,7 +50,6 @@ const CNReport = (props) => {
     useEffect(() => {
         async function fetchdata() {
             setData(props.displaydata)
-            console.log(props.displaydata)
         }
         fetchdata()
     }, [])

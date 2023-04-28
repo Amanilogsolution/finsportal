@@ -1552,7 +1552,7 @@ export const getCNData = async (org, sno) => {
 }
 
 export const InsertCnSub = async (org, data, userid, remark) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertcnsub`
+    const url = `http://localhost:3008/api/insertcnsub`
     return axios.post(url, { org, data, userid, remark }).then(response => response.data).catch(error => console.log(error));
 }
 
