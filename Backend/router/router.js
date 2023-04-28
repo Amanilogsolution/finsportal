@@ -403,8 +403,4 @@ router.post('/getrecurringinvoice', RecurringInvoice.getRecurringInvoice)
 router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringInvoice)
 router.post('/getsubrecurringinvoice',SubRecurringInvoice.getSubRecurringInvoice)
 
-
-
-
-
 module.exports = router;
