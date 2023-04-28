@@ -17,6 +17,10 @@ app.use(bodyParser.json())
 
 app.use('/api',router)
 
+app.get('/',function(req,res){
+  res.send('FinsBackend')
+})
+
 app.post('/sendotp',async function (req,res){
   const phoneno = req.body.phoneno;
   const otp = req.body.otp;
