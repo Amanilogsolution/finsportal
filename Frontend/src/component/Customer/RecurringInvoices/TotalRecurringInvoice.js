@@ -19,7 +19,7 @@ const TotalRecurringInvoice = () => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
       const result = await totalRecurringInvoice(org)
-      console.log(result)
+  
       setData(result)
       setLoading(true)
       fetchRoles()
@@ -37,11 +37,11 @@ const TotalRecurringInvoice = () => {
     if (financstatus === 'Lock') {
       document.getElementById('addivoicebtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'recurring_invoice')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
-    if (UserRights.invoice_create === 'true') {
+    if (UserRights.recurring_invoice_create=== 'true') {
       document.getElementById('addivoicebtn').style.display = "block";
     }
   }
@@ -76,7 +76,7 @@ const TotalRecurringInvoice = () => {
           if (!userRightsData) {
             fetchRoles()
           }
-          if (userRightsData.invoice_edit === 'true') {
+          if (userRightsData.recurring_invoice_edit === 'true') {
             return (
               <a title='Edit Invoice ' href="/EditRecurringInvoice" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('invoiceNo', `${row.invoice_no}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.invoice_no}</a>
