@@ -36,7 +36,7 @@ function EditRecurringInvoice() {
 
     const handlePostbtn = async (e) => {
         e.preventDefault();
-        // setLoading(false)
+        setLoading(false)
         const org = localStorage.getItem('Organisation')
 
         const fin_year = await Getfincialyearid(org)
@@ -62,7 +62,7 @@ function EditRecurringInvoice() {
         if (update_inv_no === 'Updated' && result2 === 'Added') {
             const update_sub_invno = await UpdateSaveSubRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
 
-            invoicesub.map(async(item) => {
+            invoicesub.map(async (item) => {
                 const result3 = await InsertInvoiceSub(org, item.fin_year, invoiceid, item.major, item.minor, item.glcode,
                     item.billing_code, item.quantity, item.rate, item.unit, item.amount, item.consignee, item.city, item.custid, item.cust_locationid,
                     item.taxable, item.cgst_rate, item.sgst_rate, item.utgst_rate, item.igst_rate, item.cgst_amt, item.sgst_amt, item.utgst_amt, item.igst_amt, item.taxableamount, localStorage.getItem('User_id'))
