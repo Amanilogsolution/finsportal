@@ -15,6 +15,7 @@ function CreditNotes() {
     const [custname, setCustname] = useState('')
     const [invoicedata, setInvoiceData] = useState({})
     const [ChargeCodeSub, setChargeCodeSub] = useState([{
+
         cn_no: '',
         invoice_no: '',
         activity: '',
@@ -142,7 +143,6 @@ function CreditNotes() {
                     }
                     setChargeCodeSub(data)
                 }
-             
                 subTotal.map(item => sum += Number(item))
                 TotalCN.map(item => totalcn += Number(item))
                 taxvalue.map(item => taxval += Number(item))

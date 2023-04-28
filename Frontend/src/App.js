@@ -162,6 +162,9 @@ import ShowRoles from './component/ProjectSetting/Roles/ShowRoles';
 
 import ChartOfAccount2 from './component/Accountant/ChartOfAccount/ChartOfAccount2';
 
+import AddRecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
+import TotalRecurringInvoice from './component/Customer/RecurringInvoices/TotalRecurringInvoice'
+import EditRecurringInvoice from './component/Customer/RecurringInvoices/EditRecurringInvoice'
 
 const App = () => {
 
@@ -349,6 +352,12 @@ const App = () => {
 
 
 
+          <PrivatRoute exact path="/AddRecurringInvoices" component={AddRecurringInvoices} />
+          <PrivatRoute exact path="/TotalRecurringInvoice" component={TotalRecurringInvoice} />
+          <PrivatRoute exact path="/EditRecurringInvoice" component={EditRecurringInvoice} />
+
+          
+          
 
 
           <Route exact path="*" component={PageNotFound} />
