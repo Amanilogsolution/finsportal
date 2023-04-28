@@ -95,8 +95,12 @@ const AddRoles = () => {
         const creditnotes_edit = document.getElementById('creditnotes_edit').checked === true ? true : false;
         const creditnotes_delete = document.getElementById('creditnotes_delete').checked === true ? true : false;
 
+        const recurring_invoice_view = document.getElementById('recurring_invoice_view').checked === true ? true : false;
+        const recurring_invoice_create = document.getElementById('recurring_invoice_create').checked === true ? true : false;
+        const recurring_invoice_edit = document.getElementById('recurring_invoice_edit').checked === true ? true : false;
+        const recurring_invoice_delete = document.getElementById('recurring_invoice_delete').checked === true ? true : false;
 
-        const sales_all = cust_view || invoice_view || salesorder_view || creditnotes_view;
+        const sales_all = cust_view || invoice_view || salesorder_view || creditnotes_view || recurring_invoice_view;
 
         // Purchases
         const vend_view = document.getElementById('vend_view').checked === true ? true : false;
@@ -119,7 +123,12 @@ const AddRoles = () => {
         const debitnote_edit = document.getElementById('debitnote_edit').checked === true ? true : false;
         const debitnote_delete = document.getElementById('debitnote_delete').checked === true ? true : false;
 
-        const purchases_all = vend_view || bills_view || purchasesorder_view || debitnote_view;
+        const recurring_bill_view = document.getElementById('recurring_bill_view').checked === true ? true : false;
+        const recurring_bill_create = document.getElementById('recurring_bill_create').checked === true ? true : false;
+        const recurring_bill_edit = document.getElementById('recurring_bill_edit').checked === true ? true : false;
+        const recurring_bill_delete = document.getElementById('recurring_bill_delete').checked === true ? true : false;
+
+        const purchases_all = vend_view || bills_view || purchasesorder_view || debitnote_view || recurring_bill_view ;
 
         // Accountant
 
@@ -230,8 +239,12 @@ const AddRoles = () => {
         const empmaster_edit = document.getElementById('empmaster_edit').checked === true ? true : false;
         const empmaster_delete = document.getElementById('empmaster_delete').checked === true ? true : false;
 
+        const recurring_freq_view = document.getElementById('recurring_freq_view').checked === true ? true : false;
+        const recurring_freq_create = document.getElementById('recurring_freq_create').checked === true ? true : false;
+        const recurring_freq_edit = document.getElementById('recurring_freq_edit').checked === true ? true : false;
+        const recurring_freq_delete = document.getElementById('recurring_freq_delete').checked === true ? true : false;
 
-        const master_all = country_view || state_view || city_view || currency_view || unit_view || banking_view || comptype_view || users_view || empmaster_view;
+        const master_all = country_view || state_view || city_view || currency_view || unit_view || banking_view || comptype_view || users_view || empmaster_view || recurring_freq_view;
 
         //  ########################################### Reports #########################################
 
@@ -246,7 +259,30 @@ const AddRoles = () => {
         const reports_invoice_edit = document.getElementById('reports_invoice_edit').checked === true ? true : false;
         const reports_invoice_delete = document.getElementById('reports_invoice_delete').checked === true ? true : false;
 
-        const reports_all = reports_bills_view || reports_invoice_view;
+        // Now
+        const reports_salesorder_view = document.getElementById('reports_salesorder_view').checked === true ? true : false;
+        const reports_salesorder_create = document.getElementById('reports_salesorder_create').checked === true ? true : false;
+        const reports_salesorder_edit = document.getElementById('reports_salesorder_edit').checked === true ? true : false;
+        const reports_salesorder_delete = document.getElementById('reports_salesorder_delete').checked === true ? true : false;
+
+
+        const reports_purchasesorder_view = document.getElementById('reports_purchasesorder_view').checked === true ? true : false;
+        const reports_purchasesorder_create = document.getElementById('reports_purchasesorder_create').checked === true ? true : false;
+        const reports_purchasesorder_edit = document.getElementById('reports_purchasesorder_edit').checked === true ? true : false;
+        const reports_purchasesorder_delete = document.getElementById('reports_purchasesorder_delete').checked === true ? true : false;
+
+        const reports_creditnote_view = document.getElementById('reports_creditnote_view').checked === true ? true : false;
+        const reports_creditnote_create = document.getElementById('reports_creditnote_create').checked === true ? true : false;
+        const reports_creditnote_edit = document.getElementById('reports_creditnote_edit').checked === true ? true : false;
+        const reports_creditnote_delete = document.getElementById('reports_creditnote_delete').checked === true ? true : false;
+
+
+        const reports_debitnote_view = document.getElementById('reports_debitnote_view').checked === true ? true : false;
+        const reports_debitnote_create = document.getElementById('reports_debitnote_create').checked === true ? true : false;
+        const reports_debitnote_edit = document.getElementById('reports_debitnote_edit').checked === true ? true : false;
+        const reports_debitnote_delete = document.getElementById('reports_debitnote_delete').checked === true ? true : false;
+
+        const reports_all = reports_bills_view || reports_invoice_view || reports_salesorder_view || reports_purchasesorder_view || reports_creditnote_view || reports_debitnote_view;
 
         const user_id = localStorage.getItem('User_id');
         const org = localStorage.getItem('Organisation');
@@ -284,7 +320,16 @@ const AddRoles = () => {
                 reports_all, reports_bills_view, reports_bills_create, reports_bills_edit, reports_bills_delete,
                 reports_invoice_view, reports_invoice_create, reports_invoice_edit, reports_invoice_delete, user_id,
                 salesorder_view, salesorder_create, salesorder_edit, salesorder_delete, creditnotes_view, creditnotes_create, creditnotes_edit, creditnotes_delete,
-                purchasesorder_view, purchasesorder_create, purchasesorder_edit, purchasesorder_delete, debitnote_view, debitnote_create, debitnote_edit, debitnote_delete)
+                purchasesorder_view, purchasesorder_create, purchasesorder_edit, purchasesorder_delete, debitnote_view, debitnote_create, debitnote_edit, debitnote_delete,
+                
+                reports_salesorder_view,reports_salesorder_create,reports_salesorder_edit,reports_salesorder_delete,
+                reports_purchasesorder_view,reports_purchasesorder_create,reports_purchasesorder_edit,reports_purchasesorder_delete,
+                reports_creditnote_view,reports_creditnote_create,reports_creditnote_edit ,reports_creditnote_delete ,
+                reports_debitnote_view ,reports_debitnote_create ,reports_debitnote_edit ,reports_debitnote_delete,
+
+                recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
+                recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete ,
+                recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete)
 
             if (submitdata === 'Role Already') {
                 setAlreadyrole(true)
@@ -299,7 +344,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -317,7 +362,7 @@ const AddRoles = () => {
     }
 
     const handlemaster = () => {
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency'];
         if (mastertoggle) {
             for (let i = 0; i < innermaster.length; i++) {
                 document.getElementById(innermaster[i]).style.display = 'none'
@@ -335,11 +380,11 @@ const AddRoles = () => {
     const handleChangeAllAccess = (e) => {
         const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
             'org', 'paymentTerm', 'financial', 'branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
-            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote']
+            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'recurring_freq', 'recurring_invoice', 'recurring_bill']
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote'];
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency'];
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
 
 
@@ -369,12 +414,10 @@ const AddRoles = () => {
 
         } else {
             for (var val of arr1) {
-                // console.log(val)
                 for (let val2 of arr2) {
                     document.getElementById(`${val}_${val2}`).checked = false
                 }
                 fullaccess(`${val}_full`, `${val}_view`, `${val}_create`, `${val}_edit`, `${val}_delete`)
-
             }
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -389,14 +432,8 @@ const AddRoles = () => {
             setTransition(false)
             setMastertoggle(false)
             setReporttoggle(false)
-
-
-
         }
     }
-
-
-
 
 
     const handlereport = () => {
@@ -459,9 +496,7 @@ const AddRoles = () => {
                                                 {/* #############################  Transition #################################################### */}
                                                 <tr>
                                                     <th className="text-left pl-4">All Rights <input type="checkbox" onChange={handleChangeAllAccess} /></th>
-
                                                 </tr>
-
                                                 <tr >
                                                     <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handletransition}>
                                                         {
@@ -471,7 +506,6 @@ const AddRoles = () => {
                                                         &nbsp;<span className="text-danger">Transaction</span>&nbsp;
                                                     </th>
                                                 </tr>
-
                                                 <tr id='customer' style={displaynone}>
                                                     <th className="text-left">Customers</th>
                                                     <td><input type='checkbox' id='cust_full' style={checkboxstyle} onClick={() => fullaccess('cust_full', 'cust_view', 'cust_create', 'cust_edit', 'cust_delete')} /></td>
@@ -552,6 +586,22 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='currency_addjustment_create' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='currency_addjustment_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='currency_addjustment_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='recurring_invoice' style={displaynone}>
+                                                    <th className="text-left">Recurring Invoice</th>
+                                                    <td><input type='checkbox' id='recurring_invoice_full' style={checkboxstyle} onClick={() => fullaccess('recurring_invoice_full', 'recurring_invoice_view', 'recurring_invoice_create', 'recurring_invoice_edit', 'recurring_invoice_delete')} /></td>
+                                                    <td><input type='checkbox' id='recurring_invoice_view' style={checkboxstyle} onClick={() => viewoff('recurring_invoice_full', 'recurring_invoice_view', 'recurring_invoice_create', 'recurring_invoice_edit', 'recurring_invoice_delete')} /></td>
+                                                    <td><input type='checkbox' id='recurring_invoice_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='recurring_invoice_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='recurring_invoice_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='recurring_bill' style={displaynone}>
+                                                    <th className="text-left">Recurring Bill</th>
+                                                    <td><input type='checkbox' id='recurring_bill_full' style={checkboxstyle} onClick={() => fullaccess('recurring_bill_full', 'recurring_bill_view', 'recurring_bill_create', 'recurring_bill_edit', 'recurring_bill_delete')} /></td>
+                                                    <td><input type='checkbox' id='recurring_bill_view' style={checkboxstyle} onClick={() => viewoff('recurring_bill_full', 'recurring_bill_view', 'recurring_bill_create', 'recurring_bill_edit', 'recurring_bill_delete')} /></td>
+                                                    <td><input type='checkbox' id='recurring_bill_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='recurring_bill_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='recurring_bill_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
 
                                                 {/* #############################  Master #################################################### */}
@@ -701,6 +751,14 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='empmaster_create' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='empmaster_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='empmaster_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='recurring_frequency' style={displaynone}>
+                                                    <th className="text-left">Recurring Frequency</th>
+                                                    <td><input type='checkbox' id='recurring_freq_full' style={checkboxstyle} onClick={() => fullaccess('recurring_freq_full', 'recurring_freq_view', 'recurring_freq_create', 'recurring_freq_edit', 'recurring_freq_delete')} /></td>
+                                                    <td><input type='checkbox' id='recurring_freq_view' style={checkboxstyle} onClick={() => viewoff('recurring_freq_full', 'recurring_freq_view', 'recurring_freq_create', 'recurring_freq_edit', 'recurring_freq_delete')} /></td>
+                                                    <td><input type='checkbox' id='recurring_freq_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='recurring_freq_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='recurring_freq_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
 
                                                 {/* #############################  Reports #################################################### */}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-// import InvoicePreview from '../Invoices/EditInvoice.js/editinvoice';
-import { getRecurringInvoice, getSubRecurringInvoice, GetAccountMinorCodeName, Getfincialyearid, UpdateSaveInvoiceToPost, UpdateSaveSubInvoiceToPost, Updatefinancialcount } from '../../../api/index'
+import InvoicePreview from '../Invoices/PreviewInvoice';
+import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub } from '../../../api/index'
 import LoadingPage from '../../loadingPage/loadingPage';
 
 
@@ -10,7 +10,6 @@ function EditRecurringInvoice() {
     const [loading, setLoading] = useState(false)
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
-    const [activity, setActivity] = useState('')
 
 
     useEffect(() => {
@@ -18,15 +17,11 @@ function EditRecurringInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await getRecurringInvoice(org, invoice_no)
-            console.log(Invoiceresult)
 
             setInvoice_detail(Invoiceresult[0])
             const result1 = await getSubRecurringInvoice(org, invoice_no)
-            console.log(result1)
             setInvoicesub(result1)
 
-            const activity_code = await GetAccountMinorCodeName(org, Invoiceresult[0].major)
-            setActivity(activity_code)
             setLoading(true)
 
             for (let i = 0; i < result1.length; i++) {
@@ -41,7 +36,7 @@ function EditRecurringInvoice() {
 
     const handlePostbtn = async (e) => {
         e.preventDefault();
-        setLoading(false)
+        // setLoading(false)
         const org = localStorage.getItem('Organisation')
 
         const fin_year = await Getfincialyearid(org)
@@ -55,20 +50,34 @@ function EditRecurringInvoice() {
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + invoicecitypre + fin_year[0].year + invoiceidauto;
 
-        const update_inv_no = await UpdateSaveInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
-        if (update_inv_no === 'Updated') {
-            const update_sub_invno = await UpdateSaveSubInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
+
+        const result2 = await InsertInvoice(org, invoice_detail.fin_year, invoiceid,
+            invoice_detail.squence_no, invoice_detail.invoice_date, invoice_detail.order_no, invoice_detail.invoice_amt, invoice_detail.user_id, invoice_detail.periodfrom, invoice_detail.periodto, '', invoice_detail.location, invoice_detail.custid, invoice_detail.billsubtotal,
+            invoice_detail.total_tax, invoice_detail.cust_locationid, invoice_detail.remark, 'post', invoice_detail.location, invoice_detail.consignee, invoice_detail.cust_family, invoice_detail.cgst_amt, invoice_detail.sgst_amt, invoice_detail.utgst_amt, invoice_detail.igst_amt, invoice_detail.taxable_amt, invoice_detail.currency_type,
+            invoice_detail.payment_term, invoice_detail.due_date,
+            localStorage.getItem('User_id'), invoice_detail.cust_location_add, invoice_detail.cust_location_gst, invoice_detail.destination, invoice_detail.origin)
+
+
+        const update_inv_no = await UpdateRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
+        if (update_inv_no === 'Updated' && result2 === 'Added') {
+            const update_sub_invno = await UpdateSaveSubRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
+
+            invoicesub.map(async(item) => {
+                const result3 = await InsertInvoiceSub(org, item.fin_year, invoiceid, item.major, item.minor, item.glcode,
+                    item.billing_code, item.quantity, item.rate, item.unit, item.amount, item.consignee, item.city, item.custid, item.cust_locationid,
+                    item.taxable, item.cgst_rate, item.sgst_rate, item.utgst_rate, item.igst_rate, item.cgst_amt, item.sgst_amt, item.utgst_amt, item.igst_amt, item.taxableamount, localStorage.getItem('User_id'))
+            })
+
             if (update_sub_invno === 'Updated') {
                 const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
                 alert('Invoice Posted');
                 localStorage.removeItem('invoiceNo');
-                window.location.href = '/SaveInvoice'
+                window.location.href = '/TotalRecurringInvoice'
             }
         }
         else {
             alert('Server Not Response')
             setLoading(true)
-
         }
     }
 
@@ -79,9 +88,9 @@ function EditRecurringInvoice() {
                 {
                     loading ?
                         <>
-                        <div className={`content-wrapper `} >
+                            <div className={`content-wrapper `} >
                                 <div className="container-fluid" >
-                                    <h3 className="pt-3 px-5"> Edit Invoice</h3>
+                                    <h3 className="pt-3 px-5"> Edit Recurring Invoice</h3>
                                     <div className={`card my-2 `}>
                                         <article className="card-body">
                                             <form autoComplete="off" >
@@ -126,18 +135,18 @@ function EditRecurringInvoice() {
                                                 </div>
 
                                                 <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
-                                                <div className="d-flex col-md-4">
-                                                <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.recurring_type} />
-                                              
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
+                                                    <div className="d-flex col-md-4">
+                                                        <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.recurring_type} />
+
                                                     </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className='form-control col-md-5 ' id="recurringDate" placeholder='Enter the order number' value={invoice_detail.RecurringDate}/>
                                                 </div>
-                                            </div>
+                                                <div className="form-row mt-3">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
+                                                    <div className="d-flex col-md">
+                                                        <input type="text" className='form-control col-md-5 ' id="recurringDate" placeholder='Enter the order number' value={invoice_detail.RecurringDate} />
+                                                    </div>
+                                                </div>
 
                                                 <div className="form-row mt-2">
                                                     <div className="d-flex col-md-4 px-0">
@@ -173,7 +182,7 @@ function EditRecurringInvoice() {
                                                 <br />
 
 
-                                                <table className="table">
+                                                <table className="table table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Activity</th>
@@ -190,8 +199,11 @@ function EditRecurringInvoice() {
                                                         {
                                                             invoicesub.map((item, index) => (
                                                                 <tr key={index}>
-
-                                                                    <td>{item.billing_code}</td>
+                                                                    <td className='px-1' style={{ width: '180px' }}>
+                                                                        <select className='form-control mx-0'>
+                                                                            <option>{item.billing_code}</option>
+                                                                        </select>
+                                                                    </td>
                                                                     <td>{item.minor}</td>
                                                                     <td>{item.quantity}</td>
                                                                     <td>{item.rate}</td>
@@ -307,10 +319,10 @@ function EditRecurringInvoice() {
                                             <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
 
                                     } */}
-                                                {/* {
-                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} activity={activity} />
+                                                {
+                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
 
-                                                } */}
+                                                }
 
                                             </form>
                                         </article>

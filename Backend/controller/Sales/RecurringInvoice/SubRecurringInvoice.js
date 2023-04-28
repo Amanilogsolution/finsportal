@@ -29,11 +29,7 @@ const InsertSubRecurringInvoice = async (req, res) => {
     const igst_amt = req.body.igst_amt;
     const taxableamt = req.body.taxableamt;
     const User_id = req.body.User_id;
-    console.log(`insert into ${org}.dbo.tbl_recurring_subinvoice(fin_year,invoice_no ,major,minor,glcode,billing_code,quantity,
-        rate,unit,amount,consignee,city,custid,cust_locationid,taxable,cgst_rate,sgst_rate,utgst_rate ,
-        igst_rate ,cgst_amt ,sgst_amt ,utgst_amt ,igst_amt,add_date_time ,add_user_name ,add_system_name ,add_ip_address,status,taxableamount)
-        values ('${fin_year}','${invoice_no}','${major}','${minor}','${revgl_code}','${billing_code}','${quantity}','${rate}','${unit}','${amount}','${consignee}','${city}',
-        '${custid}','${cust_locationid}','${taxable}','${cgst_rate}','${sgst_rate}','${utgst_rate}','${igst_rate}','${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}',getdate(),'${User_id}','${req.ip}','${os.hostname()}','Active',${taxableamt})`)
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_recurring_subinvoice(fin_year,invoice_no ,major,minor,glcode,billing_code,quantity,
@@ -51,7 +47,6 @@ const InsertSubRecurringInvoice = async (req, res) => {
 const getSubRecurringInvoice = async (req, res) => {
     const org = req.body.org;
     const invoiceno = req.body.invoiceno;
-    console.log(`select * from ${org}.dbo.tbl_recurring_subinvoice with (nolock) where invoice_no='${invoiceno}'`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_recurring_subinvoice with (nolock) where invoice_no='${invoiceno}'`)

@@ -40,6 +40,13 @@ const InsertInvoice = async (req, res) => {
     const destination = req.body.destination;
     const origin = req.body.origin;
 
+    console.log(`insert into ${org}.dbo.tbl_invoice(fin_year,invoice_no,squence_no ,invoice_date ,order_no ,invoice_amt,
+        doe,user_id,periodfrom,periodto,major,location,custid,billsubtotal,total_tax,cust_locationid,cust_location_add,cust_location_gst,remark,flagsave ,
+        location_name ,consignee ,cust_family,cgst_amt,sgst_amt,utgst_amt ,igst_amt,taxable_amt,currency_type,sales_person,payment_term,due_date,origin,destination,add_date_time,add_user_name ,add_system_name ,
+        add_ip_address ,status)
+        values('${fin_year}','${invoice_no}','${squence_no}','${invoice_date}','${order_no}','${invoice_amt}',getdate(),'${user_id}','${periodfrom}','${periodto}',
+        '${major}','${location}','${custid}','${billsubtotal}','${total_tax}','${cust_locationid}','${cust_location_addrs}','${cust_location_gst}','${remark}','${flagsave}','${location_name}','${consignee}','${cust_family}',
+        '${cgst_amt}','${sgst_amt}','${utgst_amt}','${igst_amt}','${taxable_amt}','${currency_type}','${sales_person}','${payment_term}','${due_date}','${origin}','${destination}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_invoice(fin_year,invoice_no,squence_no ,invoice_date ,order_no ,invoice_amt,
@@ -133,11 +140,10 @@ const UpdateSaveInvoiceToPost = async (req, res) => {
 const GetInvoicesByCustomer = async (req, res) => {
     const org = req.body.org;
     const customer_id = req.body.customer_id;
-    console.log(org, customer_id)
     
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ilogsolution.dbo.tbl_invoice where custid = 'CUST230001' and flagsave = 'post'`)
+        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_invoice where custid = '${customer_id}' and flagsave = 'post'`)
         res.send(result.recordset)
 
     }

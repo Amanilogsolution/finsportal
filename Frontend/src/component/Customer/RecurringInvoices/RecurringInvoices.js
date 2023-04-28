@@ -6,7 +6,7 @@ import InvoicePreviewWithoutGst from '../Invoices/PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid,
     Activeunit, ActiveCurrency, InsertRecurringInvoice, ActiveAccountMinorCode, InsertSubRecurringInvoice, ActiveChartofAccountname, Updatefinancialcount,
-    SearchLocationAddress, SearchCustAddress,ActiveRecurringFreq
+    SearchLocationAddress, SearchCustAddress, ActiveRecurringFreq, InsertInvoice, InsertInvoiceSub
 } from '../../../api/index'
 import '../Invoices/invoice.css'
 import LoadingPage from '../../loadingPage/loadingPage';
@@ -69,7 +69,7 @@ function AddRecurringInvoices() {
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [totalGstamt, setTotalGstamt] = useState('')
     const [index111, setIndex] = useState()
-    const [ActiveRecurring,setActiveRecurring] = useState([])
+    const [ActiveRecurring, setActiveRecurring] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -402,28 +402,43 @@ function AddRecurringInvoices() {
         RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
         const RecurringMonth = document.getElementById('recurringType').value
         const RecurringDate = document.getElementById('recurringDate').value
-        console.log(RecurringType,RecurringMonth,RecurringDate)
-        // // Insert Data
+
         if (!custid || !billsubtotal || !consignee) {
             alert('Please Select Customer');
             setLoading(true)
         }
         else {
-            const result = await InsertRecurringInvoice(localStorage.getItem('Organisation'),RecurringType,RecurringMonth,RecurringDate, fin_year, invoiceids,
+            const result = await InsertRecurringInvoice(localStorage.getItem('Organisation'), RecurringType, RecurringMonth, RecurringDate, fin_year, invoiceids,
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
                 total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
                 paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
+
+            if (btn_type !== 'save') {
+                const result2 = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+                    squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
+                    total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+                    paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
+            }
+
             if (result === 'Added') {
                 itemsrowval.map(async (item, index) => {
                     const result1 = await InsertSubRecurringInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
                         item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
-                        item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                        item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id);
+
+                    if (btn_type !== 'save') {
+                        const result3 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
+                            item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                            item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                    }
+
                 })
+
                 if (btn_type !== 'save') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }
                 alert('Added')
-                window.location.href = './SaveInvoice';
+                window.location.href = './TotalRecurringInvoice';
             }
             else {
                 alert('Server not Response');
@@ -513,7 +528,7 @@ function AddRecurringInvoices() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
                                                 <div className="d-flex col-md-4">
-                                                <select
+                                                    <select
                                                         id="recurringType"
                                                         className="form-control"
                                                     >
@@ -523,8 +538,8 @@ function AddRecurringInvoices() {
                                                                 <option key={index} value={items.recurring_month} >{items.recurring_type}</option>
                                                             ))
                                                         }
-                                                    </select>                                                
-                                                    </div>
+                                                    </select>
+                                                </div>
                                             </div>
 
                                             <div className="form-row mt-3">
@@ -759,19 +774,11 @@ function AddRecurringInvoices() {
                                             }
 
                                             <div className="form-group mt-3">
-                                                <button id="savebtn" type='button' name="save" className="btn btn-danger"
-                                                    onClick={handlesavebtn}
-                                                    value='save'>
-                                                    Save
-                                                </button>
-                                                <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2"
-                                                    onClick={handlesavebtn}
-                                                    value='post' >
-                                                    Post
-                                                </button>
+                                                <button id="savebtn" type='button' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'> Save</button>
+                                                <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2" onClick={handlesavebtn} value='post' >Post</button>
                                                 <button id="clear"
-                                                    // onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
-                                                    name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
+                                                    onClick={(e) => { e.preventDefault(); window.location.href = '/TotalRecurringInvoice' }}
+                                                    name="clear" className="btn mx-2 btn btn-secondary">Cancel </button>
                                                 <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                             </div>
                                         </form>
@@ -780,8 +787,8 @@ function AddRecurringInvoices() {
 
                             </div>
                         </div>
-                :
-                <LoadingPage />
+                        :
+                        <LoadingPage />
                 }
                 <Footer />
             </div>

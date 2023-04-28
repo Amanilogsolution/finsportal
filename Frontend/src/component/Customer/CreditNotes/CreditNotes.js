@@ -24,13 +24,13 @@ function CreditNotes() {
         balance_amt: '',
         pass_amt: '',
         sub_id: '',
-        cgstper:'',
-        cgstamt:'',
-        igstper:'',
-        igstamt:'',
-        sgstper:'',
-        sgstamt:'',
-        glcode:''
+        cgstper: '',
+        cgstamt: '',
+        igstper: '',
+        igstamt: '',
+        sgstper: '',
+        sgstamt: '',
+        glcode: ''
     }])
     const [subTotal, setSubTotal] = useState([])
     const [TotalCN, setTotalCN] = useState([])
@@ -88,6 +88,8 @@ function CreditNotes() {
         let totalcn = 0
         let taxval = 0
         let Balancevalue = AmtBalance - TotalTaxValue
+        console.log(AmtBalance ,TotalTaxValue)
+        console.log(AmtBalance - TotalTaxValue)
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
             setTimeout(() => {
@@ -113,16 +115,17 @@ function CreditNotes() {
                         balance_amt: Balancevalue,
                         pass_amt: value,
                         sub_id: id,
-                        cgstper:invoicesub[index].cgst_rate,
-                        cgstamt:0,
-                        igstper:invoicesub[index].igst_rate,
-                        igstamt:valTax,
-                        sgstper:invoicesub[index].sgst_rate,
-                        sgstamt:0,
-                        glcode:invoicesub[index].glcode
+                        cgstper: invoicesub[index].cgst_rate,
+                        cgstamt: 0,
+                        igstper: invoicesub[index].igst_rate,
+                        igstamt: valTax,
+                        sgstper: invoicesub[index].sgst_rate,
+                        sgstamt: 0,
+                        glcode: invoicesub[index].glcode
                     }
                     setChargeCodeSub(data)
-                }else{
+
+                } else {
                     let data = ChargeCodeSub
                     data[index] = {
                         cn_no: CN_Number,
@@ -133,13 +136,14 @@ function CreditNotes() {
                         balance_amt: Balancevalue,
                         pass_amt: value,
                         sub_id: id,
-                        cgstper:invoicesub[index].cgst_rate,
-                        cgstamt:valTax/2,
-                        igstper:invoicesub[index].igst_rate,
-                        igstamt:0,
-                        sgstper:invoicesub[index].sgst_rate,
-                        sgstamt:valTax/2,
-                        glcode:invoicesub[index].glcode
+                        cgstper: invoicesub[index].cgst_rate,
+                        cgstamt: valTax / 2,
+                        igstper: invoicesub[index].igst_rate,
+                        igstamt: 0,
+                        sgstper: invoicesub[index].sgst_rate,
+                        sgstamt: valTax / 2,
+                        glcode: invoicesub[index].glcode
+
                     }
                     setChargeCodeSub(data)
                 }
@@ -175,7 +179,6 @@ function CreditNotes() {
         var resultAddedCN = ''
         ChargeCodeSub.forEach(async (item, index) => {
             resultAddedCN = await InsertCnSub(org, item, userid, remark)
-            console.log(ChargeCodeSub.length - 1, index)
             if (ChargeCodeSub.length - 1 == index) {
                 let statusUpdate = await ChangeCNStatus(org, 'Done', data.sno)
                 window.location.href = "./CreditNotesUI"
@@ -191,6 +194,11 @@ function CreditNotes() {
         } else {
             handleClick()
         }
+    }
+
+    const handleRemark = (e) => {
+        console.log(e.target.value)
+        setData({ ...data, remark: e.target.value })
     }
 
     return (
@@ -265,7 +273,7 @@ function CreditNotes() {
                                                     invoicesub.map((item, index) => (
                                                         <tr key={index} className='text-center'>
                                                             <td className="col-md-2 px-1  " id={`Activity${index}`}>{item.billing_code}</td>
-                                                            <td className="col-md-2 px-1  " id={`Item${index}`}>{item.minor}</td>
+                                                            <td className="col-md-2 px-1 " id={`Item${index}`}>{item.minor}</td>
                                                             {/* <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td> */}
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
                                                             {/* <td className="col-md-2 px-1  "  >{item.taxableamount}</td> */}
@@ -283,7 +291,7 @@ function CreditNotes() {
                                             <div className="form">
                                                 <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remark</label>
                                                 <div className="d-flex col-md">
-                                                    <textarea type="text" className="form-control " rows="5" id="Remark" placeholder="Remarks" style={{ resize: "none" }} ></textarea>
+                                                    <textarea type="text" className="form-control " rows="5" id="Remark" placeholder="Remarks" style={{ resize: "none" }} onBlur={handleRemark}></textarea>
                                                 </div>
                                             </div>
                                         </div>

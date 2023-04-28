@@ -398,9 +398,11 @@ router.post('/activerecurringfreq', RecurringFreq.ActiveRecurringFreq)
 router.post('/insertrecurringinvoice', RecurringInvoice.InsertRecurringInvoice)
 router.post('/totalrecurringinvoice', RecurringInvoice.TotalRecurringInvoice)
 router.post('/getrecurringinvoice', RecurringInvoice.getRecurringInvoice)
+router.post('/updaterecurringinvoice', RecurringInvoice.UpdateRecurringInvoice)
 
 
 router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringInvoice)
 router.post('/getsubrecurringinvoice',SubRecurringInvoice.getSubRecurringInvoice)
+router.post('/updatesavesubrecurringinvoice',SubRecurringInvoice.UpdateSaveSubRecurringInvoice)
 
 module.exports = router;
