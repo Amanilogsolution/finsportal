@@ -120,7 +120,7 @@ const TotalRecurringInvoice = () => {
           <div className="content-wrapper ">
             <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddRecurringInvoices" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Recurring Invoice </button>
             <div className="container-fluid">
-              <h3 className="py-4 ml-5"> Recurring Invoices Invoice </h3>
+              <h3 className="py-4 ml-5"> Total Recurring Invoices </h3>
               <div className="card w-100">
                 <article className="card-body py-1">
                   <DataTableExtensions

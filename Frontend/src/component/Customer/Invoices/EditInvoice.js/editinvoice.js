@@ -10,7 +10,6 @@ function EditInvoice() {
     const [loading, setLoading] = useState(false)
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
-    const [activity, setActivity] = useState('')
 
 
     useEffect(() => {
@@ -23,8 +22,7 @@ function EditInvoice() {
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)
 
-            const activity_code = await GetAccountMinorCodeName(org, Invoiceresult[0].major)
-            setActivity(activity_code)
+            
             setLoading(true)
 
             for (let i = 0; i < result1.length; i++) {
@@ -292,7 +290,7 @@ function EditInvoice() {
 
                                     } */}
                                                 {
-                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} activity={activity} />
+                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub}  />
 
                                                 }
 

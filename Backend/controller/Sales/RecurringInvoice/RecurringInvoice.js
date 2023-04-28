@@ -59,30 +59,30 @@ const InsertRecurringInvoice = async (req, res) => {
     }
 }
 
-const filterInvoice = async (req, res) => {
-    const org = req.body.org;
-    const startDate = req.body.startDate;
-    const lastDate = req.body.lastDate;
-    const custid = req.body.custid;
-    const locationid = req.body.locationid;
-    try {
-        await sql.connect(sqlConfig)
-        if (custid === 'all') {
-            const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_recurring_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' or location ='${locationid}' and flagsave='post' order by sno desc;`)
-            res.send(result.recordset)
-        }
-        else {
-            const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_recurring_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and custid='${custid}' or location ='${locationid}' and flagsave='post' order by sno desc;`)
-            res.send(result.recordset)
-        }
-    }
-    catch (err) {
-        res.send(err)
-    }
+// const filterInvoice = async (req, res) => {
+//     const org = req.body.org;
+//     const startDate = req.body.startDate;
+//     const lastDate = req.body.lastDate;
+//     const custid = req.body.custid;
+//     const locationid = req.body.locationid;
+//     try {
+//         await sql.connect(sqlConfig)
+//         if (custid === 'all') {
+//             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_recurring_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
+//             and '${lastDate}' or location ='${locationid}' and flagsave='post' order by sno desc;`)
+//             res.send(result.recordset)
+//         }
+//         else {
+//             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_recurring_invoice with (nolock) where convert(date,invoice_date) between '${startDate}' 
+//             and '${lastDate}' and custid='${custid}' or location ='${locationid}' and flagsave='post' order by sno desc;`)
+//             res.send(result.recordset)
+//         }
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
 
-}
+// }
 
 const getRecurringInvoice = async (req, res) => {
     const org = req.body.org;
@@ -133,69 +133,69 @@ const UpdateRecurringInvoice = async (req, res) => {
 
 }
 
-const GetInvoicesByCustomer = async (req, res) => {
-    const org = req.body.org;
-    const customer_id = req.body.customer_id;
-    console.log(org, customer_id)
+// const GetInvoicesByCustomer = async (req, res) => {
+//     const org = req.body.org;
+//     const customer_id = req.body.customer_id;
+//     console.log(org, customer_id)
     
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ilogsolution.dbo.tbl_invoice where custid = 'CUST230001' and flagsave = 'post'`)
-        res.send(result.recordset)
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`SELECT * from ilogsolution.dbo.tbl_invoice where custid = 'CUST230001' and flagsave = 'post'`)
+//         res.send(result.recordset)
 
-    }
-    catch (err) {
-        res.send(err)
-    }
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
 
-}
+// }
 
-const filterInvoicebyCN = async (req, res) => {
-    const org = req.body.org;
-    const startDate = req.body.startDate;
-    const lastDate = req.body.lastDate;
-    const custid = req.body.custid;
-    const locationid = req.body.locationid;
-    const invoice_no = req.body.invoice_no;
+// const filterInvoicebyCN = async (req, res) => {
+//     const org = req.body.org;
+//     const startDate = req.body.startDate;
+//     const lastDate = req.body.lastDate;
+//     const custid = req.body.custid;
+//     const locationid = req.body.locationid;
+//     const invoice_no = req.body.invoice_no;
   
-    try {
-        await sql.connect(sqlConfig)
-        if (custid === 'all') {
-            const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where (convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post') and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
-            res.send(result.recordset)
-        }
-        else {
-            const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where (convert(date,invoice_date) between '${startDate}' 
-            and '${lastDate}' and custid='${custid}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post') and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
-            res.send(result.recordset)
-        }
-    }
-    catch (err) {
-        res.send(err)
-    }
+//     try {
+//         await sql.connect(sqlConfig)
+//         if (custid === 'all') {
+//             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where (convert(date,invoice_date) between '${startDate}' 
+//             and '${lastDate}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post') and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
+//             res.send(result.recordset)
+//         }
+//         else {
+//             const result = await sql.query(`select *,convert(varchar(15),invoice_date,121) as Joindate  from ${org}.dbo.tbl_invoice with (nolock) where (convert(date,invoice_date) between '${startDate}' 
+//             and '${lastDate}' and custid='${custid}' or location ='${locationid}' or invoice_no='${invoice_no}' and flagsave='post') and (cnflag ='3' or cnflag is Null ) order by sno desc;`)
+//             res.send(result.recordset)
+//         }
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
 
-}
-const UpdateInvoiceCNFlag = async(req,res) =>{
-    const org = req.body.org;
-    const cnflag = req.body.cnflag;
-    const cnamount = req.body.cnamount;
-    const invoice_no = req.body.invoice_no;
+// }
+// const UpdateInvoiceCNFlag = async(req,res) =>{
+//     const org = req.body.org;
+//     const cnflag = req.body.cnflag;
+//     const cnamount = req.body.cnamount;
+//     const invoice_no = req.body.invoice_no;
 
-    try{
-        await sql.connect(sqlConfig)
-        const result = await sql.query(` update ${org}.dbo.tbl_invoice set cnflag='${cnflag}' ,cnamount='${cnamount}' WHERE invoice_no='${invoice_no}'`)
-        if (result.rowsAffected > 0) {
-            res.send('Updated')
-        }
-        else {
-            res.send('Error')
-        }
-    }
-    catch(err){
+//     try{
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(` update ${org}.dbo.tbl_invoice set cnflag='${cnflag}' ,cnamount='${cnamount}' WHERE invoice_no='${invoice_no}'`)
+//         if (result.rowsAffected > 0) {
+//             res.send('Updated')
+//         }
+//         else {
+//             res.send('Error')
+//         }
+//     }
+//     catch(err){
 
-    }
+//     }
 
-}
+// }
 
-module.exports = { InsertRecurringInvoice, filterInvoice, getRecurringInvoice, TotalRecurringInvoice, UpdateRecurringInvoice,GetInvoicesByCustomer,filterInvoicebyCN,UpdateInvoiceCNFlag } 
+module.exports = { InsertRecurringInvoice, getRecurringInvoice, TotalRecurringInvoice, UpdateRecurringInvoice } 

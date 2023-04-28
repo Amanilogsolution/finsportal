@@ -1222,7 +1222,7 @@ export const UpdateCrm = async (sno, org, user_name, type, cust_vend, User_id, f
 export const InsertInvoice = async (org, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
     total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
     payment_term, due_date, User_id, custaddrs, custAddgst, destination, origin) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertinvoice`
+    const url = `http://localhost:3008/api/insertinvoice`
     return axios.post(url, {
         org, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
         total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
@@ -1268,7 +1268,7 @@ export const UpdateInvoiceCNFlag = async (org, cnflag, cnamount, invoice_no) => 
 // ############################ For InvoiceSub api Start #################################
 
 export const InsertInvoiceSub = async (org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertsubinvoice`
+    const url = `http://localhost:3008/api/insertsubinvoice`
     return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1717,6 +1717,10 @@ export const getRecurringInvoice = async (org,invoiceno) => {
     const url = `http://localhost:3008/api/getrecurringinvoice`
     return axios.post(url, { org,invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
+export const UpdateRecurringInvoice = async (org,invoice_no,new_invoice_no) => {
+    const url = `http://localhost:3008/api/updaterecurringinvoice`
+    return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
+}
 
 
 
@@ -1728,5 +1732,9 @@ export const InsertSubRecurringInvoice = async (org, fin_year, invoice_no, major
 export const getSubRecurringInvoice = async (org,invoiceno) => {
     const url = `http://localhost:3008/api/getsubrecurringinvoice`
     return axios.post(url, { org,invoiceno }).then(response => response.data).catch(error => console.log(error));
+}
+export const UpdateSaveSubRecurringInvoice = async (org,invoice_no,new_invoice_no) => {
+    const url = `http://localhost:3008/api/updatesavesubrecurringinvoice`
+    return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
 }
 

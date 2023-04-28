@@ -6,7 +6,7 @@ import InvoicePreviewWithoutGst from '../Invoices/PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid,
     Activeunit, ActiveCurrency, InsertRecurringInvoice, ActiveAccountMinorCode, InsertSubRecurringInvoice, ActiveChartofAccountname, Updatefinancialcount,
-    SearchLocationAddress, SearchCustAddress, ActiveRecurringFreq
+    SearchLocationAddress, SearchCustAddress, ActiveRecurringFreq, InsertInvoice, InsertInvoiceSub
 } from '../../../api/index'
 import '../Invoices/invoice.css'
 import LoadingPage from '../../loadingPage/loadingPage';
@@ -412,12 +412,28 @@ function AddRecurringInvoices() {
                 squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
                 total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
                 paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
+
+            if (btn_type !== 'save') {
+                const result2 = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
+                    squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
+                    total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
+                    paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
+            }
+
             if (result === 'Added') {
                 itemsrowval.map(async (item, index) => {
                     const result1 = await InsertSubRecurringInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
                         item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
-                        item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                        item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id);
+
+                    if (btn_type !== 'save') {
+                        const result3 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
+                            item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                            item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                    }
+
                 })
+
                 if (btn_type !== 'save') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }
