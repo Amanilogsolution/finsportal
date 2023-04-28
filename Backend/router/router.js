@@ -48,6 +48,8 @@ const DNController = require('../controller/Purchases/DebitNote/DN')
 const somasterController = require('../controller/Sales/SalesOrder/so')
 
 const RecurringFreq = require('../controller/Master/RecurringFrequency')
+const RecurringInvoice = require('../controller/Sales/RecurringInvoice/RecurringInvoice')
+const SubRecurringInvoice = require('../controller/Sales/RecurringInvoice/SubRecurringInvoice')
 
 //Routes
 
@@ -391,6 +393,16 @@ router.post('/insertrecurringfreq', RecurringFreq.InsertRecurringFreq)
 router.post('/updaterecurringfreq', RecurringFreq.UpdateRecurringFreq)
 router.post('/showrecurringfreq', RecurringFreq.ShowRecurringFreq)
 router.post('/deleterecurringfreq', RecurringFreq.deleteRecurringFreq)
+router.post('/activerecurringfreq', RecurringFreq.ActiveRecurringFreq)
+
+router.post('/insertrecurringinvoice', RecurringInvoice.InsertRecurringInvoice)
+router.post('/totalrecurringinvoice', RecurringInvoice.TotalRecurringInvoice)
+router.post('/getrecurringinvoice', RecurringInvoice.getRecurringInvoice)
+
+
+router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringInvoice)
+router.post('/getsubrecurringinvoice',SubRecurringInvoice.getSubRecurringInvoice)
+
 
 
 

@@ -15,6 +15,7 @@ function CreditNotes() {
     const [custname, setCustname] = useState('')
     const [invoicedata, setInvoiceData] = useState({})
     const [ChargeCodeSub, setChargeCodeSub] = useState([{
+
         cn_no: '',
         invoice_no: '',
         activity: '',
@@ -145,14 +146,10 @@ function CreditNotes() {
 
                     }
                     setChargeCodeSub(data)
-
-
                 }
-
                 subTotal.map(item => sum += Number(item))
                 TotalCN.map(item => totalcn += Number(item))
                 taxvalue.map(item => taxval += Number(item))
-
 
                 setSendRequest(true)
                 document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
@@ -167,10 +164,7 @@ function CreditNotes() {
                     document.getElementById('igstamt').innerHTML = 0
                     document.getElementById('cgst').innerHTML = taxval / 2
                     document.getElementById('sgst').innerHTML = taxval / 2
-
                 }
-
-
             }, 1000)
         }
     }

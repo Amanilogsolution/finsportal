@@ -336,7 +336,7 @@ const Menu = (props) => {
                   </a>
                 </li>
                 <li className="nav-item" style={{ display: "none" }} id='recInvoiceMenu'>
-                  <a href="/RecurringInvoices" className="nav-link active">
+                  <a href="/TotalRecurringInvoice" className="nav-link active">
                     <i className="fa fa-retweet nav-icon" />
                     <p>Recurring Invoices</p>
                   </a>

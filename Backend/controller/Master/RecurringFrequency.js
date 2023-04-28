@@ -90,4 +90,16 @@ async function deleteRecurringFreq(req, res) {
     }
 }
 
-module.exports={TotalRecurringFreq,InsertRecurringFreq,UpdateRecurringFreq,ShowRecurringFreq,deleteRecurringFreq}
+async function ActiveRecurringFreq(req, res) {
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_recurring_freq with (nolock) where status = 'Active'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports={TotalRecurringFreq,InsertRecurringFreq,UpdateRecurringFreq,ShowRecurringFreq,deleteRecurringFreq,ActiveRecurringFreq}
