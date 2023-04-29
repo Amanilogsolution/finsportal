@@ -17,7 +17,7 @@ const InsertSalesorder = async (req, res) => {
     const User_id = req.body.User_id;
     const uuid = uuidv1()
     const flagsave = req.body.flagsave;
-  
+
 
     try {
         await sql.connect(sqlConfig)
@@ -143,4 +143,18 @@ const filterSO = async (req, res) => {
     }
 }
 
-module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder,filterSO }
+
+const GetSalesOrderByCust = async (req, res) => {
+    const org = req.body.org;
+    const cust_id = req.body.cust_id
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select so_no from ${org}.dbo.tbl_sales_order with (nolock) WHERE cust_id='${cust_id}' and flagsave='post'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder, filterSO, GetSalesOrderByCust }

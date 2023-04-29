@@ -6,10 +6,11 @@ import InvoicePreviewWithoutGst from '../Invoices/PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid,
     Activeunit, ActiveCurrency, InsertRecurringInvoice, ActiveAccountMinorCode, InsertSubRecurringInvoice, ActiveChartofAccountname, Updatefinancialcount,
-    SearchLocationAddress, SearchCustAddress, ActiveRecurringFreq, InsertInvoice, InsertInvoiceSub
+    SearchLocationAddress, SearchCustAddress, ActiveRecurringFreq, InsertInvoice, InsertInvoiceSub, GetSalesOrderByCust
 } from '../../../api/index'
 import '../Invoices/invoice.css'
 import LoadingPage from '../../loadingPage/loadingPage';
+import CreatableSelect from 'react-select/creatable';
 
 function AddRecurringInvoices() {
     const [loading, setLoading] = useState(false)
@@ -45,7 +46,8 @@ function AddRecurringInvoices() {
         SupplyTo: "",
         BillToGst: "",
         OriginState: "",
-        DestinationState: ""
+        DestinationState: "",
+        TotalNetAmounts: ""
     })
     const [itemsdata, setItemdata] = useState([])
     const [itemdetails, setItemdetails] = useState([])
@@ -70,6 +72,11 @@ function AddRecurringInvoices() {
     const [totalGstamt, setTotalGstamt] = useState('')
     const [index111, setIndex] = useState()
     const [ActiveRecurring, setActiveRecurring] = useState([])
+    const [solist, setSolist] = useState([])
+    const [soloading, setSoloading] = useState(false);
+    const [sovalue, setValue] = useState();
+
+
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -168,15 +175,28 @@ function AddRecurringInvoices() {
     }
     const handleCustname = async (e) => {
         e.preventDefault();
+        setSoloading(true)
+        setSolist([])
+        const org = localStorage.getItem('Organisation')
+
         const cust_id = e.target.value;
-        const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
+        const cust_detail = await SelectedCustomer(org, cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
         const terms = cust_detail.payment_terms
         // let [val, Ter] = terms.split(" ")
         Duedate(Number(terms))
-        const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
+        const cust_add = await ShowCustAddress(cust_id, org)
         setCutomerAddress(cust_add)
+        setSoloading(false)
+        const get_so = await GetSalesOrderByCust(org, cust_id)
+        let obj = []
+
+        get_so.map((item) => {
+            obj.push({ label: item.so_no, value: item.so_no })
+        })
+
+        setSolist(obj)
     }
     const Duedate = (lastday) => {
         var myDate = new Date(new Date().getTime() + (lastday * 24 * 60 * 60 * 1000));
@@ -193,6 +213,17 @@ function AddRecurringInvoices() {
         custadddetail.custAddId = address_id;
         custadddetail.custAddGst = custaddgst;
     }
+
+
+    const handleCreate = (inputValue) => {
+        setSoloading(true);
+        setTimeout(() => {
+            const newOption = { label: inputValue, value: inputValue.toUpperCase() }
+            setSoloading(false);
+            setSolist((prev) => [...prev, newOption]);
+            setValue(newOption);
+        }, 1000);
+    };
 
     const handlechnageaddress = async (add, id) => {
         // e.preventDefault();
@@ -218,7 +249,6 @@ function AddRecurringInvoices() {
         itemsrowval[index].items = item
         itemsrowval[index].taxPer = Number(gstper)
         itemsrowval[index].glcode = glcodes
-        console.log(glcodes)
         if (gstper > 0) {
             itemsrowval[index].taxable = 'yes'
         } else {
@@ -370,7 +400,7 @@ function AddRecurringInvoices() {
         }
 
         const Invoicedate = allInvoiceData.InvoiceData;
-        const ordernumber = document.getElementById('ordernumber').value;
+        const ordernumber = sovalue.value
         const invoiceamt = allInvoiceData.GrandTotal;
         const User_id = localStorage.getItem('User_id')
         const periodfrom = document.getElementById('fromdate').value;
@@ -403,8 +433,8 @@ function AddRecurringInvoices() {
         const RecurringMonth = document.getElementById('recurringType').value
         const RecurringDate = document.getElementById('recurringDate').value
 
-        if (!custid || !billsubtotal || !consignee) {
-            alert('Please Select Customer');
+        if (!custid || !invoiceids || !billsubtotal || !consignee || !(itemsrowval[0].items).length > 0) {
+            alert('Please Fill the Mandatory Fields');
             setLoading(true)
         }
         else {
@@ -521,7 +551,18 @@ function AddRecurringInvoices() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                 <div className="d-flex col-md-4">
-                                                    <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' />
+                                                    <CreatableSelect
+                                                        className='col-md px-1'
+                                                        id="ordernumber"
+                                                        isClearable
+                                                        isDisabled={soloading}
+                                                        isLoading={soloading}
+                                                        onChange={(newValue) => setValue(newValue)}
+                                                        onCreateOption={handleCreate}
+                                                        options={solist}
+                                                        value={sovalue}
+                                                    />
+                                                    {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
                                                 </div>
                                             </div>
 

@@ -1349,11 +1349,13 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 vourcher_no nvarchar(100) NULL,
                 voucher_date date NULL,
                 vend_name nvarchar(100) NULL,
+                vend_id nvarchar(100) NULL,
                 location nvarchar(200) NULL,
                 bill_no nvarchar(50) NULL,
                 bill_date date NULL ,
                 bill_amt money NULL,
                 net_amt nvarchar(100) NULL,
+                total_bill_amt money NULL,
                 po_no nvarchar(100) NULL,
                 bill_url nvarchar(400) NULL,
                 payment_term nvarchar(50) NULL,
@@ -1376,7 +1378,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 igst_amt nvarchar(100) NULL,
                 dnflag nvarchar(100) NULL,
                 dn_amt nvarchar(100) NULL,
-                
+                flagsave nvarchar(100) NULL,
                 add_user_name nvarchar(50) NULL,
                 add_system_name nvarchar(100) NULL,
                 add_ip_address nvarchar(30) NULL,
@@ -1386,7 +1388,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 update_ip_address nvarchar(30) NULL,
                 update_date_time datetime NULL,
                 status nvarchar(30) NULL,
-                bill_uuid nvarchar(350) NULL
+                bill_uuid nvarchar(350) NULL,
             );
             CREATE TABLE  ${dbname}.dbo.tbl_recurring_subbill (
                 sno bigint IDENTITY(1,1) NOT NULL,

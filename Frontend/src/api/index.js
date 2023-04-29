@@ -1667,6 +1667,10 @@ export const filterSO = async (org, startDate, lastDate, cust_id) => {
     const url = `https://finsbackend.awlinternational.com/api/filterso`
     return axios.post(url, { org, startDate, lastDate, cust_id }).then(response => response.data).catch(error => console.log(error));
 }
+export const GetSalesOrderByCust = async (org, cust_id) => {
+    const url = `http://localhost:3008/api/getsalesorderbycust`
+    return axios.post(url, { org, cust_id }).then(response => response.data).catch(error => console.log(error));
+}
 
 export const TotalRecurringFreq = async (org) => {
     const url = `http://localhost:3008/api/totalrecurringfreq`

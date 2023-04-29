@@ -6,10 +6,11 @@ import InvoicePreviewWithoutGst from './PreviewInvoicewithoutGST'
 import {
     ActiveCustomer, ActivePaymentTerm, SelectedCustomer, ActiveLocationAddress, ShowCustAddress, ActiveItems, Getfincialyearid,
     Activeunit, ActiveCurrency, InsertInvoice, ActiveAccountMinorCode, InsertInvoiceSub, ActiveChartofAccountname, Updatefinancialcount,
-    SearchLocationAddress, SearchCustAddress
+    SearchLocationAddress, SearchCustAddress, GetSalesOrderByCust
 } from '../../../api/index'
 import './invoice.css'
 import LoadingPage from '../../loadingPage/loadingPage';
+import CreatableSelect from 'react-select/creatable';
 
 function Invoices() {
     const [loading, setLoading] = useState(false)
@@ -45,7 +46,8 @@ function Invoices() {
         SupplyTo: "",
         BillToGst: "",
         OriginState: "",
-        DestinationState: ""
+        DestinationState: "",
+        TotalNetAmounts:''
     })
     const [itemsdata, setItemdata] = useState([])
     const [itemdetails, setItemdetails] = useState([])
@@ -69,6 +71,9 @@ function Invoices() {
     const [activepaymentterm, setActivePaymentTerm] = useState([])
     const [totalGstamt, setTotalGstamt] = useState('')
     const [index111, setIndex] = useState()
+    const [solist, setSolist] = useState([])
+    const [soloading, setSoloading] = useState(false);
+    const [sovalue, setValue] = useState();
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -163,15 +168,27 @@ function Invoices() {
     }
     const handleCustname = async (e) => {
         e.preventDefault();
+        setSoloading(true)
+        setSolist([])
+        const org = localStorage.getItem('Organisation')
         const cust_id = e.target.value;
-        const cust_detail = await SelectedCustomer(localStorage.getItem('Organisation'), cust_id)
+        const cust_detail = await SelectedCustomer(org, cust_id)
         setCustdetail(cust_detail)
         setMasterid(cust_detail.mast_id)
         const terms = cust_detail.payment_terms
         // let [val, Ter] = terms.split(" ")
         Duedate(Number(terms))
-        const cust_add = await ShowCustAddress(cust_id, localStorage.getItem("Organisation"))
+        const cust_add = await ShowCustAddress(cust_id, org)
         setCutomerAddress(cust_add)
+        setSoloading(false)
+        const get_so = await GetSalesOrderByCust(org, cust_id)
+        let obj = []
+
+        get_so.map((item) => {
+            obj.push({ label: item.so_no, value: item.so_no })
+        })
+
+        setSolist(obj)
     }
     const Duedate = (lastday) => {
         var myDate = new Date(new Date().getTime() + (lastday * 24 * 60 * 60 * 1000));
@@ -188,6 +205,18 @@ function Invoices() {
         custadddetail.custAddId = address_id;
         custadddetail.custAddGst = custaddgst;
     }
+
+
+
+    const handleCreate = (inputValue) => {
+        setSoloading(true);
+        setTimeout(() => {
+            const newOption = { label: inputValue, value: inputValue.toUpperCase() }
+            setSoloading(false);
+            setSolist((prev) => [...prev, newOption]);
+            setValue(newOption);
+        }, 1000);
+    };
 
     const handlechnageaddress = async (add, id) => {
         // e.preventDefault();
@@ -338,7 +367,6 @@ function Invoices() {
         }
         else if (e.target.value.length === 0) {
             const locatonstateres = await ShowCustAddress(custdetail.cust_id, org)
-            console.log(locatonstateres)
             setCutomerAddress(locatonstateres)
         }
     }
@@ -347,7 +375,6 @@ function Invoices() {
     const handlesavebtn = async (e) => {
         e.preventDefault();
         setLoading(false)
-
         document.getElementById('savebtn').disabled = true;
         document.getElementById('postbtn').disabled = true;
 
@@ -365,7 +392,7 @@ function Invoices() {
         }
 
         const Invoicedate = allInvoiceData.InvoiceData;
-        const ordernumber = document.getElementById('ordernumber').value;
+        const ordernumber = sovalue.value
         const invoiceamt = allInvoiceData.GrandTotal;
         const User_id = localStorage.getItem('User_id')
         const periodfrom = document.getElementById('fromdate').value;
@@ -393,8 +420,8 @@ function Invoices() {
         let igstamount = allInvoiceData.IGST
         const taxableamt = allInvoiceData.TotalTaxamount;
         // // Insert Data
-        if (!custid || !billsubtotal || !consignee) {
-            alert('Please Select Customer');
+        if (!custid || !invoiceids|| !billsubtotal || !consignee || !(itemsrowval[0].items).length>0) {
+            alert('Please Fill the Mandatory Fields');
             setLoading(true)
         }
         else {
@@ -493,9 +520,20 @@ function Invoices() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                <div className="d-flex col-md-4">
-                                                    <input type="text" className='form-control col-md' id="ordernumber" placeholder='Enter the order number' />
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number <span className='text-danger'>*</span></label>
+                                                <div className="d-flex col-md-4 ">
+                                                    <CreatableSelect
+                                                        className='col-md px-1'
+                                                        id="ordernumber"
+                                                        isClearable
+                                                        isDisabled={soloading}
+                                                        isLoading={soloading}
+                                                        onChange={(newValue) => setValue(newValue)}
+                                                        onCreateOption={handleCreate}
+                                                        options={solist}
+                                                        value={sovalue}
+                                                    />
+                                                    {/* <input type="text" className='form-control col-md' id="ordernumber" placeholder='Enter the order number' /> */}
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
