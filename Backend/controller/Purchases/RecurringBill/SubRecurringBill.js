@@ -4,7 +4,7 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 
-const inserSubBill = async (req, res) => {
+const inserSubRecurringBill = async (req, res) => {
     const org = req.body.org
     const voucher_no = req.body.voucher_no;
     const bill_no = req.body.bill_no;
@@ -66,4 +66,4 @@ const UpdateSaveSubBillToPost = async (req, res) => {
     }
 
 }
-module.exports = { inserSubBill, GetSubBillItems,UpdateSaveSubBillToPost }
+module.exports = { inserSubRecurringBill, GetSubBillItems,UpdateSaveSubBillToPost }

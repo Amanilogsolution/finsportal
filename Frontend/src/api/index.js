@@ -1586,8 +1586,6 @@ export const filterCN = async (org, startDate, lastDate, custid, locationid) => 
 
 
 
-
-
 export const InsertDebitNote = async (org, dn_no, dn_date, total_dn_amt, remark, bill_no, voucher_no, user_id) => {
     const url = `https://finsbackend.awlinternational.com/api/insertdebitnote`
     return axios.post(url, { org, dn_no, dn_date, total_dn_amt, remark, bill_no, voucher_no, user_id }).then(response => response.data).catch(error => console.log(error));
@@ -1722,9 +1720,6 @@ export const UpdateRecurringInvoice = async (org,invoice_no,new_invoice_no) => {
     return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
 }
 
-
-
-
 export const InsertSubRecurringInvoice = async (org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt, User_id) => {
     const url = `http://localhost:3008/api/insertsubrecurringinvoice`
     return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt, User_id }).then(response => response.data).catch(error => console.log(error));
@@ -1736,5 +1731,20 @@ export const getSubRecurringInvoice = async (org,invoiceno) => {
 export const UpdateSaveSubRecurringInvoice = async (org,invoice_no,new_invoice_no) => {
     const url = `http://localhost:3008/api/updatesavesubrecurringinvoice`
     return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertRecurringBill = async (org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt) => {
+    const url = `http://localhost:3008/api/insertrecurringbill`
+    return axios.post(url, { org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertRecurringSubBill = async (org, voucher_no, bill_no, tabledata, fins_year, userid) => {
+    const url = `http://localhost:3008/api/insersubrecurringbill`
+    return axios.post(url, { org, voucher_no, bill_no, tabledata, fins_year, userid }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const getRecurringBill = async (org) => {
+    const url = `http://localhost:3008/api/getrecurringbill`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 

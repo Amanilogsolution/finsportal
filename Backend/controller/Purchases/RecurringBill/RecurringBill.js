@@ -3,7 +3,7 @@ const sqlConfig = require('../../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const InsertBill = async (req, res) => {
+const InsertRecurringBill = async (req, res) => {
     const org = req.body.org
     const recurring_type = req.body.recurring_type;
     const recurring_month = req.body.recurring_month;
@@ -40,14 +40,12 @@ const InsertBill = async (req, res) => {
     const flagsave = req.body.flagsave;
     const po_no = req.body.po_no;
     const net_amt = req.body.net_amt;
-    
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
 
         const dublicate_bill = await sql.query(`select * from ${org}.dbo.tbl_recurring_bill with (nolock) WHERE bill_no='${bill_no}'`)
-
         if (dublicate_bill.recordset.length === 0) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_recurring_bill(
                 recurring_type,recurring_month,recurring_date,recurring_status,vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,po_no,payment_term,due_date,amt_paid,
@@ -94,7 +92,6 @@ const FilterBillReport = async (req, res) => {
                          and '${lastDate}' and vend_id='${vendid}' and flagsave='post' order by sno desc`)
             res.send(result.recordset)
         }
-
     }
     catch (err) {
         res.send(err)
@@ -102,7 +99,7 @@ const FilterBillReport = async (req, res) => {
 
 }
 
-const getSaveBill = async (req, res) => {
+const getRecurringBill = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
@@ -112,8 +109,9 @@ const getSaveBill = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
+
+
 const GetBillData = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
@@ -186,7 +184,6 @@ const filterInvoicebyDN = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
 
 const UpdateBillDNFlag = async(req,res) =>{
@@ -206,9 +203,9 @@ const UpdateBillDNFlag = async(req,res) =>{
         }
     }
     catch(err){
-
+        res.send(err)
     }
 
 }
 
-module.exports = { InsertBill,FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 
+module.exports = { InsertRecurringBill,FilterBillReport,getRecurringBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 

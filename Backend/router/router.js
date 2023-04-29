@@ -51,6 +51,9 @@ const RecurringFreq = require('../controller/Master/RecurringFrequency')
 const RecurringInvoice = require('../controller/Sales/RecurringInvoice/RecurringInvoice')
 const SubRecurringInvoice = require('../controller/Sales/RecurringInvoice/SubRecurringInvoice')
 
+const RecurringBill = require('../controller/Purchases/RecurringBill/RecurringBill')
+const SubRecurringBill = require('../controller/Purchases/RecurringBill/SubRecurringBill')
+
 //Routes
 
 //DB
@@ -404,5 +407,17 @@ router.post('/updaterecurringinvoice', RecurringInvoice.UpdateRecurringInvoice)
 router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringInvoice)
 router.post('/getsubrecurringinvoice',SubRecurringInvoice.getSubRecurringInvoice)
 router.post('/updatesavesubrecurringinvoice',SubRecurringInvoice.UpdateSaveSubRecurringInvoice)
+
+
+router.post('/insertrecurringbill',RecurringBill.InsertRecurringBill)
+router.post('/getrecurringbill',RecurringBill.getRecurringBill)
+
+
+router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)
+
+
+
+
+
 
 module.exports = router;
