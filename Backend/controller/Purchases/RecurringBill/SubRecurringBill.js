@@ -4,7 +4,7 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 
-const inserSubBill = async (req, res) => {
+const inserSubRecurringBill = async (req, res) => {
     const org = req.body.org
     const voucher_no = req.body.voucher_no;
     const bill_no = req.body.bill_no;
@@ -16,7 +16,7 @@ const inserSubBill = async (req, res) => {
         let result;
         tabledata.map(async (item, index) => {
             result = await sql.query(
-                `insert into ${org}.dbo.tbl_sub_bill( voucher_no ,bill_no,location,
+                `insert into ${org}.dbo.tbl_recurring_subbill( voucher_no ,bill_no,location,
                         item_name,emp_name ,glcode ,qty ,rate ,amt ,unit ,file_no ,deduction ,sac_hsn ,net_amt ,fin_year,
                         add_user_name ,add_system_name ,add_ip_address ,add_date_time,status,sub_bill_uuid  )
                      values ('${voucher_no}','${bill_no}','${item.location}','${item.item}','${item.employee}','${item.glcode}',
@@ -38,11 +38,12 @@ const GetSubBillItems = async (req, res) => {
     const voucher_no = req.body.voucher_no;
     try {
         await sql.connect(sqlConfig)
-        const items = await sql.query(`select * from ${org}.dbo.tbl_sub_bill with (nolock) WHERE voucher_no='${voucher_no}'`)
+        const items = await sql.query(`select * from ${org}.dbo.tbl_recurring_subbill with (nolock) WHERE voucher_no='${voucher_no}'`)
         res.send(items.recordset)
     }
     catch (err) {
         res.send(err)
+
     }
 }
 
@@ -52,7 +53,7 @@ const UpdateSaveSubBillToPost = async (req, res) => {
     const new_voucher_no = req.body.new_voucher_no;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` update ${org}.dbo.tbl_sub_bill set voucher_no='${new_voucher_no}'  WHERE voucher_no='${voucher_no}'`)
+        const result = await sql.query(` update ${org}.dbo.tbl_recurring_subbill set voucher_no='${new_voucher_no}'  WHERE voucher_no='${voucher_no}'`)
         if (result.rowsAffected > 0) {
             res.send('Updated')
         }
@@ -65,4 +66,4 @@ const UpdateSaveSubBillToPost = async (req, res) => {
     }
 
 }
-module.exports = { inserSubBill, GetSubBillItems,UpdateSaveSubBillToPost }
+module.exports = { inserSubRecurringBill, GetSubBillItems,UpdateSaveSubBillToPost }

@@ -166,6 +166,8 @@ import AddRecurringInvoices from './component/Customer/RecurringInvoices/Recurri
 import TotalRecurringInvoice from './component/Customer/RecurringInvoices/TotalRecurringInvoice'
 import EditRecurringInvoice from './component/Customer/RecurringInvoices/EditRecurringInvoice'
 
+import TotalRecurringBill from './component/Vendor/RecurringBills/TotalRecurringBills'
+
 const App = () => {
 
   //  setTimeout(() => {
@@ -357,6 +359,8 @@ const App = () => {
           <PrivatRoute exact path="/EditRecurringInvoice" component={EditRecurringInvoice} />
 
           
+          <PrivatRoute exact path="/TotalRecurringBill" component={TotalRecurringBill} />
+
           
 
 

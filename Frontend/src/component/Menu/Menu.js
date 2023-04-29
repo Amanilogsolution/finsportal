@@ -403,7 +403,7 @@ const Menu = (props) => {
                   </a>
                 </li>
                 <li className="nav-item" id='vendrecbillMenu' style={{ display: "none" }}>
-                  <a href="/RecurringBills" className="nav-link active">
+                  <a href="/TotalRecurringBill" className="nav-link active">
                     <i className="fa fa-retweet nav-icon" />
                     <p>Recurring Bills</p>
                   </a>
