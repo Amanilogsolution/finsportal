@@ -27,7 +27,6 @@ const UpdateCustomerName = async (req, res) => {
     const org = req.body.org;
     const cust_name = req.body.cust_name;
     const cust_id = req.body.cust_id;
-    console.log(`UPDATE ${org}.dbo.tbl_new_customer SET cust_name='${cust_name}'WHERE cust_id=${cust_id}`)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(` UPDATE ${org}.dbo.tbl_new_customer SET cust_name='${cust_name}'WHERE cust_id='${cust_id}'`)

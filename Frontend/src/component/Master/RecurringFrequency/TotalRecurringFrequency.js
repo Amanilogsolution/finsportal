@@ -36,11 +36,11 @@ const ShowRecurring = () => {
       document.getElementById('addrecuFreqtermbtn').style.background = '#7795fa';
     }
 
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'payment_terms')
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'recurring_freq')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
-    if (UserRights.payment_terms_create === 'true') {
+    if (UserRights.recurring_freq_create === 'true') {
       document.getElementById('addrecuFreqtermbtn').style.display = "block";
     }
   }
@@ -59,7 +59,7 @@ const ShowRecurring = () => {
           if (!userRightsData) {
             fetchRoles()
           }
-          if (userRightsData.payment_terms_edit === 'true') {
+          if (userRightsData.recurring_freq_edit === 'true') {
             return (
               <a title='Edit Recurring Type' className='pb-1' href="EditRecurringFreq" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('FreqSno', `${row.sno}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.recurring_type}</a>
@@ -96,7 +96,7 @@ const ShowRecurring = () => {
             window.location.reload()
           }
           else {
-            if (userRightsData.payment_terms_delete === 'true') {
+            if (userRightsData.recurring_freq_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {

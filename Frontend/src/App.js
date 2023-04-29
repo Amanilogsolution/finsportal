@@ -106,7 +106,7 @@ import DeliveryChallans from './component/Customer/DeliveryChallans/DeliveryChal
 import Invoices from './component/Customer/Invoices/Invoices';
 
 
-import EditInvoice from './component/Customer/Invoices/EditInvoice.js/editinvoice';
+import EditInvoice from './component/Customer/Invoices/EditInvoice/editinvoice';
 import SaveInvoice from './component/Customer/Invoices/SaveInvoice/Saveinvoice'
 
 import RecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'

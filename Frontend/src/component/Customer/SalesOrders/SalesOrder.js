@@ -202,7 +202,7 @@ function SalesOrder() {
         }
         else {
 
-            if (flag === 'Save') {
+            if (flag === 'save') {
                 so_no = 'Random' + Math.floor(Math.random() * 10000)
             }
 
@@ -213,8 +213,8 @@ function SalesOrder() {
                 const result1 = await InsertSubSalesorder(org, so_no, item.activity, item.items, item.Quantity, item.rate, item.taxPer, item.taxAmt, item.unit, item.amount, item.total, User_id, item.glcode, item.majorCode)
             })
 
-            if (result == "Insert") {
-                if (flag !== 'Save') {
+            if (result === "Insert") {
+                if (flag !== 'save') {
                     await Updatefinancialcount(org, 'so_count', socount)
                 }
                 alert('Sales Order Added')
@@ -426,8 +426,8 @@ function SalesOrder() {
                                     </article>
 
                                     <div className=" card-footer border border-top">
-                                        <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleClick("Save") }}> Save </button>
-                                        <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleClick("Post") }}>  Post </button>
+                                        <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleClick("save") }}> Save </button>
+                                        <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleClick("post") }}>  Post </button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn ml-2 btn-secondary">  Cancel </button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#salesOrderPreview" >Preview SO</button>
                                     </div>

@@ -48,10 +48,12 @@ const ChangeCNStatus = async (req, res) => {
     const org = req.body.org;
     const status = req.body.status;
     const sno = req.body.sno;
-    console.log(`update ${org}.dbo.tbl_creditnote set status='${status}' where sno = ${sno}`)
+    const user_id = req.body.user_id;
+
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_creditnote set status='${status}' where sno = ${sno} `)
+        const result = await sql.query(`update ${org}.dbo.tbl_creditnote set status='${status}',appr_date_time=GETDATE(),
+        appr_user_name='${user_id}',appr_system_name='${os.hostname()}',appr_ip_address='${req.ip}' where sno =${sno}`)
         if (result.recordset.length > 0) {
             res.send('Updated')
         }
@@ -90,7 +92,6 @@ const InsertCnSub = async (req, res) => {
             '${remark}',getdate(),'${userid}','${os.hostname()}','${req.ip}','Active','${data.sub_id}',
             '${data.cgstper}','${data.cgstamt}','${data.sgstper}','${data.sgstamt}','${data.igstper}','${data.igstamt}','${data.glcode}')`)
 
-            console.log(result)
         res.send('Added')
     }
     catch (err) {

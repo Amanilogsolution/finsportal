@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import InvoicePreview from '../Invoices/PreviewInvoice';
+import InvoicePreview from '../Invoices/EditInvoice/PreviewEditInvoice';
 import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub } from '../../../api/index'
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -36,7 +36,7 @@ function EditRecurringInvoice() {
 
     const handlePostbtn = async (e) => {
         e.preventDefault();
-        // setLoading(false)
+        setLoading(false)
         const org = localStorage.getItem('Organisation')
 
         const fin_year = await Getfincialyearid(org)
@@ -62,7 +62,7 @@ function EditRecurringInvoice() {
         if (update_inv_no === 'Updated' && result2 === 'Added') {
             const update_sub_invno = await UpdateSaveSubRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
 
-            invoicesub.map(async(item) => {
+            invoicesub.map(async (item) => {
                 const result3 = await InsertInvoiceSub(org, item.fin_year, invoiceid, item.major, item.minor, item.glcode,
                     item.billing_code, item.quantity, item.rate, item.unit, item.amount, item.consignee, item.city, item.custid, item.cust_locationid,
                     item.taxable, item.cgst_rate, item.sgst_rate, item.utgst_rate, item.igst_rate, item.cgst_amt, item.sgst_amt, item.utgst_amt, item.igst_amt, item.taxableamount, localStorage.getItem('User_id'))
@@ -143,10 +143,19 @@ function EditRecurringInvoice() {
                                                 </div>
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
-                                                    <div className="d-flex col-md">
-                                                        <input type="text" className='form-control col-md-5 ' id="recurringDate" placeholder='Enter the order number' value={invoice_detail.RecurringDate} />
+                                                    <div className="d-flex col-md-4">
+                                                        <input type="text" className='form-control' id="recurringDate" placeholder='Enter the order number' value={invoice_detail.RecurringDate} />
                                                     </div>
                                                 </div>
+                                                <div className="form-row mt-3">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Currency</label>
+                                                    <div className="d-flex col-md-4">
+                                                        <select className='form-control col' id="currency" >
+                                                            <option hidden >{invoice_detail.currency_type}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                             
 
                                                 <div className="form-row mt-2">
                                                     <div className="d-flex col-md-4 px-0">
@@ -218,9 +227,8 @@ function EditRecurringInvoice() {
 
                                                     </tbody>
                                                 </table>
-                                                <hr />
 
-                                                <div style={{ display: "flex" }}>
+                                                <div className='d-flex justify-content-between'>
                                                     <div style={{ width: "40%" }}>
                                                         <div className="form mt-3">
                                                             <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
@@ -231,18 +239,13 @@ function EditRecurringInvoice() {
 
                                                         </div>
                                                     </div>
-                                                    <div className="ml-2" style={{ width: "55%", background: '#eee', padding: "5px", borderRadius: "7px" }}>
+                                                    <div className="ml-2 px-3 py-2" style={{ width: "55%", background: '#eee', boxSizing: "border-box", borderRadius: "7px" }}>
                                                         <table className='w-100'>
                                                             <tbody>
-                                                                {/* Display none Button Start */}
                                                                 <tr className='mt-2'>
-                                                                    <td colSpan='2'>
-                                                                        {/* <button className="btn btn-primary" id='subtotalbtn'>Sub Total</button> */}
-                                                                        Net Amount
-                                                                    </td>
+                                                                    <td colSpan='2'><h4> Net Amount </h4></td>
                                                                     <td>{invoice_detail.billsubtotal}</td>
                                                                 </tr>
-                                                                {/* Display none Button End */}
 
                                                                 <tr id='cgstinp' >
                                                                     <td>CGST</td>
@@ -289,19 +292,6 @@ function EditRecurringInvoice() {
                                                                         </div>
                                                                     </td>
                                                                     <td id="Totalvaluerd"> {invoice_detail.taxable_amt}</td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                    <td>
-                                                                        Currency
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1">
-                                                                            <select className={`form-control  col-md-5`} id="currency" >
-                                                                                <option hidden >{invoice_detail.currency_type}</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
                                                                 </tr>
                                                                 <tr className='mt-2'>
                                                                     <td><h3>Total</h3></td>

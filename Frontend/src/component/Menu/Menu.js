@@ -41,7 +41,7 @@ const Menu = (props) => {
       document.getElementById('estimatesMenu').style.display = "block"
       document.getElementById('deliverychallansmrnu').style.display = "block"
       document.getElementById('pmtRecMenu').style.display = "block"
-      document.getElementById('recInvoiceMenu').style.display = "block"
+      // document.getElementById('recInvoiceMenu').style.display = "block"
       document.getElementById('vendRecurrMenu').style.display = "block"
       document.getElementById('vendrecbillMenu').style.display = "block"
     }
@@ -81,8 +81,14 @@ const Menu = (props) => {
       } else {
         document.getElementById('Invoicemenu').style.display = "none"
       }
+      // Recurring Invoice Menu
+      if (result.recurring_invoice_view === "true") {
+        document.getElementById('recInvoiceMenu').style.display = "block"
+      } else {
+        document.getElementById('recInvoiceMenu').style.display = "none"
+      }
       // Credit Notes
-
+      
       if (result.creditnotes_view === "true") {
         document.getElementById('creditNoteMenu').style.display = "block"
       } else {
@@ -205,7 +211,13 @@ const Menu = (props) => {
       else {
         document.getElementById('payment_term').style.display = "none"
       }
-
+      if (result.recurring_freq_view === 'true') {
+        document.getElementById('rec_freqMenu').style.display = "block"
+      }
+      else {
+        document.getElementById('rec_freqMenu').style.display = "none"
+      }
+      
     }
     else {
       document.getElementById('masterMenu').style.display = "none"
@@ -553,7 +565,7 @@ const Menu = (props) => {
                 </li>
               </ul>
               <ul className="nav nav-treeview" >
-                <li className="nav-item" id='coacctMenu'>
+                <li className="nav-item" id='rec_freqMenu'>
                   <a href="/TotalRecurringFrequency" className="nav-link active">
                   <i className="fa fa-retweet nav-icon" ></i>
                     <p>Recurring Frequency</p>

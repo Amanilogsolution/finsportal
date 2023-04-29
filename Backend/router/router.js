@@ -390,6 +390,7 @@ router.post('/getsodetails', somasterController.getSoDetails)
 router.post('/getsubsodetails', somasterController.getSubSoDetails)
 router.post('/editsalesorder', somasterController.EditSalesOrder)
 router.post('/filterso', somasterController.filterSO)
+router.post('/getsalesorderbycust', somasterController.GetSalesOrderByCust)
 
 router.post('/totalrecurringfreq', RecurringFreq.TotalRecurringFreq)
 router.post('/insertrecurringfreq', RecurringFreq.InsertRecurringFreq)

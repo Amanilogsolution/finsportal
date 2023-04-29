@@ -30,7 +30,7 @@ const InvoicePreview = (props) => {
     }
     fetchdata()
   }, [props])
-  console.log('imi',props)
+
   return (
     <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 

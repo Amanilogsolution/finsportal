@@ -91,7 +91,7 @@ export default function EditSalesOrder() {
 
     const handleSubmit = async (btntype) => {
         setLoading(false)
-        if (btntype === 'Save') {
+        if (btntype === 'save') {
             setLoading(true)
             alert('Data Saved')
             window.location.href = "./SaveSalesOrder"
@@ -284,8 +284,8 @@ export default function EditSalesOrder() {
                                     </article>
                                     <div className="card-footer border border-top">
                                         <div >
-                                            <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleSubmit("Save") }}>  Save</button>
-                                            <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleSubmit("Post") }} > Post</button>
+                                            <button id="save" name="save" className="btn btn-danger" onClick={(e) => { e.preventDefault(); handleSubmit("save") }}>  Save</button>
+                                            <button id="save" name="save" className="btn btn-danger ml-2" onClick={(e) => { e.preventDefault(); handleSubmit("post") }} > Post</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SaveSalesOrder' }} name="clear" className="btn ml-2 btn-secondary">Cancel </button>
                                             <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#salesOrderPreview" >Preview SO</button>
                                         </div>

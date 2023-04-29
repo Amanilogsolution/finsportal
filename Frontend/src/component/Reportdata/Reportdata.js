@@ -46,6 +46,23 @@ const Reportdata = () => {
       if (UserRights_bill.reports_bill_view === 'true') {
         document.getElementById('billdropdown').style.display = 'block'
       }
+      const UserRights_po = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_po')
+      if (UserRights_po.reports_po_view === 'true') {
+        document.getElementById('podropdown').style.display = 'block'
+      }
+      const UserRights_so = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_so')
+      if (UserRights_so.reports_so_view === 'true') {
+        document.getElementById('sodropdown').style.display = 'block'
+      }
+
+      const UserRights_cn = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_cn')
+      if (UserRights_cn.reports_cn_view === 'true') {
+        document.getElementById('codropdown').style.display = 'block'
+      }
+      const UserRights_dn = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_dn')
+      if (UserRights_dn.reports_dn_view=== 'true') {
+        document.getElementById('dodropdown').style.display = 'block'
+      }
     }
     fetchData()
   }, [data])
@@ -213,10 +230,10 @@ const Reportdata = () => {
                           <option value='' hidden>Select Type</option>
                           <option id='invoicedropdown' style={{ display: "none" }} value='Invoice'>Invoice</option>
                           <option id='billdropdown' style={{ display: "none" }} value='Bills'>Bills</option>
-                          <option id='podropdown' value='PO'>Purchase Order</option>
-                          <option id="sodropdown" value='SO'>Sales Order</option>
-                          <option id="codropdown" value='CN'>Credit Note</option>
-                          <option id="dodropdown" value='DN'>Debit Note</option>
+                          <option id='podropdown' style={{ display: "none" }}  value='PO'>Purchase Order</option>
+                          <option id="sodropdown" style={{ display: "none" }}  value='SO'>Sales Order</option>
+                          <option id="codropdown" style={{ display: "none" }} value='CN'>Credit Note</option>
+                          <option id="dodropdown" style={{ display: "none" }} value='DN'>Debit Note</option>
 
                         </select>
                       </div>

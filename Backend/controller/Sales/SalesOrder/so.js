@@ -17,7 +17,7 @@ const InsertSalesorder = async (req, res) => {
     const User_id = req.body.User_id;
     const uuid = uuidv1()
     const flagsave = req.body.flagsave;
-  
+
 
     try {
         await sql.connect(sqlConfig)
@@ -110,7 +110,6 @@ const EditSalesOrder = async (req, res) => {
     const new_so_num = req.body.new_so_num
     const so_no = req.body.so_no;
     const status = req.body.status;
-    console.log(org, so_no, status)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`UPDATE ${org}.dbo.tbl_sales_order set flagsave='${status}',so_no='${new_so_num}' where so_no ='${so_no}' `)
@@ -127,7 +126,6 @@ const filterSO = async (req, res) => {
     const lastDate = req.body.lastDate;
     const cust_id = req.body.cust_id;
     const po_location = req.body.po_location;
-    console.log(org,startDate,lastDate,cust_id)
 
     try {
         await sql.connect(sqlConfig)
@@ -145,4 +143,18 @@ const filterSO = async (req, res) => {
     }
 }
 
-module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder,filterSO }
+
+const GetSalesOrderByCust = async (req, res) => {
+    const org = req.body.org;
+    const cust_id = req.body.cust_id
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select so_no from ${org}.dbo.tbl_sales_order with (nolock) WHERE cust_id='${cust_id}' and flagsave='post'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = { InsertSalesorder, getSaveSO, InsertSubSalesorder, getSoDetails, getSubSoDetails, EditSalesOrder, filterSO, GetSalesOrderByCust }
