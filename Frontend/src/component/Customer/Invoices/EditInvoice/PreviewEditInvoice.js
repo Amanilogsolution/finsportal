@@ -32,6 +32,8 @@ const InvoicePreview = (props) => {
     fetchdata()
   }, [props])
   
+  console.log(props)
+  console.log(props.Allinvoicedata)
   return (
     <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 

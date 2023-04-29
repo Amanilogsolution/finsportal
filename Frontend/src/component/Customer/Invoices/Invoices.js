@@ -455,7 +455,7 @@ function Invoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
+                                                    <button type="button" className="btn border col" data-toggle="modal" data-target="#custAddnmodal"
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             setTimeout(() => {
@@ -472,7 +472,7 @@ function Invoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal"
+                                                    <button type="button" className="btn border col" data-toggle="modal" data-target="#locationmodal"
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             setTimeout(() => {
@@ -488,17 +488,28 @@ function Invoices() {
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className='form-control col-md  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className='form-control col-md-5 ' id="ordernumber" placeholder='Enter the order number' />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className='form-control col-md' id="ordernumber" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
-
+                                            <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Currency</label>
+                                                <div className="d-flex col-md-4">
+                                                    <select className='form-control col-md' id="currency" >
+                                                        <option value={custdetail.currency} hidden >{custdetail.currency}</option>
+                                                        {
+                                                            currencylist.map((item, index) =>
+                                                                <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div className="form-row mt-3">
                                                 <div className="d-flex col-md-3">
                                                     <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
@@ -619,8 +630,7 @@ function Invoices() {
                                             </table>
                                             <button className="btn btn-primary" onClick={addRow} id='additembtm'>Add Item</button>   &nbsp;
                                             <button className="btn btn-danger" onClick={RemoveRow} id='removeitembtm'>Remove</button>
-                                            <hr />
-                                            <div className='d-flex'>
+                                            <div className='d-flex justify-content-between'>
                                                 <div style={{ width: "40%" }}>
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
@@ -629,7 +639,7 @@ function Invoices() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className='rounded py-1 px-2' style={{ width: "55%", background: '#eee' }}>
+                                                <div className='rounded py-2 px-3' style={{ width: "55%", background: '#eee' }}>
                                                     <table className='w-100'>
                                                         <tbody>
                                                             <tr>
@@ -687,22 +697,6 @@ function Invoices() {
                                                                 </td>
                                                             </tr>
 
-                                                            <tr>
-                                                                <td>
-                                                                    Currency
-                                                                </td>
-                                                                <td>
-                                                                    <div className="input-group mb-1">
-                                                                        <select className='form-control col-md-5' id="currency" >
-                                                                            <option value={custdetail.currency} hidden >{custdetail.currency}</option>
-                                                                            {
-                                                                                currencylist.map((item, index) =>
-                                                                                    <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
-                                                                            }
-                                                                        </select>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total</h3></td>
                                                                 <td></td>
@@ -745,8 +739,8 @@ function Invoices() {
 
                             </div>
                         </div>
-                :
-                <LoadingPage />
+                        :
+                        <LoadingPage />
                 }
                 <Footer />
             </div>

@@ -22,7 +22,7 @@ function EditInvoice() {
             const result1 = await GetSubInvoice(org, invoice_no)
             setInvoicesub(result1)
 
-            
+
             setLoading(true)
 
             for (let i = 0; i < result1.length; i++) {
@@ -108,7 +108,7 @@ function EditInvoice() {
                                                 </div>
 
                                                 <div className="form-row mt-2">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Invoice </label>
                                                     <div className="d-flex col-md-4">
                                                         <input type="text" className={`form-control  cursor-notallow col`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
                                                     </div>
@@ -120,7 +120,14 @@ function EditInvoice() {
                                                         <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
                                                     </div>
                                                 </div>
-
+                                                <div className="form-row mt-2">
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Currency </label>
+                                                    <div className="d-flex col-md-4">
+                                                        <select className='form-control col' id="currency" disabled >
+                                                            <option hidden >{invoice_detail.currency_type}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div className="form-row mt-2">
                                                     <div className="d-flex col-md-4 px-0">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
@@ -155,8 +162,8 @@ function EditInvoice() {
                                                 <br />
 
 
-                                                <table className="table">
-                                                    <thead>
+                                                <table className="table table-bordered">
+                                                    <thead className='text-center'>
                                                         <tr>
                                                             <th scope="col">Activity</th>
                                                             <th scope="col">Items</th>
@@ -188,9 +195,8 @@ function EditInvoice() {
 
                                                     </tbody>
                                                 </table>
-                                                <hr />
 
-                                                <div style={{ display: "flex" }}>
+                                                <div className='d-flex justify-content-between'>
                                                     <div style={{ width: "40%" }}>
                                                         <div className="form mt-3">
                                                             <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
@@ -201,18 +207,13 @@ function EditInvoice() {
 
                                                         </div>
                                                     </div>
-                                                    <div className="ml-2" style={{ width: "55%", background: '#eee', padding: "5px", borderRadius: "7px" }}>
+                                                    <div className="rounded py-2 px-3" style={{ width: "55%", background: '#eee' }}>
                                                         <table className='w-100'>
                                                             <tbody>
-                                                                {/* Display none Button Start */}
                                                                 <tr className='mt-2'>
-                                                                    <td colSpan='2'>
-                                                                        {/* <button className="btn btn-primary" id='subtotalbtn'>Sub Total</button> */}
-                                                                        Net Amount
-                                                                    </td>
+                                                                    <td colSpan='2'><h3>Net Amount</h3> </td>
                                                                     <td>{invoice_detail.billsubtotal}</td>
                                                                 </tr>
-                                                                {/* Display none Button End */}
 
                                                                 <tr id='cgstinp' >
                                                                     <td>CGST</td>
@@ -261,18 +262,7 @@ function EditInvoice() {
                                                                     <td id="Totalvaluerd"> {invoice_detail.taxable_amt}</td>
                                                                 </tr>
 
-                                                                <tr>
-                                                                    <td>
-                                                                        Currency
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="input-group mb-1">
-                                                                            <select className={`form-control  col-md-5`} id="currency" >
-                                                                                <option hidden >{invoice_detail.currency_type}</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
+
                                                                 <tr className='mt-2'>
                                                                     <td><h3>Total</h3></td>
                                                                     <td></td>
@@ -290,7 +280,7 @@ function EditInvoice() {
 
                                     } */}
                                                 {
-                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub}  />
+                                                    <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
 
                                                 }
 

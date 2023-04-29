@@ -481,7 +481,7 @@ function AddRecurringInvoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#custAddnmodal"
+                                                    <button type="button" className="btn border col" data-toggle="modal" data-target="#custAddnmodal"
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             setTimeout(() => {
@@ -498,7 +498,7 @@ function AddRecurringInvoices() {
                                             <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <button type="button" className="btn border" data-toggle="modal" data-target="#locationmodal"
+                                                    <button type="button" className="btn border col" data-toggle="modal" data-target="#locationmodal"
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             setTimeout(() => {
@@ -513,25 +513,22 @@ function AddRecurringInvoices() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className='form-control col-md-5  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice</label>
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className='form-control col cursor-notallow' id="invoiceid" value={invoiceid} disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className='form-control col-md-5 ' id="ordernumber" placeholder='Enter the order number' />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="recurringType"
-                                                        className="form-control"
-                                                    >
+                                                    <select id="recurringType" className="form-control">
                                                         <option value='' hidden>Frequency</option>
                                                         {
                                                             ActiveRecurring.map((items, index) => (
@@ -544,11 +541,22 @@ function AddRecurringInvoices() {
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className='form-control col-md-5 ' id="recurringDate" placeholder='Enter the order number' />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="date" className='form-control col' id="recurringDate" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
-
+                                            <div className="form-row mt-3">
+                                                <label htmlFor='currency' className="col-md-2 col-form-label font-weight-normal" >Currency</label>
+                                                <div className="d-flex col-md-4">
+                                                    <select className='form-control col' id="currency" >
+                                                        <option value={custdetail.currency} hidden >{custdetail.currency}</option>
+                                                        {
+                                                            currencylist.map((item, index) =>
+                                                                <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div className="form-row mt-3">
                                                 <div className="d-flex col-md-3">
                                                     <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
@@ -669,8 +677,7 @@ function AddRecurringInvoices() {
                                             </table>
                                             <button className="btn btn-primary" onClick={addRow} id='additembtm'>Add Item</button>   &nbsp;
                                             <button className="btn btn-danger" onClick={RemoveRow} id='removeitembtm'>Remove</button>
-                                            <hr />
-                                            <div className='d-flex'>
+                                            <div className='d-flex justify-content-between'>
                                                 <div style={{ width: "40%" }}>
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
@@ -737,22 +744,6 @@ function AddRecurringInvoices() {
                                                                 </td>
                                                             </tr>
 
-                                                            <tr>
-                                                                <td>
-                                                                    Currency
-                                                                </td>
-                                                                <td>
-                                                                    <div className="input-group mb-1">
-                                                                        <select className='form-control col-md-5' id="currency" >
-                                                                            <option value={custdetail.currency} hidden >{custdetail.currency}</option>
-                                                                            {
-                                                                                currencylist.map((item, index) =>
-                                                                                    <option key={index} value={item.currency_code} style={{ height: "80px" }}>{item.currency_code}</option>)
-                                                                            }
-                                                                        </select>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
                                                             <tr className='mt-2'>
                                                                 <td><h3>Total</h3></td>
                                                                 <td></td>
