@@ -20,7 +20,7 @@ const CNDetails = (props) => {
             const result = await CheckLoginUser(useremail, userpassword)
             if (result === 'Confirmed') {
 
-                const status = await ChangeCNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno)
+                const status = await ChangeCNStatus(localStorage.getItem('Organisation'), 'Confirmed', sno,local_User_email)
 
                 if (status) {
                     window.location.reload()

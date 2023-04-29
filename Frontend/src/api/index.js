@@ -1559,9 +1559,9 @@ export const AllCNData = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ChangeCNStatus = async (org, status, sno) => {
-    const url = `https://finsbackend.awlinternational.com/api/changecstatus`
-    return axios.post(url, { org, status, sno }).then(response => response.data).catch(error => console.log(error));
+export const ChangeCNStatus = async (org, status, sno,user_id) => {
+    const url = `http://localhost:3008/api/changecstatus`
+    return axios.post(url, { org, status, sno,user_id}).then(response => response.data).catch(error => console.log(error));
 }
 
 export const getCNData = async (org, sno) => {

@@ -181,13 +181,13 @@ function CreditNotes() {
                     </div>
 
                     <div className="form-row" >
-                      <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
+                      <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span className='text-danger'>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='from_date' />
                       </div>
                     </div>
                     <div className="form-row" >
-                      <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span style={{ color: "red" }}>*</span></label>
+                      <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">To<span className='text-danger'>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='to_date' />
 

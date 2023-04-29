@@ -110,7 +110,6 @@ const EditSalesOrder = async (req, res) => {
     const new_so_num = req.body.new_so_num
     const so_no = req.body.so_no;
     const status = req.body.status;
-    console.log(org, so_no, status)
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`UPDATE ${org}.dbo.tbl_sales_order set flagsave='${status}',so_no='${new_so_num}' where so_no ='${so_no}' `)
@@ -127,7 +126,6 @@ const filterSO = async (req, res) => {
     const lastDate = req.body.lastDate;
     const cust_id = req.body.cust_id;
     const po_location = req.body.po_location;
-    console.log(org,startDate,lastDate,cust_id)
 
     try {
         await sql.connect(sqlConfig)
