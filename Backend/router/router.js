@@ -412,9 +412,12 @@ router.post('/updatesavesubrecurringinvoice',SubRecurringInvoice.UpdateSaveSubRe
 
 router.post('/insertrecurringbill',RecurringBill.InsertRecurringBill)
 router.post('/getrecurringbill',RecurringBill.getRecurringBill)
+router.post('/getrecurringBillData',RecurringBill.GetRecurringBillData)
 
 
 router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)
+router.post('/getsubrecurringbill',SubRecurringBill.GetSubRecurringBill)
+
 
 
 

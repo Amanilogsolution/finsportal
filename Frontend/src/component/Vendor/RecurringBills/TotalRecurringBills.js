@@ -12,6 +12,8 @@ const TotalRecurringBill = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [userRightsData, setUserRightsData] = useState([]);
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -36,7 +38,10 @@ const TotalRecurringBill = () => {
       document.getElementById('addbillbtn').style.background = '#7795fa';
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bills')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // console.log(UserRights)
+    setUserRightsData(UserRights)
+
 
     if (UserRights.bills_create === 'true') {
       document.getElementById('addbillbtn').style.display = "block";
@@ -54,7 +59,27 @@ const TotalRecurringBill = () => {
     {
       name: 'Vourcher No',
       selector: 'vourcher_no',
-      sortable: true
+      sortable: true,
+      cell: (row) => {
+        if (localStorage.getItem('financialstatus') === 'Lock') {
+          return <p title='Edit Invoice is Lock' className='pb-0'>{row.vourcher_no}</p>
+        }
+        else {
+          if (!userRightsData) {
+            fetchRoles()
+          }
+          if (userRightsData.bills_edit === 'true') {
+            return (
+              <a title='Edit Invoice ' href="/EditRecurringBills" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('vourcher_no', `${row.vourcher_no}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.vourcher_no}</a>
+            );
+          }
+          else {
+            return <p title='Not Access to Edit Invoice ' className='pb-0'>{row.vourcher_no}</p>
+          }
+
+        }
+      }
     },
 
     {
@@ -91,18 +116,7 @@ const TotalRecurringBill = () => {
       name: 'Remarks',
       selector: 'remarks',
       sortable: true
-    },
-    {
-      name: "Action",
-      sortable: false,
-      selector: row => row.null,
-      cell: (row) => [
-        <button type="button" onClick={() => {
-          window.location.href = "/EditBill"; localStorage.setItem('vourcher_no', row.vourcher_no)
-        }} className="btn btn-danger">Edit</button>
-      ]
     }
-    ,
     // {
     //   name: "Actions",
     //   sortable: false,

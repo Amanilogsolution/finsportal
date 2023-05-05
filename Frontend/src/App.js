@@ -167,6 +167,7 @@ import TotalRecurringInvoice from './component/Customer/RecurringInvoices/TotalR
 import EditRecurringInvoice from './component/Customer/RecurringInvoices/EditRecurringInvoice'
 
 import TotalRecurringBill from './component/Vendor/RecurringBills/TotalRecurringBills'
+import EditRecurringBills from './component/Vendor/RecurringBills/EditRecurringBill';
 
 const App = () => {
 
@@ -360,9 +361,9 @@ const App = () => {
 
           
           <PrivatRoute exact path="/TotalRecurringBill" component={TotalRecurringBill} />
+          <PrivatRoute exact path="/EditRecurringBills" component={EditRecurringBills} />
 
           
-
 
           <Route exact path="*" component={PageNotFound} />
         </Switch>
