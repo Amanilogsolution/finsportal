@@ -169,6 +169,8 @@ import EditRecurringInvoice from './component/Customer/RecurringInvoices/EditRec
 import TotalRecurringBill from './component/Vendor/RecurringBills/TotalRecurringBills'
 import EditRecurringBills from './component/Vendor/RecurringBills/EditRecurringBill';
 
+import LandingPage from './component/LandingPage/LandingPage';
+
 const App = () => {
 
   //  setTimeout(() => {
@@ -181,6 +183,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" restricted={false} component={Login} />
           <Route exact path="/LoginDetails" component={LoginDetails} />
+          <Route exact path="/LandingPage" component={LandingPage}/>
           
           <Route exact path="/otppage" component={OTPpage} />
 

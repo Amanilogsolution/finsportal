@@ -1,0 +1,63 @@
+.LandingDiv{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(254, 242, 242);
+}
+.navbar{
+    height: 12%;
+    width: 100%;
+    display: flex;
+}
+
+.navbar .Logo{
+    flex: 1;
+
+}
+.navbar .Logo img{
+    margin-left: 30%;
+
+}
+.navbar .Menu{
+    display: flex;
+    flex: 4;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.navbar .Menu .Menulist{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+}
+.navbar .Menu .Menulist li{
+    cursor: pointer;
+}
+
+.sectioncont {
+    height: 80%;
+    width: 100%;
+    display: flex;
+}
+
+.sectioncont .landingimg{
+    flex: 2;
+    height: 100%;
+}
+
+.sectioncont .landingimg img{
+ height: 90%;
+ width: 80%;
+ margin-left: 10%;
+}
+
+.sectioncont .content{
+    padding-top: 13%;
+    padding-left: 5%;
+    padding-right:5%;
+    box-sizing: border-box;
+    border-radius: 0% 0% 0% 15%;
+    margin-top: -7%;
+    flex: 1;
+    height: 100%;
+    background-color: rgb(232, 225, 254);
+}
