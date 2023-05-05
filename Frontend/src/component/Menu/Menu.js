@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Finslogo from '../../images/finslogo.png'
 import { getUserRole, GetfincialyearNavbar } from '../../api/index'
 import './menu.css'
@@ -12,22 +12,17 @@ const Menu = (props) => {
   //   if(event.key == 'D'){
   //     window.location.href = 'Bills'
   //   }
-  //   console.log(`Key pressed: ${event.key}`);
+ 
   // }, []);
 
   useEffect(() => {
-
     // document.addEventListener('keydown', handleKeyPress);
 
     const fetchdata = async () => {
       const result = await getUserRole(localStorage.getItem('Organisation'), localStorage.getItem('Role'))
       Rolefunction(result)
-      console.log(result)
       const financialyear = await GetfincialyearNavbar(localStorage.getItem('Organisation'))
       setFinancialYearData(financialyear)
-
-
-
     }
     fetchdata()
   }, [
@@ -88,19 +83,19 @@ const Menu = (props) => {
         document.getElementById('recInvoiceMenu').style.display = "none"
       }
       // Credit Notes
-      
+
       if (result.creditnotes_view === "true") {
         document.getElementById('creditNoteMenu').style.display = "block"
       } else {
         document.getElementById('creditNoteMenu').style.display = "none"
       }
-         // Sales Order
+      // Sales Order
 
-         if (result.salesorder_view === "true") {
-          document.getElementById('orderMenu').style.display = "block"
-        } else {
-          document.getElementById('orderMenu').style.display = "none"
-        }
+      if (result.salesorder_view === "true") {
+        document.getElementById('orderMenu').style.display = "block"
+      } else {
+        document.getElementById('orderMenu').style.display = "none"
+      }
     }
     else {
       document.getElementById('salesMenu').style.display = "none"
@@ -217,7 +212,7 @@ const Menu = (props) => {
       else {
         document.getElementById('rec_freqMenu').style.display = "none"
       }
-      
+
     }
     else {
       document.getElementById('masterMenu').style.display = "none"
@@ -263,7 +258,7 @@ const Menu = (props) => {
     <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
       <a href="/home" className="brand-link" >
         <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
-        <span className="brand-text text-danger" style={{  fontSize: "18px" }}>{currentorg}</span>
+        <span className="brand-text text-danger" style={{ fontSize: "18px" }}>{currentorg}</span>
       </a>
 
       <div className="sidebar pb-3 " >
@@ -364,7 +359,7 @@ const Menu = (props) => {
             </li>
             {/* Purchases Menu Start */}
             <li className="nav-item" style={{ display: "none" }} id='purchasesMenu'>
-              <a href='#'  className="nav-link active">
+              <a href='#' className="nav-link active">
                 <i className="fa fa-shopping-bag" aria-hidden="true"></i>
                 <p >
                   &nbsp;  Purchases
@@ -567,13 +562,13 @@ const Menu = (props) => {
               <ul className="nav nav-treeview" >
                 <li className="nav-item" id='rec_freqMenu'>
                   <a href="/TotalRecurringFrequency" className="nav-link active">
-                  <i className="fa fa-retweet nav-icon" ></i>
+                    <i className="fa fa-retweet nav-icon" ></i>
                     <p>Recurring Frequency</p>
                   </a>
                 </li>
               </ul>
 
-              
+
               {/* <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">
                     <p className=""> Chart Of Accounts</p>
