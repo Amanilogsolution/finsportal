@@ -112,18 +112,17 @@ const getRecurringBill = async (req, res) => {
 }
 
 
-const GetBillData = async (req, res) => {
+const GetRecurringBillData = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
     try {
         await sql.connect(sqlConfig)
         const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate,convert(varchar(15),due_date,121) as duedate,
-        convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_recurring_bill with (nolock) WHERE vourcher_no='${voucher_no}' order by sno desc`)
+        convert(varchar(15),bill_date,121) as billdate,convert(varchar(15),recurring_date,121) as Recurringdate from ${org}.dbo.tbl_recurring_bill with (nolock) WHERE vourcher_no='${voucher_no}' order by sno desc`)
         res.send(Bill.recordset[0])
     }
     catch (err) {
         res.send(err)
-
     }
 }
 
@@ -137,7 +136,6 @@ const GetBillVendorID = async (req, res) => {
     }
     catch (err) {
         res.send(err)
-
     }
 }
 
@@ -208,4 +206,4 @@ const UpdateBillDNFlag = async(req,res) =>{
 
 }
 
-module.exports = { InsertRecurringBill,FilterBillReport,getRecurringBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 
+module.exports = { InsertRecurringBill,FilterBillReport,getRecurringBill,GetRecurringBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 

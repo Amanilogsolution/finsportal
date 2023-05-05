@@ -3,7 +3,6 @@ const sqlConfig = require('../../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-
 const inserSubRecurringBill = async (req, res) => {
     const org = req.body.org
     const voucher_no = req.body.voucher_no;
@@ -33,7 +32,7 @@ const inserSubRecurringBill = async (req, res) => {
 
 
 
-const GetSubBillItems = async (req, res) => {
+const GetSubRecurringBill = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
     try {
@@ -43,7 +42,6 @@ const GetSubBillItems = async (req, res) => {
     }
     catch (err) {
         res.send(err)
-
     }
 }
 
@@ -64,6 +62,5 @@ const UpdateSaveSubBillToPost = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
-module.exports = { inserSubRecurringBill, GetSubBillItems,UpdateSaveSubBillToPost }
+module.exports = { inserSubRecurringBill, GetSubRecurringBill,UpdateSaveSubBillToPost }

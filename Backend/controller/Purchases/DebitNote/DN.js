@@ -151,7 +151,6 @@ const filterDN = async (req, res) => {
     const vendid = req.body.vendid;
     const locationid = req.body.locationid;
 
-
     try {
         await sql.connect(sqlConfig)
         if (vendid === 'all') {
