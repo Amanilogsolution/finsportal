@@ -511,7 +511,7 @@ function AddRecurringBills() {
 
                     if (result1 === 'Added') {
                         alert('Data Added')
-                        window.location.href = './SaveBillReport';
+                        window.location.href = './TotalRecurringBill';
                     }
                 }
                 else if (result === 'Already') {
@@ -944,7 +944,7 @@ function AddRecurringBills() {
                                         <button id="postbtn" name="save" className="btn btn-danger ml-2"
                                             onClick={handleClickAdd}
                                             value='post'>Post </button>
-                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SaveBillReport' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
+                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/TotalRecurringBill' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview Bill</button>
                                     </div>
                                 </div>
