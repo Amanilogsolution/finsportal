@@ -8,14 +8,11 @@
     width: 100%;
     display: flex;
 }
-
 .navbar .Logo{
     flex: 1;
-
 }
 .navbar .Logo img{
     margin-left: 30%;
-
 }
 .navbar .Menu{
     display: flex;
@@ -32,26 +29,26 @@
 .navbar .Menu .Menulist li{
     cursor: pointer;
 }
-
+.navbar .Menu .Menulist li:hover{
+/* border-bottom: 4px solid red; */
+transform: scale(1.2);
+}
 .sectioncont {
     height: 80%;
     width: 100%;
     display: flex;
 }
-
 .sectioncont .landingimg{
     flex: 2;
     height: 100%;
 }
-
 .sectioncont .landingimg img{
  height: 90%;
  width: 80%;
  margin-left: 10%;
 }
-
 .sectioncont .content{
-    padding-top: 13%;
+    padding-top: 15%;
     padding-left: 5%;
     padding-right:5%;
     box-sizing: border-box;
