@@ -569,7 +569,7 @@ function AddRecurringInvoices() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select id="recurringType" className="form-control">
+                                                    <select id="recurringType" className="form-control ">
                                                         <option value='' hidden>Frequency</option>
                                                         {
                                                             ActiveRecurring.map((items, index) => (
@@ -578,12 +578,10 @@ function AddRecurringInvoices() {
                                                         }
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
+       
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
                                                 <div className="d-flex col-md-4">
-                                                    <input type="date" className='form-control col' id="recurringDate" placeholder='Enter the order number' />
+                                                    <input type="date" className='form-control col-md-10' id="recurringDate" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
