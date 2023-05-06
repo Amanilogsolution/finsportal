@@ -181,13 +181,14 @@ const App = () => {
     <div>
       <Router>
         <Switch>
-          <Route exact path="/" restricted={false} component={Login} />
-          <Route exact path="/LoginDetails" component={LoginDetails} />
-          <Route exact path="/LandingPage" component={LandingPage}/>
+         
+          <Route exact path="/" component={LandingPage}/>
+          <Route exact path="/Signin" restricted={false} component={Login} />
           
           <Route exact path="/otppage" component={OTPpage} />
 
           <PrivatRoute exact path="/home" component={Home} />
+          <PrivatRoute exact path="/LoginDetails" component={LoginDetails} />
           <PrivatRoute exact path="/ChangePassword" component={ChangePassword} />
           <PrivatRoute exact path="/Customer" component={Customer} />
           <PrivatRoute exact path="/CustomerNames" component={CustomerNames} />

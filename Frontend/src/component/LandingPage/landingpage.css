@@ -1,37 +1,59 @@
-.LandingDiv{
+.LandingDiv {
     height: 100vh;
     width: 100vw;
     background-color: rgb(254, 242, 242);
 }
-.navbar{
+
+.landing-navbar {
     height: 12%;
     width: 100%;
     display: flex;
 }
 
-.navbar .Logo{
+.landing-navbar .Logo {
     flex: 1;
-
 }
-.navbar .Logo img{
+
+.landing-navbar .Logo img {
     margin-left: 30%;
-
 }
-.navbar .Menu{
+
+.landing-navbar .Menu {
     display: flex;
     flex: 4;
     flex-direction: row-reverse;
     align-items: center;
 }
-.navbar .Menu .Menulist{
+
+.landing-navbar .Menu .Menulist {
     list-style: none;
     display: flex;
+    align-items: center;
     justify-content: space-around;
     width: 50%;
 }
-.navbar .Menu .Menulist li{
+
+.landing-navbar .Menu .Menulist li {
     cursor: pointer;
 }
+
+.landing-navbar .Menu .Menulist .landing-nav-link:hover {
+    border-bottom: 3px solid rgb(108, 108, 248);
+}
+
+.landing-navbar .Menu .Menulist li .signin-btn {
+    background-color: rgb(108, 108, 248);
+    padding: 5px 20px;
+    border-radius: 15px;
+    transition: all 0.4s linear;
+}
+
+.landing-navbar .Menu .Menulist li .signin-btn:hover {
+    background-color: rgb(55, 55, 55);
+    padding: 5px 20px;
+    border-radius: 15px;
+}
+
 
 .sectioncont {
     height: 80%;
@@ -39,25 +61,69 @@
     display: flex;
 }
 
-.sectioncont .landingimg{
+.sectioncont .landingimg {
     flex: 2;
     height: 100%;
 }
 
-.sectioncont .landingimg img{
- height: 90%;
- width: 80%;
- margin-left: 10%;
+.sectioncont .landingimg img {
+    height: 90%;
+    width: 80%;
+    margin-left: 10%;
 }
 
-.sectioncont .content{
-    padding-top: 13%;
-    padding-left: 5%;
-    padding-right:5%;
+.sectioncont .content {
+    padding: 0% 5% 5%;
     box-sizing: border-box;
     border-radius: 0% 0% 0% 15%;
-    margin-top: -7%;
+    margin-top: -12%;
     flex: 1;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 103%;
     background-color: rgb(232, 225, 254);
+}
+
+/* Footer Section */
+.LandingDiv .landing-footer {
+    height: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0px 30px;
+    width: 100%;
+}
+
+.LandingDiv .landing-footer span .phone-icon {
+    transform: rotate(100deg);
+}
+
+/* Media Query for max 1000px */
+@media screen and (max-width:1000px) {
+    .LandingDiv .sectioncont {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sectioncont .landingimg img {
+        height: 100%;
+        width: 100%;
+        margin-left: 0%;
+    }
+
+    .sectioncont .content {
+        border-radius: 0%;
+        margin-top: 0%;
+
+    }
+}
+
+/* Media Query for max 500px */
+@media screen and (max-width:500px) {
+    .landing-navbar {
+        flex-direction: column;
+    }
+
+
 }
