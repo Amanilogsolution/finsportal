@@ -18,6 +18,8 @@ function LandingPage() {
               <li className='landing-nav-link'><Link to='#' className="text-dark">About</Link></li>
               <li className='landing-nav-link'><Link to='#' className="text-dark">Help</Link></li>
               <li><Link to='/Signin'><button className='signin-btn btn text-white'>SignIn</button></Link></li>
+              <li><Link to='/Signup'><button className='signin-btn btn text-white'>SignUp</button></Link></li>
+
             </ul>
           </div>
         </nav>

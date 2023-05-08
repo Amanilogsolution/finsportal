@@ -1,0 +1,55 @@
+.brand{
+    height: 60px;
+    width: 50%;
+    background: #5260f6;
+}
+.brand2{
+    height: 60px;
+    width: 50%;
+    background: #5260f6;
+}
+.imgdiv{
+    display: none;
+}
+.brand2 h4{
+    display: none;
+}
+.brand img{
+    margin-top: -17px;
+    margin-left: 6px;
+}
+.card-header{
+    color: rgb(105, 101, 101);
+}
+article label{
+    color: rgb(105, 101, 101);
+}
+@media screen and (min-device-width: 1020px) and (max-device-width: 2500px) { 
+    .imgdiv{
+        display: block;
+        width: 101.7%;
+        height: 90.9vh;
+        background: #838eff;
+    }
+    .imgdiv img{
+        width: 100%;
+        height:100%;
+        border-left: none;
+    }
+    .brand{
+       border-bottom: 1px solid white;
+    }
+    .brand2{
+      
+      background: rgb(9, 19, 87)    ;
+      border-bottom: 0.01em solid rgb(212, 212, 212);
+    }
+    .brand2 h4{
+        text-align: center;
+        display: block;
+        margin-top: 13px;
+        color:white;
+        font-size: 19px;
+    }
+
+}

@@ -143,7 +143,6 @@ import ShowItem from './component/Items/ShowItem'
 import AddItem from './component/Items/AddItem'
 import EditItem from './component/Items/EditItem'
 
-
 import AddCrm from './component/Master/CrmMaster/AddCrm'
 import EditCrm from './component/Master/CrmMaster/EditCrm'
 import ShowCrm from './component/Master/CrmMaster/ShowCrm'
@@ -170,6 +169,7 @@ import TotalRecurringBill from './component/Vendor/RecurringBills/TotalRecurring
 import EditRecurringBills from './component/Vendor/RecurringBills/EditRecurringBill';
 
 import LandingPage from './component/LandingPage/LandingPage';
+import Signup from './component/SignUp/Signup';
 
 const App = () => {
 
@@ -184,6 +184,8 @@ const App = () => {
          
           <Route exact path="/" component={LandingPage}/>
           <Route exact path="/Signin" restricted={false} component={Login} />
+          <Route exact path="/Signup" restricted={false} component={Signup} />
+
           
           <Route exact path="/otppage" component={OTPpage} />
 

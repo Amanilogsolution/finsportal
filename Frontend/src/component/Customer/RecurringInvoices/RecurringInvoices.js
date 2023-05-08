@@ -63,7 +63,7 @@ function AddRecurringInvoices() {
     const [locationstate, setLocationstate] = useState([])
     const [currencylist, setCurrencylist] = useState([]);
     const [custadddetail, setCustadddetail] = useState({ state: '', custAddId: '', custAddGst: '' })
-    const [invoiceid, setInvoiceid] = useState('')
+    // const [invoiceid, setInvoiceid] = useState('')
     const [invoiceprefix, setInvoiceprefix] = useState('')
     const [locationid, setLocationid] = useState('')
     const [billingaddress, setBillingAddress] = useState('')
@@ -109,7 +109,8 @@ function AddRecurringInvoices() {
             setLoading(true)
             Todaydate()
             document.getElementById('savebtn').disabled = true;
-            document.getElementById('postbtn').disabled = true;
+            // document.getElementById('postbtn').disabled = true;
+            document.getElementById('invoiceid').value = 'Random' + Math.floor(Math.random() * 10000) + 1;
         }
         fetchdata()
     }, [])
@@ -241,7 +242,7 @@ function AddRecurringInvoices() {
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + invoicecitypre + fin_year[0].year + invoiceidauto;
         setInvoiceprefix(invoicepefix)
-        setInvoiceid(invoiceid);
+        // setInvoiceid(invoiceid);
     }
 
     const handleChangeItems = async (value, index) => {
@@ -258,11 +259,11 @@ function AddRecurringInvoices() {
         document.getElementById('postbtn').disabled = true;
     }
 
-    const handleAccountTerm = (e) => {
-        // let [val, Ter] = e.target.value.split(" ")
-        const days = Number(e.target.value)
-        Duedate(days)
-    }
+    // const handleAccountTerm = (e) => {
+    //     // let [val, Ter] = e.target.value.split(" ")
+    //     const days = Number(e.target.value)
+    //     Duedate(days)
+    // }
 
     const handleChangeQuantity_Rate = (index) => {
         let qty = Number(document.getElementById(`Quality-${index}`).value) || 0
@@ -340,7 +341,7 @@ function AddRecurringInvoices() {
 
         setAllInvoiceData({
             ...allInvoiceData,
-            TaxInvoice: invoiceid, InvoiceData: document.getElementById('Invoicedate').value,
+            TaxInvoice: document.getElementById('invoiceid').value, InvoiceData: document.getElementById('Invoicedate').value,
             GrandTotal: totalinvamt, TotalTaxamount: totalgstamt, CGSTPer: cgstper, SGSTPer: sgstper, IGSTPer: igstper,
             CGST: cgstamt, SGST: sgstamt, IGST: igstamt,
             BillTo: `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}`, SupplyTo: `${billingAddressLocation[0]}, ${billingAddressLocation[1]}, ${billingAddressLocation[2]}`, BillToGst: custadddetail.custAddGst,
@@ -384,23 +385,23 @@ function AddRecurringInvoices() {
         setLoading(false)
 
         document.getElementById('savebtn').disabled = true;
-        document.getElementById('postbtn').disabled = true;
 
-        let invoiceids = "";
+        let invoiceids = document.getElementsByTagName('invoiceid').value;
         let squ_nos = ""
         const btn_type = e.target.value;
         const fin_year = localStorage.getItem('fin_year')
-        if (btn_type === 'save') {
-            invoiceids = 'Random' + Math.floor(Math.random() * 10000) + 1;
-            squ_nos = ""
-        }
-        else {
-            invoiceids = allInvoiceData.TaxInvoice;
-            squ_nos = invoiceprefix;
-        }
+        // if (btn_type === 'save') {
+        //     invoiceids = 'Random' + Math.floor(Math.random() * 10000) + 1;
+        //     squ_nos = ""
+        // }
+        // else {
+        //     invoiceids = allInvoiceData.TaxInvoice;
+        //     squ_nos = invoiceprefix;
+        // }
 
-        const Invoicedate = allInvoiceData.InvoiceData;
-        const ordernumber = sovalue.value
+
+        const Invoicedate = '';
+        const ordernumber = ''
         const invoiceamt = allInvoiceData.GrandTotal;
         const User_id = localStorage.getItem('User_id')
         const periodfrom = document.getElementById('fromdate').value;
@@ -413,8 +414,8 @@ function AddRecurringInvoices() {
         let consignee = document.getElementById('custname')
         consignee = consignee.options[consignee.selectedIndex].text;
         const currency_type = document.getElementById('currency').value
-        const paymentterm = document.getElementById('paymentterm').value;
-        const Duedate = document.getElementById('Duedate').value;
+        const paymentterm = '';
+        const Duedate = '';
         const cgst = allInvoiceData.CGSTPer;
         const sgst = allInvoiceData.SGSTPer
         const utgst = allInvoiceData.SGSTPer
@@ -465,7 +466,7 @@ function AddRecurringInvoices() {
                 })
 
                 if (btn_type !== 'save') {
-                    const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
+                    // const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }
                 alert('Added')
                 window.location.href = './TotalRecurringInvoice';
@@ -545,10 +546,10 @@ function AddRecurringInvoices() {
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice</label>
                                                 <div className="d-flex col-md-4">
-                                                    <input type="text" className='form-control col cursor-notallow' id="invoiceid" value={invoiceid} disabled />
+                                                    <input type="text" className='form-control col cursor-notallow' id="invoiceid" disabled />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+                                            {/* <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                 <div className="d-flex col-md-4">
                                                     <CreatableSelect
@@ -561,10 +562,10 @@ function AddRecurringInvoices() {
                                                         onCreateOption={handleCreate}
                                                         options={solist}
                                                         value={sovalue}
-                                                    />
+                                                    /> */}
                                                     {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
-                                                </div>
-                                            </div>
+                                                {/* </div>
+                                            </div> */}
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
@@ -596,7 +597,7 @@ function AddRecurringInvoices() {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+                                            {/* <div className="form-row mt-3">
                                                 <div className="d-flex col-md-3">
                                                     <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
                                                     <input type="date" className='form-control col-md-6  cursor-notallow' id="Invoicedate" disabled />
@@ -623,7 +624,7 @@ function AddRecurringInvoices() {
                                                     <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
                                                     <input type="date" className={`form-control col-md-7  cursor-notallow`} id="Duedate" disabled />
                                                 </div>
-                                            </div>
+                                            </div> */}
 
 
                                             <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>
@@ -805,7 +806,7 @@ function AddRecurringInvoices() {
 
                                             <div className="form-group mt-3">
                                                 <button id="savebtn" type='button' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'> Save</button>
-                                                <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2" onClick={handlesavebtn} value='post' >Post</button>
+                                                {/* <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2" onClick={handlesavebtn} value='post' >Post</button> */}
                                                 <button id="clear"
                                                     onClick={(e) => { e.preventDefault(); window.location.href = '/TotalRecurringInvoice' }}
                                                     name="clear" className="btn mx-2 btn btn-secondary">Cancel </button>
