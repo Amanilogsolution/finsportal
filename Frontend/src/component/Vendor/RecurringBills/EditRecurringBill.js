@@ -75,10 +75,6 @@ function EditRecurringBills() {
         const lastno = Number(id[0].voucher_count) + 1
         let new_voucher_no = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
 
-        console.log(org, new_voucher_no, voucher_date, vendor_name, Location, bill_no,
-            bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-            taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
-        console.log(org, new_voucher_no, bill_no, totalItemValues, fins_year, userid)
 
         const result = await InsertBill(org, new_voucher_no, voucher_date, vendor_name, Location, bill_no,
             bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,

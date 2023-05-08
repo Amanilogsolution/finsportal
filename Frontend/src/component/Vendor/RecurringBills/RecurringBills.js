@@ -315,7 +315,6 @@ function AddRecurringBills() {
     // ################################ Toggle & Calculation of Gst Div ##########################################
     const handlegst_submit = (e) => {
         e.preventDefault();
-        console.log(tabledata)
         const gst_type = document.getElementById('gsttype').value;
         const totalvalue = document.getElementById('totalamount').value
         const gst = document.getElementById('gstTax').value
