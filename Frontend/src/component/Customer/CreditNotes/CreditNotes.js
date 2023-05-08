@@ -35,6 +35,7 @@ function CreditNotes() {
     const [subTotal, setSubTotal] = useState([])
     const [TotalCN, setTotalCN] = useState([])
     const [taxvalue, settaxvalue] = useState([])
+    const [cnData, setCnData] = useState([])
 
 
     useEffect(() => {
@@ -98,96 +99,109 @@ function CreditNotes() {
             }, 1000)
             return
         } else {
-                taxvalue[index] = valTax
-                TotalCN[index] = TotalTaxValue
-                subTotal[index] = value
-                if (Number(invoicesub[index].igst_rate) > 0) {
-                    let subdata = ChargeCodeSub
-                    subdata[index] = {
-                        cn_no: CN_Number,
-                        invoice_no: Invoice_no,
-                        activity: Activity,
-                        item: Item,
-                        amount: Amount,
-                        balance_amt: Balancevalue,
-                        pass_amt: value,
-                        sub_id: id,
-                        cgstper: invoicesub[index].cgst_rate,
-                        cgstamt: 0,
-                        igstper: invoicesub[index].igst_rate,
-                        igstamt: valTax,
-                        sgstper: invoicesub[index].sgst_rate,
-                        sgstamt: 0,
-                        glcode: invoicesub[index].glcode
-                    }
-                    setChargeCodeSub(subdata)
-
-                } else {
-                    let subdata = ChargeCodeSub
-                    subdata[index] = {
-                        cn_no: CN_Number,
-                        invoice_no: Invoice_no,
-                        activity: Activity,
-                        item: Item,
-                        amount: Amount,
-                        balance_amt: Balancevalue,
-                        pass_amt: value,
-                        sub_id: id,
-                        cgstper: invoicesub[index].cgst_rate,
-                        cgstamt: valTax / 2,
-                        igstper: invoicesub[index].igst_rate,
-                        igstamt: 0,
-                        sgstper: invoicesub[index].sgst_rate,
-                        sgstamt: valTax / 2,
-                        glcode: invoicesub[index].glcode
-
-                    }
-                    setChargeCodeSub(subdata)
+            taxvalue[index] = valTax
+            TotalCN[index] = TotalTaxValue
+            subTotal[index] = value
+            if (Number(invoicesub[index].igst_rate) > 0) {
+                let subdata = ChargeCodeSub
+                subdata[index] = {
+                    cn_no: CN_Number,
+                    invoice_no: Invoice_no,
+                    activity: Activity,
+                    item: Item,
+                    amount: Amount,
+                    balance_amt: Balancevalue,
+                    pass_amt: value,
+                    sub_id: id,
+                    cgstper: invoicesub[index].cgst_rate,
+                    cgstamt: 0,
+                    igstper: invoicesub[index].igst_rate,
+                    igstamt: valTax,
+                    sgstper: invoicesub[index].sgst_rate,
+                    sgstamt: 0,
+                    glcode: invoicesub[index].glcode
                 }
-                subTotal.map(item => sum += Number(item))
-                TotalCN.map(item => totalcn += Number(item))
-                taxvalue.map(item => taxval += Number(item))
+                setChargeCodeSub(subdata)
 
-                setSendRequest(true)
-                document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
-                document.getElementById('totalCnAmt').innerHTML = sum
-                // document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
-                document.getElementById('grandTotal').innerHTML = totalcn
+            } else {
+                let subdata = ChargeCodeSub
+                subdata[index] = {
+                    cn_no: CN_Number,
+                    invoice_no: Invoice_no,
+                    activity: Activity,
+                    item: Item,
+                    amount: Amount,
+                    balance_amt: Balancevalue,
+                    pass_amt: value,
+                    sub_id: id,
+                    cgstper: invoicesub[index].cgst_rate,
+                    cgstamt: valTax / 2,
+                    igstper: invoicesub[index].igst_rate,
+                    igstamt: 0,
+                    sgstper: invoicesub[index].sgst_rate,
+                    sgstamt: valTax / 2,
+                    glcode: invoicesub[index].glcode
 
-                if (Number(invoicesub[index].igst_rate) > 0) {
-                    document.getElementById('igstamt').innerHTML = taxval
-                    document.getElementById('cgst').innerHTML = 0
-                    document.getElementById('sgst').innerHTML = 0
-
-                    let cnGstData = data;
-                    cnGstData.cgst_amt = 0
-                    cnGstData.sgst_amt = 0
-                    cnGstData.igst_amt = taxval
-
-                    cnGstData.cgst_rate = Number(invoicesub[index].cgst_rate)
-                    cnGstData.sgst_rate = Number(invoicesub[index].sgst_rate)
-                    cnGstData.igst_rate = Number(invoicesub[index].igst_rate)
-
-                    setData(cnGstData)
-
-                } else {
-                    document.getElementById('igstamt').innerHTML = 0
-                    document.getElementById('cgst').innerHTML = taxval / 2
-                    document.getElementById('sgst').innerHTML = taxval / 2
-
-                    let cnGstData = data;
-                    cnGstData.cgst_amt = taxval / 2
-                    cnGstData.sgst_amt = taxval / 2
-                    cnGstData.igst_amt = 0
-
-                    cnGstData.cgst_rate = Number(invoicesub[index].cgst_rate)
-                    cnGstData.sgst_rate = Number(invoicesub[index].sgst_rate)
-                    cnGstData.igst_rate = Number(invoicesub[index].igst_rate)
-
-                    console.log(cnGstData)
-                    setData(cnGstData)
-                   
                 }
+                setChargeCodeSub(subdata)
+            }
+            subTotal.map(item => sum += Number(item))
+            TotalCN.map(item => totalcn += Number(item))
+            taxvalue.map(item => taxval += Number(item))
+
+            setSendRequest(true)
+            document.getElementById(`AmountLeft${index}`).innerHTML = Balancevalue
+            document.getElementById('totalCnAmt').innerHTML = sum
+            // document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
+            document.getElementById('grandTotal').innerHTML = totalcn
+
+            if (Number(invoicesub[index].igst_rate) > 0) {
+                document.getElementById('igstamt').innerHTML = taxval
+                document.getElementById('cgst').innerHTML = 0
+                document.getElementById('sgst').innerHTML = 0
+
+                let cnGstData = data;
+                cnGstData.cgst_amt = 0
+                cnGstData.sgst_amt = 0
+                cnGstData.igst_amt = taxval
+
+                cnGstData.cgst_rate = Number(invoicesub[index].cgst_rate)
+                cnGstData.sgst_rate = Number(invoicesub[index].sgst_rate)
+                cnGstData.igst_rate = Number(invoicesub[index].igst_rate)
+
+                cnGstData.total_gst_amt = taxval
+                cnGstData.total_gstrate = Number(invoicesub[index].igst_rate)
+
+                setCnData(cnGstData)
+
+            } else {
+                document.getElementById('igstamt').innerHTML = 0
+                document.getElementById('cgst').innerHTML = taxval / 2
+                document.getElementById('sgst').innerHTML = taxval / 2
+
+                let cnGstData = data;
+                cnGstData.cgst_amt = taxval / 2
+                cnGstData.sgst_amt = taxval / 2
+                cnGstData.igst_amt = 0
+
+                cnGstData.cgst_rate = Number(invoicesub[index].cgst_rate)
+                cnGstData.sgst_rate = Number(invoicesub[index].sgst_rate)
+                cnGstData.igst_rate = Number(invoicesub[index].igst_rate)
+                cnGstData.total_gst_amt = taxval
+                cnGstData.total_gstrate = Number(invoicesub[index].igst_rate)
+
+                // console.log(cnGstData)
+                setCnData(cnGstData)
+
+                // setData({ ...data, 
+                //     cgst_amt : taxval / 2,
+                //     sgst_amt : taxval / 2,
+                //     igst_amt : 0,
+                //     cgst_rate : Number(invoicesub[index].cgst_rate),
+                //     sgst_rate : Number(invoicesub[index].sgst_rate),
+                //     igst_rate : Number(invoicesub[index].igst_rate)
+                // })
+            }
         }
     }
 
@@ -219,7 +233,8 @@ function CreditNotes() {
     }
 
     const handleRemark = (e) => {
-        setData({ ...data, remark: e.target.value })
+        setCnData({ ...cnData, remark: e.target.value })
+        // setData({ ...data, remark: e.target.value })
     }
 
     return (
@@ -298,7 +313,7 @@ function CreditNotes() {
                                                             {/* <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td> */}
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
                                                             {/* <td className="col-md-2 px-1  "  >{item.taxableamount}</td> */}
-                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onBlur={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
+                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
                                                             {/* <td className="col-md-2 px-1  " id={`Total${index}`} ></td> */}
                                                             <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
                                                         </tr>
@@ -375,7 +390,7 @@ function CreditNotes() {
                                             <button id="clear" onClick={(e) => {
                                                 e.preventDefault(); window.location.href = '/CreditNotesUI'
                                             }} name="clear" className="btn btn-secondary ml-2"> Cancel </button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault();console.log('teujh',data) }}>Preview</button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault();}}>Preview</button>
                                         </div>
                                     </div>
                                 </form>
@@ -389,7 +404,7 @@ function CreditNotes() {
             </div>
             {
                 ChargeCodeSub.length > 0 ?
-                    <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={data} location={location} custname={custname} />
+                    <CreditNotePreview ChargeCodeSub={ChargeCodeSub} data={cnData} location={location} custname={custname} />
                     : null
             }
             <div className="modal fade" id="exampleModal1" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
