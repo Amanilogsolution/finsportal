@@ -19,7 +19,6 @@ const TotalRecurringBill = () => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
       const result = await getRecurringBill(org)
-      console.log(result)
       setData(result)
       setLoading(true)
       fetchRoles()
@@ -39,7 +38,6 @@ const TotalRecurringBill = () => {
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bills')
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
-    // console.log(UserRights)
     setUserRightsData(UserRights)
 
 

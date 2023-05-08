@@ -67,7 +67,7 @@ function EditRecurringBills() {
         const userid = localStorage.getItem('User_id');
         const vendor_id = data.vend_id;
         const img = '';
-        const btn_type='POST';
+        const btn_type = 'POST';
         const po_no = data.po_no;
         const billsubtotalamt = data.bill_amt
 
@@ -75,10 +75,6 @@ function EditRecurringBills() {
         const lastno = Number(id[0].voucher_count) + 1
         let new_voucher_no = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
 
-        console.log(org, new_voucher_no, voucher_date, vendor_name, Location, bill_no,
-            bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-            taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
-            console.log(org, new_voucher_no, bill_no, totalItemValues, fins_year, userid)
 
         const result = await InsertBill(org, new_voucher_no, voucher_date, vendor_name, Location, bill_no,
             bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
@@ -109,7 +105,7 @@ function EditRecurringBills() {
                     loading ?
                         <div className={`content-wrapper `}>
                             <div className="container-fluid ">
-                                <h3 className="pt-3 pb-1 ml-5"> Update Bill</h3>
+                                <h3 className="pt-3 pb-1 ml-5"> Update Recurring Bill</h3>
 
                                 <div className={`card mb-2 `}>
                                     <article className="card-body">
@@ -141,14 +137,6 @@ function EditRecurringBills() {
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="voucher_date" disabled defaultValue={data.voudate} />
                                                 </div>
                                             </div>
-
-                                            <div className="form-row mt-3">
-                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="bill_no" defaultValue={data.bill_no} disabled />
-                                                </div>
-                                            </div>
-
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
                                                 <div className="d-flex col-md">
@@ -157,28 +145,35 @@ function EditRecurringBills() {
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div className="form-row mt-3">
-                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="number" className="form-control col-md-4" id="bill_amt" defaultValue={data.bill_amt} disabled />
+                                                    <input type="text" className="form-control col-md-4" id="bill_no" defaultValue={data.bill_no} disabled />
                                                 </div>
                                             </div>
+
+
                                             <div className="form-row mt-3">
+                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <input type="number" className="form-control col-md-10" id="bill_amt" defaultValue={data.bill_amt} disabled />
+                                                </div>
+
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-4" id="bill_date" defaultValue={data.billdate} disabled />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="date" className="form-control col-md-10" id="bill_date" defaultValue={data.billdate} disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Recurring Type<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="bill_date" defaultValue={data.recurring_type} disabled />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className="form-control col-md-10" id="bill_date" defaultValue={data.recurring_type} disabled />
                                                 </div>
-                                            </div>
-                                            <div className="form-row mt-3">
+                                        
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Recurring Date<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-4" id="bill_date" defaultValue={data.Recurringdate} disabled />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="date" className="form-control col-md-10" id="bill_date" defaultValue={data.Recurringdate} disabled />
                                                 </div>
                                             </div>
 
@@ -192,7 +187,7 @@ function EditRecurringBills() {
 
                                                     </select>
                                                 </div>
-                                                <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
+                                                <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
                                                 <div className="d-flex col-md-4 " >
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled defaultValue={data.duedate} />
                                                 </div>
@@ -290,7 +285,7 @@ function EditRecurringBills() {
                                                                 <td style={{ width: "150px" }} >Total CGST Amt </td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                                     <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' disabled />
+                                                                        <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' disabled defaultValue={data.cgst_rate}/>
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -302,7 +297,7 @@ function EditRecurringBills() {
                                                                 <td>Total SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
                                                                     <div className="input-group" >
-                                                                        <input type="" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' disabled />
+                                                                        <input type="" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' disabled defaultValue={data.sgst_rate}/>
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -314,7 +309,7 @@ function EditRecurringBills() {
                                                                 <td>Total IGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent ' >
                                                                     <div className="input-group" >
-                                                                        <input type='number' className="form-control col-md-5 ml-5  cursor-notallow" id='igst-inp' disabled />
+                                                                        <input type='number' className="form-control col-md-5 ml-5  cursor-notallow" id='igst-inp' disabled defaultValue={data.igst_rate}/>
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>

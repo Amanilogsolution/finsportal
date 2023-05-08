@@ -51,7 +51,6 @@ function CreditNotes() {
             setInvoiceData(Invoice[0])
             const result1 = await GetSubInvoice(org, result.inv_no)
             setInvoicesub(result1)
-            console.log(result1)
             const result2 = await locationAddress(org, result.location)
             setLocation(result2)
             const Subdata = await SelectCnSubDetails(org, result.cn_no, result.inv_no, result1.length)
@@ -82,14 +81,13 @@ function CreditNotes() {
         let Amount = invoicesub[index].amount
         let Item = document.getElementById(`Item${index}`).innerHTML
         const TotalTax = Number(invoicesub[index].cgst_rate) + Number(invoicesub[index].igst_rate) + Number(invoicesub[index].sgst_rate)
-        const valTax = Math.round((value * 18) / 100)
+        const valTax = Math.round((value * Number(TotalTax)) / 100)
         let TotalTaxValue = Number(value) + Number(valTax)
         let sum = 0
         let totalcn = 0
         let taxval = 0
         let Balancevalue = AmtBalance - TotalTaxValue
-        console.log(AmtBalance ,TotalTaxValue)
-        console.log(AmtBalance - TotalTaxValue)
+
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${AmtBalance}`)
             setTimeout(() => {
@@ -105,8 +103,8 @@ function CreditNotes() {
                 TotalCN[index] = TotalTaxValue
                 subTotal[index] = value
                 if (Number(invoicesub[index].igst_rate) > 0) {
-                    let data = ChargeCodeSub
-                    data[index] = {
+                    let subdata = ChargeCodeSub
+                    subdata[index] = {
                         cn_no: CN_Number,
                         invoice_no: Invoice_no,
                         activity: Activity,
@@ -123,11 +121,11 @@ function CreditNotes() {
                         sgstamt: 0,
                         glcode: invoicesub[index].glcode
                     }
-                    setChargeCodeSub(data)
+                    setChargeCodeSub(subdata)
 
                 } else {
-                    let data = ChargeCodeSub
-                    data[index] = {
+                    let subdata = ChargeCodeSub
+                    subdata[index] = {
                         cn_no: CN_Number,
                         invoice_no: Invoice_no,
                         activity: Activity,
@@ -145,7 +143,7 @@ function CreditNotes() {
                         glcode: invoicesub[index].glcode
 
                     }
-                    setChargeCodeSub(data)
+                    setChargeCodeSub(subdata)
                 }
                 subTotal.map(item => sum += Number(item))
                 TotalCN.map(item => totalcn += Number(item))
@@ -156,10 +154,14 @@ function CreditNotes() {
                 document.getElementById('totalCnAmt').innerHTML = sum
                 // document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
                 document.getElementById('grandTotal').innerHTML = totalcn
+
+
                 if (Number(invoicesub[index].igst_rate) > 0) {
                     document.getElementById('igstamt').innerHTML = taxval
                     document.getElementById('cgst').innerHTML = 0
                     document.getElementById('sgst').innerHTML = 0
+
+                    setData({ ...data, cgst_rate:0,cgst_amt:0,sgst_rate:0,sgst_amt:0,igst_rate:TotalTax,igst_amt:taxval})
                 } else {
                     document.getElementById('igstamt').innerHTML = 0
                     document.getElementById('cgst').innerHTML = taxval / 2
@@ -197,7 +199,6 @@ function CreditNotes() {
     }
 
     const handleRemark = (e) => {
-        console.log(e.target.value)
         setData({ ...data, remark: e.target.value })
     }
 
@@ -350,15 +351,11 @@ function CreditNotes() {
                                     </div>
                                     <div className="form-group">
                                         <div className="col-md-20" style={{ width: "100%" }}>
-                                            <button id="save" name="save" className="btn btn-danger" onClick={apiCAll}>
-                                                Create
-                                            </button>
+                                            <button id="save" name="save" className="btn btn-danger" onClick={apiCAll}>Create </button>
                                             <button id="clear" onClick={(e) => {
                                                 e.preventDefault(); window.location.href = '/CreditNotesUI'
-                                            }} name="clear" className="btn btn-secondary ml-2">
-                                                Cancel
-                                            </button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log(ChargeCodeSub); console.log(data) }}>Preview</button>
+                                            }} name="clear" className="btn btn-secondary ml-2"> Cancel </button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); }}>Preview</button>
                                         </div>
                                     </div>
                                 </form>

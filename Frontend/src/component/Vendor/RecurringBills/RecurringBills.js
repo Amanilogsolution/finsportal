@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import '../Bills/bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation,ActiveRecurringFreq, SearchVendAddress } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress } from '../../../api'
 import PreviewBill from '../Bills/PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -315,7 +315,6 @@ function AddRecurringBills() {
     // ################################ Toggle & Calculation of Gst Div ##########################################
     const handlegst_submit = (e) => {
         e.preventDefault();
-        console.log(tabledata)
         const gst_type = document.getElementById('gsttype').value;
         const totalvalue = document.getElementById('totalamount').value
         const gst = document.getElementById('gstTax').value
@@ -497,7 +496,7 @@ function AddRecurringBills() {
             }
             else {
                 const org = localStorage.getItem('Organisation')
-                const result = await InsertRecurringBill(org,RecurringType,RecurringMonth,RecurringDate, voucher_no, voucher_date, vendor_name, Location, bill_no,
+                const result = await InsertRecurringBill(org, RecurringType, RecurringMonth, RecurringDate, voucher_no, voucher_date, vendor_name, Location, bill_no,
                     bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
                     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
 
@@ -599,14 +598,6 @@ function AddRecurringBills() {
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="voucher_date" disabled />
                                                 </div>
                                             </div>
-
-                                            <div className="form-row mt-3">
-                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="bill_no" />
-                                                </div>
-                                            </div>
-
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
                                                 <div className="d-flex col-md">
@@ -623,26 +614,33 @@ function AddRecurringBills() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md">
-                                                    <input type="number" className="form-control col-md-4" id="bill_amt" />
+                                                    <input type="text" className="form-control col-md-4" id="bill_no" />
                                                 </div>
                                             </div>
+
+
                                             <div className="form-row mt-3">
+                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <input type="number" className="form-control col-md-10" id="bill_amt" />
+                                                </div>
+                                         
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-4" id="bill_date" />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="date" className="form-control col-md-10" id="bill_date" />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
-                                                <div className="d-flex col-md">
+                                                <div className="d-flex col-md-4">
                                                     <select
                                                         id="recurringType"
-                                                        className="form-control col-md-4"
+                                                        className="form-control col-md-10"
                                                     >
-                                                        <option value='' hidden>Frequency</option>
+                                                        <option value='' hidden>Select frequency</option>
                                                         {
                                                             ActiveRecurring.map((items, index) => (
                                                                 <option key={index} value={items.recurring_month} >{items.recurring_type}</option>
@@ -650,12 +648,10 @@ function AddRecurringBills() {
                                                         }
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <div className="form-row mt-3">
+                                        
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className='form-control col-md-4 ' id="recurringDate" placeholder='Enter the order number' />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="date" className='form-control col-md-10' id="recurringDate" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
 
@@ -665,7 +661,7 @@ function AddRecurringBills() {
                                                     <select
                                                         id="payment_term_select"
                                                         className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value={vendorselectedlist.payment_terms} hidden>Net {vendorselectedlist.payment_terms}</option>
+                                                        <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms?`Net ${vendorselectedlist.payment_terms}`:null}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
@@ -673,7 +669,7 @@ function AddRecurringBills() {
                                                         }
                                                     </select>
                                                 </div>
-                                                <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
+                                                <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
                                                 <div className="d-flex col-md-4 " >
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
                                                 </div>
