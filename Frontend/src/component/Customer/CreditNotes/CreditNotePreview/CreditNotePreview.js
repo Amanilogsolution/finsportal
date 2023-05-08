@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import DecamalNumber from 'decimal-number-to-words';
 import { showOrganisation } from '../../../../api'
 import './CreditNotePreview.css'
@@ -9,27 +9,28 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
 
     const pdfRef = useRef(null);
     const print = (e) => {
-      e.preventDefault();
-      const content = pdfRef.current;
-      const doc = new jsPDF();
-      doc.html(content, {
-        callback: function (doc) {
-          doc.save(`Invoice-${data.cn_no}.pdf`);
-        },
-        html2canvas: { scale: 0.253 },
-        margin: [5, 0, 0, 5],
-      });
+        e.preventDefault();
+        const content = pdfRef.current;
+        const doc = new jsPDF();
+        doc.html(content, {
+            callback: function (doc) {
+                doc.save(`Invoice-${data.cn_no}.pdf`);
+            },
+            html2canvas: { scale: 0.253 },
+            margin: [5, 0, 0, 5],
+        });
     };
     useEffect(() => {
         const fetchdata = async () => {
             let org = localStorage.getItem('Organisation');
             const result = await showOrganisation(org)
             setOrgdata(result)
+
         }
         fetchdata()
-    }, [])
-    console.log('nknlk',data)
-   
+    }, [data])
+    // console.log('nknlk',data)
+
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -68,7 +69,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                                 <div className='px-2'>
                                                     <strong>Name: {custname}</strong><br />
                                                     <strong>Address: </strong>
-                                                    {location.location_add1},{location.location_city}, {location.location_state}, 
+                                                    {location.location_add1},{location.location_city}, {location.location_state},
                                                     {location.location_country} - {location.location_pin}
                                                     <br />
                                                     <strong>GSTIN: </strong>{location.gstin_no}
@@ -88,7 +89,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                                 <tr>
                                                     <th rowSpan="2">SNo.</th>
                                                     <th rowSpan="2">Activity</th>
-                                                   
+
                                                     <th rowSpan="2">Amount</th>
                                                     <th rowSpan="2">Pass Amt</th>
                                                     <th colSpan="2">CGST </th>
@@ -142,10 +143,10 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                                     <td><strong>TOTAL</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>0</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{data.cgst_amt}</td>
+                                                    <td>{data.sgst_amt}</td>
+                                                    <td>{data.igst_amt}</td>
+                                                    <td>{data.total_gst_amt}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
