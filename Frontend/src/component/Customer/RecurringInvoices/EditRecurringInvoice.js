@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from '../Invoices/EditInvoice/PreviewEditInvoice';
-import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub } from '../../../api/index'
+import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub,GetSalesOrderByCust } from '../../../api/index'
 import LoadingPage from '../../loadingPage/loadingPage';
+import CreatableSelect from 'react-select/creatable';
+
 
 
 function EditRecurringInvoice() {
     const [loading, setLoading] = useState(false)
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
+    const [soloading, setSoloading] = useState(false);
+    const [sovalue, setValue] = useState();
+    const [solist, setSolist] = useState([])
+
+
 
 
     useEffect(() => {
@@ -17,10 +24,12 @@ function EditRecurringInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await getRecurringInvoice(org, invoice_no)
-
+            console.log('Data',Invoiceresult[0].custid)
             setInvoice_detail(Invoiceresult[0])
             const result1 = await getSubRecurringInvoice(org, invoice_no)
             setInvoicesub(result1)
+            const get_so = await GetSalesOrderByCust(org, Invoiceresult[0].custid)
+             setSolist(get_so)
 
             setLoading(true)
 
@@ -80,6 +89,39 @@ function EditRecurringInvoice() {
             setLoading(true)
         }
     }
+    const handleAccountTerm = (e) => {
+        // let [val, Ter] = e.target.value.split(" ")
+        const days = Number(e.target.value)
+        Duedate(days)
+    }
+
+    const Duedate = (lastday) => {
+        var myDate = new Date(new Date().getTime() + (lastday * 24 * 60 * 60 * 1000));
+        var day = myDate.getDate();
+        var month = myDate.getMonth() + 1;
+        var year = myDate.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        // document.getElementById("Duedate").value = today;
+    }
+
+    const handleCreate = (inputValue) => {
+        console.log(soOptions)
+        setSoloading(true);
+        setTimeout(() => {
+            const newOption = { so_no: inputValue.toUpperCase() }
+            setSoloading(false);
+            setSolist((prev) => [...prev, newOption]);
+            setValue({label:inputValue.toUpperCase(),value: inputValue.toUpperCase()});
+
+        }, 1000);
+    };
+
+    var soOptions = solist.map((element)=>{
+        console.log(element)
+        return  {label:element.so_no,value: element.so_no}
+    }) 
 
     return (
         <>
@@ -133,6 +175,24 @@ function EditRecurringInvoice() {
                                                         <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
                                                     </div>
                                                 </div>
+
+                                                <div className="form-row mt-3">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
+                                                <div className="d-flex col-md-4">
+                                                    <CreatableSelect
+                                                        className='col-md px-1'
+                                                        id="ordernumber"
+                                                        isClearable
+                                                        isDisabled={soloading}
+                                                        isLoading={soloading}
+                                                        onChange={(newValue) => setValue(newValue)}
+                                                        onCreateOption={handleCreate}
+                                                        options={soOptions}
+                                                        value={sovalue}
+                                                    /> 
+                                                    {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
+                                                 </div>
+                                            </div>
 
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>

@@ -123,7 +123,7 @@ function AddRecurringInvoices() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
-        document.getElementById("Invoicedate").value = today;
+        // document.getElementById("Invoicedate").value = today;
     }
 
     const handleChangeActivity = async (e, index) => {
@@ -177,7 +177,6 @@ function AddRecurringInvoices() {
     const handleCustname = async (e) => {
         e.preventDefault();
         setSoloading(true)
-        setSolist([])
         const org = localStorage.getItem('Organisation')
 
         const cust_id = e.target.value;
@@ -191,13 +190,16 @@ function AddRecurringInvoices() {
         setCutomerAddress(cust_add)
         setSoloading(false)
         const get_so = await GetSalesOrderByCust(org, cust_id)
+        console.log(get_so)
+        setSolist(get_so)
+
         let obj = []
 
         get_so.map((item) => {
             obj.push({ label: item.so_no, value: item.so_no })
         })
 
-        setSolist(obj)
+        // setSolist(obj)
     }
     const Duedate = (lastday) => {
         var myDate = new Date(new Date().getTime() + (lastday * 24 * 60 * 60 * 1000));
@@ -207,7 +209,7 @@ function AddRecurringInvoices() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
-        document.getElementById("Duedate").value = today;
+        // document.getElementById("Duedate").value = today;
     }
     const handleChangeCustomerAdd = (state, address_id, custaddgst) => {
         custadddetail.state = state;
@@ -216,15 +218,7 @@ function AddRecurringInvoices() {
     }
 
 
-    const handleCreate = (inputValue) => {
-        setSoloading(true);
-        setTimeout(() => {
-            const newOption = { label: inputValue, value: inputValue.toUpperCase() }
-            setSoloading(false);
-            setSolist((prev) => [...prev, newOption]);
-            setValue(newOption);
-        }, 1000);
-    };
+  
 
     const handlechnageaddress = async (add, id) => {
         // e.preventDefault();
@@ -478,6 +472,24 @@ function AddRecurringInvoices() {
             }
         }
     }
+
+    var soOptions = solist.map((element)=>{
+        console.log(element)
+        return  {label:element.so_no,value: element.so_no}
+    }) 
+
+    const handleCreate = (inputValue) => {
+        console.log(soOptions)
+        setSoloading(true);
+        setTimeout(() => {
+            const newOption = { so_no: inputValue.toUpperCase() }
+            setSoloading(false);
+
+            setSolist((prev) => [...prev, newOption]);
+            setValue({label:inputValue.toUpperCase(),value: inputValue.toUpperCase()});
+
+        }, 1000);
+    };
     return (
         <>
             <div className="wrapper">
@@ -549,7 +561,7 @@ function AddRecurringInvoices() {
                                                     <input type="text" className='form-control col cursor-notallow' id="invoiceid" disabled />
                                                 </div>
                                             </div>
-                                            {/* <div className="form-row mt-3">
+                                            <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                 <div className="d-flex col-md-4">
                                                     <CreatableSelect
@@ -560,12 +572,12 @@ function AddRecurringInvoices() {
                                                         isLoading={soloading}
                                                         onChange={(newValue) => setValue(newValue)}
                                                         onCreateOption={handleCreate}
-                                                        options={solist}
+                                                        options={soOptions}
                                                         value={sovalue}
-                                                    /> */}
+                                                    />
                                                     {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
-                                                {/* </div>
-                                            </div> */}
+                                                </div>
+                                            </div>
 
                                             <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
