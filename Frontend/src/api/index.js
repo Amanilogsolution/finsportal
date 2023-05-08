@@ -1584,8 +1584,6 @@ export const filterCN = async (org, startDate, lastDate, custid, locationid) => 
     return axios.post(url, { org, startDate, lastDate, custid, locationid }).then(response => response.data).catch(error => console.log(error));
 }
 
-
-
 export const InsertDebitNote = async (org, dn_no, dn_date, total_dn_amt, remark, bill_no, voucher_no, user_id) => {
     const url = `https://finsbackend.awlinternational.com/api/insertdebitnote`
     return axios.post(url, { org, dn_no, dn_date, total_dn_amt, remark, bill_no, voucher_no, user_id }).then(response => response.data).catch(error => console.log(error));
@@ -1698,7 +1696,6 @@ export const ActiveRecurringFreq = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-
 export const InsertRecurringInvoice = async (org,recurring_type,recurring_month,recurring_date, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
     total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
     payment_term, due_date, User_id, custaddrs, custAddgst, destination, origin) => {
@@ -1741,8 +1738,6 @@ export const InsertRecurringBill = async (org,recurring_type,recurring_month,rec
     const url = `http://localhost:3008/api/insertrecurringbill`
     return axios.post(url, { org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt }).then(response => response.data).catch(error => console.log(error));
 }
-
-
 
 export const getRecurringBill = async (org) => {
     const url = `http://localhost:3008/api/getrecurringbill`

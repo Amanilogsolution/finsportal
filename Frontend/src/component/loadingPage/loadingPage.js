@@ -8,7 +8,6 @@ const LoadingPage = () => {
                     <img src={ImageUrl} alt='Loading Image ' style={{ margin: "auto" }} />
                     <h5>Loading...</h5>
                 </div>
-
             </div>
         </>
     )

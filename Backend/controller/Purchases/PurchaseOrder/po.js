@@ -74,7 +74,6 @@ const getSavePO = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
 
 const filterPO = async (req, res) => {
@@ -143,8 +142,6 @@ const EditPurchaseOrder = async (req, res) => {
         else{
             res.send("Error")
         }
-
-
     }
     catch (err) {
         res.send(err)

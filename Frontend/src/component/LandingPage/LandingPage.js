@@ -33,11 +33,10 @@ function LandingPage() {
         <footer className='landing-footer'>
         <div className='medialink'>
         <ul>
-          <li><i className="fa fa-phone phone-icon" ></i></li>
-          <li><i className="fa fa-phone phone-icon" ></i></li>
-          <li><i className="fa fa-phone phone-icon" ></i></li>
-
-          </ul>
+          <li><i className="fa fa-phone phone-icon"></i></li>
+          <li><i className="fa fa-phone phone-icon"></i></li>
+          <li><i className="fa fa-phone phone-icon"></i></li>
+        </ul>
         </div>
           {/* <span> */}
             {/* <i className="fa fa-phone phone-icon" ></i>  */}

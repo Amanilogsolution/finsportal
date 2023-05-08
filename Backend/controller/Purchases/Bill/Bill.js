@@ -36,14 +36,11 @@ const InsertBill = async (req, res) => {
     const flagsave = req.body.flagsave;
     const po_no = req.body.po_no;
     const net_amt = req.body.net_amt;
-    
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
-
         const dublicate_bill = await sql.query(`select * from ${org}.dbo.tbl_bill with (nolock) WHERE bill_no='${bill_no}'`)
-
         if (dublicate_bill.recordset.length === 0) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_bill(
             vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,po_no,payment_term,due_date,amt_paid,
@@ -52,8 +49,7 @@ const InsertBill = async (req, res) => {
             cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url,flagsave,net_amt)
             values('${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',
             '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${po_no}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
-            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}','${flagsave}','${net_amt}')
-          `)
+            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}','${flagsave}','${net_amt}')`)
             res.send('Added')
         }
         else {
@@ -75,7 +71,6 @@ const FilterBillReport = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-
         if (vendid === 'all') {
             const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
             convert(varchar(15),bill_date,121) as billdate
@@ -90,12 +85,10 @@ const FilterBillReport = async (req, res) => {
                          and '${lastDate}' and vend_id='${vendid}' and flagsave='post' order by sno desc`)
             res.send(result.recordset)
         }
-
     }
     catch (err) {
         res.send(err)
     }
-
 }
 
 const getSaveBill = async (req, res) => {
@@ -108,8 +101,8 @@ const getSaveBill = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
+
 const GetBillData = async (req, res) => {
     const org = req.body.org;
     const voucher_no = req.body.voucher_no;
@@ -121,7 +114,6 @@ const GetBillData = async (req, res) => {
     }
     catch (err) {
         res.send(err)
-
     }
 }
 
@@ -135,7 +127,6 @@ const GetBillVendorID = async (req, res) => {
     }
     catch (err) {
         res.send(err)
-
     }
 }
 
@@ -182,7 +173,6 @@ const filterInvoicebyDN = async (req, res) => {
     catch (err) {
         res.send(err)
     }
-
 }
 
 const UpdateBillDNFlag = async(req,res) =>{
@@ -198,11 +188,11 @@ const UpdateBillDNFlag = async(req,res) =>{
             res.send('Updated')
         }
         else {
-            res.send('Error')
+            res.send('Database Error')
         }
     }
     catch(err){
-
+        res.send('Error: ' + err)
     }
 
 }
