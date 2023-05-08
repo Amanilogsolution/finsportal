@@ -25,12 +25,11 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
             let org = localStorage.getItem('Organisation');
             const result = await showOrganisation(org)
             setOrgdata(result)
-           
         }
         fetchdata()
     }, [])
-    console.log('yiu',ChargeCodeSub)
-    console.log('nwkjd', data,data.cn_no)
+    console.log('nknlk',data)
+   
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
