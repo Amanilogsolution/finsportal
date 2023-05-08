@@ -28,7 +28,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
         }
         fetchdata()
     }, [])
-    console.log('nknlk',data)
+    // console.log('nknlk',data)
    
     return (
         <>

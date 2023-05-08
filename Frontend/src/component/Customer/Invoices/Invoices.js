@@ -47,7 +47,7 @@ function Invoices() {
         BillToGst: "",
         OriginState: "",
         DestinationState: "",
-        TotalNetAmounts:''
+        TotalNetAmounts: ''
     })
     const [itemsdata, setItemdata] = useState([])
     const [itemdetails, setItemdetails] = useState([])
@@ -242,7 +242,6 @@ function Invoices() {
         itemsrowval[index].items = item
         itemsrowval[index].taxPer = Number(gstper)
         itemsrowval[index].glcode = glcodes
-        console.log(glcodes)
         if (gstper > 0) {
             itemsrowval[index].taxable = 'yes'
         } else {
@@ -419,8 +418,9 @@ function Invoices() {
         let utgstamount = allInvoiceData.SGST
         let igstamount = allInvoiceData.IGST
         const taxableamt = allInvoiceData.TotalTaxamount;
+
         // // Insert Data
-        if (!custid || !invoiceids|| !billsubtotal || !consignee || !(itemsrowval[0].items).length>0) {
+        if (!custid || !invoiceids || !billsubtotal || !consignee || !(itemsrowval[0].items).length > 0) {
             alert('Please Fill the Mandatory Fields');
             setLoading(true)
         }
@@ -430,11 +430,28 @@ function Invoices() {
                 total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
                 paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
             if (result === 'Added') {
-                itemsrowval.map(async (item, index) => {
-                    const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
-                        item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
-                        item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
-                })
+
+                if ((custadddetail.state.trim()).toUpperCase() === (billingaddress.trim()).toUpperCase()) {
+                    itemsrowval.map(async (item, index) => {
+                        const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
+                            item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                            item.taxable, Number(item.taxPer) / 2, Number(item.taxPer) / 2, Number(item.taxPer) / 2, '0', Number(item.taxAmt) / 2, Number(item.taxAmt) / 2, Number(item.taxAmt) / 2, '0', item.taxAmt, User_id)
+                    })
+                }
+                else {
+                    itemsrowval.map(async (item, index) => {
+                        const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
+                            item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                            item.taxable, '0', '0', '0', item.taxPer, '0', '0', '0', Number(item.taxAmt), item.taxAmt, User_id)
+                    })
+                }
+                // taxPer
+
+                // itemsrowval.map(async (item, index) => {
+                //     const result1 = await InsertInvoiceSub(localStorage.getItem('Organisation'), fin_year, invoiceids, item.majorCode, item.items, item.glcode,
+                //         item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
+                //         item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
+                // })
                 if (btn_type !== 'save') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }

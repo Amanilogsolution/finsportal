@@ -98,7 +98,6 @@ function CreditNotes() {
             }, 1000)
             return
         } else {
-            setTimeout(() => {
                 taxvalue[index] = valTax
                 TotalCN[index] = TotalTaxValue
                 subTotal[index] = value
@@ -155,19 +154,40 @@ function CreditNotes() {
                 // document.getElementById(`Total${index}`).innerHTML = TotalTaxValue
                 document.getElementById('grandTotal').innerHTML = totalcn
 
-
                 if (Number(invoicesub[index].igst_rate) > 0) {
                     document.getElementById('igstamt').innerHTML = taxval
                     document.getElementById('cgst').innerHTML = 0
                     document.getElementById('sgst').innerHTML = 0
 
-                    setData({ ...data, cgst_rate:0,cgst_amt:0,sgst_rate:0,sgst_amt:0,igst_rate:TotalTax,igst_amt:taxval})
+                    let cnGstData = data;
+                    cnGstData.cgst_amt = 0
+                    cnGstData.sgst_amt = 0
+                    cnGstData.igst_amt = taxval
+
+                    cnGstData.cgst_rate = Number(invoicesub[index].cgst_rate)
+                    cnGstData.sgst_rate = Number(invoicesub[index].sgst_rate)
+                    cnGstData.igst_rate = Number(invoicesub[index].igst_rate)
+
+                    setData(cnGstData)
+
                 } else {
                     document.getElementById('igstamt').innerHTML = 0
                     document.getElementById('cgst').innerHTML = taxval / 2
                     document.getElementById('sgst').innerHTML = taxval / 2
+
+                    let cnGstData = data;
+                    cnGstData.cgst_amt = taxval / 2
+                    cnGstData.sgst_amt = taxval / 2
+                    cnGstData.igst_amt = 0
+
+                    cnGstData.cgst_rate = Number(invoicesub[index].cgst_rate)
+                    cnGstData.sgst_rate = Number(invoicesub[index].sgst_rate)
+                    cnGstData.igst_rate = Number(invoicesub[index].igst_rate)
+
+                    console.log(cnGstData)
+                    setData(cnGstData)
+                   
                 }
-            }, 1000)
         }
     }
 
@@ -278,7 +298,7 @@ function CreditNotes() {
                                                             {/* <td className="col-md-2 px-1  " id={`Amount${index}`} >{item.amount}</td> */}
                                                             <td className="col-md-2 px-1  " id={`BalanceAmount${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.sub_inv_id == `${item.sno}`).balance_amt : item.amount}</td>
                                                             {/* <td className="col-md-2 px-1  "  >{item.taxableamount}</td> */}
-                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onChange={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
+                                                            <td className="col-md-2 px-1 "><input style={{ border: "none" }} className=' form-control col' type="number" id={`PassAmount${index}`} placeholder="PassAmount" onBlur={(e) => { handleChangePassAmount(e.target.value, index, item.sno) }} /></td>
                                                             {/* <td className="col-md-2 px-1  " id={`Total${index}`} ></td> */}
                                                             <td className="col-md-2 px-1 text-danger " id={`AmountLeft${index}`}></td>
                                                         </tr>
@@ -355,7 +375,7 @@ function CreditNotes() {
                                             <button id="clear" onClick={(e) => {
                                                 e.preventDefault(); window.location.href = '/CreditNotesUI'
                                             }} name="clear" className="btn btn-secondary ml-2"> Cancel </button>
-                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); }}>Preview</button>
+                                            <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault();console.log('teujh',data) }}>Preview</button>
                                         </div>
                                     </div>
                                 </form>
