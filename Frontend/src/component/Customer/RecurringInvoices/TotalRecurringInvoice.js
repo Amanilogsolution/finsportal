@@ -89,21 +89,13 @@ const TotalRecurringInvoice = () => {
         }
       }
     },
-    {
-      name: 'Invoice Date',
-      selector: 'Joindate',
-      sortable: true
-    },
+  
     {
       name: 'Invoice Amount',
       selector: 'invoice_amt',
       sortable: true
     },
-    {
-      name: 'Branch',
-      selector: 'location_name',
-      sortable: true
-    },
+ 
   ]
 
 
