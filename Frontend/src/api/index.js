@@ -1734,9 +1734,9 @@ export const UpdateSaveSubRecurringInvoice = async (org,invoice_no,new_invoice_n
     return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertRecurringBill = async (org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt) => {
+export const InsertRecurringBill = async (org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt,cgst_rate,sgst_rate,igst_rate) => {
     const url = `http://localhost:3008/api/insertrecurringbill`
-    return axios.post(url, { org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt,cgst_rate,sgst_rate,igst_rate }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const getRecurringBill = async (org) => {

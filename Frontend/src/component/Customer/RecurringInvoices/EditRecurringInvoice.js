@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from '../Invoices/EditInvoice/PreviewEditInvoice';
-import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub,GetSalesOrderByCust,ActivePaymentTerm } from '../../../api/index'
+import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub, GetSalesOrderByCust } from '../../../api/index'
 import LoadingPage from '../../loadingPage/loadingPage';
 import CreatableSelect from 'react-select/creatable';
 
@@ -25,44 +25,46 @@ function EditRecurringInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await getRecurringInvoice(org, invoice_no)
-            console.log('Data',Invoiceresult[0])
             setInvoice_detail(Invoiceresult[0])
             const result1 = await getSubRecurringInvoice(org, invoice_no)
             setInvoicesub(result1)
             const get_so = await GetSalesOrderByCust(org, Invoiceresult[0].custid)
-             setSolist(get_so)
-
-             const paytmenT = await ActivePaymentTerm(org)
-             setActivePaymentTerm(paytmenT)
-
-
+            setSolist(get_so)
             setLoading(true)
             Todaydate()
+            Duedate(Invoiceresult[0].payment_term)
 
+            let dateToggle = 0;
             for (let i = 0; i < result1.length; i++) {
-                document.getElementById('FTdate').style.display = 'flex';
-                return 0;
+
+                if (result1[i].billing_code === 'WAREHOUSING') {
+                    dateToggle = dateToggle + 1
+                }
+
+            }
+            if (dateToggle > 0) {
+                document.getElementById('FTdate').style.display = "flex"
             }
         }
         fetchdata()
     }, [])
 
-    const Todaydate = () => {
-        var date = new Date();
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-        var today = year + "-" + month + "-" + day;
-        document.getElementById("Invoicedate").value = today;
-    }
+    // const Todaydate = () => {
+    //     var date = new Date();
+    //     var day = date.getDate();
+    //     var month = date.getMonth() + 1;
+    //     var year = date.getFullYear();
+    //     if (month < 10) month = "0" + month;
+    //     if (day < 10) day = "0" + day;
+    //     var today = year + "-" + month + "-" + day;
+    //     document.getElementById("Invoicedate").value = today;
+    // }
 
 
 
     const handlePostbtn = async (e) => {
         e.preventDefault();
-        setLoading(false)
+        // setLoading(false)
         const org = localStorage.getItem('Organisation')
 
         const fin_year = await Getfincialyearid(org)
@@ -76,41 +78,52 @@ function EditRecurringInvoice() {
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + invoicecitypre + fin_year[0].year + invoiceidauto;
 
+        const invoiceDate = document.getElementById('Invoicedate').value
+        const dueDate = document.getElementById('Duedate').value
+        const remarks = document.getElementById('custnotes').value
 
-        const result2 = await InsertInvoice(org, invoice_detail.fin_year, invoiceid,
-            invoice_detail.squence_no, invoice_detail.invoice_date, invoice_detail.order_no, invoice_detail.invoice_amt, invoice_detail.user_id, invoice_detail.periodfrom, invoice_detail.periodto, '', invoice_detail.location, invoice_detail.custid, invoice_detail.billsubtotal,
-            invoice_detail.total_tax, invoice_detail.cust_locationid, invoice_detail.remark, 'post', invoice_detail.location, invoice_detail.consignee, invoice_detail.cust_family, invoice_detail.cgst_amt, invoice_detail.sgst_amt, invoice_detail.utgst_amt, invoice_detail.igst_amt, invoice_detail.taxable_amt, invoice_detail.currency_type,
-            invoice_detail.payment_term, invoice_detail.due_date,
-            localStorage.getItem('User_id'), invoice_detail.cust_location_add, invoice_detail.cust_location_gst, invoice_detail.destination, invoice_detail.origin)
-
-
-        const update_inv_no = await UpdateRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
-        if (update_inv_no === 'Updated' && result2 === 'Added') {
-            const update_sub_invno = await UpdateSaveSubRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
-
-            invoicesub.map(async (item) => {
-                const result3 = await InsertInvoiceSub(org, item.fin_year, invoiceid, item.major, item.minor, item.glcode,
-                    item.billing_code, item.quantity, item.rate, item.unit, item.amount, item.consignee, item.city, item.custid, item.cust_locationid,
-                    item.taxable, item.cgst_rate, item.sgst_rate, item.utgst_rate, item.igst_rate, item.cgst_amt, item.sgst_amt, item.utgst_amt, item.igst_amt, item.taxableamount, localStorage.getItem('User_id'))
-            })
-
-            if (update_sub_invno === 'Updated') {
-                const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
-                alert('Invoice Posted');
-                localStorage.removeItem('invoiceNo');
-                window.location.href = '/TotalRecurringInvoice'
-            }
-        }
-        else {
-            alert('Server Not Response')
+        if (!sovalue) {
+            alert('Please Fill the Mandatory Fields');
             setLoading(true)
         }
+        else {
+            const orderNo = sovalue.value
+
+            const result2 = await InsertInvoice(org, invoice_detail.fin_year, invoiceid,
+                invoicepefix, invoiceDate, orderNo, invoice_detail.invoice_amt, invoice_detail.user_id, invoice_detail.periodfrom, invoice_detail.periodto, '', invoice_detail.location, invoice_detail.custid, invoice_detail.billsubtotal,
+                invoice_detail.total_tax, invoice_detail.cust_locationid, remarks, 'post', invoice_detail.location, invoice_detail.consignee, invoice_detail.cust_family, invoice_detail.cgst_amt, invoice_detail.sgst_amt, invoice_detail.utgst_amt, invoice_detail.igst_amt, invoice_detail.taxable_amt, invoice_detail.currency_type,
+                invoice_detail.payment_term, dueDate,
+                localStorage.getItem('User_id'), invoice_detail.cust_location_add, invoice_detail.cust_location_gst, invoice_detail.destination, invoice_detail.origin)
+
+
+            // const update_inv_no = await UpdateRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
+            if (result2 === 'Added') {
+                // const update_sub_invno = await UpdateSaveSubRecurringInvoice(org, invoice_detail.invoice_no, invoiceid)
+
+                invoicesub.map(async (item) => {
+                    const result3 = await InsertInvoiceSub(org, item.fin_year, invoiceid, item.major, item.minor, item.glcode,
+                        item.billing_code, item.quantity, item.rate, item.unit, item.amount, item.consignee, item.city, item.custid, item.cust_locationid,
+                        item.taxable, item.cgst_rate, item.sgst_rate, item.utgst_rate, item.igst_rate, item.cgst_amt, item.sgst_amt, item.utgst_amt, item.igst_amt, item.taxableamount, localStorage.getItem('User_id'))
+                })
+
+                if (result2 === 'Added') {
+                    const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
+                    alert('Invoice Posted');
+                    localStorage.removeItem('invoiceNo');
+                    window.location.href = '/TotalRecurringInvoice'
+                }
+            }
+            else {
+                alert('Server Not Response')
+                setLoading(true)
+            }
+        }
     }
-    const handleAccountTerm = (e) => {
-        // let [val, Ter] = e.target.value.split(" ")
-        const days = Number(e.target.value)
-        Duedate(days)
-    }
+    // const handleAccountTerm = (e) => {
+    //     // let [val, Ter] = e.target.value.split(" ")
+    //     const days = Number(e.target.value)
+    //     Duedate(days)
+    // }
 
     const Duedate = (lastday) => {
         var myDate = new Date(new Date().getTime() + (lastday * 24 * 60 * 60 * 1000));
@@ -123,22 +136,32 @@ function EditRecurringInvoice() {
         document.getElementById("Duedate").value = today;
     }
 
+    const Todaydate = () => {
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("Invoicedate").value = today;
+        document.getElementById("recurringDate").defaultValue = today;
+    }
+
     const handleCreate = (inputValue) => {
-        console.log(soOptions)
         setSoloading(true);
         setTimeout(() => {
             const newOption = { so_no: inputValue.toUpperCase() }
             setSoloading(false);
             setSolist((prev) => [...prev, newOption]);
-            setValue({label:inputValue.toUpperCase(),value: inputValue.toUpperCase()});
+            setValue({ label: inputValue.toUpperCase(), value: inputValue.toUpperCase() });
 
         }, 1000);
     };
 
-    var soOptions = solist.map((element)=>{
-        console.log(element)
-        return  {label:element.so_no,value: element.so_no}
-    }) 
+    var soOptions = solist.map((element) => {
+        return { label: element.so_no, value: element.so_no }
+    })
 
     return (
         <>
@@ -149,7 +172,7 @@ function EditRecurringInvoice() {
                         <>
                             <div className={`content-wrapper `} >
                                 <div className="container-fluid" >
-                                    <h3 className="pt-3 px-5"> Edit Recurring Invoice</h3>
+                                    <h3 className="pt-3 px-5"> Post Recurring Invoice</h3>
                                     <div className={`card my-2 `}>
                                         <article className="card-body">
                                             <form autoComplete="off" >
@@ -173,7 +196,7 @@ function EditRecurringInvoice() {
                                                 </div>
 
                                                 <div className="form-row mt-2">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Billing Address<span className='text-danger'>*</span> </label>
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Billing Address <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
                                                         <span className='border p-2 rounded col'>{invoice_detail.location_name}</span>
                                                     </div>
@@ -186,44 +209,38 @@ function EditRecurringInvoice() {
                                                     </div>
                                                 </div>
 
-                                                <div className="form-row mt-2">
+                                                {/* <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                     <div className="d-flex col-md-4">
                                                         <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.order_no} />
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                                 <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
-                                                <div className="d-flex col-md-4">
-                                                    <CreatableSelect
-                                                        className='col-md px-1'
-                                                        id="ordernumber"
-                                                        isClearable
-                                                        isDisabled={soloading}
-                                                        isLoading={soloading}
-                                                        onChange={(newValue) => setValue(newValue)}
-                                                        onCreateOption={handleCreate}
-                                                        options={soOptions}
-                                                        value={sovalue}
-                                                    /> 
-                                                    {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number <span className='text-danger'>*</span> </label>
+                                                    <div className="d-flex col-md-4">
+                                                        <CreatableSelect
+                                                            className='col-md px-1'
+                                                            id="ordernumber"
+                                                            isClearable
+                                                            isDisabled={soloading}
+                                                            isLoading={soloading}
+                                                            onChange={(newValue) => setValue(newValue)}
+                                                            onCreateOption={handleCreate}
+                                                            options={soOptions}
+                                                            value={sovalue}
+                                                        />
+                                                        {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
+                                                    </div>
                                                 </div>
-                                            </div>
 
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
-                                                    <div className="d-flex col-md-4">
-                                                        <input type="text" className={`form-control  cursor-notallow col`} id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.recurring_type} />
-
-                                                    </div>
-                                                </div>
-                                                <div className="form-row mt-3">
+                                                    <input type="text" className='form-control  cursor-notallow col-md-4' id="ordernumber" placeholder='Enter the order number' disabled value={invoice_detail.recurring_type} />
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
-                                                    <div className="d-flex col-md-4">
-                                                        <input type="text" className='form-control' id="recurringDate" placeholder='Enter the order number' value={invoice_detail.RecurringDate} />
-                                                    </div>
+                                                    <input type="date" className='form-control col-md-4' id="recurringDate" placeholder='Enter the order number' value={invoice_detail.RecurringDate} disabled />
                                                 </div>
+
                                                 <div className="form-row mt-3">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Currency</label>
                                                     <div className="d-flex col-md-4">
@@ -232,7 +249,8 @@ function EditRecurringInvoice() {
                                                         </select>
                                                     </div>
                                                 </div>
-                                             
+
+
                                                 <div className="form-row mt-2">
                                                     <div className="d-flex col-md-4 px-0">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
@@ -242,16 +260,10 @@ function EditRecurringInvoice() {
                                                     <div className="d-flex col-md-4">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
                                                         <select
-                                                        id="paymentterm"
-                                                        className='col-md-6  mr-0 form-control'
-                                                        onChange={handleAccountTerm}>
-                                                        <option value={invoice_detail.payment_terms} hidden>{invoice_detail.payment_terms ? `Net ${invoice_detail.payment_terms}` : 'select term'}</option>
-                                                        {
-                                                            activepaymentterm.map((item, index) => (
-                                                                <option key={index} value={item.term_days}>{item.term}</option>
-                                                            ))
-                                                        }
-                                                     </select>
+                                                            id="paymentterm"
+                                                            className={`form-control   col-md-6`} disabled>
+                                                            <option value={invoice_detail.payment_term} hidden> {invoice_detail.payment_term ? `Net ${invoice_detail.payment_term}` : ''} </option>
+                                                        </select>
                                                     </div>
 
                                                     <div className="d-flex col-md-4" >
@@ -273,8 +285,9 @@ function EditRecurringInvoice() {
                                                 </div>
                                                 <br />
 
-                                                <table className="table table-bordered">
-                                                    <thead>
+
+                                                <table className="table table-bordered table-sm">
+                                                    <thead className='text-center'>
                                                         <tr>
                                                             <th scope="col">Activity</th>
                                                             <th scope="col">Items</th>
@@ -291,7 +304,7 @@ function EditRecurringInvoice() {
                                                             invoicesub.map((item, index) => (
                                                                 <tr key={index}>
                                                                     <td className='px-1' style={{ width: '180px' }}>
-                                                                        <select className='form-control mx-0'>
+                                                                        <select className='form-control mx-0' disabled>
                                                                             <option>{item.billing_code}</option>
                                                                         </select>
                                                                     </td>
@@ -316,7 +329,7 @@ function EditRecurringInvoice() {
                                                             <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
                                                             <div className="d-flex col-md">
                                                                 <textarea type="text" className={`form-control `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness "
-                                                                    style={{ resize: 'none' }} value={invoice_detail.remark} ></textarea>
+                                                                    style={{ resize: 'none' }} defaultValue={invoice_detail.remark} ></textarea>
                                                             </div>
 
                                                         </div>
@@ -397,12 +410,12 @@ function EditRecurringInvoice() {
                                             </form>
                                         </article>
                                         <div className="card-footer border-top">
-                                            <button id="savebtn" type='submit' name="save" className="btn btn-danger" value='save'
+                                            {/* <button id="savebtn" type='submit' name="save" className="btn btn-danger" value='save'
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     alert('Invoice Saved');
                                                     localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice'
-                                                }}>Save</button>
+                                                }}>Save</button> */}
                                             <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' onClick={handlePostbtn}>Post</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice' }}
                                                 className="btn ml-2 btn btn-primary">Cancel </button>

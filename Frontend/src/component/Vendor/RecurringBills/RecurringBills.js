@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import '../Bills/bill.css'
 import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress } from '../../../api'
-import PreviewBill from '../Bills/PreviewBill/PreviewBill';
+// import PreviewBill from '../Bills/PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
 
@@ -15,11 +15,11 @@ function AddRecurringBills() {
     const [paymenttermlist, setPaymenttermlist] = useState([])
     const [vendorselectedlist, setVendorselectedlist] = useState([])
     const [vendorlocation, setVendorLocation] = useState([])
-    const [vouchercount, setVouchercount] = useState(0)
+    // const [vouchercount, setVouchercount] = useState(0)
     const [activeuser, setActiveUser] = useState([])
     const [itemlist, setItemlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
-    const [polist, setPolist] = useState([]);
+    // const [polist, setPolist] = useState([]);
     const [vendorlocations, setVendorLocations] = useState('')
 
     const [netTotal, setNetTotal] = useState(0);
@@ -38,20 +38,20 @@ function AddRecurringBills() {
     const [netamt, setNetamt] = useState('')
 
 
-    const [billalldetail, setBillalldetail] = useState({
-        voucher_no: '',
-        voucher_date: '',
-        bill_date: '',
-        pay_to: '',
-        net_amt: '',
-        cgst_amt: '',
-        sgst_amt: '',
-        igst_amt: '',
-        bill_amt: '',
-        tds_per: '',
-        tds_amt: '',
-        remarks: ''
-    })
+    // const [billalldetail, setBillalldetail] = useState({
+    //     voucher_no: '',
+    //     voucher_date: '',
+    //     bill_date: '',
+    //     pay_to: '',
+    //     net_amt: '',
+    //     cgst_amt: '',
+    //     sgst_amt: '',
+    //     igst_amt: '',
+    //     bill_amt: '',
+    //     tds_per: '',
+    //     tds_amt: '',
+    //     remarks: ''
+    // })
 
     const [tabledata, setTabledata] = useState([
         {
@@ -70,7 +70,7 @@ function AddRecurringBills() {
         }
     ])
 
-    const [ActiveRecurring, setActiveRecurring] = useState([])
+    // const [ActiveRecurring, setActiveRecurring] = useState([])
 
 
 
@@ -97,65 +97,65 @@ function AddRecurringBills() {
             setOrgdata(result)
 
 
-            const ActiveRecurring = await ActiveRecurringFreq(org)
-            setActiveRecurring(ActiveRecurring)
+            // const ActiveRecurring = await ActiveRecurringFreq(org)
+            // setActiveRecurring(ActiveRecurring)
 
             setLoading(true)
 
-            Todaydate()
+            // Todaydate()
 
-            const id = await Getfincialyearid(org)
-            const lastno = Number(id[0].voucher_count) + 1
-            setVouchercount(lastno)
-            document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+            // const id = await Getfincialyearid(org)
+            // const lastno = Number(id[0].voucher_count) + 1
+            // setVouchercount(lastno)
+            // document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+            document.getElementById('voucher_no').defaultValue = 'RANDOM' + Math.floor(Math.random() * 10000) + 1;
 
             document.getElementById('savebtn').disabled = true;
-            document.getElementById('postbtn').disabled = true;
+            // document.getElementById('postbtn').disabled = true;
         }
         fetchdata();
     }, [])
 
-    const Todaydate = () => {
-        var date = new Date();
-        // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-        var today = year + "-" + month + "-" + day;
-        document.getElementById("voucher_date").defaultValue = today;
-        document.getElementById("bill_date").defaultValue = today;
-    }
+    // const Todaydate = () => {
+    //     var date = new Date();
+    //     var day = date.getDate();
+    //     var month = date.getMonth() + 1;
+    //     var year = date.getFullYear();
+    //     if (month < 10) month = "0" + month;
+    //     if (day < 10) day = "0" + day;
+    //     var today = year + "-" + month + "-" + day;
+    //     document.getElementById("voucher_date").defaultValue = today;
+    //     document.getElementById("bill_date").defaultValue = today;
+    // }
 
-    const Duedate = (lastday) => {
-        let Ter = Number(lastday) || 45;
-        let myDate = new Date(new Date().getTime() + (Ter * 24 * 60 * 60 * 1000));
-        let day = myDate.getDate();
-        let month = myDate.getMonth() + 1;
-        let year = myDate.getFullYear();
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-        let today = year + "-" + month + "-" + day;
-        document.getElementById("due_date").defaultValue = today;
-    }
+    // const Duedate = (lastday) => {
+    //     let Ter = Number(lastday) || 45;
+    //     let myDate = new Date(new Date().getTime() + (Ter * 24 * 60 * 60 * 1000));
+    //     let day = myDate.getDate();
+    //     let month = myDate.getMonth() + 1;
+    //     let year = myDate.getFullYear();
+    //     if (month < 10) month = "0" + month;
+    //     if (day < 10) day = "0" + day;
+    //     let today = year + "-" + month + "-" + day;
+    //     document.getElementById("due_date").defaultValue = today;
+    // }
 
-    const handleAccountTerm = (e) => {
-        const days = Number(e.target.value)
-        Duedate(days)
-    }
+    // const handleAccountTerm = (e) => {
+    //     const days = Number(e.target.value)
+    //     Duedate(days)
+    // }
 
     const handlevendorselect = async (e) => {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result[0])
 
-        Duedate(result[0].payment_terms);
+        // Duedate(result[0].payment_terms);
 
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
 
-        const po_number = await GetPodetailsVendor(localStorage.getItem('Organisation'), e.target.value)
-        setPolist(po_number);
+        // const po_number = await GetPodetailsVendor(localStorage.getItem('Organisation'), e.target.value)
+        // setPolist(po_number);
     }
 
     const handleChangeLocation = (e, index) => {
@@ -240,7 +240,7 @@ function AddRecurringBills() {
         document.getElementById('igst-inp').value = 0;
     }
 
-    // Rate Hadle Calculation
+    // Rate Handle Calculation
     const handleChangeRate = (e, index) => {
         tabledata[index].rate = e.target.value
         document.getElementById(`rate${index}`).value = e.target.value;
@@ -274,11 +274,15 @@ function AddRecurringBills() {
         document.getElementById(`netamt${index}`).value = netamt;
         tabledata[index].netamount = netamt
     }
+
+
     // Ref no /File no Hadle Calculation
-    const handleChangeFileno = (e, index) => {
-        tabledata[index].ref_fileno = e.target.value;
-        document.getElementById(`fileno${index}`).value = e.target.value;
-    }
+
+    // const handleChangeFileno = (e, index) => {
+    //     tabledata[index].ref_fileno = e.target.value;
+    //     document.getElementById(`fileno${index}`).value = e.target.value;
+    // }
+
     // Unit Hadle Calculation
     const handleChangeUnit = (e, index) => {
         tabledata[index].unit = e.target.value;
@@ -299,16 +303,16 @@ function AddRecurringBills() {
         }
         const vendor_detail = document.getElementById('vend_name');
         const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
-        setBillalldetail({
-            ...billalldetail,
-            voucher_no: document.getElementById('voucher_no').value,
-            voucher_date: document.getElementById('voucher_date').value,
-            pay_to: vendor_name,
-            bill_date: document.getElementById('bill_date').value,
-            bill_amt: document.getElementById('bill_amt').value,
-        })
+        // setBillalldetail({
+        //     ...billalldetail,
+        //     voucher_no: document.getElementById('voucher_no').value,
+        //     voucher_date: document.getElementById('voucher_date').value,
+        //     pay_to: vendor_name,
+        //     bill_date: document.getElementById('bill_date').value,
+        //     bill_amt: document.getElementById('bill_amt').value,
+        // })
         document.getElementById('savebtn').disabled = false;
-        document.getElementById('postbtn').disabled = false;
+        // document.getElementById('postbtn').disabled = false;
     }
 
 
@@ -364,15 +368,15 @@ function AddRecurringBills() {
             document.getElementById('tdsdiv').style.display = 'none';
         }
 
-        setBillalldetail({
-            ...billalldetail,
-            cgst_amt: document.getElementById('cgstamt').innerHTML,
-            sgst_amt: document.getElementById('sgstamt').innerHTML,
-            igst_amt: document.getElementById('igstamt').innerHTML,
+        // setBillalldetail({
+        //     ...billalldetail,
+        //     cgst_amt: document.getElementById('cgstamt').innerHTML,
+        //     sgst_amt: document.getElementById('sgstamt').innerHTML,
+        //     igst_amt: document.getElementById('igstamt').innerHTML,
 
-        })
+        // })
         document.getElementById('savebtn').disabled = false;
-        document.getElementById('postbtn').disabled = false;
+        // document.getElementById('postbtn').disabled = false;
     }
 
     const handletdsbtn = (e) => {
@@ -388,12 +392,12 @@ function AddRecurringBills() {
 
         document.getElementById('tdsdiv').style.display = 'none';
 
-        setBillalldetail({
-            ...billalldetail,
-            tds_per: document.getElementById('tdsperinp').value,
-            tds_amt: document.getElementById('tdstagval').innerHTML,
-            net_amt: value - Math.round(amount)
-        })
+        // setBillalldetail({
+        //     ...billalldetail,
+        //     tds_per: document.getElementById('tdsperinp').value,
+        //     tds_amt: document.getElementById('tdstagval').innerHTML,
+        //     net_amt: value - Math.round(amount)
+        // })
     }
 
     // ################################ Expense Div ##########################################
@@ -402,63 +406,67 @@ function AddRecurringBills() {
         e.preventDefault();
         const value = netTotal;
         setNetTotal(value - Number(e.target.value))
-        document.getElementById('expense-amttd').innerHTML = e.target.value;
-        setBillalldetail({
-            ...billalldetail,
-            net_amt: value - Number(e.target.value)
-        })
+        document.getElementById('expense-amttd').innerHTML = e.target.value ? e.target.value : 0.00;
+        // setBillalldetail({
+        //     ...billalldetail,
+        //     net_amt: value - Number(e.target.value)
+        // })
     }
 
     // ################################ Remark Div ##########################################
 
     const handlesetremark = (e) => {
         e.preventDefault();
-        setBillalldetail({
-            ...billalldetail,
-            remarks: document.getElementById('remarks').value,
-            net_amt: document.getElementById('total_bill_amt').innerHTML
+        // setBillalldetail({
+        //     ...billalldetail,
+        //     remarks: document.getElementById('remarks').value,
+        //     net_amt: document.getElementById('total_bill_amt').innerHTML
 
-        })
+        // })
         document.getElementById('savebtn').disabled = false;
-        document.getElementById('postbtn').disabled = false;
+        // document.getElementById('postbtn').disabled = false;
     }
 
 
     // 
-    const handleCalNetAmt = () => {
-        let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
-        setNetamt(net_amt)
-    }
+    // const handleCalNetAmt = () => {
+    //     let net_amt = 0;
+    //     tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+    //     setNetamt(net_amt)
+    // }
 
     const handleClickAdd = async (e) => {
         e.preventDefault()
         document.getElementById('savebtn').disabled = true;
-        document.getElementById('postbtn').disabled = true;
         const btn_type = e.target.value;
-        let voucher_no = "";
 
-        if (btn_type === 'save') {
-            voucher_no = 'VOUCHER' + Math.floor(Math.random() * 10000) + 1;
-        }
-        else {
-            voucher_no = document.getElementById('voucher_no').value
-        }
+        let voucher_no = document.getElementById('voucher_no').value;
 
-        const voucher_date = document.getElementById('voucher_date').value
+
+        // const voucher_date = document.getElementById('voucher_date').value
+        const voucher_date = ''
+
         const vendor_detail = document.getElementById('vend_name');
         const vendor_id = vendor_detail.value;
         const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
 
         const Location = vendorlocations
-        const bill_no = document.getElementById('bill_no').value
-        const bill_date = document.getElementById('bill_date').value
+        // const bill_no = document.getElementById('bill_no').value
+        const bill_no = ''
+
+        // const bill_date = document.getElementById('bill_date').value
+        const bill_date = ''
+
         const bill_amt = document.getElementById('bill_amt').value
-        const po_no = document.getElementById('po_no').value
+        // const po_no = document.getElementById('po_no').value
+        const po_no = ''
+
         const total_bill_amt = document.getElementById('total_bill_amt').innerText;
 
         const payment_t = document.getElementById('payment_term_select').value
-        const due_date = document.getElementById('due_date').value;
+        // const due_date = document.getElementById('due_date').value;
+        const due_date = ''
+
         const amt_paid = '';
         const amt_balance = '';
         const amt_booked = '';
@@ -467,7 +475,7 @@ function AddRecurringBills() {
         const tds_per = document.getElementById('tds_per').value || 0;
         const tds_amt = document.getElementById('tds_amt').value || 0;
 
-        const expense_amt = document.getElementById('expense_amt').value;
+        const expense_amt = document.getElementById('expense_amt').value ? document.getElementById('expense_amt').value : 0;
         const remarks = document.getElementById('remarks').value
         const fins_year = localStorage.getItem('fin_year')
 
@@ -478,12 +486,18 @@ function AddRecurringBills() {
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
 
-        let RecurringType = document.getElementById('recurringType')
-        RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
-        const RecurringMonth = document.getElementById('recurringType').value
+        // let RecurringType = document.getElementById('recurringType')
+        // RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
+        const RecurringType = document.getElementById('recurringType').value
+        const RecurringMonth = ''
         const RecurringDate = document.getElementById('recurringDate').value
 
-        if (!voucher_no) {
+        const cgstRate = document.getElementById('cgst-inp').value
+        const sgstRate = document.getElementById('sgst-inp').value
+        const igstRate = document.getElementById('igst-inp').value
+
+
+        if (!vendor_id || !payment_t || !RecurringType || !RecurringDate) {
             alert('Please Enter mandatory field')
             document.getElementById('savebtn').disabled = false;
             document.getElementById('postbtn').disabled = false;
@@ -492,22 +506,20 @@ function AddRecurringBills() {
             if (bill_amt !== total_bill_amt) {
                 alert('Bill Amount and Total Amount must be same')
                 document.getElementById('savebtn').disabled = false;
-                document.getElementById('postbtn').disabled = false;
+                // document.getElementById('postbtn').disabled = false;
             }
             else {
                 const org = localStorage.getItem('Organisation')
                 const result = await InsertRecurringBill(org, RecurringType, RecurringMonth, RecurringDate, voucher_no, voucher_date, vendor_name, Location, bill_no,
                     bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
+                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt, cgstRate, sgstRate, igstRate)
 
                 if (result === 'Added') {
                     const result1 = await InsertRecurringSubBill(org, voucher_no, bill_no, tabledata, fins_year, userid)
 
-                    if (btn_type !== 'save') {
-                        await Updatefinancialcount(org, 'voucher_count', vouchercount)
-                    }
-
-
+                    // if (btn_type !== 'save') {
+                    //     await Updatefinancialcount(org, 'voucher_count', vouchercount)
+                    // }
                     if (result1 === 'Added') {
                         alert('Data Added')
                         window.location.href = './TotalRecurringBill';
@@ -593,12 +605,12 @@ function AddRecurringBills() {
                                                 <div className="d-flex col-md-4" >
                                                     <input type="text" className="form-control col-md-10 cursor-notallow" id="voucher_no" placeholder="" disabled />
                                                 </div>
-                                                <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
+                                                {/* <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
                                                 <div className="d-flex col-md-4 " >
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="voucher_date" disabled />
-                                                </div>
+                                                </div> */}
                                             </div>
-                                            <div className="form-row mt-3">
+                                            {/* <div className="form-row mt-3">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
                                                 <div className="d-flex col-md">
                                                     <select className="form-control col-md-4" id="po_no">
@@ -612,56 +624,63 @@ function AddRecurringBills() {
                                                         }
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div className="form-row mt-3">
+                                            </div> */}
+                                            {/* <div className="form-row mt-3">
                                                 <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md">
                                                     <input type="text" className="form-control col-md-4" id="bill_no" />
                                                 </div>
-                                            </div>
+                                            </div> */}
 
 
                                             <div className="form-row mt-3">
-                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <input type="number" className="form-control col-md-10" id="bill_amt" />
                                                 </div>
-                                         
-                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
+
+                                                {/* <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <input type="date" className="form-control col-md-10" id="bill_date" />
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Recurring Type <span className='text-danger'>*</span></label>
                                                 <div className="d-flex col-md-4">
                                                     <select
                                                         id="recurringType"
                                                         className="form-control col-md-10"
                                                     >
                                                         <option value='' hidden>Select frequency</option>
-                                                        {
+                                                        <option value='weekly' >Weekly</option>
+                                                        <option value='monthly' >Monthly</option>
+                                                        <option value='quarterly' >Quarterly</option>
+                                                        <option value='half_yearly' >Half Yearly</option>
+                                                        <option value='yearly' >Yearly</option>
+                                                        {/* {
                                                             ActiveRecurring.map((items, index) => (
                                                                 <option key={index} value={items.recurring_month} >{items.recurring_type}</option>
                                                             ))
-                                                        }
+                                                        } */}
                                                     </select>
                                                 </div>
-                                        
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date </label>
+
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Recurring Date <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <input type="date" className='form-control col-md-10' id="recurringDate" placeholder='Enter the order number' />
                                                 </div>
                                             </div>
 
                                             <div className="form-row mt-3" >
-                                                <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4" >
                                                     <select
                                                         id="payment_term_select"
-                                                        className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms?`Net ${vendorselectedlist.payment_terms}`:null}</option>
+                                                        className="form-control col-md-10"
+                                                    // onChange={handleAccountTerm}
+                                                    >
+                                                        <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : null}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
@@ -669,10 +688,10 @@ function AddRecurringBills() {
                                                         }
                                                     </select>
                                                 </div>
-                                                <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
+                                                {/* <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
                                                 <div className="d-flex col-md-4 " >
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                             <br />
@@ -686,7 +705,7 @@ function AddRecurringBills() {
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Amount</th>
                                                         <th scope="col">Deduction</th>
-                                                        <th scope="col">Refno/FIleno</th>
+                                                        {/* <th scope="col">Refno/FIleno</th> */}
                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
@@ -740,9 +759,9 @@ function AddRecurringBills() {
                                                                     <input type='number' id={`deduction${index}`} className="form-control" defaultValue={0} onChange={(e) => handleChangeDeduction(e, index)} />
 
                                                                 </td>
-                                                                <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                                {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
-                                                                </td>
+                                                                </td> */}
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
                                                                         <option value='' hidden>Select Unit</option>
@@ -928,7 +947,7 @@ function AddRecurringBills() {
                                                     </table>
                                                 </div>
                                             </div>
-                                            <PreviewBill data={billalldetail} Allitems={tabledata} orgdata={orgdata} netamt={netamt} />
+                                            {/* <PreviewBill data={billalldetail} Allitems={tabledata} orgdata={orgdata} netamt={netamt} /> */}
 
                                         </form>
                                     </article>
@@ -937,11 +956,11 @@ function AddRecurringBills() {
                                         <button id="savebtn" type='submit' name="save" className="btn btn-danger"
                                             onClick={handleClickAdd}
                                             value='save'>Save</button>
-                                        <button id="postbtn" name="save" className="btn btn-danger ml-2"
+                                        {/* <button id="postbtn" name="save" className="btn btn-danger ml-2"
                                             onClick={handleClickAdd}
-                                            value='post'>Post </button>
+                                            value='post'>Post </button> */}
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/TotalRecurringBill' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
-                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview Bill</button>
+                                        {/* <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview Bill</button> */}
                                     </div>
                                 </div>
 
