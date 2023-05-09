@@ -106,7 +106,7 @@ function EditRecurringBills() {
         let new_voucher_no = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
 
       
-        if (!bill_no || !po_no) {
+        if (!bill_no ) {
             alert('Please Enter then Mandatory Fields')
         }
         else {
@@ -182,7 +182,7 @@ function EditRecurringBills() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >P.O number <span className='text-danger'>*</span> </label>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >P.O number  </label>
                                                 <div className="d-flex col-md">
                                                     <select className="form-control col-md-4" id="order_no" >
                                                         {/* <option hidden value={data.po_no}>{data.po_no}</option> */}
