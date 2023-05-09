@@ -893,7 +893,7 @@ function AddRecurringBills() {
                                                                                         <option value='Cost'>Cost</option>
                                                                                         <option value='Salary'>Salary</option>
                                                                                         <option value='Rent'>Rent</option>
-                                                                                        <option value='Profit'>Profit</option>
+                                                                                        <option value='Proff'>Proff</option>
                                                                                         <option value='Brokerage'>Brokerage</option>
 
                                                                                     </select>
