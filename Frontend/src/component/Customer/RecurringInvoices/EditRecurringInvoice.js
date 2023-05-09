@@ -205,7 +205,7 @@ function EditRecurringInvoice() {
                                                 </div> */}
 
                                                 <div className="form-row mt-3">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number <span className='text-danger'>*</span> </label>
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                     <div className="d-flex col-md-4">
                                                         <CreatableSelect
                                                             className='col-md px-1'
