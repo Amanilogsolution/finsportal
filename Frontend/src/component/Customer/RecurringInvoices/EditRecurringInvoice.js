@@ -82,12 +82,12 @@ function EditRecurringInvoice() {
         const dueDate = document.getElementById('Duedate').value
         const remarks = document.getElementById('custnotes').value
 
-        if (!sovalue) {
+        if (!invoiceid) {
             alert('Please Fill the Mandatory Fields');
             setLoading(true)
         }
         else {
-            const orderNo = sovalue.value
+            const orderNo = sovalue.value?sovalue.value:''
 
             const result2 = await InsertInvoice(org, invoice_detail.fin_year, invoiceid,
                 invoicepefix, invoiceDate, orderNo, invoice_detail.invoice_amt, invoice_detail.user_id, invoice_detail.periodfrom, invoice_detail.periodto, '', invoice_detail.location, invoice_detail.custid, invoice_detail.billsubtotal,
@@ -217,7 +217,7 @@ function EditRecurringInvoice() {
                                                 </div> */}
 
                                                 <div className="form-row mt-3">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number <span className='text-danger'>*</span> </label>
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
                                                     <div className="d-flex col-md-4">
                                                         <CreatableSelect
                                                             className='col-md px-1'
