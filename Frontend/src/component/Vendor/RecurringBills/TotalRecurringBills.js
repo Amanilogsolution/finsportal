@@ -48,12 +48,7 @@ const TotalRecurringBill = () => {
   }
 
   const columns = [
-    {
-      name: 'Bill No',
-      selector: 'bill_no',
-      sortable: true,
 
-    },
     {
       name: 'Vourcher No',
       selector: 'vourcher_no',
@@ -80,21 +75,13 @@ const TotalRecurringBill = () => {
       }
     },
 
+
     {
-      name: 'Voucher Date',
-      selector: 'voudate',
+      name: 'Recurring Type',
+      selector: 'recurring_type',
       sortable: true
     },
-    {
-        name: 'Recurring Type',
-        selector: 'recurring_type',
-        sortable: true
-      },
-    {
-      name: 'Bill Date',
-      selector: 'billdate',
-      sortable: true
-    },
+
     {
       name: 'Vendor',
       selector: 'vend_name',

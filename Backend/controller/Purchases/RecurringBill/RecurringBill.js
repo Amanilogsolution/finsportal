@@ -34,6 +34,11 @@ const InsertRecurringBill = async (req, res) => {
     const cgst_amt = req.body.cgst_amt;
     const sgst_amt = req.body.sgst_amt;
     const igst_amt = req.body.igst_amt;
+
+    const cgst_rate = req.body.cgst_rate;
+    const sgst_rate = req.body.sgst_rate;
+    const igst_rate = req.body.igst_rate;
+
     const userid = req.body.userid;
     const vendor_id = req.body.vendor_id;
     const bill_url = req.body.bill_url;
@@ -51,10 +56,10 @@ const InsertRecurringBill = async (req, res) => {
                 recurring_type,recurring_month,recurring_date,recurring_status,vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,po_no,payment_term,due_date,amt_paid,
             amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
             fins_year,confirm_flag,
-            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url,flagsave,net_amt)
+            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url,flagsave,net_amt,cgst_rate,sgst_rate,igst_rate)
             values('${recurring_type}','${recurring_month}','${recurring_date}','${recurring_status}','${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',
             '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${po_no}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
-            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}','${flagsave}','${net_amt}')
+            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}','${flagsave}','${net_amt}','${cgst_rate}','${sgst_rate}','${igst_rate}')
           `)
             res.send('Added')
         }
@@ -69,35 +74,36 @@ const InsertRecurringBill = async (req, res) => {
 
 
 
-const FilterBillReport = async (req, res) => {
-    const org = req.body.org;
-    const startDate = req.body.startDate;
-    const lastDate = req.body.lastDate;
-    const vendid = req.body.vendid;
 
-    try {
-        await sql.connect(sqlConfig)
+// const FilterBillReport = async (req, res) => {
+//     const org = req.body.org;
+//     const startDate = req.body.startDate;
+//     const lastDate = req.body.lastDate;
+//     const vendid = req.body.vendid;
 
-        if (vendid === 'all') {
-            const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
-            convert(varchar(15),bill_date,121) as billdate
-            from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
-             and '${lastDate}' and flagsave='post' order by sno desc`)
-            res.send(result.recordset)
-        }
-        else {
-            const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
-                convert(varchar(15),bill_date,121) as billdate
-                from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
-                         and '${lastDate}' and vend_id='${vendid}' and flagsave='post' order by sno desc`)
-            res.send(result.recordset)
-        }
-    }
-    catch (err) {
-        res.send(err)
-    }
+//     try {
+//         await sql.connect(sqlConfig)
 
-}
+//         if (vendid === 'all') {
+//             const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
+//             convert(varchar(15),bill_date,121) as billdate
+//             from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
+//              and '${lastDate}' and flagsave='post' order by sno desc`)
+//             res.send(result.recordset)
+//         }
+//         else {
+//             const result = await sql.query(`select * ,convert(varchar(15),voucher_date,121) as voudate,
+//                 convert(varchar(15),bill_date,121) as billdate
+//                 from ${org}.dbo.tbl_bill with (nolock) where voucher_date between '${startDate}' 
+//                          and '${lastDate}' and vend_id='${vendid}' and flagsave='post' order by sno desc`)
+//             res.send(result.recordset)
+//         }
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+
+// }
 
 const getRecurringBill = async (req, res) => {
     const org = req.body.org;
@@ -126,84 +132,87 @@ const GetRecurringBillData = async (req, res) => {
     }
 }
 
-const GetBillVendorID = async (req, res) => {
-    const org = req.body.org;
-    const vendor_id = req.body.vendor_id;
-    try {
-        await sql.connect(sqlConfig)
-        const Bill = await sql.query(`select * from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
-        res.send(Bill.recordset)
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const GetBillVendorID = async (req, res) => {
+//     const org = req.body.org;
+//     const vendor_id = req.body.vendor_id;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const Bill = await sql.query(`select * from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
+//         res.send(Bill.recordset)
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
-const UpdateSaveBillToPost = async (req, res) => {
-    const org = req.body.org;
-    const voucher_no = req.body.voucher_no;
-    const new_voucher_no = req.body.new_voucher_no;
-    try {
-        await sql.connect(sqlConfig)
-        const result = await sql.query(` update ${org}.dbo.tbl_bill set vourcher_no='${new_voucher_no}' ,flagsave='post' WHERE vourcher_no='${voucher_no}'`)
-        if (result.rowsAffected > 0) {
-            res.send('Updated')
-        }
-        else {
-            res.send('Error')
-        }
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const UpdateSaveBillToPost = async (req, res) => {
+//     const org = req.body.org;
+//     const voucher_no = req.body.voucher_no;
+//     const new_voucher_no = req.body.new_voucher_no;
+//     try {
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(` update ${org}.dbo.tbl_bill set vourcher_no='${new_voucher_no}' ,flagsave='post' WHERE vourcher_no='${voucher_no}'`)
+//         if (result.rowsAffected > 0) {
+//             res.send('Updated')
+//         }
+//         else {
+//             res.send('Error')
+//         }
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
-const filterInvoicebyDN = async (req, res) => {
-    const org = req.body.org;
-    const startDate = req.body.startDate;
-    const lastDate = req.body.lastDate;
-    const vendorid = req.body.vendorid;
-    const locationid = req.body.locationid;
-    const bill_no = req.body.bill_no;
-    
-    try {
-        await sql.connect(sqlConfig)
-        if (vendorid == 'all') {
-            const result = await sql.query(`select *,convert(varchar(15),bill_date,121) as Joindate from ${org}.dbo.tbl_bill with (nolock) where (convert(date,bill_date) between '${startDate}'and '${lastDate}' or bill_no='${bill_no}' and flagsave = 'post') and (dnflag = '3' or dnflag is Null ) 
-            order by sno desc`)
-            res.send(result.recordset)
-        }
-        else {
-            const result = await sql.query(`select *,convert(varchar(15),bill_date,121) as Joindate from ${org}.dbo.tbl_bill with (nolock) where (convert(date,bill_date) between '${startDate}'and '${lastDate}' or vend_id='${vendorid}' or bill_no='${bill_no}' and flagsave = 'post') and (dnflag = '3' or dnflag is Null ) 
-            order by sno desc`)
-            res.send(result.recordset)
-        }
-    }
-    catch (err) {
-        res.send(err)
-    }
-}
+// const filterInvoicebyDN = async (req, res) => {
+//     const org = req.body.org;
+//     const startDate = req.body.startDate;
+//     const lastDate = req.body.lastDate;
+//     const vendorid = req.body.vendorid;
+//     const locationid = req.body.locationid;
+//     const bill_no = req.body.bill_no;
 
-const UpdateBillDNFlag = async(req,res) =>{
-    const org = req.body.org;
-    const dnflag = req.body.dnflag;
-    const dn_amt = req.body.dn_amt;
-    const vourcher_no = req.body.vourcher_no;
+//     try {
+//         await sql.connect(sqlConfig)
+//         if (vendorid == 'all') {
+//             const result = await sql.query(`select *,convert(varchar(15),bill_date,121) as Joindate from ${org}.dbo.tbl_bill with (nolock) where (convert(date,bill_date) between '${startDate}'and '${lastDate}' or bill_no='${bill_no}' and flagsave = 'post') and (dnflag = '3' or dnflag is Null ) 
+//             order by sno desc`)
+//             res.send(result.recordset)
+//         }
+//         else {
+//             const result = await sql.query(`select *,convert(varchar(15),bill_date,121) as Joindate from ${org}.dbo.tbl_bill with (nolock) where (convert(date,bill_date) between '${startDate}'and '${lastDate}' or vend_id='${vendorid}' or bill_no='${bill_no}' and flagsave = 'post') and (dnflag = '3' or dnflag is Null ) 
+//             order by sno desc`)
+//             res.send(result.recordset)
+//         }
+//     }
+//     catch (err) {
+//         res.send(err)
+//     }
+// }
 
-    try{
-        await sql.connect(sqlConfig)
-        const result = await sql.query(`update ${org}.dbo.tbl_bill set dnflag='${dnflag}' ,dn_amt='${dn_amt}' WHERE vourcher_no='${vourcher_no}'`)
-        if (result.rowsAffected > 0) {
-            res.send('Updated')
-        }
-        else {
-            res.send('Error')
-        }
-    }
-    catch(err){
-        res.send(err)
-    }
+// const UpdateBillDNFlag = async(req,res) =>{
+//     const org = req.body.org;
+//     const dnflag = req.body.dnflag;
+//     const dn_amt = req.body.dn_amt;
+//     const vourcher_no = req.body.vourcher_no;
 
-}
+//     try{
+//         await sql.connect(sqlConfig)
+//         const result = await sql.query(`update ${org}.dbo.tbl_bill set dnflag='${dnflag}' ,dn_amt='${dn_amt}' WHERE vourcher_no='${vourcher_no}'`)
+//         if (result.rowsAffected > 0) {
+//             res.send('Updated')
+//         }
+//         else {
+//             res.send('Error')
+//         }
+//     }
+//     catch(err){
+//         res.send(err)
+//     }
 
-module.exports = { InsertRecurringBill,FilterBillReport,getRecurringBill,GetRecurringBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 
+// }
+
+module.exports = {
+    InsertRecurringBill, getRecurringBill, GetRecurringBillData,
+    // FilterBillReport,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag
+} 
