@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import InvoicePreview from '../Invoices/EditInvoice/PreviewEditInvoice';
-import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub,GetSalesOrderByCust } from '../../../api/index'
+import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub,GetSalesOrderByCust,ActivePaymentTerm } from '../../../api/index'
 import LoadingPage from '../../loadingPage/loadingPage';
 import CreatableSelect from 'react-select/creatable';
 
@@ -15,6 +15,7 @@ function EditRecurringInvoice() {
     const [soloading, setSoloading] = useState(false);
     const [sovalue, setValue] = useState();
     const [solist, setSolist] = useState([])
+    const [activepaymentterm, setActivePaymentTerm] = useState([])
 
 
 
@@ -24,14 +25,19 @@ function EditRecurringInvoice() {
             const org = localStorage.getItem('Organisation')
             const invoice_no = localStorage.getItem('invoiceNo')
             const Invoiceresult = await getRecurringInvoice(org, invoice_no)
-            console.log('Data',Invoiceresult[0].custid)
+            console.log('Data',Invoiceresult[0])
             setInvoice_detail(Invoiceresult[0])
             const result1 = await getSubRecurringInvoice(org, invoice_no)
             setInvoicesub(result1)
             const get_so = await GetSalesOrderByCust(org, Invoiceresult[0].custid)
              setSolist(get_so)
 
+             const paytmenT = await ActivePaymentTerm(org)
+             setActivePaymentTerm(paytmenT)
+
+
             setLoading(true)
+            Todaydate()
 
             for (let i = 0; i < result1.length; i++) {
                 document.getElementById('FTdate').style.display = 'flex';
@@ -40,6 +46,17 @@ function EditRecurringInvoice() {
         }
         fetchdata()
     }, [])
+
+    const Todaydate = () => {
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("Invoicedate").value = today;
+    }
 
 
 
@@ -103,7 +120,7 @@ function EditRecurringInvoice() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
-        // document.getElementById("Duedate").value = today;
+        document.getElementById("Duedate").value = today;
     }
 
     const handleCreate = (inputValue) => {
@@ -191,7 +208,7 @@ function EditRecurringInvoice() {
                                                         value={sovalue}
                                                     /> 
                                                     {/* <input type="text" className='form-control col' id="ordernumber" placeholder='Enter the order number' /> */}
-                                                 </div>
+                                                </div>
                                             </div>
 
                                                 <div className="form-row mt-3">
@@ -216,25 +233,30 @@ function EditRecurringInvoice() {
                                                     </div>
                                                 </div>
                                              
-
                                                 <div className="form-row mt-2">
                                                     <div className="d-flex col-md-4 px-0">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-                                                        <input type="date" className='form-control  cursor-notallow col-md-6' id="Invoicedate" disabled value={invoice_detail.startdate} />
+                                                        <input type="date" className='form-control  cursor-notallow col-md-6' id="Invoicedate"   />
                                                     </div>
 
                                                     <div className="d-flex col-md-4">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
                                                         <select
-                                                            id="paymentterm"
-                                                            className={`form-control   col-md-6`}>
-                                                            <option value={invoice_detail.payment_term} hidden>Net {invoice_detail.payment_term} </option>
-                                                        </select>
+                                                        id="paymentterm"
+                                                        className='col-md-6  mr-0 form-control'
+                                                        onChange={handleAccountTerm}>
+                                                        <option value={invoice_detail.payment_terms} hidden>{invoice_detail.payment_terms ? `Net ${invoice_detail.payment_terms}` : 'select term'}</option>
+                                                        {
+                                                            activepaymentterm.map((item, index) => (
+                                                                <option key={index} value={item.term_days}>{item.term}</option>
+                                                            ))
+                                                        }
+                                                     </select>
                                                     </div>
 
                                                     <div className="d-flex col-md-4" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                        <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Duedate" disabled value={invoice_detail.lastdate} />
+                                                        <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Duedate" disabled  />
                                                     </div>
                                                 </div>
 
@@ -243,13 +265,13 @@ function EditRecurringInvoice() {
                                                         <label className="col-md-6 col-form-label font-weight-normal" htmlFor='fromdate'>From Date </label>
                                                         <input type="date" className="form-control col-md-6 cursor-notallow" id="fromdate" disabled value={invoice_detail.periodfrom_date} />
                                                     </div>
+
                                                     <div className="d-flex col-md-4">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" htmlFor='todate'>To Date </label>
                                                         <input type="date" className="form-control col-md-6 cursor-notallow" id="todate" disabled value={invoice_detail.periodto_date} />
                                                     </div>
                                                 </div>
                                                 <br />
-
 
                                                 <table className="table table-bordered">
                                                     <thead>
@@ -364,14 +386,12 @@ function EditRecurringInvoice() {
                                                     </div>
                                                 </div>
                                                 {/* {
-                                        localStorage.getItem('gststatus') == true ?
+                                            localStorage.getItem('gststatus') == true ?
                                             <InvoicePreviewWithGst Allinvoicedata={invoice_detail} Allitems={invoicesub} /> :
                                             <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
-
-                                    } */}
+                                               } */}
                                                 {
                                                     <InvoicePreview Allinvoicedata={invoice_detail} Allitems={invoicesub} />
-
                                                 }
 
                                             </form>

@@ -456,7 +456,6 @@ function AddRecurringInvoices() {
                             item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
                             item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
                     }
-
                 })
 
                 if (btn_type !== 'save') {
@@ -484,7 +483,6 @@ function AddRecurringInvoices() {
         setTimeout(() => {
             const newOption = { so_no: inputValue.toUpperCase() }
             setSoloading(false);
-
             setSolist((prev) => [...prev, newOption]);
             setValue({label:inputValue.toUpperCase(),value: inputValue.toUpperCase()});
 
