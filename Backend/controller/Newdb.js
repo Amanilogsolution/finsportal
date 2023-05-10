@@ -1440,6 +1440,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 update_system_name nvarchar(100) NULL,
                 update_ip_address nvarchar(100) NULL,
                 update_date_time datetime NULL,
+                status nvarchar(100) NULL,
                 tds_head_uuid nvarchar(300) NULL
         );
     
