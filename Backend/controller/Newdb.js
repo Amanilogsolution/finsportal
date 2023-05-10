@@ -943,6 +943,11 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     recurring_bill_edit nvarchar(100) NULL,
     recurring_bill_delete nvarchar(100) NULL,
 
+    journal_voucher_view nvarchar(100) NULL,
+    journal_voucher_create nvarchar(100) NULL,
+    journal_voucher_edit nvarchar(100) NULL,
+    journal_voucher_delete nvarchar(100) NULL,
+
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,

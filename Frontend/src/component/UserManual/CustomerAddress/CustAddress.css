@@ -1,0 +1,14 @@
+.custAddress{
+    padding: 40px;
+}
+.custAddress1{
+    display: flex;
+    justify-content: space-around;
+}
+.custAddress h2,h4{
+    font-weight: 600;
+    color: gray;
+}
+.custAddress p{
+    color: rgb(51, 51, 51);
+}

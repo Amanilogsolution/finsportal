@@ -1,0 +1,14 @@
+.customer{
+    padding: 40px;
+}
+.customer1{
+    display: flex;
+    justify-content: space-around;
+}
+.customer h2,h4{
+    font-weight: 600;
+    color: gray;
+}
+.customer p{
+    color: rgb(51, 51, 51);
+}

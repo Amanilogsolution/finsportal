@@ -1,0 +1,59 @@
+.complete {
+    display: flex;
+    position: relative;
+}
+
+.sidebar_div {
+    width: 20%;
+    position: fixed;
+    background: #f6f7f9;
+}
+
+.Content {
+    width: 80%;
+    position: absolute;
+    left: 20%;
+}
+
+.brand {
+    padding: 5px;
+    /* z-index: 1; */
+    background: #4a617d;
+    width: 100%;
+}
+
+.brand img {
+    width: 100%;
+    height: 100%;
+}
+
+.fields {
+    margin: 15px 20px;
+}
+
+.sidebar_div ul li {
+    list-style: none;
+    cursor: pointer;
+    margin: 2px 0;
+    color: rgb(91, 91, 91);
+}
+
+.sidebar_div ul {
+    margin: -7px;
+}
+
+.fields p {
+    font-size: 15px;
+    font-weight: 600;
+    color: gray;
+}
+
+.sidebar_div ul li:hover {
+    color: rgb(65, 97, 255);
+}
+
+.Document_nav {
+    min-height: 10vh;
+    background: #f6f7f9;
+    padding: 20px 20px 0 20px
+}

@@ -1,0 +1,14 @@
+.custInvoice{
+    padding: 40px;
+}
+.custInvoice1{
+    display: flex;
+    justify-content: space-around;
+}
+.custInvoice h2,h4{
+    font-weight: 600;
+    color: gray;
+}
+.custInvoice p{
+    color: rgb(51, 51, 51);
+}
