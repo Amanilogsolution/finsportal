@@ -573,6 +573,14 @@ const Menu = (props) => {
                   </a>
                 </li>
               </ul>
+              <ul className="nav nav-treeview" >
+                <li className="nav-item" id='rec_freqMenu'>
+                  <a href="/TotaltdsHead" className="nav-link active">
+                    <i className="fa fa-retweet nav-icon" ></i>
+                    <p>Total TdsHead</p>
+                  </a>
+                </li>
+              </ul>
 
 
               {/* <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>

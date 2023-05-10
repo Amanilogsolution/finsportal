@@ -173,6 +173,11 @@ import Signup from './component/SignUp/Signup';
 import UserManualSidebar from './component/UserManual/UserManualSidebar';
 import JVoucher from './component/Accountant/JournalVoucher/JVoucher'
 
+import inserttdshead from './component/Master/TdsHead/inserttdshead'
+import TotaltdsHead from './component/Master/TdsHead/TotaltdsHead'
+import UpdatetdsHead from './component/Master/TdsHead/UpdatetdsHead'
+
+
 const App = () => {
 
   //  setTimeout(() => {
@@ -374,8 +379,11 @@ const App = () => {
           <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
           <PrivatRoute exact path="/JVoucher" component={JVoucher} />
 
-          
+          <PrivatRoute exact path="/inserttdshead" component={inserttdshead} />
+          <PrivatRoute exact path="/TotaltdsHead" component={TotaltdsHead} />
+          <PrivatRoute exact path="/UpdatetdsHead" component={UpdatetdsHead} />
 
+          
           <Route exact path="*" component={PageNotFound} />
         </Switch>
       </Router>
