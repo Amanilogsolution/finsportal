@@ -594,16 +594,16 @@ const Customer = () => {
                           Contact Persons
                         </button>
                       </div>
-                      <div className="col-md-2 form-group">
+                      {/* <div className="col-md-2 form-group">
                         <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
                           Custom Fields
                         </button>
-                      </div>
-                      <div className="col-md-2 form-group">
+                      </div> */}
+                      {/* <div className="col-md-2 form-group">
                         <button className="btn btn-link" onClick={(e) => { e.preventDefault(); }}>
                           Reporting Tags
                         </button>
-                      </div>
+                      </div> */}
                       <div className="col-md-2 form-group">
                         <button
                           className="btn btn-link"

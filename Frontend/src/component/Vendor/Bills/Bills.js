@@ -6,38 +6,30 @@ import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, Act
 import PreviewBill from './PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
-
 function Bills() {
-    const [loading, setLoading] = useState(false)
-    const [totalValues, setTotalValues] = useState([1])
-    const [vendorlist, setVendorlist] = useState([])
-    const [unitlist, setUnitlist] = useState([])
-    const [paymenttermlist, setPaymenttermlist] = useState([])
-    const [vendorselectedlist, setVendorselectedlist] = useState([])
-    const [vendorlocation, setVendorLocation] = useState([])
-    const [vouchercount, setVouchercount] = useState(0)
-    const [activeuser, setActiveUser] = useState([])
-    const [itemlist, setItemlist] = useState([])
-    const [locationstate, setLocationstate] = useState([])
+    const [loading, setLoading] = useState(false);
+    const [totalValues, setTotalValues] = useState([1]);
+    const [vendorlist, setVendorlist] = useState([]);
+    const [unitlist, setUnitlist] = useState([]);
+    const [paymenttermlist, setPaymenttermlist] = useState([]);
+    const [vendorselectedlist, setVendorselectedlist] = useState([]);
+    const [vendorlocation, setVendorLocation] = useState([]);
+    const [vouchercount, setVouchercount] = useState(0);
+    const [activeuser, setActiveUser] = useState([]);
+    const [itemlist, setItemlist] = useState([]);
+    const [locationstate, setLocationstate] = useState([]);
     const [polist, setPolist] = useState([]);
-    const [vendorlocations, setVendorLocations] = useState('')
-
+    const [vendorlocations, setVendorLocations] = useState('');
     const [netTotal, setNetTotal] = useState(0);
-    // net sub total amt 
     const [billsubtotalamt, setBillsubtotalamt] = useState(0);
-
-    const [cgstval, setCgstval] = useState(0)
-    const [sgstval, setSgstval] = useState(0)
-    const [igstval, setIgstval] = useState(0)
-
+    const [cgstval, setCgstval] = useState(0);
+    const [sgstval, setSgstval] = useState(0);
+    const [igstval, setIgstval] = useState(0);
     const [file, setFile] = useState('');
-    const [img, setimage] = useState('')
+    const [img, setimage] = useState('');
     const [orgdata, setOrgdata] = useState([]);
-
     const [tdscomp, setTdscomp] = useState();
-    const [netamt, setNetamt] = useState('')
-
-
+    const [netamt, setNetamt] = useState('');
     const [billalldetail, setBillalldetail] = useState({
         voucher_no: '',
         voucher_date: '',
@@ -70,38 +62,31 @@ function Bills() {
         }
     ])
 
-
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
-
             const units = await Activeunit(org)
             setUnitlist(units)
             const payment = await ActivePaymentTerm(org)
             setPaymenttermlist(payment)
-
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
-
             const result2 = await ActiveUser()
             setActiveUser(result2)
             const items = await ActivePurchesItems(org)
             setItemlist(items)
-
             const result = await showOrganisation(org)
             setOrgdata(result)
 
             setLoading(true)
-
             Todaydate()
 
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
             setVouchercount(lastno)
             document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
-
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
         }

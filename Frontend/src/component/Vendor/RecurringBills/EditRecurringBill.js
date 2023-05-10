@@ -209,7 +209,7 @@ function EditRecurringBills() {
                                             <div className="form-row mt-3">
                                                 <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <input type="number" className="form-control col-md-10" id="bill_amt" defaultValue={data.bill_amt} disabled />
+                                                    <input type="number" className="form-control col-md-10" id="bill_amt" defaultValue={data.bill_amt}  />
                                                 </div>
 
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date <span className='text-danger'>*</span> </label>

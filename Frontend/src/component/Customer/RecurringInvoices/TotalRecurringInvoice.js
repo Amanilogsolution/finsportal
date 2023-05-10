@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { totalRecurringInvoice, getUserRolePermission } from '../../../api';
+import { totalRecurringInvoice, getUserRolePermission,DeleteRecurringInvoice } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
@@ -95,6 +95,17 @@ const TotalRecurringInvoice = () => {
       selector: 'invoice_amt',
       sortable: true
     },
+    {
+      name: "Actions",
+      sortable: false,
+      selector: row => row.null,
+      cell: (row) => [
+        <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`}  checked={row.status === 'Active' ? true : false} onChange={async () => {
+          const result = await DeleteRecurringInvoice(row.sno,localStorage.getItem('Organisation'),row.status === 'Active'?'DeActive':'Active' )
+          if (result == 'done') { window.location.href = "./TotalRecurringInvoice" }
+        }} />
+      ]
+    }
  
   ]
 

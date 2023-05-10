@@ -427,6 +427,12 @@ const Menu = (props) => {
                     <p>Currency Adjustments </p>
                   </a>
                 </li>
+                <li className="nav-item"  id='currencyAdjMenu'>
+                  <a href="/JVoucher" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Journal Voucher </p>
+                  </a>
+                </li>
                 {/* 
                 <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">
