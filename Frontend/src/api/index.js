@@ -1774,4 +1774,33 @@ export const GetSubRecurringBill = async (org,voucher_no) => {
     return axios.post(url, { org,voucher_no }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const insertTdsHead = async (org,tds_head,tds_section,User_id) => {
+    const url = `http://localhost:3008/api/inserttdshead`
+    return axios.post(url, { org,tds_head,tds_section,User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const totalTdsHead = async (org,tds_head,tds_section,User_id) => {
+    const url = `http://localhost:3008/api/totaltdshead`
+    return axios.post(url, { org,tds_head,tds_section,User_id }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const deleteTdsHead = async (org,sno,status) => {
+    const url = `http://localhost:3008/api/deletetdshead`
+    return axios.post(url, { org,sno,status }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const showTdsHead = async (org,sno) => {
+    const url = `http://localhost:3008/api/showtdshead`
+    return axios.post(url, { org,sno }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const updateTdsHead = async (org,tds_head,tds_section,User_id,sno) => {
+    const url = `http://localhost:3008/api/updatetdshead`
+    return axios.post(url, {org,tds_head,tds_section,User_id,sno }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
+
+
 

@@ -53,6 +53,7 @@ const SubRecurringInvoice = require('../controller/Sales/RecurringInvoice/SubRec
 
 const RecurringBill = require('../controller/Purchases/RecurringBill/RecurringBill')
 const SubRecurringBill = require('../controller/Purchases/RecurringBill/SubRecurringBill')
+const tdsHead = require('../controller/Master/tdsHead')
 
 //Routes
 
@@ -418,13 +419,14 @@ router.post('/getrecurringBillData',RecurringBill.GetRecurringBillData)
 router.post('/deleterecurringbill',RecurringBill.DeleteRecurringBill)
 
 
-
-
-
-
 router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)
 router.post('/getsubrecurringbill',SubRecurringBill.GetSubRecurringBill)
 
+router.post('/totaltdshead',tdsHead.totaltdshead)
+router.post('/inserttdshead',tdsHead.inserttdshead)
+router.post('/deletetdshead',tdsHead.deleteTdsHead)
+router.post('/showtdshead',tdsHead.showTdsHead)
+router.post('/updatetdshead',tdsHead.updateTdsHead)
 
 
 
