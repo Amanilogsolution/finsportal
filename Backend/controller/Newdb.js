@@ -1427,7 +1427,22 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 status nvarchar(30) NULL,
                 sub_bill_uuid nvarchar(350) NULL
             );
-
+            CREATE TABLE ${dbname}.dbo.tbl_tds_head (
+                sno bigint IDENTITY(1,1) NOT NULL,
+                name nvarchar(100) NULL,
+                tds_section nvarchar(100) NULL,
+                
+                add_ip_address nvarchar(30) NULL,
+                add_user_name nvarchar(100) NULL,
+                add_system_name nvarchar(100) NULL,
+                add_date_time datetime NULL,
+                update_user_name nvarchar(100) NULL,
+                update_system_name nvarchar(100) NULL,
+                update_ip_address nvarchar(100) NULL,
+                update_date_time datetime NULL,
+                tds_head_uuid nvarchar(300) NULL
+        );
+    
 
             insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,
                 sales_all,customer_view,customer_create,customer_edit,customer_delete,
