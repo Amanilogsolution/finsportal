@@ -153,7 +153,7 @@ const Vendor = () => {
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id')
 
-    if (!vend_fname || !vend_display_name || !vend_work_phone || !gst_treatment || !source_of_supply || !currency || !payment_terms || !billing_address_attention || !billing_address_country_val || !billing_address_state_val || !billing_address_city_val || !billing_address_pincode || !billing_address_phone || !contact_person_name) {
+    if (!vend_fname || !vend_display_name || !vend_work_phone || !gst_treatment || !source_of_supply || !currency || !payment_terms || !billing_address_attention || !billing_address_country_val || !billing_address_state_val || !billing_address_city_val || !billing_address_pincode || !billing_address_phone || !contact_person_name || !pan_no) {
       alert('Please Fill the Mandatory fields...')
       setLoading(true)
 
@@ -471,7 +471,7 @@ const Vendor = () => {
                       </div>
                     </div>
                     <div className="form-row" style={{ background: '#eee' }}>
-                      <div className="col-md-2 form-group">
+                      <div className="col-md-2 form-group text-center" >
                         <button
                           className="btn btn-link"
                           onClick={(e) => {
@@ -485,7 +485,7 @@ const Vendor = () => {
                           Other Details
                         </button>
                       </div>
-                      <div className="col-md-1 form-group">
+                      <div className="col-md-2 form-group text-center">
                         <button
                           className="btn btn-link"
                           onClick={(e) => {
@@ -499,7 +499,7 @@ const Vendor = () => {
                           Address
                         </button>
                       </div>
-                      <div className="col-md-2 form-group">
+                      <div className="col-md-2 form-group text-center">
                         <button
                           className="btn btn-link"
                           onClick={(e) => {
@@ -514,15 +514,15 @@ const Vendor = () => {
                         </button>
                       </div>
                       {/* form-group end.// */}
-                      <div className="col-md-2 form-group">
+                      {/* <div className="col-md-2 form-group">
                         <button className="btn btn-link"
                           onClick={(e) => { e.preventDefault(); }}>Custom Fields</button>
-                      </div>
-                      <div className="col-md-2 form-group">
+                      </div> */}
+                      {/* <div className="col-md-2 form-group">
                         <button className="btn btn-link"
                           onClick={(e) => { e.preventDefault(); }}>Reporting Tags </button>
-                      </div>
-                      <div className="col-md-2 form-group">
+                      </div> */}
+                      <div className="col-md-2 form-group text-center">
                         <button
                           className="btn btn-link"
                           onClick={(e) => {
@@ -594,9 +594,9 @@ const Vendor = () => {
                       <div className="form-row">
                         <label
                           htmlFor="pan_no"
-                          className="col-md-2 col-form-label font-weight-normal"
+                          className="col-md-2 col-form-label font-weight-normal text-danger"
                         >
-                          PAN
+                          PAN*
                         </label>
                         <div className="col form-group">
                           <input

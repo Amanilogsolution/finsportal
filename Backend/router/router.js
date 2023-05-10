@@ -403,6 +403,8 @@ router.post('/insertrecurringinvoice', RecurringInvoice.InsertRecurringInvoice)
 router.post('/totalrecurringinvoice', RecurringInvoice.TotalRecurringInvoice)
 router.post('/getrecurringinvoice', RecurringInvoice.getRecurringInvoice)
 router.post('/updaterecurringinvoice', RecurringInvoice.UpdateRecurringInvoice)
+router.post('/deleterecurringinvoice', RecurringInvoice.DeleteRecurringInvoice)
+
 
 
 router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringInvoice)
@@ -413,6 +415,11 @@ router.post('/updatesavesubrecurringinvoice',SubRecurringInvoice.UpdateSaveSubRe
 router.post('/insertrecurringbill',RecurringBill.InsertRecurringBill)
 router.post('/getrecurringbill',RecurringBill.getRecurringBill)
 router.post('/getrecurringBillData',RecurringBill.GetRecurringBillData)
+router.post('/deleterecurringbill',RecurringBill.DeleteRecurringBill)
+
+
+
+
 
 
 router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { getRecurringBill, getUserRolePermission } from '../../../api';
+import { getRecurringBill, getUserRolePermission,DeleteRecurringBill } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
-
 
 const TotalRecurringBill = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -101,15 +99,18 @@ const TotalRecurringBill = () => {
       name: 'Remarks',
       selector: 'remarks',
       sortable: true
+    },
+    {
+      name: "Actions",
+      sortable: false,
+      selector: row => row.null,
+      cell: (row) => [
+        <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`}  checked={row.status === 'Active' ? true : false} onChange={async () => {
+          const result = await DeleteRecurringBill(row.sno,localStorage.getItem('Organisation'),row.status === 'Active'?'DeActive':'Active' )
+          if (result == 'done') { window.location.href = "./TotalRecurringBill" }
+        }} />
+      ]
     }
-    // {
-    //   name: "Actions",
-    //   sortable: false,
-    //   selector: row => row.null,
-    //   cell: (row) => [
-    //      <button  type="button" onClick={()=> { window.location.href="EditInvoice";localStorage.setItem('invoiceNo',row.invoice_no)}}  className="btn btn-danger ml-3">Edit Invoice</button>
-    //   ]
-    // }
   ]
 
 

@@ -212,7 +212,19 @@ const GetRecurringBillData = async (req, res) => {
 
 // }
 
-module.exports = {
-    InsertRecurringBill, getRecurringBill, GetRecurringBillData,
-    // FilterBillReport,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag
-} 
+const DeleteRecurringBill = async (req, res) => {
+    const sno = req.body.sno;
+    const org = req.body.org;
+    const status = req.body.status;
+    console.log(status)
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_recurring_bill set status='${status}' where sno = ${sno}`)
+        res.send('done')
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = {InsertRecurringBill, getRecurringBill, GetRecurringBillData,DeleteRecurringBill} 

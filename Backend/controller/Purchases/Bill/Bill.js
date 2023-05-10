@@ -197,4 +197,6 @@ const UpdateBillDNFlag = async(req,res) =>{
 
 }
 
+
+
 module.exports = { InsertBill,FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 
