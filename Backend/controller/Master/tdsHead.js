@@ -76,11 +76,12 @@ async function updateTdsHead(req,res){
         res.send(err)
     }
 }
-const getCity = async (req, res) => {
-    const state_name = req.body.state_name;
+const getActiveTdsHead = async (req, res) => {
+    const org = req.body.org
+
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select city_name from FINSDB.dbo.tbl_cities with (nolock) where state_name = '${state_name}' and status='Active'`)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_tds_head with (nolock) where  status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
@@ -91,4 +92,4 @@ const getCity = async (req, res) => {
 
  
 
-module.exports = {totaltdshead,inserttdshead,deleteTdsHead,showTdsHead,updateTdsHead,getCity}
+module.exports = {totaltdshead,inserttdshead,deleteTdsHead,showTdsHead,updateTdsHead,getActiveTdsHead}
