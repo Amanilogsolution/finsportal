@@ -205,6 +205,7 @@ router.post('/locationstatus', LocationController.Locationstatus)
 // router.post('/lastlocationid',LocationController.LastLocationid)
 router.post('/importlocationmaster', LocationController.ImportLocationMaster)
 
+// Compliance
 router.post('/Showcompliances', ComplianceController.Showcompliances)
 router.post('/insertcompliances', ComplianceController.Insertcompliance)
 router.post('/ShowcompliancesData', ComplianceController.ShowcompliancesData)
@@ -212,6 +213,7 @@ router.post('/Updatecompliance', ComplianceController.Updatecompliance)
 router.post('/pendingcompliances', ComplianceController.PendingCompliances)
 router.post('/updatependingcompliances', ComplianceController.UpdatePendingCompliances)
 
+// Compliances Type
 router.post('/ShowcompliancesType', ComplianceTypeController.ShowcompliancesType)
 router.post('/InsertcomplianceType', ComplianceTypeController.InsertcomplianceType)
 router.post('/ShowcompliancesTypeselect', ComplianceTypeController.ShowcompliancesTypeselect)
@@ -223,6 +225,7 @@ router.post('/compliancestatus', ComplianceController.Compliancestatus)
 router.post('/importcompliances', ComplianceController.ImportCompliances)
 router.post('/compliancesduedate', ComplianceController.Compliancesduedate)
 
+// Financial Year
 router.post('/showfincialyear', FincialyearController.Showfincialyear)
 router.post('/addfincialyear', FincialyearController.Addfincialyear)
 router.post('/updatefincialyear', FincialyearController.Updatefincialyear)
@@ -233,6 +236,7 @@ router.post('/updatefinancialcount', FincialyearController.Updatefinancialcount)
 router.post('/updatefinancialtwocount', FincialyearController.UpdatefinancialTwocount)
 router.post('/getfincialyearnavbar', FincialyearController.GetfincialyearNavbar)
 
+// Items
 router.post('/insertitems', ItemsController.InsertItems)
 router.post('/totalitems', ItemsController.TotalItems)
 router.post('/deleteitems', ItemsController.deleteItems)
@@ -241,8 +245,10 @@ router.post('/updateItems', ItemsController.UpdateItems)
 router.post('/activeitems', ItemsController.ActiveItems)
 router.post('/activepurchesitems', ItemsController.ActivePurchesItems)
 
+// File Upload
 router.post('/FileUpload', Multer, FileUpload)
 
+//Chart Of Account
 router.post('/showcoa', ChartOfAccountController.Accounttype)
 router.post('/parentaccount', ChartOfAccountController.ParentAccount)
 router.post('/parentaccountNumber', ChartOfAccountController.ParentAccountNumber)
@@ -253,6 +259,7 @@ router.post('/selectsubaccountname', ChartOfAccountController.SelectSubAccountna
 router.post('/selectsubacconameytype', ChartOfAccountController.SelectSubAcconameByType)
 router.post('/countaccounttype', ChartOfAccountController.CountAccounttype)
 
+// Account Name
 router.post('/updateaccountname', AccountnameController.UpdateAccountName)
 router.post('/insertaccounttype', AccountnameController.InsertAccountType)
 router.post('/totalaccountname', AccountnameController.TotalAccountName)
@@ -261,6 +268,7 @@ router.post('/selectaccountname', AccountnameController.SelectAccountName)
 router.post('/importaccountname', AccountnameController.ImportAccountName)
 router.post('/activeaccountname', AccountnameController.ActiveAccountName)
 
+// Sub Code
 router.post('/showglcode', SubCodeController.GlCode)
 router.post('/glsubcode', SubCodeController.GlSubCode)
 router.post('/insertglsubcode', SubCodeController.InsertGlSubCode)
@@ -270,6 +278,7 @@ router.post('/getsubcodedetails', SubCodeController.GetSubCodeDetails)
 router.post('/updatesubcodedetails', SubCodeController.UpdateSubCodeDetails)
 router.post('/importsubcode', SubCodeController.ImportSubcode)
 
+// Account Minor Code
 router.post('/totalaccountminorcode', AccountMinorCodeController.TotalAccountMinorCode)
 router.post('/accountminorcodestatus', AccountMinorCodeController.AccountMinorCodeStatus)
 router.post('/getaccountminorcode', AccountMinorCodeController.GetAccountMinorCode)
@@ -278,6 +287,7 @@ router.post('/activeaccountminorcode', AccountMinorCodeController.ActiveAccountM
 router.post('/importaccountminorcode', AccountMinorCodeController.ImportAccountMinorCode)
 router.post('/GetAccountMinorCodeName', AccountMinorCodeController.GetAccountMinorCodeName)
 
+// Chart Of Account
 router.post('/totalchartofaccount', ChartOfAccountMasterController.TotalChartOfAccount)
 router.post('/chartofaccountstatus', ChartOfAccountMasterController.ChartOfAccountStatus)
 router.post('/getchartofaccount', ChartOfAccountMasterController.GetChartOfAccount)
@@ -285,8 +295,10 @@ router.post('/updatechartofaccount', ChartOfAccountMasterController.UpdateChartO
 router.post('/importchartofaccount', ChartOfAccountMasterController.ImportChartofAccount)
 router.post('/activechartofaccountname', ChartOfAccountMasterController.ActiveChartofAccountname)
 
+// Currency Adjustment
 router.post('/addcurrencyadjust', CurrencyAdjustmentController.AddCurrencyAdjustment)
 
+// Total Payment
 router.post('/totalpaymentterm', PaymentTermController.TotalPaymentTerm)
 router.post('/deletepaymentterm', PaymentTermController.DeletePaymentTerm)
 router.post('/insertpaymentterm', PaymentTermController.InsertPaymentTerm)
@@ -301,6 +313,7 @@ router.post('/activepaymentterm', PaymentTermController.ActivePaymentTerm)
 // router.post('/updatechargecode',ChargeCodeController.UpdateChargeCode)
 // router.post('/activechargecodemajor',ChargeCodeController.ActiveChargeCodeMajor)
 
+// CRM 
 router.post('/totalcrm', CRMController.Totalcrm)
 router.post('/insertcrm', CRMController.insertcrm)
 router.post('/deletecrm', CRMController.deleteCrm)
@@ -308,6 +321,7 @@ router.post('/getcrm', CRMController.getcrm)
 router.post('/updatecrm', CRMController.updatecrm)
 router.post('/activecrm', CRMController.Activecrm)
 
+// Invoice
 router.post('/insertinvoice', InvoiceController.InsertInvoice)
 router.post('/filterinvoice', InvoiceController.filterInvoice)
 router.post('/getinvoice', InvoiceController.getInvoice)
@@ -317,38 +331,40 @@ router.post('/getinvoicesbycustomer', InvoiceController.GetInvoicesByCustomer)
 router.post('/filterinvoicebycn', InvoiceController.filterInvoicebyCN)
 router.post('/updateinvoicecnflag', InvoiceController.UpdateInvoiceCNFlag)
 
-
+// Sub Invoice
 router.post('/insertsubinvoice', InvoiceSubController.InsertSubInvoice)
 router.post('/getsubinvoice', InvoiceSubController.getSubInvoice)
 router.post('/updatesavesubinvoicetopost', InvoiceSubController.UpdateSaveSubInvoiceToPost)
 
+// Login Logs
 router.post('/loginlogs', LoginLogsController.LoginLogs)
 router.post('/logoutlogs', LoginLogsController.LogoutLogs)
 
+// Two FA
 router.post('/Twofa', Twofa.GenerateTwofa)
 router.post('/VerifyTwo', Twofa.VerifyTwofa)
 
+// Employee
 router.post('/totalemployee', EmployeeController.TotalEmployee)
 router.post('/deleteemployee', EmployeeController.deleteEmployee)
 router.post('/insertemployee', EmployeeController.insertemployee)
 router.post('/getemployee', EmployeeController.getemployee)
 router.post('/updateemployee', EmployeeController.updateemployee)
 
+// Bill
 router.post('/insertbill', BillController.InsertBill)
 router.post('/getbilldata', BillController.GetBillData)
 router.post('/updatesavebilltopost', BillController.UpdateSaveBillToPost)
-
 router.post('/insertsubbill', BillSubController.inserSubBill)
 router.post('/getsubbillitems', BillSubController.GetSubBillItems)
 router.post('/updatesavesubbilltopost', BillSubController.UpdateSaveSubBillToPost)
-
 router.post('/filterbillreport', BillController.FilterBillReport)
 router.post('/GetSaveBill', BillController.getSaveBill)
 router.post('/GetBillVendorid', BillController.GetBillVendorID)
 router.post('/filterInvoicebyDN', BillController.filterInvoicebyDN)
 router.post('/updatebilldnflag', BillController.UpdateBillDNFlag)
 
-
+// User Logs
 router.post('/adduserrole', UserRightsController.AddUserRole)
 router.post('/getuserrole', UserRightsController.getUserRole)
 router.post('/activeuserrole', UserRightsController.ActiveUserRole)
@@ -356,6 +372,7 @@ router.post('/deleteuserrole', UserRightsController.DeleteUserRole)
 router.post('/getuserrolepermission', UserRightsController.getUserRolePermission)
 router.post('/totaluserrole', UserRightsController.TotalUserRole)
 
+// Purchase Order
 router.post('/InsertPurchaseorder', pomasterController.InsertPurchaseorder)
 router.post('/InsertSubPurchaseorder', pomasterController.InsertSubPurchaseorder)
 router.post('/getpodetailsvendor', pomasterController.getPoDetailsVendor)
@@ -366,6 +383,7 @@ router.post('/getSubPoDetailsPreview', pomasterController.getSubPoDetailsPreview
 router.post('/editpurchaseorder', pomasterController.EditPurchaseOrder)
 router.post('/getpodata', pomasterController.getPoData)
 
+// Credit Note
 router.post('/insertcreditnote', CNController.InsertCreditNote)
 router.post('/allcndata', CNController.AllCNData)
 router.post('/changecstatus', CNController.ChangeCNStatus)
@@ -374,6 +392,7 @@ router.post('/insertcnsub', CNController.InsertCnSub)
 router.post('/selectcnsubdetails', CNController.SelectCnSubDetails)
 router.post('/filtercn', CNController.filterCN)
 
+// Debit Note
 router.post('/insertdebitnote', DNController.InsertDebitNote)
 router.post('/alldndata', DNController.AllDNData)
 router.post('/changednstatus', DNController.ChangeDNStatus)
@@ -383,6 +402,7 @@ router.post('/insertsubdebitnote', DNController.InsertSubDebitNote)
 router.post('/selectdnsubdetails', DNController.SelectDnSubDetails)
 router.post('/filterdn', DNController.filterDN)
 
+// Sales Order
 router.post('/insertsalesorder', somasterController.InsertSalesorder)
 router.post('/getsaveso', somasterController.getSaveSO)
 router.post('/insertsubsalesorder', somasterController.InsertSubSalesorder)
@@ -392,6 +412,7 @@ router.post('/editsalesorder', somasterController.EditSalesOrder)
 router.post('/filterso', somasterController.filterSO)
 router.post('/getsalesorderbycust', somasterController.GetSalesOrderByCust)
 
+// Recurring Frequency
 router.post('/totalrecurringfreq', RecurringFreq.TotalRecurringFreq)
 router.post('/insertrecurringfreq', RecurringFreq.InsertRecurringFreq)
 router.post('/updaterecurringfreq', RecurringFreq.UpdateRecurringFreq)
@@ -399,6 +420,7 @@ router.post('/showrecurringfreq', RecurringFreq.ShowRecurringFreq)
 router.post('/deleterecurringfreq', RecurringFreq.deleteRecurringFreq)
 router.post('/activerecurringfreq', RecurringFreq.ActiveRecurringFreq)
 
+// Recurring Invoice
 router.post('/insertrecurringinvoice', RecurringInvoice.InsertRecurringInvoice)
 router.post('/totalrecurringinvoice', RecurringInvoice.TotalRecurringInvoice)
 router.post('/getrecurringinvoice', RecurringInvoice.getRecurringInvoice)
@@ -409,6 +431,7 @@ router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringI
 router.post('/getsubrecurringinvoice',SubRecurringInvoice.getSubRecurringInvoice)
 router.post('/updatesavesubrecurringinvoice',SubRecurringInvoice.UpdateSaveSubRecurringInvoice)
 
+// Recurring Bill
 router.post('/insertrecurringbill',RecurringBill.InsertRecurringBill)
 router.post('/getrecurringbill',RecurringBill.getRecurringBill)
 router.post('/getrecurringBillData',RecurringBill.GetRecurringBillData)
@@ -417,7 +440,7 @@ router.post('/deleterecurringbill',RecurringBill.DeleteRecurringBill)
 router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)
 router.post('/getsubrecurringbill',SubRecurringBill.GetSubRecurringBill)
 
-router.post('/totaltdshead',tdsHead.totaltdshead)
+// TDS Head
 router.post('/inserttdshead',tdsHead.inserttdshead)
 router.post('/deletetdshead',tdsHead.deleteTdsHead)
 router.post('/showtdshead',tdsHead.showTdsHead)
