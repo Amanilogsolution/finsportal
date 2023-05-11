@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { GetRecurringBillData, GetSubRecurringBill, showOrganisation, Getfincialyearid, InsertBill, InsertSubBill, Updatefinancialcount, GetPodetailsVendor } from '../../../api'
+import { GetRecurringBillData, GetSubRecurringBill, showOrganisation, Getfincialyearid, InsertBill, InsertSubBill, Updatefinancialcount, GetPodetailsVendor,getPoData } from '../../../api'
 import PreviewBill from '../Bills/EditBill/EditPreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -19,7 +19,6 @@ function EditRecurringBills() {
             let org = localStorage.getItem('Organisation');
             const bill_data = await GetRecurringBillData(org, localStorage.getItem('vourcher_no'))
             setData(bill_data)
-            console.log(bill_data)
             const bill_item_data = await GetSubRecurringBill(org, localStorage.getItem('vourcher_no'))
             setTotalItemValues(bill_item_data)
 
@@ -48,7 +47,6 @@ function EditRecurringBills() {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
-        console.log(today)
         document.getElementById("voucher_date").defaultValue = today;
         document.getElementById("bill_date").defaultValue = today;
     }
@@ -98,7 +96,8 @@ function EditRecurringBills() {
         const vendor_id = data.vend_id;
         const img = '';
         const btn_type = 'POST';
-        const po_no = data.po_no;
+        const po_no = document.getElementById('order_no').value
+        const po_date = document.getElementById('po_date').value
         const billsubtotalamt = data.bill_amt
 
         const id = await Getfincialyearid(org)
@@ -112,7 +111,7 @@ function EditRecurringBills() {
         else {
             const result = await InsertBill(org, new_voucher_no, voucher_date, vendor_name, data.location, bill_no,
                 bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
-                taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
+                taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no,po_date, billsubtotalamt)
             if (result === 'Added') {
                 const result1 = await InsertSubBill(org, new_voucher_no, bill_no, totalItemValues, fins_year, userid)
                 if (result1 === 'Added') {
@@ -140,6 +139,10 @@ function EditRecurringBills() {
         for(let i=0;i<totalItemValues.length;i++){
             totalItemValues[i].bill_no=e.target.value
         }
+    }
+    const handleGetPoData = async (e) => {
+        const podata = await getPoData(localStorage.getItem('Organisation'), e.target.value)
+        document.getElementById('po_date').value = podata[0].podate
     }
     return (
         <>
@@ -182,9 +185,9 @@ function EditRecurringBills() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >P.O number  </label>
-                                                <div className="d-flex col-md">
-                                                    <select className="form-control col-md-4" id="order_no" >
+                                                <label  htmlFor='order_no' className="col-md-2 col-form-label font-weight-normal" >P.O number  </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select className="form-control col-md-10" id="order_no" onChange={handleGetPoData}>
                                                         {/* <option hidden value={data.po_no}>{data.po_no}</option> */}
                                                         <option hidden value=''>Select Po</option>
                                                         {
@@ -195,6 +198,11 @@ function EditRecurringBills() {
                                                                 <option value=''>PO. is not Created in this vendor</option>
                                                         }
                                                     </select>
+
+                                                </div>
+                                                <label htmlFor='po_date' className="col-md-2 col-form-label font-weight-normal" >Po Date  </label>
+                                                <div className="d-flex col-md-4" >
+                                                    <input type="date" className="form-control col-md-10" id="po_date" disabled />
                                                 </div>
                                             </div>
 

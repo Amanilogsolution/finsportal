@@ -241,7 +241,9 @@ const Header = () => {
 
           {/* ######################## Setting  END #################################*/}
 
-          <li className="nav-item dropdown " >
+          {/* ######################## Notifications  Section Start #################################*/}
+
+          {/* <li className="nav-item dropdown " >
             <a className="nav-link" data-toggle="dropdown" href="#">
               <i className="far fa-bell"></i>
               <span className={`badge badge-${btntheme} navbar-badge`}>15</span>
@@ -270,15 +272,29 @@ const Header = () => {
                 See All Notifications
               </a>
             </div>
+          </li> */}
+
+          {/* ######################## Notifications Section END #################################*/}
+
+
+
+          {/* ######################## User Manual Icon Start ################################# */}
+          <li className="nav-item dropdown " >
+            <a title='Help' className="nav-link" href="/UserManual">
+              <i className="fa fa-question-circle"></i>
+            </a>
           </li>
-          {/* Full Screen Button */}
+
+          {/* ######################## User Manual Icon END ################################# */}
+
+          {/* ######################## Full Screen Button  ################################## */}
           <li className="nav-item" >
             <a className="nav-link" data-widget="fullscreen" href="#" role="button">
               <i className="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
 
-          {/* ############### ProfileCard Div  Start #################*/}
+          {/* ######################## ProfileCard Div  Start ############################### */}
           <li className="nav-item profilediv dropdown p-0" >
             <a className="nav-link p-0" data-toggle="dropdown" href="#" >
               <div className="profile-img image position-relative mr-3" style={{ height: "40px", width: "40px" }}>
@@ -328,7 +344,8 @@ const Header = () => {
             </div>
 
           </li>
-          {/*------ Profile Div end ---------------*/}
+          {/* ######################## ProfileCard Div End ############################### */}
+
         </ul>
       </nav>
     </div>

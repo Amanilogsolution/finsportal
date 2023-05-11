@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import '../Bills/bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress,getActiveTdsHead } from '../../../api'
 // import PreviewBill from '../Bills/PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -36,7 +36,7 @@ function AddRecurringBills() {
 
     const [tdscomp, setTdscomp] = useState();
     const [netamt, setNetamt] = useState('')
-
+    const [tdsheadlist, setTdsheadlist] = useState([])
 
     // const [billalldetail, setBillalldetail] = useState({
     //     voucher_no: '',
@@ -95,7 +95,8 @@ function AddRecurringBills() {
 
             const result = await showOrganisation(org)
             setOrgdata(result)
-
+            const tds_list = await getActiveTdsHead(org)
+            setTdsheadlist(tds_list)
 
             const ActiveRecurring = await ActiveRecurringFreq(org)
             setActiveRecurring(ActiveRecurring)
@@ -291,7 +292,7 @@ function AddRecurringBills() {
     //Toggle & Calculation of Gst Div
     const handletogglegstdiv = () => {
         var sum = 0
-        tabledata.map((item) => sum += item.netamount)
+        tabledata.map((item) => sum += Number(item.netamount))
         setNetTotal(sum)
         setBillsubtotalamt(sum)
         document.getElementById('totalamount').value = sum;
@@ -471,7 +472,7 @@ function AddRecurringBills() {
         const amt_balance = '';
         const amt_booked = '';
 
-        const tds_head = document.getElementById('tds_head').value;
+        const tds_section = document.getElementById('tds_head').value;
         const tds_per = document.getElementById('tds_per').value || 0;
         const tds_amt = document.getElementById('tds_amt').value || 0;
 
@@ -513,7 +514,7 @@ function AddRecurringBills() {
             else {
                 const org = localStorage.getItem('Organisation')
                 const result = await InsertRecurringBill(org, RecurringType, RecurringMonth, RecurringDate, voucher_no, voucher_date, vendor_name, Location, bill_no,
-                    bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
+                    bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_section, tdscomp, tds_per, tds_amt,
                     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt, cgstRate, sgstRate, igstRate)
 
                 if (result === 'Added') {
@@ -893,11 +894,16 @@ function AddRecurringBills() {
 
                                                                                     <select className="form-control col" id='tds_head'>
                                                                                         <option value='' hidden>Select Tds head</option>
-                                                                                        <option value='Cost'>Cost</option>
+                                                                                        {
+                                                                                            tdsheadlist.map((tds, index) =>
+                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
+                                                                                            )
+                                                                                        }
+                                                                                        {/* <option value='Cost'>Cost</option>
                                                                                         <option value='Salary'>Salary</option>
                                                                                         <option value='Rent'>Rent</option>
                                                                                         <option value='Proff'>Proff</option>
-                                                                                        <option value='Brokerage'>Brokerage</option>
+                                                                                        <option value='Brokerage'>Brokerage</option> */}
 
                                                                                     </select>
                                                                                 </div>
