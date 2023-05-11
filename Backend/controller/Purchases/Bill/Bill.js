@@ -44,7 +44,7 @@ const InsertBill = async (req, res) => {
         if (dublicate_bill.recordset.length === 0) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_bill(
             vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,po_no,payment_term,due_date,amt_paid,
-            amt_balance,amt_booked,tds_head,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
+            amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
             fins_year,confirm_flag,
             cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url,flagsave,net_amt)
             values('${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',

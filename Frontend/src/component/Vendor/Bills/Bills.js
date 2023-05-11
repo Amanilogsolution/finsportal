@@ -442,7 +442,7 @@ function Bills() {
         const amt_balance = '';
         const amt_booked = '';
 
-        const tds_head = document.getElementById('tds_head').value;
+        const tds_section = document.getElementById('tds_head').value;
         const tds_per = document.getElementById('tds_per').value || 0;
         const tds_amt = document.getElementById('tds_amt').value || 0;
 
@@ -471,7 +471,7 @@ function Bills() {
             else {
                 const org = localStorage.getItem('Organisation')
                 const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
-                    bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_head, tdscomp, tds_per, tds_amt,
+                    bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_section, tdscomp, tds_per, tds_amt,
                     taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
 
                 if (result === 'Added') {
