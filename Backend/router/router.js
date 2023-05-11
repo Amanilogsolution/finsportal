@@ -56,7 +56,6 @@ const SubRecurringBill = require('../controller/Purchases/RecurringBill/SubRecur
 const tdsHead = require('../controller/Master/tdsHead')
 
 //Routes
-
 //DB
 router.post('/newdb', NewdbController.Newdb);
 
@@ -152,7 +151,6 @@ router.post('/importcustaddress', AddressController.Importcustaddress)
 router.post('/searchcustaddress', AddressController.SearchCustAddress)
 router.post('/selectvendoraddress', AddressController.getVendorAddress)
 router.post('/searchvendaddress', AddressController.SearchVendAddress)
-
 
 // Vendor
 router.post('/insertvendor', vendorController.InsertVendor);
@@ -407,18 +405,14 @@ router.post('/getrecurringinvoice', RecurringInvoice.getRecurringInvoice)
 router.post('/updaterecurringinvoice', RecurringInvoice.UpdateRecurringInvoice)
 router.post('/deleterecurringinvoice', RecurringInvoice.DeleteRecurringInvoice)
 
-
-
 router.post('/insertsubrecurringinvoice',SubRecurringInvoice.InsertSubRecurringInvoice)
 router.post('/getsubrecurringinvoice',SubRecurringInvoice.getSubRecurringInvoice)
 router.post('/updatesavesubrecurringinvoice',SubRecurringInvoice.UpdateSaveSubRecurringInvoice)
-
 
 router.post('/insertrecurringbill',RecurringBill.InsertRecurringBill)
 router.post('/getrecurringbill',RecurringBill.getRecurringBill)
 router.post('/getrecurringBillData',RecurringBill.GetRecurringBillData)
 router.post('/deleterecurringbill',RecurringBill.DeleteRecurringBill)
-
 
 router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)
 router.post('/getsubrecurringbill',SubRecurringBill.GetSubRecurringBill)
@@ -429,10 +423,5 @@ router.post('/deletetdshead',tdsHead.deleteTdsHead)
 router.post('/showtdshead',tdsHead.showTdsHead)
 router.post('/updatetdshead',tdsHead.updateTdsHead)
 router.post('/getactivetdshead',tdsHead.getActiveTdsHead)
-
-
-
-
-
 
 module.exports = router;
