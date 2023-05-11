@@ -1807,3 +1807,8 @@ export const updateTdsHead = async (org,tds_head,tds_section,User_id,sno) => {
     const url = `http://localhost:3008/api/updatetdshead`
     return axios.post(url, {org,tds_head,tds_section,User_id,sno }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const getActiveTdsHead = async (org) => {
+    const url = `http://localhost:3008/api/getactivetdshead`
+    return axios.post(url, {org }).then(response => response.data).catch(error => console.log(error));
+}

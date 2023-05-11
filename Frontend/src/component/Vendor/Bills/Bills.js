@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress, getPoData } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress, getPoData, getActiveTdsHead } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -30,6 +30,7 @@ function Bills() {
     const [orgdata, setOrgdata] = useState([]);
     const [tdscomp, setTdscomp] = useState();
     const [netamt, setNetamt] = useState('');
+    const [tdsheadlist, setTdsheadlist] = useState([])
     const [billalldetail, setBillalldetail] = useState({
         voucher_no: '',
         voucher_date: '',
@@ -79,7 +80,8 @@ function Bills() {
             setItemlist(items)
             const result = await showOrganisation(org)
             setOrgdata(result)
-
+            const tds_list = await getActiveTdsHead(org)
+            setTdsheadlist(tds_list)
             setLoading(true)
             Todaydate()
 
@@ -293,7 +295,6 @@ function Bills() {
     // ################################ Toggle & Calculation of Gst Div ##########################################
     const handlegst_submit = (e) => {
         e.preventDefault();
-        console.log(tabledata)
         const gst_type = document.getElementById('gsttype').value;
         const totalvalue = document.getElementById('totalamount').value
         const gst = document.getElementById('gstTax').value
@@ -448,6 +449,7 @@ function Bills() {
         const tds_per = document.getElementById('tds_per').value || 0;
         const tds_amt = document.getElementById('tds_amt').value || 0;
 
+      
         const expense_amt = document.getElementById('expense_amt').value;
         const remarks = document.getElementById('remarks').value
         const fins_year = localStorage.getItem('fin_year')
@@ -836,11 +838,18 @@ function Bills() {
 
                                                                                     <select className="form-control col" id='tds_head'>
                                                                                         <option value='' hidden>Select Tds head</option>
-                                                                                        <option value='Cost'>Cost</option>
+                                                                                        {
+                                                                                            tdsheadlist.map((tds, index) =>
+                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
+                                                                                            )
+                                                                                        }
+
+
+                                                                                        {/* <option value='Cost'>Cost</option>
                                                                                         <option value='Salary'>Salary</option>
                                                                                         <option value='Rent'>Rent</option>
                                                                                         <option value='Proff'>Proff</option>
-                                                                                        <option value='Brokerage'>Brokerage</option>
+                                                                                        <option value='Brokerage'>Brokerage</option> */}
 
                                                                                     </select>
                                                                                 </div>

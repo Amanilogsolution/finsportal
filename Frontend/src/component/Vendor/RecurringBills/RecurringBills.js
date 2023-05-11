@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import '../Bills/bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress,getActiveTdsHead } from '../../../api'
 // import PreviewBill from '../Bills/PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -36,7 +36,7 @@ function AddRecurringBills() {
 
     const [tdscomp, setTdscomp] = useState();
     const [netamt, setNetamt] = useState('')
-
+    const [tdsheadlist, setTdsheadlist] = useState([])
 
     // const [billalldetail, setBillalldetail] = useState({
     //     voucher_no: '',
@@ -95,7 +95,8 @@ function AddRecurringBills() {
 
             const result = await showOrganisation(org)
             setOrgdata(result)
-
+            const tds_list = await getActiveTdsHead(org)
+            setTdsheadlist(tds_list)
 
             const ActiveRecurring = await ActiveRecurringFreq(org)
             setActiveRecurring(ActiveRecurring)
@@ -291,7 +292,7 @@ function AddRecurringBills() {
     //Toggle & Calculation of Gst Div
     const handletogglegstdiv = () => {
         var sum = 0
-        tabledata.map((item) => sum += item.netamount)
+        tabledata.map((item) => sum += Number(item.netamount))
         setNetTotal(sum)
         setBillsubtotalamt(sum)
         document.getElementById('totalamount').value = sum;
@@ -893,11 +894,16 @@ function AddRecurringBills() {
 
                                                                                     <select className="form-control col" id='tds_head'>
                                                                                         <option value='' hidden>Select Tds head</option>
-                                                                                        <option value='Cost'>Cost</option>
+                                                                                        {
+                                                                                            tdsheadlist.map((tds, index) =>
+                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
+                                                                                            )
+                                                                                        }
+                                                                                        {/* <option value='Cost'>Cost</option>
                                                                                         <option value='Salary'>Salary</option>
                                                                                         <option value='Rent'>Rent</option>
                                                                                         <option value='Proff'>Proff</option>
-                                                                                        <option value='Brokerage'>Brokerage</option>
+                                                                                        <option value='Brokerage'>Brokerage</option> */}
 
                                                                                     </select>
                                                                                 </div>

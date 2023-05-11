@@ -1363,7 +1363,6 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 net_amt nvarchar(100) NULL,
                 total_bill_amt money NULL,
                 po_no nvarchar(100) NULL,
-                po_date date NULL,
                 bill_url nvarchar(400) NULL,
                 payment_term nvarchar(50) NULL,
                 due_date date NULL,

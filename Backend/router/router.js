@@ -428,6 +428,7 @@ router.post('/inserttdshead',tdsHead.inserttdshead)
 router.post('/deletetdshead',tdsHead.deleteTdsHead)
 router.post('/showtdshead',tdsHead.showTdsHead)
 router.post('/updatetdshead',tdsHead.updateTdsHead)
+router.post('/getactivetdshead',tdsHead.getActiveTdsHead)
 
 
 
