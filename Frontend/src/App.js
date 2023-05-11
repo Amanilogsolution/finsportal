@@ -170,6 +170,7 @@ import EditRecurringBills from './component/Vendor/RecurringBills/EditRecurringB
 
 import LandingPage from './component/LandingPage/LandingPage';
 import Signup from './component/SignUp/Signup';
+import UserManualSidebar from './component/UserManual/UserManualSidebar';
 import JVoucher from './component/Accountant/JournalVoucher/JVoucher'
 
 import inserttdshead from './component/Master/TdsHead/inserttdshead'
@@ -375,6 +376,7 @@ const App = () => {
           <PrivatRoute exact path="/TotalRecurringBill" component={TotalRecurringBill} />
           <PrivatRoute exact path="/EditRecurringBills" component={EditRecurringBills} />
 
+          <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
           <PrivatRoute exact path="/JVoucher" component={JVoucher} />
 
           <PrivatRoute exact path="/inserttdshead" component={inserttdshead} />

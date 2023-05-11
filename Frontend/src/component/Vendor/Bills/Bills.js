@@ -636,11 +636,11 @@ function Bills() {
                                                         <th scope="col">Item Details</th>
                                                         <th scope="col">Employee</th>
                                                         <th scope="col">Quantity</th>
+                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Amount</th>
                                                         <th scope="col">Deduction</th>
                                                         <th scope="col">Refno/FIleno</th>
-                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
                                                 </thead>
@@ -683,6 +683,15 @@ function Bills() {
                                                                     <input type='number' id={`Quantity${index}`} onChange={(e) => { handleChangeQuantity(e, index) }} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                    <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
+                                                                        <option value='' hidden>Select Unit</option>
+                                                                        {
+                                                                            unitlist.map((item, index) =>
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id={`rate${index}`} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
@@ -696,15 +705,7 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
                                                                 </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
-                                                                        <option value='' hidden>Select Unit</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
+
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' id={`netamt${index}`} className="form-control cursor-notallow" disabled />
                                                                 </td>
@@ -827,7 +828,7 @@ function Bills() {
                                                                                         <option value='Cost'>Cost</option>
                                                                                         <option value='Salary'>Salary</option>
                                                                                         <option value='Rent'>Rent</option>
-                                                                                        <option value='Profit'>Profit</option>
+                                                                                        <option value='Proff'>Proff</option>
                                                                                         <option value='Brokerage'>Brokerage</option>
 
                                                                                     </select>

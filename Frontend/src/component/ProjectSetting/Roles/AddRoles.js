@@ -128,7 +128,7 @@ const AddRoles = () => {
         const recurring_bill_edit = document.getElementById('recurring_bill_edit').checked === true ? true : false;
         const recurring_bill_delete = document.getElementById('recurring_bill_delete').checked === true ? true : false;
 
-        const purchases_all = vend_view || bills_view || purchasesorder_view || debitnote_view || recurring_bill_view ;
+        const purchases_all = vend_view || bills_view || purchasesorder_view || debitnote_view || recurring_bill_view;
 
         // Accountant
 
@@ -142,7 +142,12 @@ const AddRoles = () => {
         const currency_addjustment_edit = document.getElementById('currency_addjustment_edit').checked === true ? true : false;
         const currency_addjustment_delete = document.getElementById('currency_addjustment_delete').checked === true ? true : false;
 
-        const accountant_all = chartacct_view || currency_addjustment_view
+        const journal_voucher_view = document.getElementById('journal_voucher_view').checked === true ? true : false;
+        const journal_voucher_create = document.getElementById('journal_voucher_create').checked === true ? true : false;
+        const journal_voucher_edit = document.getElementById('journal_voucher_edit').checked === true ? true : false;
+        const journal_voucher_delete = document.getElementById('journal_voucher_delete').checked === true ? true : false;
+
+        const accountant_all = chartacct_view || currency_addjustment_view || journal_voucher_view
 
         //  ########################################### Master #########################################
         // Setting
@@ -282,6 +287,8 @@ const AddRoles = () => {
         const reports_debitnote_edit = document.getElementById('reports_debitnote_edit').checked === true ? true : false;
         const reports_debitnote_delete = document.getElementById('reports_debitnote_delete').checked === true ? true : false;
 
+
+
         const reports_all = reports_bills_view || reports_invoice_view || reports_salesorder_view || reports_purchasesorder_view || reports_creditnote_view || reports_debitnote_view;
 
         const user_id = localStorage.getItem('User_id');
@@ -321,15 +328,17 @@ const AddRoles = () => {
                 reports_invoice_view, reports_invoice_create, reports_invoice_edit, reports_invoice_delete, user_id,
                 salesorder_view, salesorder_create, salesorder_edit, salesorder_delete, creditnotes_view, creditnotes_create, creditnotes_edit, creditnotes_delete,
                 purchasesorder_view, purchasesorder_create, purchasesorder_edit, purchasesorder_delete, debitnote_view, debitnote_create, debitnote_edit, debitnote_delete,
-                
-                reports_salesorder_view,reports_salesorder_create,reports_salesorder_edit,reports_salesorder_delete,
-                reports_purchasesorder_view,reports_purchasesorder_create,reports_purchasesorder_edit,reports_purchasesorder_delete,
-                reports_creditnote_view,reports_creditnote_create,reports_creditnote_edit ,reports_creditnote_delete ,
-                reports_debitnote_view ,reports_debitnote_create ,reports_debitnote_edit ,reports_debitnote_delete,
 
-                recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
-                recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete ,
-                recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete)
+                reports_salesorder_view, reports_salesorder_create, reports_salesorder_edit, reports_salesorder_delete,
+                reports_purchasesorder_view, reports_purchasesorder_create, reports_purchasesorder_edit, reports_purchasesorder_delete,
+                reports_creditnote_view, reports_creditnote_create, reports_creditnote_edit, reports_creditnote_delete,
+                reports_debitnote_view, reports_debitnote_create, reports_debitnote_edit, reports_debitnote_delete,
+
+                recurring_freq_view, recurring_freq_create, recurring_freq_edit, recurring_freq_delete,
+                recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
+                recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete
+                // ,journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
+            )
 
             if (submitdata === 'Role Already') {
                 setAlreadyrole(true)
@@ -344,7 +353,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -603,7 +612,14 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='recurring_bill_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='recurring_bill_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
-
+                                                <tr id='journal_voucher' style={displaynone}>
+                                                    <th className="text-left">Journal voucher</th>
+                                                    <td><input type='checkbox' id='journal_voucher_full' style={checkboxstyle} onClick={() => fullaccess('journal_voucher_full', 'journal_voucher_view', 'journal_voucher_create', 'journal_voucher_edit', 'journal_voucher_delete')} /></td>
+                                                    <td><input type='checkbox' id='journal_voucher_view' style={checkboxstyle} onClick={() => viewoff('journal_voucher_full', 'journal_voucher_view', 'journal_voucher_create', 'journal_voucher_edit', 'journal_voucher_delete')} /></td>
+                                                    <td><input type='checkbox' id='journal_voucher_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='journal_voucher_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='journal_voucher_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
                                                 {/* #############################  Master #################################################### */}
 
                                                 <tr>

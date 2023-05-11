@@ -158,11 +158,11 @@ function Bills() {
                                                         <th scope="col">Item Details</th>
                                                         <th scope="col">Employee</th>
                                                         <th scope="col">Quantity</th>
+                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Amount</th>
                                                         <th scope="col">Deduction</th>
                                                         <th scope="col">Refno/FIleno</th>
-                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
                                                 </thead>
@@ -183,6 +183,9 @@ function Bills() {
                                                                     <input type='number' id={`Quantity${index}`} className="form-control" disabled defaultValue={element.qty} />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                    <input type='text' className="form-control" id={`fileno${index}`} disabled defaultValue={element.unit} />
+                                                                </td>
+                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id="Rate" className="form-control" disabled defaultValue={element.rate} />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
@@ -196,9 +199,7 @@ function Bills() {
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} disabled defaultValue={element.file_no} />
                                                                 </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='text' className="form-control" id={`fileno${index}`} disabled defaultValue={element.unit} />
-                                                                </td>
+
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' className="form-control cursor-notallow" disabled defaultValue={element.net_amt} />
                                                                 </td>

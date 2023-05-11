@@ -420,12 +420,13 @@ function AddRecurringInvoices() {
         let igstamount = allInvoiceData.IGST
         const taxableamt = allInvoiceData.TotalTaxamount;
 
-        // let RecurringType = document.getElementById('recurringType')
-        // RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
-        // const RecurringMonth = document.getElementById('recurringType').value
+        let RecurringType = document.getElementById('recurringType')
+        const RecurringMonth =RecurringType.value
+        RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
 
-        let RecurringType = document.getElementById('recurringType').value;
-        const RecurringMonth = ''
+
+        // let RecurringType = document.getElementById('recurringType').value;
+        // const RecurringMonth = ''
 
         const RecurringDate = document.getElementById('recurringDate').value
 
@@ -587,16 +588,16 @@ function AddRecurringInvoices() {
                                                     <select id="recurringType" className="form-control ">
 
                                                         <option value='' hidden>Select frequency</option>
-                                                        <option value='weekly' >Weekly</option>
+                                                        {/* <option value='weekly' >Weekly</option>
                                                         <option value='monthly' >Monthly</option>
                                                         <option value='quarterly' >Quarterly</option>
                                                         <option value='half_yearly' >Half Yearly</option>
-                                                        <option value='yearly' >Yearly</option>
-                                                        {/* {
+                                                        <option value='yearly' >Yearly</option> */}
+                                                        {
                                                             ActiveRecurring.map((items, index) => (
                                                                 <option key={index} value={items.recurring_month} >{items.recurring_type}</option>
                                                             ))
-                                                        } */}
+                                                        }
                                                     </select>
                                                 </div>
 
@@ -628,7 +629,7 @@ function AddRecurringInvoices() {
                                                     <select
                                                         id="paymentterm"
                                                         className='col-md-4  mr-0 form-control'
-                                                        // onChange={handleAccountTerm}
+                                                    // onChange={handleAccountTerm}
                                                     >
                                                         <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
                                                         {
@@ -638,12 +639,12 @@ function AddRecurringInvoices() {
                                                         }
                                                     </select>
                                                 </div>
-{/* 
+                                                {/* 
                                                 <div className="d-flex col-md-3" >
                                                     <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
                                                     <input type="date" className={`form-control col-md-7  cursor-notallow`} id="Duedate" disabled />
                                                 </div> */}
-                                            </div> 
+                                            </div>
 
 
                                             <div className="form-row mt-3" id='FTdate' style={{ display: "none" }}>

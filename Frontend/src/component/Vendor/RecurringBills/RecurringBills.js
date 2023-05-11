@@ -70,7 +70,7 @@ function AddRecurringBills() {
         }
     ])
 
-    // const [ActiveRecurring, setActiveRecurring] = useState([])
+    const [ActiveRecurring, setActiveRecurring] = useState([])
 
 
 
@@ -97,8 +97,8 @@ function AddRecurringBills() {
             setOrgdata(result)
 
 
-            // const ActiveRecurring = await ActiveRecurringFreq(org)
-            // setActiveRecurring(ActiveRecurring)
+            const ActiveRecurring = await ActiveRecurringFreq(org)
+            setActiveRecurring(ActiveRecurring)
 
             setLoading(true)
 
@@ -486,10 +486,12 @@ function AddRecurringBills() {
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
 
-        // let RecurringType = document.getElementById('recurringType')
-        // RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
-        const RecurringType = document.getElementById('recurringType').value
-        const RecurringMonth = ''
+        let RecurringType = document.getElementById('recurringType')
+        const RecurringMonth = RecurringType.value
+        RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
+
+        // const RecurringType = document.getElementById('recurringType').value
+        // const RecurringMonth = ''
         const RecurringDate = document.getElementById('recurringDate').value
 
         const cgstRate = document.getElementById('cgst-inp').value
@@ -653,16 +655,16 @@ function AddRecurringBills() {
                                                         className="form-control col-md-10"
                                                     >
                                                         <option value='' hidden>Select frequency</option>
-                                                        <option value='weekly' >Weekly</option>
+                                                        {/* <option value='weekly' >Weekly</option>
                                                         <option value='monthly' >Monthly</option>
                                                         <option value='quarterly' >Quarterly</option>
                                                         <option value='half_yearly' >Half Yearly</option>
-                                                        <option value='yearly' >Yearly</option>
-                                                        {/* {
+                                                        <option value='yearly' >Yearly</option> */}
+                                                        {
                                                             ActiveRecurring.map((items, index) => (
                                                                 <option key={index} value={items.recurring_month} >{items.recurring_type}</option>
                                                             ))
-                                                        } */}
+                                                        }
                                                     </select>
                                                 </div>
 
@@ -702,11 +704,11 @@ function AddRecurringBills() {
                                                         <th scope="col">Item Details</th>
                                                         <th scope="col">Employee</th>
                                                         <th scope="col">Quantity</th>
+                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Amount</th>
                                                         <th scope="col">Deduction</th>
                                                         {/* <th scope="col">Refno/FIleno</th> */}
-                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
                                                 </thead>
@@ -749,6 +751,15 @@ function AddRecurringBills() {
                                                                     <input type='number' id={`Quantity${index}`} onChange={(e) => { handleChangeQuantity(e, index) }} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                    <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
+                                                                        <option value='' hidden>Select Unit</option>
+                                                                        {
+                                                                            unitlist.map((item, index) =>
+                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id={`rate${index}`} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
@@ -762,15 +773,7 @@ function AddRecurringBills() {
                                                                 {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
                                                                 </td> */}
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
-                                                                        <option value='' hidden>Select Unit</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
+
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' id={`netamt${index}`} className="form-control cursor-notallow" disabled />
                                                                 </td>
@@ -893,7 +896,7 @@ function AddRecurringBills() {
                                                                                         <option value='Cost'>Cost</option>
                                                                                         <option value='Salary'>Salary</option>
                                                                                         <option value='Rent'>Rent</option>
-                                                                                        <option value='Profit'>Profit</option>
+                                                                                        <option value='Proff'>Proff</option>
                                                                                         <option value='Brokerage'>Brokerage</option>
 
                                                                                     </select>
