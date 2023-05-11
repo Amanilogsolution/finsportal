@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress, getPoData } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -265,7 +265,7 @@ function Bills() {
     //Toggle & Calculation of Gst Div
     const handletogglegstdiv = () => {
         var sum = 0
-        tabledata.map((item) => sum += item.netamount)
+        tabledata.map((item) => sum += Number(item.netamount))
         setNetTotal(sum)
         setBillsubtotalamt(sum)
         document.getElementById('totalamount').value = sum;
@@ -434,6 +434,8 @@ function Bills() {
         const bill_date = document.getElementById('bill_date').value
         const bill_amt = document.getElementById('bill_amt').value
         const po_no = document.getElementById('po_no').value
+        const po_date = document.getElementById('po_date').value
+
         const total_bill_amt = document.getElementById('total_bill_amt').innerText;
 
         const payment_t = document.getElementById('payment_term_select').value
@@ -472,7 +474,7 @@ function Bills() {
                 const org = localStorage.getItem('Organisation')
                 const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
                     bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_section, tdscomp, tds_per, tds_amt,
-                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, billsubtotalamt)
+                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, po_date, billsubtotalamt)
 
                 if (result === 'Added') {
                     const result1 = await InsertSubBill(org, voucher_no, bill_no, tabledata, fins_year, userid)
@@ -513,6 +515,11 @@ function Bills() {
             const result1 = await SelectVendorAddress(org, vendorselectedlist.vend_id);
             setVendorLocation(result1)
         }
+    }
+
+    const handleGetPoData = async (e) => {
+        const podata = await getPoData(localStorage.getItem('Organisation'), e.target.value)
+        document.getElementById('po_date').value = podata[0].podate
     }
 
     return (
@@ -581,9 +588,9 @@ function Bills() {
                                             </div>
 
                                             <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
-                                                <div className="d-flex col-md">
-                                                    <select className="form-control col-md-4" id="po_no">
+                                                <label htmlFor='po_no' className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
+                                                <div className="d-flex col-md-4" >
+                                                    <select className="form-control col-md-10" id="po_no" onChange={handleGetPoData}>
                                                         <option hidden value=''>Select P.O number</option>
                                                         {
                                                             polist.length > 0 ?
@@ -593,6 +600,10 @@ function Bills() {
                                                                 <option value=''>PO. is not Created in this vendor</option>
                                                         }
                                                     </select>
+                                                </div>
+                                                <label htmlFor='po_date' className="col-md-2 col-form-label font-weight-normal" >Po Date  </label>
+                                                <div className="d-flex col-md-4" >
+                                                    <input type="date" className="form-control col-md-10" id="po_date" disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
@@ -614,7 +625,7 @@ function Bills() {
                                                     <select
                                                         id="payment_term_select"
                                                         className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value={vendorselectedlist.payment_terms} hidden>Net {vendorselectedlist.payment_terms}</option>
+                                                        <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : 'Select Payment term'}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
                                                                 <option key={index} value={item.term_days}>{item.term}</option>
