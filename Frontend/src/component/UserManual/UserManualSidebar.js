@@ -34,7 +34,7 @@ const UserManualSidebar = () => {
                     <div className='fields'>
                         <ul>
                             <li onClick={() => { setStep(1) }}>
-                                <Link to='home'>Dashboard</Link> </li>
+                                <a href='/home'>Dashboard</a> </li>
                         </ul>
                     </div>
                     <div className='fields'>
