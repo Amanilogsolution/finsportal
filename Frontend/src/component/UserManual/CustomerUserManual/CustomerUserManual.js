@@ -1,5 +1,5 @@
 import React from 'react'
-import './Customer.css'
+import './CustomerUserManual.css'
 
 import img1 from '../../../images/UserManual/Customers/img1.jpg'
 import img2 from '../../../images/UserManual/Customers/img2.jpg'
@@ -7,7 +7,7 @@ import img3 from '../../../images/UserManual/Customers/img3.jpg'
 import img5 from '../../../images/UserManual/Customers/img5.jpg'
 import img6 from '../../../images/UserManual/Customers/img6.jpg'
 
-export default function Customer() {
+export default function CustomerUserManual() {
   return (
     <div className='customer'>
       <div className='customer1'>

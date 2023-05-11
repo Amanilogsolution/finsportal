@@ -1,16 +1,16 @@
 import React from 'react'
-import './CustInvoice.css'
+import './CustInvoiceUserManual.css'
 import img1 from '../../../images/UserManual/CustInvoice/img1.jpg'
 import img2 from '../../../images/UserManual/CustInvoice/img2.jpg'
 import img3 from '../../../images/UserManual/CustInvoice/img3.jpg'
 
-export default function CustInvoice() {
+export default function CustInvoiceUserManual() {
   return (
     <div className='custInvoice'>
 
        <div className='custInvoice1'>
         <div style={{ width: "70%", margin: "auto" }}>
-          <h2>Customers Address</h2>
+          <h2>Invoice</h2>
           <p>The first step is go onto sidebar click onto sales dropdown. You will see three options select Invoice</p>
         </div>
         <div style={{ width: "30%", display: "flex", justifyContent: "end" }}>
