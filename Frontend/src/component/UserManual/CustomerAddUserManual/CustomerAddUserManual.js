@@ -1,11 +1,11 @@
 import React from 'react'
-import './CustAddress.css'
+import './CustomerAddUserManual.css'
 import img1 from '../../../images/UserManual/CustAddress/img1.jpg'
 import img2 from '../../../images/UserManual/CustAddress/img2.jpg'
 import img3 from '../../../images/UserManual/CustAddress/img3.jpg'
 import img4 from '../../../images/UserManual/CustAddress/img4.jpg'
 
-export default function CustAddress() {
+export default function CustomerAddUserManual() {
   return (
     <div className='custAddress'>
        <div className='custAddress1'>

@@ -1,27 +1,33 @@
 import React, { useState } from 'react'
 import './UserManualSidebar.css'
-import Customer from './Customer/Customer';
-import Items from './Items/Items';
-import CustAddress from './CustomerAddress/CustAddress';
-import Dashboard from './Dashboard/Dashboard';
-import CustInvoice from './CustInvoice/CustInvoice';
+import CustomerUserManual from './CustomerUserManual/CustomerUserManual';
+import ItemsUserManual from './ItemsUserManual/ItemsUserManual';
+import CustomerAddUserManual from './CustomerAddUserManual/CustomerAddUserManual';
+import DashboardUserManual from './DashboardUserManual/DashboardUserManual';
+import CustInvoiceUserManual from './CustInvoiceUserManual/CustInvoiceUserManual';
 import fins from '../../images/finsgrowlogo.png'
-import { Link } from 'react-router-dom'
+import SalesOrderUserManual from './SalesOrderUserManual/SalesOrderUserManual';
+import RecurringInvUserManual from './RecurringInvUserManual/RecurringInvUserManual';
 const UserManualSidebar = () => {
     const [currentStep, setStep] = useState(1);
 
     const showStep = (step) => {
         switch (step) {
             case 1:
-                return <Dashboard />
+                return <DashboardUserManual />
             case 2:
-                return <Items />
+                return <ItemsUserManual />
             case 3:
-                return <Customer />
+                return <CustomerUserManual />
             case 4:
-                return <CustAddress />
+                return <CustomerAddUserManual />
             case 5:
-                return <CustInvoice />
+                return <CustInvoiceUserManual />
+            case 6:
+                return <SalesOrderUserManual />
+            case 7:
+                return <RecurringInvUserManual />
+
         }
     }
     return (
@@ -50,6 +56,8 @@ const UserManualSidebar = () => {
                             <li onClick={() => { setStep(3) }}>Customer</li>
                             <li onClick={() => { setStep(4) }}>Address</li>
                             <li onClick={() => { setStep(5) }}>Invoice</li>
+                            <li onClick={() => { setStep(6) }}>Sales Order</li>
+                            <li onClick={() => { setStep(7) }}>Recurring Invoice</li>
                         </ul>
                     </div>
                     <div className='fields'>

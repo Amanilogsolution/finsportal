@@ -2,9 +2,9 @@ import React from 'react'
 import img1 from '../../../images/UserManual/items/img1.jpg'
 import img2 from '../../../images/UserManual/items/img2.jpg'
 import img3 from '../../../images/UserManual/items/img3.jpg'
-import './Items.css'
+import './ItemsUserManual.css'
 
-export default function Items() {
+export default function ItemsUserManual() {
   return (
     <div className='items' style={{padding:"20px"}}>
         <div className='d-flex'>
