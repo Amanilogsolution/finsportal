@@ -78,16 +78,7 @@ const BillSave = () => {
       selector: 'total_bill_amt',
       sortable: true
     },
-    {
-      name: 'Location',
-      selector: 'location',
-      sortable: true
-    },
-    {
-      name: 'Remarks',
-      selector: 'remarks',
-      sortable: true
-    },
+   
     {
       name: "Action",
       sortable: false,
