@@ -1436,7 +1436,8 @@ export const AddUserRole = async (org, roles, role_id, description, sales_all, c
 
     recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
     recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete ,
-    recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete
+    recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete,
+    journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
 ) => {
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
@@ -1478,7 +1479,8 @@ export const AddUserRole = async (org, roles, role_id, description, sales_all, c
 
         recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
         recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete ,
-        recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete
+        recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete,
+        journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
     }).then(response => response.data).catch(error => console.log(error));
 }
 
