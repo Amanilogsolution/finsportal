@@ -337,7 +337,7 @@ const AddRoles = () => {
                 recurring_freq_view, recurring_freq_create, recurring_freq_edit, recurring_freq_delete,
                 recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
                 recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete
-                // ,journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
+                ,journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
             )
 
             if (submitdata === 'Role Already') {
@@ -389,10 +389,10 @@ const AddRoles = () => {
     const handleChangeAllAccess = (e) => {
         const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
             'org', 'paymentTerm', 'financial', 'branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
-            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'recurring_freq', 'recurring_invoice', 'recurring_bill']
+            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'recurring_freq', 'recurring_invoice', 'recurring_bill','journal_voucher']
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill','journal_voucher'];
         const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency'];
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
 

@@ -205,6 +205,11 @@ const AddUserRole = async (req, res) => {
     const recurring_bill_create = req.body.recurring_bill_create
     const recurring_bill_edit = req.body.recurring_bill_edit
     const recurring_bill_delete = req.body.recurring_bill_delete
+
+    const journal_voucher_view = req.body.journal_voucher_view
+    const journal_voucher_create = req.body.journal_voucher_create
+    const journal_voucher_edit = req.body.journal_voucher_edit
+    const journal_voucher_delete = req.body.journal_voucher_delete
     
 
     try {
@@ -267,6 +272,7 @@ const AddUserRole = async (req, res) => {
                  recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
                  recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
                  recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
+                 journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
                  add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
                  
                  )
@@ -321,6 +327,7 @@ const AddUserRole = async (req, res) => {
             '${recurring_freq_view}','${recurring_freq_create}','${recurring_freq_edit}','${recurring_freq_delete}',
             '${recurring_invoice_view}','${recurring_invoice_create}','${recurring_invoice_edit}','${recurring_invoice_delete}',
             '${recurring_bill_view}','${recurring_bill_create}','${recurring_bill_edit}','${recurring_bill_delete}',
+            '${journal_voucher_view}','${journal_voucher_create}','${journal_voucher_edit}','${journal_voucher_delete}',
             '${user_id}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')`)
 
             res.send('Added')
