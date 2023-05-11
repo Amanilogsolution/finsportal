@@ -1551,6 +1551,13 @@ export const Editpurchaseorder = async (org, new_po_number, status, po_num) => {
     return axios.post(url, { org, new_po_number, status, po_num }).then(response => response.data).catch(error => console.log(error));
 }
 
+export const getPoData = async (org, po_number) => {
+    const url = `http://localhost:3008/api/getpodata`
+    return axios.post(url, { org, po_number }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
 export const InsertCreditNote = async (org, cn_no, cn_date, mast_id, cust_id, inv_no, inv_date, total_amt, net_amt, remark, location, fins_year, userid, total_cn_amt) => {
     const url = `https://finsbackend.awlinternational.com/api/insertcreditnote`
     return axios.post(url, { org, cn_no, cn_date, mast_id, cust_id, inv_no, inv_date, total_amt, net_amt, remark, location, fins_year, userid, total_cn_amt }).then(response => response.data).catch(error => console.log(error));

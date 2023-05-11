@@ -148,5 +148,22 @@ const EditPurchaseOrder = async (req, res) => {
     }
 }
 
+const getPoData = async (req,res) =>{
+    const org = req.body.org;
+    const po_number = req.body.po_number;
 
-module.exports = { InsertPurchaseorder, InsertSubPurchaseorder, getPoDetailsVendor, getSavePO, filterPO, getPoDetailsPreview, getSubPoDetailsPreview, EditPurchaseOrder }
+    try{
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select convert(varchar(15),po_date,121) as podate from ${org}.dbo.tbl_purchase_order tpo  where po_number='${po_number}'`)
+        res.send(result.recordset)
+
+    }
+    catch (err){
+        res.send(err)
+    }
+
+
+} 
+
+
+module.exports = { InsertPurchaseorder, InsertSubPurchaseorder, getPoDetailsVendor, getSavePO, filterPO, getPoDetailsPreview, getSubPoDetailsPreview, EditPurchaseOrder,getPoData }
