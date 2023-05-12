@@ -29,7 +29,9 @@ const Updatefincialyear = () => {
     const so_ser = document.getElementById('so_ser').value;
     const cn_ser = document.getElementById('cn_ser').value;
     const dn_ser = document.getElementById('dn_ser').value;
+    const jv_ser = document.getElementById('jv_ser').value;
 
+    
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
     const sno = localStorage.getItem('FinsyearSno')
@@ -38,16 +40,16 @@ const Updatefincialyear = () => {
     let lockscreen
     lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
 
-    if (!invoice_ser || !voucher_ser || !po_ser) {
+    if (!invoice_ser || !voucher_ser || !po_ser || !jv_ser) {
       alert('All Fields are mandatory')
     }
     else {
 
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4  || so_ser.length > 4  || cn_ser.length > 4  || dn_ser.length > 4) {
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4 || so_ser.length > 4 || cn_ser.length > 4 || dn_ser.length > 4 || jv_ser.length>4) {
         alert("invoice Series is must be smaller then 6 char and voucher is 4")
       }
       else {
-        const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser,so_ser,cn_ser, dn_ser,User_id)
+        const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser,jv_ser, User_id)
         if (result[0] > 0) {
           alert("Updated")
           localStorage.removeItem('FinsyearSno');
@@ -158,7 +160,16 @@ const Updatefincialyear = () => {
                     </div>
                   </div>
                 </div>
+                <div className="form-row">
+                  <div className="col form-row">
+                    <label htmlFor="jv_ser" className="col-md-2 col-form-label font-weight-normal">Journal Voucher Series <span className='text-danger'>*</span></label>
+                    <div className="col-md-4 form-group">
+                      <input type="text" className="form-control col-md-10" id='jv_ser' defaultValue={data.jv_ser} maxLength={4} />
+                      <small >Journal Voucher Series not more than 4 Character</small>
+                    </div>
+                  </div>
 
+                </div>
 
                 <div className="form-row">
                   <label htmlFor="voucher" className="col-md-2 col-form-label font-weight-normal">Lock Financial Year</label>

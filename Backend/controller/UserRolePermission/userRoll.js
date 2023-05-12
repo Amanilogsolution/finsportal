@@ -211,7 +211,10 @@ const AddUserRole = async (req, res) => {
     const journal_voucher_edit = req.body.journal_voucher_edit
     const journal_voucher_delete = req.body.journal_voucher_delete
     
-
+    const tds_head_view = req.body.tds_head_view
+    const tds_head_create = req.body.tds_head_create
+    const tds_head_edit = req.body.tds_head_edit
+    const tds_head_delete = req.body.tds_head_delete
     try {
         await sql.connect(sqlConfig)
 
@@ -273,6 +276,7 @@ const AddUserRole = async (req, res) => {
                  recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
                  recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
                  journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
+                 tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
                  add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
                  
                  )
@@ -328,6 +332,7 @@ const AddUserRole = async (req, res) => {
             '${recurring_invoice_view}','${recurring_invoice_create}','${recurring_invoice_edit}','${recurring_invoice_delete}',
             '${recurring_bill_view}','${recurring_bill_create}','${recurring_bill_edit}','${recurring_bill_delete}',
             '${journal_voucher_view}','${journal_voucher_create}','${journal_voucher_edit}','${journal_voucher_delete}',
+            '${tds_head_view}','${tds_head_create}','${tds_head_edit}','${tds_head_delete}',
             '${user_id}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')`)
 
             res.send('Added')

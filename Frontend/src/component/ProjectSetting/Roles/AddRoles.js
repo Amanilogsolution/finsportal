@@ -249,7 +249,12 @@ const AddRoles = () => {
         const recurring_freq_edit = document.getElementById('recurring_freq_edit').checked === true ? true : false;
         const recurring_freq_delete = document.getElementById('recurring_freq_delete').checked === true ? true : false;
 
-        const master_all = country_view || state_view || city_view || currency_view || unit_view || banking_view || comptype_view || users_view || empmaster_view || recurring_freq_view;
+        const tds_head_view = document.getElementById('tds_head_view').checked === true ? true : false;
+        const tds_head_create = document.getElementById('tds_head_create').checked === true ? true : false;
+        const tds_head_edit = document.getElementById('tds_head_edit').checked === true ? true : false;
+        const tds_head_delete = document.getElementById('tds_head_delete').checked === true ? true : false;
+
+        const master_all = country_view || state_view || city_view || currency_view || unit_view || banking_view || comptype_view || users_view || empmaster_view || recurring_freq_view || tds_head_view
 
         //  ########################################### Reports #########################################
 
@@ -338,15 +343,17 @@ const AddRoles = () => {
                 recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
                 recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete
                 ,journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
+                ,tds_head_view,tds_head_create,tds_head_edit,tds_head_delete
             )
 
             if (submitdata === 'Role Already') {
                 setAlreadyrole(true)
                 alert("Data Already")
+
             }
             else if (submitdata === 'Added') {
                 alert("Data Added")
-                window.location.reload();
+                window.location.href='/showroles';
             }
         }
 
@@ -371,7 +378,7 @@ const AddRoles = () => {
     }
 
     const handlemaster = () => {
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
         if (mastertoggle) {
             for (let i = 0; i < innermaster.length; i++) {
                 document.getElementById(innermaster[i]).style.display = 'none'
@@ -393,7 +400,7 @@ const AddRoles = () => {
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
         const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill','journal_voucher'];
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
 
 
@@ -776,7 +783,14 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='recurring_freq_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='recurring_freq_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
-
+                                                <tr id='tds_head' style={displaynone}>
+                                                    <th className="text-left">Tds Head</th>
+                                                    <td><input type='checkbox' id='tds_head_full' style={checkboxstyle} onClick={() => fullaccess('tds_head_full', 'tds_head_view', 'tds_head_create', 'tds_head_edit', 'tds_head_delete')} /></td>
+                                                    <td><input type='checkbox' id='tds_head_view' style={checkboxstyle} onClick={() => viewoff('tds_head_full', 'tds_head_view', 'tds_head_create', 'tds_head_edit', 'tds_head_delete')} /></td>
+                                                    <td><input type='checkbox' id='tds_head_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='tds_head_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='tds_head_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
                                                 {/* #############################  Reports #################################################### */}
 
                                                 <tr>

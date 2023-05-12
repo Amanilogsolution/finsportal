@@ -80,6 +80,9 @@ CREATE TABLE ${dbname}.dbo.tbl_currency (
     cn_count nvarchar(100) NULL,
     dn_ser nvarchar(100) NULL,
     dn_count nvarchar(100) NULL,
+    jv_ser nvarchar(100) NULL,
+    jv_count nvarchar(100) NULL,
+    
     financial_year_lock nvarchar(50) NULL,
     add_user_name varchar(50) NULL,
     add_date_time datetime NULL,
@@ -949,6 +952,11 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     journal_voucher_edit nvarchar(100) NULL,
     journal_voucher_delete nvarchar(100) NULL,
 
+    tds_head_view nvarchar(100) NULL,
+    tds_head_create nvarchar(100) NULL,
+    tds_head_edit nvarchar(100) NULL,
+    tds_head_delete nvarchar(100) NULL,
+
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
@@ -1444,6 +1452,42 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                 status nvarchar(100) NULL,
                 tds_head_uuid nvarchar(300) NULL
         );
+        CREATE TABLE  ${dbname}.dbo.tbl_journal_voucher (
+            sno bigint IDENTITY(1,1) NOT NULL,
+            jv_no nvarchar(100) NULL,
+            jv_date date NULL,
+            location nvarchar(100) NULL,
+            glcode nvarchar(100) NULL,
+            account_head nvarchar(100) NULL,
+            ref_no nvarchar(100) NULL,
+            ref_date date NULL,
+            amt nvarchar(100) NULL,
+            amt_receive nvarchar(100) NULL,
+            amt_bal nvarchar(100) NULL,
+            dr_cr nvarchar(100) NULL,
+            narration nvarchar(100) NULL,
+            cost_centre nvarchar(100) NULL,
+            cust_family nvarchar(100) NULL,
+            charge_code nvarchar(100) NULL,
+            tds_section nvarchar(100) NULL,
+            tds_type nvarchar(100) NULL,
+            tds_per nvarchar(100) NULL,
+            flag nvarchar(100) NULL,
+            master_id nvarchar(100) NULL,
+            accural nvarchar(100) NULL,
+            fin_year nvarchar(100) NULL,
+            
+            add_user_name nvarchar(50) NULL,
+            add_system_name nvarchar(100) NULL,
+            add_ip_address nvarchar(30) NULL,
+            add_date_time datetime NULL,
+            update_user_name nvarchar(30) NULL,
+            update_system_name nvarchar(100) NULL,
+            update_ip_address nvarchar(30) NULL,
+            update_date_time datetime NULL,
+            status nvarchar(30) NULL,
+            jv_uuid nvarchar(350) NULL
+        );
     
 
             insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,
@@ -1493,10 +1537,13 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                  reports_po_view,reports_po_create,reports_po_edit,reports_po_delete,
                  reports_cn_view,reports_cn_create,reports_cn_edit ,reports_cn_delete ,
                  reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
+                 
             
                  recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
                  recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
                  recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
+                 journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
+                 tds_head_view ,tds_head_create ,tds_head_edit ,tds_head_delete ,
                  add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid)     
             values('Admin','admin92337','','true','true','true','true','true','true','true','true','true',
             'true',
@@ -1516,6 +1563,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
             'true','true','true','true','true','true','true','true','true','true','true','true','true','true','true','true',
             'true','true','true','true','true','true','true','true','true','true','true','true','true','true','true','true',
             'true','true','true','true','true','true','true','true','true','true','true','true',
+            'true','true','true','true','true','true','true','true',
             'orgCreate','','',getDate(),'Active','')
             `)
 

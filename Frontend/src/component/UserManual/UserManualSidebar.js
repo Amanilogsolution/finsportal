@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
-import './UserManualSidebar.css'
-import CustomerUserManual from './CustomerUserManual/CustomerUserManual';
-import ItemsUserManual from './ItemsUserManual/ItemsUserManual';
-import CustomerAddUserManual from './CustomerAddUserManual/CustomerAddUserManual';
-import DashboardUserManual from './DashboardUserManual/DashboardUserManual';
-import CustInvoiceUserManual from './CustInvoiceUserManual/CustInvoiceUserManual';
 import fins from '../../images/finsgrowlogo.png'
-import SalesOrderUserManual from './SalesOrderUserManual/SalesOrderUserManual';
-import RecurringInvUserManual from './RecurringInvUserManual/RecurringInvUserManual';
+import './UserManualSidebar.css'
+import DashboardUserManual from './DashboardUserManual/DashboardUserManual';
+// Items
+import ItemsUserManual from './ItemsUserManual/ItemsUserManual';
+// Sales
+import CustomerUserManual from './Sales/CustomerUserManual/CustomerUserManual';
+import CustomerAddUserManual from './Sales/CustomerAddUserManual/CustomerAddUserManual';
+import CustInvoiceUserManual from './Sales/CustInvoiceUserManual/CustInvoiceUserManual';
+import SalesOrderUserManual from './Sales/SalesOrderUserManual/SalesOrderUserManual';
+import RecurringInvUserManual from './Sales/RecurringInvUserManual/RecurringInvUserManual';
+
+// Purchases
+import VendorUserManual from './Purchases/VendorUserManual/VendorUserManual';
+import BillUserManual from './Purchases/BillUserManual/BillUserManual';
+import VendorAddUserManual from './Purchases/VendorAddUserManual/VendorAddUserManual';
 const UserManualSidebar = () => {
     const [currentStep, setStep] = useState(1);
 
@@ -27,6 +34,12 @@ const UserManualSidebar = () => {
                 return <SalesOrderUserManual />
             case 7:
                 return <RecurringInvUserManual />
+            case 8:
+                return <VendorUserManual />
+            case 9:
+                return <VendorAddUserManual />
+            case 10:
+                return <BillUserManual />
 
         }
     }
@@ -66,9 +79,9 @@ const UserManualSidebar = () => {
                             <p>Purchase</p>
                         </div>
                         <ul>
-                            <li>Vendor</li>
-                            <li>Address</li>
-                            <li>Bill</li>
+                            <li onClick={() => { setStep(8) }}>Vendor</li>
+                            <li onClick={() => { setStep(9) }}>Address</li>
+                            <li onClick={() => { setStep(10) }}>Bill</li>
                         </ul>
                     </div>
                     <div className='fields'>
