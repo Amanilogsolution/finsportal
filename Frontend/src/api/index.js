@@ -311,7 +311,7 @@ export const ImportBank = async (data, org, User_id) => {
 // ###################### User api start #############################
 export const TotalUser = async (org) => {
     const url = `http://localhost:3008/api/totaluser`
-    return axios.post(url,{org}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertUser = async (employee_name, role, warehouse, username, password,
@@ -830,13 +830,13 @@ export const Showfincialyear = async (org) => {
     const url = `https://finsbackend.awlinternational.com/api/showfincialyear`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-export const Addfincialyear = async (org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/addfincialyear`
-    return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, User_id }).then(response => response.data).catch(error => console.log(error));
+export const Addfincialyear = async (org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id) => {
+    const url = `http://localhost:3008/api/addfincialyear`
+    return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateFincialyear = async (org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updatefincialyear`
-    return axios.post(url, { org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, User_id }).then(response => response.data).catch(error => console.log(error));
+export const UpdateFincialyear = async (org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser,jv_ser, User_id) => {
+    const url = `http://localhost:3008/api/updatefincialyear`
+    return axios.post(url, { org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser,jv_ser, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const Statusfincialyear = async (org, sno) => {
     const url = `https://finsbackend.awlinternational.com/api/statusfincialyear`
@@ -873,7 +873,7 @@ export const UpdatefinancialTwocount = async (org, countkey, countvalue, countke
 //  ########################## Item api start ###############################
 
 export const InsertItems = async (type, Name, unit, HSNcode, SACcode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, org, user_id, glcode) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertitems`
+    const url = `http://localhost:3008/api/insertitems`
     return axios.post(url, { type, Name, unit, HSNcode, SACcode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, org, user_id, glcode }).then(response => response.data).catch(error => console.log(error));
 }
 export const TotalItems = async (org) => {
@@ -1345,9 +1345,9 @@ export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) =>
 
 // ############################ For Purchases Bill api Start #################################
 
-export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no,po_date, net_amt) => {
+export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, po_date, net_amt) => {
     const url = `http://localhost:3008/api/insertbill`
-    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no,po_date, net_amt }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, po_date, net_amt }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetBillData = async (org, voucher_no) => {
     const url = `https://finsbackend.awlinternational.com/api/getbilldata`
@@ -1429,15 +1429,16 @@ export const AddUserRole = async (org, roles, role_id, description, sales_all, c
     salesorder_view, salesorder_create, salesorder_edit, salesorder_delete, creditnotes_view, creditnotes_create, creditnotes_edit, creditnotes_delete,
     purchasesorder_view, purchasesorder_create, purchasesorder_edit, purchasesorder_delete, debitnote_view, debitnote_create, debitnote_edit, debitnote_delete,
 
-    reports_salesorder_view,reports_salesorder_create,reports_salesorder_edit,reports_salesorder_delete,
-    reports_purchasesorder_view,reports_purchasesorder_create,reports_purchasesorder_edit,reports_purchasesorder_delete,
-    reports_creditnote_view,reports_creditnote_create,reports_creditnote_edit ,reports_creditnote_delete ,
-    reports_debitnote_view ,reports_debitnote_create ,reports_debitnote_edit ,reports_debitnote_delete,
+    reports_salesorder_view, reports_salesorder_create, reports_salesorder_edit, reports_salesorder_delete,
+    reports_purchasesorder_view, reports_purchasesorder_create, reports_purchasesorder_edit, reports_purchasesorder_delete,
+    reports_creditnote_view, reports_creditnote_create, reports_creditnote_edit, reports_creditnote_delete,
+    reports_debitnote_view, reports_debitnote_create, reports_debitnote_edit, reports_debitnote_delete,
 
-    recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
-    recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete ,
-    recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete,
-    journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
+    recurring_freq_view, recurring_freq_create, recurring_freq_edit, recurring_freq_delete,
+    recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
+    recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete,
+    journal_voucher_view, journal_voucher_create, journal_voucher_edit, journal_voucher_delete,
+    tds_head_view, tds_head_create, tds_head_edit, tds_head_delete
 ) => {
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
@@ -1472,15 +1473,16 @@ export const AddUserRole = async (org, roles, role_id, description, sales_all, c
         salesorder_view, salesorder_create, salesorder_edit, salesorder_delete, creditnotes_view, creditnotes_create, creditnotes_edit, creditnotes_delete,
         purchasesorder_view, purchasesorder_create, purchasesorder_edit, purchasesorder_delete, debitnote_view, debitnote_create, debitnote_edit, debitnote_delete,
 
-        reports_salesorder_view,reports_salesorder_create,reports_salesorder_edit,reports_salesorder_delete,
-        reports_purchasesorder_view,reports_purchasesorder_create,reports_purchasesorder_edit,reports_purchasesorder_delete,
-        reports_creditnote_view,reports_creditnote_create,reports_creditnote_edit ,reports_creditnote_delete ,
-        reports_debitnote_view ,reports_debitnote_create ,reports_debitnote_edit ,reports_debitnote_delete,
+        reports_salesorder_view, reports_salesorder_create, reports_salesorder_edit, reports_salesorder_delete,
+        reports_purchasesorder_view, reports_purchasesorder_create, reports_purchasesorder_edit, reports_purchasesorder_delete,
+        reports_creditnote_view, reports_creditnote_create, reports_creditnote_edit, reports_creditnote_delete,
+        reports_debitnote_view, reports_debitnote_create, reports_debitnote_edit, reports_debitnote_delete,
 
-        recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
-        recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete ,
-        recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete,
-        journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete
+        recurring_freq_view, recurring_freq_create, recurring_freq_edit, recurring_freq_delete,
+        recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
+        recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete,
+        journal_voucher_view, journal_voucher_create, journal_voucher_edit, journal_voucher_delete,
+        tds_head_view, tds_head_create, tds_head_edit, tds_head_delete
     }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1568,9 +1570,9 @@ export const AllCNData = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const ChangeCNStatus = async (org, status, sno,user_id) => {
+export const ChangeCNStatus = async (org, status, sno, user_id) => {
     const url = `http://localhost:3008/api/changecstatus`
-    return axios.post(url, { org, status, sno,user_id}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, status, sno, user_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const getCNData = async (org, sno) => {
@@ -1705,12 +1707,12 @@ export const ActiveRecurringFreq = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertRecurringInvoice = async (org,recurring_type,recurring_month,recurring_date, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
+export const InsertRecurringInvoice = async (org, recurring_type, recurring_month, recurring_date, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
     total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
     payment_term, due_date, User_id, custaddrs, custAddgst, destination, origin) => {
     const url = `http://localhost:3008/api/insertrecurringinvoice`
     return axios.post(url, {
-        org,recurring_type,recurring_month,recurring_date, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
+        org, recurring_type, recurring_month, recurring_date, fin_year, invoice_no, squence_no, invoice_date, order_no, invoice_amt, user_id, periodfrom, periodto, major, location, custid, billsubtotal,
         total_tax, cust_locationid, remark, flagsave, location_name, consignee, cust_family, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxable_amt, currency_type,
         payment_term, due_date, User_id, custaddrs, custAddgst, destination, origin
     }).then(response => response.data).catch(error => console.log(error));
@@ -1721,38 +1723,38 @@ export const totalRecurringInvoice = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const getRecurringInvoice = async (org,invoiceno) => {
+export const getRecurringInvoice = async (org, invoiceno) => {
     const url = `http://localhost:3008/api/getrecurringinvoice`
-    return axios.post(url, { org,invoiceno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateRecurringInvoice = async (org,invoice_no,new_invoice_no) => {
+export const UpdateRecurringInvoice = async (org, invoice_no, new_invoice_no) => {
     const url = `http://localhost:3008/api/updaterecurringinvoice`
-    return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoice_no, new_invoice_no }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertSubRecurringInvoice = async (org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt, User_id) => {
     const url = `http://localhost:3008/api/insertsubrecurringinvoice`
     return axios.post(url, { org, fin_year, invoice_no, major, minor, revgl_code, billing_code, quantity, rate, unit, amount, consignee, city, custid, cust_locationid, taxable, cgst_rate, sgst_rate, utgst_rate, igst_rate, cgst_amt, sgst_amt, utgst_amt, igst_amt, taxableamt, User_id }).then(response => response.data).catch(error => console.log(error));
 }
-export const getSubRecurringInvoice = async (org,invoiceno) => {
+export const getSubRecurringInvoice = async (org, invoiceno) => {
     const url = `http://localhost:3008/api/getsubrecurringinvoice`
-    return axios.post(url, { org,invoiceno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoiceno }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateSaveSubRecurringInvoice = async (org,invoice_no,new_invoice_no) => {
+export const UpdateSaveSubRecurringInvoice = async (org, invoice_no, new_invoice_no) => {
     const url = `http://localhost:3008/api/updatesavesubrecurringinvoice`
-    return axios.post(url, {org,invoice_no,new_invoice_no}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, invoice_no, new_invoice_no }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const DeleteRecurringInvoice = async (sno,org,status) => {
+export const DeleteRecurringInvoice = async (sno, org, status) => {
     const url = `http://localhost:3008/api/deleterecurringinvoice`
-    return axios.post(url, { sno,org,status}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, org, status }).then(response => response.data).catch(error => console.log(error));
 }
 
 
 
-export const InsertRecurringBill = async (org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt,cgst_rate,sgst_rate,igst_rate) => {
+export const InsertRecurringBill = async (org, recurring_type, recurring_month, recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt, cgst_rate, sgst_rate, igst_rate) => {
     const url = `http://localhost:3008/api/insertrecurringbill`
-    return axios.post(url, { org,recurring_type,recurring_month,recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt,cgst_rate,sgst_rate,igst_rate }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, recurring_type, recurring_month, recurring_date, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_head, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, net_amt, cgst_rate, sgst_rate, igst_rate }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const getRecurringBill = async (org) => {
@@ -1760,16 +1762,16 @@ export const getRecurringBill = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const DeleteRecurringBill = async (sno,org,status) => {
+export const DeleteRecurringBill = async (sno, org, status) => {
     const url = `http://localhost:3008/api/deleterecurringbill`
-    return axios.post(url, { sno,org,status}).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, org, status }).then(response => response.data).catch(error => console.log(error));
 }
 
 
 
-export const GetRecurringBillData = async (org,voucher_no) => {
+export const GetRecurringBillData = async (org, voucher_no) => {
     const url = `http://localhost:3008/api/getrecurringBillData`
-    return axios.post(url, { org,voucher_no }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, voucher_no }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const InsertRecurringSubBill = async (org, voucher_no, bill_no, tabledata, fins_year, userid) => {
@@ -1778,37 +1780,37 @@ export const InsertRecurringSubBill = async (org, voucher_no, bill_no, tabledata
 }
 
 
-export const GetSubRecurringBill = async (org,voucher_no) => {
+export const GetSubRecurringBill = async (org, voucher_no) => {
     const url = `http://localhost:3008/api/getsubrecurringbill`
-    return axios.post(url, { org,voucher_no }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, voucher_no }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const insertTdsHead = async (org,tds_head,tds_section,User_id) => {
+export const insertTdsHead = async (org, tds_head, tds_section, User_id) => {
     const url = `http://localhost:3008/api/inserttdshead`
-    return axios.post(url, { org,tds_head,tds_section,User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, tds_head, tds_section, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const totalTdsHead = async (org,tds_head,tds_section,User_id) => {
+export const totalTdsHead = async (org, tds_head, tds_section, User_id) => {
     const url = `http://localhost:3008/api/totaltdshead`
-    return axios.post(url, { org,tds_head,tds_section,User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, tds_head, tds_section, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const deleteTdsHead = async (org,sno,status) => {
+export const deleteTdsHead = async (org, sno, status) => {
     const url = `http://localhost:3008/api/deletetdshead`
-    return axios.post(url, { org,sno,status }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const showTdsHead = async (org,sno) => {
+export const showTdsHead = async (org, sno) => {
     const url = `http://localhost:3008/api/showtdshead`
-    return axios.post(url, { org,sno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const updateTdsHead = async (org,tds_head,tds_section,User_id,sno) => {
+export const updateTdsHead = async (org, tds_head, tds_section, User_id, sno) => {
     const url = `http://localhost:3008/api/updatetdshead`
-    return axios.post(url, {org,tds_head,tds_section,User_id,sno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, tds_head, tds_section, User_id, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const getActiveTdsHead = async (org) => {
     const url = `http://localhost:3008/api/getactivetdshead`
-    return axios.post(url, {org }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }

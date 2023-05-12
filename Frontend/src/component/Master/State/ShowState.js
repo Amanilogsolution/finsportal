@@ -35,7 +35,7 @@ const ShowState = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'state')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);

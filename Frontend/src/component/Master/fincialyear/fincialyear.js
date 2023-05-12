@@ -46,6 +46,9 @@ const Fincialyear = () => {
     let debitNotes = document.getElementById('debitnotes').value;
     debitNotes = debitNotes.toUpperCase();
 
+    let jv_ser = document.getElementById('jv_ser').value;
+    jv_ser = jv_ser.toUpperCase();
+
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
 
@@ -54,18 +57,16 @@ const Fincialyear = () => {
 
 
 
-    if (!fincialyear || !year || !from_date || !to_date || !invoice_ser || !voucher_ser || !purchase_ser || !salesorder_ser || !creditNotes || !debitNotes) {
+    if (!fincialyear || !year || !from_date || !to_date || !invoice_ser || !voucher_ser || !purchase_ser || !salesorder_ser || !creditNotes || !debitNotes || !jv_ser) {
       alert('All Fields are mandatory')
     }
     else {
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4) {
-        alert("ALl Series are must be smaller then given no. of char ")
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser>4) {
+        alert("All Series are must be smaller then given no. of char ")
       }
 
       else {
-        console.log(org, fincialyear, year, from_date, to_date,invoice_ser,voucher_ser,purchase_ser,salesorder_ser,creditNotes,debitNotes, User_id)
-
-        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date,invoice_ser,voucher_ser,purchase_ser,salesorder_ser,creditNotes,debitNotes, User_id)
+        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id)
 
         if (result.rowsAffected[0] > 0) {
           alert("Data Added");
@@ -178,7 +179,17 @@ const Fincialyear = () => {
                   </div>
                 </div>
 
+                <div className="form-row">
+                  <div className="col form-row">
+                    <label htmlFor="jv_ser" className="col-md-2 col-form-label font-weight-normal">Journal Voucher Series <span className='text-danger'>*</span></label>
+                    <div className="col-md-4 form-group">
+                      <input type="text" className="form-control col-md-10 text-uppercase" id='jv_ser' maxLength={4} />
+                      <small >Journal Voucher Series not more than 4 Character</small>
+                    </div>
+                  </div>
 
+
+                </div>
               </form>
             </article>
 

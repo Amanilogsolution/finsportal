@@ -1,9 +1,9 @@
 import React from 'react'
 import './CustomerAddUserManual.css'
-import img1 from '../../../images/UserManual/CustAddress/img1.jpg'
-import img2 from '../../../images/UserManual/CustAddress/img2.jpg'
-import img3 from '../../../images/UserManual/CustAddress/img3.jpg'
-import img4 from '../../../images/UserManual/CustAddress/img4.jpg'
+import img1 from '../../../../images/UserManual/CustAddress/img1.jpg'
+import img2 from '../../../../images/UserManual/CustAddress/img2.jpg'
+import img3 from '../../../../images/UserManual/CustAddress/img3.jpg'
+import img4 from '../../../../images/UserManual/CustAddress/img4.jpg'
 
 export default function CustomerAddUserManual() {
   return (
@@ -13,7 +13,7 @@ export default function CustomerAddUserManual() {
           <h2>Customers Address</h2>
           <p>The first step is go onto sidebar click onto sales dropdown. You will see three options select Address</p>
         </div>
-        <div style={{ width: "30%", display: "flex", justifyContent: "end" }}>
+        <div className='d-flex justify-content-end' style={{ width: "30%" }}>
           <img style={{ width: "140px", height: "350px" }} src={img1} />
         </div>
       </div>

@@ -1,11 +1,11 @@
 import React from 'react'
 import './CustomerUserManual.css'
 
-import img1 from '../../../images/UserManual/Customers/img1.jpg'
-import img2 from '../../../images/UserManual/Customers/img2.jpg'
-import img3 from '../../../images/UserManual/Customers/img3.jpg'
-import img5 from '../../../images/UserManual/Customers/img5.jpg'
-import img6 from '../../../images/UserManual/Customers/img6.jpg'
+import img1 from '../../../../images/UserManual/Customers/img1.jpg'
+import img2 from '../../../../images/UserManual/Customers/img2.jpg'
+import img3 from '../../../../images/UserManual/Customers/img3.jpg'
+import img5 from '../../../../images/UserManual/Customers/img5.jpg'
+import img6 from '../../../../images/UserManual/Customers/img6.jpg'
 
 export default function CustomerUserManual() {
   return (
@@ -15,7 +15,7 @@ export default function CustomerUserManual() {
           <h2>Customers</h2>
           <p>The first step is go onto sidebar click onto sales dropdown. You will see three options select Customer</p>
         </div>
-        <div style={{ width: "30%", display: "flex", justifyContent: "end" }}>
+        <div className='d-flex justify-content-end' style={{ width: "30%"}}>
           <img style={{ width: "140px", height: "350px" }} src={img1} />
         </div>
       </div>

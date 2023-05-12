@@ -212,6 +212,13 @@ const Menu = (props) => {
       else {
         document.getElementById('rec_freqMenu').style.display = "none"
       }
+      if (result.tds_head_view === 'true') {
+        document.getElementById('tds_headMenu').style.display = "block"
+      }
+      else {
+        document.getElementById('tds_headMenu').style.display = "none"
+      }
+      
 
     }
     else {
@@ -229,6 +236,12 @@ const Menu = (props) => {
       } else {
         document.getElementById('currencyAdjMenu').style.display = "none"
       }
+      if (result.journal_voucher_view === "true") {
+        document.getElementById('journal_voucherMenu').style.display = "block"
+      } else {
+        document.getElementById('journal_voucherMenu').style.display = "none"
+      }
+      
 
       if (result.chartof_accounts_view === "true") {
         document.getElementById('coacctMenu').style.display = "block"
@@ -427,7 +440,7 @@ const Menu = (props) => {
                     <p>Currency Adjustments </p>
                   </a>
                 </li>
-                <li className="nav-item"  id='currencyAdjMenu'>
+                <li className="nav-item"  id='journal_voucherMenu'>
                   <a href="/JVoucher" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Journal Voucher </p>
@@ -574,9 +587,9 @@ const Menu = (props) => {
                 </li>
               </ul>
               <ul className="nav nav-treeview" >
-                <li className="nav-item" id='rec_freqMenu'>
+                <li className="nav-item" id='tds_headMenu'>
                   <a href="/TotaltdsHead" className="nav-link active">
-                    <i className="fa fa-retweet nav-icon" ></i>
+                    <i className="fa fa-file nav-icon" ></i>
                     <p>Total TdsHead</p>
                   </a>
                 </li>
