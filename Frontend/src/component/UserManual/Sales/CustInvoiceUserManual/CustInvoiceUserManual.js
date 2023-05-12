@@ -8,7 +8,7 @@ export default function CustInvoiceUserManual() {
   return (
     <div className='custInvoice'>
 
-      <div className='custInvoice1'>
+      <div className='custInvoice1 d-flex justify-content-around'>
         <div style={{ width: "70%", margin: "auto" }}>
           <h2>Invoice</h2>
           <p>The first step is go onto sidebar click onto sales dropdown. You will see three options select Invoice</p>

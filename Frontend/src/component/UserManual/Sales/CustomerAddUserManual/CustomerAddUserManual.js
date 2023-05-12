@@ -8,7 +8,7 @@ import img4 from '../../../../images/UserManual/CustAddress/img4.jpg'
 export default function CustomerAddUserManual() {
   return (
     <div className='custAddress'>
-       <div className='custAddress1'>
+       <div className='custAddress1 d-flex justify-content-around'>
         <div style={{ width: "70%", margin: "auto" }}>
           <h2>Customers Address</h2>
           <p>The first step is go onto sidebar click onto sales dropdown. You will see three options select Address</p>

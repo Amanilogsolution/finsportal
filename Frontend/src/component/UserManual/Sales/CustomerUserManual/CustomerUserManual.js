@@ -10,7 +10,7 @@ import img6 from '../../../../images/UserManual/Customers/img6.jpg'
 export default function CustomerUserManual() {
   return (
     <div className='customer'>
-      <div className='customer1'>
+      <div className='customer1 d-flex justify-content-around'>
         <div style={{ width: "70%", margin: "auto" }}>
           <h2>Customers</h2>
           <p>The first step is go onto sidebar click onto sales dropdown. You will see three options select Customer</p>

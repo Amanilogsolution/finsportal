@@ -52,16 +52,11 @@ const Fincialyear = () => {
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
 
-
-
-
-
-
     if (!fincialyear || !year || !from_date || !to_date || !invoice_ser || !voucher_ser || !purchase_ser || !salesorder_ser || !creditNotes || !debitNotes || !jv_ser) {
       alert('All Fields are mandatory')
     }
     else {
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser>4) {
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser > 4) {
         alert("All Series are must be smaller then given no. of char ")
       }
 
@@ -161,7 +156,7 @@ const Fincialyear = () => {
                   </div>
                 </div>
 
-                <div className="form-row">
+                <div className="row">
                   <div className="col form-row">
                     <label htmlFor="po" className="col-md-4 col-form-label font-weight-normal">CreditNotes Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
