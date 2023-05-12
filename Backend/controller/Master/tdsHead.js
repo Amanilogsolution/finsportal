@@ -7,6 +7,7 @@ const uuidv1 = require("uuid/v1");
 
 const totaltdshead = async (req, res) => {
     const org = req.body.org
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_tds_head with (nolock) order by sno desc`)

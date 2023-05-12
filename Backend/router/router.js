@@ -441,6 +441,7 @@ router.post('/insersubrecurringbill',SubRecurringBill.inserSubRecurringBill)
 router.post('/getsubrecurringbill',SubRecurringBill.GetSubRecurringBill)
 
 // TDS Head
+router.post('/totaltdshead',tdsHead.totaltdshead)
 router.post('/inserttdshead',tdsHead.inserttdshead)
 router.post('/deletetdshead',tdsHead.deleteTdsHead)
 router.post('/showtdshead',tdsHead.showTdsHead)
