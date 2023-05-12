@@ -59,7 +59,6 @@ const Fincialyear = () => {
       if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser > 4) {
         alert("All Series are must be smaller then given no. of char ")
       }
-
       else {
         const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id)
 
@@ -69,7 +68,6 @@ const Fincialyear = () => {
         }
         else {
           alert("Server error !")
-
         }
       }
 

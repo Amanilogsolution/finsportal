@@ -303,7 +303,7 @@ const Header = () => {
               </div>
             </a>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
-              <div className={`profilcard card bg-${themeval}`} >
+              <div className={`profilcard card bg-${themeval} overflow-hidden position-absolute`} >
                 <div className="card-body">
                   <img className="card-img-top border rounded-circle" src={localStorage.getItem("User_img") || profileimg} alt="Card image cap" style={{ height: "80px", width: "80px", marginLeft: "50%", transform: "translate(-50%)" }} />
                   <h6 className='text-center font-weight-bold'>{localStorage.getItem('User_name')} </h6>
@@ -315,9 +315,9 @@ const Header = () => {
                   </div>
                   <hr />
                   <div className='theme'>Theme
-                    <div className='switchdiv'>
+                    <div className='switchdiv d-flex justify-content-between text-center'>
                       <label>Light</label>
-                      <label className="switch">
+                      <label className="switch position-relative">
                         {
                           themeval === 'dark' ?
                             <input type="checkbox" id="switchbtn" onClick={handleswitchdata} defaultChecked /> :

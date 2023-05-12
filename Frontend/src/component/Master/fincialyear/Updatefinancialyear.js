@@ -31,7 +31,7 @@ const Updatefincialyear = () => {
     const dn_ser = document.getElementById('dn_ser').value;
     const jv_ser = document.getElementById('jv_ser').value;
 
-    
+
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
     const sno = localStorage.getItem('FinsyearSno')
@@ -45,11 +45,11 @@ const Updatefincialyear = () => {
     }
     else {
 
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4 || so_ser.length > 4 || cn_ser.length > 4 || dn_ser.length > 4 || jv_ser.length>4) {
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4 || so_ser.length > 4 || cn_ser.length > 4 || dn_ser.length > 4 || jv_ser.length > 4) {
         alert("invoice Series is must be smaller then 6 char and voucher is 4")
       }
       else {
-        const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser,jv_ser, User_id)
+        const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser, User_id)
         if (result[0] > 0) {
           alert("Updated")
           localStorage.removeItem('FinsyearSno');
@@ -64,19 +64,17 @@ const Updatefincialyear = () => {
 
   }
 
-
-
   return (
     <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper `}>
+      <div className='content-wrapper'>
         <div className="container-fluid">
           <br /> <h3 className=" ml-5">Edit Financial Year</h3>
           <div className="card w-100">
-            <article className={`card-body `}>
+            <article className='card-body'>
               <form>
                 <div className="form-row">
                   <div className="col form-row">
@@ -132,14 +130,14 @@ const Updatefincialyear = () => {
                     <label htmlFor="po_series" className="col-md-4 col-form-label font-weight-normal">Purchase Order Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10" id='po_series' defaultValue={data.po_ser} maxLength={4} />
-                      <small >Purchase Order Series not more than 4 Character</small>
+                      <small>Purchase Order Series not more than 4 Character</small>
                     </div>
                   </div>
                   <div className="col form-row">
                     <label htmlFor="po_series" className="col-md-4 col-form-label font-weight-normal">Sales Order Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10" id='so_ser' defaultValue={data.so_ser} maxLength={4} />
-                      <small >Sales Order Series not more than 4 Character</small>
+                      <small>Sales Order Series not more than 4 Character</small>
                     </div>
                   </div>
                 </div>
@@ -149,14 +147,14 @@ const Updatefincialyear = () => {
                     <label htmlFor="po_series" className="col-md-4 col-form-label font-weight-normal">CreditNotes Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10" id='cn_ser' defaultValue={data.cn_ser} maxLength={4} />
-                      <small >CreditNotes Series not more than 4 Character</small>
+                      <small>CreditNotes Series not more than 4 Character</small>
                     </div>
                   </div>
                   <div className="col form-row">
                     <label htmlFor="po_series" className="col-md-4 col-form-label font-weight-normal">DebitNotes Series <span className='text-danger'>*</span></label>
                     <div className="col form-group">
                       <input type="text" className="form-control col-md-10" id='dn_ser' defaultValue={data.dn_ser} maxLength={4} />
-                      <small >DebitNotes Series not more than 4 Character</small>
+                      <small>DebitNotes Series not more than 4 Character</small>
                     </div>
                   </div>
                 </div>
