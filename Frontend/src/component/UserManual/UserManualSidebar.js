@@ -120,7 +120,7 @@ const UserManualSidebar = () => {
                 <div className='usermanual_document_nav'>
                     <div className='d-flex justify-content-between'>
                         <h5 className='text-secondary' style={{ fontWeight: "600" }}>Fins User Manual</h5>
-                        <button className='btn btn-primary'>Dashboard</button>
+                        <button className='btn btn-primary' onClick={()=>{window.location.href='home'}}>Dashboard</button>
                     </div>
                 </div>
                 {showStep(currentStep)}

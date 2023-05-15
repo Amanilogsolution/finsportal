@@ -3,7 +3,7 @@ const BillUserManual = () => {
         <>
             <div className='pt-3'>
                 <div className="container-fluid">
-                    <h3 className="ml-5">Vendor</h3>
+                    <h3 className="ml-5">Bill</h3>
 
                 </div>
             </div>

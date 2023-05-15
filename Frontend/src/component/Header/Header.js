@@ -324,7 +324,7 @@ const Header = () => {
                             <input type="checkbox" id="switchbtn" onClick={handleswitchdata} />
                         }
 
-                        <span className="slider round"></span>
+                        <span className="slider round cursor-pointer"></span>
                       </label>
                       <label>Dark</label>
                     </div>
