@@ -14,7 +14,9 @@
     height: 100%;
 }
 
-.fields {
+
+/* bjmbmn */
+/* .fields {
     margin: 15px 20px;
 }
 
@@ -22,7 +24,7 @@
     list-style: none;
     cursor: pointer;
     margin: 2px 0;
-    color: rgb(91, 91, 91);
+    /*  color: rgb(91, 91, 91); 
 }
 
 .usermanual_sidebar .fields ul {
@@ -32,19 +34,43 @@
 .fields p {
     font-size: 15px;
     font-weight: 600;
-    color: gray;
+    /* color: gray;
 }
 
 .usermanual_sidebar .fields ul li:hover {
     color: rgb(65, 97, 255);
-}
+} */
+
+/* njkjn */
+
+
 
 .usermanual_content {
     width: 80%;
     left: 20%;
 }
+
 .usermanual_document_nav {
     min-height: 10vh;
     background: #f6f7f9;
     padding: 20px 20px 0 20px
+}
+
+
+.usermanualullist ul li {
+    list-style: none;
+    color: rgb(33, 33, 60);
+    font-weight: 600;
+}
+
+.usermanualullist ul li:hover span {
+    color: rgb(55, 55, 183);
+}
+
+.usermanualullist ul li #inner_ul li {
+    font-weight: 500;
+}
+
+.usermanualullist ul li #inner_ul li:hover {
+    color: rgb(55, 55, 183);
 }

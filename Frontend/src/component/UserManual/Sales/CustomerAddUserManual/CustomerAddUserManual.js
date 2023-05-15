@@ -7,7 +7,7 @@ import img4 from '../../../../images/UserManual/CustAddress/img4.jpg'
 
 export default function CustomerAddUserManual() {
   return (
-    <div className='custAddress'>
+    <div className='custAddress p-4'>
        <div className='custAddress1 d-flex justify-content-around'>
         <div style={{ width: "70%", margin: "auto" }}>
           <h2>Customers Address</h2>
@@ -22,7 +22,7 @@ export default function CustomerAddUserManual() {
         <h2>Total Addresses Customers</h2>
         <p>After click on Address you will see the interface total customer table</p>
         <div className='d-flex justify-content-center my-4'>
-          <img style={{ width: "720px", height: "320px",border:"1px solid silver" }} src={img2} />
+          <img className='border' style={{ width: "720px", height: "320px"}} src={img2} />
         </div>
         <p>If you want to Locations of customer, Search customer name then you will be seen all the locations of customers</p>
       </div>
@@ -34,7 +34,7 @@ export default function CustomerAddUserManual() {
           <p>choose Excel File and uplaod </p>
         </div>
         <div>
-          <img src={img3} style={{border:"1px solid silver",width:"300px"}}/>
+          <img className='border' src={img3} style={{width:"300px"}}/>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ export default function CustomerAddUserManual() {
         <h2>Add Address</h2>
         <p>If you want to add new address for a customer click on Add Address Button you will see a new interface</p>
         <div className='d-flex justify-content-center my-4'>
-          <img style={{ width: "720px", height: "320px",border:"1px solid silver" }} src={img4} />
+          <img className='border' style={{ width: "720px", height: "320px" }} src={img4} />
         </div>
         <p>Select Customer ID then fill all the details below. After fill the form click on add button, Your task is completed</p>
       </div>

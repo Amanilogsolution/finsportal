@@ -6,9 +6,9 @@ import './ItemsUserManual.css'
 
 export default function ItemsUserManual() {
   return (
-    <div className='items' style={{padding:"20px"}}>
+    <div className='items p-3'>
         <div className='d-flex'>
-            <strong className='mx-1'>Note : -</strong><p className='mx-1' style={{color:"red"}}>Red Dot</p><p className='mx-1'>will indicate the cursor position</p> 
+            <strong className='mx-1'>Note : -</strong><p className='mx-1 text-danger' >Red Dot</p><p className='mx-1'>will indicate the cursor position</p> 
         </div>
         <div className='d-flex justify-content-between'>
             <div style={{width:"70%"}}>

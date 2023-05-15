@@ -590,7 +590,7 @@ const Menu = (props) => {
                 <li className="nav-item" id='tds_headMenu'>
                   <a href="/TotaltdsHead" className="nav-link active">
                     <i className="fa fa-file nav-icon" ></i>
-                    <p>Total TdsHead</p>
+                    <p>Tds Head</p>
                   </a>
                 </li>
               </ul>

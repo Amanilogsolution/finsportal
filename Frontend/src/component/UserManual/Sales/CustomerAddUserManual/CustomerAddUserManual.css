@@ -1,11 +1,7 @@
-.custAddress{
-    padding: 40px;
-}
-
 .custAddress h2,h4{
     font-weight: 600;
-    color: gray;
+    /* color: gray; */
 }
 .custAddress p{
-    color: rgb(51, 51, 51);
+    /* color: rgb(51, 51, 51); */
 }

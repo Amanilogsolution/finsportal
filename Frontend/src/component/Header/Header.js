@@ -12,6 +12,7 @@ const Header = () => {
   const themeval = typeof (localStorage.getItem('themetype')) !== null ? localStorage.getItem('themetype') : 'light'
   const btntheme = typeof (localStorage.getItem('themebtncolor')) !== null ? localStorage.getItem('themebtncolor') : 'primary';
 
+  const [toggleorgswitchdiv,setToggleorgswitchdiv]= useState(false)
   useEffect(() => {
     const fetchdata = async (e) => {
       const org = localStorage.getItem('Organisation')
@@ -67,6 +68,13 @@ const Header = () => {
         else {
           document.getElementById('roles').style.display = "none"
         }
+        if (role.multi_org === 'true') {
+          setToggleorgswitchdiv(true)
+        }
+        else {
+          setToggleorgswitchdiv(false)
+        }
+        
       }
       else {
         document.getElementById('setting_all').style.display = "none"
@@ -171,10 +179,11 @@ const Header = () => {
           </li>
           {/*########################## All Organisation Start ################################# */}
           <li className="nav-item dropdown" >
-            <a className="nav-link" data-toggle="dropdown">
+            <a className="nav-link" data-toggle={toggleorgswitchdiv?'dropdown':''}>
               <b>{localStorage.getItem('Organisation Name')} <i className="fa fa-angle-down" aria-hidden="true"></i></b>
             </a>
-            <div className="dropdown-menu dropdown-menu-lg dropdown-menu">
+            {/* <div className={toggleorgswitchdiv?'dropdown-menu dropdown-menu-lg dropdown-menu':''}  > */}
+            <div className='dropdown-menu dropdown-menu-lg dropdown-menu'  >
               <div className="orgcard card " >
                 <div className={`card-body bg-${themeval}`}>
                   <img className="card-img-top " src={localStorage.getItem('Orglogo') || OrgLogo}

@@ -71,8 +71,7 @@ function PandingCompliances() {
                 //         }
                 //     }}>Update</button>
                 // </a>,
-                <button className="editbtn btn-primary ml-3" onClick={() => {
-                    console.log(row.remark)
+                <button className="editbtn btn-primary ml-3 p-1 rounded border-0" onClick={() => {
                     if (row.remark == null) {
                         setRemark('')
                         setDate(row.due_date)
@@ -115,7 +114,6 @@ function PandingCompliances() {
     useEffect(() => {
         const fetchdata = async () => {
             const result = await PendingCompliances(localStorage.getItem("Organisation"));
-            console.log(result)
             setData(result);
         }
         fetchdata();
@@ -133,10 +131,8 @@ function PandingCompliances() {
                 </div>
                 <Header />
                 <div className="content-wrapper">
+                    <h3 className=" ml-5 py-3">Pending Compliances</h3>
                     <div className="container-fluid">
-                        <br />
-                        <h3 className=" ml-5">Pending Compliances</h3>
-                        <br />
                         <div className="card w-100">
                             <article className="card-body py-0">
                                 <DataTableExtensions
@@ -154,8 +150,8 @@ function PandingCompliances() {
                         </div>
                     </div>
                 </div>
-                <Footer  />
-                {/* ------------------ Modal start -----------------------------*/}\
+                <Footer />
+                {/* ------------------ Modal start -----------------------------*/}
                 {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
                 <div
                     className="modal fade"

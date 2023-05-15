@@ -744,7 +744,7 @@ export const UploadData = async (data) => {
 //  ########################## Compliance api start ###############################
 
 export const showcompliances = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/Showcompliances`
+    const url = `http://localhost:3008/api/Showcompliances`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 

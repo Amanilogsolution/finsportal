@@ -71,6 +71,8 @@ const AddRoles = () => {
         const role = document.getElementById('role').value;
         let role_id = role + Math.floor(Math.random() * 100000);
         const description = document.getElementById('description').value;
+        const multiorg = document.getElementById('multiorg').checked === true ? true : false;
+        
 
         //  ########################################### Transition #########################################
         //  Sales
@@ -493,6 +495,13 @@ const AddRoles = () => {
                                         <label htmlFor="description" className="col-md-2 col-form-label font-weight-normal">Description <small>(Optional)</small> </label>
                                         <div className="col form-group">
                                             <textarea className={`form-control col-md-4 `} id='description' placeholder="Description" rows='3' style={{ resize: "none" }} />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row">
+                                        <label htmlFor="multiorg" className="col-md-2 col-form-label font-weight-normal">Multiple Organisation</label>
+                                        <div className="col form-group">
+                                            <input type="checkbox" id='multiorg' style={{height:'20px',width:'20px'}}/>
                                         </div>
                                     </div>
                                     <div className="form-row col-md-10 p-0 overflow-hidden" style={{ borderRadius: "5px 5px 0px 0px" }}>
