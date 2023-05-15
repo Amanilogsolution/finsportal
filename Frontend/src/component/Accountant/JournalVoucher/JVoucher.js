@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveLocationAddress, ActivePurchesItems } from "../../../api/index";
+import { ActiveLocationAddress, ActivePurchesItems,Getfincialyearid } from "../../../api/index";
 
 function JVoucher() {
   const [loading, setLoading] = useState(true);
   const [totalValues, setTotalValues] = useState([1, 1]);
   const [locationstate, setLocationstate] = useState([]);
   const [itemlist, setItemlist] = useState([]);
+  const [pocount, setPOcount] = useState(0)
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -17,6 +19,10 @@ function JVoucher() {
       setLocationstate(locatonstateres);
       const items = await ActivePurchesItems(org);
       setItemlist(items);
+      const id = await Getfincialyearid(org)
+      const lastno = Number(id[0].jv_count) + 1
+      setPOcount(lastno)
+      document.getElementById('po_no').value = id[0].jv_ser + id[0].year + String(lastno).padStart(5, '0')
       Todaydate();
     };
     fetchdata();
@@ -24,7 +30,6 @@ function JVoucher() {
 
   const Todaydate = () => {
     var date = new Date();
-    // var myDate = new Date(new Date().getTime() + (180 * 24 * 60 * 60 * 1000));
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
