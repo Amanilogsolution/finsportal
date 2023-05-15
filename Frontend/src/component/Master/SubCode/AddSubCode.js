@@ -6,6 +6,7 @@ import { ShowGlCode, GlSubCode, InsertGlSubCode } from '../../../api';
 function AddSubCode() {
   const [glcode, setglcode] = useState([]);
   const [glsubcode, setglsubcode] = useState();
+  
   useEffect(() => {
     const fetchData = async () => {
       const result = await ShowGlCode(localStorage.getItem("Organisation"));
