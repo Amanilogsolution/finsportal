@@ -738,6 +738,7 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     roles nvarchar(100) NULL,
     roles_id nvarchar(30) NULL,
     description nvarchar(300) NULL,
+    multi_org nvarchar(300) NULL,
     sales_all nvarchar(20) NULL,
     accountant_all nvarchar(30) NULL,
     customer_view nvarchar(20) NULL,
@@ -1490,7 +1491,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         );
     
 
-            insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,
+            insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,multi_org,
                 sales_all,customer_view,customer_create,customer_edit,customer_delete,
                 invoice_view,invoice_create,invoice_edit,invoice_delete,
                 purchases_all,
@@ -1545,7 +1546,7 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
                  journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
                  tds_head_view ,tds_head_create ,tds_head_edit ,tds_head_delete ,
                  add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid)     
-            values('Admin','admin92337','','true','true','true','true','true','true','true','true','true',
+            values('Admin','admin92337','','true','true','true','true','true','true','true','true','true','true',
             'true',
             'true','true','true','true','true','true','true','true',
             'true',

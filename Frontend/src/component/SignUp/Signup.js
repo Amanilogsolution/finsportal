@@ -1,113 +1,133 @@
 import React, { useState } from "react";
 import './signup.css'
-// import logo from '../images/awl_logo.png'
+import logo from '../../images/finsgrowlogo.png'
 // import { Insertorg,InsertUser,InsertUserLogin } from '../../api/index'
 
 
 export default function Signup() {
+
   const handleClick = async (e) => {
     e.preventDefault();
-    const Organisationname = document.getElementById('Organisationname').value;
-    const Location = document.getElementById('location').value;
-    const Currency = document.getElementById('currency').value;
-    const Language = document.getElementById('language').value;
-    const gst = document.getElementById('gst').value
-    const Personname = document.getElementById('personname').value;
+    const org_name = document.getElementById('org_name').value;
+    const country = document.getElementById('country').value;
+    const state = document.getElementById('state').value;
+    const city = document.getElementById('city').value;
+    const zipcode = document.getElementById('zipcode').value;
+    const street = document.getElementById('street').value
+    const gst = document.getElementById('gst').value;
+    const name = document.getElementById('name').value;
     const mobileno = document.getElementById('mobileno').value;
     const email = document.getElementById('email').value;
-    const address = document.getElementById('address').value;
+    const designation = document.getElementById('designation').value;
     const userid = document.getElementById('userid').value;
     const password = document.getElementById('password').value
 
+    // console.log(org_name, country, state, city, zipcode, street, gst, name, mobileno, email, designation, userid, password)
 
-    // const result = await Insertorg(Organisationname, Location, Currency, Language, gst, Personname, mobileno, email, userid)
-    // console.log(result)
+    if (!org_name || !country || !state || !city || !zipcode || !street || !gst || !name || !mobileno || !email || !designation || !userid || !password) {
+      alert('All Fields Are Mandatory')
+    }
+    else {
 
-    // const user = await InsertUser(Personname,address,userid,password,email,mobileno,userid)
-    // const Login = await InsertUserLogin(userid,Personname,address,Organisationname,password)
-    // if (user === 'Added' && Login === "Added") {
-    //   alert('Data Added')
-    // }
+      // const result = await Insertorg(Organisationname, Location, Currency, Language, gst, Personname, mobileno, email, userid)
+      // console.log(result)
 
+      // const user = await InsertUser(Personname,address,userid,password,email,mobileno,userid)
+      // const Login = await InsertUserLogin(userid,Personname,address,Organisationname,password)
+      // if (user === 'Added' && Login === "Added") {
+      //   alert('Data Added')
+      // }
+    }
   }
 
-  const handleClickstep1 = (e) =>{
+  const handleClickstep1 = (e) => {
     e.preventDefault();
-    document.getElementById('step1').style.display="none"
-    document.getElementById('step2').style.display="block"
+    document.getElementById('step1').style.display = "none"
+    document.getElementById('step2').style.display = "block"
 
   }
-  const handleClickBack = (e) =>{
+  const handleClickBack = (e) => {
     e.preventDefault();
-    document.getElementById('step1').style.display="block"
-    document.getElementById('step2').style.display="none"
+    document.getElementById('step1').style.display = "block"
+    document.getElementById('step2').style.display = "none"
   }
 
   const handleCheckbox = () => {
-    console.log(document.getElementById('checkbox').checked)
-    if(document.getElementById('checkbox').checked == true){
-      document.getElementById('gst').style.display="block"
-    }else{
-      document.getElementById('gst').style.display="none"
+    if (document.getElementById('checkbox').checked == true) {
+      document.getElementById('gst').style.display = "block"
+    } else {
+      document.getElementById('gst').style.display = "none"
 
     }
-  
+
   }
 
   const Step1 = () => {
     return (
       <>
-        <div style={{ display: "flex", justifyContent: "center",marginTop:"10px",marginBottom:"10px" }}>
+        {/* <div style={{ display: "flex", justifyContent: "center", marginTop: "10px", marginBottom: "10px" }}>
           <div style={{ height: "25px", width: "25px", backgroundColor: "#4055b5", borderRadius: "50%", textAlign: "center", color: "white" }}>1</div>
           <div style={{ height: "13px", width: "280px", borderBottom: "1px solid black" }}></div>
           <div style={{ height: "25px", width: "25px", backgroundColor: "#9e9e9e", borderRadius: "50%", textAlign: "center", color: "white" }}>2</div>
-
-
-        </div>
+        </div> */}
         <div className="container">
-          <header className="card-header" >
-            <h4>Set up your organiztaion profile</h4>
+          <header className="card-header pb-0" >
+            <h4 >Setup your Organisation profile</h4>
           </header>
-          <article className="card-body">
-            <form>
-              <div className="row mt-2">
-                <div className="form-group">
-                  <label>Organiztaion Name</label>
-                  <input type="text" id="Organisationname" className="form-control" />
+          <article className="card-body mt-0">
+            <form autoComplete="off">
+              <div className="form-row">
+                <label htmlFor="org_name" className="form-label font-weight-normal">Organisation Name</label>
+                <input type="text" id="org_name" className="form-control" />
+              </div>
+              <div className="form-row ">
+                <div className="form-group col mb-0 ">
+                  <label htmlFor="country" className="form-label font-weight-normal">Bussiness Location</label>
+                  <select type="text" className="form-control " id='country' >
+                    <option hidden value=''>Select Country</option>
+                  </select>
+                </div>
+                <div className="form-group col  mb-0">
+                  <label htmlFor="state" className=" form-label font-weight-normal">State</label>
+                  <select type="text" className="form-control" id='state' >
+                    <option hidden value=''>Select State</option>
+                  </select>
                 </div>
               </div>
-
-              <div className="row mt-3">
-                <div className="form-group col">
-                  <label>Country</label>
-                  <input type="text" id="location" className="form-control" />
+              <div className="form-row">
+                <div className="form-group col mb-0">
+                  <label htmlFor="city" className="form-label font-weight-normal">City</label>
+                  <select type="text" className="form-control" id='city' >
+                    <option hidden value=''>Select City</option>
+                  </select>
+                </div>
+                <div className="form-group col mb-0 ">
+                  <label htmlFor="zipcode" className=" form-label font-weight-normal">Zip/Postal Code</label>
+                  <input type="text" id="zipcode" className="form-control" />
                 </div>
               </div>
-
-              <div className="row mt-3">
-                <div className="form-group col">
-                  <label for="inputState">Currency</label>
-                  <input type="text" id="currency" value="INR-Rupees" className="form-control" disabled />
-
+              <div className="form-row">
+                <div className="form-group col  mb-1">
+                  <label htmlFor="street" className=" form-label font-weight-normal">Street</label>
+                  <input type="text" id="street" className="form-control" />
+                </div>
+                <div className="form-group col mb-1">
+                  <label htmlFor="language" className="form-label font-weight-normal">Language</label>
+                  <input type="text" id="language" className="form-control" defaultValue='English' />
                 </div>
               </div>
-
-              <div className="row mt-3">
-                <div className="form-group col">
-                  <label for="inputState">Language</label>
-                  <input type="text" id="language" value="English" className="form-control" disabled />
-
+              <div className="form-row">
+                <div className="form-group col  mb-0">
+                  <label htmlFor="zipcode" className=" form-label font-weight-normal ">Is this Business registered for GST</label>
+                  <input className="ml-1" style={{ width: "15px", height: '15px' }} type="checkbox" id="checkbox" onClick={handleCheckbox} />
+                </div>
+                <div className="form-group col mb-1">
+                  <input type="text" style={{ display: "none" }} id="gst" className="form-control" placeholder='GST no.' />
                 </div>
               </div>
-
-              <div className="row mt-3">
-                <p className="col-md-11">Is this Business registered for GST</p>
-                <input style={{ width: "14px" }} className="col-md-1" type="checkbox" id="checkbox" onClick={handleCheckbox} />
-                <input type="text" style={{ width: "97%",display:"none" }} id="gst" class="form-control mx-2" />
-              </div>
-
-              <button type="submit" onClick={handleClickstep1} className="btn btn-primary mt-4">Next</button>
+              <button type="submit" onClick={handleClickstep1} className="signp_btn float-right">Next</button>
             </form>
+
           </article>
 
         </div>
@@ -117,61 +137,53 @@ export default function Signup() {
   const Step2 = () => {
     return (
       <>
-        <div style={{ display: "flex", justifyContent: "center",marginTop:"10px",marginBottom:"10px" }}>
+        {/* <div style={{ display: "flex", justifyContent: "center", marginTop: "10px", marginBottom: "10px" }}>
           <div style={{ height: "25px", width: "25px", backgroundColor: "#4055b5", borderRadius: "50%", textAlign: "center", color: "white" }}>1</div>
           <div style={{ height: "13px", width: "280px", borderBottom: "1px solid black" }}></div>
           <div style={{ height: "25px", width: "25px", backgroundColor: "#4055b5", borderRadius: "50%", textAlign: "center", color: "white" }}>2</div>
-
-
-        </div>
+        </div> */}
         <div className="container">
 
-          <header className="card-header" >
-            <h4>Set up your personal profile</h4>
+          <header className="card-header pb-0" >
+            <h4>Set up Contact person profile</h4>
           </header>
-          <article className="card-body">
-            <form>
-              <div className="row">
-                <div className="form-group">
-                  <label>Person Name</label>
-                  <input type="text" id="personname" className="form-control" />
+          <article className="card-body mt-0">
+            <form autoComplete="off">
+              <div className="form-row ">
+                <div className="form-group col mb-0 ">
+                  <label htmlFor="name" className="form-label font-weight-normal">Name</label>
+                  <input type="text" className="form-control" id="name" />
+                </div>
+                <div className="form-group col  mb-0">
+                  <label htmlFor="mobileno" className=" form-label font-weight-normal">Mobile no</label>
+                  <input type="number" className="form-control" id="mobileno" />
                 </div>
               </div>
 
-              <div className="row mt-1">
-                <div className="form-group col-md-6">
-                  <label>Mobile</label>
-                  <input type="text" className="form-control" id="mobileno" />
-                </div>
-                <div className="form-group col-md-6">
-                  <label for="inputState">Email</label>
+              <div className="form-row ">
+                <div className="form-group col mb-0 ">
+                  <label htmlFor="email" className="form-label font-weight-normal">Email</label>
                   <input type="email" className="form-control" id="email" />
                 </div>
-              </div>
-
-              <div className="row mt-1">
-                <div className="form-group col">
-                  <label for="inputState">Address</label>
-                  <input type="text" className="form-control" id="address" />
+                <div className="form-group col  mb-0">
+                  <label htmlFor="designation" className=" form-label font-weight-normal">Designation</label>
+                  <input type="text" className="form-control" id="designation" />
                 </div>
               </div>
-
-              <div className="row mt-1">
-                <div className="form-group col">
-                  <label for="inputState">User Id</label>
+              <div className="form-row ">
+                <div className="form-group col mb-0 ">
+                  <label htmlFor="userid" className="form-label font-weight-normal">User Id</label>
                   <input type="text" className="form-control" id="userid" />
                 </div>
-              </div>
-
-              <div className="row mt-1">
-                <div className="form-group col-md-6">
-                  <label for="inputState">Password</label>
-                  <input type="password" className="form-control" id="password" />
+                <div className="form-group col  mb-0">
+                  <label htmlFor="designation" className=" form-label font-weight-normal">Password</label>
+                  <div className="input-group mb-3">
+                    <input type='password' className="form-control" placeholder="Password" id="password" />
+                  </div>
                 </div>
               </div>
-
-              <button type="submit" onClick={handleClickBack} className="btn btn-secondary my-3">Back</button>
-              <button type="submit" className="btn btn-primary mx-2" onClick={handleClick}>Submit</button>
+              <button type="cancel" onClick={handleClickBack} className="btn btn-secondary my-3">Back</button>
+              <button type="submit" className="btn btn-primary mx-2" onClick={handleClick}>Create</button>
             </form>
           </article>
         </div>
@@ -180,12 +192,32 @@ export default function Signup() {
   }
 
   return (
-    <div >
-      <div style={{ display: "flex" }}>
+    <>
+      <div className="signup_page position-relative">
+        <div className="innersignup_page bg-white position-absolute d-flex ">
+          <div className="signup_form py-4 px-2">
+            <header className="header d-flex justify-content-around">
+              <img src={logo} alt="Company Logo" />
+              <h3 className="signup_tittle font-weight-bold text-center pt-3">Create an Account</h3>
+            </header>
+            <div id="step1">
+              <Step1 />
+            </div>
+            <div id="step2" style={{ display: "none" }}>
+              <Step2 />
+            </div>
+            <p className="text-center pb-0">Already have an account ? <a href="/signin" >Sign in</a></p>
+          </div>
+          <div className="signup_image">
+            <img src="https://herovired.com/wp-content/uploads/2023/02/finance-management1.webp" alt="Sign up Image" />
+          </div>
+        </div>
+
+      </div>
+      {/* <div >
+      <div className="d-flex">
         <div className="brand">
-          <img 
-        //   src={logo}
-           />
+          <img src={logo} alt="Company Logo" style={{height:'30px'}}/>
         </div>
         <div className="brand2">
           <h4>Register your Account</h4>
@@ -193,7 +225,7 @@ export default function Signup() {
       </div>
       <div style={{ display: "flex" }}>
         <div className="imgdiv">
-          <img src="https://images.unsplash.com/photo-1609921141835-710b7fa6e438?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" />
+          
         </div>
         <div className="container">
           <div>
@@ -206,6 +238,7 @@ export default function Signup() {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
+    </>
   );
 }

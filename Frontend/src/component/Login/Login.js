@@ -82,13 +82,13 @@ const Login = () => {
         }
     }
 
-    const ResendOTP = async(e)=>{
+    const ResendOTP = async (e) => {
         e.preventDefault();
         const OTP = Math.floor(Math.random() * 1000000)
         setOpts(OTP)
         const result1 = await OTPVerification(phones, OTP)
     }
-     const handleClickVerify = async () => {
+    const handleClickVerify = async () => {
         if (twacheck === 'msg') {
             const otpinput = document.getElementById('otp').value
             if (otpinput == otps) {
@@ -170,7 +170,7 @@ const Login = () => {
     return (
         <>
             <div className='login_container position-relative'>
-                <div className="login_box bg-white rounded position-absolute d-flex">
+                <div className="login_box bg-white position-absolute d-flex">
                     <div className="login ">
                         <div className="finsgrowlogo mx-5 my-4">
                             <img src={FinsGrowlogo} alt='Fins LOgo' />
@@ -206,17 +206,19 @@ const Login = () => {
                             <div className="input-group mb-3 " id='otpdiv' style={{ display: "none" }}>
                                 <input type="number" className="form-control " placeholder="Enter OTP" id="otp" autoComplete='off' required />
                                 <div className='mt-0'>
-                                <button className='float-right btn btn-danger' onClick={ResendOTP}>Resend OTP</button>
-                            </div>                                
+                                    <button className='float-right btn btn-danger' onClick={ResendOTP}>Resend OTP</button>
+                                </div>
                             </div>
                             {/* <button className='btn login-btn'>Login</button> */}
                             <button type="submit" id='submitbtn' onClick={handleClick} className="btn login-btn ">Sign In</button>
                             <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn login-btn" style={{ display: "none" }}><span className='m-auto'>Verify</span></button>
                             <div className='mt-1'>
                                 {/* <a href="forgot-password.html" className='text-danger float-left'>Forgot password ?</a> */}
-                                <a href="./otppage" className='float-right'>Login via OTP</a>
+                                <a href="./otppage" className='text-right'>Login via OTP</a>
                             </div>
                         </form>
+                        <p className="text-center mt-2">Don't have an account ? <a href="/Signup">Sign up</a></p>
+
                     </div>
 
 

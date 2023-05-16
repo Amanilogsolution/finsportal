@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { getRecurringBill, getUserRolePermission,DeleteRecurringBill } from '../../../api';
+import { getRecurringBill, getUserRolePermission, DeleteRecurringBill } from '../../../api';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
@@ -34,12 +34,12 @@ const TotalRecurringBill = () => {
     if (financstatus === 'Lock') {
       document.getElementById('addbillbtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bills')
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'recurring_bill')
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     setUserRightsData(UserRights)
 
 
-    if (UserRights.bills_create === 'true') {
+    if (UserRights.recurring_bill_create === 'true') {
       document.getElementById('addbillbtn').style.display = "block";
 
     }
@@ -53,20 +53,20 @@ const TotalRecurringBill = () => {
       sortable: true,
       cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
-          return <p title='Edit Invoice is Lock' className='pb-0'>{row.vourcher_no}</p>
+          return <p title='Post Invoice is Lock' className='pb-0 mb-0'>{row.vourcher_no}</p>
         }
         else {
           if (!userRightsData) {
             fetchRoles()
           }
-          if (userRightsData.bills_edit === 'true') {
+          if (userRightsData.recurring_bill_edit === 'true' && row.status === 'Active') {
             return (
               <a title='Edit Invoice ' href="/EditRecurringBills" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('vourcher_no', `${row.vourcher_no}`)}
-                style={{ borderBottom: '3px solid blue' }}>{row.vourcher_no}</a>
+                style={{ borderBottom: '1px solid blue' }}>{row.vourcher_no}</a>
             );
           }
           else {
-            return <p title='Not Access to Edit Invoice ' className='pb-0'>{row.vourcher_no}</p>
+            return <p title='Not Access to Edit Invoice ' className='pb-0 mb-0'>{row.vourcher_no}</p>
           }
 
         }
@@ -104,12 +104,30 @@ const TotalRecurringBill = () => {
       name: "Actions",
       sortable: false,
       selector: row => row.null,
-      cell: (row) => [
-        <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`}  checked={row.status === 'Active' ? true : false} onChange={async () => {
-          const result = await DeleteRecurringBill(row.sno,localStorage.getItem('Organisation'),row.status === 'Active'?'DeActive':'Active' )
-          if (result == 'done') { window.location.href = "./TotalRecurringBill" }
-        }} />
-      ]
+      cell:
+        (row) => {
+          if (localStorage.getItem('financialstatus') === 'Lock') {
+            return <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} disabled />
+          }
+          else {
+            if (!userRightsData) {
+              fetchRoles()
+            }
+            if (userRightsData.recurring_bill_delete === 'true' ) {
+              return (
+                <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} onChange={async () => {
+                  const result = await DeleteRecurringBill(row.sno, localStorage.getItem('Organisation'), row.status === 'Active' ? 'Deactive' : 'Active')
+                  if (result == 'done') { window.location.href = "./TotalRecurringBill" }
+                }} />
+              );
+            }
+            else {
+              return <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} disabled />
+            }
+
+          }
+        }
+
     }
   ]
 

@@ -305,7 +305,7 @@ const AddRoles = () => {
             alert('Please enter the role')
         }
         else {
-            const submitdata = await AddUserRole(org, role, role_id, description,
+            const submitdata = await AddUserRole(org, role, role_id, description,multiorg,
                 sales_all, cust_view, cust_create, cust_edit, cust_delete,
                 invoice_view, invoice_create, invoice_edit, invoice_delete,
                 purchases_all,

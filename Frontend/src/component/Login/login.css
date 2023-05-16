@@ -5,11 +5,13 @@
 }
 
 .login_box {
-    height: 80%;
-    width: 80%;
+    height: 90%;
+    width: 90%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 35px;
+    overflow:hidden;
 }
 
 .login_box .login {
@@ -39,10 +41,17 @@
     margin: 20px auto;
     height: 36px;
     border: none;
-    color: white;
-    background: #5038ed;
+    /* color: white;
+    background: #5038ed; */
+    background: #4d669e;
+    color: #fff;
+    transition: all 0.2s linear;
 }
 
+.login .login-btn:hover {
+    background: #b4c8f9;
+    color: #000;
+}
 
 
 /* Login Slider  */
@@ -105,10 +114,10 @@
     }
 
 
-    .login .login-btn {
+    /* .login .login-btn {
         background: #3521b4;
         border: 1px solid white;
-    }
+    } */
 }
 
 

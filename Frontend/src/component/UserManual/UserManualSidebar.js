@@ -15,8 +15,24 @@ import RecurringInvUserManual from './Sales/RecurringInvUserManual/RecurringInvU
 import VendorUserManual from './Purchases/VendorUserManual/VendorUserManual';
 import BillUserManual from './Purchases/BillUserManual/BillUserManual';
 import VendorAddUserManual from './Purchases/VendorAddUserManual/VendorAddUserManual';
+import PoUserManual from './Purchases/PoUserManual/PoUserManual';
+import RecBillUserManual from './Purchases/RecBillUserManual/RecBillUserManual';
+import DnUserManual from './Purchases/DnUserManual/DnUserManual';
 
+// Accountant
+import CurrAdjUserManual from './Accountant/CurrAdjUserManual/CurrAdjUserManual';
+import JVUserManual from './Accountant/JVUserManual/JVUserManual';
 
+// Master
+import CountryUserManual from './Master/CountryUserManual/CountryUserManual';
+import StateUserManual from './Master/StateUserManual/StateUserManual';
+import CityUserManual from './Master/CityUserManual/CityUserManual';
+import CurrencyUserManual from './Master/CurrencyUserManual/CurrencyUserManual';
+import UnitUserManual from './Master/UnitUserManual/UnitUserManual';
+import BankUserManual from './Master/BankUserManual/BankUserManual';
+import User_UserManual from './Master/User_UserManual/User_UserManual';
+import CompTypeUserManual from './Master/CompTypeUserManual/CompTypeUserManual';
+import PayTermUserManual from './Master/PayTermUserManual/PayTermUserManual';
 
 const UserManualSidebar = () => {
     const [currentStep, setStep] = useState(0);
@@ -32,33 +48,13 @@ const UserManualSidebar = () => {
 
     const showStep = (step) => {
         const tag_array = [DashboardUserManual, ItemsUserManual, CustomerUserManual, CustomerAddUserManual,
-            CustInvoiceUserManual, SalesOrderUserManual, RecurringInvUserManual, VendorUserManual, VendorAddUserManual, BillUserManual]
+            CustInvoiceUserManual, SalesOrderUserManual, RecurringInvUserManual, VendorUserManual,
+            VendorAddUserManual, BillUserManual, PoUserManual, RecBillUserManual, DnUserManual,
+            CurrAdjUserManual, JVUserManual, CountryUserManual, StateUserManual, CityUserManual, CurrencyUserManual,
+            UnitUserManual, BankUserManual, User_UserManual, CompTypeUserManual,PayTermUserManual]
 
         const ComponentReturn = step < tag_array.length ? tag_array[step] : tag_array[0]
         return <ComponentReturn />
-
-        // switch (step) {
-        //     case 1:
-        //         return <DashboardUserManual />
-        //     case 2:
-        //         return <ItemsUserManual />
-        //     case 3:
-        //         return <CustomerUserManual />
-        //     case 4:
-        //         return <CustomerAddUserManual />
-        //     case 5:
-        //         return <CustInvoiceUserManual />
-        //     case 6:
-        //         return <SalesOrderUserManual />
-        //     case 7:
-        //         return <RecurringInvUserManual />
-        //     case 8:
-        //         return <VendorUserManual />
-        //     case 9:
-        //         return <VendorAddUserManual />
-        //     case 10:
-        //         return <BillUserManual />
-        // }
     }
 
 

@@ -9,6 +9,8 @@ const AddUserRole = async (req, res) => {
     const roles = req.body.roles;
     const role_id = req.body.role_id;
     const description = req.body.description;
+    const multiorg = req.body.multiorg;
+    
 
     const sales_all = req.body.sales_all;
 
@@ -224,7 +226,7 @@ const AddUserRole = async (req, res) => {
             res.send('Role Already')
         }
         else {
-            const result = await sql.query(`insert into ${org}.dbo.user_roles(roles ,roles_id,description ,
+            const result = await sql.query(`insert into ${org}.dbo.user_roles(roles ,roles_id,description ,multi_org,
                 sales_all,customer_view,customer_create,customer_edit,customer_delete,
                 invoice_view,invoice_create,invoice_edit,invoice_delete,
                 purchases_all,
@@ -281,7 +283,7 @@ const AddUserRole = async (req, res) => {
                  
                  )
                       
-            values('${roles}','${role_id}','${description}','${sales_all}',
+            values('${roles}','${role_id}','${description}','${multiorg}','${sales_all}',
             '${customer_view}','${customer_create}','${customer_edit}','${customer_delete}',
             '${invoice_view}','${invoice_create}','${invoice_edit}','${invoice_delete}',
             '${purchases_all}',

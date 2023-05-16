@@ -1,4 +1,79 @@
-.brand{
+.signup_page {
+    min-height: 100vh;
+    min-width: 100vw;
+    background: #d0deff;
+    margin: 0%;
+    padding: 0%;
+}
+
+.signup_page .innersignup_page {
+    height: 90vh;
+    width: 90vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 35px;
+    overflow:hidden;
+}
+
+.signup_page .innersignup_page .signup_form {
+    width: 60%;
+}
+
+.signup_page .innersignup_page .signup_form .header {
+    height: 50px;
+    width: 100%;
+}
+
+.signup_page .innersignup_page .signup_form .header img {
+    height: 50px;
+    width: 130px;
+}
+
+.signup_page .innersignup_page .signup_form .signp_btn {
+    background: #b4c8f9;
+    width: 180px;
+    height: 38px;
+    border-radius: 30px;
+    margin-left: 40%;
+    border: none;
+    transition: all 0.2s linear;
+}
+
+.signup_page .innersignup_page .signup_form .signp_btn:hover {
+    background: #4d669e;
+    color: #fff;
+}
+
+.signup_page .innersignup_page .signup_image {
+    width: 40%;
+    height: 100%;
+}
+
+.signup_page .innersignup_page .signup_image img {
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width:910px) {
+    .signup_page .innersignup_page {
+        flex-direction: column-reverse;
+    }
+    .signup_page .innersignup_page .signup_form {
+        width: 100%;
+    }
+    .signup_page .innersignup_page .signup_image {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .signup_page .innersignup_page {
+        height: 95vh;
+        width: 95vw;
+    }
+}
+/* .brand{
     height: 60px;
     width: 50%;
     background: #5260f6;
@@ -52,4 +127,4 @@ article label{
         font-size: 19px;
     }
 
-}
+} */

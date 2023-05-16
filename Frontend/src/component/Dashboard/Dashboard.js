@@ -119,7 +119,7 @@ const Dashboard = () => {
     },
     {
       "sum": 4533.00,
-      "consignee": "Mr.RupeshKumar"
+      "consignee": "ELECTRONICS"
     }
   ]
 
@@ -231,7 +231,7 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body">
                   <div className="tab-content p-0">
-                    <BarChart width={600} height={306} data={data}>
+                    <BarChart width={500} height={306} data={data}>
                       <Bar dataKey="sum" fill="#8884d8" />
                       <XAxis dataKey="consignee" />
                       <YAxis dataKey="sum" />
@@ -399,7 +399,7 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body">
                   <div className="tab-content p-0">
-                    <BarChart width={600} height={306} data={vendorData}>
+                    <BarChart width={500} height={306} data={vendorData}>
                       <Bar dataKey="sum" fill="#17A2B8" />
                       <XAxis dataKey="consignee" />
                       <YAxis dataKey="sum" />
@@ -711,7 +711,7 @@ const Dashboard = () => {
       </section>
       {/*############################# compliances alert  ######################################*/}
       {alertdiv ?
-        <div className='alert alert-dismissible fade show bg-secondary position-absolute overflow-auto' style={{ maxHeight: "400px", zIndex: "10", width: "350px",  top: "10%", right: "100px" }}>
+        <div className='alert alert-dismissible fade show bg-dark position-absolute overflow-auto' style={{ maxHeight: "400px", zIndex: "10", width: "350px",  top: "10%", right: "100px" }}>
           <small>Pending Compliances</small>
           <button type="button" className="close text-white " data-dismiss="alert" aria-label="Close" >
             <span aria-hidden="true" >&times;</span>
