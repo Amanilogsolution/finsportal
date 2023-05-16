@@ -33,6 +33,10 @@ import BankUserManual from './Master/BankUserManual/BankUserManual';
 import User_UserManual from './Master/User_UserManual/User_UserManual';
 import CompTypeUserManual from './Master/CompTypeUserManual/CompTypeUserManual';
 import PayTermUserManual from './Master/PayTermUserManual/PayTermUserManual';
+import EmpUserManual from './Master/EmpUserManual/EmpUserManual';
+import ChartOfAccUserManual from './Master/ChartOfAccUserManual/ChartOfAccUserManual';
+import RecFreUserManual from './Master/RecFreUserManual/RecFreUserManual';
+import TdsHeadUserManual from './Master/TdsHeadUserManual/TdsHeadUserManual';
 
 const UserManualSidebar = () => {
     const [currentStep, setStep] = useState(0);
@@ -51,7 +55,8 @@ const UserManualSidebar = () => {
             CustInvoiceUserManual, SalesOrderUserManual, RecurringInvUserManual, VendorUserManual,
             VendorAddUserManual, BillUserManual, PoUserManual, RecBillUserManual, DnUserManual,
             CurrAdjUserManual, JVUserManual, CountryUserManual, StateUserManual, CityUserManual, CurrencyUserManual,
-            UnitUserManual, BankUserManual, User_UserManual, CompTypeUserManual,PayTermUserManual]
+            UnitUserManual, BankUserManual, User_UserManual, CompTypeUserManual, PayTermUserManual, EmpUserManual,
+            ChartOfAccUserManual, RecFreUserManual, TdsHeadUserManual]
 
         const ComponentReturn = step < tag_array.length ? tag_array[step] : tag_array[0]
         return <ComponentReturn />
@@ -204,80 +209,6 @@ const UserManualSidebar = () => {
 
                     </ul>
 
-
-
-
-
-
-
-
-
-
-                    {/* <div className='fields'>
-                        <ul>
-                            <li onClick={() => { setStep(1) }}>
-                                <a href='/home'>Dashboard</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className='fields'>
-                        <ul>
-                            <li onClick={() => { setStep(2) }}>Items</li>
-                        </ul>
-                    </div>
-                    <div className='fields'>
-                        <div className='d-flex'>
-                            <i className="fa fa-caret-down" aria-hidden="true" style={{ margin: "3px" }} ></i><p >Sales</p>
-                        </div>
-                        <ul id='sales_ul' >
-                            <li onClick={() => { setStep(3) }}>Customer</li>
-                            <li onClick={() => { setStep(4) }}>Address</li>
-                            <li onClick={() => { setStep(5) }}>Invoice</li>
-                            <li onClick={() => { setStep(6) }}>Sales Order</li>
-                            <li onClick={() => { setStep(7) }}>Recurring Invoice</li>
-                        </ul>
-                    </div>
-                    <div className='fields'>
-                        <div className='d-flex'>
-                            <i className="fa fa-caret-down" aria-hidden="true" style={{ margin: "3px" }} ></i>
-                            <p>Purchase</p>
-                        </div>
-                        <ul>
-                            <li onClick={() => { setStep(8) }}>Vendor</li>
-                            <li onClick={() => { setStep(9) }}>Address</li>
-                            <li onClick={() => { setStep(10) }}>Bill</li>
-                        </ul>
-                    </div>
-                    <div className='fields'>
-                        <div className='d-flex'>
-                            <i className="fa fa-caret-down" aria-hidden="true" style={{ margin: "3px" }} ></i><p>Accountant</p>
-                        </div>
-                        <ul>
-                            <li>Currency Adjustment</li>
-                            <li>Chart of Accounts</li>
-                        </ul>
-                    </div>
-                    <div className='fields'>
-                        <div className='d-flex'>
-                            <i className="fa fa-caret-down" aria-hidden="true" style={{ margin: "3px" }} ></i><p>Masters</p>
-                        </div>
-                        <ul>
-                            <li>Country</li>
-                            <li>State</li>
-                            <li>City</li>
-                            <li>Unit</li>
-                            <li>Bank</li>
-                            <li>User</li>
-                            <li>Compliance Type</li>
-                            <li>Payment Terms</li>
-                            <li>Employee Master</li>
-                        </ul>
-                    </div>
-                    <div className='fields'>
-                        <ul>
-                            <li>Reports</li>
-                        </ul>
-                    </div> */}
                 </div>
             </div>
             <div className='usermanual_content position-absolute'>

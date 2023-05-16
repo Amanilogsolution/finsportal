@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveLocationAddress, ActivePurchesItems,Getfincialyearid } from "../../../api/index";
+import { ActiveLocationAddress, ActivePurchesItems, Getfincialyearid } from "../../../api/index";
 
 function JVoucher() {
   const [loading, setLoading] = useState(true);
@@ -55,13 +55,13 @@ function JVoucher() {
     }
   };
 
-  const handleChangeItem = (e)=>{
+  const handleChangeItem = (e) => {
     e.preventDefault();
-      let val = e.target.value;
-        let item_arr = val.split('^')
-        const itemname = item_arr[0]
-        const glcode = item_arr[1]
-        console.log(itemname,glcode)
+    let val = e.target.value;
+    let item_arr = val.split('^')
+    const itemname = item_arr[0]
+    const glcode = item_arr[1]
+    console.log(itemname, glcode)
 
   }
 
@@ -198,94 +198,57 @@ function JVoucher() {
                               />
                             </td>
                             <td className="p-1 pt-2" style={{ width: "160px" }}>
-                              <input
-                                type="number"
-                                id={`amount-${index}`}
-                                className="form-control "
+                              <input type="number" id={`amount-${index}`} className="form-control " />
+                            </td>
+                            <td className="p-1 pt-2" style={{ width: "160px" }}>
+                              <input type="number" id={`amount-${index}`} className="form-control " />
+                            </td>
+                            <td className="p-1 pt-2" style={{ width: "160px" }}>
+                              <input type="number" id={`amount-${index}`} className="form-control "
                               />
                             </td>
                             <td className="p-1 pt-2" style={{ width: "160px" }}>
-                              <input
-                                type="number"
-                                id={`amount-${index}`}
-                                className="form-control "
-                              />
-                            </td>
-                            <td className="p-1 pt-2" style={{ width: "160px" }}>
-                              <input
-                                type="number"
-                                id={`amount-${index}`}
-                                className="form-control "
-                              />
-                            </td>
-                            <td className="p-1 pt-2" style={{ width: "160px" }}>
-                              <input
-                                type="number"
-                                id={`amount-${index}`}
-                                className="form-control "
-                              />
+                              <input type="text" id={`drcr-${index}`} className="form-control " />
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                    <button className="btn btn-primary" onClick={handleAdd}>
-                      Add Item
-                    </button>
+                    <button className="btn btn-primary" onClick={handleAdd}> Add Item</button>
                     &nbsp;
-                    <button className="btn btn-danger" onClick={handleRemove}>
-                      Remove
-                    </button>
-                  </form>
-                </article>
-                <div className="d-flex mb-2">
-                  <div style={{ width: "40%" }}>
-                    <div className="form ">
-                      <label
-                        htmlFor="remarks"
-                        className="col-md-7 col-form-label font-weight-normal"
-                      >
-                        Remarks
-                      </label>
-                      <div className="d-flex col-md">
-                        <textarea
-                          type="text"
-                          className="form-control "
-                          rows="3"
-                          id="remarks"
-                          placeholder="Remarks"
-                          style={{ resize: "none" }}
-                        ></textarea>
+                    <button className="btn btn-danger" onClick={handleRemove}> Remove</button>
+                    <div className="d-flex mb-2 justify-content-between">
+                      <div style={{ width: "40%" }}>
+                        <div className="form ">
+                          <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
+                          <div className="d-flex col-md">
+                            <textarea type="text" className="form-control " rows="3"
+                              id="remarks" placeholder="Remarks" style={{ resize: "none" }}></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="rounded py-1 px-2" style={{ width: "50%", background: '#eee' }}>
+                        <table className="w-100">
+                          <tbody>
+                            <tr>
+                              <td>SubTotal </td>
+                              <td id="Subtotal"> <span id="subtotalval">0</span> </td>
+                            </tr>
+                            <tr>
+                              <td> <h4 id="subtotalbtn">Total</h4> </td>
+                              <td id="Subtotal"> <span id="subtotalval">0</span> </td>
+                            </tr>
+                            <tr>
+                              <td className="text-danger">Difference </td>
+                              <td id="Subtotal"> <span id="subtotalval">0</span></td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
-                  </div>
-                  <div className="rounded py-1 px-2" style={{ width: "55%" }}>
-                    <table className="w-100">
-                      <tbody>
-                        <tr>
-                          <td>SubTotal </td>
-                          <td id="Subtotal">
-                            <span id="subtotalval">0</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <h4 id="subtotalbtn">Total</h4>
-                          </td>
-                          <td id="Subtotal"> 
-                            <span id="subtotalval">0</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-danger">Difference </td>
-                          <td id="Subtotal">
-                            <span id="subtotalval">0</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                  </form>
+                </article>
+
 
                 <div className="card-footer border-top">
                   {/* <button id="save" name="save" className="btn btn-danger" onClick={() => { handleSubmit('save') }}>Save</button> */}
@@ -320,7 +283,7 @@ function JVoucher() {
 
         <Footer />
 
-        
+
       </div>
     </>
   );
