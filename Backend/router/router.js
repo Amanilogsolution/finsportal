@@ -244,6 +244,7 @@ router.post('/getItems', ItemsController.getItems)
 router.post('/updateItems', ItemsController.UpdateItems)
 router.post('/activeitems', ItemsController.ActiveItems)
 router.post('/activepurchesitems', ItemsController.ActivePurchesItems)
+router.post('/activeallitems', ItemsController.ActiveAllItems)
 
 // File Upload
 router.post('/FileUpload', Multer, FileUpload)

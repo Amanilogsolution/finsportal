@@ -124,7 +124,7 @@ const GetBillVendorID = async (req, res) => {
     const vendor_id = req.body.vendor_id;
     try {
         await sql.connect(sqlConfig)
-        const Bill = await sql.query(`select * from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
+        const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
         res.send(Bill.recordset)
     }
     catch (err) {

@@ -136,7 +136,7 @@ const GetInvoicesByCustomer = async (req, res) => {
     
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT * from ${org}.dbo.tbl_invoice where custid = '${customer_id}' and flagsave = 'post'`)
+        const result = await sql.query(`SELECT *,convert(varchar(15),invoice_date,121) as Invdate from ${org}.dbo.tbl_invoice where custid = '${customer_id}' and flagsave = 'post'`)
         res.send(result.recordset)
 
     }

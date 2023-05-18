@@ -118,7 +118,7 @@ const UpdateItems = async (req, res) => {
              item_type='${item_type}',item_name='${item_name}',item_unit='${item_unit}',sac_code='${sac_code}',hsn_code='${hsn_code}',major_code_id='${major_code_id}',chart_of_account='${chart_of_account}',
             chart_of_acct_id='${chartofaccount_id}',tax_preference='${tax_preference}',sales_account='${sales_account}',purchase_account='${purchase_account}',gst_rate='${gst_rate}',minor_code_id='${minor_code_id}',minor_code='${minor_code}',glcode='${glcode}',
             update_user_name='${user_id}',update_system_name='${os.hostname()}' ,update_ip_address='${req.ip}' ,update_date_time=getdate()  WHERE  sno='${sno}'`)
-            
+
         if (result.rowsAffected[0] > 0) {
             res.send("updated")
         }
@@ -157,5 +157,18 @@ const ActivePurchesItems = async (req, res) => {
 
 }
 
+const ActiveAllItems = async (req, res) => {
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from  ${org}.dbo.tbl_items_account with (nolock) where status='Active'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
 
-module.exports = { InsertItems, TotalItems, ActiveItems, deleteItems, getItems, UpdateItems, ActivePurchesItems }
+    }
+
+}
+
+module.exports = { InsertItems, TotalItems, ActiveItems, deleteItems, getItems, UpdateItems, ActivePurchesItems, ActiveAllItems }

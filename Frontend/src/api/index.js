@@ -903,7 +903,10 @@ export const ActivePurchesItems = async (org) => {
     const url = `https://finsbackend.awlinternational.com/api/activepurchesitems`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-
+export const ActiveAllItems = async (org) => {
+    const url = `http://localhost:3008/api/activeallitems`
+    return axios.post(url, { org}).then(response => response.data).catch(error => console.log(error));
+}
 
 //  ########################## Item api End ###############################
 
@@ -1250,7 +1253,7 @@ export const UpdateSaveInvoiceToPost = async (org, invoice_no, new_invoice_no) =
 }
 
 export const GetInvoicesByCustomer = async (org, customer_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/getinvoicesbycustomer`
+    const url = `http://localhost:3008/api/getinvoicesbycustomer`
     return axios.post(url, { org, customer_id }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1383,7 +1386,7 @@ export const GetSaveBill = async (org) => {
 }
 
 export const GetBillVendorID = async (org, vendor_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/GetBillVendorid`
+    const url = `http://localhost:3008/api/GetBillVendorid`
     return axios.post(url, { org, vendor_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const filterInvoicebyDN = async (org, startDate, lastDate, vendorid, locationid, bill_no) => {
