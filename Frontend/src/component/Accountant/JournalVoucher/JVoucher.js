@@ -193,30 +193,11 @@ function JVoucher() {
                   <form autoComplete="off">
                     <div className="form-row ">
                       <label htmlFor="ac_name" className="col-md-2 col-form-label font-weight-normal" > JV Date <span className="text-danger">*</span></label>
-                      <div className="d-flex col-md-4">
-                        <input
-                          type="date"
-                          className="form-control col-md-10"
-                          id="po_date"
-                          placeholder=""
-                        />
-                      </div>
+                      <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="po_date" /></div>
                     </div>
                     <div className="form-row mt-2">
-                      <label
-                        htmlFor="ac_name"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        JV ID <span className="text-danger">*</span>{" "}
-                      </label>
-                      <div className="d-flex col-md-4">
-                        <input
-                          type="text"
-                          className="form-control col-md-10 "
-                          id="po_no"
-                          placeholder=""
-                        />
-                      </div>
+                      <label htmlFor="ac_name" className="col-md-2 col-form-label font-weight-normal">  JV ID <span className="text-danger">*</span></label>
+                      <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="po_no" /></div>
                     </div>
                     <table className="table table-bordered mt-3">
                       <thead>
@@ -261,10 +242,10 @@ function JVoucher() {
                                 <input type="text" id={`invno-${index}`} className="form-control" disabled />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="date" id={`invdate-${index}`} className="form-control" />
+                                <input type="date" id={`invdate-${index}`} className="form-control" disabled />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="number" id={`invamount-${index}`} className="form-control " />
+                                <input type="text" id={`invamount-${index}`} className="form-control" disabled />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
                                 <input type="number" id={`balamt-${index}`} className="form-control " />
