@@ -62,6 +62,15 @@ function JVoucher() {
         const itemname = item_arr[0]
         const glcode = item_arr[1]
         console.log(itemname,glcode)
+        if(itemname == 'Bill'){
+          
+          document.getElementById('SelectVendor').style.display = 'block'
+        }
+  }
+
+  const handleOpenInvoice = (e) =>{
+    e.preventDefault()
+    document.getElementById('SelectVendor').style.display = 'none'
 
   }
 
@@ -141,7 +150,10 @@ function JVoucher() {
                         </tr>
                       </thead>
                       <tbody>
-                        {totalValues.map((element, index) => (
+              
+                        {
+                          totalValues.map((element, index) => (
+                            
                           <tr key={index}>
                             <td className="p-1 pt-2" style={{ width: "180px" }}>
                               <select
@@ -319,6 +331,27 @@ function JVoucher() {
         )}
 
         <Footer />
+
+
+        <div class="" id="SelectVendor" style={{marginTop:"-50%", backdropFilter:"blur(2px)",width:"100vw",height:"100vh",display:"none"}} tabindex="-1" role="dialog">
+                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="exampleModalLongTitle">Customer / Vendor</h5>
+                                        </div>
+                                        <div className="modal-body">
+
+                                            
+                                        </div>
+                                        <div className="modal-footer">
+                                          
+                                        <button type="button" class="btn btn-primary" onClick={handleOpenInvoice}>Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
         
       </div>
