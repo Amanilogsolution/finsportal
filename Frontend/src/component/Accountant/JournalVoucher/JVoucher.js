@@ -77,6 +77,7 @@ function JVoucher() {
   }
   const handleChangeItem = async (e, index) => {
     e.preventDefault();
+    setLoading(false)
     let val = e.target.value;
     let item_arr = val.split('^')
     const itemname = item_arr[0]
@@ -85,7 +86,7 @@ function JVoucher() {
     setCurrentIndex(index)
     jvminordata[index].item = itemname;
     jvminordata[index].glcode = glcode;
-
+    setLoading(true)
     const org = localStorage.getItem('Organisation')
     if (glcode == '3020001') {
       const vendors = await ActiveVendor(org)
@@ -97,6 +98,8 @@ function JVoucher() {
       setCustomerlist(customers)
       document.getElementById('SelectCustomerModal').style.display = 'block'
     }
+
+
 
   }
 
@@ -299,7 +302,7 @@ function JVoucher() {
                 <div className="card-footer border-top">
                   <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitJvdata}>Submit</button>
                   {/* <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button> */}
-                  <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/home"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
+                  <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
                   {/* <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter"  > Preview JV </button> */}
                 </div>
               </div>
@@ -395,13 +398,15 @@ function JVoucher() {
                 </thead>
                 <tbody>
                   {
-                    vendorBilllist.map((bill, index) =>
-                      <tr key={index} className="cursor-pointer" onClick={() => { handleSetBillInvData(bill.vourcher_no, bill.voudate, bill.total_bill_amt) }}>
-                        <td className="pl-3">{bill.vourcher_no}</td>
-                        <td className="pl-3">{bill.voudate}</td>
-                        <td className="pl-3">{bill.total_bill_amt}</td>
-                      </tr>
-                    )
+                    vendorBilllist.length > 0 ?
+                      vendorBilllist.map((bill, index) =>
+                        <tr key={index} className="cursor-pointer" onClick={() => { handleSetBillInvData(bill.vourcher_no, bill.voudate, bill.total_bill_amt) }}>
+                          <td className="pl-3">{bill.vourcher_no}</td>
+                          <td className="pl-3">{bill.voudate}</td>
+                          <td className="pl-3">{bill.total_bill_amt}</td>
+                        </tr>
+                      )
+                      : <tr><td colSpan='3' className="text-center">This Vendor have't any bill</td></tr>
                   }
                 </tbody>
               </table>
@@ -431,6 +436,7 @@ function JVoucher() {
                 </thead>
                 <tbody>
                   {
+                    customerInvlist.length>0?
                     customerInvlist.map((inv, index) =>
                       <tr key={index} className="cursor-pointer"
                         onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }}
@@ -440,6 +446,7 @@ function JVoucher() {
                         <td className="pl-3">{inv.invoice_amt}</td>
                       </tr>
                     )
+                    : <tr><td colSpan='3' className="text-center">This Customer have't any invoice</td></tr>
                   }
                 </tbody>
               </table>
