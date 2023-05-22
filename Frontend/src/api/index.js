@@ -1135,6 +1135,11 @@ export const ActiveChartofAccountname = async (org, account_sub_name) => {
     return axios.post(url, { org, account_sub_name }).then(response => response.data).catch(error => console.log(error));
 
 }
+export const ActiveAllChartofAccount = async (org) => {
+    const url = `http://localhost:3008/api/activeallchartofaccount`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+
+}
 
 
 // ###########################  PaymentTerm api start ############################

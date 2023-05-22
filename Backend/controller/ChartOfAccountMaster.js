@@ -87,4 +87,16 @@ const ActiveChartofAccountname = async (req, res) => {
     }
 
 }
-module.exports = { TotalChartOfAccount, ChartOfAccountStatus, GetChartOfAccount, UpdateChartOfAccount, ImportChartofAccount, ActiveChartofAccountname }
+const ActiveAllChartofAccount = async (req, res) => {
+    const org = req.body.org;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_sub_account tsa  with (nolock) where status = 'Active' `)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+
+}
+module.exports = { TotalChartOfAccount, ChartOfAccountStatus, GetChartOfAccount, UpdateChartOfAccount, ImportChartofAccount, ActiveChartofAccountname ,ActiveAllChartofAccount}

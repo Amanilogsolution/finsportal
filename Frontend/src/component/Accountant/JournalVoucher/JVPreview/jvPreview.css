@@ -1,0 +1,44 @@
+/* .jv-main_div {
+    border: 1px solid;
+    width: 100%;
+    padding: 9px;
+} */
+
+.journal_voucher h1 {
+    background: #cccccc;
+    font-size: 26px;
+    border: 1px solid black;
+}
+#jv_first_table {
+    width: 100%;
+    /* border: 1px solid black; */
+    /* border: 0px; */
+    /* border-collapse: collapse; */
+    /* line-height: 2.5; */
+    padding: 0 6px;
+}
+#jv_first_table tbody tr td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    line-height: 2.5;
+    padding: 0 6px;
+    width: 50%;
+}
+#Jv_second_table {
+    border: 1px solid;
+    border-top:0px ;
+    border-collapse: collapse;
+}
+#Jv_second_table th {
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: 14px;
+    padding: 0 5px;
+}
+
+#Jv_second_table td {
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: 14px;
+    padding: 0 5px;
+}

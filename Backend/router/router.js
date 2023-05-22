@@ -295,6 +295,7 @@ router.post('/getchartofaccount', ChartOfAccountMasterController.GetChartOfAccou
 router.post('/updatechartofaccount', ChartOfAccountMasterController.UpdateChartOfAccount)
 router.post('/importchartofaccount', ChartOfAccountMasterController.ImportChartofAccount)
 router.post('/activechartofaccountname', ChartOfAccountMasterController.ActiveChartofAccountname)
+router.post('/activeallchartofaccount', ChartOfAccountMasterController.ActiveAllChartofAccount)
 
 // Currency Adjustment
 router.post('/addcurrencyadjust', CurrencyAdjustmentController.AddCurrencyAdjustment)

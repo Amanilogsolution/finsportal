@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveLocationAddress, ActiveAllItems, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer } from "../../../api/index";
+import { ActiveLocationAddress, ActiveAllChartofAccount, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer,showOrganisation } from "../../../api/index";
+import JvPreview from "./JVPreview/JvPreview";
 
 function JVoucher() {
   const [loading, setLoading] = useState(false);
+  const [orgdata, setOrgdata] = useState([])
   const [totalValues, setTotalValues] = useState([1, 1]);
   const [locationstate, setLocationstate] = useState([]);
-  const [itemlist, setItemlist] = useState([]);
+  const [chartofacctlist, setChartofacctlist] = useState([]);
   const [pocount, setPOcount] = useState(0)
   const [vendorlist, setVendorlist] = useState([])
   const [customerlist, setCustomerlist] = useState([])
@@ -16,8 +18,8 @@ function JVoucher() {
   const [vendorBilllist, setVendorBilllist] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [jvminordata, setJvminordata] = useState([
-    { locationId: '', locationName: '', item: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' },
-    { locationId: '', locationName: '', item: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' },
+    { locationId: '', locationName: '', chartofacct: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' },
+    { locationId: '', locationName: '', chartofacct: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' },
   ])
 
   useEffect(() => {
@@ -25,12 +27,15 @@ function JVoucher() {
       const org = localStorage.getItem("Organisation");
       const locatonstateres = await ActiveLocationAddress(org);
       setLocationstate(locatonstateres);
-      const items = await ActiveAllItems(org);
-      console.log(items);
-      setItemlist(items);
+      const chartofacct = await ActiveAllChartofAccount(org);
+      setChartofacctlist(chartofacct);
       const id = await Getfincialyearid(org)
       const lastno = Number(id[0].jv_count) + 1
       setPOcount(lastno)
+
+      const result = await showOrganisation(org)
+      setOrgdata(result)
+
       setLoading(true)
       document.getElementById('jv_no').value = id[0].jv_ser + id[0].year + String(lastno).padStart(5, '0')
       Todaydate();
@@ -52,7 +57,7 @@ function JVoucher() {
   const handleAdd = (e) => {
     e.preventDefault();
     setTotalValues([...totalValues, 1]);
-    let obj = { locationId: '', locationName: '', item: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' }
+    let obj = { locationId: '', locationName: '', chartofacct: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' }
     jvminordata.push(obj)
   };
 
@@ -85,7 +90,7 @@ function JVoucher() {
     const glcode = item_arr[1]
 
     setCurrentIndex(index)
-    jvminordata[index].item = itemname;
+    jvminordata[index].chartofacct = itemname;
     jvminordata[index].glcode = glcode;
     setLoading(true)
     const org = localStorage.getItem('Organisation')
@@ -209,9 +214,9 @@ function JVoucher() {
                           <th scope="col">Location</th>
                           <th scope="col">Items</th>
                           <th scope="col">AcHead</th>
-                          <th scope="col">Inv No</th>
-                          <th scope="col">Inv Date</th>
-                          <th scope="col">Inv Amount</th>
+                          <th scope="col">Ref No</th>
+                          <th scope="col">Ref Date</th>
+                          <th scope="col">Ref Amount</th>
                           <th scope="col">Balance Amount</th>
                           <th scope="col">PassAmt</th>
                           <th scope="col">DR/CR</th>
@@ -234,22 +239,22 @@ function JVoucher() {
                               <td className="p-1 pt-2" style={{ width: "180px" }}>
                                 <select id={`item-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeItem(e, index) }} >
                                   <option value="" hidden> Select Item </option>
-                                  {itemlist.map((items, index) => (
-                                    <option key={index} value={`${items.item_name}^${items.glcode}`}> {items.item_name} </option>))
+                                  {chartofacctlist.map((items, index) => (
+                                    <option key={index} value={`${items.account_sub_name}^${items.account_sub_name_code}`}> {items.account_sub_name} </option>))
                                   }
                                 </select>
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="text" id={`achead-${index}`} className="form-control" disabled />
+                                <input type="text" id={`achead-${index}`} className="form-control"/>
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="text" id={`invno-${index}`} className="form-control" disabled />
+                                <input type="text" id={`invno-${index}`} className="form-control" />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="date" id={`invdate-${index}`} className="form-control" disabled />
+                                <input type="date" id={`invdate-${index}`} className="form-control"/>
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="text" id={`invamount-${index}`} className="form-control" disabled />
+                                <input type="text" id={`invamount-${index}`} className="form-control"/>
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
                                 <input type="number" id={`balamt-${index}`} className="form-control " />
@@ -304,7 +309,7 @@ function JVoucher() {
                   <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitJvdata}>Submit</button>
                   {/* <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button> */}
                   <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                  {/* <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter"  > Preview JV </button> */}
+                  <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#JvPreviewModal"  > Preview JV </button>
                 </div>
 
               </div>
@@ -316,6 +321,7 @@ function JVoucher() {
 
 
         <Footer />
+        <JvPreview orgdata={orgdata}/>
 
         {/* ############################### Vendor Custom Modal ########################## */}
         <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "93%", display: "none" }} tabIndex="-1" role="dialog" onClick={() => { offCustomModal('SelectVendorModal'); }}>
