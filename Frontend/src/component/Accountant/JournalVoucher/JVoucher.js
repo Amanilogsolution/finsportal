@@ -26,6 +26,7 @@ function JVoucher() {
       const locatonstateres = await ActiveLocationAddress(org);
       setLocationstate(locatonstateres);
       const items = await ActiveAllItems(org);
+      console.log(items);
       setItemlist(items);
       const id = await Getfincialyearid(org)
       const lastno = Number(id[0].jv_count) + 1
@@ -320,22 +321,26 @@ function JVoucher() {
                 <h5 className="modal-title" id="exampleModalLongTitle">Select Vendor Name</h5>
               </div>
               <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
-                <table className=" h-100 w-100">
+
+                <table className="table  table-striped h-100 w-100">
                   <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                     <tr>
-                      <th className="pl-4 " style={{ fontSize: '20px' }}>Vendor Name</th>
+                    <th className="pl-4 " style={{ fontSize: '20px' }}>Sno</th>
+                      <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Vendor Name</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
                       vendorlist.map((vendor, index) =>
                         <tr key={index} className="cursor-pointer" onClick={() => { handleClickVendor(vendor.vend_id, vendor.vend_name) }}>
-                          <td className="pl-3">{vendor.vend_name}</td>
+                          <td className="pl-3 text-center">{index+1}</td>
+                          <td className="pl-3 text-center">{vendor.vend_name}</td>
                         </tr>
                       )
                     }
                   </tbody>
                 </table>
+
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={handleOpenInvoice}>Close</button>
@@ -352,10 +357,11 @@ function JVoucher() {
               <h5 className="modal-title" id="exampleModalLongTitle">Select Customer Name</h5>
             </div>
             <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
-              <table className=" h-100 w-100">
+            <table className="table  table-striped h-100 w-100">
                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                   <tr>
-                    <th className="pl-4 " style={{ fontSize: '20px' }}>Customer Name</th>
+                  <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
+                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Customer Name</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -364,7 +370,8 @@ function JVoucher() {
                       <tr key={index} className="cursor-pointer"
                         onClick={() => { handleClickCustomer(customer.cust_id, customer.cust_name) }}
                       >
-                        <td className="pl-3">{customer.cust_name}</td>
+                       <td className="pl-3 text-center">{index+1}</td>
+                        <td className="pl-3 text-center">{customer.cust_name}</td>
                       </tr>
                     )
                   }
@@ -385,21 +392,21 @@ function JVoucher() {
               <h5 className="modal-title" id="exampleModalLongTitle">Select Bill</h5>
             </div>
             <div className="modal-body">
-              <table className="table table-bored table-sm ">
+              <table className="table  table-striped table-sm ">
                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                   <tr>
-                    <th className="pl-4 " style={{ fontSize: '20px' }}>Bill no</th>
-                    <th className="pl-4 " style={{ fontSize: '20px' }}>Bill Date</th>
-                    <th className="pl-4 " style={{ fontSize: '20px' }}>Bill Amt</th>
+                    <th className="pl-4 text-left" style={{ fontSize: '20px' }}>Bill no</th>
+                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Bill Date</th>
+                    <th className="pl-4 text-right" style={{ fontSize: '20px' }}>Bill Amt</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
                     vendorBilllist.map((bill, index) =>
                       <tr key={index} className="cursor-pointer" onClick={() => { handleSetBillInvData(bill.vourcher_no, bill.voudate, bill.total_bill_amt) }}>
-                        <td className="pl-3">{bill.vourcher_no}</td>
-                        <td className="pl-3">{bill.voudate}</td>
-                        <td className="pl-3">{bill.total_bill_amt}</td>
+                        <td className="pl-3 text-left">{bill.vourcher_no}</td>
+                        <td className="pl-3 text-center">{bill.voudate}</td>
+                        <td className="pl-3 text-right">{bill.total_bill_amt}</td>
                       </tr>
                     )
                   }
@@ -418,7 +425,7 @@ function JVoucher() {
         <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLongTitle">Select Bill</h5>
+              <h5 className="modal-title" id="exampleModalLongTitle">Select Invoice</h5>
             </div>
             <div className="modal-body">
               <table className="table table-bored table-sm ">
