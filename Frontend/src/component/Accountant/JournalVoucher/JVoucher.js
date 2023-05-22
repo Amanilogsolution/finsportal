@@ -31,7 +31,7 @@ function JVoucher() {
       const lastno = Number(id[0].jv_count) + 1
       setPOcount(lastno)
       setLoading(true)
-      document.getElementById('po_no').value = id[0].jv_ser + id[0].year + String(lastno).padStart(5, '0')
+      document.getElementById('jv_no').value = id[0].jv_ser + id[0].year + String(lastno).padStart(5, '0')
       Todaydate();
     };
     fetchdata();
@@ -45,7 +45,7 @@ function JVoucher() {
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
     var today = year + "-" + month + "-" + day;
-    document.getElementById("po_date").defaultValue = today;
+    document.getElementById("jv_date").defaultValue = today;
   };
 
   const handleAdd = (e) => {
@@ -195,12 +195,12 @@ function JVoucher() {
                 <article className="card-body">
                   <form autoComplete="off">
                     <div className="form-row ">
-                      <label htmlFor="ac_name" className="col-md-2 col-form-label font-weight-normal" > JV Date <span className="text-danger">*</span></label>
-                      <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="po_date" /></div>
+                      <label htmlFor="jv_date" className="col-md-2 col-form-label font-weight-normal" > JV Date <span className="text-danger">*</span></label>
+                      <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="jv_date" /></div>
                     </div>
                     <div className="form-row mt-2">
-                      <label htmlFor="ac_name" className="col-md-2 col-form-label font-weight-normal">  JV ID <span className="text-danger">*</span></label>
-                      <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="po_no" /></div>
+                      <label htmlFor="jv_no" className="col-md-2 col-form-label font-weight-normal">  JV ID <span className="text-danger">*</span></label>
+                      <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="jv_no" disabled /></div>
                     </div>
                     <table className="table table-bordered mt-3">
                       <thead>
@@ -305,6 +305,7 @@ function JVoucher() {
                   <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
                   {/* <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter"  > Preview JV </button> */}
                 </div>
+
               </div>
             </div>
           </div>
@@ -315,7 +316,7 @@ function JVoucher() {
 
         <Footer />
 
-        {/* Vendor Custom Modal */}
+        {/* ############################### Vendor Custom Modal ########################## */}
         <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "93%", display: "none" }} tabIndex="-1" role="dialog" onClick={() => { offCustomModal('SelectVendorModal'); }}>
           <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
             <div className="modal-content">
@@ -347,7 +348,7 @@ function JVoucher() {
           </div>
         </div>
       </div>
-      {/* CUstimer Custom Modal */}
+      {/* ###################### Customer Custom Modal ############################### */}
       <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "93%", display: "none" }} tabIndex="-1" role="dialog" onClick={() => { offCustomModal('SelectCustomerModal'); }}>
         <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
           <div className="modal-content">
@@ -380,7 +381,7 @@ function JVoucher() {
           </div>
         </div>
       </div>
-
+      {/* ############## Bill Custome Modal ################################# */}
       <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" onClick={() => { offCustomModal('billCustomModal'); }}>
         <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
           <div className="modal-content">
@@ -418,7 +419,7 @@ function JVoucher() {
         </div>
       </div>
 
-
+      {/* ############## Invoice Custome Modal ################################# */}
       <div className="position-absolute" id="InvCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" onClick={() => { offCustomModal('InvCustomModal'); }}>
         <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
           <div className="modal-content">
@@ -436,17 +437,16 @@ function JVoucher() {
                 </thead>
                 <tbody>
                   {
-                    customerInvlist.length>0?
-                    customerInvlist.map((inv, index) =>
-                      <tr key={index} className="cursor-pointer"
-                        onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }}
-                      >
-                        <td className="pl-3">{inv.invoice_no}</td>
-                        <td className="pl-3">{inv.Invdate}</td>
-                        <td className="pl-3">{inv.invoice_amt}</td>
-                      </tr>
-                    )
-                    : <tr><td colSpan='3' className="text-center">This Customer have't any invoice</td></tr>
+                    customerInvlist.length > 0 ?
+                      customerInvlist.map((inv, index) =>
+                        <tr key={index} className="cursor-pointer"
+                          onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }} >
+                          <td className="pl-3">{inv.invoice_no}</td>
+                          <td className="pl-3">{inv.Invdate}</td>
+                          <td className="pl-3">{inv.invoice_amt}</td>
+                        </tr>
+                      )
+                      : <tr><td colSpan='3' className="text-center">This Customer have't any invoice</td></tr>
                   }
                 </tbody>
               </table>
