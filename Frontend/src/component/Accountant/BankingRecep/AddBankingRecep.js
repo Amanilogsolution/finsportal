@@ -250,7 +250,7 @@ function AddBankingReceipt() {
                                         </div>
                                         <div className="form-row">
                                             <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal text-danger" > On Account</label>
-                                            <div className="d-flex col-md-4"><input type="checkbox" id="on_account" /></div>
+                                            <div className="d-flex col-md-4  align-items-center "><input type="checkbox" id="on_account" style={{width:'18px',height:'18px'}}/></div>
                                         </div>
                                         <div className="w-100 overflow-auto">
                                             <table className="table table-bordered mt-3">
@@ -299,7 +299,7 @@ function AddBankingReceipt() {
                                                 <div className="form ">
                                                     <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                                                     <div className="d-flex col-md">
-                                                        <textarea type="text" className="form-control " rows="3"
+                                                        <textarea type="text" className="form-control " rows="4"
                                                             id="remarks" placeholder="Remarks" style={{ resize: "none" }}></textarea>
                                                     </div>
                                                 </div>
@@ -330,7 +330,7 @@ function AddBankingReceipt() {
                                 <div className="card-footer border-top">
                                     <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitFormData}>Submit</button>
                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#JvPreviewModal"  > Preview JV </button>
+                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#JvPreviewModal"  > Preview Receipts</button>
                                 </div>
 
                             </div>
