@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer } from '../../../api'
+import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 
 
@@ -10,6 +10,7 @@ import SubAddBankRec from './SubAddBankRec'
 function AddBankingReceipt() {
     const [loading, setLoading] = useState(false)
     const [chartofacctlist, setChartofacctlist] = useState([]);
+    const [banklist, setBanklist] = useState([])
     const [customerlist, setCustomerlist] = useState([])
     const [customerInvlist, setCustomerInvlist] = useState([])
     const [currentindex, setCurrentindex] = useState(0)
@@ -25,6 +26,9 @@ function AddBankingReceipt() {
             const org = localStorage.getItem("Organisation");
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
+            const allank = await ActiveBank(org);
+            console.log(allank)
+            setBanklist(allank)
             setLoading(true)
             Todaydate()
         }
@@ -41,6 +45,7 @@ function AddBankingReceipt() {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         document.getElementById("bank_recep_date").defaultValue = today;
+        document.getElementById("check_date").defaultValue = today;
     };
 
 
@@ -65,7 +70,7 @@ function AddBankingReceipt() {
                 totalRefAmt = Number(totalRefAmt) + Number(newarr[i].refAmt)
             }
             document.getElementById('total_ref_amt').innerHTML = totalRefAmt
-           
+
         }
     }
 
@@ -237,6 +242,9 @@ function AddBankingReceipt() {
                                             <div className="d-flex col-md-4">
                                                 <select type="date" className="form-control col-md-10 " id="check_date" >
                                                     <option value='' hidden>Select Bank</option>
+                                                    {banklist.map((bankdata, index) => (
+                                                        <option key={index} value={bankdata.bank_name}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
@@ -283,7 +291,7 @@ function AddBankingReceipt() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <button className="btn btn-primary" onClick={handleAddRow}> Add Row</button>
+                                        <button type='add' className="btn btn-primary" onClick={handleAddRow}> Add Row</button>
                                         &nbsp;
                                         <button className="btn btn-danger" onClick={(e) => handleDeleteRemove(e, 0, 'pop')}> Remove</button>
                                         <div className="d-flex mb-2 justify-content-between">
@@ -334,7 +342,7 @@ function AddBankingReceipt() {
                 <Footer />
             </div>
             {/* ###################### Customer Custom Modal ############################### */}
-            <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "93%", display: "none" }} tabIndex="-1" role="dialog" >
+            <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
                 <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
                     <div className="modal-content">
                         <div className="modal-header">
@@ -392,7 +400,7 @@ function AddBankingReceipt() {
                                                 <tr key={index} className="cursor-pointer"
                                                 // onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }} 
                                                 >
-                                                    <td><input type='checkbox' id={`check-${index}`} style={{height:'15px',width:'15px'}} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt) }} /></td>
+                                                    <td><input type='checkbox' id={`check-${index}`} style={{ height: '15px', width: '15px' }} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt) }} /></td>
                                                     <td className="pl-3">{inv.invoice_no}</td>
                                                     <td className="pl-3">{inv.Invdate}</td>
                                                     <td className="pl-3">{inv.invoice_amt}</td>

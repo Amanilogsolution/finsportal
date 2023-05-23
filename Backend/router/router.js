@@ -112,6 +112,7 @@ router.post('/deletebank', bankController.DeleteBank)
 router.post('/showbank', bankController.ShowBank)
 router.post('/updatebank', bankController.UpdateBank)
 router.post('/importbank', bankController.ImportBank)
+router.post('/activebank', bankController.ActiveBank)
 
 //User
 router.post('/totaluser', userController.Totaluser)

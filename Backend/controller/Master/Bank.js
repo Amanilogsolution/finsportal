@@ -127,7 +127,17 @@ const ImportBank = (req, res) => {
     )
 }
 
+const ActiveBank = async (req, res) => {
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_bankmaster with (nolock) where status = 'Active'`)
+        res.send(result.recordset)
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
 
 
-
-module.exports = { InsertBank, TotalBanks, DeleteBank, ShowBank, UpdateBank, ImportBank }
+module.exports = { InsertBank, TotalBanks, DeleteBank, ShowBank, UpdateBank, ImportBank,ActiveBank }
