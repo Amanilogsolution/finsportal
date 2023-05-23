@@ -5,7 +5,7 @@ const LoadingPage = () => {
         <>
             <div className='d-flex flex-column justify-content-center ' style={{ height: '90vh' }}>
                 <div className='d-flex flex-column justify-content-center align-items-center '>
-                    <img src={ImageUrl} alt='Loading Image ' style={{ margin: "auto" }} />
+                    <img src={ImageUrl} alt='Loading ' style={{ margin: "auto" }} />
                     <h5>Loading...</h5>
                 </div>
             </div>

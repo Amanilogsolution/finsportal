@@ -441,7 +441,7 @@ const Menu = (props) => {
                   </a>
                 </li>
                 <li className="nav-item"  id='journal_voucherMenu'>
-                  <a href="/JVoucher" className="nav-link active">
+                  <a href="/TotalJVoucher" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Journal Voucher </p>
                   </a>

@@ -42,7 +42,7 @@ const ShowUser = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'users')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.users_create === 'true') {
       document.getElementById('adduserbtn').style.display = "block";
@@ -246,7 +246,7 @@ const ShowUser = () => {
         <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
         <div className="container-fluid">
           <br />
-          <h3 className=" ml-5">User</h3>
+          <h3 className=" ml-5">Total User</h3>
           <br />
           <div className="card" >
             <article className={`card-body py-1`}>

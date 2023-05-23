@@ -10,6 +10,7 @@ import CustomerAddUserManual from './Sales/CustomerAddUserManual/CustomerAddUser
 import CustInvoiceUserManual from './Sales/CustInvoiceUserManual/CustInvoiceUserManual';
 import SalesOrderUserManual from './Sales/SalesOrderUserManual/SalesOrderUserManual';
 import RecurringInvUserManual from './Sales/RecurringInvUserManual/RecurringInvUserManual';
+import CreditNoteUserManual from './Sales/CreditNoteUserManual/CreditNoteUserManual';
 
 // Purchases
 import VendorUserManual from './Purchases/VendorUserManual/VendorUserManual';
@@ -52,7 +53,7 @@ const UserManualSidebar = () => {
 
     const showStep = (step) => {
         const tag_array = [DashboardUserManual, ItemsUserManual, CustomerUserManual, CustomerAddUserManual,
-            CustInvoiceUserManual, SalesOrderUserManual, RecurringInvUserManual, VendorUserManual,
+            CustInvoiceUserManual, SalesOrderUserManual, RecurringInvUserManual, CreditNoteUserManual, VendorUserManual,
             VendorAddUserManual, BillUserManual, PoUserManual, RecBillUserManual, DnUserManual,
             CurrAdjUserManual, JVUserManual, CountryUserManual, StateUserManual, CityUserManual, CurrencyUserManual,
             UnitUserManual, BankUserManual, User_UserManual, CompTypeUserManual, PayTermUserManual, EmpUserManual,
@@ -112,6 +113,8 @@ const UserManualSidebar = () => {
                                         <li className='py-1' onClick={() => { setStep(4) }}>Invoice</li>
                                         <li className='py-1' onClick={() => { setStep(5) }}>Sales Order</li>
                                         <li className='py-1' onClick={() => { setStep(6) }}>Recurring Invoice</li>
+                                        <li className='py-1' onClick={() => { setStep(7) }}>Credit Note</li>
+
                                     </ul>
                                     : null
                             }
@@ -123,12 +126,12 @@ const UserManualSidebar = () => {
                             {
                                 usermenutoggle.purchases ?
                                     <ul id='inner_ul' className='pl-4' >
-                                        <li className='py-1' onClick={() => { setStep(7) }}>Vendor</li>
-                                        <li className='py-1' onClick={() => { setStep(8) }}>Vendor Address</li>
-                                        <li className='py-1' onClick={() => { setStep(9) }}>Bill</li>
-                                        <li className='py-1' onClick={() => { setStep(10) }}>Purchases Order</li>
-                                        <li className='py-1' onClick={() => { setStep(11) }}>Recurring Bill</li>
-                                        <li className='py-1' onClick={() => { setStep(12) }}>Debit Notes</li>
+                                        <li className='py-1' onClick={() => { setStep(8) }}>Vendor</li>
+                                        <li className='py-1' onClick={() => { setStep(9) }}>Vendor Address</li>
+                                        <li className='py-1' onClick={() => { setStep(10) }}>Bill</li>
+                                        <li className='py-1' onClick={() => { setStep(11) }}>Purchases Order</li>
+                                        <li className='py-1' onClick={() => { setStep(12) }}>Recurring Bill</li>
+                                        <li className='py-1' onClick={() => { setStep(13) }}>Debit Notes</li>
                                     </ul>
                                     : null
                             }
@@ -139,8 +142,8 @@ const UserManualSidebar = () => {
                             {
                                 usermenutoggle.accountant ?
                                     <ul id='inner_ul' className='pl-4' >
-                                        <li className='py-1' onClick={() => { setStep(13) }}>Currency-Adjustment</li>
-                                        <li className='py-1' onClick={() => { setStep(14) }}>Journal Voucher</li>
+                                        <li className='py-1' onClick={() => { setStep(14) }}>Currency-Adjustment</li>
+                                        <li className='py-1' onClick={() => { setStep(15) }}>Journal Voucher</li>
                                     </ul>
                                     : null
                             }
@@ -152,28 +155,28 @@ const UserManualSidebar = () => {
                             {
                                 usermenutoggle.master ?
                                     <ul id='inner_ul' className='pl-4' >
-                                        <li className='py-1' onClick={() => { setStep(15) }}>Country</li>
-                                        <li className='py-1' onClick={() => { setStep(16) }}>State</li>
-                                        <li className='py-1' onClick={() => { setStep(17) }}>City</li>
-                                        <li className='py-1' onClick={() => { setStep(18) }}>Currency</li>
-                                        <li className='py-1' onClick={() => { setStep(19) }}>Unit</li>
-                                        <li className='py-1' onClick={() => { setStep(20) }}>Bank</li>
-                                        <li className='py-1' onClick={() => { setStep(21) }}>User</li>
-                                        <li className='py-1' onClick={() => { setStep(22) }}>Compliance Type</li>
-                                        <li className='py-1' onClick={() => { setStep(23) }}>Payment Terms</li>
-                                        <li className='py-1' onClick={() => { setStep(24) }}>Employee Master</li>
-                                        <li className='py-1' onClick={() => { setStep(25) }}>Charts of Account</li>
-                                        <li className='py-1' onClick={() => { setStep(26) }}>Recurring Frequency</li>
-                                        <li className='py-1' onClick={() => { setStep(27) }}>Tds Head</li>
+                                        <li className='py-1' onClick={() => { setStep(16) }}>Country</li>
+                                        <li className='py-1' onClick={() => { setStep(17) }}>State</li>
+                                        <li className='py-1' onClick={() => { setStep(18) }}>City</li>
+                                        <li className='py-1' onClick={() => { setStep(19) }}>Currency</li>
+                                        <li className='py-1' onClick={() => { setStep(20) }}>Unit</li>
+                                        <li className='py-1' onClick={() => { setStep(21) }}>Bank</li>
+                                        <li className='py-1' onClick={() => { setStep(22) }}>User</li>
+                                        <li className='py-1' onClick={() => { setStep(23) }}>Compliance Type</li>
+                                        <li className='py-1' onClick={() => { setStep(24) }}>Payment Terms</li>
+                                        <li className='py-1' onClick={() => { setStep(25) }}>Employee Master</li>
+                                        <li className='py-1' onClick={() => { setStep(26) }}>Charts of Account</li>
+                                        <li className='py-1' onClick={() => { setStep(27) }}>Recurring Frequency</li>
+                                        <li className='py-1' onClick={() => { setStep(28) }}>Tds Head</li>
                                     </ul>
                                     : null
                             }
                         </li>
-                        <li className='py-2 pl-3 cursor-pointer' onClick={() => { setStep(28) }}>
+                        <li className='py-2 pl-3 cursor-pointer' onClick={() => { setStep(29) }}>
                             <i className="fa fa-caret-right" aria-hidden="true"></i>
                             <span className='pl-2'> Reports</span>
                         </li>
-                        <li className='py-2 pl-3 cursor-pointer' onClick={() => { setStep(29) }}>
+                        <li className='py-2 pl-3 cursor-pointer' onClick={() => { setStep(30) }}>
                             <i className="fa fa-caret-right" aria-hidden="true"></i>
                             <span className='pl-2'> Financial year</span>
                         </li>
@@ -183,9 +186,9 @@ const UserManualSidebar = () => {
                             {
                                 usermenutoggle.organisation ?
                                     <ul id='inner_ul' className='pl-4' >
-                                        <li className='py-1' onClick={() => { setStep(30) }}>Organisation Switch</li>
-                                        <li className='py-1' onClick={() => { setStep(31) }}>Add Organisation</li>
-                                        <li className='py-1' onClick={() => { setStep(32) }}>Manage Organisation</li>
+                                        <li className='py-1' onClick={() => { setStep(31) }}>Organisation Switch</li>
+                                        <li className='py-1' onClick={() => { setStep(32) }}>Add Organisation</li>
+                                        <li className='py-1' onClick={() => { setStep(33) }}>Manage Organisation</li>
                                     </ul>
                                     : null
                             }
@@ -196,12 +199,12 @@ const UserManualSidebar = () => {
                             {
                                 usermenutoggle.setting ?
                                     <ul id='inner_ul' className='pl-4'>
-                                        <li className='py-1' onClick={() => { setStep(33) }}>Organisation Profile</li>
-                                        <li className='py-1' onClick={() => { setStep(34) }}>Financial Year / Sequence</li>
-                                        <li className='py-1' onClick={() => { setStep(35) }}>Branch/ Location</li>
-                                        <li className='py-1' onClick={() => { setStep(36) }}>Crm Master</li>
-                                        <li className='py-1' onClick={() => { setStep(37) }}>Compliance</li>
-                                        <li className='py-1' onClick={() => { setStep(38) }}>User Roles</li>
+                                        <li className='py-1' onClick={() => { setStep(34) }}>Organisation Profile</li>
+                                        <li className='py-1' onClick={() => { setStep(35) }}>Financial Year / Sequence</li>
+                                        <li className='py-1' onClick={() => { setStep(36) }}>Branch/ Location</li>
+                                        <li className='py-1' onClick={() => { setStep(37) }}>Crm Master</li>
+                                        <li className='py-1' onClick={() => { setStep(38) }}>Compliance</li>
+                                        <li className='py-1' onClick={() => { setStep(39) }}>User Roles</li>
                                     </ul>
                                     : null
                             }

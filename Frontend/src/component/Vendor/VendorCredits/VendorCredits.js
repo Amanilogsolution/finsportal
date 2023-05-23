@@ -53,7 +53,7 @@ function VendorCredits() {
     const Billdate = (billdate) => {
         var date = new Date(billdate);
         var year = date.getFullYear() + 1
-        var today = year + "-" + '09' + "-" + '30';
+        var today = year + "-" + "09" + "-" + "30";
         if (billdate > today) {
             alert('Cannt Do GST')
         }
