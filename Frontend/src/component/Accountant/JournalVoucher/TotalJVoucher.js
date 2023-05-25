@@ -5,7 +5,7 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
-import { getUserRolePermission } from '../../../api'
+import { getUserRolePermission,TotalJV,UpdateJVStatus } from '../../../api'
 
 const TotalJVoucher = () => {
     const [loading, setLoading] = useState(false)
@@ -16,7 +16,11 @@ const TotalJVoucher = () => {
 
     useEffect(() => {
         const fetchdata = async () => {
+            const org = localStorage.getItem('Organisation')
 
+            const totalresult = await TotalJV(org)
+            console.log(totalresult)
+            setData(totalresult)
             setLoading(true)
             fetchRoles();
         }
@@ -35,6 +39,7 @@ const TotalJVoucher = () => {
         }
 
         const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'journal_voucher')
+        console.log(UserRights)
         setUserRightsData(UserRights)
         localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
@@ -44,38 +49,76 @@ const TotalJVoucher = () => {
     }
 
     const columns = [
-        // {
-        //     name: 'Item Type',
-        //     selector: 'item_type',
-        //     sortable: true
-        // },
+        {
+            name: 'JV NUMBER',
+            selector: 'jv_no',
+            sortable: true,
+            cell: (row) =>{
+                if(financialstatus === 'Lock'){
+                    return <p title="Edit JV is lock">{row.jv_no}</p>
+                }
+                else{
+                    if(!userRightsData){
+                        fetchRoles() 
+                    }
+                    if(userRightsData.journal_voucher_edit === 'true'){
+                        return (
+                            <a title="Edit JV" className='pb-1' href="TotalJVoucher" onClick={() => localStorage.setItem('jvNo', `${row.so_no}`)}
+                            style={{ borderBottom: '3px solid blue' }}>{row.jv_no}</a>
+                        )
+                    } else{
+                        return <p title="do not have Access">{row.jv_no}</p>
+                    }
+                }
+            }
+        },
 
-        // {
-        //     name: 'Unit',
-        //     selector: 'item_unit',
-        //     sortable: true
-        // },
+        {
+            name: 'JV Date',
+            selector: 'jv_date',
+            sortable: true
+        },
 
-        // {
-        //     name: 'Minor Code',
-        //     selector: 'minor_code',
-        //     sortable: true
-        // },
-        // {
-        //     name: 'Chart of Account',
-        //     selector: 'chart_of_account',
-        //     sortable: true
-        // },
-        // {
-        //     name: 'Tax Preference',
-        //     selector: 'tax_preference',
-        //     sortable: true
-        // },
-        // {
-        //     name: 'GST Rate(in %)',
-        //     selector: 'gst_rate',
-        //     sortable: true
-        // },
+        {
+            name: 'Location',
+            selector: 'location',
+            sortable: true
+        },
+        {
+            name: 'account_head',
+            selector: 'account_head',
+            sortable: true
+        },
+        {
+            name: 'Status',
+            selector: 'status',
+            sortable: true,
+            cell:(row) => {
+                if(localStorage.getItem('financialstatus') === 'Lock'){
+                    return <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} disabled />
+                }
+                else{
+                    if (!userRightsData) {
+                        fetchRoles()
+                      }
+                      if(userRightsData.journal_voucher_delete === 'true'){
+                        return (
+                            <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} 
+                            onChange={async () => {
+                              const result = await UpdateJVStatus(localStorage.getItem('Organisation'),row.status === 'Active' ? 'Deactive' : 'Active',row.sno )
+                              if (result == 'done') { window.location.href = "./TotalJVoucher" }
+                            }} 
+
+                            />
+                          );
+                      }
+                      else {
+                        return <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} disabled />
+                      }
+                }
+            }
+        }
+      
 
 
     ]

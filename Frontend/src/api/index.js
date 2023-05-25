@@ -1817,3 +1817,16 @@ export const getActiveTdsHead = async (org) => {
     const url = `http://localhost:3008/api/getactivetdshead`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
+
+
+// Journal Voucher
+
+export const TotalJV = async (org) => {
+    const url = `http://localhost:3008/api/totaljv`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const UpdateJVStatus = async (org,status,sno) => {
+    const url = `http://localhost:3008/api/updatejvstatus`
+    return axios.post(url, { org,status,sno }).then(response => response.data).catch(error => console.log(error));
+}

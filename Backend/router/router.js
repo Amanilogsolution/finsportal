@@ -55,6 +55,8 @@ const RecurringBill = require('../controller/Purchases/RecurringBill/RecurringBi
 const SubRecurringBill = require('../controller/Purchases/RecurringBill/SubRecurringBill')
 const tdsHead = require('../controller/Master/tdsHead')
 
+const JVContoller = require('../controller/JournalVoucher')
+
 //Routes
 //DB
 router.post('/newdb', NewdbController.Newdb);
@@ -448,5 +450,12 @@ router.post('/deletetdshead',tdsHead.deleteTdsHead)
 router.post('/showtdshead',tdsHead.showTdsHead)
 router.post('/updatetdshead',tdsHead.updateTdsHead)
 router.post('/getactivetdshead',tdsHead.getActiveTdsHead)
+
+// Journal Voucher
+router.post('/insertjv',JVContoller.InsertJV)
+router.post('/totaljv',JVContoller.TotalJV)
+router.post('/updatejvstatus',JVContoller.UpdateJVStatus)
+router.post('/getjv',JVContoller.GetJV)
+
 
 module.exports = router;

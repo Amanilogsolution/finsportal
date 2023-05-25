@@ -15,10 +15,12 @@ function JVoucher() {
   const [customerInvlist, setCustomerInvlist] = useState([])
   const [vendorBilllist, setVendorBilllist] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
+
   const [jvminordata, setJvminordata] = useState([
     { locationId: '', locationName: '', item: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' },
     { locationId: '', locationName: '', item: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' },
   ])
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -26,7 +28,6 @@ function JVoucher() {
       const locatonstateres = await ActiveLocationAddress(org);
       setLocationstate(locatonstateres);
       const items = await ActiveAllItems(org);
-      console.log(items);
       setItemlist(items);
       const id = await Getfincialyearid(org)
       const lastno = Number(id[0].jv_count) + 1
@@ -80,6 +81,7 @@ function JVoucher() {
     e.preventDefault();
     setLoading(false)
     let val = e.target.value;
+    console.log(val)
     let item_arr = val.split('^')
     const itemname = item_arr[0]
     const glcode = item_arr[1]
@@ -184,7 +186,7 @@ function JVoucher() {
   }
   return (
     <>
-      <div className="wrapper positio-relative">
+      <div className="wrapper position-relative">
         <Header />
         {loading ? (
           <div className="content-wrapper">
