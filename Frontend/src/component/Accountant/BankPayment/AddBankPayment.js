@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import {ActiveAllChartofAccount} from '../../../api'
+import { ActiveAllChartofAccount, showOrganisation } from '../../../api'
+import BankPayPreview from "./BankPayPreview/BankPayPreview";
 
 function AddBankingPayment() {
     const [loading, setLoading] = useState(false)
+    const [orgdata, setOrgdata] = useState([])
     const [chartofacctlist, setChartofacctlist] = useState([]);
-    
+
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
-          
+
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
+
+            const orgdata = await showOrganisation(org)
+            setOrgdata(orgdata)
+
             setLoading(true)
             Todaydate()
         }
@@ -30,7 +36,8 @@ function AddBankingPayment() {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         document.getElementById("bank_recep_date").defaultValue = today;
-      };
+        document.getElementById("check_date").defaultValue = today;
+    };
     return (
         <>
             <div className="wrapper positio-relative">
@@ -53,18 +60,18 @@ function AddBankingPayment() {
                                             <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="check_date" /></div>
                                         </div>
                                         <div className="form-row mt-2">
-                                            <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Cheque amt<span className="text-danger">*</span></label>
+                                            <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Cheque amt <span className="text-danger">*</span></label>
                                             <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="check_amt" /></div>
-                                            <label htmlFor="check_date" className="col-md-2 col-form-label font-weight-normal">Bank <span className="text-danger">*</span></label>
+                                            <label htmlFor="bank" className="col-md-2 col-form-label font-weight-normal">Bank <span className="text-danger">*</span></label>
                                             <div className="d-flex col-md-4">
-                                                <select type="date" className="form-control col-md-10 " id="check_date" >
+                                                <select type="date" className="form-control col-md-10 " id="bank" >
                                                     <option value='' hidden>Select Bank</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="form-row">
                                             <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal text-danger" > On Account</label>
-                                            <div className="d-flex col-md-4"><input type="checkbox"  id="on_account"  /></div>
+                                            <div className="d-flex col-md-4"><input type="checkbox" id="on_account" /></div>
                                         </div>
                                         <table className="table table-bordered mt-3">
                                             <thead>
@@ -88,9 +95,8 @@ function AddBankingPayment() {
 
                                             </tbody>
                                         </table>
-                                        <button className="btn btn-primary"> Add Row</button>
-                                        &nbsp;
-                                        <button className="btn btn-danger"> Remove</button>
+                                        <button className="btn btn-primary" value='Add Row' />
+                                        <button className="btn btn-danger" value='Remove'/>
                                         <div className="d-flex mb-2 justify-content-between">
                                             <div style={{ width: "40%" }}>
                                                 <div className="form ">
@@ -122,13 +128,10 @@ function AddBankingPayment() {
                                         </div>
                                     </form>
                                 </article>
-
-
                                 <div className="card-footer border-top">
                                     <button id="save" name="save" className="btn btn-danger" >Submit</button>
-                                    {/* <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button> */}
                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#JvPreviewModal"  > Preview JV </button>
+                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankPayPreview" > Preview Payment</button>
                                 </div>
 
                             </div>
@@ -137,11 +140,10 @@ function AddBankingPayment() {
                 ) : (
                     <LoadingPage />
                 )}
-
-
                 <Footer />
 
             </div>
+            <BankPayPreview orgdata={orgdata} />
 
 
         </>

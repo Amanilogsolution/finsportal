@@ -2,51 +2,39 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import './landingpage.css'
 import Img from '../../images/finsgrowlogo.png'
-import landingimg from '../../images/finance_acc.png'
+import landingimg from '../../images/img.png'
 
 function LandingPage() {
   return (
     <>
       <div className='LandingDiv'>
-        <nav className='landing_navbar'>
+        <nav className='landing_navbar d-flex '>
           <div className='Logo'>
-            <img src={Img} alt="logo" width="100" />
+            <img src={Img} alt="logo" />
           </div>
           <div className='Menu'>
-            <ul className='Menulist'>
-              {/* <li>Home</li> */}
+            <ul className='Menulist d-flex'>
               <li className='landing-nav-link'><Link to='#' className="text-dark">About</Link></li>
               <li className='landing-nav-link'><Link to='#' className="text-dark">Help</Link></li>
-              <li><Link to='/Signin'><button className='signin-btn btn text-white'>SignIn</button></Link></li>
-              <li><Link to='/Signup'><button className='signin-btn btn text-white'>SignUp</button></Link></li>
+              <li><Link to='/Signin'><button className='signin-btn btn rounded-0 py-2 px-3'>Sign In</button></Link></li>
+              {/* <li><Link to='/Signup'><button className='signin-btn btn text-white'>SignUp</button></Link></li> */}
 
             </ul>
           </div>
         </nav>
-        <section className='sectioncont'>
+        <section className='sectioncont '>
+          <div className='content d-flex flex-column'>
+            <h1 className='content-heading'><span style={{ textDecoration: 'underline', textDecorationColor: '#dcaffe', textDecorationThickness: '20%' }}>Easy</span> Way <br /> to manage<br /> your <span className='px-1' style={{ background: '#f4ed82' }}>money</span></h1>
+            <p>Connect your money to your Website & brands.</p>
+            <a href='/Signup' className='content-btn px-3 d-flex align-items-center cursor-pointer'>Get Started <span className="material-symbols-outlined animated-arrow"> trending_flat</span></a>
+          </div>
           <div className='landingimg'>
             <img src={landingimg} alt="logo" />
           </div>
-          <div className='content'>
-            <h1><b>Financial Software</b></h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto nisi dolor sint praesentium nemo, quibusdam, laborum nobis delectus reiciendis accusantium quas, consequatur itaque. Id nihil earum ad perspiciatis cupiditate inventore repudiandae sapiente veniam possimus accusantium asperiores corporis, consectetur eaque, soluta tempora voluptas vero dolorum deserunt dolorem </p>
-          </div>
         </section>
-        <footer className='landing-footer'>
-        <div className='medialink'>
-        <ul>
-          <li><i className="fa fa-phone phone-icon"></i></li>
-          <li><i className="fa fa-phone phone-icon"></i></li>
-          <li><i className="fa fa-phone phone-icon"></i></li>
-        </ul>
-        </div>
-          {/* <span> */}
-            {/* <i className="fa fa-phone phone-icon" ></i>  */}
-            {/* Contact us:-
-            +91 9876543210</span> */}
-        </footer>
 
       </div>
+
     </>
   );
 }
