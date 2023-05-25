@@ -446,6 +446,18 @@ const Menu = (props) => {
                     <p>Journal Voucher </p>
                   </a>
                 </li>
+                <li className="nav-item"  id='banking_receMenu'>
+                  <a href="/TotalBankingReceipt" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Banking (Receipts)</p>
+                  </a>
+                </li>
+                <li className="nav-item"  id='banking_receMenu'>
+                  <a href="/TotalBankingPayment" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Banking (Payment)</p>
+                  </a>
+                </li>
                 {/* 
                 <li className="nav-item" style={{ display: "none" }} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">

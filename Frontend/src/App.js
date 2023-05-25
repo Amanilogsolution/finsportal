@@ -177,6 +177,10 @@ import TotalJVoucher from './component/Accountant/JournalVoucher/TotalJVoucher'
 import inserttdshead from './component/Master/TdsHead/inserttdshead'
 import TotaltdsHead from './component/Master/TdsHead/TotaltdsHead'
 import UpdatetdsHead from './component/Master/TdsHead/UpdatetdsHead'
+import TotalBankingReceipt from './component/Accountant/BankingRecep/TotalBankingRecep';
+import AddBankingReceipt from './component/Accountant/BankingRecep/AddBankingRecep';
+import TotalBankingPayment from './component/Accountant/BankPayment/TotalBankPayment';
+import AddBankingPayment from './component/Accountant/BankPayment/AddBankPayment';
 
 
 const App = () => {
@@ -385,6 +389,13 @@ const App = () => {
           <PrivatRoute exact path="/inserttdshead" component={inserttdshead} />
           <PrivatRoute exact path="/TotaltdsHead" component={TotaltdsHead} />
           <PrivatRoute exact path="/UpdatetdsHead" component={UpdatetdsHead} />
+
+
+          <PrivatRoute exact path="/TotalBankingReceipt" component={TotalBankingReceipt} />
+          <PrivatRoute exact path="/AddBankingReceipt" component={AddBankingReceipt} />
+
+          <PrivatRoute exact path="/TotalBankingPayment" component={TotalBankingPayment} />
+          <PrivatRoute exact path="/AddBankingPayment" component={AddBankingPayment} />
 
           
           <Route exact path="*" component={PageNotFound} />
