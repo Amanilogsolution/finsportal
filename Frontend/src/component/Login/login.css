@@ -1,7 +1,9 @@
 .login_container {
     height: 100vh;
     width: 100vw;
-    background: #dce0fe;
+    background: #f2f3fce1;
+    /* background: #dce0fe; */
+    
 }
 
 .login_box {

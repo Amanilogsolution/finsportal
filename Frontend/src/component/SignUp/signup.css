@@ -1,7 +1,8 @@
 .signup_page {
     min-height: 100vh;
     min-width: 100vw;
-    background: #d0deff;
+    /* background: #d0deff; */
+    background: #f2f3fce1;
     margin: 0%;
     padding: 0%;
 }

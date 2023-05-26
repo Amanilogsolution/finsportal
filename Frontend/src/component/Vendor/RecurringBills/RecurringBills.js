@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import '../Bills/bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress,getActiveTdsHead } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertRecurringBill, ActiveUser, ActiveLocationAddress, InsertRecurringSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, ActiveRecurringFreq, SearchVendAddress, getActiveTdsHead } from '../../../api'
 // import PreviewBill from '../Bills/PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -784,8 +784,8 @@ function AddRecurringBills() {
 
                                                 </tbody>
                                             </table>
-                                            <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
+                                            <input type='button' className="btn btn-primary" onClick={handleAdd} value='Add Item' />
+                                            <input type='button' className="btn btn-danger ml-2" onClick={handleRemove} value='Remove' />
                                             <hr />
 
                                             <div className='d-flex'>

@@ -428,6 +428,8 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_account(
     account_sub_name varchar(50) NULL,
     account_sub_name_code varchar(30) NULL,
     account_description varchar(300) NULL,
+    sales_flag varchar(30) NULL,
+    purchases_flag varchar(30) NULL,
     add_user_name varchar(30) NULL,
     add_system_name varchar(30) NULL,
     add_ip_address varchar(30) NULL,

@@ -735,8 +735,8 @@ function AddRecurringInvoices() {
                                                     }
                                                 </tbody>
                                             </table>
-                                            <button className="btn btn-primary" onClick={addRow} id='additembtm'>Add Item</button>   &nbsp;
-                                            <button className="btn btn-danger" onClick={RemoveRow} id='removeitembtm'>Remove</button>
+                                            <input type='button' className="btn btn-primary" onClick={addRow} id='additembtm' value='Add Item' />
+                                            <input type='button' className="btn btn-danger ml-2" onClick={RemoveRow} id='removeitembtm' value='Remove' />
                                             <div className='d-flex justify-content-between'>
                                                 <div style={{ width: "40%" }}>
                                                     <div className="form mt-3">

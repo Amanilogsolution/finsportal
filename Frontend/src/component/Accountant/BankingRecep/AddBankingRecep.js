@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank } from '../../../api'
+import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank ,showOrganisation} from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
-
+import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 
 
 function AddBankingReceipt() {
     const [loading, setLoading] = useState(false)
+    const [orgdata, setOrgdata] = useState([])
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [banklist, setBanklist] = useState([])
     const [customerlist, setCustomerlist] = useState([])
@@ -27,8 +28,11 @@ function AddBankingReceipt() {
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
             const allank = await ActiveBank(org);
-            console.log(allank)
             setBanklist(allank)
+
+            const orgdata = await showOrganisation(org)
+            setOrgdata(orgdata)
+
             setLoading(true)
             Todaydate()
         }
@@ -110,6 +114,9 @@ function AddBankingReceipt() {
                 totalRefAmt = Number(totalRefAmt) + Number(rowsInput[i].refAmt)
             }
             rowsInput[index][name] = value;
+            rowsInput[index].deduction = '';
+            rowsInput[index].tds = '';
+            rowsInput[index].recAmt = '';
             document.getElementById('total_ref_amt').innerHTML = totalRefAmt
         }
         else if (name === 'payType') {
@@ -236,11 +243,11 @@ function AddBankingReceipt() {
                                             <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="check_date" /></div>
                                         </div>
                                         <div className="form-row mt-2">
-                                            <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Cheque amt<span className="text-danger">*</span></label>
+                                            <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Cheque amt <span className="text-danger">*</span></label>
                                             <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="check_amt" /></div>
-                                            <label htmlFor="check_date" className="col-md-2 col-form-label font-weight-normal">Bank <span className="text-danger">*</span></label>
+                                            <label htmlFor="bank" className="col-md-2 col-form-label font-weight-normal">Bank <span className="text-danger">*</span></label>
                                             <div className="d-flex col-md-4">
-                                                <select type="date" className="form-control col-md-10 " id="check_date" >
+                                                <select type="date" className="form-control col-md-10 " id="bank" >
                                                     <option value='' hidden>Select Bank</option>
                                                     {banklist.map((bankdata, index) => (
                                                         <option key={index} value={bankdata.bank_name}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
@@ -291,9 +298,8 @@ function AddBankingReceipt() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <button type='add' className="btn btn-primary" onClick={handleAddRow}> Add Row</button>
-                                        &nbsp;
-                                        <button className="btn btn-danger" onClick={(e) => handleDeleteRemove(e, 0, 'pop')}> Remove</button>
+                                        <input type='button' className="btn btn-primary" onClick={handleAddRow} value='Add Row'/>
+                                        <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 0, 'pop')} value='Remove'/> 
                                         <div className="d-flex mb-2 justify-content-between">
                                             <div style={{ width: "40%" }}>
                                                 <div className="form ">
@@ -330,7 +336,7 @@ function AddBankingReceipt() {
                                 <div className="card-footer border-top">
                                     <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitFormData}>Submit</button>
                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#JvPreviewModal"  > Preview Receipts</button>
+                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankRecepPreview"  > Preview Receipts</button>
                                 </div>
 
                             </div>
@@ -341,6 +347,7 @@ function AddBankingReceipt() {
                 )}
                 <Footer />
             </div>
+            <BankRecepPreview orgdata={orgdata}/>
             {/* ###################### Customer Custom Modal ############################### */}
             <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
                 <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
