@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveLocationAddress, ActiveAllChartofAccount, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer,showOrganisation } from "../../../api/index";
+import { ActiveLocationAddress, ActiveAllChartofAccount, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer,showOrganisation,InsertJV } from "../../../api/index";
 import JvPreview from "./JVPreview/JvPreview";
 
 function JVoucher() {
@@ -234,7 +234,19 @@ if(index !== 0){
 
   const handleSubmitJvdata = (e) => {
     e.preventDefault();
+    const org = localStorage.getItem("Organisation");
+    const jv_no = document.getElementById("jv_no").value;
+    const jv_date = document.getElementById("jv_date").value;
+    const fin_year = '2023'
+    const add_user_name = localStorage.getItem("User_id");
+    const Narration = document.getElementById("remarks").value
+
     console.log(jvminordata)
+
+    jvminordata.forEach( async(item)=>{
+      const result = await InsertJV(org,jv_no,jv_date,item.locationId,item.glcode,item.chartofacct,item.bill_no,item.date,item.amt,item.passAmt,item.balanceAmt,item.dr_cr,Narration,'Charge Code',fin_year,add_user_name) 
+    })
+
    
   }
   return (
@@ -355,7 +367,6 @@ if(index !== 0){
 
                 <div className="card-footer border-top">
                   <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitJvdata}>Submit</button>
-                  {/* <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button> */}
                   <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
                   <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#JvPreviewModal"  > Preview JV </button>
                 </div>

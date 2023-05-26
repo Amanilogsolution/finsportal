@@ -1840,3 +1840,8 @@ export const UpdateJVStatus = async (org,status,sno) => {
     const url = `http://localhost:3008/api/updatejvstatus`
     return axios.post(url, { org,status,sno }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const InsertJV = async (org,jv_no,jv_date,location,glcode,account_head,ref_no,ref_date,amt,amt_receive,amt_bal,dr_cr,narration,charge_code,fin_year,add_user_name) => {
+    const url = `http://localhost:3008/api/insertjv`
+    return axios.post(url, {org,jv_no,jv_date,location,glcode,account_head,ref_no,ref_date,amt,amt_receive,amt_bal,dr_cr,narration,charge_code,fin_year,add_user_name }).then(response => response.data).catch(error => console.log(error));
+}
