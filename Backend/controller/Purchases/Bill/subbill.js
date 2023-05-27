@@ -17,10 +17,10 @@ const inserSubBill = async (req, res) => {
         tabledata.map(async (item, index) => {
             result = await sql.query(
                 `insert into ${org}.dbo.tbl_sub_bill( voucher_no ,bill_no,location,
-                        item_name,emp_name ,glcode ,qty ,rate ,amt ,unit ,file_no ,deduction ,sac_hsn ,net_amt ,fin_year,
+                        item_name ,glcode ,qty ,rate ,amt ,unit   ,sac_hsn ,net_amt ,fin_year,
                         add_user_name ,add_system_name ,add_ip_address ,add_date_time,status,sub_bill_uuid  )
-                     values ('${voucher_no}','${bill_no}','${item.location}','${item.item}','${item.employee}','${item.glcode}',
-                     '${item.quantity}','${item.rate}','${item.amount}','${item.unit}','${item.ref_fileno}','${item.deduction}','${item.sac_hsn}','${item.netamount}',
+                     values ('${voucher_no}','${bill_no}','${item.location}','${item.item}','${item.glcode}',
+                     '${item.quantity}','${item.rate}','${item.amount}','${item.unit}','${item.sac_hsn}','${item.netamount}',
                      '${fin_year}','${userid}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuidv1()}')`
             )
         })

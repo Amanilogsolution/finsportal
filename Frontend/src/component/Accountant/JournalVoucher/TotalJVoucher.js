@@ -63,7 +63,7 @@ const TotalJVoucher = () => {
                     }
                     if(userRightsData.journal_voucher_edit === 'true'){
                         return (
-                            <a title="Edit JV" className='pb-1' href="TotalJVoucher" onClick={() => localStorage.setItem('jvNo', `${row.so_no}`)}
+                            <a title="Edit JV" className='pb-1' href="EditJVoucher" onClick={() => localStorage.setItem('jvNo', row.jv_no)}
                             style={{ borderBottom: '3px solid blue' }}>{row.jv_no}</a>
                         )
                     } else{
@@ -75,18 +75,12 @@ const TotalJVoucher = () => {
 
         {
             name: 'JV Date',
-            selector: 'jv_date',
-            sortable: true
-        },
-
-        {
-            name: 'Location',
-            selector: 'location',
+            selector: 'Jv_date',
             sortable: true
         },
         {
-            name: 'account_head',
-            selector: 'account_head',
+            name: 'Remark',
+            selector: 'narration',
             sortable: true
         },
         {
@@ -105,7 +99,7 @@ const TotalJVoucher = () => {
                         return (
                             <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} 
                             onChange={async () => {
-                              const result = await UpdateJVStatus(localStorage.getItem('Organisation'),row.status === 'Active' ? 'Deactive' : 'Active',row.sno )
+                              const result = await UpdateJVStatus(localStorage.getItem('Organisation'),row.status === 'Active' ? 'Deactive' : 'Active',row.jv_no )
                               if (result == 'done') { window.location.href = "./TotalJVoucher" }
                             }} 
 

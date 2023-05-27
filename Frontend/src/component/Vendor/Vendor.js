@@ -694,7 +694,7 @@ const Vendor = () => {
                           </select>
                         </div>
                       </div>
-                      <div className="form-row">
+                      {/* <div className="form-row">
                         <label
                           htmlFor="tds"
                           className="col-md-2 col-form-label font-weight-normal"
@@ -712,8 +712,7 @@ const Vendor = () => {
 
                           </select>
                         </div>
-                        {/* form-group end.// */}
-                      </div>
+                      </div> */}
                       <div className="form-row">
                         <label
                           htmlFor="user_name"

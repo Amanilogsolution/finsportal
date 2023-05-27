@@ -57,7 +57,7 @@ function Bills() {
             rate: '0',
             amount: '0',
             deduction: '0',
-            ref_fileno: '',
+            // ref_fileno: '',
             unit: '',
             netamount: '0'
         }
@@ -150,12 +150,12 @@ function Bills() {
             item: '',
             glcode: '',
             sac_hsn: '',
-            employee: '',
+            // employee: '',
             quantity: '0',
             rate: '0',
             amount: '0',
-            deduction: '0',
-            ref_fileno: '',
+            // deduction: '0',
+            // ref_fileno: '',
             unit: '',
             netamount: '0'
         }])
@@ -180,9 +180,9 @@ function Bills() {
         setTdscomp(e.target.value)
     }
 
-    const handleChangeEmployee = (e, index) => {
-        tabledata[index].employee = e.target.value
-    }
+    // const handleChangeEmployee = (e, index) => {
+    //     tabledata[index].employee = e.target.value
+    // }
 
     // Item Hadle Calculation
 
@@ -246,19 +246,19 @@ function Bills() {
     }
 
     // Deduction Hadle Calculation
-    const handleChangeDeduction = (e, index) => {
-        tabledata[index].deduction = e.target.value
-        document.getElementById(`deduction${index}`).value = e.target.value;
+    // const handleChangeDeduction = (e, index) => {
+    //     tabledata[index].deduction = e.target.value
+    //     document.getElementById(`deduction${index}`).value = e.target.value;
 
-        let netamt = document.getElementById(`amount${index}`).value - e.target.value
-        document.getElementById(`netamt${index}`).value = netamt;
-        tabledata[index].netamount = netamt
-    }
+    //     let netamt = document.getElementById(`amount${index}`).value - e.target.value
+    //     document.getElementById(`netamt${index}`).value = netamt;
+    //     tabledata[index].netamount = netamt
+    // }
     // Ref no /File no Hadle Calculation
-    const handleChangeFileno = (e, index) => {
-        tabledata[index].ref_fileno = e.target.value;
-        document.getElementById(`fileno${index}`).value = e.target.value;
-    }
+    // const handleChangeFileno = (e, index) => {
+    //     tabledata[index].ref_fileno = e.target.value;
+    //     document.getElementById(`fileno${index}`).value = e.target.value;
+    // }
     // Unit Hadle Calculation
     const handleChangeUnit = (e, index) => {
         tabledata[index].unit = e.target.value;
@@ -460,6 +460,8 @@ function Bills() {
         const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
         const non_taxable_amt = ''
         const userid = localStorage.getItem('User_id')
+        const discount = document.getElementById('discount_amt').value
+        const employee = document.getElementById('employee_name').value
 
         if (!voucher_no) {
             alert('Please Enter mandatory field')
@@ -640,6 +642,19 @@ function Bills() {
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
                                                 </div>
                                             </div>
+                                            <div className="form-row mt-3">
+                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal">Employee<span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                <select className="form-control ml-0 col-md-10" id="employee_name">
+                                                                        <option value='' hidden>Select Employee</option>
+                                                                        {
+                                                                            activeuser.map((items, index) => (
+                                                                                <option key={index} value={items.employee_name} >{items.employee_name}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                </div>
+                                            </div>
 
                                             <br />
                                             <table className="table table-striped table-bordered">
@@ -647,13 +662,13 @@ function Bills() {
                                                     <tr>
                                                         <th scope="col">Location</th>
                                                         <th scope="col">Item Details</th>
-                                                        <th scope="col">Employee</th>
+                                                        {/* <th scope="col">Employee</th> */}
                                                         <th scope="col">Quantity</th>
-                                                        <th scope="col">Unit</th>
                                                         <th scope="col">Rate</th>
+                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>
-                                                        <th scope="col">Deduction</th>
-                                                        <th scope="col">Refno/FIleno</th>
+                                                        {/* <th scope="col">Deduction</th> */}
+                                                        {/* <th scope="col">Refno/FIleno</th> */}
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
                                                 </thead>
@@ -682,7 +697,7 @@ function Bills() {
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                {/* <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <select className="form-control ml-0" onChange={(e) => { handleChangeEmployee(e, index) }}>
                                                                         <option value='' hidden>Select Employee</option>
                                                                         {
@@ -691,11 +706,15 @@ function Bills() {
                                                                             ))
                                                                         }
                                                                     </select>
-                                                                </td>
+                                                                </td> */}
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id={`Quantity${index}`} onChange={(e) => { handleChangeQuantity(e, index) }} className="form-control" />
                                                                 </td>
+                                                               
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                    <input type='number' id={`rate${index}`} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
+                                                                </td>
+                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
                                                                         <option value='' hidden>Select Unit</option>
                                                                         {
@@ -705,19 +724,16 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`rate${index}`} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id={`amount${index}`} className="form-control cursor-notallow" disabled />
                                                                 </td>
 
-                                                                <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                                {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' id={`deduction${index}`} className="form-control" defaultValue={0} onChange={(e) => handleChangeDeduction(e, index)} />
 
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                                </td> */}
+                                                                {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
-                                                                </td>
+                                                                </td> */}
 
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' id={`netamt${index}`} className="form-control cursor-notallow" disabled />
@@ -892,6 +908,16 @@ function Bills() {
                                                                     <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' onBlur={handlesetalldata} />
                                                                 </td>
                                                                 <td className='text-center' id='expense-amttd' style={{ width: "150px" }}>0.00</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Discount </td>
+                                                                <td className='form-control col-md p-0 bg-transparent '>
+                                                                    <input type="text" className="form-control col-md-6 ml-5" id='discount_amt' 
+                                                                    // onBlur={handlesetalldata} 
+
+                                                                    />
+                                                                </td>
+                                                                {/* <td className='text-center' id='expense-amttd' style={{ width: "150px" }}>0.00</td> */}
                                                             </tr>
                                                             <tr>
                                                                 <td><h4>Total</h4></td>

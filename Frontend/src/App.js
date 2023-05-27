@@ -173,6 +173,7 @@ import Signup from './component/SignUp/Signup';
 import UserManualSidebar from './component/UserManual/UserManualSidebar';
 import JVoucher from './component/Accountant/JournalVoucher/JVoucher'
 import TotalJVoucher from './component/Accountant/JournalVoucher/TotalJVoucher'
+import EditJVoucher from './component/Accountant/JournalVoucher/EditJVoucher';
 
 import inserttdshead from './component/Master/TdsHead/inserttdshead'
 import TotaltdsHead from './component/Master/TdsHead/TotaltdsHead'
@@ -382,8 +383,11 @@ const App = () => {
           <PrivatRoute exact path="/EditRecurringBills" component={EditRecurringBills} />
 
           <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
+
           <PrivatRoute exact path="/TotalJVoucher" component={TotalJVoucher} />
           <PrivatRoute exact path="/JVoucher" component={JVoucher} />
+          <PrivatRoute exact path="/EditJVoucher" component={EditJVoucher} />
+
           
 
           <PrivatRoute exact path="/inserttdshead" component={inserttdshead} />

@@ -191,7 +191,7 @@ const CNReport = (props) => {
                                             <input type="text" className="form-control" id="customer" aria-describedby="emailHelp" disabled />
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <label htmlFor="total_cn_amt">Total CR Amount</label> <span className='text-danger'>*</span>
+                                            <label htmlFor="total_cn_amt">Total DR Amount</label> <span className='text-danger'>*</span>
                                             <input type="number" className="form-control" id="total_cn_amt" aria-describedby="emailHelp" placeholder="Enter Amount" />
                                         </div>
                                     </div>
