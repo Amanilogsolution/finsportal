@@ -381,7 +381,7 @@ const AddRoles = () => {
     }
 
     const handlemaster = () => {
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear','finsyearlock', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
         if (mastertoggle) {
             for (let i = 0; i < innermaster.length; i++) {
                 document.getElementById(innermaster[i]).style.display = 'none'
@@ -398,12 +398,12 @@ const AddRoles = () => {
 
     const handleChangeAllAccess = (e) => {
         const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
-            'org', 'paymentTerm', 'financial','financiallock','branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
-            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'recurring_freq', 'recurring_invoice', 'recurring_bill','journal_voucher']
+            'org', 'paymentTerm', 'financial','branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
+            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'recurring_freq', 'recurring_invoice', 'recurring_bill','journal_voucher','tds_head']
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
         const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill','journal_voucher'];
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'finsyearlock','branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear','branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
 
 
@@ -671,14 +671,7 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='financial_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='financial_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
-                                                <tr id='finsyearlock' style={displaynone}>
-                                                    <th className="text-left">Financial year Lock</th>
-                                                    <td><input type='checkbox' id='financiallock_full' style={checkboxstyle} onClick={() => fullaccess('financiallock_full', 'financiallock_view', 'financiallock_create', 'financiallock_edit', 'financiallock_delete')} /></td>
-                                                    <td><input type='checkbox' id='financiallock_view' style={checkboxstyle} onClick={() => viewoff('financiallock_full', 'financiallock_view', 'financiallock_create', 'financiallock_edit', 'financiallock_delete')} /></td>
-                                                    <td><input type='checkbox' id='financiallock_create' style={checkboxstyle} disabled /></td>
-                                                    <td><input type='checkbox' id='financiallock_edit' style={checkboxstyle} disabled /></td>
-                                                    <td><input type='checkbox' id='financiallock_delete' style={checkboxstyle} disabled /></td>
-                                                </tr>
+                                         
                                                 <tr id='branch' style={displaynone}>
                                                     <th className="text-left">Branch</th>
                                                     <td><input type='checkbox' id='branch_full' style={checkboxstyle} onClick={() => fullaccess('branch_full', 'branch_view', 'branch_create', 'branch_edit', 'branch_delete')} /></td>
@@ -867,15 +860,7 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='reports_debitnote_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
 
-                                                {/* #############################  Project Setting #################################################### */}
 
-                                                <tr>
-                                                    <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handlemaster}>
-                                                        {mastertoggle ? <i className="ion-arrow-down-b"></i> :
-                                                            <i className="ion-arrow-right-b"></i>}
-                                                        &nbsp;<span className="text-danger">Setting</span>
-                                                    </th>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

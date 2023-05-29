@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { InsertUser, insertUserLogin, UploadData, ActiveCustomer, ActiveUserRole,TotalOrganistion } from '../../../api';
+import { InsertUser, insertUserLogin, UploadData, ActiveCustomer, ActiveUserRole, TotalOrganistion } from '../../../api';
 import Select from 'react-select';
 
 const AddUser = () => {
@@ -12,7 +12,7 @@ const AddUser = () => {
   const [passwordshow, setPasswordshow] = useState(false);
   const [file, setFile] = useState('')
   const [user_profile_url, setUserProfile] = useState('')
-  const [totalorg,setTotalOrg] = useState([])
+  const [totalorg, setTotalOrg] = useState([])
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -23,7 +23,6 @@ const AddUser = () => {
       setUserroleslist(roles)
 
       const organisation = await TotalOrganistion()
-      console.log(organisation)
       // setData(organisation)
       setTotalOrg(organisation)
     }
@@ -81,8 +80,8 @@ const AddUser = () => {
     setPasswordshow(!passwordshow)
   }
 
-  const organisation = totalorg.map((ele) =>{
-    return {value : ele.org_db_name,label : ele.org_name}
+  const organisation = totalorg.map((ele) => {
+    return { value: ele.org_db_name, label: ele.org_name }
   })
   // const handleChange = (e) => {
   //   const data = document.getElementById('auth').checked;
@@ -131,20 +130,23 @@ const AddUser = () => {
 
 
                 <div className="form-row">
-                  <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email id</label>
-                  <div className="col form-group">
-                    <input type="email" className="form-control col-md-4" id='email_id' placeholder="email id" required />
+                  <div className="col form-row">
+                    <label htmlFor="email_id" className="col-md-4 col-form-label font-weight-normal">Email id</label>
+                    <div className="col form-group">
+                      <input type="email" className="form-control col-md-10" id='email_id' placeholder="email id" required />
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-row">
-                  <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone no.</label>
-                  <div className="col form-group">
-                    <input type="number" className="form-control col-md-4" id='phone' placeholder="phone" value={numbercount}
-                      onChange={(e) => {
-                        if (e.target.value.length === 11) return false;
-                        setNumbercount(e.target.value)
-                      }} />
+
+                  <div className="col form-row">
+                    <label htmlFor="phone" className="col-md-4 col-form-label font-weight-normal">Phone no.</label>
+                    <div className="col form-group">
+                      <input type="number" className="form-control col-md-10" id='phone' placeholder="phone" value={numbercount}
+                        onChange={(e) => {
+                          if (e.target.value.length === 11) return false;
+                          setNumbercount(e.target.value)
+                        }} />
+                    </div>
                   </div>
                 </div>
 
@@ -168,24 +170,26 @@ const AddUser = () => {
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting to</label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='reporting_to' placeholder="reporting to" />
+                  <div className="col form-row">
+                    <label htmlFor="reporting_to" className="col-md-4 col-form-label font-weight-normal">Reporting to</label>
+                    <div className="col form-group">
+                      <input type="text" className="form-control col-md-10" id='reporting_to' placeholder="reporting to" />
+                    </div>
+                  </div>
+
+                  <div className="col form-row">
+                    <label htmlFor="designation" className="col-md-4 col-form-label font-weight-normal">Designation</label>
+                    <div className="col form-group">
+                      <input type="text" className="form-control col-md-10" id='designation' placeholder="Designation" />
+                    </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='designation' placeholder="Designation" />
-                  </div>
-                </div>
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">User Id</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='user_name' placeholder="User ID" />
                   </div>
-                  {/* form-group end.// */}
                 </div>
 
                 <div className="form-row">
@@ -203,20 +207,20 @@ const AddUser = () => {
                     setFile(document)
                   }} />
                   <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
+                    <button className="btn btn-outline-success" onClick={handleSendFile} type="button">Upload</button>
                   </div>
                 </div>
 
                 <div className="form-row mt-3">
                   <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Select Organisation</label>
                   <Select
-                          className="col text-dark col-md-4"
-                          options={organisation}
-                          isMulti={true}
-                          placeholder="Select Organisation"
-                          // onChange={handleCustlocation}
-                        />
-                 
+                    className="col text-dark col-md-4"
+                    options={organisation}
+                    isMulti={true}
+                    placeholder="Select Organisation"
+                  // onChange={handleCustlocation}
+                  />
+
                 </div>
 
                 {/* <div className=" form-row" >

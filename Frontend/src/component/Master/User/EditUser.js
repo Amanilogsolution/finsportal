@@ -11,7 +11,7 @@ const EditUser = () => {
   const [useroleslist, setUserroleslist] = useState([])
 
 
-  useEffect( () => {
+  useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
       const result = await showuser(localStorage.getItem('userSno'));
@@ -89,7 +89,7 @@ const EditUser = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper`}>
+      <div className='content-wrapper'>
         <div className="container-fluid">
           <h3 className="ml-5 py-2">Edit User</h3>
           <div className="card w-100 " >
@@ -135,13 +135,11 @@ const EditUser = () => {
               <div className="form-row">
                 <label htmlFor="email_id" className="col-md-2 col-form-label font-weight-normal">Email ID</label>
                 <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='email_id' defaultValue={data.email_id} />
+                  <input type="text" className="form-control col-md-10" id='email_id' defaultValue={data.email_id} />
                 </div>
-              </div>
-              <div className="form-row">
                 <label htmlFor="phone" className="col-md-2 col-form-label font-weight-normal">Phone</label>
                 <div className="col form-group">
-                  <input type="number" className="form-control col-md-4" id='phone' value={data.phone}
+                  <input type="number" className="form-control col-md-10" id='phone' value={data.phone}
                     onChange={(e) => handleChangephone(e)} />
                 </div>
               </div>
@@ -167,27 +165,31 @@ const EditUser = () => {
               <div className="form-row">
                 <label htmlFor="reporting_to" className="col-md-2 col-form-label font-weight-normal">Reporting To</label>
                 <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='reporting_to' defaultValue={data.reporting_to} />
+                  <input type="text" className="form-control col-md-10" id='reporting_to' defaultValue={data.reporting_to} />
+                </div>
+                <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
+                <div className="col form-group">
+                  <input type="text" className="form-control col-md-10" id='designation' defaultValue={data.designation} />
                 </div>
               </div>
               <div className="form-row">
-                <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal">Designation </label>
+                <label htmlFor="finsyear_lock" className="col-md-2 col-form-label font-weight-normal">Financial year Lock</label>
                 <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='designation' defaultValue={data.designation} />
+                  <input type="checkbox" id='finsyear_lock' style={{ height: '18px', width: '18px' }} />
                 </div>
+
               </div>
 
-             
             </form>
-            <div className={`border-top card-footer`}>
-                <button className="btn btn-success" onClick={handleClick}>Update</button>
-                <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
-              </div>
+            <div className='border-top card-footer'>
+              <button className="btn btn-success" onClick={handleClick}>Update</button>
+              <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); localStorage.removeItem('userSno'); window.location.href = './ShowUser' }}>Cancel</button>
+            </div>
           </div>
         </div>
-      </div>
-      <Footer  />
-    </div>
+      </div >
+      <Footer />
+    </div >
   )
 
 }
