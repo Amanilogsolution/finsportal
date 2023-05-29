@@ -64,6 +64,8 @@ const AddCustomer = async (req, res) => {
     const uuid = uuidv1()
 
     try {
+        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_new_customer where pan_no = '${pan_no}'`)
+        if(duplicate.recordset.length === 0){
         const result = await sql.query(`INSERT into ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                 company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
                 website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
@@ -78,6 +80,9 @@ const AddCustomer = async (req, res) => {
                         '${req.ip}','${uuid}');`)
 
         res.send(result.rowsAffected)
+        }else{
+            res.send('Already');
+        }
     }
     catch (err) {
         res.send(err)

@@ -149,6 +149,15 @@ const Vendor = () => {
     const contact_person_skype = document.getElementById('contact_person_skype').value;
     const contact_person_designation = document.getElementById('contact_person_designation').value;
     const contact_person_department = document.getElementById('contact_person_department').value;
+
+    const contact_person_name2 = document.getElementById('contact_person_name2').value;
+    const contact_person_email2 = document.getElementById('contact_person_email2').value;
+    const contact_person_work_phone2 = document.getElementById('contact_person_work_phone2').value;
+    const contact_person_phone2 = document.getElementById('contact_person_phone2').value;
+    const contact_person_skype2 = document.getElementById('contact_person_skype2').value;
+    const contact_person_designation2 = document.getElementById('contact_person_designation2').value;
+    const contact_person_department2 = document.getElementById('contact_person_department2').value;
+
     const remark = document.getElementById('remark').value;
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id')
@@ -166,7 +175,8 @@ const Vendor = () => {
           department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
           portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
           billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-          contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id, year)
+          contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id, year,contact_person_name2,contact_person_email2,contact_person_work_phone2,
+          contact_person_phone2,contact_person_skype2,contact_person_designation2,contact_person_department2)
 
         if (result[0] > 0) {
           const result = await Updatefinancialcount(org, 'vend_count', increvend)
@@ -189,7 +199,8 @@ const Vendor = () => {
           department, website, gst_treatment, gstin_uin, pan_no, source_of_supply, currency, opening_balance, payment_terms, tds, enable_portal,
           portal_language, facebook_url, twitter_url, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val,
           billing_address_pincode, billing_address_phone, billing_address_fax, contact_person_name, contact_person_email, contact_person_work_phone,
-          contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id, year)
+          contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id, year,contact_person_name2,contact_person_email2,contact_person_work_phone2,
+          contact_person_phone2,contact_person_skype2,contact_person_designation2,contact_person_department2)
 
         if (result2[0] > 0) {
           const result1 = await UpdatefinancialTwocount(org, 'mvend_count', incremvend, 'vend_count', increvend)
@@ -216,10 +227,23 @@ const Vendor = () => {
     const statesresult = await showactivestate(data)
     setSelectState(statesresult)
   }
+
   const handleChangebillingState = async (e) => {
     let data = e.target.value;
     const result = await getCity(data)
     setSelectCity(result)
+  }
+
+  const handlePanNo = async (e) => {
+    e.preventDefault()
+    const pannumber = document.getElementById('pan_no').value
+    var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+    if(regex.test(pannumber.toUpperCase())){
+      return true;
+    }else{
+      alert('Invalid pannumber')
+      document.getElementById('pan_no').value = ''
+    }
   }
 
 
@@ -603,6 +627,7 @@ const Vendor = () => {
                             type="email"
                             id="pan_no"
                             className="form-control col-md-4"
+                            onBlur={handlePanNo}
                           />
                         </div>
                       </div>
@@ -964,12 +989,15 @@ const Vendor = () => {
                       </div>
                     </div>
                     {/*---------Add Contact Person ---------- */}
-                    <div className="Address mt-3" id="contactdiv" style={{ display: "none" }}>
-                      <label>Contact Person</label>
+
+                    <div id="contactdiv" style={{display:"none"}}>
+                    <div className="d-flex flex-raw">
+                    <div className="Address " style={{width:"50%"}} >
+                      <label>Contact Person 1</label>
                       <div className="form-row">
                         <label
                           htmlFor="contact_person_name"
-                          className="col-md-2 col-form-label font-weight-normal"
+                          className="col-md-3 col-form-label font-weight-normal"
                         >
                           Name <span className="text-danger">*</span>
                         </label>
@@ -977,21 +1005,21 @@ const Vendor = () => {
                           <input
                             type="text"
                             id="contact_person_name"
-                            className="form-control col-md-4"
+                            className="form-control col-md-7"
                           />
                         </div>
                       </div>
 
                       <div className="form-row">
-                        <label htmlFor="contact_person_email" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
+                        <label htmlFor="contact_person_email" className="col-md-3 col-form-label font-weight-normal">Email Address</label>
                         <div className="col form-group">
-                          <input type="email" id="contact_person_email" className="form-control col-md-4" />
+                          <input type="email" id="contact_person_email" className="form-control col-md-7" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="contact_person_work_phone" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
+                        <label htmlFor="contact_person_work_phone" className="col-md-3 col-form-label font-weight-normal">Work Phone</label>
                         <div className="col form-group">
-                          <input type="number" id="contact_person_work_phone" className="form-control col-md-4"
+                          <input type="number" id="contact_person_work_phone" className="form-control col-md-7"
                             value={contworkphonecount}
                             onChange={(e) => {
                               if (e.target.value.length === 11) return false;
@@ -1001,9 +1029,9 @@ const Vendor = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
+                        <label htmlFor="contact_person_phone" className="col-md-3 col-form-label font-weight-normal">Mobile</label>
                         <div className="col form-group">
-                          <input type="number" id="contact_person_phone" className="form-control col-md-4"
+                          <input type="number" id="contact_person_phone" className="form-control col-md-7"
                             value={contphonecount}
                             onChange={(e) => {
                               if (e.target.value.length === 11) return false;
@@ -1013,24 +1041,97 @@ const Vendor = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="contact_person_skype" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
+                        <label htmlFor="contact_person_skype" className="col-md-3 col-form-label font-weight-normal">Skype Name/Number</label>
                         <div className="col form-group">
-                          <input type="text" id="contact_person_skype" className="form-control col-md-4" />
+                          <input type="text" id="contact_person_skype" className="form-control col-md-7" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="contact_person_designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
+                        <label htmlFor="contact_person_designation" className="col-md-3 col-form-label font-weight-normal">Designation</label>
                         <div className="col form-group">
-                          <input type="text" id="contact_person_designation" className="form-control col-md-4" />
+                          <input type="text" id="contact_person_designation" className="form-control col-md-7" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="contact_person_department" className="col-md-2 col-form-label font-weight-normal">Department</label>
+                        <label htmlFor="contact_person_department" className="col-md-3 col-form-label font-weight-normal">Department</label>
                         <div className="col form-group">
-                          <input type="text" id="contact_person_department" className="form-control col-md-4" />
+                          <input type="text" id="contact_person_department" className="form-control col-md-7" />
                         </div>
                       </div>
                     </div>
+
+                    <div className="Address"  style={{width:"50%"}}>
+                      <label>Contact Person 2</label>
+                      <div className="form-row">
+                        <label
+                          htmlFor="contact_person_name"
+                          className="col-md-3 col-form-label font-weight-normal"
+                        >
+                          Name 
+                        </label>
+                        <div className="col form-group">
+                          <input
+                            type="text"
+                            id="contact_person_name2"
+                            className="form-control col-md-7"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <label htmlFor="contact_person_email" className="col-md-3 col-form-label font-weight-normal">Email Address</label>
+                        <div className="col form-group">
+                          <input type="email" id="contact_person_email2" className="form-control col-md-7" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="contact_person_work_phone" className="col-md-3 col-form-label font-weight-normal">Work Phone</label>
+                        <div className="col form-group">
+                          <input type="number" id="contact_person_work_phone2" className="form-control col-md-7"
+                            value={contworkphonecount}
+                            onChange={(e) => {
+                              if (e.target.value.length === 11) return false;
+                              setContworkphonecount(e.target.value);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="contact_person_phone" className="col-md-3 col-form-label font-weight-normal">Mobile</label>
+                        <div className="col form-group">
+                          <input type="number" id="contact_person_phone2" className="form-control col-md-7"
+                            value={contphonecount}
+                            onChange={(e) => {
+                              if (e.target.value.length === 11) return false;
+                              setContphonecount(e.target.value);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="contact_person_skype" className="col-md-3 col-form-label font-weight-normal">Skype Name/Number</label>
+                        <div className="col form-group">
+                          <input type="text" id="contact_person_skype2" className="form-control col-md-7" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="contact_person_designation" className="col-md-3 col-form-label font-weight-normal">Designation</label>
+                        <div className="col form-group">
+                          <input type="text" id="contact_person_designation2" className="form-control col-md-7" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <label htmlFor="contact_person_department" className="col-md-3 col-form-label font-weight-normal">Department</label>
+                        <div className="col form-group">
+                          <input type="text" id="contact_person_department2" className="form-control col-md-7" />
+                        </div>
+                      </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    
                   </form>
                 </article>
                 <div className="border-top card-footer">

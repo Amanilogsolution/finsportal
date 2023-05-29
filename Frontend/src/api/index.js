@@ -485,7 +485,8 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
     billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone,
     billing_address_fax, contact_person_name,
     contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-    contact_person_department, remark, org, User_id, year) => {
+    contact_person_department, remark, org, User_id, year,contact_person_name_2,contact_person_email_2,contact_person_work_phone_2,
+    contact_person_phone_2,contact_person_skype_2,contact_person_designation_2,contact_person_department_2) => {
 
     const url = `https://finsbackend.awlinternational.com/api/insertvendor`
     return axios.post(url, {
@@ -497,7 +498,8 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
         billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone,
         billing_address_fax, contact_person_name,
         contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-        contact_person_department, remark, org, User_id, year
+        contact_person_department, remark, org, User_id, year,contact_person_name_2,contact_person_email_2,contact_person_work_phone_2,
+        contact_person_phone_2,contact_person_skype_2,contact_person_designation_2,contact_person_department_2
     }).then(response => response.data).catch(error => console.log(error));
 }
 
