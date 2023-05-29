@@ -126,7 +126,7 @@ const EditUser = () => {
               </div>
               <div className="form-row">
                 <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Password</label>
-                <input name="password" type={passwordshow ? "text" : "password"} className="form-control col-md-3" id="password" value={data.password} onChange={(e) => handleChangepassword(e)} />
+                <input name="password" type={passwordshow ? "text" : "password"} className="form-control col-md-3" id="password" value={data.password} onChange={(e) => handleChangepassword(e)} disabled/>
                 <div className="input-group-append">
                   <span className="input-group-text" onClick={handleClickToogle}>{passwordshow ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}</span>
                 </div>
@@ -177,7 +177,6 @@ const EditUser = () => {
                 <div className="col form-group">
                   <input type="checkbox" id='finsyear_lock' style={{ height: '18px', width: '18px' }} />
                 </div>
-
               </div>
 
             </form>

@@ -11,15 +11,15 @@ const SubAddBankRec = ({ Bankrowdata, chartofacctlist, handleDeleteRemove,handle
                         }
                     </select>
                 </td>
-                <td className='p-0'>  <input type="text" className="form-control" name='costCenter' value={rowdata.costCenter} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
-                <td className='p-0'> <input type="text" className="form-control"  name='refNo' value={rowdata.refNo} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
-                <td className='p-0'> <input type="date" className="form-control"  name='refDate' value={rowdata.refDate} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
-                <td className='p-0'> <input type="number" className="form-control"  name='refAmt' value={rowdata.refAmt} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
+                <td className='p-0'>  <input type="text" className="form-control " name='costCenter' value={rowdata.costCenter} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
+                <td className='p-0'> <input type="text" className="form-control px-1"  name='refNo' value={rowdata.refNo} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
+                <td className='p-0'> <input type="date" className="form-control px-1"  name='refDate' value={rowdata.refDate} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
+                <td className='p-0'> <input type="number" className="form-control px-1"  name='refAmt' value={rowdata.refAmt} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
                 <td className='p-0'> <input type="number" className="form-control"  name='deduction' value={rowdata.deduction} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
                 <td className='p-0'> <input type="number" className="form-control"  name='tds' value={rowdata.tds} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
                 <td className='p-0'> <input type="number" className="form-control"  name='netAmt' value={rowdata.netAmt} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
                 <td className='p-0'> <input type="text" className="form-control"  name='payType' value={rowdata.payType} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
-                <td className='p-0'> <input type="number" className="form-control"  name='recAmt' id={`recAmt-${index}`} value={rowdata.recAmt} onChange={(e)=>handleChangeRowData(e,index)}/> </td>
+                <td className='p-0'> <input type="number" className="form-control"  name='recAmt' id={`recAmt-${index}`} value={rowdata.recAmt} onChange={(e)=>handleChangeRowData(e,index)} onBlur={(e)=>{handleBlurMethod(e,index)}}/> </td>
                 <td className='p-0'> <input type="number" className="form-control"  name='balAmt' value={rowdata.balAmt} onChange={(e)=>handleChangeRowData(e,index)} disabled/> </td>
                 <td className='px-0 py-1'>
                     <div className='d-flex justify-content-center align-items-center rounded-circle text-primary cursor-pointer border border-primary' style={{ height: '25px', width: '25px' }}

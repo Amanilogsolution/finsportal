@@ -161,6 +161,15 @@ function AddBankingReceipt() {
             rowsInput[index][name] = value;
             document.getElementById('total_net_amt').innerHTML = totalnetamt
         }
+        else if (name === 'recAmt') {
+            let totalrecAmt = 0;
+            for (let i = 0; i < rowsInput.length; i++) {
+                totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
+            }
+            rowsInput[index][name] = value;
+            document.getElementById('total_rec_amt').innerHTML = totalrecAmt
+        }
+        
         setBankrowdata(rowsInput);
     }
     const handleClickCustomer = async (customer_id, customer_name) => {
