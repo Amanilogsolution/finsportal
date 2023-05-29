@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { InsertUser, insertUserLogin, UploadData, ActiveCustomer, ActiveUserRole } from '../../../api';
+import { InsertUser, insertUserLogin, UploadData, ActiveCustomer, ActiveUserRole,TotalOrganistion } from '../../../api';
+import Select from 'react-select';
 
 const AddUser = () => {
   // const [authentication, setAuthentication] = useState(true)
@@ -11,6 +12,7 @@ const AddUser = () => {
   const [passwordshow, setPasswordshow] = useState(false);
   const [file, setFile] = useState('')
   const [user_profile_url, setUserProfile] = useState('')
+  const [totalorg,setTotalOrg] = useState([])
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -19,6 +21,11 @@ const AddUser = () => {
       setActivecustomer(customer)
       const roles = await ActiveUserRole(org)
       setUserroleslist(roles)
+
+      const organisation = await TotalOrganistion()
+      console.log(organisation)
+      // setData(organisation)
+      setTotalOrg(organisation)
     }
     fetchdata()
   }, [])
@@ -73,6 +80,10 @@ const AddUser = () => {
     e.preventDefault()
     setPasswordshow(!passwordshow)
   }
+
+  const organisation = totalorg.map((ele) =>{
+    return {value : ele.org_db_name,label : ele.org_name}
+  })
   // const handleChange = (e) => {
   //   const data = document.getElementById('auth').checked;
   //   setAuthentication(data)
@@ -194,6 +205,18 @@ const AddUser = () => {
                   <div className="input-group-append">
                     <button className="btn btn-outline-secondary" onClick={handleSendFile} type="button">Upload</button>
                   </div>
+                </div>
+
+                <div className="form-row mt-3">
+                  <label htmlFor="password" className="col-md-2 col-form-label font-weight-normal">Select Organisation</label>
+                  <Select
+                          className="col text-dark col-md-4"
+                          options={organisation}
+                          isMulti={true}
+                          placeholder="Select Organisation"
+                          // onChange={handleCustlocation}
+                        />
+                 
                 </div>
 
                 {/* <div className=" form-row" >
