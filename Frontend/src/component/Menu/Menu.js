@@ -12,7 +12,7 @@ const Menu = (props) => {
   //   if(event.key == 'D'){
   //     window.location.href = 'Bills'
   //   }
- 
+
   // }, []);
 
   useEffect(() => {
@@ -218,7 +218,7 @@ const Menu = (props) => {
       else {
         document.getElementById('tds_headMenu').style.display = "none"
       }
-      
+
 
     }
     else {
@@ -241,7 +241,7 @@ const Menu = (props) => {
       } else {
         document.getElementById('journal_voucherMenu').style.display = "none"
       }
-      
+
 
       if (result.chartof_accounts_view === "true") {
         document.getElementById('coacctMenu').style.display = "block"
@@ -440,19 +440,19 @@ const Menu = (props) => {
                     <p>Currency Adjustments </p>
                   </a>
                 </li>
-                <li className="nav-item"  id='journal_voucherMenu'>
+                <li className="nav-item" id='journal_voucherMenu'>
                   <a href="/TotalJVoucher" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Journal Voucher </p>
                   </a>
                 </li>
-                <li className="nav-item"  id='banking_receMenu'>
+                <li className="nav-item" id='banking_receMenu'>
                   <a href="/TotalBankingReceipt" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Banking (Receipts)</p>
                   </a>
                 </li>
-                <li className="nav-item"  id='banking_receMenu'>
+                <li className="nav-item" id='banking_receMenu'>
                   <a href="/TotalBankingPayment" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Banking (Payment)</p>
@@ -638,7 +638,7 @@ const Menu = (props) => {
                   </ul>
                 </li> */}
             </li>
-            {/* Report Menu  */}
+            {/* ######################### Report Menu  ########################### */}
             <li className="nav-item" id='reportMenu' style={{ display: "none" }}>
               <a href="/Reportdata" className="nav-link active">
                 <i className="far ion-arrow-graph-up-right nav-icon" style={{ marginLeft: "-5px" }} />
@@ -647,7 +647,7 @@ const Menu = (props) => {
             </li>
 
 
-            <li className="nav-item financial-year-change" id="finsyear">
+            <li className="nav-item financial-year-change" id="menu_finsyear" >
               <a className="nav-link active">
                 <i className="fa fa-calendar" aria-hidden="true"></i>
                 <p >

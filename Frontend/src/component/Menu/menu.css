@@ -1,9 +1,9 @@
-.financial-year-change {
+#menu_finsyear{
     display: none;
 }
 
 @media screen and (max-width:520px) {
-    .financial-year-change {
+    #menu_finsyear{
         display: inline-block;
     }
 }

@@ -71,7 +71,8 @@ const AddRoles = () => {
         const role = document.getElementById('role').value;
         let role_id = role + Math.floor(Math.random() * 100000);
         const description = document.getElementById('description').value;
-        const multiorg = document.getElementById('multiorg').checked === true ? true : false;
+        // const multiorg = document.getElementById('multiorg').checked === true ? true : false;
+        const multiorg =''
         
 
         //  ########################################### Transition #########################################
@@ -380,7 +381,7 @@ const AddRoles = () => {
     }
 
     const handlemaster = () => {
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear','finsyearlock', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
         if (mastertoggle) {
             for (let i = 0; i < innermaster.length; i++) {
                 document.getElementById(innermaster[i]).style.display = 'none'
@@ -397,18 +398,17 @@ const AddRoles = () => {
 
     const handleChangeAllAccess = (e) => {
         const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
-            'org', 'paymentTerm', 'financial', 'branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
+            'org', 'paymentTerm', 'financial','financiallock','branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
             'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'recurring_freq', 'recurring_invoice', 'recurring_bill','journal_voucher']
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
         const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill','journal_voucher'];
-        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
+        const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'finsyearlock','branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency','tds_head'];
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote'];
 
 
         if (e.target.checked === true) {
             for (var val of arr1) {
-                // console.log(val)
                 for (let val2 of arr2) {
                     document.getElementById(`${val}_${val2}`).checked = true
                 }
@@ -487,7 +487,7 @@ const AddRoles = () => {
                                         <label htmlFor="role" className="col-md-2 col-form-label font-weight-normal">Role </label>
                                         <div className="col form-group">
                                             <input type="text" className={`form-control col-md-4 `} id='role' placeholder="Role" />
-                                            {alreadyrole ? <small style={{ color: "red" }}>Role Already Exist</small> : null}
+                                            {alreadyrole ? <small className="text-danger">Role Already Exist</small> : null}
                                         </div>
                                     </div>
 
@@ -498,13 +498,13 @@ const AddRoles = () => {
                                         </div>
                                     </div>
 
-                                    <div className="form-row">
+                                    {/* <div className="form-row">
                                         <label htmlFor="multiorg" className="col-md-2 col-form-label font-weight-normal">Multiple Organisation</label>
                                         <div className="col form-group">
                                             <input type="checkbox" id='multiorg' style={{height:'20px',width:'20px'}}/>
                                         </div>
-                                    </div>
-                                    <div className="form-row col-md-10 p-0 overflow-hidden" style={{ borderRadius: "5px 5px 0px 0px" }}>
+                                    </div> */}
+                                    <div className="form-row col-md-10 p-0 overflow-auto" style={{ borderRadius: "5px 5px 0px 0px" }}>
                                         <table className="table table-borderless text-center" >
                                             <thead>
                                                 <tr className="table-active">
@@ -642,7 +642,7 @@ const AddRoles = () => {
                                                     <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handlemaster}>
                                                         {mastertoggle ? <i className="ion-arrow-down-b"></i> :
                                                             <i className="ion-arrow-right-b"></i>}
-                                                        &nbsp;<span style={{ color: "red" }}>Master</span>
+                                                        &nbsp;<span className="text-danger">Master</span>
                                                     </th>
                                                 </tr>
 
@@ -670,6 +670,14 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='financial_create' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='financial_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='financial_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='finsyearlock' style={displaynone}>
+                                                    <th className="text-left">Financial year Lock</th>
+                                                    <td><input type='checkbox' id='financiallock_full' style={checkboxstyle} onClick={() => fullaccess('financiallock_full', 'financiallock_view', 'financiallock_create', 'financiallock_edit', 'financiallock_delete')} /></td>
+                                                    <td><input type='checkbox' id='financiallock_view' style={checkboxstyle} onClick={() => viewoff('financiallock_full', 'financiallock_view', 'financiallock_create', 'financiallock_edit', 'financiallock_delete')} /></td>
+                                                    <td><input type='checkbox' id='financiallock_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='financiallock_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='financiallock_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
                                                 <tr id='branch' style={displaynone}>
                                                     <th className="text-left">Branch</th>
@@ -806,7 +814,7 @@ const AddRoles = () => {
                                                     <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handlereport}>
                                                         {reporttoggle ? <i className="ion-arrow-down-b"></i> :
                                                             <i className="ion-arrow-right-b"></i>}
-                                                        &nbsp;<span style={{ color: "red" }}>Reports</span>
+                                                        &nbsp;<span className="text-danger">Reports</span>
                                                     </th>
                                                 </tr>
 
@@ -857,6 +865,16 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='reports_debitnote_create' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='reports_debitnote_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='reports_debitnote_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+
+                                                {/* #############################  Project Setting #################################################### */}
+
+                                                <tr>
+                                                    <th className="text-left pl-4" colSpan="6" style={fontandcursor} onClick={handlemaster}>
+                                                        {mastertoggle ? <i className="ion-arrow-down-b"></i> :
+                                                            <i className="ion-arrow-right-b"></i>}
+                                                        &nbsp;<span className="text-danger">Setting</span>
+                                                    </th>
                                                 </tr>
                                             </tbody>
                                         </table>
