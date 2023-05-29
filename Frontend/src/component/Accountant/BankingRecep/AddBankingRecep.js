@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank ,showOrganisation} from '../../../api'
+import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 
@@ -60,8 +60,9 @@ function AddBankingReceipt() {
 
     const handleDeleteRemove = (e, index, deleteType) => {
         e.preventDefault()
-        let newarr = [...Bankrowdata];
         if (Bankrowdata.length > 1) {
+            let newarr = [...Bankrowdata];
+            
             if (deleteType === 'pop') {
                 newarr.pop()
             }
@@ -169,7 +170,7 @@ function AddBankingReceipt() {
             rowsInput[index][name] = value;
             document.getElementById('total_rec_amt').innerHTML = totalrecAmt
         }
-        
+
         setBankrowdata(rowsInput);
     }
     const handleClickCustomer = async (customer_id, customer_name) => {
@@ -266,7 +267,7 @@ function AddBankingReceipt() {
                                         </div>
                                         <div className="form-row">
                                             <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal text-danger" > On Account</label>
-                                            <div className="d-flex col-md-4  align-items-center "><input type="checkbox" id="on_account" style={{width:'18px',height:'18px'}}/></div>
+                                            <div className="d-flex col-md-4  align-items-center "><input type="checkbox" id="on_account" style={{ width: '18px', height: '18px' }} /></div>
                                         </div>
                                         <div className="w-100 overflow-auto">
                                             <table className="table table-bordered mt-3">
@@ -307,8 +308,8 @@ function AddBankingReceipt() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <input type='button' className="btn btn-primary" onClick={handleAddRow} value='Add Row'/>
-                                        <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 0, 'pop')} value='Remove'/> 
+                                        <input type='button' className="btn btn-primary" onClick={handleAddRow} value='Add Row' />
+                                        <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 0, 'pop')} value='Remove' />
                                         <div className="d-flex mb-2 justify-content-between">
                                             <div style={{ width: "40%" }}>
                                                 <div className="form ">
@@ -356,7 +357,7 @@ function AddBankingReceipt() {
                 )}
                 <Footer />
             </div>
-            <BankRecepPreview orgdata={orgdata}/>
+            <BankRecepPreview orgdata={orgdata} />
             {/* ###################### Customer Custom Modal ############################### */}
             <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
                 <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>

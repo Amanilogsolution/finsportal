@@ -39,7 +39,7 @@ const BankPayPreview = ({ orgdata }) => {
                                         <h1 className='mb-0 border-top-0 text-center'>Bank Payment</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 bankpay_cust_inner1  px-2 py-2'><strong>Customer Name:</strong>{ }</div>
+                                                <div className='w-50 bankpay_cust_inner1  px-2 py-2'><strong>Receipt No.:</strong>{ }</div>
                                                 <div className='w-50 bankpay_cust_inner1  px-2 py-2'><strong>Address:</strong> { } </div>
                                             </div>
                                             <div className=' d-flex'>

@@ -3,7 +3,7 @@ import DecamalNumber from 'decimal-number-to-words';
 import './BankRecepPreview.css'
 import jsPDF from "jspdf";
 
-const BankRecepPreview = ({orgdata}) => {
+const BankRecepPreview = ({ orgdata }) => {
     const pdfRef = useRef(null);
     const print = (e) => {
         e.preventDefault();
@@ -39,28 +39,24 @@ const BankRecepPreview = ({orgdata}) => {
                                         <h1 className='mb-0 border-top-0 text-center'>Bank Receipt</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Customer Name:</strong>{}</div>
-                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Address:</strong> {} </div>
+                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt No.:</strong>{ }</div>
+                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt Date:</strong> { } </div>
                                             </div>
                                             <div className=' d-flex'>
-                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Sales Order No:</strong> {}</div>
-                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Sales Order Date:</strong> {} </div>
+                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Vide cash/cheque/DD.No::</strong> { }</div>
+                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Customer.:</strong> { } </div>
                                             </div>
                                         </div>
                                         <table id="bankrec_second_table" className='text-center' style={{ width: '100%' }}>
                                             <thead style={{ background: "#cccccc" }}>
                                                 <tr>
                                                     <th >SNo.</th>
-                                                    <th >Item</th>
-                                                    <th >Qty</th>
-                                                    <th >Rate</th>
-                                                    <th >Amount</th>
-                                                    <th >Taxable </th>
-                                                    <th >Unit</th>
-                                                    <th >Total Amt</th>
-
+                                                    <th >Inv no</th>
+                                                    <th >Inv Amt</th>
+                                                    <th >Tds</th>
+                                                    <th >ReceiveAmt  </th>
                                                 </tr>
-                                               
+
                                             </thead>
                                             <tbody>
                                                 {/* {items.map((item, index) => {
@@ -77,36 +73,35 @@ const BankRecepPreview = ({orgdata}) => {
 
                                                     </tr>)
                                                 })} */}
+                                                <tr>
+                                                    <td colSpan='4'>Total</td>
+                                                    <td></td>
+                                                </tr>
 
 
                                             </tbody>
                                         </table>
                                     </div>
                                     {/* <div className="Total_so_div p-2">
-                                        <strong>Total Amount Value (In Figure)</strong>
-                                        <strong className='float-right'>{somajorData.total_amt}</strong>
+                                        <strong>Total ReceiveAmt Value (In Figure)</strong>
+                                        <strong className='float-right'>{}</strong>
+                                    </div> */}
+                                    <div className="Total_so_div p-2">
+                                        <strong>Total ReceiveAmt Value (In Words)</strong>
+                                        <strong className='float-right'>
+                                            {/* {DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()}  */}
+                                            Only</strong>
                                     </div>
                                     <div className="Total_so_div p-2">
-                                        <strong>Total Amount Value (In Words)</strong>
-                                        <strong className='float-right'>{DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()} Only</strong>
-                                    </div> */}
+                                        <strong>On Account of :</strong>
+                                        <strong className='float-right'>Being amt received through UPI</strong>
+                                    </div>
                                     <div className="bankrec_Amount_tax d-flex ">
-                                        <strong style={{ margin: '12px 5px' }}>Amount Of Tax:</strong>
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td><strong>GST Rate</strong></td>
-                                                    <td><strong>GST AMT</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    {/* <td>{somajorData.total_gst_rate}</td>
-                                                    <td>{somajorData.total_gst_amt}</td> */}
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <strong style={{ margin: '12px 5px' }}>Drawn On :</strong>
+
                                     </div>
                                     <div className="Total_bankrec_div p-2">
-                                        <strong>Remarks :</strong> {}
+                                        <strong>Remarks :</strong> { }
                                     </div>
                                     <div className="Total_bankrec_div p-2">
                                         <strong>Signature of Authorizated Representative :</strong>

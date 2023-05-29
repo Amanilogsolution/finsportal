@@ -39,6 +39,20 @@ import ChartOfAccUserManual from './Master/ChartOfAccUserManual/ChartOfAccUserMa
 import RecFreUserManual from './Master/RecFreUserManual/RecFreUserManual';
 import TdsHeadUserManual from './Master/TdsHeadUserManual/TdsHeadUserManual';
 
+// Reports Manuals
+import ReportsUserManual from './ReportsUserManual/ReportsUserManual';
+import FinancialUserManual from './FinancialUserManual/FinancialUserManual';
+import OrganisationUserManual from './OrganisationUserManual/OrganisationUserManual';
+
+
+// Project Setting
+import OrgProfileUserManual from './ProjectSettingUserManual/OrgProfileUserManual/OrgProfileUserManual';
+import FinsYearSeqUserManual from './ProjectSettingUserManual/FinsYearSeqUserManual/FinsYearSeqUserManual';
+import BranchUserManual from './ProjectSettingUserManual/BranchUserManual/BranchUserManual';
+import CrmUserManual from './ProjectSettingUserManual/CrmUserManual/CrmUserManual';
+import CompliUserManual from './ProjectSettingUserManual/CompliUserMaster/CompliUserMaster';
+import UserRoleUserManual from './ProjectSettingUserManual/UserRoleUserManual/UserRoleUserManual';
+
 const UserManualSidebar = () => {
     const [currentStep, setStep] = useState(0);
     const [usermenutoggle, setUsermenutoggle] = useState({
@@ -46,7 +60,6 @@ const UserManualSidebar = () => {
         purchases: false,
         accountant: false,
         master: false,
-        organisation: false,
         setting: false,
     })
 
@@ -57,7 +70,8 @@ const UserManualSidebar = () => {
             VendorAddUserManual, BillUserManual, PoUserManual, RecBillUserManual, DnUserManual,
             CurrAdjUserManual, JVUserManual, CountryUserManual, StateUserManual, CityUserManual, CurrencyUserManual,
             UnitUserManual, BankUserManual, User_UserManual, CompTypeUserManual, PayTermUserManual, EmpUserManual,
-            ChartOfAccUserManual, RecFreUserManual, TdsHeadUserManual]
+            ChartOfAccUserManual, RecFreUserManual, TdsHeadUserManual,ReportsUserManual,FinancialUserManual,OrganisationUserManual,
+            OrgProfileUserManual,FinsYearSeqUserManual,BranchUserManual,CrmUserManual,CompliUserManual,UserRoleUserManual]
 
         const ComponentReturn = step < tag_array.length ? tag_array[step] : tag_array[0]
         return <ComponentReturn />
@@ -65,7 +79,7 @@ const UserManualSidebar = () => {
 
 
     const handleToggleUl = (type) => {
-        console.log(usermenutoggle)
+      
         if (type === 'sales') {
             setUsermenutoggle({ ...usermenutoggle, sales: !usermenutoggle.sales })
         }
@@ -78,9 +92,7 @@ const UserManualSidebar = () => {
         else if (type === 'master') {
             setUsermenutoggle({ ...usermenutoggle, master: !usermenutoggle.master })
         }
-        else if (type === 'organisation') {
-            setUsermenutoggle({ ...usermenutoggle, organisation: !usermenutoggle.organisation })
-        }
+ 
         else if (type === 'setting') {
             setUsermenutoggle({ ...usermenutoggle, setting: !usermenutoggle.setting })
         }
@@ -180,18 +192,9 @@ const UserManualSidebar = () => {
                             <i className="fa fa-caret-right" aria-hidden="true"></i>
                             <span className='pl-2'> Financial year</span>
                         </li>
-                        <li className='py-2 pl-3 cursor-pointer' onClick={() => { handleToggleUl('organisation') }}>
+                        <li className='py-2 pl-3 cursor-pointer' onClick={() => { setStep(31) }}>
                             <i className="fa fa-caret-right" aria-hidden="true"></i>
                             <span className='pl-2'> Organisation</span>
-                            {
-                                usermenutoggle.organisation ?
-                                    <ul id='inner_ul' className='pl-4' >
-                                        <li className='py-1' onClick={() => { setStep(31) }}>Organisation Switch</li>
-                                        <li className='py-1' onClick={() => { setStep(32) }}>Add Organisation</li>
-                                        <li className='py-1' onClick={() => { setStep(33) }}>Manage Organisation</li>
-                                    </ul>
-                                    : null
-                            }
                         </li>
                         <li className='py-2 pl-3 cursor-pointer' onClick={() => { handleToggleUl('setting') }}>
                             <i className="fa fa-caret-right" aria-hidden="true"></i>
@@ -199,12 +202,12 @@ const UserManualSidebar = () => {
                             {
                                 usermenutoggle.setting ?
                                     <ul id='inner_ul' className='pl-4'>
-                                        <li className='py-1' onClick={() => { setStep(34) }}>Organisation Profile</li>
-                                        <li className='py-1' onClick={() => { setStep(35) }}>Financial Year / Sequence</li>
-                                        <li className='py-1' onClick={() => { setStep(36) }}>Branch/ Location</li>
-                                        <li className='py-1' onClick={() => { setStep(37) }}>Crm Master</li>
-                                        <li className='py-1' onClick={() => { setStep(38) }}>Compliance</li>
-                                        <li className='py-1' onClick={() => { setStep(39) }}>User Roles</li>
+                                        <li className='py-1' onClick={() => { setStep(32) }}>Organisation Profile</li>
+                                        <li className='py-1' onClick={() => { setStep(33) }}>Financial Year / Sequence</li>
+                                        <li className='py-1' onClick={() => { setStep(34) }}>Branch/ Location</li>
+                                        <li className='py-1' onClick={() => { setStep(35) }}>Crm Master</li>
+                                        <li className='py-1' onClick={() => { setStep(36) }}>Compliance</li>
+                                        <li className='py-1' onClick={() => { setStep(37) }}>User Roles</li>
                                     </ul>
                                     : null
                             }
