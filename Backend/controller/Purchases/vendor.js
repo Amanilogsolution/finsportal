@@ -46,10 +46,19 @@ const InsertVendor = async (req, res) => {
     const contact_person_department = req.body.contact_person_department;
     const remark = req.body.remark;
     const year = req.body.year;
+    const contact_person_name_2 = req.body.contact_person_name_2;
+    const contact_person_email_2 = req.body.contact_person_email_2;
+    const contact_person_work_phone_2 = req.body.contact_person_work_phone_2;
+    const contact_person_phone_2 = req.body.contact_person_phone_2;
+    const contact_person_skype_2 = req.body.contact_person_skype_2;
+    const contact_person_designation_2 = req.body.contact_person_designation_2;
+    const contact_person_department_2 = req.body.contact_person_department_2;
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
+        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_new_vendor tnv where pan_no = '${pan_no}'`)
+
         const result = await sql.query
             (`insert into ${org}.dbo.tbl_new_vendor(mast_id,vend_id,vend_name,
         company_name,vend_display_name,vend_email,vend_work_phone,vend_phone,skype_detail,designation,department,
@@ -59,7 +68,8 @@ const InsertVendor = async (req, res) => {
         billing_address_city,billing_address_state,billing_address_pincode,billing_address_phone,
         billing_address_fax,contact_person_name,
         contact_person_email,contact_person_work_phone,contact_person_phone,contact_person_skype,contact_person_designation,
-        contact_person_department,remark,newvend_uuid,status,add_date_time,add_user_name,add_system_name,add_ip_address,fins_year)
+        contact_person_department,remark,newvend_uuid,status,add_date_time,add_user_name,add_system_name,add_ip_address,fins_year,
+        contact_person_name_2,contact_person_email_2,contact_person_work_phone_2,contact_person_phone_2,contact_person_skype_2,contact_person_designation_2,contact_person_department_2)
                     values('${mast_id}','${vend_id}','${vend_name}','${company_name}','${vend_display_name}',
                     '${vend_email}','${vend_work_phone}','${vend_phone}','${skype_detail}','${designation}',
                     '${department}','${website}','${gst_treatment}','${gstin_uin}','${pan_no}',
@@ -68,7 +78,9 @@ const InsertVendor = async (req, res) => {
                     '${facebook_url}','${twitter_url}','${billing_address_attention}','${billing_address_country}','${billing_address_city}',
                     '${billing_address_state}','${billing_address_pincode}','${billing_address_phone}','${billing_address_fax}','${contact_person_name}',
                     '${contact_person_email}','${contact_person_work_phone}','${contact_person_phone}','${contact_person_skype}','${contact_person_designation}',
-                    '${contact_person_department}','${remark}','${uuid}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${year}')`)
+                    '${contact_person_department}','${remark}','${uuid}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${year}',
+                    '${contact_person_name_2}','${contact_person_email_2}','${contact_person_work_phone_2}','${contact_person_phone_2}','${contact_person_skype_2}',
+                    '${contact_person_designation_2}','${contact_person_department_2}')`)
 
         res.send(result.rowsAffected)
     }
@@ -263,7 +275,6 @@ const ActiveSelectedVendor = async (req, res) => {
 
 module.exports = {
     InsertVendor, showVendor, DeleteVendor, Vendor, UpdateVendor, VendorMastid,
-    // TotalVendId, TotalVendor, Vendor_id
     ImportVendor, ActiveVendor, ActiveSelectedVendor
 }
 
