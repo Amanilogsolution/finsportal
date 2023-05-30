@@ -373,41 +373,16 @@ const Customer = () => {
                         </select>
                       </div>
                       <div className="col-group-5 form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="First name"
-                          id="customer_firstname"
-                          required
-                        />
+                        <input type="text" className="form-control text-capitalize" placeholder="First name" id="customer_firstname" required />
                       </div>
                       <div className="col-group-5 form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Last name"
-                          id="customer_lastname"
-                          required
-                        />
+                        <input type="text" className="form-control" placeholder="Last name" id="customer_lastname" required />
                       </div>
                     </div>
-
-
-
                     <div className="form-row">
-                      <label
-                        htmlFor="user_name"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Comapany Name
-                      </label>
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >  Comapany Name</label>
                       <div className="col form-group">
-                        <input
-                          type="text"
-                          className="form-control col-md-4"
-                          id="company_name"
-                          required
-                        />
+                        <input type="text" className="form-control col-md-4" id="company_name" required />
                       </div>
                     </div>
 
@@ -417,10 +392,7 @@ const Customer = () => {
                           <span className="text-danger" style={{ borderBottom: "1px dashed red", }}>
                             Customer Display Name *
                           </span>
-                          <span className="tooltipcontent">
-                            This name will be displayed on the transaction
-                            you create for this Customer.
-                          </span>
+                          <span className="tooltipcontent"> This name will be displayed on the transaction you create for this Customer.</span>
                         </div>
                       </label>
                       <div className="col form-group">
@@ -429,37 +401,20 @@ const Customer = () => {
                     </div>
 
                     <div className="form-row">
-                      <label
-                        htmlFor="user_name"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                         Customer Email
                       </label>
                       <div className="col form-group">
-                        <input
-                          type="email"
-                          className="form-control col-md-4"
-                          id="cust_email"
-                          required
-                        />
+                        <input type="email" className="form-control col-md-4" id="cust_email" required />
                       </div>
                     </div>
 
                     <div className="form-row">
-                      <label
-                        htmlFor="user_name"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                         Customer Phone
                       </label>
                       <div className="col form-group">
-                        <input
-                          type="number"
-                          className="form-control col-md-8"
-                          placeholder="Work Phone"
-                          id="cust_work_phone"
-                          required
-                          value={custworkphonecount}
+                        <input type="number" className="form-control col-md-8" placeholder="Work Phone" id="cust_work_phone" required value={custworkphonecount}
                           onChange={(e) => {
                             if (e.target.value.length === 11) return false;
                             setCustworkphonecount(e.target.value)
@@ -467,14 +422,7 @@ const Customer = () => {
                         />
                       </div>
                       <div className="col form-group">
-                        <input
-                          type="number"
-                          className="form-control col-md-8"
-                          placeholder="Mobile"
-                          id="cust_phone"
-                          required
-                          style={{ marginLeft: "-30px" }}
-                          value={custphonecount}
+                        <input type="number" className="form-control col-md-8" placeholder="Mobile" id="cust_phone" required style={{ marginLeft: "-30px" }} value={custphonecount}
                           onChange={(e) => {
                             if (e.target.value.length === 11) return false;
                             setCustphonecount(e.target.value)
@@ -488,65 +436,38 @@ const Customer = () => {
                     </p>
                     <div id="distoggle" style={{ display: "none" }}>
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                           Skype Name/Number
                         </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            className="form-control col-md-4"
-                            id="skype_detail"
-                          />
+                          <input type="text" className="form-control col-md-4" id="skype_detail" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
                           Designation
                         </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            className="form-control col-md-4"
-                            id="designation"
-                          />
+                          <input type="text" className="form-control col-md-4" id="designation" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                           Department
                         </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            className="form-control col-md-4"
-                            id="department"
-                          />
+                          <input type="text" className="form-control col-md-4" id="department" />
                         </div>
                       </div>
                     </div>
 
 
                     <div className="form-row">
-                      <label
-                        htmlFor="user_name"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Website
-                      </label>
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" > Website </label>
                       <div className="col form-group">
                         <input type="url" className="form-control col-md-4" id="website" />
                       </div>
                     </div>
-
                     <div className="form-row bg-light" >
                       <div className="col-md-2 form-group">
                         <button
@@ -662,45 +583,28 @@ const Customer = () => {
                           </span>
                         </label>
                         <div className="col form-group">
-                          <input
-                            type="email"
-                            className="form-control col-md-4"
-                            maxLength="16"
-                            id="gstin_uin"
+                          <input type="email" className="form-control col-md-4" maxLength="16" id="gstin_uin"
                           />
                         </div>
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                           PAN
                         </label>
                         <div className="col form-group">
-                          <input
-                            type="email"
-                            className="form-control col-md-4"
-                            id="pan_no"
-                          />
+                          <input type="email" className="form-control col-md-4" id="pan_no" />
                         </div>
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                           <span className="text-danger">
                             Place Of Supply *
                           </span>
                         </label>
                         <div className="col form-group">
-                          <select
-                            id="place_of_supply"
-                            className="form-control col-md-4"
-                          >
+                          <select id="place_of_supply" className="form-control col-md-4" >
                             <option value='' hidden>Select the state</option>
                             <option value="Andhra Pradesh">Andhra Pradesh</option>
                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
