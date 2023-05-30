@@ -45,7 +45,7 @@ const AddBank = () => {
     if (result == "Already") {
       alert('Already')
     } else {
-      // window.location.href = '/TotalBank'
+      window.location.href = '/TotalBank'
     }
   }
 
