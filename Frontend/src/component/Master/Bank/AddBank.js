@@ -67,8 +67,6 @@ const AddBank = () => {
 
   const handleSetBankName=(e)=>{
     let chartofact_arr = e.target.value.split('^')
-    console.log(chartofact_arr)
-
     document.getElementById('bank_name').value=chartofact_arr[0]
   }
   return (
@@ -77,11 +75,11 @@ const AddBank = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper `}>
+      <div className='content-wrapper '>
         <div className="container-fluid">
           <br /> <h3 className=" ml-5">Add Bank</h3>
           <div className="card w-100">
-            <article className={`card-body `}>
+            <article className='card-body'>
               <form autoComplete='off'>
                 <div className="form-row" onChange={handleChange}>
                   <div className="col form-group" >
