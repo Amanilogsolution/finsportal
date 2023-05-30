@@ -22,14 +22,21 @@ const InsertBank = async (req, res) => {
     const uuid = uuidv1()
     try {
         await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_bankmaster where account_no='${account_no}'`)
-        if (!duplicate.recordset.length) {
-            const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (account_code,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address)
-                    values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}')`)
-            res.send('Added')
-        } else {
-            res.send("Already")
+        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_bankmaster tb where chart_of_account = '${account_no}' order by sno`)
+        console.log(duplicate.recordset[0])
+        if(duplicate.recordset[0]){
         }
+        else{
+            const newbankid = await sql.query(`select top 1 bank_id from ${org}.dbo.tbl_bankmaster tb order by sno`)
+            console.log(newbankid)
+        }
+        // if (!duplicate.recordset.length) {
+        //     const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (account_code,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address)
+        //             values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}')`)
+        //     res.send('Added')
+        // } else {
+        //     res.send("Already")
+        // }
 
     }
     catch (err) {
