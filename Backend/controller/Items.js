@@ -4,9 +4,6 @@ const os = require('os');
 const uuidv1 = require("uuid/v1");
 
 const InsertItems = async (req, res) => {
-    // Name,unit,HSNcode,SACcode,minor_code,major_code_id,minor_code_id,
-    // chartofaccount_id,chartofaccount,taxpreference,Purchase,Sales,gstrate,org,user_id
-
     const org = req.body.org;
     const item_type = req.body.type;
     const item_name = req.body.Name;
@@ -90,7 +87,6 @@ async function getItems(req, res) {
     }
 }
 const UpdateItems = async (req, res) => {
-    // ,,, , , , , , , , , , , , , ,,  
     const sno = req.body.sno;
     const org = req.body.org;
     const item_type = req.body.type;
