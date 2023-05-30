@@ -74,7 +74,7 @@ const BankRecepPreview = ({ orgdata }) => {
                                                     </tr>)
                                                 })} */}
                                                 <tr>
-                                                    <td colSpan='4'>Total</td>
+                                                    <td colSpan='4'><strong>Total</strong></td>
                                                     <td></td>
                                                 </tr>
 
