@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveLocationAddress, ActiveAllChartofAccount, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer,showOrganisation,InsertJV } from "../../../api/index";
+import { ActiveLocationAddress, ActiveAllChartofAccount, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer, showOrganisation, InsertJV ,ActiveEmployee} from "../../../api/index";
 import JvPreview from "./JVPreview/JvPreview";
 
 function JVoucher() {
@@ -16,6 +16,7 @@ function JVoucher() {
   const [customerlist, setCustomerlist] = useState([])
   const [customerInvlist, setCustomerInvlist] = useState([])
   const [vendorBilllist, setVendorBilllist] = useState([])
+  const [employeelist, setEmployeelist] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const [jvminordata, setJvminordata] = useState([
@@ -35,9 +36,12 @@ function JVoucher() {
       const lastno = Number(id[0].jv_count) + 1
       setPOcount(lastno)
 
+      const emp = await ActiveEmployee(org)
+      setEmployeelist(emp)
+
       const result = await showOrganisation(org)
       setOrgdata(result)
-
+      
       setLoading(true)
       document.getElementById('jv_no').value = id[0].jv_ser + id[0].year + String(lastno).padStart(5, '0')
       Todaydate();
@@ -174,57 +178,57 @@ function JVoucher() {
   }
 
 
-  const handleSetBillInvData = (vou_inv_no, vou_inv_date, total_amt,index) => {
+  const handleSetBillInvData = (vou_inv_no, vou_inv_date, total_amt, index) => {
     console.log(vou_inv_no, vou_inv_date, total_amt)
 
     var newvalue = [...totalValues];
-if(index !== 0){
-    if(document.getElementById(`invbillcheck${index}`).checked == true){
-      setTotalValues([...totalValues, 1]);
-      let obj = { locationId: '', locationName: '', chartofacct: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' }
-      jvminordata.push(obj)
+    if (index !== 0) {
+      if (document.getElementById(`invbillcheck${index}`).checked == true) {
+        setTotalValues([...totalValues, 1]);
+        let obj = { locationId: '', locationName: '', chartofacct: '', glcode: '', vendorName: '', vendorId: '', customerName: '', customerId: '', bill_no: '', date: '', amt: '', balanceAmt: '', passAmt: '', dr_cr: '' }
+        jvminordata.push(obj)
 
-      setTimeout(()=>{
+        setTimeout(() => {
+          jvminordata[index].bill_no = vou_inv_no;
+          jvminordata[index].date = vou_inv_date;
+          jvminordata[index].amt = total_amt;
+          jvminordata[index].chartofacct = jvminordata[currentIndex].chartofacct;
+          jvminordata[index].glcode = jvminordata[currentIndex].glcode;
+        }, 1000)
+
+      } else {
+        if (newvalue.length === 1) {
+          setTotalValues(newvalue);
+        } else {
+          jvminordata.splice(index, 1);
+          newvalue.pop();
+          setTotalValues(newvalue);
+        }
+      }
+    } else {
+      if (document.getElementById(`invbillcheck${index}`).checked == true) {
+
         jvminordata[index].bill_no = vou_inv_no;
         jvminordata[index].date = vou_inv_date;
         jvminordata[index].amt = total_amt;
         jvminordata[index].chartofacct = jvminordata[currentIndex].chartofacct;
         jvminordata[index].glcode = jvminordata[currentIndex].glcode;
-      },1000)
-     
-    } else {
-      if (newvalue.length === 1) {
-      setTotalValues(newvalue);
-    }else{
-      jvminordata.splice(index, 1);
-      newvalue.pop();
-      setTotalValues(newvalue);
-    }
-    }
-  }else{
-    if(document.getElementById(`invbillcheck${index}`).checked == true){
+      }
 
-      jvminordata[index].bill_no = vou_inv_no;
-      jvminordata[index].date = vou_inv_date;
-      jvminordata[index].amt = total_amt;
-      jvminordata[index].chartofacct = jvminordata[currentIndex].chartofacct;
-      jvminordata[index].glcode = jvminordata[currentIndex].glcode;
     }
 
-  } 
-     
   }
-  const handleProcced = (e) =>{
-        e.preventDefault();
+  const handleProcced = (e) => {
+    e.preventDefault();
 
-        console.log(jvminordata)
+    console.log(jvminordata)
 
- jvminordata.map((item,index)=>{
-      console.log(item,index)
-    document.getElementById(`achead-${index}`).value = jvminordata[0].customerName || jvminordata[0].vendorName;
-    document.getElementById(`invno-${index}`).value = item.bill_no
-    document.getElementById(`invdate-${index}`).value = item.date
-    document.getElementById(`invamount-${index}`).value = item.amt
+    jvminordata.map((item, index) => {
+      console.log(item, index)
+      document.getElementById(`achead-${index}`).value = jvminordata[0].customerName || jvminordata[0].vendorName;
+      document.getElementById(`invno-${index}`).value = item.bill_no
+      document.getElementById(`invdate-${index}`).value = item.date
+      document.getElementById(`invamount-${index}`).value = item.amt
 
     })
 
@@ -243,11 +247,11 @@ if(index !== 0){
 
     console.log(jvminordata)
 
-    jvminordata.forEach( async(item)=>{
-      const result = await InsertJV(org,jv_no,jv_date,item.locationId,item.glcode,item.chartofacct,item.bill_no,item.date,item.amt,item.passAmt,item.balanceAmt,item.dr_cr,Narration,'Charge Code',fin_year,add_user_name) 
+    jvminordata.forEach(async (item) => {
+      const result = await InsertJV(org, jv_no, jv_date, item.locationId, item.glcode, item.chartofacct, item.bill_no, item.date, item.amt, item.passAmt, item.balanceAmt, item.dr_cr, Narration, 'Charge Code', fin_year, add_user_name)
     })
 
-   
+
   }
   return (
     <>
@@ -267,6 +271,18 @@ if(index !== 0){
                     <div className="form-row mt-2">
                       <label htmlFor="jv_no" className="col-md-2 col-form-label font-weight-normal">  JV ID <span className="text-danger">*</span></label>
                       <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="jv_no" disabled /></div>
+                    </div>
+                    <div className="form-row mt-2">
+                      <label htmlFor="jv_no" className="col-md-2 col-form-label font-weight-normal">  Employee<span className="text-danger">*</span></label>
+                      <div className="d-flex col-md-4">
+                        <select className="form-control col-md-10 " id="emp">
+                          <option value='' hidden>Select Employee</option>
+                          {
+                            employeelist.map((emp,index)=>
+                            <option value={emp.emp_id}>{emp.emp_name}</option>)
+                          }
+                        </select>
+                      </div>
                     </div>
                     <table className="table table-bordered mt-3">
                       <thead>
@@ -298,23 +314,23 @@ if(index !== 0){
                               </td>
                               <td className="p-1 pt-2" style={{ width: "180px" }}>
                                 <select id={`item-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeItem(e, index) }} >
-                                  <option value="" hidden> {jvminordata[index].chartofacct.length>0?jvminordata[index].chartofacct:"Select Value"} </option>
+                                  <option value="" hidden> {jvminordata[index].chartofacct.length > 0 ? jvminordata[index].chartofacct : "Select Value"} </option>
                                   {chartofacctlist.map((items, index) => (
                                     <option key={index} value={`${items.account_sub_name}^${items.account_sub_name_code}`}> {items.account_sub_name} </option>))
                                   }
                                 </select>
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="text" id={`achead-${index}`} className="form-control"/>
+                                <input type="text" id={`achead-${index}`} className="form-control" />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
                                 <input type="text" id={`invno-${index}`} className="form-control" />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="date" id={`invdate-${index}`} className="form-control"/>
+                                <input type="date" id={`invdate-${index}`} className="form-control" />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
-                                <input type="text" id={`invamount-${index}`} className="form-control"/>
+                                <input type="text" id={`invamount-${index}`} className="form-control" />
                               </td>
                               <td className="p-1 pt-2" style={{ width: "160px" }}>
                                 <input type="number" id={`balamt-${index}`} className="form-control " />
@@ -380,7 +396,7 @@ if(index !== 0){
 
 
         <Footer />
-        <JvPreview orgdata={orgdata}/>
+        <JvPreview orgdata={orgdata} />
 
         {/* ############################### Vendor Custom Modal ########################## */}
         <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "93%", display: "none" }} tabIndex="-1" role="dialog" onClick={() => { offCustomModal('SelectVendorModal'); }}>
@@ -394,7 +410,7 @@ if(index !== 0){
                 <table className="table  table-striped h-100 w-100">
                   <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                     <tr>
-                    <th className="pl-4 " style={{ fontSize: '20px' }}>Sno</th>
+                      <th className="pl-4 " style={{ fontSize: '20px' }}>Sno</th>
                       <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Vendor Name</th>
                     </tr>
                   </thead>
@@ -402,7 +418,7 @@ if(index !== 0){
                     {
                       vendorlist.map((vendor, index) =>
                         <tr key={index} className="cursor-pointer" onClick={() => { handleClickVendor(vendor.vend_id, vendor.vend_name) }}>
-                          <td className="pl-3 text-center">{index+1}</td>
+                          <td className="pl-3 text-center">{index + 1}</td>
                           <td className="pl-3 text-center">{vendor.vend_name}</td>
                         </tr>
                       )
@@ -426,10 +442,10 @@ if(index !== 0){
               <h5 className="modal-title" id="exampleModalLongTitle">Select Customer Name</h5>
             </div>
             <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
-            <table className="table  table-striped h-100 w-100">
+              <table className="table  table-striped h-100 w-100">
                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                   <tr>
-                  <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
+                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
                     <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Customer Name</th>
                   </tr>
                 </thead>
@@ -439,7 +455,7 @@ if(index !== 0){
                       <tr key={index} className="cursor-pointer"
                         onClick={() => { handleClickCustomer(customer.cust_id, customer.cust_name) }}
                       >
-                       <td className="pl-3 text-center">{index+1}</td>
+                        <td className="pl-3 text-center">{index + 1}</td>
                         <td className="pl-3 text-center">{customer.cust_name}</td>
                       </tr>
                     )
@@ -464,7 +480,7 @@ if(index !== 0){
               <table className="table  table-striped table-sm ">
                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                   <tr>
-                  <th className="pl-4 text-left" style={{ fontSize: '20px' }}>Select</th>
+                    <th className="pl-4 text-left" style={{ fontSize: '20px' }}>Select</th>
                     <th className="pl-4 text-left" style={{ fontSize: '20px' }}>Bill no</th>
                     <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Bill Date</th>
                     <th className="pl-4 text-right" style={{ fontSize: '20px' }}>Bill Amt</th>
@@ -474,7 +490,7 @@ if(index !== 0){
                   {
                     vendorBilllist.map((bill, index) =>
                       <tr key={index} className="cursor-pointer" >
-                      <td className="pl-3"><input type="checkbox" id={`invbillcheck${index}`} onChange={() => { handleSetBillInvData(bill.vourcher_no, bill.voudate, bill.total_bill_amt,index) }}/></td>
+                        <td className="pl-3"><input type="checkbox" id={`invbillcheck${index}`} onChange={() => { handleSetBillInvData(bill.vourcher_no, bill.voudate, bill.total_bill_amt, index) }} /></td>
 
                         <td className="pl-3 text-left">{bill.vourcher_no}</td>
                         <td className="pl-3 text-center">{bill.voudate}</td>
@@ -487,7 +503,7 @@ if(index !== 0){
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('billCustomModal'); }}>Close</button>
-              <button type="button" className="btn btn-success" onClick={ handleProcced}>Procced</button>
+              <button type="button" className="btn btn-success" onClick={handleProcced}>Procced</button>
 
             </div>
           </div>
@@ -495,7 +511,7 @@ if(index !== 0){
       </div>
 
       {/* ############## Invoice Custome Modal ################################# */}
-      <div className="position-absolute" id="InvCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" 
+      <div className="position-absolute" id="InvCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog"
       // onClick={() => { offCustomModal('InvCustomModal'); }}
       >
         <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
@@ -507,7 +523,7 @@ if(index !== 0){
               <table className="table table-bored table-sm ">
                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                   <tr>
-                  <th className="pl-4 " style={{ fontSize: '20px' }}>Select</th>
+                    <th className="pl-4 " style={{ fontSize: '20px' }}>Select</th>
                     <th className="pl-4 " style={{ fontSize: '20px' }}>Invoice no</th>
                     <th className="pl-4 " style={{ fontSize: '20px' }}>Invoice Date</th>
                     <th className="pl-4 " style={{ fontSize: '20px' }}>Invoice Amt</th>
@@ -518,8 +534,8 @@ if(index !== 0){
                     customerInvlist.length > 0 ?
                       customerInvlist.map((inv, index) =>
                         <tr key={index} className="cursor-pointer"
-                           >
-                          <td className="pl-3"><input type="checkbox" id={`invbillcheck${index}`} onChange={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt,index) }}/></td>
+                        >
+                          <td className="pl-3"><input type="checkbox" id={`invbillcheck${index}`} onChange={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt, index) }} /></td>
                           <td className="pl-3">{inv.invoice_no}</td>
                           <td className="pl-3">{inv.Invdate}</td>
                           <td className="pl-3">{inv.invoice_amt}</td>
@@ -532,9 +548,9 @@ if(index !== 0){
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('InvCustomModal'); }}>Close</button>
-              <button type="button" className="btn btn-success" onClick={ handleProcced}>Procced</button>
+              <button type="button" className="btn btn-success" onClick={handleProcced}>Procced</button>
             </div>
-            
+
           </div>
         </div>
       </div>

@@ -355,6 +355,7 @@ router.post('/deleteemployee', EmployeeController.deleteEmployee)
 router.post('/insertemployee', EmployeeController.insertemployee)
 router.post('/getemployee', EmployeeController.getemployee)
 router.post('/updateemployee', EmployeeController.updateemployee)
+router.post('/activeemployee', EmployeeController.ActiveEmployee)
 
 // Bill
 router.post('/insertbill', BillController.InsertBill)

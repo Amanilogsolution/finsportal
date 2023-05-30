@@ -1354,6 +1354,11 @@ export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) =>
     const url = `https://finsbackend.awlinternational.com/api/updateemployee`
     return axios.post(url, { sno, org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
 }
+export const ActiveEmployee = async (org) => {
+    const url = `http://localhost:3008/api/activeemployee`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
 
 // ############################ For Employee api End #################################
 
