@@ -652,7 +652,7 @@ function Bills() {
                                                                                 <option key={index} value={items.employee_name} >{items.employee_name}</option>
                                                                             ))
                                                                         }
-                                                                    </select>
+                                                </select>
                                                 </div>
                                             </div>
 
@@ -669,6 +669,8 @@ function Bills() {
                                                         <th scope="col">Amount</th>
                                                         {/* <th scope="col">Deduction</th> */}
                                                         {/* <th scope="col">Refno/FIleno</th> */}
+                                                        <th scope="col">gst</th>
+                                                        <th scope="col">tds</th>
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
                                                 </thead>
@@ -734,6 +736,13 @@ function Bills() {
                                                                 {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
                                                                 </td> */}
+                                                                <td className='p-1 pt-2' style={{ width: "20px" }}>
+                                                                    <input type='checkbox' id={`netamt${index}`} className='ml-3' onClick={handletogglegstdiv}  style={{width:"20px",height:"20px"}} />
+                                                                </td>
+
+                                                                <td className='p-1 pt-2' style={{ width: "20px" }}>
+                                                                    <input type='checkbox' id={`netamt${index}`} className='ml-3' onClick={handletds}  style={{width:"20px",height:"20px"}} />
+                                                                </td>
 
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='number' id={`netamt${index}`} className="form-control cursor-notallow" disabled />

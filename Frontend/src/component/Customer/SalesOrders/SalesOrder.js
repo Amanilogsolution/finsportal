@@ -63,11 +63,8 @@ function SalesOrder() {
 
             const ActiveUnit = await Activeunit(org)
             setActiveUnit(ActiveUnit)
-
-
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
-
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].so_count) + 1
             setLoading(true)
