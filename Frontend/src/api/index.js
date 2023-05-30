@@ -279,7 +279,7 @@ export const Activeunit = async (org) => {
 // ###################### Bank api start #############################
 
 export const insertBank = async (account_code, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/addbank`
+    const url = `http://localhost:3008/api/addbank`
     return axios.post(url, { account_code, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 

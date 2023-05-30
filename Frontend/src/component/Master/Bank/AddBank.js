@@ -10,6 +10,7 @@ const AddBank = () => {
   const [citylist, setCitylist] = useState([])
   const [pincode, setPincode] = useState();
   const [chartofacctlist, setChartofacctlist] = useState([]);
+  const [accountingcode,setAccountingcode] = useState();
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -25,7 +26,7 @@ const AddBank = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const account_code = document.getElementById('account_code').value;
+    // const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
     const address_line2 = document.getElementById('address_line2').value;
@@ -40,11 +41,11 @@ const AddBank = () => {
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id');
 
-    const result = await insertBank(account_code, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id)
+    const result = await insertBank(accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id)
     if (result == "Already") {
       alert('Already')
     } else {
-      window.location.href = '/TotalBank'
+      // window.location.href = '/TotalBank'
     }
   }
 
@@ -67,6 +68,7 @@ const AddBank = () => {
 
   const handleSetBankName=(e)=>{
     let chartofact_arr = e.target.value.split('^')
+    setAccountingcode(chartofact_arr[1])
     document.getElementById('bank_name').value=chartofact_arr[0]
   }
   return (

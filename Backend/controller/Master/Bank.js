@@ -22,22 +22,38 @@ const InsertBank = async (req, res) => {
     const uuid = uuidv1()
     try {
         await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select * from ${org}.dbo.tbl_bankmaster tb where chart_of_account = '${account_no}' order by sno`)
-        console.log(duplicate.recordset[0])
-        if(duplicate.recordset[0]){
+        const duplicate = await sql.query(`select Top 1* from ${org}.dbo.tbl_bankmaster tb where chart_of_account = '${account_code}' order by sno desc`)
+         
+        if(duplicate.recordset.length>0){ 
+            const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
+            values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${duplicate.recordset[0].bank_id}','${String(Number(duplicate.recordset[0].sub_code)+1).padStart(2,'0')}')`)  
+            if(result.rowsAffected[0]>0){
+                res.status(200).send("Added")
+            }else{
+                res.status(500).send("Added")
+            }
         }
         else{
             const newbankid = await sql.query(`select top 1 bank_id from ${org}.dbo.tbl_bankmaster tb order by sno`)
-            console.log(newbankid)
-        }
-        // if (!duplicate.recordset.length) {
-        //     const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (account_code,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address)
-        //             values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}')`)
-        //     res.send('Added')
-        // } else {
-        //     res.send("Already")
-        // }
-
+            if(newbankid.recordset.length>0){
+                const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
+                values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${Number(newbankid.recordset[0].bank_id)+1}','01')`)  
+                if(result.rowsAffected[0]>0){
+                    res.status(200).send("Added")
+                }else{
+                    res.status(500).send("Added")
+                }           
+            }
+            else{
+                const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
+                values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','1','01')`)
+                if(result.rowsAffected[0]>0){
+                    res.status(200).send("Added")
+                }else{
+                    res.status(500).send("Added")
+                }            
+             }
+        }   
     }
     catch (err) {
         res.send(err)
