@@ -447,7 +447,7 @@ export const ImportCustomer = async (data, org, User_id) => {
 }
 
 export const ActiveCustomer = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/activecustomer`
+    const url = `http://localhost:3008/api/activecustomer`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -485,8 +485,8 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
     billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone,
     billing_address_fax, contact_person_name,
     contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-    contact_person_department, remark, org, User_id, year,contact_person_name_2,contact_person_email_2,contact_person_work_phone_2,
-    contact_person_phone_2,contact_person_skype_2,contact_person_designation_2,contact_person_department_2) => {
+    contact_person_department, remark, org, User_id, year, contact_person_name_2, contact_person_email_2, contact_person_work_phone_2,
+    contact_person_phone_2, contact_person_skype_2, contact_person_designation_2, contact_person_department_2) => {
 
     const url = `https://finsbackend.awlinternational.com/api/insertvendor`
     return axios.post(url, {
@@ -498,8 +498,8 @@ export const InsertVendor = async (mast_id, vend_id, vend_name,
         billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone,
         billing_address_fax, contact_person_name,
         contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-        contact_person_department, remark, org, User_id, year,contact_person_name_2,contact_person_email_2,contact_person_work_phone_2,
-        contact_person_phone_2,contact_person_skype_2,contact_person_designation_2,contact_person_department_2
+        contact_person_department, remark, org, User_id, year, contact_person_name_2, contact_person_email_2, contact_person_work_phone_2,
+        contact_person_phone_2, contact_person_skype_2, contact_person_designation_2, contact_person_department_2
     }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -564,7 +564,7 @@ export const ImportVendor = async (data, org, User_id) => {
 }
 
 export const ActiveVendor = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/activevendor`
+    const url = `http://localhost:3008/api/activevendor`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1145,6 +1145,11 @@ export const ActiveChartofAccountname = async (org, account_sub_name) => {
 export const ActiveAllChartofAccount = async (org) => {
     const url = `http://localhost:3008/api/activeallchartofaccount`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+
+}
+export const SearchActiveChartofAccount = async (org, account_sub_head) => {
+    const url = `http://localhost:3008/api/searchactivechartofaccount`
+    return axios.post(url, { org, account_sub_head }).then(response => response.data).catch(error => console.log(error));
 
 }
 
@@ -1843,17 +1848,17 @@ export const TotalJV = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateJVStatus = async (org,status,jv_no) => {
+export const UpdateJVStatus = async (org, status, jv_no) => {
     const url = `http://localhost:3008/api/updatejvstatus`
-    return axios.post(url, { org,status,jv_no }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, status, jv_no }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertJV = async (org,jv_no,jv_date,location,glcode,account_head,ref_no,ref_date,amt,amt_receive,amt_bal,dr_cr,narration,charge_code,fin_year,add_user_name) => {
+export const InsertJV = async (org, jv_no, jv_date, location, glcode, account_head, ref_no, ref_date, amt, amt_receive, amt_bal, dr_cr, narration, charge_code, fin_year, add_user_name) => {
     const url = `http://localhost:3008/api/insertjv`
-    return axios.post(url, {org,jv_no,jv_date,location,glcode,account_head,ref_no,ref_date,amt,amt_receive,amt_bal,dr_cr,narration,charge_code,fin_year,add_user_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, jv_no, jv_date, location, glcode, account_head, ref_no, ref_date, amt, amt_receive, amt_bal, dr_cr, narration, charge_code, fin_year, add_user_name }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const GetJV = async (org,sno) => {
+export const GetJV = async (org, sno) => {
     const url = `http://localhost:3008/api/getjv`
-    return axios.post(url, {org,sno }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
