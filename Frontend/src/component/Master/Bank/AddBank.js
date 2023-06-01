@@ -4,13 +4,13 @@ import Footer from "../../Footer/Footer";
 import { insertBank, Activecountries, showactivestate, getCity, ActiveAllChartofAccount } from '../../../api';
 
 const AddBank = () => {
-  const [actype, setActype] = useState('');
+  const [actype, setActype] = useState('Bank');
   const [countrylist, setCountrylist] = useState([])
   const [statelist, setStatelist] = useState([])
   const [citylist, setCitylist] = useState([])
-  const [pincode, setPincode] = useState();
+  const [pincode, setPincode] = useState(0);
   const [chartofacctlist, setChartofacctlist] = useState([]);
-  const [accountingcode,setAccountingcode] = useState();
+  const [accountingcode, setAccountingcode] = useState();
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -26,6 +26,7 @@ const AddBank = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+
     // const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
@@ -36,17 +37,32 @@ const AddBank = () => {
     const pincode = document.getElementById('pincode').value;
     const ifsc_code = document.getElementById('ifsc_code').value;
     const bank_name = document.getElementById('bank_name').value;
+    const branch = document.getElementById('branch').value;
     const acname = document.getElementById('acname').value;
     const description = document.getElementById('description').value;
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id');
 
-    const result = await insertBank(accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id)
-    if (result == "Already") {
-      alert('Already')
-    } else {
-      window.location.href = '/TotalBank'
+
+    if (!account_no || !ifsc_code || !bank_name || !country || !state || !city) {
+      alert('Please Enter Mandatory Field')
     }
+    else {
+      const result = await insertBank(accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city,
+        pincode, ifsc_code, actype, acname, description, branch, org, User_id)
+      if (result === "Already") {
+        alert('Already')
+      }
+      else if (result === "Added") {
+        alert('Data Added')
+        window.location.href = '/TotalBank'
+      }
+      else {
+        alert('Server Not Response')
+        window.location.reload();
+      }
+    }
+
   }
 
   const handleChange = (e) => {
@@ -66,10 +82,10 @@ const AddBank = () => {
   }
 
 
-  const handleSetBankName=(e)=>{
+  const handleSetBankName = (e) => {
     let chartofact_arr = e.target.value.split('^')
     setAccountingcode(chartofact_arr[1])
-    document.getElementById('bank_name').value=chartofact_arr[0]
+    document.getElementById('bank_name').value = chartofact_arr[0]
   }
   return (
     <div className="wrapper">
@@ -83,43 +99,35 @@ const AddBank = () => {
           <div className="card w-100">
             <article className='card-body'>
               <form autoComplete='off'>
-                <div className="form-row" onChange={handleChange}>
+                <div className="form-row" >
                   <div className="col form-group" >
                     <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Select Account type</label>
 
                     <label className="form-check form-check-inline">
-                      <input
-                        className="form-check-input" type="radio"
-                        name="taxpreference"
-                        value="Bank" />Bank
+                      <input className="form-check-input" type="radio" name="taxpreference" value="Bank" defaultChecked onClick={handleChange} />Bank
                     </label>
                     <label className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="taxpreference"
-                        value="CreditCard"
-                      />Credit Card
+                      <input className="form-check-input" type="radio" name="taxpreference" value="CreditCard" onClick={handleChange} />Credit Card
                     </label>
                   </div>
                 </div>
+
                 <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Accounting Code</label>
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Accounting Code <span className='text-danger'>*</span></label>
                   <div className="col form-group">
-                    <select className="form-control col-md-4" onChange={handleSetBankName}>
+                    <select className="form-control col-md-10" onChange={handleSetBankName}>
                       <option value='' hidden> Select Accounting Code</option>
                       {chartofacctlist.map((gldata, index) => (
                         <option key={index} value={`${gldata.account_sub_name}^${gldata.account_sub_name_code}`}> {gldata.account_sub_name} </option>))
                       }
                     </select>
                   </div>
-                </div>
-                <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='bank_name' disabled/>
+                    <input type="text" className="form-control col-md-10" id='bank_name' disabled />
                   </div>
                 </div>
+
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name </label>
                   <div className="col form-group">
@@ -127,38 +135,22 @@ const AddBank = () => {
                   </div>
                 </div>
 
+
                 <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number</label>
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number  <span className='text-danger'>*</span></label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='account_no' />
+                    <input type="text" className="form-control col-md-10" id='account_no' />
                   </div>
-                </div>
-              
-                <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code  <span className='text-danger'>*</span></label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='ifsc_code' />
+                    <input type="text" className="form-control col-md-10" id='ifsc_code' />
                   </div>
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line1 </label>
+                  <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country  <span className='text-danger'>*</span></label>
                   <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='address_line1' />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line2 </label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='address_line2' />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country </label>
-                  <div className="col form-group">
-                    <select className="form-control col-md-4" id='country' onChange={handlecountry} >
+                    <select className="form-control col-md-10" id='country' onChange={handlecountry} >
                       <option value='' hidden>Select Country </option>
                       {
                         countrylist.map((item, index) =>
@@ -166,11 +158,9 @@ const AddBank = () => {
                       }
                     </select>
                   </div>
-                </div>
-                <div className="form-row">
-                  <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State </label>
+                  <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State  <span className='text-danger'>*</span></label>
                   <div className="col form-group">
-                    <select className="form-control col-md-4" id='state' onChange={handleState}>
+                    <select className="form-control col-md-10" id='state' onChange={handleState}>
                       <option value='' hidden>select State</option>
                       {
                         statelist.map((item, index) =>
@@ -181,9 +171,9 @@ const AddBank = () => {
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City  <span className='text-danger'>*</span></label>
                   <div className="col form-group">
-                    <select type="text" className="form-control col-md-4" id='city' >
+                    <select type="text" className="form-control col-md-10" id='city' >
                       <option value='' hidden>Select City</option>
                       {
                         citylist.map((item, index) =>
@@ -191,12 +181,9 @@ const AddBank = () => {
                       }
                     </select>
                   </div>
-                </div>
-
-                <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
                   <div className="col form-group">
-                    <input type="number" className="form-control col-md-4" id='pincode'
+                    <input type="number" className="form-control col-md-10" id='pincode'
                       value={pincode}
                       onChange={(e) => {
                         if (e.target.value.length === 7) return false;
@@ -204,6 +191,32 @@ const AddBank = () => {
                       }}
                     />
                   </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Branch</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='branch' placeholder='Branch' />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line1 </label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='address_line1' placeholder='Address 1' />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line2 </label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='address_line2' placeholder='Address 2' />
+                  </div>
+                </div>
+
+
+
+
+                <div className="form-row">
+
                 </div>
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Description</label>

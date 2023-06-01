@@ -278,13 +278,14 @@ export const Activeunit = async (org) => {
 
 // ###################### Bank api start #############################
 
-export const insertBank = async (account_code, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id) => {
+export const insertBank = async (accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description,branch, org, User_id) => {
+    console.log(branch)
     const url = `http://localhost:3008/api/addbank`
-    return axios.post(url, { account_code, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description,branch, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const totalBank = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/totalbank`
+    const url = `http://localhost:3008/api/totalbank`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const deleteBank = async (sno, status, org) => {
