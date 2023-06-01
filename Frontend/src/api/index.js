@@ -1091,9 +1091,9 @@ export const GetAccountMinorCode = async (org, AccountMinorCode) => {
     return axios.post(url, { org, AccountMinorCode }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateAccountMinorCode = async (org, sno, account_name, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateaccountminorcode`
-    return axios.post(url, { org, sno, account_name, User_id }).then(response => response.data).catch(error => console.log(error));
+export const UpdateAccountMinorCode = async (org, account_name_code, account_name,remarks, User_id) => {
+    const url = `http://localhost:3008/api/updateaccountminorcode`
+    return axios.post(url, { org, account_name_code, account_name,remarks, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ActiveAccountMinorCode = async (org) => {

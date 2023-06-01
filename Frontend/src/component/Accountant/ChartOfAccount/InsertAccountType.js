@@ -1,17 +1,17 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { Insertaccounttype,CountAccounttype } from '../../../api'
+import { Insertaccounttype, CountAccounttype } from '../../../api'
 
 
 function InsertAccountType() {
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       const result = await CountAccounttype(localStorage.getItem("Organisation"))
-      document.getElementById("AccountTypeCode").value =result.count+1
+      document.getElementById("AccountTypeCode").value = result.count + 1
     }
     fetchData();
-  },[])
+  }, [])
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -20,18 +20,24 @@ function InsertAccountType() {
     const account_type_code = document.getElementById('AccountTypeCode').value;
     const accountTypedesc = document.getElementById('AccountTypedesc').value;
     const User_id = localStorage.getItem("User_id");
-    const result = await Insertaccounttype(org, account_type, account_type_code, accountTypedesc, User_id);
 
-    if (result === 'Already') {
-      alert("Already")
-    } else {
-      var landingpage = localStorage.getItem('Chart')
-      if (landingpage === 'Chart') {
-        window.location.href = '/ChartOfAccount'
-        localStorage.removeItem('Chart')
-      }
-      else {
-        window.location.href = '/ShowAccountname'
+    if (!account_type) {
+      alert('Please Enter Account type')
+    }
+    else {
+      const result = await Insertaccounttype(org, account_type, account_type_code, accountTypedesc, User_id);
+
+      if (result === 'Already') {
+        alert("Already")
+      } else {
+        let landingpage = localStorage.getItem('Chart')
+        if (landingpage === 'Chart') {
+          window.location.href = '/ChartOfAccount'
+          localStorage.removeItem('Chart')
+        }
+        else {
+          window.location.href = '/ShowAccountname'
+        }
       }
     }
   }
@@ -54,22 +60,22 @@ function InsertAccountType() {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper `}>
+      <div className='content-wrapper'>
         <div className="container-fluid px-4">
-          <h3 className="py-4 ml-5">Add Account Type</h3>
-          <div className={`card w-100 `}>
-            <form className="card-body">
-              <div className="form-row">
-                <label htmlFor="AccountType" className="col-md-2 col-form-label font-weight-normal">Account Type</label>
-                <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='AccountType' />
-                </div>
-              </div>
-
+          <h3 className="py-3 ml-5">Add Major Account Type</h3>
+          <div className='card w-100'>
+            <form className="card-body" autoComplete='off'>
               <div className="form-row">
                 <label htmlFor="AccountTypeCode" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
                 <div className="col form-group">
                   <input type="number" className="form-control col-md-4" id='AccountTypeCode' disabled />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="AccountType" className="col-md-2 col-form-label font-weight-normal">Account Type <span className='text-danger'>*</span></label>
+                <div className="col form-group">
+                  <input type="text" className="form-control col-md-4" id='AccountType' />
                 </div>
               </div>
 

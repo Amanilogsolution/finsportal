@@ -17,23 +17,21 @@ function EditAccountMinorCode() {
   const handleClick = async (e) => {
     e.preventDefault();
     const account_name = document.getElementById('account_name').value;
+    const remarks = document.getElementById('remarks').value;
     // const account_name_code = document.getElementById('account_name_code').value;
     // const account_type_code = document.getElementById('account_type_code').value
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id');
 
-    const result = await UpdateAccountMinorCode(org, localStorage.getItem('AccountMinorCode'), account_name, User_id);
-    if (result) {
+    const result = await UpdateAccountMinorCode(org, localStorage.getItem('AccountMinorCode'), account_name,remarks, User_id);
+    if (result ==='Added') {
       alert('Account Minor Code Updated Successfully')
       localStorage.removeItem('AccountMinorCode')
       window.location.href = 'ShowChartAccount'
-      // window.location.href = 'ShowAccountMinorCode'
     }
   }
 
-  const handleChangeAccountName = (e) => {
-    setData({ ...data, account_name: e.target.value })
-  }
+
 
   return (
     <div className="wrapper">
@@ -47,30 +45,31 @@ function EditAccountMinorCode() {
           <div className={`card w-100 `}>
             <form className="card-body">
               <div className="form-row">
-                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name</label>
+                <label htmlFor="account_type_code" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
                 <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='account_name' value={data.account_name} onChange={(e) => handleChangeAccountName(e)} />
+                  <input type="text" className="form-control col-md-4" id='account_type_code' defaultValue={data.account_type_code} disabled />
                 </div>
               </div>
-
               <div className="form-row">
-                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Name Code</label>
+                <label htmlFor="account_name_code" className="col-md-2 col-form-label font-weight-normal">Account Name Code</label>
                 <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='account_name_code' value={data.account_name_code}
-                  // onChange={(e) => handleChangeAccountNameCode(e)}
-                  />
+                  <input type="text" className="form-control col-md-4" id='account_name_code' defaultValue={data.account_name_code} disabled />
                 </div>
               </div>
-
               <div className="form-row">
-                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
+                <label htmlFor="account_name" className="col-md-2 col-form-label font-weight-normal">Account Name</label>
                 <div className="col form-group">
-                  <input type="text" className="form-control col-md-4" id='account_type_code' value={data.account_type_code}
-                  // onChange={(e) => handleChangeAccountTypeCode(e)} 
-                  />
+                  <input type="text" className="form-control col-md-4" id='account_name' defaultValue={data.account_name} />
+                </div>
+              </div>
+              <div className="form-row">
+                <label htmlFor="remarks" className="col-md-2 col-form-label font-weight-normal">Description</label>
+                <div className="col form-group">
+                  <textarea className="form-control col-md-4" id='remarks' defaultValue={data.account_description} />
                 </div>
               </div>
             </form>
+
             <div className="border-top card-footer">
               <button className="btn btn-success" onClick={handleClick}>Update</button>
               <button className="btn btn-secondary ml-3" onClick={() => {

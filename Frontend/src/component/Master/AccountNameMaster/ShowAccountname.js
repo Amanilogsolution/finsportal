@@ -63,7 +63,7 @@ function ShowAccountname() {
                     }
                     if (role.chartof_accounts_edit === 'true') {
                         return (
-                            <a title='Edit Account Major Code ' className='pb-1' href="EditAccountname" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
+                            <a title='Edit Account Major Code ' className='pb-1' href="EditAccountMajor" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
                                 style={{ borderBottom: '3px solid blue' }}>{row.account_type}</a>
                         );
                     }
@@ -109,7 +109,7 @@ function ShowAccountname() {
                                     <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                                         const status = e.target.value;
                                         await AccountnameStatus(localStorage.getItem("Organisation"), status, row.account_type_code)
-                                        window.location.href = '/ShowAccountname'
+                                        window.location.href = '/ShowAccountMajor'
                                     }}>
                                         <option value={row.status} hidden> {row.status}</option>
                                         <option value='Active'>Active</option>
@@ -153,15 +153,15 @@ function ShowAccountname() {
         }
         else {
             const result = await ImportAccountName(importdata, localStorage.getItem("Organisation"), localStorage.getItem("User_id"));
-            if (!(result == "Data Added")) {
+            if (!(result === "Data Added")) {
                 setBackenddata(true);
                 setDuplicateDate(result)
             }
-            else if (result == "Data Added") {
+            else if (result === "Data Added") {
                 setBackenddata(false);
                 document.getElementById("showdataModal").style.display = "none";
                 alert("Data Added")
-                window.location.href = './ShowAccountname'
+                window.location.href = './ShowAccountMajor'
             }
 
         }
@@ -220,7 +220,7 @@ function ShowAccountname() {
             <Header />
             <div className={`content-wrapper `}>
                 <div className='d-flex justify-content-between py-4 px-4'>
-                    <h3 className="text-left ml-5">Account Major Code </h3>
+                    <h3 className="text-left ml-5">Total Major Account Code </h3>
                     <div>
                         <button type="button" id='uploadaccountnam' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
                         <button type="button" id='addaccountnam' style={{ display: 'none' }} onClick={() => {
