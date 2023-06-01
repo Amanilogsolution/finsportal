@@ -386,7 +386,13 @@ CREATE TABLE  ${dbname}.dbo.tbl_items_account (
     status nvarchar(30) NULL,
     item_uuid nvarchar(350) NULL
 );
-
+CREATE TABLE ${dbname}.dbo.tbl_sub_items_account (
+    sno bigint IDENTITY(1,1) NOT NULL,
+    sub_item  nvarchar(100) NULL,
+    sub_item_code nvarchar(100) NULL,
+    gl_code nvarchar(100) NULL,
+    unit nvarchar(100) NULL
+    );  
 
 CREATE TABLE ${dbname}.dbo.tbl_account_type (
     sno bigint IDENTITY(1,1) NOT NULL,

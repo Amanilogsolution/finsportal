@@ -1,6 +1,8 @@
 const sql =require('mssql')
 const sqlConfig = require('../../config.js')
 const os = require('os')
+const uuidv1 = require("uuid/v1");
+
 
 const TotalEmployee = async (req, res) => {
     const org = req.body.org
@@ -19,13 +21,13 @@ const insertemployee = async (req, res) => {
     const wh = req.body.wh;
     const emp_id = req.body.emp_id;
     const User_id= req.body.User_id;
- 
+    const uuid = uuidv1()
     try {
         await sql.connect(sqlConfig)
 
         const result = await sql.query(`insert into ${org}.dbo.tbl_emp(emp_name,wh,emp_id,add_user_name ,add_system_name,add_ip_address,
             add_date_time,status ,emp_uuid )
-            values('${emp_name}','${wh}','${emp_id}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','') 
+            values('${emp_name}','${wh}','${emp_id}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${uuid}') 
           `)
         res.send('Added')  
     }
@@ -79,5 +81,14 @@ const updateemployee = async (req, res) => {
         res.send(err)
     }
 }
-
-module.exports={TotalEmployee,deleteEmployee,insertemployee,getemployee,updateemployee}
+const ActiveEmployee = async (req, res) => {
+    const org = req.body.org
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select * from  ${org}.dbo.tbl_emp where status='Active'`)
+        res.send(result.recordset)
+    } catch (err) {
+        res.send(err)
+    }
+}
+module.exports={TotalEmployee,deleteEmployee,insertemployee,getemployee,updateemployee,ActiveEmployee}

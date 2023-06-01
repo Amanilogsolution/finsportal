@@ -13,13 +13,14 @@ const EditBank = () => {
   useEffect(async () => {
     const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
     setData(result)
-    if (result.ac_type === 'Saving') {
-      document.getElementById('Saving').checked = true
-      setType('Saving')
+    console.log(result)
+    if (result.ac_type ==="Bank" ) {
+      document.getElementById('Bank').checked = true
+      setType('bank')
     }
-    else if (result.ac_type === 'Current') {
-      document.getElementById('Current').checked = true
-      setType('Fixed')
+    else if (result.ac_type === 'CreditCard') {
+      document.getElementById('CreditCard').checked = true
+      setType('CreditCard')
     }
     else {
       setType(result.ac_type)
@@ -87,6 +88,8 @@ const EditBank = () => {
     setType(value)
   }
 
+
+
   return (
     <div className="wrapper">
       <div className="preloader flex-column justify-content-center align-items-center">
@@ -103,11 +106,24 @@ const EditBank = () => {
                   <div className="col form-group" >
                     <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Select Account type</label>
                     <label className="form-check form-check-inline">
-                      <input className="form-check-input" type="radio" name="taxpreference" value="Bank" />Bank
+                      <input className="form-check-input" type="radio" name="taxpreference" id='Bank' value="Bank" />Bank
                     </label>
                     <label className="form-check form-check-inline">
-                      <input className="form-check-input" type="radio" name="taxpreference" value="CreditCard" />Credit Card
+                      <input className="form-check-input" type="radio" name="taxpreference" id='CreditCard' value="CreditCard" />Credit Card
                     </label>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Accounting Code <span className='text-danger'>*</span></label>
+                  <div className="col form-group">
+                    <select className="form-control col-md-10" disabled>
+                      <option value={data.chart_of_account} hidden>{data.bank_name}</option>
+                    </select>
+                  </div>
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-10" id='bank_name' defaultValue={data.bank_name} disabled />
                   </div>
                 </div>
                 <div className="form-row">
@@ -117,35 +133,90 @@ const EditBank = () => {
                   </div>
                 </div>
 
-                <div className="form-row">
+                {/* <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Code</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='account_code' defaultValue={data.account_code} />
                   </div>
-                </div>
+                </div> */}
 
-                <div className="form-row">
+                {/* <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='account_no' defaultValue={data.account_no} />
                   </div>
-                </div>
+                </div> */}
 
-                <div className="form-row">
+                {/* <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Bank Name</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='bank_name' defaultValue={data.bank_name} />
                   </div>
-                </div>
+                </div> */}
                 <div className="form-row">
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Number  <span className='text-danger'>*</span></label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-10" id='account_no' defaultValue={data.account_no} />
+                  </div>
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code  <span className='text-danger'>*</span></label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-10" id='ifsc_code' defaultValue={data.ifsc_code} />
+                  </div>
+                </div>
+                {/* <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">IFSC Code</label>
                   <div className="col form-group">
                     <input type="text" className="form-control col-md-4" id='ifsc_code' defaultValue={data.ifsc_code} />
                   </div>
+                </div> */}
+
+                <div className="form-row">
+                  <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country  <span className='text-danger'>*</span></label>
+                  <div className="col form-group">
+                    <select className="form-control col-md-10" id='country' onChange={handlecountry} >
+                      <option value={data.country} hidden>{data.country}</option>
+                      {
+                        countrylist.map((item, index) =>
+                          <option key={index} value={item.country_name}>{item.country_name}</option>)
+                      }
+                    </select>
+                  </div>
+                  <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State  <span className='text-danger'>*</span></label>
+                  <div className="col form-group">
+                    <select type="text" className="form-control col-md-10" id='state' onChange={handleChangestate} >
+                      <option value={data.state} hidden>{data.state}</option>
+                      {
+                        statelist.map((item, index) =>
+                          <option key={index}>{item.state_name}</option>)
+                      }
+                    </select>
+                  </div>
                 </div>
 
+                <div className="form-row">
+                  <label htmlFor="city" className="col-md-2 col-form-label font-weight-normal">City</label>
+                  <div className="col form-group">
+                    <select className="form-control col-md-10" id='city' onChange={handleChangecity} >
+                      <option value={data.city} hidden>{data.city}</option>
+                      {
+                        citylist.map((index, item) =>
+                          <option key={index} value={item.city_name}>{item.city_name}</option>)
+                      }
+                    </select>
+                  </div>
 
+                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
+                  <div className="col form-group">
+                    <input type="number" className="form-control col-md-10" id='pincode' value={data.pincode} onChange={handleChangepincode} />
+                  </div>
+                </div>
 
+                <div className="form-row">
+                  <label htmlFor="branch" className="col-md-2 col-form-label font-weight-normal">Branch </label>
+                  <div className="col form-group">
+                    <input type="text" className="form-control col-md-4" id='branch' defaultValue={data.branch} />
+                  </div>
+                </div>
                 <div className="form-row">
                   <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Address line1 </label>
                   <div className="col form-group">
@@ -160,14 +231,9 @@ const EditBank = () => {
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <label htmlFor="branch" className="col-md-2 col-form-label font-weight-normal">Branch </label>
-                  <div className="col form-group">
-                    <input type="text" className="form-control col-md-4" id='branch' defaultValue={data.branch} />
-                  </div>
-                </div>
+               
 
-                <div className="form-row">
+                {/* <div className="form-row">
                   <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country </label>
                   <div className="col form-group">
                     <select className="form-control col-md-4" id='country' onChange={handlecountry} >
@@ -178,9 +244,9 @@ const EditBank = () => {
                       }
                     </select>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="form-row">
+                {/* <div className="form-row">
                   <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State </label>
                   <div className="col form-group">
                     <select type="text" className="form-control col-md-4" id='state' onChange={handleChangestate} >
@@ -191,27 +257,9 @@ const EditBank = () => {
                       }
                     </select>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="form-row">
-                  <label htmlFor="city" className="col-md-2 col-form-label font-weight-normal">City</label>
-                  <div className="col form-group">
-                    <select className="form-control col-md-4" id='city' onChange={handleChangecity} >
-                      <option value={data.city} hidden>{data.city}</option>
-                      {
-                        citylist.map((index, item) =>
-                          <option key={index} value={item.city_name}>{item.city_name}</option>)
-                      }
-                    </select>
-                  </div>
-                </div>
 
-                <div className="form-row">
-                  <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Pin Code</label>
-                  <div className="col form-group">
-                    <input type="number" className="form-control col-md-4" id='pincode' value={data.pincode} onChange={handleChangepincode} />
-                  </div>
-                </div>
 
 
                 <div className="form-row">

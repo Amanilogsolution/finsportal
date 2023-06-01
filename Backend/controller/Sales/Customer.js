@@ -336,7 +336,7 @@ const ActiveCustomer = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT cust_name,cust_id  from ${org}.dbo.tbl_new_customer tnc with (nolock) where status='Active'`)
+        const result = await sql.query(`SELECT cust_name,cust_id,mast_id  from ${org}.dbo.tbl_new_customer tnc with (nolock) where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {

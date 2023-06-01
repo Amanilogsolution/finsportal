@@ -250,7 +250,7 @@ const ActiveVendor = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT vend_name,vend_id  from ${org}.dbo.tbl_new_vendor tnc  with (nolock) where status='Active'`)
+        const result = await sql.query(`SELECT vend_name,vend_id,mast_id  from ${org}.dbo.tbl_new_vendor tnc  with (nolock) where status='Active'`)
         res.send(result.recordset)
     }
     catch (err) {
