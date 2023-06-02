@@ -1,46 +1,46 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import {AddAccountName,AddSubAccountName,ParentAccountNumber} from '../../../api/index'
+import { AddAccountName, AddSubAccountName, ParentAccountNumber } from '../../../api/index'
 
 function InsertMinorCode() {
   const [accountno, setAccountno] = useState('');
 
-  useEffect(async()=>{
+  useEffect(async () => {
     const fetchData = async () => {
-    const org = localStorage.getItem('Organisation');
-    const account_type= localStorage.getItem('AccountType')
-    const number = await ParentAccountNumber(account_type,'',org)
-    console.log(number)
-    if (!number.result) {
-      setAccountno(account_type + '01')
-    }
-    else {
-      const accountnamenum = parseInt(number.result.account_name_code) + 1;
-      const accountnamenum1 = String(accountnamenum).padStart(2, '0');
-      setAccountno(accountnamenum1)
+      const org = localStorage.getItem('Organisation');
+      const account_type = localStorage.getItem('AccountType')
+      const number = await ParentAccountNumber(account_type, '', org)
 
-      
+      if (!number.result) {
+        setAccountno(account_type + '01')
+      }
+      else {
+        const accountnamenum = parseInt(number.result.account_name_code) + 1;
+        const accountnamenum1 = String(accountnamenum).padStart(2, '0');
+        setAccountno(accountnamenum1)
+      }
     }
-  }
-  fetchData();
-  },[])
-  const handleClick =async(e) =>{
+    fetchData();
+  }, [])
+
+  const handleClick = async (e) => {
     e.preventDefault();
     const Accountname = document.getElementById('Accountname').value
     const Accountnamecode = document.getElementById('Accountnamecode').value
-    const description = document.getElementById('AccountTypedesc').value
-    const result = await AddAccountName(localStorage.getItem('AccountType'), Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-    if (result === 'Already') {
-      alert("Already")
-    } else {
-      var landingpage = localStorage.getItem('Chart')
-      if (landingpage === 'Chart') {
-        window.location.href = '/ChartOfAccount'
-        localStorage.removeItem('Chart')
+    const description = document.getElementById('AccountTypedesc').value;
+
+    if (!Accountname) { 
+      alert('Please Enter Name')
+    }
+    else {
+      const result = await AddAccountName(localStorage.getItem('AccountType'), Accountname, Accountnamecode, description, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
+      if (result === 'Already') {
+        alert("Already")
       }
       else {
-        window.location.href = '/ShowAccountname'
+        window.location.href = '/ChartOfAccount'
+        localStorage.removeItem('Chart')
       }
     }
 
@@ -48,14 +48,8 @@ function InsertMinorCode() {
 
   const handleClickCancel = (e) => {
     e.preventDefault();
-    var landingpage = localStorage.getItem('Chart')
-    if (landingpage === 'Chart') {
-      window.location.href = '/ChartOfAccount'
-      localStorage.removeItem('Chart')
-    }
-    else {
-      window.location.href = '/ShowAccountname'
-    }
+    window.location.href = '/ChartOfAccount'
+    localStorage.removeItem('Chart')
   }
 
   return (
@@ -66,22 +60,24 @@ function InsertMinorCode() {
       <Header />
       <div className={`content-wrapper `}>
         <div className="container-fluid px-4">
-          <h3 className="py-4 ml-5">Add Account Name</h3>
+          <h3 className="py-4 ml-5">Add Minor Account Name</h3>
           <div className={`card w-100 `}>
             <form className="card-body">
               <div className="form-row">
-                <label htmlFor="AccountType" className="col-md-2 col-form-label font-weight-normal">Minor Name</label>
+                <label htmlFor="AccountTypeCode" className="col-md-2 col-form-label font-weight-normal">Minor Code</label>
+                <div className="col form-group">
+                  <input type="number" className="form-control col-md-4" id='Accountnamecode' value={accountno} disabled />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="AccountType" className="col-md-2 col-form-label font-weight-normal">Minor Name <span className='text-danger'>*</span></label>
                 <div className="col form-group">
                   <input type="text" className="form-control col-md-4" id='Accountname' />
                 </div>
               </div>
 
-              <div className="form-row">
-                <label htmlFor="AccountTypeCode" className="col-md-2 col-form-label font-weight-normal">Minor Code</label>
-                <div className="col form-group">
-                  <input type="number" className="form-control col-md-4" id='Accountnamecode' value={accountno} disabled/>
-                </div>
-              </div>
+
 
               <div className="form-row">
                 <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Description</label>

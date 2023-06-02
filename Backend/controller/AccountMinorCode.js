@@ -11,7 +11,7 @@ const TotalAccountMinorCode = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -24,7 +24,7 @@ const AccountMinorCodeStatus = async (req, res) => {
         const result = await sql.query(`update ${org}.dbo.tbl_account_name set status='${status}' where sno='${sno}'`)
         res.send(result.recordset)
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -37,23 +37,30 @@ const GetAccountMinorCode = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 const UpdateAccountMinorCode = async (req, res) => {
     const org = req.body.org;
-    const sno = req.body.sno;
+    const account_name_code = req.body.account_name_code;
     const account_name = req.body.account_name;
+    const remarks = req.body.remarks;
     const User_id = req.body.User_id;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`UPDATE ${org}.dbo.tbl_account_name  set account_name='${account_name}',update_user_name='${User_id}',update_system_name ='${os.hostname()}',
-        update_ip_address ='${req.ip}',update_date_time=GETDATE() WHERE sno='${sno}';`)
-        res.send(result.recordset[0])
+        const result = await sql.query(`UPDATE ${org}.dbo.tbl_account_name  set account_name='${account_name}',account_description='${remarks}',update_user_name='${User_id}',update_system_name ='${os.hostname()}',
+        update_ip_address ='${req.ip}',update_date_time=GETDATE() WHERE account_name_code='${account_name_code}'`)
+        if(result.rowsAffected[0]>0){
+            res.status(200).send('Added');
+        }
+        else{
+            res.status(500).send('Server Error')
+        }
+      
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -65,7 +72,7 @@ const ActiveAccountMinorCode = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -78,7 +85,7 @@ const GetAccountMinorCodeName = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

@@ -194,12 +194,12 @@ const App = () => {
     <div>
       <Router>
         <Switch>
-         
-          <Route exact path="/" component={LandingPage}/>
+
+          <Route exact path="/" component={LandingPage} />
           <Route exact path="/Signin" restricted={false} component={Login} />
           <Route exact path="/Signup" restricted={false} component={Signup} />
 
-          
+
           <Route exact path="/otppage" component={OTPpage} />
 
           <PrivatRoute exact path="/home" component={Home} />
@@ -208,7 +208,7 @@ const App = () => {
           <PrivatRoute exact path="/Customer" component={Customer} />
           <PrivatRoute exact path="/CustomerNames" component={CustomerNames} />
 
-          
+
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
           <PrivatRoute exact path="/org" component={Org} />
           <PrivatRoute exact path="/EditOrganisation" component={EditOrganisation} />
@@ -232,7 +232,7 @@ const App = () => {
           <PrivatRoute exact path="/Showcity" component={Showcity} />
           <PrivatRoute exact path="/Addcity" component={Addcity} />
           <PrivatRoute exact path='/EditCity' component={EditCity} />
-          
+
           <PrivatRoute exact path="/ShowUnit" component={ShowUnit} />
           <PrivatRoute exact path="/AddUnit" component={AddUnit} />
           <PrivatRoute exact path="/EditUnit" component={EditUnit} />
@@ -279,19 +279,23 @@ const App = () => {
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
-          <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
+          {/* Not In Now */}
+          {/* <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} /> */}
+
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
+          <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
           <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount} />
-          
+
           <PrivatRoute exact path="/Currency-Adjustment" component={CurrencyAdjust} />
 
+          <PrivatRoute exact path="/InsertAccountMajor" component={InsertAccountType} />
+          <PrivatRoute exact path="/ShowAccountMajor" component={ShowAccountname} />
+          <PrivatRoute exact path="/EditAccountMajor" component={EditAccountname} />
 
-          <PrivatRoute exact path="/InsertAccountType" component={InsertAccountType} />
-          <PrivatRoute exact path="/InsertMinorCode" component={InsertMinorCode} />
+          <PrivatRoute exact path="/InsertAccountMinorCode" component={InsertMinorCode} />
+          <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode} />
+          <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode} />
 
-          
-          <PrivatRoute exact path="/ShowAccountname" component={ShowAccountname} />
-          <PrivatRoute exact path="/EditAccountname" component={EditAccountname} />
           {/* <PrivatRoute exact path="/Items" component={Items}/> */}
           {/* 
           <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
@@ -303,9 +307,11 @@ const App = () => {
           <PrivatRoute exact path="/EditRecurringFreq" component={EditRecurringFreq} />
 
           <PrivatRoute exact path="/RecurringExpenses" component={RecurringExpenses} />
-          <PrivatRoute exact path="/AddSubCode" component={AddSubCode} />
+
+          {/*  ###################### Sub Gl Not Now ####### */}
+          {/* <PrivatRoute exact path="/AddSubCode" component={AddSubCode} />
           <PrivatRoute exact path="/TotalSubCode" component={TotalSubCode} />
-          <PrivatRoute exact path="/EditSubCode" component={EditSubCode} />
+          <PrivatRoute exact path="/EditSubCode" component={EditSubCode} /> */}
 
           <PrivatRoute exact path="/Estimates" component={Estimates} />
 
@@ -313,7 +319,7 @@ const App = () => {
           <PrivatRoute exact path="/SaveSalesOrder" component={SaveSalesOrder} />
           <PrivatRoute exact path="/EditSalesOrder" component={EditSalesOrder} />
 
-          
+
 
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
           <PrivatRoute exact path="/Invoices" component={Invoices} />
@@ -325,7 +331,7 @@ const App = () => {
           <PrivatRoute exact path="/CreditNotes" component={CreditNotes} />
           <PrivatRoute exact path="/CreditNotesUI" component={CreditNotesUI} />
           <PrivatRoute exact path="/DebitNotes" component={DebitNotes} />
-         
+
           <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived} />
 
           <PrivatRoute exact path="/PurchaseOrder" component={PurchaseOrder} />
@@ -339,8 +345,6 @@ const App = () => {
           <PrivatRoute exact path="/SaveBillReport" component={SaveBillReport} />
 
 
-          <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode} />
-          <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode} />
           <PrivatRoute exact path="/BillPayment" component={BillPayment} />
           <PrivatRoute exact path="/PaymentMade" component={PaymentMade} />
 
@@ -365,20 +369,15 @@ const App = () => {
           <PrivatRoute exact path="/editemployee" component={EditEmployee} />
 
 
-
-
           <PrivatRoute exact path="/addroles" component={AddRoles} />
           <PrivatRoute exact path="/showroles" component={ShowRoles} />
-
-          <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} />
-
 
 
           <PrivatRoute exact path="/AddRecurringInvoices" component={AddRecurringInvoices} />
           <PrivatRoute exact path="/TotalRecurringInvoice" component={TotalRecurringInvoice} />
           <PrivatRoute exact path="/EditRecurringInvoice" component={EditRecurringInvoice} />
 
-          
+
           <PrivatRoute exact path="/TotalRecurringBill" component={TotalRecurringBill} />
           <PrivatRoute exact path="/EditRecurringBills" component={EditRecurringBills} />
 
@@ -388,7 +387,6 @@ const App = () => {
           <PrivatRoute exact path="/JVoucher" component={JVoucher} />
           <PrivatRoute exact path="/EditJVoucher" component={EditJVoucher} />
 
-          
 
           <PrivatRoute exact path="/inserttdshead" component={inserttdshead} />
           <PrivatRoute exact path="/TotaltdsHead" component={TotaltdsHead} />
@@ -401,7 +399,7 @@ const App = () => {
           <PrivatRoute exact path="/TotalBankingPayment" component={TotalBankingPayment} />
           <PrivatRoute exact path="/AddBankingPayment" component={AddBankingPayment} />
 
-          
+
           <Route exact path="*" component={PageNotFound} />
         </Switch>
       </Router>

@@ -119,7 +119,7 @@ function ShowChartAccount() {
           }
           if (userRightsData.chartof_accounts_edit === 'true') {
             return (
-              <a title='Edit account_type_code' className='pb-1' href="EditAccountname" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
+              <a title='Edit account_type_code' className='pb-1' href="EditAccountMajor" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('AccountTypeCode', `${row.account_type_code}`)}
                 style={{ borderBottom: '3px solid blue' }}>{row.account_type_code}</a>
             );
           }
@@ -290,8 +290,8 @@ function ShowChartAccount() {
             <button type="button" id='addchartofacct' style={{ display: 'none' }} onClick={() => {
               financialstatus !== 'Lock' ? window.location.href = "./ChartOfAccount" : alert('You are not in Current Financial Year')}} className="btn btn-primary mx-2">Add Chart Of Account</button>
            
-           <button onClick={() => {window.location.href = "./ShowAccountname" }} className="btn btn-primary mx-2"> Account Major</button>
            <button onClick={() => {window.location.href = "./ShowAccountMinorCode" }} className="btn btn-primary"> Account Minor</button>
+           <button onClick={() => {window.location.href = "./ShowAccountMajor" }} className="btn btn-primary ml-2"> Account Major</button>
           </div>
         </div>
 

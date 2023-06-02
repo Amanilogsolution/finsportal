@@ -48,22 +48,24 @@ function EditAccountname() {
       <Header />
       <div className={`content-wrapper `}>
         <div className="container-fluid">
-          <br /> <h3 className="ml-5">Edit Account Major Code</h3>
-          <div className={`card w-100 `}>
+         <h3 className="ml-5 py-3">Edit Account Major Code</h3>
+          <div className='card w-100'>
             <form className="card-body">
               <div className="form-row">
-                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type</label>
+                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
+                <div className="col form-group">
+                  <input type="number" className="form-control col-md-4" id='AccountTypeCode' defaultValue={data.account_type_code} disabled/>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type <span className='text-danger'>*</span></label>
                 <div className="col form-group">
                   <input type="text" className="form-control col-md-4" id='AccountType' defaultValue={data.account_type} />
                 </div>
               </div>
 
-              <div className="form-row">
-                <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Account Type Code</label>
-                <div className="col form-group">
-                  <input type="number" className="form-control col-md-4" id='AccountTypeCode' defaultValue={data.account_type_code} />
-                </div>
-              </div>
+
               <div className="form-row">
                 <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >Account Type Description</label>
                 <div className="col form-group">
@@ -78,7 +80,7 @@ function EditAccountname() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

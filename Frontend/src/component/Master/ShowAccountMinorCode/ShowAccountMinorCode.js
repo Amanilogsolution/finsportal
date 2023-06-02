@@ -20,7 +20,6 @@ function ShowAccountMinorCode() {
   useEffect(() => {
     async function fetchdata() {
       const result = await TotalAccountMinorCode(localStorage.getItem('Organisation'))
-      console.log(result)
       setData(result)
       fetchRoles();
     }
@@ -254,7 +253,7 @@ function ShowAccountMinorCode() {
             <h3 className="ml-5">Account Minor Code </h3>
             <div >
               <button type="button" id='uploadExcelacountName' className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-              <button type="button" id='addacountName' onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./InsertAccountType" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Account Name</button>
+              {/* <button type="button" id='addacountName' onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./InsertAccountType" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Account Name</button> */}
             </div>
           </div>
 

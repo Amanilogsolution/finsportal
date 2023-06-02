@@ -103,10 +103,7 @@ function ChartOfAccount() {
                 <label>Major Account <span className='text-danger'>*</span> </label>
                 <div className="d-flex">
                   <select
-                    id="AccountType"
-                    className="form-control"
-                    onChange={handleAccountType}
-                  >
+                    id="AccountType" className="form-control" onChange={handleAccountType} >
                     <option value='' hidden>Choose</option>
                     {
                       chartofaccount.map((item, index) => {
@@ -116,7 +113,7 @@ function ChartOfAccount() {
                       })
                     }
                   </select>
-                  <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountType"; localStorage.setItem('Chart', 'Chart') }}
+                  <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountMajor"; localStorage.setItem('Chart', 'Chart') }}
                     style={{ height: "30px", width: "30px" }}>+</button>
                 </div>
               </div>
@@ -124,11 +121,7 @@ function ChartOfAccount() {
               <div className="form-group" id="parent" style={{ display: 'none' }}>
                 <label>Minor Account <span className='text-danger'>*</span> </label>
                 <div className="d-flex">
-                  <select
-                    id="parentaccount"
-                    className="form-control"
-                    onChange={handleParentAccount}
-                  >
+                  <select id="parentaccount" className="form-control" onChange={handleParentAccount} >
                     <option value='' hidden>Choose</option>
                     {
                       account_name.map((item, index) => {
@@ -139,7 +132,7 @@ function ChartOfAccount() {
                       )
                     }
                   </select>
-                  <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertMinorCode"; localStorage.setItem('Chart', 'Chart') }}
+                  <button className="ml-2 bg-white rounded-circle font-weight-bold" onClick={(e) => { e.preventDefault(); window.location.href = "InsertAccountMinorCode"; localStorage.setItem('Chart', 'Chart') }}
                     style={{ height: "30px", width: "30px" }}>+</button>
                 </div>
               </div>
