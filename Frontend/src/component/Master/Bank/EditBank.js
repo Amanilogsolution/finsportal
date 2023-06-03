@@ -14,7 +14,7 @@ const EditBank = () => {
     const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
     setData(result)
     console.log(result)
-    if (result.ac_type ==="Bank" ) {
+    if (result.ac_type === "Bank") {
       document.getElementById('Bank').checked = true
       setType('bank')
     }
@@ -37,7 +37,7 @@ const EditBank = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const account_code = document.getElementById('account_code').value;
+    // const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
     const address_line2 = document.getElementById('address_line2').value;
@@ -47,19 +47,26 @@ const EditBank = () => {
     const pincode = document.getElementById('pincode').value;
     const ifsc_code = document.getElementById('ifsc_code').value;
     const bank_name = document.getElementById('bank_name').value;
+    const branch = document.getElementById('branch').value;
     const acname = document.getElementById('acname').value;
     const description = document.getElementById('description').value;
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id');
 
-    const result = await updateBank(localStorage.getItem('BankSno'), account_code, account_no, type, bank_name, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id);
-    if (result) {
-      alert('Data Added')
-      window.location.href = '/TotalBank'
+    if (!account_no || !ifsc_code || !country || !state) {
+      alert('Please Enter the Mandatoy fields')
     }
     else {
-      alert('Server Error');
+      const result = await updateBank(localStorage.getItem('BankSno'), data.chart_of_account, account_no, type, bank_name, branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id);
+      if (result) {
+        alert('Data Updated')
+        window.location.href = '/TotalBank'
+      }
+      else {
+        alert('Server Error');
+      }
     }
+
 
   }
 
@@ -231,7 +238,7 @@ const EditBank = () => {
                   </div>
                 </div>
 
-               
+
 
                 {/* <div className="form-row">
                   <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country </label>

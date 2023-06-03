@@ -62,7 +62,7 @@ function AddBankingReceipt() {
         e.preventDefault()
         if (Bankrowdata.length > 1) {
             let newarr = [...Bankrowdata];
-            
+
             if (deleteType === 'pop') {
                 newarr.pop()
             }
@@ -174,13 +174,15 @@ function AddBankingReceipt() {
         setBankrowdata(rowsInput);
     }
     const handleClickCustomer = async (customer_id, customer_name) => {
-        const invoices = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
-        setCustomerInvlist(invoices)
-        offCustomModal('SelectCustomerModal');
-        document.getElementById('InvCustomModal').style.display = "block"
+        const onAccount = document.getElementById('on_account').checked === true ? true : false;
+        if (!onAccount) {
+            const invoices = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
+            setCustomerInvlist(invoices)
+            document.getElementById('InvCustomModal').style.display = "block"
+        }
         Bankrowdata[currentindex].custId = customer_id;
         Bankrowdata[currentindex].achead = customer_name;
-
+        offCustomModal('SelectCustomerModal');
     }
     const offCustomModal = (ids) => {
         document.getElementById(ids).style.display = 'none'

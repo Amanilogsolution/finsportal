@@ -1,14 +1,24 @@
-const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMiorData, chartofacctlist, handleChnageAcHead }) => {
+const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMiorData, chartofacctlist, handleChnageAcHead,setCurrentindex }) => {
     return (
         bankPayMinData.map((minordata, index) =>
             <tr key={index}>
                 <td className="p-0">
-                    <select className="form-control" onChange={(e) => handleChnageAcHead(e, index)}>
+                    <button type="button" style={{ height: '50px' }} className="btn border col overflow-hidden p-0" data-toggle="modal" data-target="#chartofaccountmodal"
+                        onClick={() => {
+                            setCurrentindex(index); document.getElementById('on_account').disabled = true;
+                            setTimeout(() => {
+                                document.getElementById('searchChartofAcct').focus()
+                            }, 700)
+                        }}>
+
+                        {/* {JVMinorData[index].accHead.length > 0 ? JVMinorData[index].accHead : "Select Value"} */}
+                    </button>
+                    {/* <select className="form-control" onChange={(e) => handleChnageAcHead(e, index)}>
                         <option hidden value=''>Select Ac Head</option>
                         {chartofacctlist.map((gldata, index) => (
                             <option key={index} value={`${gldata.account_sub_name}^${gldata.account_sub_name_code}`}> {gldata.account_sub_name} </option>))
                         }
-                    </select>
+                    </select> */}
                 </td>
                 <td className="p-0"><input type="text" className="form-control " name="costCenter" value={minordata.costCenter} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="text" className="form-control " name="refNo" value={minordata.refNo} onChange={(e) => handleChangeMiorData(e, index)} /></td>
