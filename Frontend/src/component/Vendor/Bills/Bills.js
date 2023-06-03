@@ -31,6 +31,9 @@ function Bills() {
     const [tdscomp, setTdscomp] = useState();
     const [netamt, setNetamt] = useState('');
     const [tdsheadlist, setTdsheadlist] = useState([])
+
+    const [index,setIndex] = useState()
+
     const [billalldetail, setBillalldetail] = useState({
         voucher_no: '',
         voucher_date: '',
@@ -46,20 +49,27 @@ function Bills() {
         remarks: ''
     })
 
+
+
     const [tabledata, setTabledata] = useState([
         {
             location: '',
             item: '',
             glcode: '',
             sac_hsn: '',
-            employee: '',
             quantity: '',
-            rate: '0',
-            amount: '0',
-            deduction: '0',
-            // ref_fileno: '',
+            rate: 0,
+            amount: 0,
             unit: '',
-            netamount: '0'
+            netamount: 0,
+            cgst_amt: 0,
+            sgst_amt: 0,
+            igst_amt: 0,
+            cgst_per: 0,
+            sgst_per: 0,
+            igst_per: 0,
+            tds_per: 0,
+            tds_amt: 0,
         }
     ])
 
@@ -84,6 +94,8 @@ function Bills() {
             setTdsheadlist(tds_list)
             setLoading(true)
             Todaydate()
+
+            console.log(tabledata)
 
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
@@ -150,14 +162,19 @@ function Bills() {
             item: '',
             glcode: '',
             sac_hsn: '',
-            // employee: '',
-            quantity: '0',
-            rate: '0',
-            amount: '0',
-            // deduction: '0',
-            // ref_fileno: '',
+            quantity: '',
+            rate: 0,
+            amount: 0,
             unit: '',
-            netamount: '0'
+            netamount: 0,
+            cgst_amt: 0,
+            sgst_amt: 0,
+            igst_amt: 0,
+            cgst_per: 0,
+            sgst_per: 0,
+            igst_per: 0,
+            tds_per: 0,
+            tds_amt: 0,
         }])
     }
 
@@ -196,28 +213,29 @@ function Bills() {
 
     // Quantity Hadle Calculation
     const handleChangeQuantity = (e, index) => {
-        tabledata[index].quantity = e.target.value
 
         document.getElementById(`Quantity${index}`).value = e.target.value;
 
         let amt = document.getElementById(`rate${index}`).value * e.target.value
         document.getElementById(`amount${index}`).value = amt;
+        const sum = [Number(tabledata[index]["cgst_amt"]), Number(tabledata[index]["sgst_amt"]), Number(tabledata[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
+        const tds = tabledata[index]["tds_amt"]
+        
+        document.getElementById(`netamt${index}`).value = sum+amt-tds
+
         tabledata[index].amount = amt
+         tabledata[index].quantity = Number(e.target.value)
+          tabledata[index].rate = Number(document.getElementById(`rate${index}`).value)
+          tabledata[index].netamount = sum+amt-tds
+
+          console.log()
+
+          let net_amt = 0;
+        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        // console.log(net_amt)
+        setNetamt(net_amt)
 
 
-        let netamt = document.getElementById(`amount${index}`).value - document.getElementById(`deduction${index}`).value
-        document.getElementById(`netamt${index}`).value = netamt;
-        tabledata[index].netamount = netamt
-
-        setNetTotal(0)
-        setCgstval(0)
-        setSgstval(0)
-        setIgstval(0)
-        setBillsubtotalamt(0)
-
-        document.getElementById('cgst-inp').value = 0;
-        document.getElementById('sgst-inp').value = 0;
-        document.getElementById('igst-inp').value = 0;
     }
 
     // Rate Hadle Calculation
@@ -228,21 +246,21 @@ function Bills() {
 
         let amt = document.getElementById(`Quantity${index}`).value * e.target.value
         document.getElementById(`amount${index}`).value = amt;
+
+        const sum = [Number(tabledata[index]["cgst_amt"]), Number(tabledata[index]["sgst_amt"]), Number(tabledata[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
+        const tds = tabledata[index]["tds_amt"]
+
+        document.getElementById(`netamt${index}`).value = sum+amt-tds
         tabledata[index].amount = amt
+         tabledata[index].quantity = Number(document.getElementById(`Quantity${index}`).value)
+          tabledata[index].rate = Number(e.target.value)
+          tabledata[index].netamount = sum+amt-tds
 
-        let netamt = document.getElementById(`amount${index}`).value - document.getElementById(`deduction${index}`).value
-        document.getElementById(`netamt${index}`).value = netamt;
-        tabledata[index].netamount = netamt
+          let net_amt = 0;
+          tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+          setNetamt(net_amt)
 
-        setNetTotal(0)
-        setCgstval(0)
-        setSgstval(0)
-        setIgstval(0)
-        setBillsubtotalamt(0)
 
-        document.getElementById('cgst-inp').value = 0;
-        document.getElementById('sgst-inp').value = 0;
-        document.getElementById('igst-inp').value = 0;
     }
 
     // Deduction Hadle Calculation
@@ -265,18 +283,22 @@ function Bills() {
     }
 
     //Toggle & Calculation of Gst Div
-    const handletogglegstdiv = () => {
+    const handletogglegstdiv = (e,index) => {
+        setIndex(index)
         var sum = 0
         tabledata.map((item) => sum += Number(item.netamount))
         setNetTotal(sum)
         setBillsubtotalamt(sum)
         document.getElementById('totalamount').value = sum;
-        if (document.getElementById('gstdiv').style.display === 'none') {
-            document.getElementById('gstdiv').style.display = 'block';
+        if (e.target.checked === true) {
+            document.getElementById('gstdiv').style.display = 'block';   
         }
         else {
+            document.getElementById(`netamt${index}`).value = document.getElementById(`amount${index}`).value
             document.getElementById('gstdiv').style.display = 'none';
         }
+
+
         const vendor_detail = document.getElementById('vend_name');
         const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
         setBillalldetail({
@@ -296,33 +318,41 @@ function Bills() {
     const handlegst_submit = (e) => {
         e.preventDefault();
         const gst_type = document.getElementById('gsttype').value;
-        const totalvalue = document.getElementById('totalamount').value
+        const totalvalue = document.getElementById(`amount${index}`).value
+        
         const gst = document.getElementById('gstTax').value
+        // alert(gst)
         let tax = totalvalue * gst / 100
         tax = Math.round(tax)
-        const val = netTotal
-        setNetTotal(val + tax)
-        if (gst_type === 'Inter') {
-            setCgstval(0)
-            setSgstval(0)
-            setIgstval(tax)
+        document.getElementById(`netamt${index}`).value = Number(tax)+Number(totalvalue)
 
-            document.getElementById('cgst-inp').value = 0;
-            document.getElementById('sgst-inp').value = 0;
-            document.getElementById('igst-inp').value = gst;
+        if (gst_type === 'Inter') {
+            tabledata[index].cgst_amt = 0
+            tabledata[index].sgst_amt = 0
+            tabledata[index].igst_amt = tax
+            tabledata[index].cgst_per = 0
+            tabledata[index].sgst_per = 0
+            tabledata[index].igst_per = gst 
+            tabledata[index].netamount = Number(tax)+Number(totalvalue)
 
         }
         else if (gst_type === 'Intra') {
-            setCgstval(Math.round(tax / 2))
-            setSgstval(Math.round(tax / 2))
-            setIgstval(0)
+            tabledata[index].cgst_amt = Math.round(tax / 2)
+            tabledata[index].sgst_amt = Math.round(tax / 2)
+            tabledata[index].igst_amt = 0
+            tabledata[index].cgst_per = Math.round(gst / 2)
+            tabledata[index].sgst_per = Math.round(gst / 2)
+            tabledata[index].igst_per = 0 
+            tabledata[index].netamount = Number(tax)+Number(totalvalue)
 
-            document.getElementById('cgst-inp').value = Math.round(gst / 2);
-            document.getElementById('sgst-inp').value = Math.round(gst / 2);
-            document.getElementById('igst-inp').value = 0;
         }
 
+        let net_amt = 0;
+        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        setNetamt(net_amt)
+
         document.getElementById('gstdiv').style.display = 'none';
+        document.getElementById('gstTax').value = ''
     }
 
     // Upload Document ##########################################
@@ -336,12 +366,17 @@ function Bills() {
 
     // ################################ Toggle & Calculation of TDS Div ##########################################
 
-    const handletds = () => {
-        if (document.getElementById('tdsdiv').style.display === 'none') {
+    const handletds = (e,index) => {
+        console.log(e.target.checked);
+        setIndex(index)
+
+        if (e.target.checked === true) {
             document.getElementById('tdsdiv').style.display = 'block';
+
         }
         else {
-            document.getElementById('tdsdiv').style.display = 'none';
+            document.getElementById('tdsdiv').style.display = 'none';    
+
         }
 
         setBillalldetail({
@@ -360,34 +395,52 @@ function Bills() {
         const TdsAmount = document.getElementById('tds_amt').value
         const TdsPer = document.getElementById('tds_per').value
         const amount = TdsAmount * TdsPer / 100
-        const value = netTotal
+        const value = document.getElementById(`netamt${index}`).value
+        const Aftertds = value - Math.round(amount)
         setNetTotal(value - Math.round(amount))
 
         document.getElementById('tdsperinp').defaultValue = TdsPer;
         document.getElementById('tdstagval').innerHTML = Math.round(amount);
 
+        tabledata[index].tds_per = TdsPer
+        tabledata[index].tds_amt =  Math.round(amount)
+         tabledata[index].netamount = Aftertds
+
+
+           let net_amt = 0;
+        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        setNetamt(net_amt)
+
         document.getElementById('tdsdiv').style.display = 'none';
 
-        setBillalldetail({
-            ...billalldetail,
-            tds_per: document.getElementById('tdsperinp').value,
-            tds_amt: document.getElementById('tdstagval').innerHTML,
-            net_amt: value - Math.round(amount)
-        })
+        
+
+
+        document.getElementById(`netamt${index}`).value = Aftertds
     }
 
     // ################################ Expense Div ##########################################
 
     const handlesetalldata = (e) => {
         e.preventDefault();
-        const value = netTotal;
-        setNetTotal(value - Number(e.target.value))
-        document.getElementById('expense-amttd').innerHTML = e.target.value;
-        setBillalldetail({
-            ...billalldetail,
-            net_amt: value - Number(e.target.value)
-        })
+
+        let net_amt = 0;
+        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        const value = net_amt;
+
+        setNetamt(value - Number(document.getElementById('expense_amt').value))
+     
     }
+
+   const  handleDiscount = (e) =>{
+    e.preventDefault();
+
+    let net_amt = 0;
+    tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+    const value = net_amt;
+
+    setNetamt(value - Number(document.getElementById('expense_amt').value) - Number(document.getElementById('discount_amt').value))
+   }
 
     // ################################ Remark Div ##########################################
 
@@ -519,6 +572,10 @@ function Bills() {
             const result1 = await SelectVendorAddress(org, vendorselectedlist.vend_id);
             setVendorLocation(result1)
         }
+    }
+
+    const CloseModal = (value) =>{
+        document.getElementById(`${value}`).style.display = 'none'
     }
 
     const handleGetPoData = async (e) => {
@@ -657,6 +714,7 @@ function Bills() {
                                             </div>
 
                                             <br />
+                                            <div style={{ position: "relative" }}>
                                             <table className="table table-striped table-bordered">
                                                 <thead className='text-center'>
                                                     <tr>
@@ -674,7 +732,7 @@ function Bills() {
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody >
                                                     {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
@@ -737,11 +795,11 @@ function Bills() {
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
                                                                 </td> */}
                                                                 <td className='p-1 pt-2' style={{ width: "20px" }}>
-                                                                    <input type='checkbox' id={`netamt${index}`} className='ml-3' onClick={handletogglegstdiv}  style={{width:"20px",height:"20px"}} />
+                                                                    <input type='checkbox' id={`gst${index}`} className='ml-3' onClick={(e)=>handletogglegstdiv(e,index)}  style={{width:"20px",height:"20px"}} />
                                                                 </td>
 
                                                                 <td className='p-1 pt-2' style={{ width: "20px" }}>
-                                                                    <input type='checkbox' id={`netamt${index}`} className='ml-3' onClick={handletds}  style={{width:"20px",height:"20px"}} />
+                                                                    <input type='checkbox' id={`tds${index}`} className='ml-3' onClick={(e)=>handletds(e,index)}  style={{width:"20px",height:"20px"}} />
                                                                 </td>
 
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -753,6 +811,78 @@ function Bills() {
 
                                                 </tbody>
                                             </table>
+
+                                            <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "800px", top: "120px",zIndex:"1" }}>
+                                                                        <div className="card-body p-2">
+                                                                            <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('gstdiv')}}></i>
+                                                                            <div className="form-group ">
+                                                                                <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
+                                                                                <div>
+                                                                                    <select
+                                                                                        id="gsttype"
+                                                                                        className="form-control col">
+                                                                                        <option value='' hidden>Select GST Type</option>
+                                                                                        <option value='Intra'>Intra</option>
+                                                                                        <option value='Inter' >Inter</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="form-row">
+                                                                                <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
+                                                                                <input type="number" className="form-control col-md-7 cursor-notallow" id="totalamount" defaultValue={netTotal} disabled />
+                                                                            </div>
+                                                                            <div className="form-row" >
+                                                                                <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
+                                                                                <input type="text" className="form-control col-md-7" id="gstTax" />
+                                                                            </div>
+                                                                            <br />
+                                                                            <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
+                                                                        </div>
+                                             </div>
+
+
+                                             <div className="dropdown-menu-lg rounded bg-white" id='tdsdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "800px", top: "120px",zIndex:"1" }}>
+                                                                        <div className="card-body" >
+                                                                            <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('tdsdiv')}}></i>
+
+                                                                            <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
+                                                                                <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
+                                                                                <div className="form-row m-0">
+
+                                                                                    <select className="form-control col" id='tds_head'>
+                                                                                        <option value='' hidden>Select Tds head</option>
+                                                                                        {
+                                                                                            tdsheadlist.map((tds, index) =>
+                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
+                                                                                            )
+                                                                                        }
+
+                                                                                    </select>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div className="form-row m-0" >
+                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Company' onChange={handleTdsCompany} />
+                                                                                <label htmlFor='company' className="col-md-4 form-label font-weight-normal mt-1"  >Company</label>
+
+                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' onChange={handleTdsCompany} />&nbsp;
+                                                                                <label htmlFor='non_company' className=" form-label font-weight-normal mt-1" > Non-Company</label>
+
+                                                                            </div>
+                                                                            <div className="form-row" >
+                                                                                <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
+                                                                                <input type="number" className="form-control col-md-7" id='tds_amt' />
+                                                                            </div>
+                                                                            <div className="form-row" >
+                                                                                <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
+                                                                                <input type="number" className="form-control col-md-7" id='tds_per' />
+                                                                            </div>
+                                                                            <br />
+                                                                            <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
+                                                                        </div>
+                                                                    </div>
+
+                                            </div>
                                             <input type='button' className="btn btn-primary" onClick={handleAdd} value='Add Item'/>
                                             <input type='button' className="btn btn-danger ml-2" onClick={handleRemove}  value='Remove'/>
                                             <hr />
@@ -782,39 +912,9 @@ function Bills() {
                                                                 <th scope="col"></th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody style={{ position: "relative" }}>
+                                                        <tbody >
                                                             <tr scope="row">
-                                                                <td style={{ width: "150px" }} >
-                                                                    <a title='Click to Input GST Data' className='cursor-pointer' style={{ borderBottom: "1px dashed #000" }} onClick={handletogglegstdiv} >Total CGST Amt *
-                                                                    </a>
-                                                                    <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "-300px", top: "20px" }}>
-                                                                        <div className="card-body p-2">
-                                                                            <i className="fa fa-times" aria-hidden="true" onClick={handletogglegstdiv}></i>
-                                                                            <div className="form-group ">
-                                                                                <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
-                                                                                <div>
-                                                                                    <select
-                                                                                        id="gsttype"
-                                                                                        className="form-control col">
-                                                                                        <option value='' hidden>Select GST Type</option>
-                                                                                        <option value='Intra'>Intra</option>
-                                                                                        <option value='Inter' >Inter</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="form-row">
-                                                                                <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7 cursor-notallow" id="totalamount" defaultValue={netTotal} disabled />
-                                                                            </div>
-                                                                            <div className="form-row" >
-                                                                                <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
-                                                                                <input type="text" className="form-control col-md-7" id="gstTax" />
-                                                                            </div>
-                                                                            <br />
-                                                                            <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
+                                                                <td style={{ width: "150px" }} >Total CGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                                     <div className="input-group" >
                                                                         <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' disabled />
@@ -850,57 +950,7 @@ function Bills() {
                                                                 <td className='text-center' style={{ width: "150px" }} id='igstamt'>{igstval}</td>
                                                             </tr>
                                                             <tr scope="row">
-                                                                <td style={{ width: "150px" }}>
-                                                                    <a title='Click to Input TDS Data' className='cursor-pointer' style={{ borderBottom: "1px dashed #000" }} onClick={handletds}> TDS *
-                                                                    </a>
-                                                                    <div className="dropdown-menu-lg rounded bg-white" id='tdsdiv' style={{ display: "none", width: "750px", boxShadow: "3px 3px 10px #000", position: "absolute", top: "0px", left: "-300px" }}>
-                                                                        <div className="card-body" >
-                                                                            <i className="fa fa-times" aria-hidden="true" onClick={handletds}></i>
-
-                                                                            <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
-                                                                                <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
-                                                                                <div className="form-row m-0">
-
-                                                                                    <select className="form-control col" id='tds_head'>
-                                                                                        <option value='' hidden>Select Tds head</option>
-                                                                                        {
-                                                                                            tdsheadlist.map((tds, index) =>
-                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
-                                                                                            )
-                                                                                        }
-
-
-                                                                                        {/* <option value='Cost'>Cost</option>
-                                                                                        <option value='Salary'>Salary</option>
-                                                                                        <option value='Rent'>Rent</option>
-                                                                                        <option value='Proff'>Proff</option>
-                                                                                        <option value='Brokerage'>Brokerage</option> */}
-
-                                                                                    </select>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div className="form-row m-0" >
-                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Company' onChange={handleTdsCompany} />
-                                                                                <label htmlFor='company' className="col-md-4 form-label font-weight-normal mt-1"  >Company</label>
-
-                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' onChange={handleTdsCompany} />&nbsp;
-                                                                                <label htmlFor='non_company' className=" form-label font-weight-normal mt-1" > Non-Company</label>
-
-                                                                            </div>
-                                                                            <div className="form-row" >
-                                                                                <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7" id='tds_amt' />
-                                                                            </div>
-                                                                            <div className="form-row" >
-                                                                                <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7" id='tds_per' />
-                                                                            </div>
-                                                                            <br />
-                                                                            <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
+                                                                <td style={{ width: "150px" }}>TDS</td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
                                                                     <div className="input-group" >
                                                                         <input type="text" className="form-control col-md-5 ml-5 cursor-notallow" id='tdsperinp' disabled />
@@ -914,24 +964,22 @@ function Bills() {
                                                             <tr>
                                                                 <td>Expense Amt </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-6 ml-5" id='expense_amt' onBlur={handlesetalldata} />
+                                                                    <input type="text" className="form-control col-md-7 ml-5" id='expense_amt' onChange={handlesetalldata} />
                                                                 </td>
                                                                 <td className='text-center' id='expense-amttd' style={{ width: "150px" }}>0.00</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Discount </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-6 ml-5" id='discount_amt' 
-                                                                    // onBlur={handlesetalldata} 
-
+                                                                    <input type="text" className="form-control col-md-7 ml-5" id='discount_amt' 
+                                                                    onChange={handleDiscount} 
                                                                     />
                                                                 </td>
-                                                                {/* <td className='text-center' id='expense-amttd' style={{ width: "150px" }}>0.00</td> */}
                                                             </tr>
                                                             <tr>
                                                                 <td><h4>Total</h4></td>
                                                                 <td></td>
-                                                                <td className='text-center' style={{ width: "150px" }} id='total_bill_amt'>{netTotal}</td>
+                                                                <td className='text-center' style={{ width: "150px" }} id='total_bill_amt'>{netamt}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
