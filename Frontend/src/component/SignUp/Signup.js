@@ -1,43 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './signup.css'
 import logo from '../../images/finsgrowlogo.png'
-// import { Insertorg,InsertUser,InsertUserLogin } from '../../api/index'
+import { Insertorg, InsertUser, InsertUserLogin, Activecountries, showactivestate, getCity } from '../../api/index'
 
 
 export default function Signup() {
+  const [countrylist, setCountrylist] = useState([]);
+  const [selectState, setSelectState] = useState([]);
+  const [selectCity, setSelectCity] = useState([]);
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    const org_name = document.getElementById('org_name').value;
-    const country = document.getElementById('country').value;
-    const state = document.getElementById('state').value;
-    const city = document.getElementById('city').value;
-    const zipcode = document.getElementById('zipcode').value;
-    const street = document.getElementById('street').value
-    const gst = document.getElementById('gst').value;
-    const name = document.getElementById('name').value;
-    const mobileno = document.getElementById('mobileno').value;
-    const email = document.getElementById('email').value;
-    const designation = document.getElementById('designation').value;
-    const userid = document.getElementById('userid').value;
-    const password = document.getElementById('password').value
-
-    // console.log(org_name, country, state, city, zipcode, street, gst, name, mobileno, email, designation, userid, password)
-
-    if (!org_name || !country || !state || !city || !zipcode || !street || !gst || !name || !mobileno || !email || !designation || !userid || !password) {
-      alert('All Fields Are Mandatory')
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation');
+      const result = await Activecountries();
+      setCountrylist(result)
     }
-    else {
+    fetchdata()
+  }, [])
 
-      // const result = await Insertorg(Organisationname, Location, Currency, Language, gst, Personname, mobileno, email, userid)
-      // console.log(result)
-
-      // const user = await InsertUser(Personname,address,userid,password,email,mobileno,userid)
-      // const Login = await InsertUserLogin(userid,Personname,address,Organisationname,password)
-      // if (user === 'Added' && Login === "Added") {
-      //   alert('Data Added')
-      // }
-    }
+  const handleAddressCountry = async (e) => {
+    let data = e.target.value;
+    const statesresult = await showactivestate(data)
+    setSelectState(statesresult)
+  }
+  const handleChangebillingState = async (e) => {
+    let data = e.target.value;
+    const result = await getCity(data)
+    setSelectCity(result)
   }
 
   const handleClickstep1 = (e) => {
@@ -57,9 +46,41 @@ export default function Signup() {
       document.getElementById('gst').style.display = "block"
     } else {
       document.getElementById('gst').style.display = "none"
-
     }
+  }
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const org_name = document.getElementById('org_name').value;
+    const country = document.getElementById('country').value;
+    const state = document.getElementById('state').value;
+    const city = document.getElementById('city').value;
+    const zipcode = document.getElementById('zipcode').value;
+    const street = document.getElementById('street').value
+    const gst = document.getElementById('gst').value;
+    const name = document.getElementById('name').value;
+    const mobileno = document.getElementById('mobileno').value;
+    const email = document.getElementById('email').value;
+    const designation = document.getElementById('designation').value;
+    const userid = document.getElementById('userid').value;
+    const password = document.getElementById('password').value
+
+    console.log(org_name, country, state, city, zipcode, street, gst, name, mobileno, email, designation, userid, password)
+
+    if (!org_name || !country || !state || !city || !zipcode || !street || !gst || !name || !mobileno || !email || !designation || !userid || !password) {
+      alert('All Fields Are Mandatory')
+    }
+    else {
+
+      // const result = await Insertorg(Organisationname, Location, Currency, Language, gst, Personname, mobileno, email, userid)
+      // console.log(result)
+
+      // const user = await InsertUser(Personname,address,userid,password,email,mobileno,userid)
+      // const Login = await InsertUserLogin(userid,Personname,address,Organisationname,password)
+      // if (user === 'Added' && Login === "Added") {
+      //   alert('Data Added')
+      // }
+    }
   }
 
   const Step1 = () => {
@@ -83,14 +104,25 @@ export default function Signup() {
               <div className="form-row ">
                 <div className="form-group col mb-0 ">
                   <label htmlFor="country" className="form-label font-weight-normal">Bussiness Location</label>
-                  <select type="text" className="form-control " id='country' >
+                  <select type="text" className="form-control " id='country' onChange={handleAddressCountry} >
                     <option hidden value=''>Select Country</option>
+                    {
+                      countrylist.map((data, index) => (
+                        <option key={index} value={data.country_name}>{data.country_name}</option>
+                      ))
+
+                    }
                   </select>
                 </div>
                 <div className="form-group col  mb-0">
                   <label htmlFor="state" className=" form-label font-weight-normal">State</label>
-                  <select type="text" className="form-control" id='state' >
+                  <select type="text" className="form-control" id='state' onChange={handleChangebillingState}>
                     <option hidden value=''>Select State</option>
+                    {
+                      selectState.map((data, index) => (
+                        <option key={index} value={data.state_name}>{data.state_name}</option>
+                      ))
+                    }
                   </select>
                 </div>
               </div>
@@ -99,6 +131,11 @@ export default function Signup() {
                   <label htmlFor="city" className="form-label font-weight-normal">City</label>
                   <select type="text" className="form-control" id='city' >
                     <option hidden value=''>Select City</option>
+                    {
+                      selectCity.map((data, index) => (
+                        <option key={index} value={data.city_name}>{data.city_name}</option>
+                      ))
+                    }
                   </select>
                 </div>
                 <div className="form-group col mb-0 ">
@@ -214,31 +251,6 @@ export default function Signup() {
         </div>
 
       </div>
-      {/* <div >
-      <div className="d-flex">
-        <div className="brand">
-          <img src={logo} alt="Company Logo" style={{height:'30px'}}/>
-        </div>
-        <div className="brand2">
-          <h4>Register your Account</h4>
-        </div>
-      </div>
-      <div style={{ display: "flex" }}>
-        <div className="imgdiv">
-          
-        </div>
-        <div className="container">
-          <div>
-            <div id="step1">
-              <Step1 />
-            </div>
-            <div id="step2" style={{display:"none"}}>
-              <Step2 />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> */}
     </>
   );
 }
