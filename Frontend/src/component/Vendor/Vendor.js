@@ -4,7 +4,7 @@ import Footer from "../Footer/Footer";
 import "./Vendor.css";
 import {
   InsertVendor, Activecountries, showactivestate, getCity, VendorMastid,
-  Getfincialyearid, Updatefinancialcount, UpdatefinancialTwocount, ActivePaymentTerm, ActiveCurrency
+  Getfincialyearid, Updatefinancialcount, UpdatefinancialTwocount, ActivePaymentTerm, ActiveCurrency, VendInsertAddress
 } from '../../api'
 import LoadingPage from '../loadingPage/loadingPage';
 
@@ -87,7 +87,7 @@ const Vendor = () => {
   const selectgst = () => {
     var a = document.getElementById("gsttreatment").value;
     setGsttreatment(a)
-    if (a === "Select GST Treatment" || a === "Unregistered Bussiness" || a === "Consumer" || a === "Overseas") {
+    if (a === "Unregistered Bussiness" || a === "Consumer" || a === "Overseas") {
       document.getElementById("gstin").style.display = "none";
     }
     else {
@@ -130,7 +130,8 @@ const Vendor = () => {
     const currency = document.getElementById('currency').value;
     const opening_balance = document.getElementById('opening_balance').value;
     const payment_terms = document.getElementById('payment_terms').value;
-    const tds = document.getElementById('tds').value;
+    // const tds = document.getElementById('tds').value;
+    const tds = ''
     const enable_portal = enableportaltoggle;
     const portal_language = document.getElementById('portal_language').value;
     const facebook_url = document.getElementById('facebook_url').value;
@@ -168,6 +169,11 @@ const Vendor = () => {
 
     }
     else {
+
+      const vendnamrchar = vend_name.substring(0, 3);
+      const citychar = billing_address_city_val.substring(0, 3);
+      const vendaddid = vendnamrchar.toUpperCase() + citychar.toUpperCase() + Math.floor(Math.random() * 100000);
+
       if (showMaster === true) {
         const mast_id = document.getElementById('mast_idselected').value;
 
@@ -179,9 +185,10 @@ const Vendor = () => {
           contact_person_phone2, contact_person_skype2, contact_person_designation2, contact_person_department2)
 
         if (result[0] > 0) {
-          const result = await Updatefinancialcount(org, 'vend_count', increvend)
+          await VendInsertAddress(generateVend_id, vend_name, vendaddid, gstin_uin, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
+          const updateFin_year = await Updatefinancialcount(org, 'vend_count', increvend)
 
-          if (result[0] > 0) {
+          if (updateFin_year[0] > 0) {
             alert("data Added")
             window.location.href = '/Showvendor'
           }
@@ -203,9 +210,10 @@ const Vendor = () => {
           contact_person_phone2, contact_person_skype2, contact_person_designation2, contact_person_department2)
 
         if (result2[0] > 0) {
-          const result1 = await UpdatefinancialTwocount(org, 'mvend_count', incremvend, 'vend_count', increvend)
+          await VendInsertAddress(generateVend_id, vend_name, vendaddid, gstin_uin, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
+          const updateFin_year = await UpdatefinancialTwocount(org, 'mvend_count', incremvend, 'vend_count', increvend)
 
-          if (result1[0] > 0) {
+          if (updateFin_year[0] > 0) {
             alert("data Added")
             window.location.href = '/Showvendor'
           }
@@ -219,8 +227,6 @@ const Vendor = () => {
 
     }
   }
-
-
 
   const handleAddressCountry = async (e) => {
     let data = e.target.value;
@@ -280,9 +286,7 @@ const Vendor = () => {
                         <div className="form-row" id='masterdropdown'>
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Master Id </label>
                           <div className="col form-group">
-                            <select
-                              id="mast_idselected"
-                              className="form-control col-md-4">
+                            <select id="mast_idselected" className="form-control col-md-4">
                               <option hidden value=''>Select Master ID</option>
                               {
                                 preMastid.map((item, index) => (
@@ -332,38 +336,20 @@ const Vendor = () => {
                         </select>
                       </div>
                       <div className="col form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="First name"
-                          id="fname"
-                        />
+                        <input type="text" className="form-control" placeholder="First name" id="fname" />
                       </div>
                       <div className="col form-group">
-                        <input
-                          type="text"
-                          className="form-control" placeholder="Last name" id="lname" />
+                        <input type="text" className="form-control" placeholder="Last name" id="lname" />
                       </div>
                     </div>
                     <div className="form-row">
-                      <label
-                        htmlFor="company_name"
-                        className="col-md-2 col-form-label font-weight-normal">
-                        Comapany Name
-                      </label>
+                      <label htmlFor="company_name" className="col-md-2 col-form-label font-weight-normal"> Comapany Name </label>
                       <div className="col form-group">
-                        <input
-                          type="text"
-                          id="company_name"
-                          className="form-control col-md-4"
-                        />
+                        <input type="text" id="company_name" className="form-control col-md-4" />
                       </div>
                     </div>
                     <div className="form-row">
-                      <label
-                        htmlFor="vendis_name"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
+                      <label htmlFor="vendis_name" className="col-md-2 col-form-label font-weight-normal" >
                         <div className="tooltip1" style={{ border: "none" }}>
                           <span className="text-danger " style={{ borderBottom: "1px dashed red", }}>Vendor Display Name* </span>
                           <span className="tooltipcontent">
@@ -373,42 +359,19 @@ const Vendor = () => {
                         </div>
                       </label>
                       <div className="col form-group">
-                        <input
-                          type="text"
-                          className="form-control col-md-4"
-                          id="vendis_name"
-                        />
+                        <input type="text" className="form-control col-md-4" id="vendis_name" />
                       </div>
                     </div>
                     <div className="form-row">
-                      <label
-                        htmlFor="vend_email"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Vendor Email
-                      </label>
+                      <label htmlFor="vend_email" className="col-md-2 col-form-label font-weight-normal" >   Vendor Email</label>
                       <div className="col form-group">
-                        <input
-                          type="email"
-                          id="vend_email"
-                          className="form-control col-md-4"
-                        />
+                        <input type="email" id="vend_email" className="form-control col-md-4" />
                       </div>
                     </div>
                     <div className="form-row">
-                      <label
-                        htmlFor="vend_work_phone"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Vendor Phone<span className="text-danger">*</span>
-                      </label>
+                      <label htmlFor="vend_work_phone" className="col-md-2 col-form-label font-weight-normal" >  Vendor Phone<span className="text-danger">*</span></label>
                       <div className="col form-group">
-                        <input
-                          type="number"
-                          id="vend_work_phone"
-                          className="form-control col-md-8"
-                          placeholder="Work Phone"
-                          value={vendworkphonecount}
+                        <input type="number" id="vend_work_phone" className="form-control col-md-8" placeholder="Work Phone" value={vendworkphonecount}
                           onChange={(e) => {
                             if (e.target.value.length === 11) return false;
                             setVendworkphonecount(e.target.value);
@@ -416,13 +379,7 @@ const Vendor = () => {
                         />
                       </div>
                       <div className="col form-group">
-                        <input
-                          type="number"
-                          id="vend_phone"
-                          className="form-control col-md-8"
-                          placeholder="Mobile"
-                          style={{ marginLeft: "-30px" }}
-                          value={vendphonecount}
+                        <input type="number" id="vend_phone" className="form-control col-md-8" placeholder="Mobile" style={{ marginLeft: "-30px" }} value={vendphonecount}
                           onChange={(e) => {
                             if (e.target.value.length === 11) return false;
                             setVendphonecount(e.target.value);
@@ -435,69 +392,33 @@ const Vendor = () => {
                     </p>
                     <div id="distoggle" style={{ display: "none" }}>
                       <div className="form-row">
-                        <label
-                          htmlFor="skype_detail"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Skype Name/Number
-                        </label>
+                        <label htmlFor="skype_detail" className="col-md-2 col-form-label font-weight-normal" >  Skype Name/Number</label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            id="skype_detail"
-                            className="form-control col-md-4"
-                          />
+                          <input type="text" id="skype_detail" className="form-control col-md-4" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="designation"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Designation
-                        </label>
+                        <label htmlFor="designation" className="col-md-2 col-form-label font-weight-normal" >  Designation</label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            id="designation"
-                            className="form-control col-md-4"
-                          />
+                          <input type="text" id="designation" className="form-control col-md-4" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="department"
-                          className="col-md-2 col-form-label font-weight-normal">
-                          Department
-                        </label>
+                        <label htmlFor="department" className="col-md-2 col-form-label font-weight-normal"> Department </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            id="department"
-                            className="form-control col-md-4"
-                          />
+                          <input type="text" id="department" className="form-control col-md-4" />
                         </div>
                       </div>
                     </div>
                     <div className="form-row">
-                      <label
-                        htmlFor="website"
-                        className="col-md-2 col-form-label font-weight-normal"
-                      >
-                        Website
-                      </label>
+                      <label htmlFor="website" className="col-md-2 col-form-label font-weight-normal" >  Website</label>
                       <div className="col form-group">
-                        <input
-                          type="url"
-                          id="website"
-                          className="form-control col-md-4"
-                        />
+                        <input type="url" id="website" className="form-control col-md-4" />
                       </div>
                     </div>
                     <div className="form-row" style={{ background: '#eee' }}>
                       <div className="col-md-2 form-group text-center" >
-                        <button
-                          className="btn btn-link"
+                        <button className="btn btn-link"
                           onClick={(e) => {
                             e.preventDefault();
                             document.getElementById("addressdiv").style.display = "none";
@@ -506,8 +427,7 @@ const Vendor = () => {
                             document.getElementById("remarkdiv").style.display = "none";
                           }}
                         >
-                          Other Details
-                        </button>
+                          Other Details</button>
                       </div>
                       <div className="col-md-2 form-group text-center">
                         <button
@@ -565,20 +485,11 @@ const Vendor = () => {
 
                     <div className="Other_Details mt-3" id="otherdetaildiv">
                       <div className="form-row">
-                        <label
-                          htmlFor="gsttreatment"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          <span className="text-danger">
-                            GST Treatment *
-                          </span>
+                        <label htmlFor="gsttreatment" className="col-md-2 col-form-label font-weight-normal" > GST Treatment
+                          <span className="text-danger"> * </span>
                         </label>
                         <div className="col form-group">
-                          <select
-                            id="gsttreatment"
-                            className="form-control col-md-4"
-                            onClick={selectgst}
-                          >
+                          <select id="gsttreatment" className="form-control col-md-4" onClick={selectgst} >
                             <option hidden value=''>Select GST Treatment</option>
                             <option>Registered Bussiness -Regular</option>
                             <option>Registered Bussiness - Composition</option>
@@ -593,8 +504,8 @@ const Vendor = () => {
                       </div>
 
                       <div className="form-row" id="gstin" style={{ display: "none" }}>
-                        <label htmlFor="gstin_uin" className="col-md-2 col-form-label font-weight-normal" >
-                          <span className="text-danger"> GSTIN / UIN*</span>
+                        <label htmlFor="gstin_uin" className="col-md-2 col-form-label font-weight-normal" >GSTIN / UIN
+                          <span className="text-danger"> *</span>
                         </label>
                         <div className="col form-group">
                           <input type="email" id="gstin_uin" className="form-control col-md-4" maxLength="16" />
@@ -602,18 +513,14 @@ const Vendor = () => {
                       </div>
 
                       <div className="form-row">
-                        <label htmlFor="pan_no" className="col-md-2 col-form-label font-weight-normal text-danger" >
-                          PAN *
-                        </label>
+                        <label htmlFor="pan_no" className="col-md-2 col-form-label font-weight-normal" > PAN  <span className="text-danger"> *</span></label>
                         <div className="col form-group">
                           <input type="email" id="pan_no" className="form-control col-md-4" onBlur={handlePanNo} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="source_of_supply" className="col-md-2 col-form-label font-weight-normal" >
-                          <span className="text-danger">
-                            Source Of Supply *
-                          </span>
+                        <label htmlFor="source_of_supply" className="col-md-2 col-form-label font-weight-normal" >Source Of Supply
+                          <span className="text-danger"> *</span>
                         </label>
                         <div className="col form-group">
                           <select id="source_of_supply" className="form-control col-md-4"
@@ -634,8 +541,8 @@ const Vendor = () => {
                       </div>
 
                       <div className="form-row">
-                        <label htmlFor="currency" className="col-md-2 col-form-label font-weight-normal">
-                          <span className="text-danger">Currency *</span>
+                        <label htmlFor="currency" className="col-md-2 col-form-label font-weight-normal">Currency
+                          <span className="text-danger"> *</span>
                         </label>
                         <div className="col-md-4 form-group pr-0">
                           <select id="currency" className="form-control col-md-10 " >
@@ -646,7 +553,6 @@ const Vendor = () => {
                             }
                           </select>
                         </div>
-
                       </div>
 
                       <div className="form-row">
@@ -658,13 +564,10 @@ const Vendor = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="payment_terms" className="col-md-2 col-form-label font-weight-normal">
-                          Payment Terms<span className="text-danger">*</span>
+                        <label htmlFor="payment_terms" className="col-md-2 col-form-label font-weight-normal"> Payment Terms<span className="text-danger">*</span>
                         </label>
                         <div className="col form-group">
-                          <select
-                            id="payment_terms"
-                            className="form-control col-md-4"
+                          <select id="payment_terms" className="form-control col-md-4"
                           // onChange={paytemval}
                           >
                             <option hidden value=''>Select the term...</option>
@@ -672,7 +575,6 @@ const Vendor = () => {
                               paymentterm.map((item, index) =>
                                 <option key={index} value={item.term_days}>{item.term}</option>)
                             }
-
                           </select>
                         </div>
                       </div>
@@ -696,10 +598,7 @@ const Vendor = () => {
                         </div>
                       </div> */}
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >
                           <div className="tooltip1">
                             Enable Portal?
                             <span className="tooltipcontent">
@@ -714,10 +613,7 @@ const Vendor = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="portal_language"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="portal_language" className="col-md-2 col-form-label font-weight-normal" >
                           <div className="tooltip1">
                             Portal Language
                             <span className="tooltipcontent">
@@ -727,9 +623,7 @@ const Vendor = () => {
                           </div>
                         </label>
                         <div className="col form-group">
-                          <select
-                            id="portal_language"
-                            className="form-control col-md-4"
+                          <select id="portal_language" className="form-control col-md-4"
                           // onChange={portallang}
                           >
                             <option>English</option>
@@ -743,23 +637,13 @@ const Vendor = () => {
                         {/* form-group end.// */}
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="facebook_url"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Facebook
-                        </label>
+                        <label htmlFor="facebook_url" className="col-md-2 col-form-label font-weight-normal" >  Facebook </label>
                         <div className="col form-group input-group">
                           <input className="form-control col-md-4 " placeholder="www.facebook.com" id="facebook_url" type="url" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="twitter_url"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Twitter
-                        </label>
+                        <label htmlFor="twitter_url" className="col-md-2 col-form-label font-weight-normal" > Twitter </label>
                         <div className="col form-group input-group">
                           <input className="form-control col-md-4" placeholder="www.twitter.com" id="twitter_url" type="url" />
                         </div>
@@ -767,19 +651,10 @@ const Vendor = () => {
                     </div>
                     {/*------------- Address-------------- */}
                     <div className="Address mt-3 " id="addressdiv" style={{ display: "none" }}>
-                      <div
-                        className="Address_left"
-                        style={{ width: "50%", float: "left" }}
-                      >
+                      <div className="Address_left" style={{ width: "50%", float: "left" }} >
                         <label>BILLING ADDRESS</label>
-
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_country"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Country <span className="text-danger">*</span>
-                          </label>
+                          <label htmlFor="billing_address_country" className="col-md-2 col-form-label font-weight-normal" >  Country <span className="text-danger">*</span> </label>
                           <div className="col form-group">
                             <select id="billing_address_country" className="form-control col-md-7" onChange={handleAddressCountry} >
                               <option value='' hidden> Select Country</option>
@@ -791,12 +666,9 @@ const Vendor = () => {
                               }
                             </select>
                           </div>
-
-
                         </div>
                         <div className="form-row">
                           <label htmlFor="billing_address_state" className="col-md-2 col-form-label font-weight-normal">State <span className="text-danger">*</span></label>
-
                           <div className="col form-group">
                             <select id="billing_address_state" className="form-control col-md-7" onChange={handleChangebillingState} >
                               <option value='' hidden> Select State</option>
@@ -807,20 +679,12 @@ const Vendor = () => {
                               }
                             </select>
                           </div>
-
                         </div>
 
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_city"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            City <span className="text-danger">*</span>
-                          </label>
+                          <label htmlFor="billing_address_city" className="col-md-2 col-form-label font-weight-normal" > City <span className="text-danger">*</span> </label>
                           <div className="col-md-6 form-group">
-                            <select
-                              id="billing_address_city"
-                              className="form-control"
+                            <select id="billing_address_city" className="form-control"
                             // onChange={handleAddressCity}
                             >
                               <option hidden value=''> Choose</option>
@@ -828,17 +692,13 @@ const Vendor = () => {
                                 selectCity.map((data, index) => (
                                   <option key={index} value={data.city_name}>{data.city_name}</option>
                                 ))
-
                               }
-
                             </select>
                           </div>
-
                         </div>
+
                         <div className="form-row">
-                          <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal" >
-                            Address <span className="text-danger">*</span>
-                          </label>
+                          <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal" >Address <span className="text-danger">*</span> </label>
                           <div className="col form-group">
                             <input type="text" id="billing_address_attention" className="form-control col-md-7" />
                           </div>
@@ -856,12 +716,7 @@ const Vendor = () => {
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_phone"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Phone<span className="text-danger">*</span>
-                          </label>
+                          <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone<span className="text-danger">*</span> </label>
                           <div className="col form-group">
                             <input type="number" id="billing_address_phone" className="form-control col-md-7" value={billphonecount}
                               onChange={(e) => {
@@ -872,40 +727,20 @@ const Vendor = () => {
                           </div>
                         </div>
                         <div className="form-row">
-                          <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal" >
-                            Fax
-                          </label>
+                          <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal" > Fax </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="billing_address_fax"
-                              className="form-control col-md-7"
-                            />
+                            <input type="text" id="billing_address_fax" className="form-control col-md-7" />
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="Address_right"
-                        style={{ width: "50%", float: "right" }}
-                      >
+                      <div className="Address_right" style={{ width: "50%", float: "right" }} >
                       </div>
                     </div>
                     {/*--------- Remark ---------- */}
                     <div className="form-column" id="remarkdiv" style={{ display: "none" }}>
-                      <label
-                        htmlFor="remark"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        Remarks
-                      </label>
+                      <label htmlFor="remark" className=" col-form-label font-weight-normal" > Remarks </label>
                       <div className="col form-group">
-                        <textarea
-                          name="text"
-                          className="col-md-9"
-                          id="remark"
-                          rows="5"
-                          style={{ resize: "none" }}
-                        ></textarea>
+                        <textarea name="text" className="col-md-9" id="remark" rows="5" style={{ resize: "none" }} ></textarea>
                       </div>
                     </div>
                     {/*---------Add Contact Person ---------- */}
@@ -915,18 +750,9 @@ const Vendor = () => {
                         <div className="Address " style={{ width: "50%" }} >
                           <label>Contact Person 1</label>
                           <div className="form-row">
-                            <label
-                              htmlFor="contact_person_name"
-                              className="col-md-3 col-form-label font-weight-normal"
-                            >
-                              Name <span className="text-danger">*</span>
-                            </label>
+                            <label htmlFor="contact_person_name" className="col-md-3 col-form-label font-weight-normal" > Name <span className="text-danger">*</span></label>
                             <div className="col form-group">
-                              <input
-                                type="text"
-                                id="contact_person_name"
-                                className="form-control col-md-7"
-                              />
+                              <input type="text" id="contact_person_name" className="form-control col-md-7" />
                             </div>
                           </div>
 
@@ -939,8 +765,7 @@ const Vendor = () => {
                           <div className="form-row">
                             <label htmlFor="contact_person_work_phone" className="col-md-3 col-form-label font-weight-normal">Work Phone</label>
                             <div className="col form-group">
-                              <input type="number" id="contact_person_work_phone" className="form-control col-md-7"
-                                value={contworkphonecount}
+                              <input type="number" id="contact_person_work_phone" className="form-control col-md-7" value={contworkphonecount}
                                 onChange={(e) => {
                                   if (e.target.value.length === 11) return false;
                                   setContworkphonecount(e.target.value);
@@ -983,29 +808,20 @@ const Vendor = () => {
                         <div className="Address" style={{ width: "50%" }}>
                           <label>Contact Person 2</label>
                           <div className="form-row">
-                            <label
-                              htmlFor="contact_person_name"
-                              className="col-md-3 col-form-label font-weight-normal"
-                            >
-                              Name
-                            </label>
+                            <label htmlFor="contact_person_name2" className="col-md-3 col-form-label font-weight-normal" >  Name </label>
                             <div className="col form-group">
-                              <input
-                                type="text"
-                                id="contact_person_name2"
-                                className="form-control col-md-7"
-                              />
+                              <input type="text" id="contact_person_name2" className="form-control col-md-7" />
                             </div>
                           </div>
 
                           <div className="form-row">
-                            <label htmlFor="contact_person_email" className="col-md-3 col-form-label font-weight-normal">Email Address</label>
+                            <label htmlFor="contact_person_email2" className="col-md-3 col-form-label font-weight-normal">Email Address</label>
                             <div className="col form-group">
                               <input type="email" id="contact_person_email2" className="form-control col-md-7" />
                             </div>
                           </div>
                           <div className="form-row">
-                            <label htmlFor="contact_person_work_phone" className="col-md-3 col-form-label font-weight-normal">Work Phone</label>
+                            <label htmlFor="contact_person_work_phone2" className="col-md-3 col-form-label font-weight-normal">Work Phone</label>
                             <div className="col form-group">
                               <input type="number" id="contact_person_work_phone2" className="form-control col-md-7"
                                 value={contworkphonecount}
@@ -1017,7 +833,7 @@ const Vendor = () => {
                             </div>
                           </div>
                           <div className="form-row">
-                            <label htmlFor="contact_person_phone" className="col-md-3 col-form-label font-weight-normal">Mobile</label>
+                            <label htmlFor="contact_person_phone2" className="col-md-3 col-form-label font-weight-normal">Mobile</label>
                             <div className="col form-group">
                               <input type="number" id="contact_person_phone2" className="form-control col-md-7"
                                 value={contphonecount}
@@ -1029,29 +845,26 @@ const Vendor = () => {
                             </div>
                           </div>
                           <div className="form-row">
-                            <label htmlFor="contact_person_skype" className="col-md-3 col-form-label font-weight-normal">Skype Name/Number</label>
+                            <label htmlFor="contact_person_skype2" className="col-md-3 col-form-label font-weight-normal">Skype Name/Number</label>
                             <div className="col form-group">
                               <input type="text" id="contact_person_skype2" className="form-control col-md-7" />
                             </div>
                           </div>
                           <div className="form-row">
-                            <label htmlFor="contact_person_designation" className="col-md-3 col-form-label font-weight-normal">Designation</label>
+                            <label htmlFor="contact_person_designation2" className="col-md-3 col-form-label font-weight-normal">Designation</label>
                             <div className="col form-group">
                               <input type="text" id="contact_person_designation2" className="form-control col-md-7" />
                             </div>
                           </div>
                           <div className="form-row">
-                            <label htmlFor="contact_person_department" className="col-md-3 col-form-label font-weight-normal">Department</label>
+                            <label htmlFor="contact_person_department2" className="col-md-3 col-form-label font-weight-normal">Department</label>
                             <div className="col form-group">
                               <input type="text" id="contact_person_department2" className="form-control col-md-7" />
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
-
-
                   </form>
                 </article>
                 <div className="border-top card-footer">
@@ -1064,7 +877,7 @@ const Vendor = () => {
           : <LoadingPage />
       }
       <Footer theme={themeval} />
-    </div>
+    </div >
   );
 };
 export default Vendor;
