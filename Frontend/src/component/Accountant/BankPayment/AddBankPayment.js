@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount,SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor } from '../../../api'
+import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
 
@@ -17,7 +17,8 @@ function AddBankingPayment() {
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [banklist, setBanklist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
-    const [currentindex, setCurrentindex] = useState(0)
+    const [currentindex, setCurrentindex] = useState(0);
+    const [locationstate, setLocationstate] = useState([]);
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -28,6 +29,9 @@ function AddBankingPayment() {
             setBanklist(allank)
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
+
+            const locatonstateres = await ActiveLocationAddress(org);
+            setLocationstate(locatonstateres);
             setLoading(true)
             Todaydate()
         }
@@ -77,7 +81,7 @@ function AddBankingPayment() {
     // ###################### Handle Change Minor Data End ###############################
 
     // ###################### Handle Change Ac Head Data Start ###############################
-    const handleChnageAcHead = async (chartOfAcct,glCode) => {
+    const handleChnageAcHead = async (chartOfAcct, glCode) => {
         let minorData = [...bankPayMinData];
         minorData[currentindex].achead = chartOfAcct;
         minorData[currentindex].glcode = glCode;
@@ -97,14 +101,27 @@ function AddBankingPayment() {
     const handleSearchChartofAccount = async (e) => {
         const org = localStorage.getItem('Organisation');
         if (e.target.value.length > 2) {
-          const chartofacct = await SearchActiveChartofAccount(org, e.target.value);
-          setChartofacctlist(chartofacct)
+            const chartofacct = await SearchActiveChartofAccount(org, e.target.value);
+            setChartofacctlist(chartofacct)
         }
         else if (e.target.value.length === 0) {
-          const chartofacct = await ActiveAllChartofAccount(org)
-          setChartofacctlist(chartofacct)
+            const chartofacct = await ActiveAllChartofAccount(org)
+            setChartofacctlist(chartofacct)
         }
-      }
+    }
+
+
+    const handleSearchLocation = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchLocationAddress(org, e.target.value);
+            setLocationstate(getLocation)
+        }
+        else if (e.target.value.length === 0) {
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+        }
+    }
 
     return (
         <>
@@ -142,7 +159,7 @@ function AddBankingPayment() {
                                         </div>
                                         <div className="form-row">
                                             <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal text-danger" > On Account</label>
-                                            <div className="d-flex col-md-4 pt-2"><input type="checkbox"  id="on_account" style={{height:'20px',width:'20px'}} /></div>
+                                            <div className="d-flex col-md-4 pt-2"><input type="checkbox" id="on_account" style={{ height: '20px', width: '20px' }} /></div>
                                         </div>
                                         <div className="w-100 overflow-auto">
                                             <table className="table table-bordered mt-3">
@@ -299,6 +316,51 @@ function AddBankingPayment() {
                 </div>
             </div>
             {/* ########################### modal Chart Of Account End ################################################# */}
+
+            {/* ########################## modal Location  Start ################################ */}
+            <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation"
+                                    onChange={handleSearchLocation}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>City </th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        locationstate.length > 0 ?
+                                            locationstate.map((items, index) => (
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                >
+                                                    <td>{items.location_city}</td>
+                                                    <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+
+                                                </tr>
+                                            ))
+                                            : 'Select Customer'
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* modal Location  End*/}
         </>
     );
 }
