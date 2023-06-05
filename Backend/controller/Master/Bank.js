@@ -25,36 +25,41 @@ const InsertBank = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select Top 1* from ${org}.dbo.tbl_bankmaster tb where chart_of_account = '${account_code}' order by sno desc`)
-
-        if (duplicate.recordset.length > 0) {
-
-            const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster(chart_of_account, bank_name, account_no, address_line1, address_line2, country, state, city, pincode,branch, ifsc_code, description, bank_uuid, status, ac_type, acname, add_date_time, add_user_name, add_system_name, add_ip_address, bank_id, sub_code)
-            values('${account_code}', '${bank_name}', '${account_no}', '${address_line1}', '${address_line2}', '${country}', '${state}', '${city}', '${pincode}', '${branch}','${ifsc_code}', '${description}', '${uuid}', 'Active', '${actype}', '${acname}', getdate(), '${User_id}', '${os.hostname()}', '${req.ip}', '${duplicate.recordset[0].bank_id}', '${String(Number(duplicate.recordset[0].sub_code) + 1).padStart(2, '0')}')`)
-            if (result.rowsAffected[0] > 0) {
-                res.status(200).send("Added")
-            } else {
-                res.status(500).send("Server Not Response")
-            }
+        const checkExist = await sql.query(`select * FROM ilogsolution.dbo.tbl_bankmaster tb with (nolock) where account_no= '123' and ifsc_code='dd23'`)
+        if (checkExist.rowsAffected[0] > 0) {
+            res.status(403).send("Already")
         }
         else {
-            const newbankid = await sql.query(`select top 1 bank_id from ${org}.dbo.tbl_bankmaster tb order by sno`)
-            if (newbankid.recordset.length > 0) {
-                const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,branch,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
-                values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${branch}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${Number(newbankid.recordset[0].bank_id) + 1}','01')`)
+            const duplicate = await sql.query(`select Top 1* from ${org}.dbo.tbl_bankmaster tb where chart_of_account = '${account_code}' order by sno desc`)
+            if (duplicate.recordset.length > 0) {
+
+                const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster(chart_of_account, bank_name, account_no, address_line1, address_line2, country, state, city, pincode,branch, ifsc_code, description, bank_uuid, status, ac_type, acname, add_date_time, add_user_name, add_system_name, add_ip_address, bank_id, sub_code)
+            values('${account_code}', '${bank_name}', '${account_no}', '${address_line1}', '${address_line2}', '${country}', '${state}', '${city}', '${pincode}', '${branch}','${ifsc_code}', '${description}', '${uuid}', 'Active', '${actype}', '${acname}', getdate(), '${User_id}', '${os.hostname()}', '${req.ip}', '${duplicate.recordset[0].bank_id}', '${String(Number(duplicate.recordset[0].sub_code) + 1).padStart(2, '0')}')`)
                 if (result.rowsAffected[0] > 0) {
                     res.status(200).send("Added")
                 } else {
-                    res.status(500).send("Added")
+                    res.status(500).send("Server Not Response")
                 }
             }
             else {
-                const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
+                const newbankid = await sql.query(`select top 1 bank_id from ${org}.dbo.tbl_bankmaster tb order by sno`)
+                if (newbankid.recordset.length > 0) {
+                    const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,branch,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
+                values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${branch}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${Number(newbankid.recordset[0].bank_id) + 1}','01')`)
+                    if (result.rowsAffected[0] > 0) {
+                        res.status(200).send("Added")
+                    } else {
+                        res.status(500).send("Server Not Response")
+                    }
+                }
+                else {
+                    const result = await sql.query(`insert into ${org}.dbo.tbl_bankmaster (chart_of_account,bank_name,account_no,address_line1,address_line2,country,state,city,pincode,ifsc_code,description,bank_uuid,status,ac_type,acname,add_date_time,add_user_name,add_system_name,add_ip_address,bank_id,sub_code)
                 values('${account_code}','${bank_name}','${account_no}','${address_line1}','${address_line2}','${country}','${state}','${city}','${pincode}','${ifsc_code}','${description}','${uuid}','Active','${actype}','${acname}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','1','01')`)
-                if (result.rowsAffected[0] > 0) {
-                    res.status(200).send("Added")
-                } else {
-                    res.status(500).send("Added")
+                    if (result.rowsAffected[0] > 0) {
+                        res.status(200).send("Added")
+                    } else {
+                        res.status(500).send("Server Not Response")
+                    }
                 }
             }
         }
@@ -69,7 +74,9 @@ const TotalBanks = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_bankmaster with (nolock) order by sno desc`)
+
         res.send(result.recordset)
+
     }
     catch (err) {
         res.send(err)
