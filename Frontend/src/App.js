@@ -279,7 +279,7 @@ const App = () => {
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
-          {/* Not In Now */}
+          {/* Not In Use */}
           {/* <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} /> */}
 
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
@@ -296,9 +296,10 @@ const App = () => {
           <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode} />
           <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode} />
 
+          {/* Not In Use */}
           {/* <PrivatRoute exact path="/Items" component={Items}/> */}
-          {/* 
-          <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
+
+          {/* <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
           <PrivatRoute exact path="/AddAccountInfo" component={AddAccountInfo}/>
           <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/> */}
 
@@ -308,6 +309,7 @@ const App = () => {
 
           <PrivatRoute exact path="/RecurringExpenses" component={RecurringExpenses} />
 
+          {/* Not In Use */}
           {/*  ###################### Sub Gl Not Now ####### */}
           {/* <PrivatRoute exact path="/AddSubCode" component={AddSubCode} />
           <PrivatRoute exact path="/TotalSubCode" component={TotalSubCode} />
