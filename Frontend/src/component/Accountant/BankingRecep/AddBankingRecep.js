@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount } from '../../../api'
+import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress,SearchLocationAddress } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 
@@ -21,6 +21,7 @@ function AddBankingReceipt() {
         achead: '', glcode: '', custId: '', costCenter: '', refNo: '', refDate: '', refAmt: '', deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
     }
     const [Bankrowdata, setBankrowdata] = useState([obj])
+    const [locationstate, setLocationstate] = useState([]);
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -32,7 +33,8 @@ function AddBankingReceipt() {
 
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
-
+            const locatonstateres = await ActiveLocationAddress(org);
+            setLocationstate(locatonstateres);
             setLoading(true)
             Todaydate()
         }
@@ -237,6 +239,18 @@ function AddBankingReceipt() {
         }
         document.getElementById('total_ref_amt').innerHTML = totalRefAmt
     }
+
+    const handleSearchLocation = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchLocationAddress(org, e.target.value);
+            setLocationstate(getLocation)
+        }
+        else if (e.target.value.length === 0) {
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+        }
+    }
     const handleSubmitFormData = (e) => {
         e.preventDefault();
         console.log(Bankrowdata)
@@ -412,6 +426,50 @@ function AddBankingReceipt() {
                 </div>
             </div>
             {/* ########################### modal Chart Of Account End ################################################# */}
+            {/* ########################## modal Location  Start ################################ */}
+            <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation"
+                                    onChange={handleSearchLocation}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>City </th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        locationstate.length > 0 ?
+                                            locationstate.map((items, index) => (
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                >
+                                                    <td>{items.location_city}</td>
+                                                    <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+
+                                                </tr>
+                                            ))
+                                            : 'Select Customer'
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* modal Location  End*/}
 
             {/* ###################### Customer Custom Modal ############################### */}
             <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >

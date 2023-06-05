@@ -1,5 +1,5 @@
 import React from 'react'
-const SubAddBankRec = ({ Bankrowdata, handleDeleteRemove, handleChangeRowData, handleBlurMethod,setCurrentindex }) => {
+const SubAddBankRec = ({ Bankrowdata, handleDeleteRemove, handleChangeRowData, handleBlurMethod, setCurrentindex }) => {
     return (
         Bankrowdata.map((rowdata, index) => (
             <tr key={index}>
@@ -22,7 +22,21 @@ const SubAddBankRec = ({ Bankrowdata, handleDeleteRemove, handleChangeRowData, h
                         }
                     </select> */}
                 </td>
-                <td className='p-0'>  <input type="text" className="form-control " name='costCenter' value={rowdata.costCenter} onChange={(e) => handleChangeRowData(e, index)} /> </td>
+                <td className='p-0'>
+                    <button type="button" id={`location-${index}`} className="btn border col overflow-hidden p-0" style={{ height: '50px' }} data-toggle="modal" data-target="#locationmodal"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentindex(index)
+                            setTimeout(() => {
+                                document.getElementById('searchLocation').focus()
+                            }, 700)
+                        }}
+                    >
+                        {rowdata.costCenter.length > 0 ? rowdata.costCenter : "Select Cost Center"}
+                    </button>
+
+                    {/* <input type="text" className="form-control " name='costCenter' value={rowdata.costCenter} onChange={(e) => handleChangeRowData(e, index)} /> */}
+                </td>
                 <td className='p-0'> <input type="text" className="form-control px-1" name='refNo' value={rowdata.refNo} onChange={(e) => handleChangeRowData(e, index)} /> </td>
                 <td className='p-0'> <input type="date" className="form-control px-1" name='refDate' value={rowdata.refDate} onChange={(e) => handleChangeRowData(e, index)} /> </td>
                 <td className='p-0'> <input type="number" className="form-control px-1" name='refAmt' value={rowdata.refAmt} onChange={(e) => handleChangeRowData(e, index)} onBlur={(e) => { handleBlurMethod(e, index) }} /> </td>
