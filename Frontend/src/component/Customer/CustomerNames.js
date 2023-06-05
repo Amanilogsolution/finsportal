@@ -71,7 +71,7 @@ export default function CustomerNames() {
                                 <article className="card-body" >
                                     <form autoComplete="off">
                                         <div className="form-row ">
-                                            <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
+                                            <label htmlFor='customer_id' className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
                                             <div className="d-flex col-md">
                                                 <select id="customer_id" className="form-control col-md-4">
                                                     <option value='' hidden>Select Customer</option>
@@ -84,13 +84,13 @@ export default function CustomerNames() {
                                             </div>
                                         </div>
                                         <div className="form-row mt-2">
-                                            <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >New Name <span className='text-danger'>*</span> </label>
+                                            <label htmlFor='name' className="col-md-2 col-form-label font-weight-normal" >New Name <span className='text-danger'>*</span> </label>
                                             <div className="d-flex col-md">
                                                 <input type="text" className="form-control col-md-4 cursor-notallow" id="name" />
                                             </div>
                                         </div>
                                         <div className="form-row mt-2">
-                                            <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Date <span className='text-danger'>*</span> </label>
+                                            <label htmlFor='date' className="col-md-2 col-form-label font-weight-normal" >Date <span className='text-danger'>*</span> </label>
                                             <div className="d-flex col-md">
                                                 <input type="date" className="form-control col-md-4 cursor-notallow" id="date" />
                                             </div>
