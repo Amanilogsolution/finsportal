@@ -76,7 +76,7 @@ const Customer = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    // setLoading(false)
+    setLoading(false)
 
     const customer_firstname = document.getElementById('customer_firstname').value;
     const customer_lastname = document.getElementById('customer_lastname').value;

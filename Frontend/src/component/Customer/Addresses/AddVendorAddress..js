@@ -99,35 +99,20 @@ const AddVendAddress = () => {
                       <div className="Address_left" style={{ width: "80%" }}>
                         <label>BILLING ADDRESS</label>
                         <div className="form-row">
-                          <label
-                            htmlFor="venddetail"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Vendor Name
-                          </label>
+                          <label htmlFor="venddetail" className="col-md-2 col-form-label font-weight-normal" >  Vendor Name</label>
                           <div className="col-md-6 form-group">
-                            <select
-                              id="venddetail"
-                              className="form-control"
-                            >
+                            <select id="venddetail" className="form-control">
                               <option value='' hidden> Select</option>
                               {
                                 getVendID.map((data, index) => (
                                   <option key={index} value={data.vend_id}>{data.vend_name}</option>
                                 ))
-
                               }
-
                             </select>
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_gstno"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            GST NO.
-                          </label>
+                          <label htmlFor="billing_address_gstno" className="col-md-2 col-form-label font-weight-normal" >  GST NO.</label>
                           <div className="col form-group">
                             <input type="text"
                               className="form-control col-md-7"
@@ -136,56 +121,28 @@ const AddVendAddress = () => {
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_attention"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Attention
-                          </label>
+                          <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal" >  Attention </label>
                           <div className="col form-group">
-                            <input type="text"
-                              className="form-control col-md-7"
-                              id="billing_address_attention"
-                            />
+                            <input type="text" className="form-control col-md-7" id="billing_address_attention" />
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="inputState"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Country / Region
-                          </label>
+                          <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" >  Country / Region</label>
                           <div className="col-md-6 form-group">
-                            <select
-                              id="inputState"
-                              className="form-control"
-                              onChange={handleAddressCountry}
-                            >
+                            <select id="inputState" className="form-control" onChange={handleAddressCountry}>
                               <option value='' hidden> Select Country</option>
                               {
                                 selectedCountry.map((data, index) => (
                                   <option key={index} value={data.country_name}>{data.country_name}</option>
                                 ))
-
                               }
-
                             </select>
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="user_name"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            State
-                          </label>
+                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >  State </label>
                           <div className="col-md-6 form-group">
-                            <select
-                              id="inputState"
-                              className="form-control"
-                              onChange={handleChangebillingState}
-                            >
+                            <select id="inputState" className="form-control" onChange={handleChangebillingState}>
                               <option value='' hidden> Select State</option>
                               {
                                 selectState.map((data, index) => (
@@ -196,68 +153,34 @@ const AddVendAddress = () => {
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_city"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            City
-                          </label>
+                          <label htmlFor="billing_address_city" className="col-md-2 col-form-label font-weight-normal"> City</label>
                           <div className="col-md-6 form-group">
-                            <select
-                              id="billing_address_city"
-                              className="form-control"
-                            >
+                            <select id="billing_address_city" className="form-control" >
                               <option value='' hidden> Select City</option>
                               {
                                 selectCity.map((data, index) => (
                                   <option key={index} value={data.city_name}>{data.city_name}</option>
                                 ))
-
                               }
-
                             </select>
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_pincode"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Zip Code
-                          </label>
+                          <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal"> Zip Code </label>
                           <div className="col form-group">
-                            <input
-                              type="number"
-                              className="form-control col-md-7"
-                              id="billing_address_pincode"
-                            />
+                            <input type="number" className="form-control col-md-7" id="billing_address_pincode" />
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_phone"
-                            className="col-md-2 col-form-label font-weight-normal"
-                          >
-                            Phone
-                          </label>
+                          <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" >  Phone</label>
                           <div className="col form-group">
-                            <input
-                              type="number"
-                              className="form-control col-md-7"
-                              id="billing_address_phone" />
+                            <input type="number" className="form-control col-md-7" id="billing_address_phone" />
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_fax"
-                            className="col-md-2 col-form-label font-weight-normal">Fax
-                          </label>
+                          <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal">Fax </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              className="form-control col-md-7"
-                              id="billing_address_fax"
-                            />
+                            <input type="text" className="form-control col-md-7" id="billing_address_fax" />
                           </div>
                         </div>
                       </div>
