@@ -42,7 +42,7 @@ export default function Signup() {
   }
 
   const handleCheckbox = () => {
-    if (document.getElementById('checkbox').checked == true) {
+    if (document.getElementById('checkbox').checked) {
       document.getElementById('gst').style.display = "block"
     } else {
       document.getElementById('gst').style.display = "none"

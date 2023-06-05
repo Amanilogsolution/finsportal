@@ -92,9 +92,9 @@ import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust
 
 import RecurringExpenses from './component/Vendor/RecurringExpenses/RecurringExpenses';
 
-import AddSubCode from './component/Master/SubCode/AddSubCode';
-import TotalSubCode from './component/Master/SubCode/TotalSubCode';
-import EditSubCode from './component/Master/SubCode/EditSubCode';
+// import AddSubCode from './component/Master/SubCode/AddSubCode';
+// import TotalSubCode from './component/Master/SubCode/TotalSubCode';
+// import EditSubCode from './component/Master/SubCode/EditSubCode';
 
 import Estimates from './component/Customer/Estimates/Estimates';
 import SalesOrder from './component/Customer/SalesOrders/SalesOrder';
@@ -159,7 +159,7 @@ import EditEmployee from './component/Master/EmployeeMaster/EditEmployee';
 import AddRoles from './component/ProjectSetting/Roles/AddRoles';
 import ShowRoles from './component/ProjectSetting/Roles/ShowRoles';
 
-import ChartOfAccount2 from './component/Accountant/ChartOfAccount/ChartOfAccount2';
+// import ChartOfAccount2 from './component/Accountant/ChartOfAccount/ChartOfAccount2';
 
 import AddRecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
 import TotalRecurringInvoice from './component/Customer/RecurringInvoices/TotalRecurringInvoice'

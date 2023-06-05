@@ -9,7 +9,6 @@ import { ShowVendAddress, DeleteVendAddress, SelectVendAddress, Importvendaddres
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/Vendor Address formate.xlsx'
 import customStyles from '../../customTableStyle';
-import './TotalVendorAddress.css';
 import LoadingPage from '../../loadingPage/loadingPage';
 
 const TotalVendAddress = () => {
@@ -163,7 +162,6 @@ const TotalVendAddress = () => {
 
         }
       }
-
     }
   ]
 
@@ -314,66 +312,32 @@ const TotalVendAddress = () => {
       }
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
         <div className="modal-dialog" role="document">
-          <div className={`modal-content`}>
+          <div className='modal-content'>
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Import excel file
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close">
+              <h5 className="modal-title" id="exampleModalLabel">Import excel file </h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
               <label htmlFor="user_name" className=" col-form-label font-weight-normal">Select the file </label>
-              <input
-                id=""
-                type="file"
-                onChange={onChange}
-                className={`form-control `}
-                required
+              <input id="" type="file" onChange={onChange} className='form-control' required
                 accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
               <br />
               <a href={Excelfile} download> Download formate</a>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal">Close</button>
-              <button type="button"
-                onClick={handleClick}
-                className="btn btn-primary"
-                data-dismiss="modal"
-                data-toggle="modal"
-                data-target=".bd-example-modal-lg">
-                Upload
-              </button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" onClick={handleClick} className="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target=".bd-example-modal-lg"> Upload </button>
             </div>
           </div>
         </div>
       </div>
       {/* ------------------ Modal end -----------------------------*/}
       {/* ------------------ Data show Modal start -----------------------------*/}
-      <div className="modal fade bd-example-modal-lg "
-        id="showdataModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="myLargeModalLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade bd-example-modal-lg " id="showdataModal" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
 
         <div className="" style={{ height: "550px", width: "95%", overflow: "auto", margin: "auto" }}>
           <div className={`modal-content`}>
@@ -381,12 +345,7 @@ const TotalVendAddress = () => {
               <h5 className="modal-title text-danger" id="exampleModalLabel" >
                 Uploaded Excel file
               </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close" >
                 <span aria-hidden="true" className='text-danger'
                   onClick={() => {
                     document.getElementById("showdataModal").style.display = "none";
@@ -461,9 +420,7 @@ const TotalVendAddress = () => {
             </div>
           </div>
           <div className={`modal-footer`}>
-            <button
-              type="button"
-              className="btn btn-secondary"
+            <button type="button" className="btn btn-secondary"
               onClick={() => {
                 document.getElementById("showdataModal").style.display = "none";
                 window.location.reload()
@@ -471,12 +428,7 @@ const TotalVendAddress = () => {
             >
               Cancel
             </button>
-            <button type="button"
-              onClick={uploaddata}
-              className="btn btn-primary"
-            >
-              Upload
-            </button>
+            <button type="button" onClick={uploaddata} className="btn btn-primary" > Upload </button>
           </div>
         </div>
       </div>

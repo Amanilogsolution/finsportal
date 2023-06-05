@@ -428,10 +428,7 @@ const Menu = (props) => {
             <li className="nav-item" style={{ display: "none" }} id="accountantMenu">
               <a href="#" className="nav-link active">
                 <i className="fa fa-user-plus" aria-hidden="true"></i>
-                <p >
-                  &nbsp;  Accountant
-                  <i className="right fas fa-angle-left" />
-                </p>
+                <p>&nbsp;  Accountant<i className="right fas fa-angle-left" /></p>
               </a>
               <ul className="nav nav-treeview">
                 <li className="nav-item" style={{ display: "none" }} id='currencyAdjMenu'>
