@@ -25,7 +25,7 @@ const InsertBank = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const checkExist = await sql.query(`select * FROM ilogsolution.dbo.tbl_bankmaster tb with (nolock) where account_no= '123' and ifsc_code='dd23'`)
+        const checkExist = await sql.query(`select * FROM ilogsolution.dbo.tbl_bankmaster tb with (nolock) where account_no= '${account_no}' and ifsc_code='${ifsc_code}'`)
         if (checkExist.rowsAffected[0] > 0) {
             res.status(403).send("Already")
         }
