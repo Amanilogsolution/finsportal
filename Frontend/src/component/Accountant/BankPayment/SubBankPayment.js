@@ -11,7 +11,7 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
                             }, 700)
                         }}>
 
-                        {/* {JVMinorData[index].accHead.length > 0 ? JVMinorData[index].accHead : "Select Value"} */}
+                        {minordata.achead.length > 0 ? minordata.achead : "Select Value"}
                     </button>
                     {/* <select className="form-control" onChange={(e) => handleChnageAcHead(e, index)}>
                         <option hidden value=''>Select Ac Head</option>
