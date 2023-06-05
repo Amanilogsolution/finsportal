@@ -82,8 +82,7 @@ function AddBankingPayment() {
         minorData[currentindex].achead = chartOfAcct;
         minorData[currentindex].glcode = glCode;
         setBankPayMinData(minorData)
-        console.log(glCode)
-
+        document.getElementById('on_account').disabled = true;
         if (glCode === '3020001') {
             const org = localStorage.getItem('Organisation')
             const vendors = await ActiveVendor(org)
@@ -143,7 +142,7 @@ function AddBankingPayment() {
                                         </div>
                                         <div className="form-row">
                                             <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal text-danger" > On Account</label>
-                                            <div className="d-flex col-md-4"><input type="checkbox" id="on_account" /></div>
+                                            <div className="d-flex col-md-4 pt-2"><input type="checkbox"  id="on_account" style={{height:'20px',width:'20px'}} /></div>
                                         </div>
                                         <div className="w-100 overflow-auto">
                                             <table className="table table-bordered mt-3">

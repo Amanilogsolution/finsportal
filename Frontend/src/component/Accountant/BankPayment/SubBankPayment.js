@@ -5,7 +5,7 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
                 <td className="p-0">
                     <button type="button" style={{ height: '50px' }} className="btn border col overflow-hidden p-0" data-toggle="modal" data-target="#chartofaccountmodal"
                         onClick={() => {
-                            setCurrentindex(index); document.getElementById('on_account').disabled = true;
+                            setCurrentindex(index); 
                             setTimeout(() => {
                                 document.getElementById('searchChartofAcct').focus()
                             }, 700)

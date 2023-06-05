@@ -130,12 +130,13 @@ function JVoucher() {
     JVMinorData[currentIndex].glcode = account_sub_name_code;
     setLoading(true)
     const org = localStorage.getItem('Organisation')
-    if (account_sub_name_code == '3020001') {
+    document.getElementById('onaccount').disabled = true;
+    if (account_sub_name_code === '3020001') {
       const vendors = await ActiveVendor(org)
       setVendorlist(vendors)
       document.getElementById('SelectVendorModal').style.display = 'block'
     }
-    else if (account_sub_name_code == '5020001') {
+    else if (account_sub_name_code === '5020001') {
       const customers = await ActiveCustomer(org)
       setCustomerlist(customers)
       document.getElementById('SelectCustomerModal').style.display = 'block'
@@ -322,7 +323,7 @@ function JVoucher() {
     console.log(JVMinorData)
     return 0
     const difference = document.getElementById(`difference`).innerHTML
-    if (difference != '0') {
+    if (difference !== '0') {
       alert('Difference between DR and CR is not 0')
     }
     else {
