@@ -70,6 +70,8 @@ function Bills() {
             igst_per: 0,
             tds_per: 0,
             tds_amt: 0,
+            gst_amt:0,
+            tds_check:''
         }
     ])
 
@@ -175,6 +177,8 @@ function Bills() {
             igst_per: 0,
             tds_per: 0,
             tds_amt: 0,
+            gst_amt:0,
+            tds_check:''
         }])
     }
 
@@ -283,20 +287,19 @@ function Bills() {
     }
 
     //Toggle & Calculation of Gst Div
-    const handletogglegstdiv = (e,index) => {
-        setIndex(index)
-        var sum = 0
-        tabledata.map((item) => sum += Number(item.netamount))
-        setNetTotal(sum)
-        setBillsubtotalamt(sum)
-        document.getElementById('totalamount').value = sum;
-        if (e.target.checked === true) {
+    const handletogglegstdiv = () => {
+        // var sum = 0
+        // tabledata.map((item) => sum += Number(item.netamount))
+        // setNetTotal(sum)
+        // setBillsubtotalamt(sum)
+        // document.getElementById('totalamount').value = sum;
+        // if (e.target.checked === true) {
             document.getElementById('gstdiv').style.display = 'block';   
-        }
-        else {
-            document.getElementById(`netamt${index}`).value = document.getElementById(`amount${index}`).value
-            document.getElementById('gstdiv').style.display = 'none';
-        }
+        // }
+        // else {
+            // document.getElementById(`netamt${index}`).value = document.getElementById(`amount${index}`).value
+            // document.getElementById('gstdiv').style.display = 'none';
+        // }
 
 
         const vendor_detail = document.getElementById('vend_name');
@@ -315,37 +318,41 @@ function Bills() {
 
 
     // ################################ Toggle & Calculation of Gst Div ##########################################
-    const handlegst_submit = (e) => {
+    const handlegst_submit = (e,index) => {
         e.preventDefault();
-        const gst_type = document.getElementById('gsttype').value;
+        // const gst_type = document.getElementById(`gst${index}`).value;
         const totalvalue = document.getElementById(`amount${index}`).value
         
-        const gst = document.getElementById('gstTax').value
+        const gst = document.getElementById(`gst${index}`).value
         // alert(gst)
         let tax = totalvalue * gst / 100
         tax = Math.round(tax)
         document.getElementById(`netamt${index}`).value = Number(tax)+Number(totalvalue)
 
-        if (gst_type === 'Inter') {
-            tabledata[index].cgst_amt = 0
-            tabledata[index].sgst_amt = 0
-            tabledata[index].igst_amt = tax
-            tabledata[index].cgst_per = 0
-            tabledata[index].sgst_per = 0
-            tabledata[index].igst_per = gst 
-            tabledata[index].netamount = Number(tax)+Number(totalvalue)
+        console.log(tax)
 
-        }
-        else if (gst_type === 'Intra') {
-            tabledata[index].cgst_amt = Math.round(tax / 2)
-            tabledata[index].sgst_amt = Math.round(tax / 2)
-            tabledata[index].igst_amt = 0
-            tabledata[index].cgst_per = Math.round(gst / 2)
-            tabledata[index].sgst_per = Math.round(gst / 2)
-            tabledata[index].igst_per = 0 
-            tabledata[index].netamount = Number(tax)+Number(totalvalue)
+        tabledata[index].gst_amt = tax
 
-        }
+        // if (gst_type === 'Inter') {
+        //     tabledata[index].cgst_amt = 0
+        //     tabledata[index].sgst_amt = 0
+        //     tabledata[index].igst_amt = tax
+        //     tabledata[index].cgst_per = 0
+        //     tabledata[index].sgst_per = 0
+        //     tabledata[index].igst_per = gst 
+        //     tabledata[index].netamount = Number(tax)+Number(totalvalue)
+
+        // }
+        // else if (gst_type === 'Intra') {
+        //     tabledata[index].cgst_amt = Math.round(tax / 2)
+        //     tabledata[index].sgst_amt = Math.round(tax / 2)
+        //     tabledata[index].igst_amt = 0
+        //     tabledata[index].cgst_per = Math.round(gst / 2)
+        //     tabledata[index].sgst_per = Math.round(gst / 2)
+        //     tabledata[index].igst_per = 0 
+        //     tabledata[index].netamount = Number(tax)+Number(totalvalue)
+
+        // }
 
         let net_amt = 0;
         tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
@@ -353,6 +360,29 @@ function Bills() {
 
         document.getElementById('gstdiv').style.display = 'none';
         document.getElementById('gstTax').value = ''
+    }
+
+    const handlegst_submit_txt=(e) =>{
+        e.preventDefault();
+        const gst_type = document.getElementById(`gsttype`).value;
+
+        let net_amt = 0;
+
+        tabledata.map((item, index) => { net_amt = net_amt + Number(item.gst_amt) })
+
+          if (gst_type === 'Inter') {
+        document.getElementById("cgstamt").innerHTML= 0
+        document.getElementById("sgstamt").innerHTML= 0
+        document.getElementById("igstamt").innerHTML = net_amt
+
+        }
+        else if (gst_type === 'Intra') {
+        document.getElementById("cgstamt").innerHTML=net_amt/2
+        document.getElementById("sgstamt").innerHTML=net_amt/2
+        document.getElementById("igstamt").innerHTML = 0
+
+        }
+        document.getElementById('gstdiv').style.display = 'none';
     }
 
     // Upload Document ##########################################
@@ -367,56 +397,86 @@ function Bills() {
     // ################################ Toggle & Calculation of TDS Div ##########################################
 
     const handletds = (e,index) => {
-        console.log(e.target.checked);
         setIndex(index)
 
         if (e.target.checked === true) {
-            document.getElementById('tdsdiv').style.display = 'block';
+            // document.getElementById('tdsdiv').style.display = 'block';
+            tabledata[index].tds_check = 'Y'
 
         }
         else {
-            document.getElementById('tdsdiv').style.display = 'none';    
+            // document.getElementById('tdsdiv').style.display = 'none';  
+            tabledata[index].tds_check = 'N'  
 
         }
 
-        setBillalldetail({
-            ...billalldetail,
-            cgst_amt: document.getElementById('cgstamt').innerHTML,
-            sgst_amt: document.getElementById('sgstamt').innerHTML,
-            igst_amt: document.getElementById('igstamt').innerHTML,
+        // setBillalldetail({
+        //     ...billalldetail,
+        //     cgst_amt: document.getElementById('cgstamt').innerHTML,
+        //     sgst_amt: document.getElementById('sgstamt').innerHTML,
+        //     igst_amt: document.getElementById('igstamt').innerHTML,
 
-        })
-        document.getElementById('savebtn').disabled = false;
-        document.getElementById('postbtn').disabled = false;
+        // })
+        // document.getElementById('savebtn').disabled = false;
+        // document.getElementById('postbtn').disabled = false;
+    }
+
+    const handletdsmodal = (e) =>{
+        e.preventDefault();
+        document.getElementById('tdsdiv').style.display = 'block';
+
     }
 
     const handletdsbtn = (e) => {
         e.preventDefault();
-        const TdsAmount = document.getElementById('tds_amt').value
+        // const TdsAmount = document.getElementById('tds_amt').value
         const TdsPer = document.getElementById('tds_per').value
-        const amount = TdsAmount * TdsPer / 100
-        const value = document.getElementById(`netamt${index}`).value
-        const Aftertds = value - Math.round(amount)
-        setNetTotal(value - Math.round(amount))
+        // const amount = TdsAmount * TdsPer / 100
+        // const value = document.getElementById(`netamt${index}`).value
+        // const Aftertds = value - Math.round(amount)
+        // setNetTotal(value - Math.round(amount))
 
-        document.getElementById('tdsperinp').defaultValue = TdsPer;
-        document.getElementById('tdstagval').innerHTML = Math.round(amount);
+        // document.getElementById('tdsperinp').defaultValue = TdsPer;
+        // document.getElementById('tdstagval').innerHTML = Math.round(amount);
 
-        tabledata[index].tds_per = TdsPer
-        tabledata[index].tds_amt =  Math.round(amount)
-         tabledata[index].netamount = Aftertds
+        // tabledata[index].tds_per = TdsPer
+        // tabledata[index].tds_amt =  Math.round(amount)
+        //  tabledata[index].netamount = Aftertds
+
+        let arr = []
 
 
            let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
-        setNetamt(net_amt)
+        tabledata.map((item, index) => { 
+            console.log(item)
+            if(item.tds_check == 'Y'){
+
+
+                arr.push(item.amount*Number(TdsPer)/100)
+
+            }else{
+                console.log('nooo')
+            }
+            
+        })
+
+        arr.map((item, i) => { net_amt += item})
+        console.log(net_amt)
+
+        document.getElementById('total_bill_amt').innerHTML = netamt-net_amt
+
+
+
+
+ 
 
         document.getElementById('tdsdiv').style.display = 'none';
+
 
         
 
 
-        document.getElementById(`netamt${index}`).value = Aftertds
+        // document.getElementById(`netamt${index}`).value = Aftertds
     }
 
     // ################################ Expense Div ##########################################
@@ -727,7 +787,7 @@ function Bills() {
                                                         <th scope="col">Amount</th>
                                                         {/* <th scope="col">Deduction</th> */}
                                                         {/* <th scope="col">Refno/FIleno</th> */}
-                                                        <th scope="col">gst</th>
+                                                        <th scope="col">gst %</th>
                                                         <th scope="col">tds</th>
                                                         <th scope="col">Net Amt</th>
                                                     </tr>
@@ -794,12 +854,12 @@ function Bills() {
                                                                 {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
                                                                     <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
                                                                 </td> */}
-                                                                <td className='p-1 pt-2' style={{ width: "20px" }}>
-                                                                    <input type='checkbox' id={`gst${index}`} className='ml-3' onClick={(e)=>handletogglegstdiv(e,index)}  style={{width:"20px",height:"20px"}} />
+                                                                <td className='p-1 pt-2' style={{ width: "100px" }}>
+                                                                    <input type='number' id={`gst${index}`} className='form-control' onChange={(e)=>handlegst_submit(e,index)}   />
                                                                 </td>
 
                                                                 <td className='p-1 pt-2' style={{ width: "20px" }}>
-                                                                    <input type='checkbox' id={`tds${index}`} className='ml-3' onClick={(e)=>handletds(e,index)}  style={{width:"20px",height:"20px"}} />
+                                                                    <input type='checkbox' id={`tds${index}`} className='ml-2' onClick={(e)=>handletds(e,index)}   />
                                                                 </td>
 
                                                                 <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -812,75 +872,9 @@ function Bills() {
                                                 </tbody>
                                             </table>
 
-                                            <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "800px", top: "120px",zIndex:"1" }}>
-                                                                        <div className="card-body p-2">
-                                                                            <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('gstdiv')}}></i>
-                                                                            <div className="form-group ">
-                                                                                <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
-                                                                                <div>
-                                                                                    <select
-                                                                                        id="gsttype"
-                                                                                        className="form-control col">
-                                                                                        <option value='' hidden>Select GST Type</option>
-                                                                                        <option value='Intra'>Intra</option>
-                                                                                        <option value='Inter' >Inter</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="form-row">
-                                                                                <label htmlFor='location' className="col-md-5 form-label font-weight-normal" >Total Amt <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7 cursor-notallow" id="totalamount" defaultValue={netTotal} disabled />
-                                                                            </div>
-                                                                            <div className="form-row" >
-                                                                                <label htmlFor='location' className="col-md-5 form-label font-weight-normal"  >GST Tax(%) <span className='text-danger'>*</span> </label>
-                                                                                <input type="text" className="form-control col-md-7" id="gstTax" />
-                                                                            </div>
-                                                                            <br />
-                                                                            <button className='btn btn-outline-primary float-right' onClick={handlegst_submit} >Submit</button>
-                                                                        </div>
-                                             </div>
 
 
-                                             <div className="dropdown-menu-lg rounded bg-white" id='tdsdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "800px", top: "120px",zIndex:"1" }}>
-                                                                        <div className="card-body" >
-                                                                            <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('tdsdiv')}}></i>
 
-                                                                            <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
-                                                                                <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
-                                                                                <div className="form-row m-0">
-
-                                                                                    <select className="form-control col" id='tds_head'>
-                                                                                        <option value='' hidden>Select Tds head</option>
-                                                                                        {
-                                                                                            tdsheadlist.map((tds, index) =>
-                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
-                                                                                            )
-                                                                                        }
-
-                                                                                    </select>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div className="form-row m-0" >
-                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Company' onChange={handleTdsCompany} />
-                                                                                <label htmlFor='company' className="col-md-4 form-label font-weight-normal mt-1"  >Company</label>
-
-                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' onChange={handleTdsCompany} />&nbsp;
-                                                                                <label htmlFor='non_company' className=" form-label font-weight-normal mt-1" > Non-Company</label>
-
-                                                                            </div>
-                                                                            <div className="form-row" >
-                                                                                <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7" id='tds_amt' />
-                                                                            </div>
-                                                                            <div className="form-row" >
-                                                                                <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7" id='tds_per' />
-                                                                            </div>
-                                                                            <br />
-                                                                            <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
-                                                                        </div>
-                                                                    </div>
 
                                             </div>
                                             <input type='button' className="btn btn-primary" onClick={handleAdd} value='Add Item'/>
@@ -912,9 +906,9 @@ function Bills() {
                                                                 <th scope="col"></th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody >
+                                                        <tbody className='position-relative'>
                                                             <tr scope="row">
-                                                                <td style={{ width: "150px" }} >Total CGST Amt</td>
+                                                                <td style={{ width: "150px" }} onClick={handletogglegstdiv} className='cursor-pointer text-primary' >Total CGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                                     <div className="input-group" >
                                                                         <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' disabled />
@@ -925,6 +919,44 @@ function Bills() {
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='cgstamt'>{cgstval}</td>
                                                             </tr>
+
+                                                            <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "950px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "10px", top: "40px",zIndex:"1" }}>
+                                                                        <div className="card-body p-2">
+                                                                            <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('gstdiv')}}></i>
+                                                                            <div className="form-group ">
+                                                                                <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
+                                                                                <div>
+                                                                                    <select
+                                                                                        id="gsttype"
+                                                                                        className="form-control col">
+                                                                                        <option value='' hidden>Select GST Type</option>
+                                                                                        <option value='Intra'>Intra</option>
+                                                                                        <option value='Inter' >Inter</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="form-group ">
+                                                                                <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Location <span className='text-danger'>*</span> </label>
+                                                                                <div>
+                                                                                    <select
+                                                                                        id="gsttype"
+                                                                                        className="form-control col">
+                                                                                        <option value='' hidden>Select GST Location</option>
+                                                                                        {
+                                                                                        locationstate.map((item, index) => (
+                                                                                            <option key={index} value={item.location_name} >{item.location_name}</option>
+                                                                                             ))
+                                                                                        }
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                            <br />
+                                                                            <button className='btn btn-outline-primary float-right' onClick={handlegst_submit_txt} >Submit</button>
+                                                                        </div>
+                                                           </div>
+
                                                             <tr>
                                                                 <td>Total SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
@@ -950,7 +982,7 @@ function Bills() {
                                                                 <td className='text-center' style={{ width: "150px" }} id='igstamt'>{igstval}</td>
                                                             </tr>
                                                             <tr scope="row">
-                                                                <td style={{ width: "150px" }}>TDS</td>
+                                                                <td style={{ width: "150px" }} className='cursor-pointer text-primary' onClick={handletdsmodal}>TDS</td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
                                                                     <div className="input-group" >
                                                                         <input type="text" className="form-control col-md-5 ml-5 cursor-notallow" id='tdsperinp' disabled />
@@ -961,6 +993,50 @@ function Bills() {
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='tdstagval'>0.00</td>
                                                             </tr>
+
+
+                                             <div className="dropdown-menu-lg rounded bg-white" id='tdsdiv' style={{ width: "750px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "10px", top: "120px",zIndex:"1" }}>
+                                                                        <div className="card-body" >
+                                                                            <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('tdsdiv')}}></i>
+
+                                                                            <div className="form-group" style={{ marginBottom: "0px" }} id='tdshead'>
+                                                                                <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
+                                                                                <div className="form-row m-0">
+
+                                                                                    <select className="form-control col" id='tds_head'>
+                                                                                        <option value='' hidden>Select Tds head</option>
+                                                                                        {
+                                                                                            tdsheadlist.map((tds, index) =>
+                                                                                                <option key={index} value={tds.tds_section}>{tds.name}- {tds.tds_section}</option>
+                                                                                            )
+                                                                                        }
+
+                                                                                    </select>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div className="form-row m-0" >
+                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Company' onChange={handleTdsCompany} />
+                                                                                <label htmlFor='company' className="col-md-4 form-label font-weight-normal mt-1"  >Company</label>
+
+                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' onChange={handleTdsCompany} />&nbsp;
+                                                                                <label htmlFor='non_company' className=" form-label font-weight-normal mt-1" > Non-Company</label>
+
+                                                                            </div>
+                                                                            {/* <div className="form-row" >
+                                                                                <label htmlFor='tds_amt' className="col-md-5 form-label font-weight-normal"  >TDS Amount <span className='text-danger'>*</span> </label>
+                                                                                <input type="number" className="form-control col-md-7" id='tds_amt' />
+                                                                            </div> */}
+                                                                            <div className="form-row" >
+                                                                                <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
+                                                                                <input type="number" className="form-control col-md-7" id='tds_per' />
+                                                                            </div>
+                                                                            <br />
+                                                                            <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
+                                                                        </div>
+                                                </div>
+
+                                                            
                                                             <tr>
                                                                 <td>Expense Amt </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
