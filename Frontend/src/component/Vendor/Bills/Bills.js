@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import './bill.css'
-import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress, getPoData, getActiveTdsHead } from '../../../api'
+import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, ActivePaymentTerm, SelectVendorAddress, Getfincialyearid, InsertBill, ActiveUser, ActiveLocationAddress, InsertSubBill, Updatefinancialcount, UploadData, GetPodetailsVendor, showOrganisation, SearchVendAddress, getPoData, getActiveTdsHead,getSubPoDetailsPreview } from '../../../api'
 import PreviewBill from './PreviewBill/PreviewBill';
 import LoadingPage from '../../loadingPage/loadingPage';
 
@@ -639,8 +639,26 @@ function Bills() {
     }
 
     const handleGetPoData = async (e) => {
+        // setTotalValues([])
         const podata = await getPoData(localStorage.getItem('Organisation'), e.target.value)
         document.getElementById('po_date').value = podata[0].podate
+        const subpodata = await getSubPoDetailsPreview(localStorage.getItem('Organisation'), e.target.value)
+        console.log(subpodata)
+        
+
+        for(let i=0;i<3;i++){
+            alert('ksksd')
+       
+                
+                 
+            handleAdd()
+                
+             
+
+            
+
+        }
+        // console.log(podata)
     }
 
     return (
@@ -886,12 +904,12 @@ function Bills() {
                                                     <div className="form mt-2">
                                                         <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="5" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
+                                                            <textarea type="text" className="form-control " rows="4" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
                                                         </div>
 
                                                     </div>
                                                     <div className='mt-3'>
-                                                        <label className="font-weight-normal" >Attach file(s) to Estimate</label><br />
+                                                        <label className="font-weight-normal" >Attach file(s) </label><br />
                                                         <button type="button" className='btn btn-success' data-toggle="modal" data-target="#exampleModal">
                                                             <i className='ion-android-attach'></i> &nbsp;
                                                             Attach File</button>
@@ -920,7 +938,7 @@ function Bills() {
                                                                 <td className='text-center' style={{ width: "150px" }} id='cgstamt'>{cgstval}</td>
                                                             </tr>
 
-                                                            <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "950px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "10px", top: "40px",zIndex:"1" }}>
+                                                             <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ width: "950px", display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "10px", top: "40px",zIndex:"1" }}>
                                                                         <div className="card-body p-2">
                                                                             <i className="fa fa-times" aria-hidden="true" onClick={(e) =>{e.preventDefault();CloseModal('gstdiv')}}></i>
                                                                             <div className="form-group ">
@@ -961,7 +979,7 @@ function Bills() {
                                                                 <td>Total SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
                                                                     <div className="input-group" >
-                                                                        <input type="" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' disabled />
+                                                                        <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>

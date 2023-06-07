@@ -154,7 +154,7 @@ const getPoData = async (req,res) =>{
 
     try{
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select convert(varchar(15),po_date,121) as podate from ${org}.dbo.tbl_purchase_order tpo  where po_number='${po_number}'`)
+        const result = await sql.query(`select *,convert(varchar(15),po_date,121) as podate from ${org}.dbo.tbl_purchase_order tpo  where po_number='${po_number}'`)
         res.send(result.recordset)
 
     }
