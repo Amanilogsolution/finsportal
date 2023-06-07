@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, showOrganisation, ActiveBank } from '../../../api'
+import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
 
@@ -16,7 +16,10 @@ function AddBankingPayment() {
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [banklist, setBanklist] = useState([])
-   
+    const [vendorlist, setVendorlist] = useState([])
+    const [currentindex, setCurrentindex] = useState(0);
+    const [locationstate, setLocationstate] = useState([]);
+
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
@@ -26,6 +29,9 @@ function AddBankingPayment() {
             setBanklist(allank)
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
+
+            const locatonstateres = await ActiveLocationAddress(org);
+            setLocationstate(locatonstateres);
             setLoading(true)
             Todaydate()
         }
@@ -63,6 +69,9 @@ function AddBankingPayment() {
         }
     }
 
+    const offCustomModal = (ids) => {
+        document.getElementById(ids).style.display = 'none'
+    }
     // ###################### Handle Change Minor Data Start ###############################
     const handleChangeMiorData = (e, index) => {
         let minorData = [...bankPayMinData];
@@ -72,16 +81,47 @@ function AddBankingPayment() {
     // ###################### Handle Change Minor Data End ###############################
 
     // ###################### Handle Change Ac Head Data Start ###############################
-    const handleChnageAcHead = (e, index) => {
+    const handleChnageAcHead = async (chartOfAcct, glCode) => {
         let minorData = [...bankPayMinData];
-        let achead_arr = e.target.value.split('^')
-        const glcode = achead_arr[1]
-
-        minorData[index].achead = achead_arr[0];
-        minorData[index].glcode = glcode;
+        minorData[currentindex].achead = chartOfAcct;
+        minorData[currentindex].glcode = glCode;
         setBankPayMinData(minorData)
+        document.getElementById('on_account').disabled = true;
+        if (glCode === '3020001') {
+            const org = localStorage.getItem('Organisation')
+            const vendors = await ActiveVendor(org)
+            console.log(vendors)
+            setVendorlist(vendors)
+            document.getElementById('SelectVendorModal').style.display = 'block'
+        }
+
     }
     // ###################### Handle Change  Ac Head  Data End ###############################
+
+    const handleSearchChartofAccount = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const chartofacct = await SearchActiveChartofAccount(org, e.target.value);
+            setChartofacctlist(chartofacct)
+        }
+        else if (e.target.value.length === 0) {
+            const chartofacct = await ActiveAllChartofAccount(org)
+            setChartofacctlist(chartofacct)
+        }
+    }
+
+
+    const handleSearchLocation = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchLocationAddress(org, e.target.value);
+            setLocationstate(getLocation)
+        }
+        else if (e.target.value.length === 0) {
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+        }
+    }
 
     return (
         <>
@@ -119,7 +159,7 @@ function AddBankingPayment() {
                                         </div>
                                         <div className="form-row">
                                             <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal text-danger" > On Account</label>
-                                            <div className="d-flex col-md-4"><input type="checkbox" id="on_account" /></div>
+                                            <div className="d-flex col-md-4 pt-2"><input type="checkbox" id="on_account" style={{ height: '20px', width: '20px' }} /></div>
                                         </div>
                                         <div className="w-100 overflow-auto">
                                             <table className="table table-bordered mt-3">
@@ -146,6 +186,7 @@ function AddBankingPayment() {
                                                         handleChangeMiorData={handleChangeMiorData}
                                                         chartofacctlist={chartofacctlist}
                                                         handleChnageAcHead={handleChnageAcHead}
+                                                        setCurrentindex={setCurrentindex}
                                                     />
                                                 </tbody>
                                             </table>
@@ -200,7 +241,126 @@ function AddBankingPayment() {
             </div>
             <BankPayPreview orgdata={orgdata} />
 
+            {/* ###################### Vendor Custom Modal ############################### */}
+            <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
+                <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Select Vendor Name</h5>
+                        </div>
+                        <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
+                            <table className="table  table-striped h-100 w-100">
+                                <thead className="position-sticky bg-white  " style={{ top: '0' }}>
+                                    <tr>
+                                        <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
+                                        <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Vendor Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        vendorlist.map((vendor, index) =>
+                                            <tr key={index} className="cursor-pointer"
+                                            // onClick={() => { handleClickCustomer(vendor.vend_id, vendor.vend_name,vendor.mast_id) }}
+                                            >
+                                                <td className="pl-3 text-center">{index + 1}</td>
+                                                <td className="pl-3 text-center">{vendor.vend_name}</td>
+                                            </tr>
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary"
+                                onClick={() => { offCustomModal('SelectVendorModal') }}
+                            >Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            {/* ########################## modal Chart Of Account  Start ######################## */}
+            <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Chart of Account</h5>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Item' id="searchChartofAcct" onChange={handleSearchChartofAccount} />
+                            </div>
+                        </div>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '50vh' }}>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>Sno.</th>
+                                        <th>Items</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {chartofacctlist.map((items, index) => (
+                                        <tr key={index} className="cursor-pointer py-0" data-dismiss="modal" onClick={(e) => handleChnageAcHead(items.account_sub_name, items.account_sub_name_code)}>
+                                            <td>{index + 1}</td>
+                                            <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
+
+                                        </tr>))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* ########################### modal Chart Of Account End ################################################# */}
+
+            {/* ########################## modal Location  Start ################################ */}
+            <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation"
+                                    onChange={handleSearchLocation}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>City </th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        locationstate.length > 0 ?
+                                            locationstate.map((items, index) => (
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                >
+                                                    <td>{items.location_city}</td>
+                                                    <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+
+                                                </tr>
+                                            ))
+                                            : 'Select Customer'
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* modal Location  End*/}
         </>
     );
 }

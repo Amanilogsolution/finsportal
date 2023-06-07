@@ -1,10 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './signup.css'
 import logo from '../../images/finsgrowlogo.png'
-// import { Insertorg,InsertUser,InsertUserLogin } from '../../api/index'
+import { Insertorg, InsertUser, InsertUserLogin, Activecountries, showactivestate, getCity } from '../../api/index'
 
 
 export default function Signup() {
+  const [countrylist, setCountrylist] = useState([]);
+  const [selectState, setSelectState] = useState([]);
+  const [selectCity, setSelectCity] = useState([]);
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      const org = localStorage.getItem('Organisation');
+      const result = await Activecountries();
+      setCountrylist(result)
+    }
+    fetchdata()
+  }, [])
+
+  const handleAddressCountry = async (e) => {
+    let data = e.target.value;
+    const statesresult = await showactivestate(data)
+    setSelectState(statesresult)
+  }
+  const handleChangebillingState = async (e) => {
+    let data = e.target.value;
+    const result = await getCity(data)
+    setSelectCity(result)
+  }
+
+  const handleClickstep1 = (e) => {
+    e.preventDefault();
+    document.getElementById('step1').style.display = "none"
+    document.getElementById('step2').style.display = "block"
+
+  }
+  const handleClickBack = (e) => {
+    e.preventDefault();
+    document.getElementById('step1').style.display = "block"
+    document.getElementById('step2').style.display = "none"
+  }
+
+  const handleCheckbox = () => {
+    if (document.getElementById('checkbox').checked) {
+      document.getElementById('gst').style.display = "block"
+    } else {
+      document.getElementById('gst').style.display = "none"
+    }
+  }
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -22,7 +65,7 @@ export default function Signup() {
     const userid = document.getElementById('userid').value;
     const password = document.getElementById('password').value
 
-    // console.log(org_name, country, state, city, zipcode, street, gst, name, mobileno, email, designation, userid, password)
+    console.log(org_name, country, state, city, zipcode, street, gst, name, mobileno, email, designation, userid, password)
 
     if (!org_name || !country || !state || !city || !zipcode || !street || !gst || !name || !mobileno || !email || !designation || !userid || !password) {
       alert('All Fields Are Mandatory')
@@ -38,28 +81,6 @@ export default function Signup() {
       //   alert('Data Added')
       // }
     }
-  }
-
-  const handleClickstep1 = (e) => {
-    e.preventDefault();
-    document.getElementById('step1').style.display = "none"
-    document.getElementById('step2').style.display = "block"
-
-  }
-  const handleClickBack = (e) => {
-    e.preventDefault();
-    document.getElementById('step1').style.display = "block"
-    document.getElementById('step2').style.display = "none"
-  }
-
-  const handleCheckbox = () => {
-    if (document.getElementById('checkbox').checked == true) {
-      document.getElementById('gst').style.display = "block"
-    } else {
-      document.getElementById('gst').style.display = "none"
-
-    }
-
   }
 
   const Step1 = () => {
@@ -83,14 +104,25 @@ export default function Signup() {
               <div className="form-row ">
                 <div className="form-group col mb-0 ">
                   <label htmlFor="country" className="form-label font-weight-normal">Bussiness Location</label>
-                  <select type="text" className="form-control " id='country' >
+                  <select type="text" className="form-control " id='country' onChange={handleAddressCountry} >
                     <option hidden value=''>Select Country</option>
+                    {
+                      countrylist.map((data, index) => (
+                        <option key={index} value={data.country_name}>{data.country_name}</option>
+                      ))
+
+                    }
                   </select>
                 </div>
                 <div className="form-group col  mb-0">
                   <label htmlFor="state" className=" form-label font-weight-normal">State</label>
-                  <select type="text" className="form-control" id='state' >
+                  <select type="text" className="form-control" id='state' onChange={handleChangebillingState}>
                     <option hidden value=''>Select State</option>
+                    {
+                      selectState.map((data, index) => (
+                        <option key={index} value={data.state_name}>{data.state_name}</option>
+                      ))
+                    }
                   </select>
                 </div>
               </div>
@@ -99,6 +131,11 @@ export default function Signup() {
                   <label htmlFor="city" className="form-label font-weight-normal">City</label>
                   <select type="text" className="form-control" id='city' >
                     <option hidden value=''>Select City</option>
+                    {
+                      selectCity.map((data, index) => (
+                        <option key={index} value={data.city_name}>{data.city_name}</option>
+                      ))
+                    }
                   </select>
                 </div>
                 <div className="form-group col mb-0 ">
@@ -214,31 +251,6 @@ export default function Signup() {
         </div>
 
       </div>
-      {/* <div >
-      <div className="d-flex">
-        <div className="brand">
-          <img src={logo} alt="Company Logo" style={{height:'30px'}}/>
-        </div>
-        <div className="brand2">
-          <h4>Register your Account</h4>
-        </div>
-      </div>
-      <div style={{ display: "flex" }}>
-        <div className="imgdiv">
-          
-        </div>
-        <div className="container">
-          <div>
-            <div id="step1">
-              <Step1 />
-            </div>
-            <div id="step2" style={{display:"none"}}>
-              <Step2 />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> */}
     </>
   );
 }

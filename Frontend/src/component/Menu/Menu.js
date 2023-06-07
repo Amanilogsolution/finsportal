@@ -31,7 +31,7 @@ const Menu = (props) => {
 
   const Rolefunction = (result) => {
 
-    // ####################  ALL Access to Admin Start #######################################################
+    // ------------------------------- ALL Access to Admin Start -----------------------------------------------
     if (localStorage.getItem('Role') === 'Admin') {
       document.getElementById('estimatesMenu').style.display = "block"
       document.getElementById('deliverychallansmrnu').style.display = "block"
@@ -50,17 +50,17 @@ const Menu = (props) => {
       // document.getElementById('vendrecbillMenu').style.display = "none"
     }
 
-    // ####################  ALL Access to Admin End  #######################################################
+    // -------------------------------- ALL Access to Admin End ------------------------------------------- 
 
 
-    // ################  Items Roles #############
+    // --------------------------------  Items Roles -----------------------------------------
     if (result.items_view === "true") {
       document.getElementById('itemsmenu').style.display = "block"
     }
     else {
       document.getElementById('itemsmenu').style.display = "none"
     }
-    //  ###############  Sales ROle ###########
+    // ----------------------------- Sales Role --------------------------------------------------
     if (result.sales_all === 'true') {
       document.getElementById('salesMenu').style.display = "block"
       if (result.customer_view === "true") {
@@ -70,26 +70,26 @@ const Menu = (props) => {
         document.getElementById('CustomerMenu').style.display = "none"
         document.getElementById('custaddressMenu').style.display = "none"
       }
-      // Invoice Menu
+      // ---------------------------- Invoice Menu ----------------------------------------
       if (result.invoice_view === "true") {
         document.getElementById('Invoicemenu').style.display = "block"
       } else {
         document.getElementById('Invoicemenu').style.display = "none"
       }
-      // Recurring Invoice Menu
+      // --------------------------- Recurring Invoice Menu -----------------------------------
       if (result.recurring_invoice_view === "true") {
         document.getElementById('recInvoiceMenu').style.display = "block"
       } else {
         document.getElementById('recInvoiceMenu').style.display = "none"
       }
-      // Credit Notes
+      // ---------------------------- Credit Notes ------------------------------------------
 
       if (result.creditnotes_view === "true") {
         document.getElementById('creditNoteMenu').style.display = "block"
       } else {
         document.getElementById('creditNoteMenu').style.display = "none"
       }
-      // Sales Order
+      // ---------------------- Sales Order  ---------------------------------------------------------
 
       if (result.salesorder_view === "true") {
         document.getElementById('orderMenu').style.display = "block"
@@ -101,7 +101,7 @@ const Menu = (props) => {
       document.getElementById('salesMenu').style.display = "none"
     }
 
-    // Purchase Menu ROle Start
+    // --------------------------- Purchase Menu ROle Start ---------------------------------------------
     if (result.purchases_all === 'true') {
       document.getElementById('purchasesMenu').style.display = "block"
       if (result.vendor_view === "true") {
@@ -133,9 +133,9 @@ const Menu = (props) => {
     else {
       document.getElementById('purchasesMenu').style.display = "none"
     }
-    // Purchase Menu ROle End
+    // ------------------------------ Purchase Menu Role End ------------------------
 
-    // Master Menu Roles Start
+    // ------------------------------ Master Menu Roles Start ------------------------------
     if (result.master_all === "true") {
       document.getElementById('masterMenu').style.display = "block";
 
@@ -224,10 +224,10 @@ const Menu = (props) => {
     else {
       document.getElementById('masterMenu').style.display = "none"
     }
-    // Master Menu Roles End
+    //-------------------- Master Menu Roles End -------------------------------------
 
 
-    // Accountant Menu ROle Start
+    // ------------------ Accountant Menu Role Start -----------------------
     if (result.accountant_all === 'true') {
       document.getElementById('accountantMenu').style.display = "block";
 
@@ -253,16 +253,16 @@ const Menu = (props) => {
       document.getElementById('accountantMenu').style.display = "none"
 
     }
-    // Accountant Menu ROle End
+    // -------------------------- Accountant Menu Role End -------------------------------
 
-    // Report Menu Role Start
+    // -------------------------- Report Menu Role Start ------------------------------------
     if (result.reports_all === "true") {
       document.getElementById('reportMenu').style.display = "block"
     } else {
       document.getElementById('reportMenu').style.display = "none"
     }
 
-    // Report Menu Role End
+    // ------------------------- Report Menu Role End ----------------------------------------
   }
 
 
@@ -428,10 +428,7 @@ const Menu = (props) => {
             <li className="nav-item" style={{ display: "none" }} id="accountantMenu">
               <a href="#" className="nav-link active">
                 <i className="fa fa-user-plus" aria-hidden="true"></i>
-                <p >
-                  &nbsp;  Accountant
-                  <i className="right fas fa-angle-left" />
-                </p>
+                <p>&nbsp;  Accountant<i className="right fas fa-angle-left" /></p>
               </a>
               <ul className="nav nav-treeview">
                 <li className="nav-item" style={{ display: "none" }} id='currencyAdjMenu'>

@@ -279,7 +279,6 @@ export const Activeunit = async (org) => {
 // ###################### Bank api start #############################
 
 export const insertBank = async (accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description,branch, org, User_id) => {
-    console.log(branch)
     const url = `http://localhost:3008/api/addbank`
     return axios.post(url, { accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description,branch, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -296,9 +295,9 @@ export const showBank = async (sno, org) => {
     const url = `https://finsbackend.awlinternational.com/api/showbank`
     return axios.post(url, { sno, org }).then(response => response.data).catch(error => console.log(error));
 }
-export const updateBank = async (sno, account_code, account_no, type, bank_name, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updatebank`
-    return axios.post(url, { sno, account_code, account_no, type, bank_name, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
+export const updateBank = async (sno, account_code, account_no, type, bank_name,branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id) => {
+    const url = `http://localhost:3008/api/updatebank`
+    return axios.post(url, { sno, account_code, account_no, type, bank_name,branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportBank = async (data, org, User_id) => {
@@ -463,7 +462,6 @@ export const customernameChange = async (org, cust_id, cust_name, date, user_id)
 }
 
 export const UpdateCustomerName = async (org, cust_name, cust_id) => {
-    console.log(org, cust_name, cust_id)
     const url = `https://finsbackend.awlinternational.com/api/UpdateCustomerName`
     return axios.post(url, { org, cust_name, cust_id }).then(response => response.data).catch(error => console.log(error));
 }
@@ -570,7 +568,6 @@ export const ActiveVendor = async (org) => {
 }
 
 export const ActiveSelectedVendor = async (org, vend_id) => {
-    console.log('api', org, vend_id)
     const url = `https://finsbackend.awlinternational.com/api/activeselectedvendor`
     return axios.post(url, { org, vend_id }).then(response => response.data).catch(error => console.log(error));
 }

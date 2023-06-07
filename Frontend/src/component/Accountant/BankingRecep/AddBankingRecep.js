@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation } from '../../../api'
+import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress,SearchLocationAddress } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 
@@ -21,6 +21,7 @@ function AddBankingReceipt() {
         achead: '', glcode: '', custId: '', costCenter: '', refNo: '', refDate: '', refAmt: '', deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
     }
     const [Bankrowdata, setBankrowdata] = useState([obj])
+    const [locationstate, setLocationstate] = useState([]);
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -32,7 +33,8 @@ function AddBankingReceipt() {
 
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
-
+            const locatonstateres = await ActiveLocationAddress(org);
+            setLocationstate(locatonstateres);
             setLoading(true)
             Todaydate()
         }
@@ -62,7 +64,7 @@ function AddBankingReceipt() {
         e.preventDefault()
         if (Bankrowdata.length > 1) {
             let newarr = [...Bankrowdata];
-            
+
             if (deleteType === 'pop') {
                 newarr.pop()
             }
@@ -87,23 +89,32 @@ function AddBankingReceipt() {
         setBankrowdata(rowsInput);
     }
 
-    const handleChangeChartofAcct = async (e, index) => {
-        let { name, value } = e.target;
-        let chartofact_arr = value.split('^')
-        const chartofactname = chartofact_arr[0]
-        const glcode = chartofact_arr[1]
-        Bankrowdata[index].glcode = glcode;
-        if (glcode == '5020001') {
-            setCurrentindex(index)
+    const handleSearchChartofAccount = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const chartofacct = await SearchActiveChartofAccount(org, e.target.value);
+            setChartofacctlist(chartofacct)
+        }
+        else if (e.target.value.length === 0) {
+            const chartofacct = await ActiveAllChartofAccount(org)
+            setChartofacctlist(chartofacct)
+        }
+    }
+    const handleChangeChartofAcct = async (chartOfAcct, glcode) => {
+        const subBankRec = [...Bankrowdata]
+        subBankRec[currentindex].glcode = glcode;
+        document.getElementById('on_account').disabled = true;
+        if (glcode === '5020001') {
             const org = localStorage.getItem('Organisation')
             const customers = await ActiveCustomer(org)
             setCustomerlist(customers)
             document.getElementById('SelectCustomerModal').style.display = 'block'
         }
         else {
-            Bankrowdata[index].achead = chartofactname;
+            subBankRec[currentindex].achead = chartOfAcct;
 
         }
+        setBankrowdata(subBankRec);
     }
 
     const handleBlurMethod = (e, index) => {
@@ -174,13 +185,15 @@ function AddBankingReceipt() {
         setBankrowdata(rowsInput);
     }
     const handleClickCustomer = async (customer_id, customer_name) => {
-        const invoices = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
-        setCustomerInvlist(invoices)
-        offCustomModal('SelectCustomerModal');
-        document.getElementById('InvCustomModal').style.display = "block"
+        const onAccount = document.getElementById('on_account').checked === true ? true : false;
+        if (!onAccount) {
+            const invoices = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
+            setCustomerInvlist(invoices)
+            document.getElementById('InvCustomModal').style.display = "block"
+        }
         Bankrowdata[currentindex].custId = customer_id;
         Bankrowdata[currentindex].achead = customer_name;
-
+        offCustomModal('SelectCustomerModal');
     }
     const offCustomModal = (ids) => {
         document.getElementById(ids).style.display = 'none'
@@ -225,6 +238,18 @@ function AddBankingReceipt() {
             totalRefAmt = Number(totalRefAmt) + Number(newRowData[i].refAmt)
         }
         document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+    }
+
+    const handleSearchLocation = async (e) => {
+        const org = localStorage.getItem('Organisation');
+        if (e.target.value.length > 2) {
+            const getLocation = await SearchLocationAddress(org, e.target.value);
+            setLocationstate(getLocation)
+        }
+        else if (e.target.value.length === 0) {
+            const locatonstateres = await ActiveLocationAddress(org)
+            setLocationstate(locatonstateres)
+        }
     }
     const handleSubmitFormData = (e) => {
         e.preventDefault();
@@ -289,11 +314,12 @@ function AddBankingReceipt() {
                                                 <tbody>
                                                     <SubAddBankRec
                                                         Bankrowdata={Bankrowdata}
-                                                        chartofacctlist={chartofacctlist}
+                                                        // chartofacctlist={chartofacctlist}
                                                         handleDeleteRemove={handleDeleteRemove}
                                                         handleChangeRowData={handleChangeRowData}
                                                         handleBlurMethod={handleBlurMethod}
-                                                        handleChangeChartofAcct={handleChangeChartofAcct}
+                                                        // handleChangeChartofAcct={handleChangeChartofAcct}
+                                                        setCurrentindex={setCurrentindex}
                                                     />
                                                     <tr>
                                                         <td colSpan='4' className="text-right">Total</td>
@@ -358,6 +384,93 @@ function AddBankingReceipt() {
                 <Footer />
             </div>
             <BankRecepPreview orgdata={orgdata} />
+
+            {/* ########################## modal Chart Of Account  Start ######################## */}
+            <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Chart of Account</h5>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Item' id="searchChartofAcct"
+                                    onChange={handleSearchChartofAccount}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '50vh' }}>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>Sno.</th>
+                                        <th>Items</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {chartofacctlist.map((items, index) => (
+                                        <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                            onClick={(e) => handleChangeChartofAcct(items.account_sub_name, items.account_sub_name_code)}
+                                        >
+                                            <td>{index + 1}</td>
+                                            <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
+
+                                        </tr>))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* ########################### modal Chart Of Account End ################################################# */}
+            {/* ########################## modal Location  Start ################################ */}
+            <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content " >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
+                            <div className="form-group col-md-5">
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation"
+                                    onChange={handleSearchLocation}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>City </th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        locationstate.length > 0 ?
+                                            locationstate.map((items, index) => (
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                >
+                                                    <td>{items.location_city}</td>
+                                                    <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+
+                                                </tr>
+                                            ))
+                                            : 'Select Customer'
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* modal Location  End*/}
+
             {/* ###################### Customer Custom Modal ############################### */}
             <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
                 <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>

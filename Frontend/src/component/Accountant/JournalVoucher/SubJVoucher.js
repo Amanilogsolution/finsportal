@@ -8,7 +8,7 @@ const SubJVoucher = ({ JVMinorData, handleDeleteRemove, handleChangeRowData, han
                         <td className="p-0" style={{ width: "180px" }}>
                             <button type="button" style={{ height: '50px' }} className="btn border col overflow-hidden p-0" data-toggle="modal" data-target="#chartofaccountmodal"
                                 onClick={() => {
-                                    setCurrentIndex(index); document.getElementById('onaccount').disabled = true;
+                                    setCurrentIndex(index); 
                                     setTimeout(() => {
                                         document.getElementById('searchChartofAcct').focus()
                                     }, 700)

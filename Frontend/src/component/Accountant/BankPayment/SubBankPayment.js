@@ -1,16 +1,43 @@
-const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMiorData, chartofacctlist, handleChnageAcHead }) => {
+const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMiorData, setCurrentindex }) => {
     return (
         bankPayMinData.map((minordata, index) =>
             <tr key={index}>
                 <td className="p-0">
-                    <select className="form-control" onChange={(e) => handleChnageAcHead(e, index)}>
+                    <button type="button" style={{ height: '50px' }} className="btn border col overflow-hidden p-0" data-toggle="modal" data-target="#chartofaccountmodal"
+                        onClick={() => {
+                            setCurrentindex(index);
+                            setTimeout(() => {
+                                document.getElementById('searchChartofAcct').focus()
+                            }, 700)
+                        }}>
+
+                        {minordata.achead.length > 0 ? minordata.achead : "Select Value"}
+                    </button>
+                    {/* <select className="form-control" onChange={(e) => handleChnageAcHead(e, index)}>
                         <option hidden value=''>Select Ac Head</option>
                         {chartofacctlist.map((gldata, index) => (
                             <option key={index} value={`${gldata.account_sub_name}^${gldata.account_sub_name_code}`}> {gldata.account_sub_name} </option>))
                         }
-                    </select>
+                    </select> */}
                 </td>
-                <td className="p-0"><input type="text" className="form-control " name="costCenter" value={minordata.costCenter} onChange={(e) => handleChangeMiorData(e, index)} /></td>
+                <td className="p-0">
+                    <button type="button" id={`location-${index}`} className="btn border col overflow-hidden p-0" style={{ height: '50px' }} data-toggle="modal" data-target="#locationmodal"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentindex(index)
+                            setTimeout(() => {
+                                document.getElementById('searchLocation').focus()
+                            }, 700)
+                        }}
+                    >
+                        {minordata.costCenter.length > 0 ? minordata.costCenter : "Select Cost Center"}
+                    </button>
+
+
+
+                    {/* <input type="text" className="form-control " name="costCenter" value={minordata.costCenter} onChange={(e) => handleChangeMiorData(e, index)} /> */}
+
+                </td>
                 <td className="p-0"><input type="text" className="form-control " name="refNo" value={minordata.refNo} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="date" className="form-control " name="refDate" value={minordata.refDate} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="number" className="form-control " name="refAmt" value={minordata.refAmt} onChange={(e) => handleChangeMiorData(e, index)} /></td>
