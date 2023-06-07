@@ -269,7 +269,7 @@ const Menu = (props) => {
 
   return (
     <aside className={`main-sidebar sidebar-${props.theme}-${props.btncolor} elevation-4`} style={{ height: "100%", position: "fixed" }}>
-      <a href="/home" className="brand-link" >
+      <a href="/Home" className="brand-link" >
         <img src={localStorage.getItem('Orglogo') || Finslogo} alt="Logo" className=" elevation-3 mr-2" style={{ opacity: '.8', height: "50px", width: "50px", borderRadius: "50%", overflow: "hidden" }} />
         <span className="brand-text text-danger" style={{ fontSize: "18px" }}>{currentorg}</span>
       </a>
@@ -289,7 +289,7 @@ const Menu = (props) => {
         <nav className="mt-2 pb-5" >
           <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li className="nav-item ">
-              <a href="/home" className="nav-link active">
+              <a href="/Home" className="nav-link active">
                 <i className="nav-icon fas fa-tachometer-alt" />
                 <p> Dashboard </p>
               </a>

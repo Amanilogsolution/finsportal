@@ -196,7 +196,7 @@ const UserProfile = () => {
                             </form>
                             <div className="border-top card-footer d-flex justify-content-end">
                                 <button className="btn btn-success" onClick={handleUpdate} >Update</button>
-                                <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './home' }}>Cancel</button>
+                                <button className="btn btn-secondary ml-3" onClick={(e) => { e.preventDefault(); window.location.href = './Home' }}>Cancel</button>
                             </div>
 
                         </div>

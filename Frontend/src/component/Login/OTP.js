@@ -26,9 +26,9 @@ const OTPpage = () => {
         e.preventDefault()
         const Otp = document.getElementById('Otp').value
         console.log(Otp) 
-        if(localStorage.getItem('otpFins') == Otp){
+        if(localStorage.getItem('otpFins') === Otp){
             alert('Success')
-            window.location.href = '/home'
+            window.location.href = '/Home'
         }else{
             alert('Fail')
         }

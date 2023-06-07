@@ -809,7 +809,7 @@ function Bills() {
                             <div className="card-footer border-top">
                                 <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>Save</button>
                                 <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>Post </button>
-                                <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
+                                <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/Home' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
                                 <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Bill</button>
                             </div>
                         </div>

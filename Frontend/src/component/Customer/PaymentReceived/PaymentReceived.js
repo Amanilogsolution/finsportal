@@ -193,7 +193,7 @@ function PaymentsReceived() {
                         </article>
                         <div className="card-footer border-top">
                             <button id="save" name="save" className="btn btn-danger">Save and Send</button>
-                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/Home' }}
                                 name="clear" className="btn ml-2 btn-secondary">Cancel</button>
                         </div>
                     </div>

@@ -783,7 +783,7 @@ function Invoices() {
                                                     Post
                                                 </button>
                                                 <button id="clear"
-                                                    // onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                                    // onClick={(e) => { e.preventDefault(); window.location.href = '/Home' }}
                                                     name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
                                                 <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                             </div>

@@ -43,7 +43,6 @@ import AddBankList from './component/Master/Bank/AddBankList';
 import ShowUser from './component/Master/User/ShowUser';
 import AddUser from './component/Master/User/Adduser';
 import EditUser from './component/Master/User/EditUser';
-import Practice from './component/practice';
 
 import TotalCustomer from './component/Customer/TotalCustomer';
 import EditCustomer from './component/Customer/EditCustomer';
@@ -84,7 +83,6 @@ import EditRecurringFreq from './component/Master/RecurringFrequency/UpdateRecur
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
 
-// import Items from './component/Master/ItemMaster/AddItem';
 
 // import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
 // import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
@@ -131,9 +129,6 @@ import ShowAccountMinorCode from './component/Master/ShowAccountMinorCode/ShowAc
 import EditAccountMinorCode from './component/Master/ShowAccountMinorCode/EditAccountMinorCode';
 
 
-import BillPayment from './component/Vendor/PaymentMade/BillPayment'
-import PaymentMade from './component/Vendor/PaymentMade/PaymentMade';
-
 import ShowFincialTerm from './component/Master/PaymentTerms/Showpaymentterms';
 import AddPaymentTerm from './component/Master/PaymentTerms/Addpaymentterm';
 import UpdatePaymentTerm from './component/Master/PaymentTerms/Updatepaymentterm'
@@ -158,8 +153,6 @@ import EditEmployee from './component/Master/EmployeeMaster/EditEmployee';
 
 import AddRoles from './component/ProjectSetting/Roles/AddRoles';
 import ShowRoles from './component/ProjectSetting/Roles/ShowRoles';
-
-// import ChartOfAccount2 from './component/Accountant/ChartOfAccount/ChartOfAccount2';
 
 import AddRecurringInvoices from './component/Customer/RecurringInvoices/RecurringInvoices'
 import TotalRecurringInvoice from './component/Customer/RecurringInvoices/TotalRecurringInvoice'
@@ -200,9 +193,9 @@ const App = () => {
           <Route exact path="/Signup" restricted={false} component={Signup} />
 
 
-          <Route exact path="/otppage" component={OTPpage} />
+          <Route exact path="/OtpPage" component={OTPpage} />
 
-          <PrivatRoute exact path="/home" component={Home} />
+          <PrivatRoute exact path="/Home" component={Home} />
           <PrivatRoute exact path="/LoginDetails" component={LoginDetails} />
           <PrivatRoute exact path="/ChangePassword" component={ChangePassword} />
           <PrivatRoute exact path="/Customer" component={Customer} />
@@ -210,12 +203,12 @@ const App = () => {
 
 
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
-          <PrivatRoute exact path="/org" component={Org} />
+          <PrivatRoute exact path="/Org" component={Org} />
           <PrivatRoute exact path="/EditOrganisation" component={EditOrganisation} />
 
-          <PrivatRoute exact path="/vendor" component={Vendor} />
-          <PrivatRoute exact path="/Showvendor" component={Showvendor} />
-          <PrivatRoute exact path="/Editvendor" component={Editvendor} />
+          <PrivatRoute exact path="/Vendor" component={Vendor} />
+          <PrivatRoute exact path="/ShowVendor" component={Showvendor} />
+          <PrivatRoute exact path="/EditVendor" component={Editvendor} />
 
           <PrivatRoute exact path="/StateMaster" component={StateMaster} />
           <PrivatRoute exact path="/ShowState" component={ShowState} />
@@ -229,8 +222,8 @@ const App = () => {
           <PrivatRoute exact path="/AddCurrency" component={AddCurrency} />
           <PrivatRoute exact path="/EditCurrency" component={EditCurrency} />
 
-          <PrivatRoute exact path="/Showcity" component={Showcity} />
-          <PrivatRoute exact path="/Addcity" component={Addcity} />
+          <PrivatRoute exact path="/ShowCity" component={Showcity} />
+          <PrivatRoute exact path="/AddCity" component={Addcity} />
           <PrivatRoute exact path='/EditCity' component={EditCity} />
 
           <PrivatRoute exact path="/ShowUnit" component={ShowUnit} />
@@ -245,7 +238,6 @@ const App = () => {
           <PrivatRoute exact path="/ShowUser" component={ShowUser} />
           <PrivatRoute exact path="/AddUser" component={AddUser} />
           <PrivatRoute exact path="/EditUser" component={EditUser} />
-          <PrivatRoute exact path="/Practice" component={Practice} />
 
           <PrivatRoute exact path="/TotalCustomer" component={TotalCustomer} />
           <PrivatRoute exact path="/EditCustomer" component={EditCustomer} />
@@ -261,26 +253,23 @@ const App = () => {
           <PrivatRoute exact path="/AddLocation" component={AddLocation} />
           <PrivatRoute exact path="/EditLocation" component={EditLocation} />
 
-          <PrivatRoute exact path="/Addcompliances" component={Addcompliances} />
-          <PrivatRoute exact path="/Showcompliances" component={Showcompliances} />
-          <PrivatRoute exact path="/Editcompliances" component={Editcompliances} />
+          <PrivatRoute exact path="/AddCompliances" component={Addcompliances} />
+          <PrivatRoute exact path="/ShowCompliances" component={Showcompliances} />
+          <PrivatRoute exact path="/EditCompliances" component={Editcompliances} />
           <PrivatRoute exact path="/UploadComplianceDocument" component={UploadComplianceDocument} />
 
 
-          <PrivatRoute exact path="/ShowcompliancesType" component={ShowcompliancesType} />
-          <PrivatRoute exact path="/AddcomplianceType" component={AddcomplianceType} />
+          <PrivatRoute exact path="/ShowCompliancesType" component={ShowcompliancesType} />
+          <PrivatRoute exact path="/AddComplianceType" component={AddcomplianceType} />
           <PrivatRoute exact path="/EditComplianceType" component={EditComplianceType} />
           <PrivatRoute exact path="/Panding-Compliances" component={PandingCompliances} />
 
           <PrivatRoute exact path="/AddOrgAddress" component={AddOrgAddress} />
           <PrivatRoute exact path="/EditOrgAddress" component={EditOrgAddress} />
 
-          <PrivatRoute exact path="/Fincialyear" component={Fincialyear} />
+          <PrivatRoute exact path="/FincialYear" component={Fincialyear} />
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
-
-          {/* Not In Use */}
-          {/* <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} /> */}
 
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
@@ -297,8 +286,6 @@ const App = () => {
           <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode} />
 
           {/* Not In Use */}
-          {/* <PrivatRoute exact path="/Items" component={Items}/> */}
-
           {/* <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
           <PrivatRoute exact path="/AddAccountInfo" component={AddAccountInfo}/>
           <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/> */}
@@ -320,7 +307,6 @@ const App = () => {
           <PrivatRoute exact path="/SalesOrder" component={SalesOrder} />
           <PrivatRoute exact path="/SaveSalesOrder" component={SaveSalesOrder} />
           <PrivatRoute exact path="/EditSalesOrder" component={EditSalesOrder} />
-
 
 
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
@@ -346,53 +332,41 @@ const App = () => {
           <PrivatRoute exact path="/VendorCredits" component={VendorCredits} />
           <PrivatRoute exact path="/SaveBillReport" component={SaveBillReport} />
 
-
-          <PrivatRoute exact path="/BillPayment" component={BillPayment} />
-          <PrivatRoute exact path="/PaymentMade" component={PaymentMade} />
-
           <PrivatRoute exact path="/ShowPaymentTerm" component={ShowFincialTerm} />
           <PrivatRoute exact path="/AddPaymentTerm" component={AddPaymentTerm} />
           <PrivatRoute exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm} />
 
-
           <PrivatRoute exact path="/ShowItem" component={ShowItem} />
           <PrivatRoute exact path="/AddItem" component={AddItem} />
           <PrivatRoute exact path="/EditItem" component={EditItem} />
-
 
           <PrivatRoute exact path="/AddCrm" component={AddCrm} />
           <PrivatRoute exact path="/EditCrm" component={EditCrm} />
           <PrivatRoute exact path="/ShowCrm" component={ShowCrm} />
           <PrivatRoute exact path="/Reportdata" component={Reportdata} />
 
+          <PrivatRoute exact path="/ShowEmployee" component={ShowEmployee} />
+          <PrivatRoute exact path="/AddEmployee" component={AddEmployee} />
+          <PrivatRoute exact path="/EditEmployee" component={EditEmployee} />
 
-          <PrivatRoute exact path="/showemployee" component={ShowEmployee} />
-          <PrivatRoute exact path="/addemployee" component={AddEmployee} />
-          <PrivatRoute exact path="/editemployee" component={EditEmployee} />
-
-
-          <PrivatRoute exact path="/addroles" component={AddRoles} />
-          <PrivatRoute exact path="/showroles" component={ShowRoles} />
-
+          <PrivatRoute exact path="/AddRoles" component={AddRoles} />
+          <PrivatRoute exact path="/ShowRoles" component={ShowRoles} />
 
           <PrivatRoute exact path="/AddRecurringInvoices" component={AddRecurringInvoices} />
           <PrivatRoute exact path="/TotalRecurringInvoice" component={TotalRecurringInvoice} />
           <PrivatRoute exact path="/EditRecurringInvoice" component={EditRecurringInvoice} />
 
-
           <PrivatRoute exact path="/TotalRecurringBill" component={TotalRecurringBill} />
           <PrivatRoute exact path="/EditRecurringBills" component={EditRecurringBills} />
 
-          <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
 
           <PrivatRoute exact path="/TotalJVoucher" component={TotalJVoucher} />
           <PrivatRoute exact path="/JVoucher" component={JVoucher} />
           <PrivatRoute exact path="/EditJVoucher" component={EditJVoucher} />
 
-
-          <PrivatRoute exact path="/inserttdshead" component={inserttdshead} />
-          <PrivatRoute exact path="/TotaltdsHead" component={TotaltdsHead} />
-          <PrivatRoute exact path="/UpdatetdsHead" component={UpdatetdsHead} />
+          <PrivatRoute exact path="/InsertTdsHead" component={inserttdshead} />
+          <PrivatRoute exact path="/TotalTdsHead" component={TotaltdsHead} />
+          <PrivatRoute exact path="/UpdateTdsHead" component={UpdatetdsHead} />
 
 
           <PrivatRoute exact path="/TotalBankingReceipt" component={TotalBankingReceipt} />
@@ -401,7 +375,7 @@ const App = () => {
           <PrivatRoute exact path="/TotalBankingPayment" component={TotalBankingPayment} />
           <PrivatRoute exact path="/AddBankingPayment" component={AddBankingPayment} />
 
-
+          <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
           <Route exact path="*" component={PageNotFound} />
         </Switch>
       </Router>

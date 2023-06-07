@@ -54,7 +54,7 @@ function ChangePassword() {
                     }
                     else {
                         alert("Password changed successfully ...");
-                        window.location.href = '/home'
+                        window.location.href = '/Home'
                     }
                 }
                 else {

@@ -281,7 +281,6 @@ function PurchaseOrder() {
                                                 <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Shipping Address <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
-                                                        onChange={handleVendorLocation}
                                                         id="polocation"
                                                         className="form-control col-md-10">
                                                         <option value='' hidden>Select location</option>
@@ -375,7 +374,7 @@ function PurchaseOrder() {
                                     <div className="card-footer border-top">
                                         <button id="save" name="save" className="btn btn-danger" onClick={() => { handleSubmit('save') }}>Save</button>
                                         <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button>
-                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
+                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/Home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
                                     </div>
                                     <Preview data={poalldetail} Allitems={poitem} />

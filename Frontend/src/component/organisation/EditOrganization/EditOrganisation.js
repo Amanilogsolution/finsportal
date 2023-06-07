@@ -32,7 +32,7 @@ function EditOrganisation() {
     const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, Industry_Type, Fins_year, report_basic, Company_Id, Tax_id, uploadimage)
     if (result) {
       alert('Updated')
-      window.location.href = '/home';
+      window.location.href = '/Home';
       localStorage.removeItem('Organisation_details')
     }
   };
@@ -109,7 +109,7 @@ function EditOrganisation() {
               <h3 className="-3 ml-5">Organisation Details</h3>
               <button className='btn btn-success mx-3'
                 onClick={(e) => {
-                  e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                  e.preventDefault(); window.location.href = '/Home'; localStorage.removeItem('Organisation_details')
                 }}
               >Back</button>
             </div>
@@ -590,7 +590,7 @@ function EditOrganisation() {
                           Update
                         </button>
                         <button id="clear" onClick={(e) => {
-                          e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                          e.preventDefault(); window.location.href = '/Home'; localStorage.removeItem('Organisation_details')
                         }} name="clear" className="btn btn-secondary ml-2">Cancel
                         </button>
                         <a href="#" style={{ float: "right" }}>

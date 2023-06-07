@@ -20,7 +20,7 @@ export default function SavePurchaseOrder() {
 
       const result = await getSavePO(org)
       setData(result)
-      setLoading(true)
+
       fetchRoles()
     }
 
@@ -30,20 +30,17 @@ export default function SavePurchaseOrder() {
 
   const fetchRoles = async () => {
     const org = localStorage.getItem('Organisation')
-
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
-    if (financstatus === 'Lock') {
-      document.getElementById('addpobtn').style.background = '#7795fa';
-    }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'purchasesorder')
     setUserRightsData(UserRights)
-    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
+    setLoading(true)
     if (UserRights.purchasesorder_create === 'true') {
       document.getElementById('addpobtn').style.display = "block";
-
+      if (financstatus === 'Lock') {
+        document.getElementById('addpobtn').style.background = '#7795fa';
+      }
     }
   }
 
@@ -98,12 +95,15 @@ export default function SavePurchaseOrder() {
         <Header />
         {
           loading ?
-            <div className={`content-wrapper `}>
-              <button type="button " id='addpobtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./PurchaseOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add  PO</button>
+            <div className='content-wrapper'>
+              <div className='d-flex justify-content-between py-3 mx-5'>
+                <h3 > Save Purchases Order</h3>
+                <button type="button " id='addpobtn' style={{ display: "none" }}
+                  onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./PurchaseOrder" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary ">Add  PO</button>
+              </div>
               <div className="container-fluid">
-                <h3 className="py-4 ml-5"> Save Purchases Order</h3>
                 <div className="card" >
-                  <article className={`card-body py-1`}>
+                  <article className='card-body py-1'>
                     <DataTableExtensions {...tableData}>
                       <DataTable
                         noHeader
