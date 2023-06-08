@@ -2,12 +2,7 @@
     width: 60vw;
     transform: translate(-10%);
 }
-.podiv_for_border{
-    border: 1px solid;
-    width: 100%;
-    margin: auto;
-    padding: 10px;
-}
+
 
 .po_company_logo{
     width: 330px;

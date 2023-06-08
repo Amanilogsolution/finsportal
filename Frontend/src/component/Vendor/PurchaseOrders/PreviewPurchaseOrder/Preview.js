@@ -119,8 +119,8 @@ const PreviewPO = (props) => {
                                                     <td>{item.item}</td>
                                                     <td>{item.qty}</td>
                                                     <td>{item.rate}</td>
-                                                    <td>{item.amt}</td>
                                                     <td>{item.unit}</td>
+                                                    <td>{item.amt}</td>
                                                 </tr>
                                             ))
                                         }

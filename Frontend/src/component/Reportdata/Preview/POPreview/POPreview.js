@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react'
 import './PoPreview.css'
+// import '../../../Vendor/PurchaseOrders/PreviewPurchaseOrder/Preview.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
 import { getPoDetailsPreview, getSubPoDetailsPreview, showOrganisation, ActiveSelectedVendor, showLocation } from '../../../../api/index'
 import LoadingPage from '../../../loadingPage/loadingPage';
 
-const POPreview = ({ponum}) => {
+const POPreview = ({ ponum }) => {
     const pdfRef = useRef(null);
     const [loading, setLoading] = useState(false)
 
@@ -61,12 +62,12 @@ const POPreview = ({ponum}) => {
                         loading ?
                             <>
                                 <div className="modal-body" ref={pdfRef}>
-                                    <div className="podiv_for_border" style={{ letterSpacing: '0.1px' }}>
+                                    {/* <div className="podiv_for_border" style={{ letterSpacing: '0.1px' }}> */}
                                         <div className="po_head_div d-flex justify-content-between border border-dark">
                                             <div className="po_company_logo">
                                                 <img src={orgdata.org_logo} alt='Organisation Logo' />
                                             </div>
-                                            <div className="po_company_details">
+                                            <div className="po_company_details m-1 p-1">
                                                 <h3 className='my-2'>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
                                                 <p className='mb-0'>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
                                                 <p>GSTIN : {orgdata.org_gst}</p>
@@ -76,13 +77,49 @@ const POPreview = ({ponum}) => {
                                             <h1 className='mb-0 po_h1 text-center'>Purchase Order</h1>
                                             <table id="po_first_table">
                                                 <tbody>
-                                                    <tr >
-                                                        <td><strong>Vendor Name :</strong> {vendordata.vend_name}</td>
-                                                        <td><strong> Address :</strong> {locationdata.location_name}</td>
+                                                    <tr className='text-center'>
+                                                        <td><strong>ORDER TO</strong> </td>
+                                                        <td><strong> SHIP TO</strong></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td><strong>Purchase Order No. :</strong> {data.po_number}</td>
-                                                        <td><strong>Purchase Order Date :</strong> {data.po_date}</td>
+                                                    <tr >
+                                                        <td>
+                                                            Lorem, ipsum dolor sit amet consectetur
+                                                            adipisicing elit. Optio sunt a mollitia hic,
+                                                            alias obcaecati magni ex dolorum adipisci sint.
+                                                            <br />
+                                                            <br />
+
+                                                            <strong>Name: </strong><br />
+                                                            <strong>Contact No: </strong><br />
+                                                            <strong>Email Id: </strong>
+                                                        </td>
+                                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                            Eum adipisci tempora porro enim modi exercitationem corporis
+                                                            sunt nulla reprehenderit necessitatibus.
+
+                                                            <br />
+                                                            <br />
+
+                                                            <strong>Name: </strong><br />
+                                                            <strong>Contact No: </strong><br />
+                                                            <strong>Email Id: </strong>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table id="po_second_table">
+                                                <tbody>
+                                                    <tr className='text-center'>
+                                                        <td><strong> PO No.</strong></td>
+                                                        <td><strong>ORDER DATE</strong> </td>
+                                                        <td><strong> Delivery DATE</strong></td>
+                                                        <td><strong> TERMS</strong></td>
+                                                    </tr>
+                                                    <tr className='text-center'>
+                                                        {/* <td>{props.data.po_number}</td> */}
+                                                        {/* <td>{props.data.po_date} </td> */}
+                                                        {/* <td>{props.data.po_date}</td> */}
+                                                        <td></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -94,8 +131,8 @@ const POPreview = ({ponum}) => {
                                                         <th>Item</th>
                                                         <th>Qty</th>
                                                         <th>Rate</th>
-                                                        <th>Amount</th>
                                                         <th>Unit</th>
+                                                        <th>Amount</th>
                                                     </tr>
                                                     {
 
@@ -105,8 +142,8 @@ const POPreview = ({ponum}) => {
                                                                 <td>{item.items}</td>
                                                                 <td>{item.quantity}</td>
                                                                 <td>{item.rate}</td>
-                                                                <td>{item.amount}</td>
                                                                 <td>{item.unit}</td>
+                                                                <td>{item.amount}</td>
                                                             </tr>
                                                         ))
                                                     }
@@ -130,7 +167,7 @@ const POPreview = ({ponum}) => {
                                                 <strong>Signature of Authorizated Representative :</strong>
                                             </div>
                                         </div>
-                                    </div>
+                                    {/* </div> */}
 
                                 </div>
                                 <div className="modal-footer">
