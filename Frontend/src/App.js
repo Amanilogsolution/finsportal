@@ -83,11 +83,6 @@ import EditRecurringFreq from './component/Master/RecurringFrequency/UpdateRecur
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
 
-
-// import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
-// import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
-// import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
-
 import RecurringExpenses from './component/Vendor/RecurringExpenses/RecurringExpenses';
 
 // import AddSubCode from './component/Master/SubCode/AddSubCode';
@@ -271,6 +266,7 @@ const App = () => {
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
+     
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
           <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount} />
