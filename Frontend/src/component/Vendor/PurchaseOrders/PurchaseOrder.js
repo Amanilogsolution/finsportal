@@ -306,7 +306,7 @@ function PurchaseOrder() {
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Item</th>
-                                                        <th scope="col">Quality</th>
+                                                        <th scope="col">Quantity</th>
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>

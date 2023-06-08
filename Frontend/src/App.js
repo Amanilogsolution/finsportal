@@ -84,12 +84,6 @@ import EditRecurringFreq from './component/Master/RecurringFrequency/UpdateRecur
 
 import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust';
 
-// import Items from './component/Master/ItemMaster/AddItem';
-
-// import ShowAccountInfo from './component/Master/AccountInfo/ShowAccountInfo';
-// import AddAccountInfo from './component/Master/AccountInfo/AddAccountInfo';
-// import EditAccountInfo from './component/Master/AccountInfo/EditAccountInfo';
-
 import RecurringExpenses from './component/Vendor/RecurringExpenses/RecurringExpenses';
 
 // import AddSubCode from './component/Master/SubCode/AddSubCode';
@@ -279,9 +273,7 @@ const App = () => {
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
-          {/* Not In Use */}
-          {/* <PrivatRoute exact path="/ChartOfAccount2" component={ChartOfAccount2} /> */}
-
+     
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
           <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount} />
@@ -320,7 +312,6 @@ const App = () => {
           <PrivatRoute exact path="/SalesOrder" component={SalesOrder} />
           <PrivatRoute exact path="/SaveSalesOrder" component={SaveSalesOrder} />
           <PrivatRoute exact path="/EditSalesOrder" component={EditSalesOrder} />
-
 
 
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />

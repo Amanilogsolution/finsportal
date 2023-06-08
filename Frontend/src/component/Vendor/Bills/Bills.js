@@ -639,26 +639,64 @@ function Bills() {
     }
 
     const handleGetPoData = async (e) => {
-        // setTotalValues([])
         const podata = await getPoData(localStorage.getItem('Organisation'), e.target.value)
         document.getElementById('po_date').value = podata[0].podate
         const subpodata = await getSubPoDetailsPreview(localStorage.getItem('Organisation'), e.target.value)
         console.log(subpodata)
+        let array =[]
+        let subtable = []
+
+            for(let i=0;i<subpodata.length;i++){
+                array.push(i) 
+                subtable.push({
+                    location: '',
+                    item: '',
+                    glcode: '',
+                    sac_hsn: '',
+                    quantity: '',
+                    rate: 0,
+                    amount: 0,
+                    unit: '',
+                    netamount: 0,
+                    cgst_amt: 0,
+                    sgst_amt: 0,
+                    igst_amt: 0,
+                    cgst_per: 0,
+                    sgst_per: 0,
+                    igst_per: 0,
+                    tds_per: 0,
+                    tds_amt: 0,
+                    gst_amt:0,
+                    tds_check:''
+                })     
+            }
+             setTotalValues(array)
+             setTabledata(subtable)
+             for(let i=0;i<array.length;i++){ 
+                // tabledata[i].location =  subpodata[i]["location"] 
+                // tabledata[i].item  = subpodata[i]["items"]  
+                // tabledata[i].glcode  = subpodata[i]["glcode"]
+                // tabledata[i].quantity  = subpodata[i]["quantity"]
+                // tabledata[i].rate  = subpodata[i]["rate"]
+                // tabledata[i].amount  = subpodata[i]["amount"]
+                // tabledata[i].unit  = subpodata[i]["unit"]
+
+
+
+                
+                document.getElementById(`Quantity${i}`).value = subpodata[i]["quantity"]
+                document.getElementById(`rate${i}`).value = subpodata[i]["rate"]
+                document.getElementById(`unit${i}`).value = subpodata[i]["unit"]
+                document.getElementById(`amount${i}`).value = subpodata[i]["amount"]
+                document.getElementById(`local${0}`).value = 'DELHI' 
+                document.getElementById(`items${i}`).value = 'Bill'
+            }
+             
+        
+            
         
 
-        for(let i=0;i<3;i++){
-            alert('ksksd')
-       
-                
-                 
-            handleAdd()
-                
-             
-
-            
-
-        }
-        // console.log(podata)
+     
     }
 
     return (
@@ -798,13 +836,11 @@ function Bills() {
                                                     <tr>
                                                         <th scope="col">Location</th>
                                                         <th scope="col">Item Details</th>
-                                                        {/* <th scope="col">Employee</th> */}
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Rate</th>
                                                          <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>
-                                                        {/* <th scope="col">Deduction</th> */}
-                                                        {/* <th scope="col">Refno/FIleno</th> */}
+                                                      
                                                         <th scope="col">gst %</th>
                                                         <th scope="col">tds</th>
                                                         <th scope="col">Net Amt</th>
@@ -815,7 +851,7 @@ function Bills() {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e) => { handleChangeLocation(e, index) }}>
+                                                                    <select className="form-control ml-0"  id={`local${index}`} onChange={(e) => { handleChangeLocation(e, index) }}>
                                                                         <option value='' hidden>Select Location</option>
                                                                         {
                                                                             locationstate.map((item, index) => (
@@ -825,7 +861,7 @@ function Bills() {
                                                                     </select>
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e) => { handleChangeItems(e, index) }}>
+                                                                    <select className="form-control ml-0" id={`items${index}`} onChange={(e) => { handleChangeItems(e, index) }}>
                                                                         <option value='' hidden>Select Item</option>
                                                                         {
                                                                             itemlist.map((items, index) => (
@@ -835,16 +871,7 @@ function Bills() {
                                                                         }
                                                                     </select>
                                                                 </td>
-                                                                {/* <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e) => { handleChangeEmployee(e, index) }}>
-                                                                        <option value='' hidden>Select Employee</option>
-                                                                        {
-                                                                            activeuser.map((items, index) => (
-                                                                                <option key={index} value={items.employee_name} >{items.employee_name}</option>
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td> */}
+                                                               
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id={`Quantity${index}`} onChange={(e) => { handleChangeQuantity(e, index) }} className="form-control" />
                                                                 </td>
@@ -853,7 +880,7 @@ function Bills() {
                                                                     <input type='number' id={`rate${index}`} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
                                                                 </td>
                                                                  <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" onChange={(e) => handleChangeUnit(e, index)} >
+                                                                    <select className="form-control ml-0" id={`unit${index}`} onChange={(e) => handleChangeUnit(e, index)} >
                                                                         <option value='' hidden>Select Unit</option>
                                                                         {
                                                                             unitlist.map((item, index) =>

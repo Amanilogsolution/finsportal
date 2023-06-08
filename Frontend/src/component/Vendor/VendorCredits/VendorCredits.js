@@ -210,6 +210,14 @@ function VendorCredits() {
                                                     <label className="col-md-4 col-form-label font-weight-normal" >DN Amount </label>
                                                     <input type="text" className="form-control col-md-6 text-center" id="Accountname" value={Dndata.total_dn_amt} disabled />
                                                 </div>
+
+                                                <div className="d-flex col-md-6 ">
+                                                    <label className="col-md-4 col-form-label font-weight-normal" >Referance Number </label>
+                                                    <input type="text" className="form-control col-md-6 text-center" id="ReferaneNo"  />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                
                                             </div>
                                             <div className=' overflow-auto'>
                                                 <table className="table table-bordered mt-3">

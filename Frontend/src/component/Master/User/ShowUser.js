@@ -41,6 +41,7 @@ const ShowUser = () => {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'users')
+    console.log(UserRights)
     setUserRightsData(UserRights)
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
