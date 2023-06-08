@@ -85,6 +85,7 @@ import CurrencyAdjust from './component/Accountant/CurrencyAdjust/CurrencyAdjust
 
 import RecurringExpenses from './component/Vendor/RecurringExpenses/RecurringExpenses';
 
+// Not in Use
 // import AddSubCode from './component/Master/SubCode/AddSubCode';
 // import TotalSubCode from './component/Master/SubCode/TotalSubCode';
 // import EditSubCode from './component/Master/SubCode/EditSubCode';
@@ -281,7 +282,7 @@ const App = () => {
           <PrivatRoute exact path="/ShowAccountMinorCode" component={ShowAccountMinorCode} />
           <PrivatRoute exact path="/EditAccountMinorCode" component={EditAccountMinorCode} />
 
-          {/* Not In Use */}
+          {/*  Not In Use */}
           {/* <PrivatRoute exact path="/ShowAccountInfo" component={ShowAccountInfo}/>
           <PrivatRoute exact path="/AddAccountInfo" component={AddAccountInfo}/>
           <PrivatRoute exact path="/EditAccountInfo" component={EditAccountInfo}/> */}
@@ -292,7 +293,7 @@ const App = () => {
 
           <PrivatRoute exact path="/RecurringExpenses" component={RecurringExpenses} />
 
-          {/* Not In Use */}
+          {/*  Not In Use */}
           {/*  ###################### Sub Gl Not Now ####### */}
           {/* <PrivatRoute exact path="/AddSubCode" component={AddSubCode} />
           <PrivatRoute exact path="/TotalSubCode" component={TotalSubCode} />
