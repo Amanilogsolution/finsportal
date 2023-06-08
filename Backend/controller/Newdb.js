@@ -746,7 +746,6 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     roles nvarchar(100) NULL,
     roles_id nvarchar(30) NULL,
     description nvarchar(300) NULL,
-    multi_org nvarchar(300) NULL,
     sales_all nvarchar(20) NULL,
     accountant_all nvarchar(30) NULL,
     customer_view nvarchar(20) NULL,
@@ -854,20 +853,6 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     org_profile_edit nvarchar(20) NULL,   
     org_profile_delete nvarchar(20) NULL,  
 
-    fincialyear_view nvarchar(20) NULL,   
-    fincialyear_create nvarchar(20) NULL,   
-    fincialyear_edit nvarchar(20) NULL,   
-    fincialyear_delete nvarchar(20) NULL, 
-
-    branches_view nvarchar(20) NULL,   
-    branches_create nvarchar(20) NULL,   
-    branches_edit nvarchar(20) NULL,   
-    branches_delete nvarchar(20) NULL, 
-
-    crm_mast_view nvarchar(20) NULL,   
-    crm_mast_create nvarchar(20) NULL,   
-    crm_mast_edit nvarchar(20) NULL,   
-    crm_mast_delete nvarchar(20) NULL,
     
     currency_addj_view nvarchar(30) NULL,
     currency_addj_create nvarchar(30) NULL,
@@ -888,16 +873,6 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     compliances_create nvarchar(30) NULL,
     compliances_edit nvarchar(30) NULL,
     compliances_delete nvarchar(30) NULL,
-
-    compliance_view nvarchar(20) NULL,   
-    compliance_create nvarchar(20) NULL,   
-    compliance_edit nvarchar(20) NULL,   
-    compliance_delete nvarchar(20) NULL, 
-
-    user_roles_view nvarchar(20) NULL,   
-    user_roles_create nvarchar(20) NULL,   
-    user_roles_edit nvarchar(20) NULL,   
-    user_roles_delete nvarchar(20) NULL, 
 
     roles_view nvarchar(30) NULL,
     roles_create nvarchar(30) NULL,
@@ -1499,81 +1474,116 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         );
     
 
-            insert into ${dbname}.dbo.user_roles(roles ,roles_id,description,multi_org,
-                sales_all,customer_view,customer_create,customer_edit,customer_delete,
-                invoice_view,invoice_create,invoice_edit,invoice_delete,
-                purchases_all,
-                vendor_view,vendor_create,vendor_edit,vendor_delete,
-                bills_view,bills_create,bills_edit,bills_delete,
-                accountant_all,
-                chartof_accounts_view,chartof_accounts_create,chartof_accounts_edit,chartof_accounts_delete,
-                currency_addj_view,currency_addj_create,currency_addj_edit,currency_addj_delete,
-                setting_all,
-                org_profile_view,org_profile_create,org_profile_edit,org_profile_delete,     
-                payment_terms_view,payment_terms_create,payment_terms_edit,payment_terms_delete,
-                
-                fincial_year_view,fincial_year_create,fincial_year_edit,fincial_year_delete,
-                branch_view,branch_create,branch_edit,branch_delete,
-                crm_view,crm_create,crm_edit,crm_delete,
+        insert into tes4507.dbo.user_roles(roles ,roles_id,description ,
+            sales_all,customer_view,customer_create,customer_edit,customer_delete,
+            invoice_view,invoice_create,invoice_edit,invoice_delete,
+            purchases_all,
+            vendor_view,vendor_create,vendor_edit,vendor_delete,
+            bills_view,bills_create,bills_edit,bills_delete,
+            accountant_all,
+            chartof_accounts_view,chartof_accounts_create,chartof_accounts_edit,chartof_accounts_delete,
+            currency_addj_view,currency_addj_create,currency_addj_edit,currency_addj_delete,
+            setting_all,
+            org_profile_view,org_profile_create,org_profile_edit,org_profile_delete,     
+            payment_terms_view,payment_terms_create,payment_terms_edit,payment_terms_delete,
             
-                compliances_view,compliances_create,compliances_edit,compliances_delete,
-                roles_view,roles_create,roles_edit,roles_delete,
-                items_view,items_create,items_edit,items_delete,
-                master_all,
+            fincial_year_view,fincial_year_create,fincial_year_edit,fincial_year_delete,
+            branch_view,branch_create,branch_edit,branch_delete,
+            crm_view,crm_create,crm_edit,crm_delete,
+        
+            compliances_view,compliances_create,compliances_edit,compliances_delete,
+            roles_view,roles_create,roles_edit,roles_delete,
+            items_view,items_create,items_edit,items_delete,
+            master_all,
+        
+            country_view,country_create,country_edit,country_delete,
+            state_view,state_create,state_edit,state_delete,
+            city_view,city_create,city_edit,city_delete,
+        
+            currency_view,currency_create,currency_edit,currency_delete,
+            unit_view,unit_create,unit_edit,unit_delete,
+            banking_view,banking_create,banking_edit,banking_delete,
+        
+            comp_type_view,comp_type_create,comp_type_edit,comp_type_delete ,
+            users_view,users_create,users_edit,users_delete,
+            employee_view,employee_create,employee_edit,employee_delete,
+            reports_all,
             
-                country_view,country_create,country_edit,country_delete,
-                state_view,state_create,state_edit,state_delete,
-                city_view,city_create,city_edit,city_delete,
+            reports_bill_view,reports_bill_create,reports_bill_edit,reports_bill_delete,
+            reports_invoice_view,reports_invoice_create,reports_invoice_edit,reports_invoice_delete,
             
-                currency_view,currency_create,currency_edit,currency_delete,
-                unit_view,unit_create,unit_edit,unit_delete,
-                banking_view,banking_create,banking_edit,banking_delete,
-            
-                comp_type_view,comp_type_create,comp_type_edit,comp_type_delete ,
-                users_view,users_create,users_edit,users_delete,
-                employee_view,employee_create,employee_edit,employee_delete,
-                reports_all,
-                
-                reports_bill_view,reports_bill_create,reports_bill_edit,reports_bill_delete,
-                reports_invoice_view,reports_invoice_create,reports_invoice_edit,reports_invoice_delete,
-                
-                 salesorder_view,salesorder_create,salesorder_edit,salesorder_delete,
-                 creditnotes_view,creditnotes_create,creditnotes_edit,creditnotes_delete,
-                 purchasesorder_view,purchasesorder_create,purchasesorder_edit,purchasesorder_delete,
-                 debitnote_view,debitnote_create,debitnote_edit,debitnote_delete,
-            
-                 reports_so_view,reports_so_create,reports_so_edit,reports_so_delete,
-                 reports_po_view,reports_po_create,reports_po_edit,reports_po_delete,
-                 reports_cn_view,reports_cn_create,reports_cn_edit ,reports_cn_delete ,
-                 reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
-                 
-            
-                 recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
-                 recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
-                 recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
-                 journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
-                 tds_head_view ,tds_head_create ,tds_head_edit ,tds_head_delete ,
-                 add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid)     
-            values('Admin','admin92337','','true','true','true','true','true','true','true','true','true','true',
-            'true',
-            'true','true','true','true','true','true','true','true',
-            'true',
-            'true','true','true','true','true','true','true','true',
-            'true',
-            'true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true',
-            'true',
-            'true','true','true','true','true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true',
-            'true',
-            'true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true','true','true','true','true',
-            'true','true','true','true','true','true','true','true',
-            'orgCreate','','',getDate(),'Active','')
+             salesorder_view,salesorder_create,salesorder_edit,salesorder_delete,
+             creditnotes_view,creditnotes_create,creditnotes_edit,creditnotes_delete,
+             purchasesorder_view,purchasesorder_create,purchasesorder_edit,purchasesorder_delete,
+             debitnote_view,debitnote_create,debitnote_edit,debitnote_delete,
+        
+             reports_so_view,reports_so_create,reports_so_edit,reports_so_delete,
+             reports_po_view,reports_po_create,reports_po_edit,reports_po_delete,
+             reports_cn_view,reports_cn_create,reports_cn_edit ,reports_cn_delete ,
+             reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
+        
+             recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
+             recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
+             recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
+             journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
+             tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
+             add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
+             
+             )
+                  
+        values('Admin','admin92337','','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'true','true','true','true',
+        'default','${os.hostname()}','${req.ip}',getDate(),'Active','')
             `)
 
             res.send('created')
