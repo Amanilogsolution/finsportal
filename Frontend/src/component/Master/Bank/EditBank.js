@@ -10,29 +10,28 @@ const EditBank = () => {
   const [citylist, setCitylist] = useState([])
   const [type, setType] = useState('')
 
-  useEffect(async () => {
-    const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
-    setData(result)
-    console.log(result)
-    if (result.ac_type === "Bank") {
-      document.getElementById('Bank').checked = true
-      setType('bank')
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
+      setData(result)
+      if (result.ac_type === "Bank") {
+        document.getElementById('Bank').checked = true
+        setType('bank')
+      }
+      else if (result.ac_type === 'CreditCard') {
+        document.getElementById('CreditCard').checked = true
+        setType('CreditCard')
+      }
+      else {
+        setType(result.ac_type)
+      }
+      const country = await Activecountries();
+      setCountrylist(country)
+      const state = await showactivestate(result.country)
+      setStatelist(state)
+      const city = await getCity(result.state)
     }
-    else if (result.ac_type === 'CreditCard') {
-      document.getElementById('CreditCard').checked = true
-      setType('CreditCard')
-    }
-    else {
-      setType(result.ac_type)
-    }
-
-
-    const country = await Activecountries();
-    setCountrylist(country)
-    const state = await showactivestate(result.country)
-    setStatelist(state)
-    const city = await getCity(result.state)
-
+    fetchData()
   }, [])
 
   const handleClick = async (e) => {

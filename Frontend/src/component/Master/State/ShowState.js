@@ -9,8 +9,10 @@ import { deletestate, ImportState, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_states.xlsx';
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 const ShowState = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -39,6 +41,7 @@ const ShowState = () => {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+    setLoading(true)
 
     if (financstatus === 'Lock') {
       document.getElementById('addstatebtn').style.background = '#7795fa';
@@ -57,18 +60,18 @@ const ShowState = () => {
       sortable: true,
       cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
-          return  <p title='Edit State is Lock'>{row.state_name}</p>
+          return <p title='Edit State is Lock'>{row.state_name}</p>
         } else {
           if (!userRightsData) {
             fetchRoles()
           }
           if (userRightsData.state_edit === 'true') {
             return (
-              <a title='Edit State' className='pb-1' href="EditState" id={`editactionbtns${row.sno}`}  onClick={() => localStorage.setItem('stateSno', `${row.sno}`)} 
-              style={{ borderBottom: '3px solid blue' }}>{row.state_name}</a>
+              <a title='Edit State' className='pb-1' href="EditState" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('stateSno', `${row.sno}`)}
+                style={{ borderBottom: '3px solid blue' }}>{row.state_name}</a>
             );
           } else {
-            return  <p title='Not Access to Edit State'>{row.state_name}</p>
+            return <p title='Not Access to Edit State'>{row.state_name}</p>
           }
 
         }
@@ -258,38 +261,42 @@ const ShowState = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
-        <div className='d-flex justify-content-between px-3 py-3'>
-          <h3 className="ml-5">State</h3>
-          <div className='d-flex '>
-            <button type="button" id='uploadstatebtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./StateMaster" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add State</button>
-          </div>
-        </div>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between px-3 py-3'>
+              <h3 className="ml-5">State</h3>
+              <div className='d-flex '>
+                <button type="button" id='uploadstatebtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addstatebtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./StateMaster" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-4">Add State</button>
+              </div>
+            </div>
 
-        <div className="container-fluid">
-          <div className="card mb-0 w-100 mb-2">
-            <article className={`card-body pt-1 pb-0 `}>
-              <DataTableExtensions
-                {...tableData} >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  dense
-                  highlightOnHover
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
+            <div className="container-fluid">
+              <div className="card mb-0 w-100 mb-2">
+                <article className='card-body pt-1 pb-0'>
+                  <DataTableExtensions
+                    {...tableData} >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      dense
+                      highlightOnHover
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       {/* ------------------ Modal start -----------------------------*/}
       <div
         className="modal fade"

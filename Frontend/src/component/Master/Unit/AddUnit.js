@@ -15,7 +15,7 @@ const AddUnit = () => {
     }
     else {
       const result = await InsertUnit(unit_name, unit_symbol, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-      if (result == "Already") {
+      if (result === "Already") {
         alert('Unit Already ')
       } else {
         alert('Unit Added')

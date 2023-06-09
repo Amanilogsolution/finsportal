@@ -33,7 +33,7 @@ function PandingCompliances() {
             selector: 'document_status',
             sortable: true,
             cell: (row) => [
-                <input type="checkbox" checked={(row.document_status == 'true') ? true : false} />,
+                <input type="checkbox" checked={(row.document_status === 'true') ? true : false} />,
             ]
         },
         {

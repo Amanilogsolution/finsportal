@@ -1349,7 +1349,7 @@ export const InsertEmployee = async (org, emp_name, wh, emp_id, User_id) => {
 }
 
 export const GetEmployee = async (org, sno) => {
-    const url = `https://finsbackend.awlinternational.com/api/getemployee`
+    const url = `http://localhost:3008/api/getemployee`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 

@@ -8,9 +8,11 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelformate from '..//../../excelformate/tbl_compliances.xlsx'
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 
 function Showcompliances() {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -34,14 +36,15 @@ function Showcompliances() {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
-    if (financstatus === 'Lock') {
-      document.getElementById('addcompbtn').style.background = '#7795fa';
-    }
+
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'compliances')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setLoading(true)
+    if (financstatus === 'Lock') {
+      document.getElementById('addcompbtn').style.background = '#7795fa';
+    }
     if (UserRights.compliances_create === 'true') {
       document.getElementById('addcompbtn').style.display = "block";
       if (financstatus !== 'Lock') {
@@ -78,7 +81,7 @@ function Showcompliances() {
     },
     {
       name: 'From Date',
-      selector:'from_month',
+      selector: 'from_month',
       sortable: true
     },
     {
@@ -88,7 +91,7 @@ function Showcompliances() {
     },
     {
       name: 'Extended Date',
-      selector:'extended_date',
+      selector: 'extended_date',
       sortable: true
     },
     {
@@ -247,35 +250,38 @@ function Showcompliances() {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
-        <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Addcompliances" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Compliances</button>
-        <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-        <div className="container-fluid">
-          <h3 className="ml-5 py-2" >Compliances</h3>
-          <div className="card mt-2 mb-0 w-100" >
-            <article className={`card-body py-0 `}>
-              <DataTableExtensions
-                {...tableData}>
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <button type="button" id='addcompbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Addcompliances" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Compliances</button>
+            <button type="button" id='uploadcompbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+            <div className="container-fluid">
+              <h3 className="ml-5 py-2" >Compliances</h3>
+              <div className="card mt-2 mb-0 w-100" >
+                <article className='card-body py-0'>
+                  <DataTableExtensions
+                    {...tableData}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
 
-            </article>
+                </article>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-
+          : <LoadingPage />
+      }
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div

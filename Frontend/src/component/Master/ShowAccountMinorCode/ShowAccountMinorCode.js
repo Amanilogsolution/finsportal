@@ -8,8 +8,11 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/tbl_account_name.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 function ShowAccountMinorCode() {
+  const [loading, setLoading] = useState(false)
+  const [userRightsData, setUserRightsData] = useState([]);
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -37,7 +40,9 @@ function ShowAccountMinorCode() {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setUserRightsData(UserRights)
+    setLoading(true)
 
     if (UserRights.chartof_accounts_create === 'true') {
       document.getElementById('addacountName').style.display = "inline";
@@ -76,13 +81,13 @@ function ShowAccountMinorCode() {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
-          if (!role) {
+
+          if (!userRightsData) {
             fetchRoles()
             window.location.reload()
           }
           else {
-            if (role.chartof_accounts_delete === 'true') {
+            if (userRightsData.chartof_accounts_delete === 'true') {
               return (
                 <div className='droplist'>
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
@@ -119,7 +124,7 @@ function ShowAccountMinorCode() {
           return
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          let role = userRightsData
           if (!role) {
             fetchRoles()
           }

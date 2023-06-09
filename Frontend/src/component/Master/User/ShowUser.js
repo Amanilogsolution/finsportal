@@ -8,9 +8,10 @@ import { deleteUser, ImportUser, TotalUser, getUserRolePermission } from '../../
 import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
-
+import LoadingPage from '../../loadingPage/loadingPage';
 
 const ShowUser = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -33,18 +34,16 @@ const ShowUser = () => {
   const fetchRoles = async () => {
     const org = localStorage.getItem('Organisation')
 
-
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'users')
+    setUserRightsData(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('adduserbtn').style.background = '#7795fa';
     }
-
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'users')
-    console.log(UserRights)
-    setUserRightsData(UserRights)
-    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
     if (UserRights.users_create === 'true') {
       document.getElementById('adduserbtn').style.display = "block";
       if (financstatus !== 'Lock') {
@@ -242,33 +241,37 @@ const ShowUser = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper`}>
-        <button type="button" id='adduserbtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">ADD User</button>
-        <button type="button" id='exceluserbtn' style={{ float: "right", marginRight: '2%', marginTop: '2%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-        <div className="container-fluid">
-          <br />
-          <h3 className=" ml-5">Total User</h3>
-          <br />
-          <div className="card" >
-            <article className={`card-body py-1`}>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex py-3 px-5  justify-content-between'>
+              <h3 className=" ml-5">Total User</h3>
+              <div className='d-flex '>
+                <button type="button" id='adduserbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">ADD User</button>
+                <button type="button" id='exceluserbtn ' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+              </div>
+            </div>
 
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
+            <div className="container-fluid">
+              <div className="card" >
+                <article className='card-body py-1'>
+                  <DataTableExtensions {...tableData} >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       <Footer />
 
       {/* ------------------ Modal start -----------------------------*/}
