@@ -39,7 +39,7 @@ const Showvendor = () => {
             setMvendid(mvendid)
             setVendid(vendid)
             const year = financialyear[0].year;
-            setLoading(true)
+
             fetchRoles()
         }
         fetchdata();
@@ -51,19 +51,20 @@ const Showvendor = () => {
 
         const financstatus = localStorage.getItem('financialstatus')
         setFinancialstatus(financstatus);
-
+        
+        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+        setUserRightsData(UserRights);
+        setLoading(true)
+        // localStorage["RolesDetais"] = JSON.stringify(UserRights)
         if (financstatus === 'Lock') {
             document.getElementById('addvendbtn').style.background = '#7795fa';
         }
-        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
-        setUserRightsData(UserRights)
-        localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
         if (UserRights.vendor_create === 'true') {
             document.getElementById('addvendbtn').style.display = "block";
             if (financstatus !== 'Lock') {
                 document.getElementById('excelvendbtn').style.display = "block";
             }
+            
         }
     }
 

@@ -21,7 +21,7 @@ const TotalRecurringInvoice = () => {
       const result = await totalRecurringInvoice(org)
 
       setData(result)
-      setLoading(true)
+
       fetchRoles()
     }
 
@@ -34,15 +34,17 @@ const TotalRecurringInvoice = () => {
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
-    if (financstatus === 'Lock') {
-      document.getElementById('addivoicebtn').style.background = '#7795fa';
-    }
+
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'recurring_invoice')
     setUserRightsData(UserRights)
+    setLoading(true)
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.recurring_invoice_create === 'true') {
       document.getElementById('addivoicebtn').style.display = "block";
+      if (financstatus === 'Lock') {
+        document.getElementById('addivoicebtn').style.background = '#7795fa';
+      }
     }
   }
 
@@ -107,7 +109,7 @@ const TotalRecurringInvoice = () => {
           if (!userRightsData) {
             fetchRoles()
           }
-          if (userRightsData.recurring_invoice_delete === 'true' ) {
+          if (userRightsData.recurring_invoice_delete === 'true') {
             return (
               <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} onChange={async () => {
                 const result = await DeleteRecurringInvoice(row.sno, localStorage.getItem('Organisation'), row.status === 'Active' ? 'Deactive' : 'Active')
@@ -123,47 +125,47 @@ const TotalRecurringInvoice = () => {
       }
 
     }
- 
+
   ]
 
 
 
-const tableData = {
-  columns, data
-}
+  const tableData = {
+    columns, data
+  }
 
-return (
-  <div className="wrapper">
-    <Header />
-    {
-      loading ?
-        <div className="content-wrapper ">
-          <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddRecurringInvoices" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Recurring Invoice </button>
-          <div className="container-fluid">
-            <h3 className="py-4 ml-5"> Total Recurring Invoices </h3>
-            <div className="card w-100">
-              <article className="card-body py-1">
-                <DataTableExtensions
-                  {...tableData}>
-                  <DataTable
-                    noHeader
-                    defaultSortField="id"
-                    defaultSortAsc={false}
-                    pagination
-                    highlightOnHover
-                    dense
-                    customStyles={customStyles}
-                  />
-                </DataTableExtensions>
-              </article>
+  return (
+    <div className="wrapper">
+      <Header />
+      {
+        loading ?
+          <div className="content-wrapper ">
+            <button type="button " id='addivoicebtn' style={{ float: "right", marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddRecurringInvoices" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Recurring Invoice </button>
+            <div className="container-fluid">
+              <h3 className="py-4 ml-5"> Total Recurring Invoices </h3>
+              <div className="card w-100">
+                <article className="card-body py-1">
+                  <DataTableExtensions
+                    {...tableData}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
             </div>
           </div>
-        </div>
-        : <LoadingPage />
-    }
-    <Footer />
-  </div>
-)
+          : <LoadingPage />
+      }
+      <Footer />
+    </div>
+  )
 }
 
 export default TotalRecurringInvoice;

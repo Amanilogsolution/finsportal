@@ -20,7 +20,7 @@ export default function SaveSalesOrder() {
 
       const result = await getSaveSO(org)
       setData(result)
-      setLoading(true)
+
       fetchRoles()
     }
 
@@ -34,15 +34,17 @@ export default function SaveSalesOrder() {
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
-    if (financstatus === 'Lock') {
-      document.getElementById('addsobtn').style.background = '#7795fa';
-    }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'salesorder')
     setUserRightsData(UserRights)
+    setLoading(true)
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.salesorder_create === 'true') {
       document.getElementById('addsobtn').style.display = "block";
+      if (financstatus === 'Lock') {
+        document.getElementById('addsobtn').style.background = '#7795fa';
+      }
+
     }
   }
 

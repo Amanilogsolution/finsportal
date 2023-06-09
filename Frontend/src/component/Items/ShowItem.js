@@ -20,7 +20,7 @@ const ShowItem = () => {
       const org = localStorage.getItem('Organisation')
       const result = await TotalItems(org)
       setData(result)
-      setLoading(true)
+
       fetchRoles();
     }
 
@@ -33,15 +33,15 @@ const ShowItem = () => {
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
-    if (financstatus === 'Lock') {
-      document.getElementById('additemsbtn').style.background = '#7795fa';
-    }
-
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'items')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setLoading(true)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     if (UserRights.items_create === 'true') {
+      if (financstatus === 'Lock') {
+        document.getElementById('additemsbtn').style.background = '#7795fa';
+      }
       document.getElementById('additemsbtn').style.display = "block";
     }
   }
@@ -161,7 +161,7 @@ const ShowItem = () => {
 
   return (
     <div className="wrapper">
-      
+
       <Header />
       {
         loading ?

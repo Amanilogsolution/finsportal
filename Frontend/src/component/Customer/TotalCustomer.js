@@ -33,7 +33,7 @@ const TotalCustomer = () => {
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
       let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
-      setLoading(true)
+
       fetchRoles()
 
       setYear(getids[0].year);
@@ -50,10 +50,10 @@ const TotalCustomer = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'customer')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
-
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('addcustbtn').style.background = '#7795fa';
       document.getElementById('updatecustNamebtn').style.background = '#7795fa';
