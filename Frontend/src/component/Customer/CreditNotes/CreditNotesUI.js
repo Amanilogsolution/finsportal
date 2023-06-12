@@ -109,11 +109,11 @@ function CreditNotes() {
               <div className="container-fluid">
                 <div className='d-flex justify-content-between px-3 py-3'>
                   <h3 className="ml-5">Credit Notes</h3>
-                  <button type="button" id='addcreditnotesbtn' className={`btn btn-${themebtncolor}`} style={{display:'none'}} data-toggle="modal" data-target="#exampleModal">
+                  <button type="button" id='addcreditnotesbtn' className={`btn btn-${themebtncolor}`} style={{ display: 'none' }} data-toggle="modal" data-target="#exampleModal">
                     <i className="fa fa-filter" aria-hidden="true"></i> Generate Credit Note</button>
                 </div>
                 <div className="card w-100">
-                  <article className={`card-body`}>
+                  <article className='card-body'>
                     {
                       data.length > 0 ? (
                         <CNReport displaydata={data} />
@@ -129,7 +129,7 @@ function CreditNotes() {
             {/* ######################## Modal Start ############################### */}
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog" role="document">
-                <div className={`modal-content`}>
+                <div className='modal-content'>
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i>Credit Note Details</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -205,8 +205,8 @@ function CreditNotes() {
             {/* ########################## Modal End ################################### */}
             <Footer />
           </>
-             : <LoadingPage />
-            }
+          : <LoadingPage />
+      }
     </div >
   )
 }
