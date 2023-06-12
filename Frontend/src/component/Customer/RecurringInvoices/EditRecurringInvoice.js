@@ -87,7 +87,7 @@ function EditRecurringInvoice() {
             setLoading(true)
         }
         else {
-            const orderNo = sovalue.value?sovalue.value:''
+            const orderNo = sovalue.value ? sovalue.value : ''
 
             const result2 = await InsertInvoice(org, invoice_detail.fin_year, invoiceid,
                 invoicepefix, invoiceDate, orderNo, invoice_detail.invoice_amt, invoice_detail.user_id, invoice_detail.periodfrom, invoice_detail.periodto, '', invoice_detail.location, invoice_detail.custid, invoice_detail.billsubtotal,
@@ -170,23 +170,20 @@ function EditRecurringInvoice() {
                 {
                     loading ?
                         <>
-                            <div className={`content-wrapper `} >
+                            <div className='content-wrapper' >
                                 <div className="container-fluid" >
                                     <h3 className="pt-3 px-5"> Post Recurring Invoice</h3>
-                                    <div className={`card my-2 `}>
+                                    <div className='card my-2'>
                                         <article className="card-body">
                                             <form autoComplete="off" >
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        <select
-                                                            id="custname"
-                                                            className={`form-control cursor-notallow`} disabled>
+                                                        <select id="custname" className='form-control cursor-notallow' disabled>
                                                             <option value={invoice_detail.custid} hidden>{invoice_detail.consignee}</option>
                                                         </select>
                                                     </div>
                                                 </div>
-
 
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Customer Address <span className='text-danger'>*</span> </label>
@@ -205,7 +202,7 @@ function EditRecurringInvoice() {
                                                 <div className="form-row mt-2">
                                                     <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                                     <div className="d-flex col-md-4">
-                                                        <input type="text" className={`form-control  cursor-notallow col`} id="invoiceid" disabled value={invoice_detail.invoice_no} />
+                                                        <input type="text" className='form-control  cursor-notallow col' id="invoiceid" disabled value={invoice_detail.invoice_no} />
                                                     </div>
                                                 </div>
 
@@ -254,21 +251,21 @@ function EditRecurringInvoice() {
                                                 <div className="form-row mt-2">
                                                     <div className="d-flex col-md-4 px-0">
                                                         <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-                                                        <input type="date" className='form-control  cursor-notallow col-md-6' id="Invoicedate"   />
+                                                        <input type="date" className='form-control  cursor-notallow col-md-6' id="Invoicedate" />
                                                     </div>
 
                                                     <div className="d-flex col-md-4">
                                                         <label className="col-md-4 text-center col-form-label font-weight-normal" >Terms</label>
                                                         <select
                                                             id="paymentterm"
-                                                            className={`form-control   col-md-6`} disabled>
+                                                            className='form-control col-md-6' disabled>
                                                             <option value={invoice_detail.payment_term} hidden> {invoice_detail.payment_term ? `Net ${invoice_detail.payment_term}` : ''} </option>
                                                         </select>
                                                     </div>
 
                                                     <div className="d-flex col-md-4" >
                                                         <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                        <input type="date" className={`form-control  cursor-notallow col-md-6`} id="Duedate" disabled  />
+                                                        <input type="date" className='form-control cursor-notallow col-md-6' id="Duedate" disabled />
                                                     </div>
                                                 </div>
 
@@ -328,7 +325,7 @@ function EditRecurringInvoice() {
                                                         <div className="form mt-3">
                                                             <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
                                                             <div className="d-flex col-md">
-                                                                <textarea type="text" className={`form-control `} rows="4" id="custnotes" placeholder="Looking forward for your bussiness "
+                                                                <textarea type="text" className='form-control' rows="4" id="custnotes" placeholder="Looking forward for your bussiness "
                                                                     style={{ resize: 'none' }} defaultValue={invoice_detail.remark} ></textarea>
                                                             </div>
 
@@ -346,9 +343,9 @@ function EditRecurringInvoice() {
                                                                     <td>CGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5`} id='cgstipt' defaultValue={invoice_detail.cgst_amt} disabled />
+                                                                            <input type="number" className='form-control  cursor-notallow col-md-5' id='cgstipt' defaultValue={invoice_detail.cgst_amt} disabled />
                                                                             <div className="input-group-append">
-                                                                                <span className={`input-group-text `}>%</span>
+                                                                                <span className='input-group-text'>%</span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -357,9 +354,9 @@ function EditRecurringInvoice() {
                                                                     <td>SGST/UTGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5`} id='sutgstipt' defaultValue={invoice_detail.sgst_amt} disabled />
+                                                                            <input type="number" className='form-control  cursor-notallow col-md-5' id='sutgstipt' defaultValue={invoice_detail.sgst_amt} disabled />
                                                                             <div className="input-group-append">
-                                                                                <span className={`input-group-text `}>%</span>
+                                                                                <span className='input-group-text'>%</span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -369,9 +366,9 @@ function EditRecurringInvoice() {
                                                                     <td>IGST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5 gstinpt`} id='igstipt' defaultValue={invoice_detail.igst_amt} disabled />
+                                                                            <input type="number" className='form-control  cursor-notallow col-md-5 gstinpt' id='igstipt' defaultValue={invoice_detail.igst_amt} disabled />
                                                                             <div className="input-group-append">
-                                                                                <span className={`input-group-text `}>%</span>
+                                                                                <span className='input-group-text'>%</span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -380,9 +377,9 @@ function EditRecurringInvoice() {
                                                                     <td>Total GST</td>
                                                                     <td>
                                                                         <div className="input-group mb-1" >
-                                                                            <input type="number" className={`form-control  cursor-notallow col-md-5`} id='gstipt ' defaultValue={invoice_detail.total_tax} disabled />
+                                                                            <input type="number" className='form-control  cursor-notallow col-md-5' id='gstipt ' defaultValue={invoice_detail.total_tax} disabled />
                                                                             <div className="input-group-append">
-                                                                                <span className={`input-group-text `}>%</span>
+                                                                                <span className='input-group-text '>%</span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
