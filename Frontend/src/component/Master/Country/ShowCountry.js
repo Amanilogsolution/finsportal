@@ -9,6 +9,7 @@ import { deletecountry, ImportCountry, Totalcountry, getUserRolePermission } fro
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowCountry = () => {
   const [loading, setLoading] = useState(false)
@@ -253,10 +254,11 @@ const ShowCountry = () => {
                 </article>
               </div>
             </div>
+            {/* <AlertsComp /> */}
           </div>
           : <LoadingPage />
       }
-
+      
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div
