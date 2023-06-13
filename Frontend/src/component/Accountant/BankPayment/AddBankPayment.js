@@ -11,7 +11,9 @@ function AddBankingPayment() {
     const [orgdata, setOrgdata] = useState([])
 
     const minorBankPayobj = {
-        achead: '', glcode: '', custId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '', tds: '', net_amt: '', pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
+        achead: '', glcode: '', custId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
+        //  tds: '', net_amt: '',
+        pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
     }
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
@@ -90,7 +92,6 @@ function AddBankingPayment() {
         if (glCode === '3020001') {
             const org = localStorage.getItem('Organisation')
             const vendors = await ActiveVendor(org)
-            console.log(vendors)
             setVendorlist(vendors)
             document.getElementById('SelectVendorModal').style.display = 'block'
         }
@@ -123,6 +124,11 @@ function AddBankingPayment() {
         }
     }
 
+    // ------------------------------ Submit Form ---------------------------------
+
+    const handleSubmitForm = () => {
+        console.log(bankPayMinData)
+    }
     return (
         <>
             <div className="wrapper positio-relative">
@@ -169,9 +175,9 @@ function AddBankingPayment() {
                                                         <th scope="col">Cost Center</th>
                                                         <th scope="col">Ref no</th>
                                                         <th scope="col">Ref Date</th>
-                                                        <th scope="col">Ref Amount</th>
-                                                        <th scope="col">TDS</th>
-                                                        <th scope="col">Net amt</th>
+                                                        <th scope="col">Amount</th>
+                                                        {/* <th scope="col">TDS</th> */}
+                                                        {/* <th scope="col">Net amt</th> */}
                                                         <th scope="col">Pay Type</th>
                                                         <th scope="col">Amt Paid</th>
                                                         <th scope="col">Amt Bal</th>
@@ -194,7 +200,7 @@ function AddBankingPayment() {
                                         <input type='button' className="btn btn-primary" value='Add Row' onClick={handleAddMinorDataRow} />
                                         <input type='button' className="btn btn-danger ml-2" value='Remove' onClick={(e) => handleRemoveDeleteRow(e, 'pop')} />
                                         <div className="d-flex mb-2 justify-content-between">
-                                            <div style={{ width: "40%" }}>
+                                            <div style={{ width: "45%" }}>
                                                 <div className="form ">
                                                     <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                                                     <div className="d-flex col-md">
@@ -225,7 +231,7 @@ function AddBankingPayment() {
                                     </form>
                                 </article>
                                 <div className="card-footer border-top">
-                                    <button id="save" name="save" className="btn btn-danger" >Submit</button>
+                                    <button id="save" name="save" className="btn btn-danger" onClick={() => { handleSubmitForm() }} >Submit</button>
                                     <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
                                     <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankPayPreview" > Preview Payment</button>
                                 </div>

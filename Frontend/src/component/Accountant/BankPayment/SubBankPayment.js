@@ -13,12 +13,6 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
 
                         {minordata.achead.length > 0 ? minordata.achead : "Select Value"}
                     </button>
-                    {/* <select className="form-control" onChange={(e) => handleChnageAcHead(e, index)}>
-                        <option hidden value=''>Select Ac Head</option>
-                        {chartofacctlist.map((gldata, index) => (
-                            <option key={index} value={`${gldata.account_sub_name}^${gldata.account_sub_name_code}`}> {gldata.account_sub_name} </option>))
-                        }
-                    </select> */}
                 </td>
                 <td className="p-0">
                     <button type="button" id={`location-${index}`} className="btn border col overflow-hidden p-0" style={{ height: '50px' }} data-toggle="modal" data-target="#locationmodal"
@@ -32,18 +26,20 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
                     >
                         {minordata.costCenter.length > 0 ? minordata.costCenter : "Select Cost Center"}
                     </button>
-
-
-
-                    {/* <input type="text" className="form-control " name="costCenter" value={minordata.costCenter} onChange={(e) => handleChangeMiorData(e, index)} /> */}
-
                 </td>
                 <td className="p-0"><input type="text" className="form-control " name="refNo" value={minordata.refNo} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="date" className="form-control " name="refDate" value={minordata.refDate} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="number" className="form-control " name="refAmt" value={minordata.refAmt} onChange={(e) => handleChangeMiorData(e, index)} /></td>
-                <td className="p-0"><input type="number" className="form-control " name="tds" value={minordata.tds} onChange={(e) => handleChangeMiorData(e, index)} /></td>
-                <td className="p-0"><input type="number" className="form-control " name="net_amt" value={minordata.net_amt} onChange={(e) => handleChangeMiorData(e, index)} /></td>
-                <td className="p-0"><input type="text" className="form-control " name="pay_type" value={minordata.pay_type} onChange={(e) => handleChangeMiorData(e, index)} /></td>
+                {/* <td className="p-0"><input type="number" className="form-control " name="tds" value={minordata.tds} onChange={(e) => handleChangeMiorData(e, index)} /></td> */}
+                {/* <td className="p-0"><input type="number" className="form-control " name="net_amt" value={minordata.net_amt} onChange={(e) => handleChangeMiorData(e, index)} /></td> */}
+                <td className="p-0">
+                    {/* <input type="text" className="form-control " name="pay_type" value={minordata.pay_type} onChange={(e) => handleChangeMiorData(e, index)} /> */}
+                    <select className="form-control" name="pay_type" onChange={(e) => handleChangeMiorData(e, index)} >
+                        <option hidden value={minordata.pay_type}>{minordata.pay_type.lenth > 0 ? minordata.pay_type : 'Select Pay Type'}</option>
+                        <option value='p' >Partial</option>
+                        <option value='f' >Full</option>
+                    </select>
+                </td>
                 <td className="p-0"><input type="number" className="form-control " name="amt_paid" value={minordata.amt_paid} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="number" className="form-control " name="amt_bal" value={minordata.amt_bal} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="text" className="form-control " name="glcode" defaultValue={minordata.glcode} disabled /></td>
