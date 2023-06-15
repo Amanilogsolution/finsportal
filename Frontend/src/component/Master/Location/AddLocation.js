@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { Activecountries, showactivestate, addLocation, Getfincialyearid, Updatefinancialcount } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
-
+import AlertsComp from '../../AlertsComp';
 
 function AddLocation() {
   const [loading, setLoading] = useState(false)
@@ -13,7 +13,9 @@ function AddLocation() {
   const [phone2, setPhone2] = useState('')
   const [locationcount, setLocationcount] = useState()
   const [fins_year, setFins_year] = useState();
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetch = async () => {
@@ -29,6 +31,8 @@ function AddLocation() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
+
     const selectedcountry = document.getElementById('country').value;
     const selectedstate = document.getElementById('inputState').value;
 
@@ -48,19 +52,20 @@ function AddLocation() {
 
 
     if (!selectedcountry || !selectedstate || !Location_name || !gst_no || contact_phone1.length < 10 || contact_phone2.length < 10) {
-      alert('Enter data or Invalid Data ')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
 
     else {
       const result = await addLocation(localStorage.getItem('Organisation'), Location_id, Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2, User_id, fins_year, selectedcountry, selectedstate);
+      setLoading(true)
       if (result === "Already") {
-        alert('Already')
+        setAlertObj({ type: 'warning', text: 'Already!', url: '' })
       }
       else {
         const result1 = await Updatefinancialcount(localStorage.getItem('Organisation'), 'location_count', lastnum)
         if (result1 === "Updated") {
-          alert("Added")
-          window.location.href = '/TotalLocation'
+          setAlertObj({ type: 'success', text: 'Location Added', url: '/TotalLocation' })
         }
       }
     }
@@ -85,7 +90,7 @@ function AddLocation() {
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add Location</h3>
               <div className="card" style={{ width: "100%" }}>
-                <article className={`card-body `}>
+                <article className='card-body'>
                   <form autoComplete='off'>
 
                     <div className="form-row">
@@ -172,6 +177,9 @@ function AddLocation() {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

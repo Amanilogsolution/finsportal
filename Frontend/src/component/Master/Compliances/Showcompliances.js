@@ -9,6 +9,7 @@ import Excelformate from '..//../../excelformate/tbl_compliances.xlsx'
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 function Showcompliances() {
@@ -18,7 +19,9 @@ function Showcompliances() {
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -118,7 +121,7 @@ function Showcompliances() {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await Compliancestatus(localStorage.getItem("Organisation"), row.sno, status)
-                    window.location.href = 'Showcompliances'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/Showcompliances' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -275,10 +278,12 @@ function Showcompliances() {
                       customStyles={customStyles}
                     />
                   </DataTableExtensions>
-
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

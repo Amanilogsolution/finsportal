@@ -3,12 +3,14 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { updatePaymentterm, ShowPaymentTerm } from "../../../api";
 import LoadingPage from '../../loadingPage/loadingPage';
-
+import AlertsComp from '../../AlertsComp';
 
 const UpdatePaymentTerm = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   //############## API Call #################
   useEffect(() => {
@@ -23,22 +25,24 @@ const UpdatePaymentTerm = () => {
   // ################  Data Submit #####################
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const paymentterm = document.getElementById("paymentterm").value;
     const paymentdays = document.getElementById("paymentdays").value;
 
     if (!paymentterm || !paymentdays) {
-      alert('Enter data')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await updatePaymentterm(localStorage.getItem('TermSno'), localStorage.getItem('Organisation'), paymentterm, paymentdays, localStorage.getItem('User_id'));
+      setLoading(true)
       if (result === "Updated") {
-        alert('Data Updated')
         localStorage.removeItem('TermSno')
-        window.location.href = '/ShowPaymentTerm'
+        setAlertObj({ type: 'success', text: 'Payment Term Updated', url: '/ShowPaymentTerm' })
+
       }
       else {
-        alert('Server Error')
-        window.location.reload();
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
 
@@ -81,6 +85,9 @@ const UpdatePaymentTerm = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

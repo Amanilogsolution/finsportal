@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showLocation, updateLocation, Activecountries, showactivestate } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 function EditLocation() {
   const [loading, setLoading] = useState(false)
@@ -10,6 +11,9 @@ function EditLocation() {
   const [country, setCountry] = useState([]);
   const [state, setState] = useState([])
   const [slectedstate, setSelectedstate] = useState()
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -28,6 +32,7 @@ function EditLocation() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const country = document.getElementById('country').value;
     const state = slectedstate;
     const Location_name = document.getElementById('Location_name').value;
@@ -38,12 +43,21 @@ function EditLocation() {
     const contact_phone2 = document.getElementById('contact_phone2').value;
     const User_id = localStorage.getItem('User_id');
 
-
-    const result = await updateLocation(localStorage.getItem('Organisation'), Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2, localStorage.getItem('location_id'), User_id, country, state);
-    if (result) {
-      alert('Data Updated');
-      localStorage.removeItem('location_id')
-      window.location.href = './TotalLocation'
+    if (!country || !state || !Location_name) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
+      const result = await updateLocation(localStorage.getItem('Organisation'), Location_name, gst_no, contact_Person1, contact_person2, contact_phone1, contact_phone2, localStorage.getItem('location_id'), User_id, country, state);
+      setLoading(true)
+      if (result === 'done') {
+        localStorage.removeItem('location_id')
+        window.location.href = './TotalLocation'
+        setAlertObj({ type: 'success', text: 'Location Updated', url: '/ShowCountry' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 
@@ -158,6 +172,9 @@ function EditLocation() {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

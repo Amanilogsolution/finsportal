@@ -3,12 +3,15 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { UpdateEmployee, ActiveLocationAddress, GetEmployee } from "../../../api";
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditEmployee = () => {
     const [loading, setLoading] = useState(false)
     const [locationlist, setLocationlist] = useState([])
     const [data, setData] = useState([])
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -16,7 +19,6 @@ const EditEmployee = () => {
             const location = await ActiveLocationAddress(org)
             setLocationlist(location)
             const emp = await GetEmployee(org, localStorage.getItem('EmpmasterSno'))
-            console.log(emp)
             setData(emp)
             setLoading(true)
         }
@@ -26,21 +28,23 @@ const EditEmployee = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        setLoading(false)
         const emp_name = document.getElementById('emp_name').value;
         const wh = document.getElementById('wh').value;
 
         if (!emp_name || !wh) {
-            alert('Enter data')
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const result = await UpdateEmployee(localStorage.getItem('EmpmasterSno'), localStorage.getItem('Organisation'), emp_name, wh, data.emp_id, localStorage.getItem('User_id'));
+            setLoading(true)
             if (result === "Updated") {
-                alert('Data Updated')
                 localStorage.removeItem('EmpmasterSno');
-                window.location.href = '/showemployee'
+                setAlertObj({ type: 'success', text: 'Data Updated', url: '/showemployee' })
             }
             else {
-                alert('Server not Response')
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
 
@@ -96,6 +100,9 @@ const EditEmployee = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

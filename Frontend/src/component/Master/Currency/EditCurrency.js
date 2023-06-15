@@ -3,11 +3,15 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { UpdateCurrency, showCurrency, Activecountries } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditCurrency = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [selectCountry, setSelectCountry] = useState([])
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -22,17 +26,28 @@ const EditCurrency = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
+
     const country = document.getElementById('country_name');
     const country_name = country.options[country.selectedIndex].text
     const country_code = country.value;
     const currency_name = document.getElementById('currency_name').value;
     const currency_code = document.getElementById('currency_code').value;
 
-    const result = await UpdateCurrency(localStorage.getItem("Organisation"), localStorage.getItem("User_id"), localStorage.getItem('CurrencySno'), country_name, country_code, currency_name, currency_code);
-    if (result) {
-      alert('Data Updated');
-      localStorage.removeItem('CurrencySno')
-      window.location.href = '/ShowCurrency'
+    if (!country_name || !currency_name) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
+      const result = await UpdateCurrency(localStorage.getItem("Organisation"), localStorage.getItem("User_id"), localStorage.getItem('CurrencySno'), country_name, country_code, currency_name, currency_code);
+      setLoading(true)
+      if (result === 'Updated') {
+        localStorage.removeItem('CurrencySno')
+        setAlertObj({ type: 'success', text: 'Currency Updated', url: '/ShowCurrency' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 
@@ -86,6 +101,9 @@ const EditCurrency = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

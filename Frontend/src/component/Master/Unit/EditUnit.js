@@ -4,10 +4,14 @@ import Footer from "../../Footer/Footer";
 import { showunit } from '../../../api/index.js'
 import { UpdateUnit } from '../../../api/index.js'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditUnit = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -23,12 +27,24 @@ const EditUnit = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const unit_name = document.getElementById('unit_name').value;
     const unit_symbol = document.getElementById('unit_symbol').value;
 
-    const result = await UpdateUnit(localStorage.getItem('unitSno'), unit_name, unit_symbol, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
-    if (result) {
-      window.location.href = '/ShowUnit'
+    if (!unit_name || !unit_symbol) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
+      const result = await UpdateUnit(localStorage.getItem('unitSno'), unit_name, unit_symbol, localStorage.getItem('Organisation'), localStorage.getItem('User_id'));
+      setLoading(true)
+      if (result === 'Updated') {
+        setAlertObj({ type: 'success', text: 'Unit Updated', url: '/ShowUnit' })
+
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 
@@ -68,6 +84,9 @@ const EditUnit = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

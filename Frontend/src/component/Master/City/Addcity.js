@@ -3,13 +3,16 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { InsertCity, Activecountries, showactivestate } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const Addcity = () => {
   const [loading, setLoading] = useState(false)
   const [selectCountry, setSelectCountry] = useState([]);
   const [selectState, setSelectState] = useState([]);
   const [cityidno, setCityidno] = useState();
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
   useEffect(() => {
     const fetchdata = async () => {
       const result = await Activecountries()
@@ -21,6 +24,8 @@ const Addcity = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
+
     const country_name = document.getElementById('country_name').value;
     const state = document.getElementById('state_name').value;
     const city_id = document.getElementById('city_id').value;
@@ -28,16 +33,17 @@ const Addcity = () => {
     const User_id = localStorage.getItem("User_id");
 
     if (!country_name || !state || !city_id || !city_name) {
-      alert('Enter data')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await InsertCity(city_id, city_name, state, country_name, User_id);
+      setLoading(true)
       if (result === "Already") {
-        alert('Already')
+        setAlertObj({ type: 'warning', text: 'Already!', url: '' })
       }
       else {
-        alert('Data Added')
-        window.location.href = '/ShowCity'
+        setAlertObj({ type: 'success', text: 'Country Added', url: '/ShowCity' })
       }
     }
 
@@ -117,6 +123,9 @@ const Addcity = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

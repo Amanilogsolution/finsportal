@@ -3,11 +3,14 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { updateTdsHead, showTdsHead } from "../../../api/index"
 import LoadingPage from '../../loadingPage/loadingPage';
-
+import AlertsComp from '../../AlertsComp';
 
 function UpdatetdsHead() {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,18 +25,24 @@ function UpdatetdsHead() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const org = localStorage.getItem('Organisation')
     const tdshead = document.getElementById('tdshead').value
     const tdssection = document.getElementById('tdssection').value
     const User_id = localStorage.getItem("User_id");
 
     if (!tdshead || !tdssection) {
-      alert('Please Enter Mandatory fields')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await updateTdsHead(org, tdshead, tdssection, User_id, localStorage.getItem('tdssno'))
+      setLoading(true)
       if (result === 'Updated') {
-        window.location.href = '/TotaltdsHead'
+        setAlertObj({ type: 'success', text: 'Tds Head Updated', url: '/TotaltdsHead' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
   }
@@ -74,6 +83,9 @@ function UpdatetdsHead() {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

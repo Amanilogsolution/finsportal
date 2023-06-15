@@ -3,10 +3,14 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { ShowCustomer, UpdateCustomer } from '../../api';
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 const EditCustomer = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({});
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetdata = async () => {
@@ -74,19 +78,21 @@ const EditCustomer = () => {
     const sno = localStorage.getItem('CustSno')
     const User_id = localStorage.getItem("User_id");
 
-
-    const result = await UpdateCustomer(org, sno, User_id, cust_email, cust_work_phone, cust_phone, contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
-      contact_person_department, remark)
-
-    if (result === 'Updated') {
-      alert('Data Updated')
-      localStorage.removeItem('CustSno')
-      window.location.href = "/TotalCustomer"
+    if (!sno || !User_id) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      alert('Server Error');
+      const result = await UpdateCustomer(org, sno, User_id, cust_email, cust_work_phone, cust_phone, contact_person_name, contact_person_email, contact_person_work_phone, contact_person_phone, contact_person_skype, contact_person_designation,
+        contact_person_department, remark)
       setLoading(true)
-
+      if (result === 'Updated') {
+        localStorage.removeItem('CustSno')
+        setAlertObj({ type: 'success', text: 'Customer Updated', url: '/TotalCustomer' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
 
   }
@@ -1019,6 +1025,9 @@ const EditCustomer = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

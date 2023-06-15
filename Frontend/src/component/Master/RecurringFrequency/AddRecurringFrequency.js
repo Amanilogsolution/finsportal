@@ -1,27 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { InsertRecurringFreq } from '../../../api';
+import AlertsComp from '../../AlertsComp';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 const AddRecurringFreq = () => {
+  const [loading, setLoading] = useState(true)
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const recurring_type = document.getElementById('recurring_type').value;
     const recurring_month = document.getElementById('recurring_month').value;
     const remark = document.getElementById('remark').value;
 
     if (!recurring_type || !recurring_month) {
-      alert('Enter data')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await InsertRecurringFreq(localStorage.getItem('Organisation'), recurring_type, recurring_month, remark, localStorage.getItem('User_id'));
+      setLoading(true)
       if (result === "Already") {
         alert('Frequency Already ')
-      } 
+        setAlertObj({ type: 'warning', text: 'This Frequency Already Exist!', url: '' })
+      }
+      else if (result === "Added") {
+        setAlertObj({ type: 'success', text: 'Frequency Added', url: '/TotalRecurringFrequency' })
+      }
       else {
-        alert('Frequency Added')
-        window.location.href = '/TotalRecurringFrequency'
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
 
@@ -68,6 +80,9 @@ const AddRecurringFreq = () => {
             </div>
           </div>
         </div>
+        {
+          alertObj.type ? <AlertsComp data={alertObj} /> : null
+        }
       </div>
       <Footer />
     </div>

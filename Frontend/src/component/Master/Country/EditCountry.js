@@ -3,10 +3,15 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showcountry, updatecountry } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditCountry = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -19,18 +24,26 @@ const EditCountry = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const country_name = document.getElementById('country_name').value;
     const country_id = document.getElementById('country_id').value;
     const country_code = document.getElementById('country_code').value;
     const country_phonecode = document.getElementById('country_phonecode').value;
-    const result = await updatecountry(localStorage.getItem('countrySno'), localStorage.getItem("User_id"), country_name, country_id, country_code, country_phonecode)
-    if (result === 'done') {
-      alert('Data Updated ');
-      localStorage.removeItem('countrySno')
-      window.location.href = '/ShowCountry'
+
+    if (!country_name || !country_id) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      alert('Server not response')
+      const result = await updatecountry(localStorage.getItem('countrySno'), localStorage.getItem("User_id"), country_name, country_id, country_code, country_phonecode)
+      setLoading(true)
+      if (result === 'done') {
+        localStorage.removeItem('countrySno')
+        setAlertObj({ type: 'success', text: 'Country Updated', url: '/ShowCountry' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 
@@ -91,6 +104,9 @@ const EditCountry = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

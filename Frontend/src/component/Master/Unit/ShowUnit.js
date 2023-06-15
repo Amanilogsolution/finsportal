@@ -9,6 +9,7 @@ import Excelfile from '../../../excelformate/unit Formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowUnit = () => {
   const [loading, setLoading] = useState(false)
@@ -19,6 +20,9 @@ const ShowUnit = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -109,7 +113,8 @@ const ShowUnit = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
-                    window.location.href = 'ShowUnit'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowUnit' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -273,6 +278,9 @@ const ShowUnit = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

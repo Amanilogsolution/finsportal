@@ -7,6 +7,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { deleteTdsHead, totalTdsHead, getUserRolePermission } from '../../../api';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const TotalTdsHead = () => {
   const [loading, setLoading] = useState(false)
@@ -14,7 +15,9 @@ const TotalTdsHead = () => {
 
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     async function fetchdata() {
@@ -98,8 +101,10 @@ const TotalTdsHead = () => {
             if (userRightsData.tds_head_delete === 'true') {
               return (
                 <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} onChange={async () => {
-                  const result = await deleteTdsHead(localStorage.getItem('Organisation'), row.sno, row.status === 'Active' ? 'DeActive' : 'Active')
-                  if (result === 'done') { window.location.href = "./TotaltdsHead" }
+                  const result = await deleteTdsHead(localStorage.getItem('Organisation'), row.sno, row.status === 'Active' ? 'Deactive' : 'Active')
+                  if (result === 'done') {
+                    setAlertObj({ type: 'success', text: `Status Change`, url: '/TotaltdsHead' })
+                  }
                 }} style={{ height: '17px', width: '17px' }} />
               )
             }
@@ -153,6 +158,9 @@ const TotalTdsHead = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

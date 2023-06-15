@@ -6,12 +6,16 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowCrm = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -27,7 +31,6 @@ const ShowCrm = () => {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
-
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'crm')
     setUserRightsData(UserRights)
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
@@ -85,7 +88,8 @@ const ShowCrm = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await DeleteCrm(localStorage.getItem('Organisation'), row.sno, status)
-                    window.location.href = '/ShowCrm'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowCrm' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -141,7 +145,6 @@ const ShowCrm = () => {
             <div className='d-flex justify-content-between py-4 px-4'>
               <h3 className="text-left ml-5"> CRM Master </h3>
               <button type="button " id='addcrmbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddCrm" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Crm </button>
-
             </div>
             <div className="container-fluid">
               <div className="card w-100">
@@ -160,6 +163,9 @@ const ShowCrm = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

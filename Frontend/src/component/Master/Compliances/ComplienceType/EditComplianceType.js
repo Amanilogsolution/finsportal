@@ -3,11 +3,15 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import { ShowcompliancesTypeselect, UpdatecomplianceType } from '../../../../api';
 import LoadingPage from '../../../loadingPage/loadingPage';
+import AlertsComp from '../../../AlertsComp';
 
 
 function EditComplianceType() {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,16 +24,22 @@ function EditComplianceType() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
+
     const compliance_Type = document.getElementById('compliance_Type').value;
     if (!compliance_Type) {
-      alert('Enter Compliance Type')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Enter Compliance Type !', url: '' })
     }
     else {
       const result = await UpdatecomplianceType(localStorage.getItem('Organisation'), compliance_Type, localStorage.getItem('User_id'), localStorage.getItem('ComplianceSnoType'))
-      if (result) {
-        alert('Data Updated')
+      setLoading(true)
+      if (result === 'updated') {
         localStorage.removeItem('ComplianceSnoType');
-        window.location.href = '/ShowcompliancesType'
+        setAlertObj({ type: 'success', text: 'Compliance Type Updated', url: '/ShowcompliancesType' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
 
@@ -65,6 +75,9 @@ function EditComplianceType() {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

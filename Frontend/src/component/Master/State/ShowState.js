@@ -10,6 +10,7 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_states.xlsx';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowState = () => {
   const [loading, setLoading] = useState(false)
@@ -20,7 +21,9 @@ const ShowState = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -121,7 +124,8 @@ const ShowState = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deletestate(row.sno, status)
-                    window.location.href = 'ShowState'
+                    setAlertObj({ type: 'success', text:`Status-${status}`, url: '/ShowState' })
+                    // window.location.href = 'ShowState'
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -248,10 +252,6 @@ const ShowState = () => {
   };
   //##########################  for convert excel to array end #################################
 
-
-
-
-
   const tableData = {
     columns, data
   };
@@ -294,6 +294,9 @@ const ShowState = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

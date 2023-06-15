@@ -9,6 +9,7 @@ import Excelfile from '../../../excelformate/User Sheet.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowUser = () => {
   const [loading, setLoading] = useState(false)
@@ -19,6 +20,9 @@ const ShowUser = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -26,7 +30,6 @@ const ShowUser = () => {
       setData(result)
       fetchRoles();
     }
-
     fetchdata()
   }, [])
 
@@ -127,7 +130,7 @@ const ShowUser = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteUser(row.sno, status)
-                    window.location.href = 'ShowUser'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowUser' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -139,7 +142,6 @@ const ShowUser = () => {
               return (
                 <div className='droplist'>
                   <p>{row.status}</p>
-
                 </div>
               )
             }
@@ -247,7 +249,7 @@ const ShowUser = () => {
             <div className='d-flex py-3 px-5  justify-content-between'>
               <h3 className=" ml-5">Total User</h3>
               <div className='d-flex '>
-                <button type="button" id='adduserbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">ADD User</button>
+                <button type="button" id='adduserbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddUser" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add User</button>
                 <button type="button" id='exceluserbtn ' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
               </div>
             </div>
@@ -269,6 +271,9 @@ const ShowUser = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

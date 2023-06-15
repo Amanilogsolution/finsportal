@@ -109,7 +109,7 @@ const AddNewSubAccountName = async (req, res) => {
             values('${account_type_code}','${account_name_code}','${account_sub_name}','${account_sub_name_code}','${description}','${User_id}','${os.hostname()}','${req.ip}',
              getDate(),'Active');
             `)
-        res.send(result)
+        res.send('Added')
     }
     catch (err) {
         res.send(err)

@@ -9,6 +9,7 @@ import Excelformate from '..//../../excelformate/tbl_chartofAccount.xlsx'
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 function ShowChartAccount() {
@@ -18,6 +19,9 @@ function ShowChartAccount() {
   const [userRightsData, setUserRightsData] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -156,7 +160,8 @@ function ShowChartAccount() {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await ChartOfAccountStatus(localStorage.getItem("Organisation"), status, row.sno)
-                    window.location.href = '/ShowChartAccount'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowChartAccount' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -302,7 +307,6 @@ function ShowChartAccount() {
 
 
             <div className="container-fluid">
-
               <div className="card w-100" >
                 <article className='card-body py-1'>
                   <DataTableExtensions {...tableData}>
@@ -319,6 +323,9 @@ function ShowChartAccount() {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

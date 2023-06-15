@@ -4,10 +4,13 @@ import Footer from "../../Footer/Footer";
 import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, Activeunit, InsertSalesorder, InsertSubSalesorder, showOrganisation, Getfincialyearid, Updatefinancialcount } from '../../../api/index'
 import Preview from './PreviewSalesOrder/PreviewSalesOrder';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 function SalesOrder() {
     const [loading, setLoading] = useState(false)
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [totalValues, setTotalValues] = useState([1])
     const [amount, setAmount] = useState()
     const [activecustomer, setActiveCustomer] = useState([])
@@ -194,8 +197,8 @@ function SalesOrder() {
         const User_id = localStorage.getItem('User_id')
 
         if (!cust_id || !cust_addressid) {
-            alert('Please Enter Mandatory Fields')
             setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
 
@@ -205,21 +208,20 @@ function SalesOrder() {
 
             const result = await InsertSalesorder(org, cust_id, cust_addressid, so_no, so_date, net_amt, gst_rate, gst_amt, total_amt, remark, User_id, flag)
 
-
             itemsrowval.forEach(async (item) => {
                 const result1 = await InsertSubSalesorder(org, so_no, item.activity, item.items, item.Quantity, item.rate, item.taxPer, item.taxAmt, item.unit, item.amount, item.total, User_id, item.glcode, item.majorCode)
             })
+            setLoading(true)
 
             if (result === "Insert") {
                 if (flag !== 'save') {
                     await Updatefinancialcount(org, 'so_count', socount)
                 }
-                alert('Sales Order Added')
-                window.location.href = "/SaveSalesOrder"
+                setAlertObj({ type: 'success', text: 'Sales Order Added', url: '/SaveSalesOrder' })
             }
             else {
-                alert('Server Not Response')
-                setLoading(true)
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+
             }
         }
 
@@ -431,6 +433,9 @@ function SalesOrder() {
                                     <Preview somajorData={somajorData} items={itemsrowval} org={orgdata} />
                                 </div>
                             </div>
+                            {
+                                alertObj.type ? <AlertsComp data={alertObj} /> : null
+                            }
                         </div>
                         : <LoadingPage />
                 }

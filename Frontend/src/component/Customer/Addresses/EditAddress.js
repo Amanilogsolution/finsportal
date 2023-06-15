@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { CustAddress, EditCustAddress, Totalcountry, showactivestate, getCity } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const EditAddress = () => {
@@ -15,7 +16,9 @@ const EditAddress = () => {
   const [billing_address_state, setBilling_address_state] = useState();
   const [data, setData] = useState({})
   const [cust_id, setCust_id] = useState()
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -43,16 +46,20 @@ const EditAddress = () => {
     const billing_address_fax = document.getElementById('billing_address_fax').value;
     const User_id = localStorage.getItem('User_id')
 
-    const result = await EditCustAddress(localStorage.getItem("Organisation"), localStorage.getItem('EditAddress'), cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, User_id)
-    if (result) {
-      alert('Data Updated')
-      localStorage.removeItem('EditAddress')
-      window.location.href = '/TotalCustAddress'
+    if (!billing_address_pincode || !User_id) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      alert('Server not response')
+      const result = await EditCustAddress(localStorage.getItem("Organisation"), localStorage.getItem('EditAddress'), cust_id, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, User_id)
       setLoading(true)
-
+      if (result === 'Updated') {
+        localStorage.removeItem('EditAddress')
+        setAlertObj({ type: 'success', text: 'Address Updated', url: '/TotalCustAddress' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
 
   }
@@ -83,8 +90,6 @@ const EditAddress = () => {
     setData({ ...data, billing_address_phone: e.target.value })
   }
 
-
-
   return (
     <div className="wrapper">
       <Header />
@@ -99,91 +104,42 @@ const EditAddress = () => {
                     <div className="Address_left" style={{ width: "80%" }}>
                       <label>BILLING ADDRESS</label>
                       <div className="form-row">
-                        <label
-                          htmlFor="cust_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Customer Name
-                        </label>
+                        <label htmlFor="cust_name" className="col-md-2 col-form-label font-weight-normal" > Customer Name </label>
                         <div className="col form-group">
-                          <input type="text"
-                            className="form-control col-md-7 cursor-notallow"
-                            id="cust_name"
-                            defaultValue={data.cust_name}
-                            disabled
-                          />
+                          <input type="text" className="form-control col-md-7 cursor-notallow" id="cust_name" defaultValue={data.cust_name} disabled />
                         </div>
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="gstno"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          GST No:-
-                        </label>
+                        <label htmlFor="gstno" className="col-md-2 col-form-label font-weight-normal"> GST No:-</label>
                         <div className="col form-group">
-                          <input type="text"
-                            className="form-control col-md-7 cursor-notallow"
-                            id="gstno"
-                            defaultValue={data.gst_no}
-                            disabled
-                          />
+                          <input type="text" className="form-control col-md-7 cursor-notallow" id="gstno" defaultValue={data.gst_no} disabled />
                         </div>
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_attention"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Attention
-                        </label>
+                        <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal"> Attention</label>
                         <div className="col form-group">
-                          <input type="text"
-                            className={`form-control col-md-7 `}
-                            id="billing_address_attention"
-                            defaultValue={data.billing_address_attention}
-                          />
+                          <input type="text" className='form-control col-md-7' id="billing_address_attention" defaultValue={data.billing_address_attention} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="inputState"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Country / Region
-                        </label>
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" >  Country / Region</label>
                         <div className="col-md-6 form-group">
-                          <select
-                            id="inputState"
-                            className={`form-control `}
-                            onChange={handleAddressCountry}
-                          >
+                          <select id="inputState" className='form-control' onChange={handleAddressCountry} >
                             <option value={data.billing_address_country} hidden> {data.billing_address_country}</option>
                             {
                               selectedCountry.map((data, index) => (
                                 <option key={index} value={data.country_name}>{data.country_name}</option>
                               ))
-
                             }
-
                           </select>
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          State
-                        </label>
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal"> State</label>
                         <div className="col-md-6 form-group">
-                          <select
-                            id="inputState"
-                            className={`form-control `}
-                            onChange={handleChangebillingState}
-                          >
+                          <select id="inputState" className='form-control' onChange={handleChangebillingState}>
                             <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
                             {
                               selectState.map((data, index) => (
@@ -194,18 +150,9 @@ const EditAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="inputState"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          City
-                        </label>
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" > City </label>
                         <div className="col-md-6 form-group">
-                          <select
-                            id="inputState"
-                            className={`form-control `}
-                            onChange={handleAddressCity}
-                          >
+                          <select id="inputState" className='form-control' onChange={handleAddressCity} >
                             <option valu={data.billing_address_city} hidden>{data.billing_address_city}</option>
                             {
                               selectCity.map((data, index) => (
@@ -217,53 +164,21 @@ const EditAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_pincode"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Zip Code
-                        </label>
+                        <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal" > Zip Code </label>
                         <div className="col form-group">
-                          <input
-                            type="number"
-                            className={`form-control col-md-7 `}
-                            id="billing_address_pincode"
-                            value={data.billing_address_pincode}
-                            onChange={handleChangePincode}
-                          />
+                          <input type="number" className='form-control col-md-7 ' id="billing_address_pincode" value={data.billing_address_pincode} onChange={handleChangePincode} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_phone"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Phone
-                        </label>
+                        <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone</label>
                         <div className="col form-group">
-                          <input
-                            type="number"
-                            className={`form-control col-md-7 `}
-                            id="billing_address_phone"
-                            value={data.billing_address_phone}
-                            onChange={handleChangePhone}
-                          />
+                          <input type="number" className='form-control col-md-7 ' id="billing_address_phone" value={data.billing_address_phone} onChange={handleChangePhone} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_fax"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Fax
-                        </label>
+                        <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal" >  Fax </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            className={`form-control col-md-7 `}
-                            id="billing_address_fax"
-                            defaultValue={data.billing_address_fax}
-                          />
+                          <input type="text" className='form-control col-md-7 ' id="billing_address_fax" defaultValue={data.billing_address_fax} />
                         </div>
                       </div>
                     </div>
@@ -276,6 +191,9 @@ const EditAddress = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

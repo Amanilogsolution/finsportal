@@ -9,8 +9,7 @@ import Excelfile from '../../../excelformate/Bank_formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
-
-
+import AlertsComp from '../../AlertsComp';
 
 const TotalBank = () => {
   const [loading, setLoading] = useState(false)
@@ -21,12 +20,13 @@ const TotalBank = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
-
       const result = await totalBank(org);
       setData(result)
       fetchRoles()
@@ -134,7 +134,7 @@ const TotalBank = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
-                    window.location.href = 'TotalBank'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalBank' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -279,9 +279,7 @@ const TotalBank = () => {
             <div className="container-fluid">
               <div className="card mb-0">
                 <article className='card-body py-1'>
-                  <DataTableExtensions
-                    {...tableData}
-                  >
+                  <DataTableExtensions {...tableData} >
                     <DataTable
                       noHeader
                       defaultSortField="id"
@@ -295,6 +293,9 @@ const TotalBank = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

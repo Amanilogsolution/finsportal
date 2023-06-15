@@ -13,6 +13,7 @@ import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
 import customStyles from '../../customTableStyle';
 import './location.css'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const TotalLocation = () => {
   const [loading, setLoading] = useState(false)
@@ -22,7 +23,9 @@ const TotalLocation = () => {
   const [btntype, setBtntype] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     async function fetchdata() {
@@ -130,7 +133,8 @@ const TotalLocation = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await Locationstatus(localStorage.getItem("Organisation"), row.location_id, status)
-                    window.location.href = 'TotalLocation'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalLocation' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -330,6 +334,9 @@ const TotalLocation = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

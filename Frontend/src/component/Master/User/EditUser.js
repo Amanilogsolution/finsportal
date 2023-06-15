@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showuser, UpdateUser, ActiveCustomer, ActiveUserRole } from '../../../api/index.js'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditUser = () => {
   const [loading, setLoading] = useState(false)
@@ -11,7 +12,9 @@ const EditUser = () => {
   const [passwordshow, setPasswordshow] = useState(false);
   const [activecustomer, setActivecustomer] = useState([])
   const [useroleslist, setUserroleslist] = useState([])
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -32,6 +35,7 @@ const EditUser = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const employee_name = document.getElementById('employee_name').value;
     const role = document.getElementById('role').value;
     const warehouse = document.getElementById('warehouse').value;
@@ -46,21 +50,21 @@ const EditUser = () => {
     const User_id = localStorage.getItem('User_id');
 
     if (!employee_name || !warehouse || !password || !email_id) {
-      alert('Please Enter the mandatory Field')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
 
     else {
       const result = await UpdateUser(localStorage.getItem('userSno'), employee_name,
         role, warehouse, user_name, password, email_id, phone, operate_mode,
         customer, reporting_to, designation, authentication, User_id);
-
-      if (result === 'done') {
-        alert('Data Updated')
+      setLoading(true)
+      if (result === 'Updated') {
         localStorage.removeItem('userSno');
-        window.location.href = '/ShowUser'
+        setAlertObj({ type: 'success', text: 'User Updated', url: '/ShowUser' })
       }
       else {
-        alert('Server Error')
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
   }
@@ -191,6 +195,9 @@ const EditUser = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div >
           : <LoadingPage />
       }

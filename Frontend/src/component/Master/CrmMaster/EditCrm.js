@@ -4,6 +4,7 @@ import Footer from "../../Footer/Footer";
 import { GetCrm, UpdateCrm, ActiveCustomer, ActiveVendor } from "../../../api";
 import Select from 'react-select';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditCrm = () => {
     const [loading, setLoading] = useState(false)
@@ -13,6 +14,9 @@ const EditCrm = () => {
     const [customerlist, setCustomerlist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -45,24 +49,25 @@ const EditCrm = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        setLoading(false)
+
         const crmtype = crmtypeval;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value ? custvendval.value : data.cust_vend;
         const from_date = document.getElementById("from_date").value
 
         if (!crmtype || !person_name || !cust_vend_name) {
-            alert('Enter data')
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const result = await UpdateCrm(localStorage.getItem('CrmmasterSno'), localStorage.getItem('Organisation'), person_name, crmtype, cust_vend_name, localStorage.getItem('User_id'), from_date);
             if (result === "Updated") {
-                alert('Data updated');
                 localStorage.removeItem('CrmmasterSno');
-                window.location.href = '/ShowCrm'
+                setAlertObj({ type: 'success', text: 'Data updated', url: '/ShowCrm' })
             }
             else {
-                alert('Server Error')
-                window.location.reload();
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
 
@@ -168,6 +173,9 @@ const EditCrm = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

@@ -9,6 +9,7 @@ import Excelfile from '../../../excelformate/tbl_currency.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const ShowCurrency = () => {
@@ -20,7 +21,9 @@ const ShowCurrency = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -114,7 +117,7 @@ const ShowCurrency = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteCurrency(localStorage.getItem('Organisation'), row.sno, status)
-                    window.location.href = 'ShowCurrency'
+                    setAlertObj({ type: 'success', text:`Status ${status}`, url: '/ShowCurrency' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -234,10 +237,8 @@ const ShowCurrency = () => {
               <br />
               <h3 className="ml-5">Currency</h3>
               <div className="card mb-0">
-                <article className={`card-body py-1`} >
-                  <DataTableExtensions
-                    {...tableData}
-                  >
+                <article className='card-body py-1'>
+                  <DataTableExtensions  {...tableData}>
                     <DataTable
                       noHeader
                       defaultSortField="id"
@@ -251,6 +252,9 @@ const ShowCurrency = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

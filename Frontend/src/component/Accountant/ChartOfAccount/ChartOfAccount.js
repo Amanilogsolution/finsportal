@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, AddNewSubAccountName } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 function ChartOfAccount() {
@@ -12,6 +13,9 @@ function ChartOfAccount() {
   const [account_name, setaccount_name] = useState([]);
   const [accountno, setAccountno] = useState('');
   const [accountsubno, setAccountsubno] = useState('');
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,15 +28,27 @@ function ChartOfAccount() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(false)
+
     const AccountType = document.getElementById('AccountType').value;
     const Accountname = document.getElementById('Accountname').value;
     const Accountnamecode = document.getElementById('Accountnamecode').value;
     const description = document.getElementById('description').value;
     const parentaccount = document.getElementById('parentaccount').value;
 
-    const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
-    if (result) {
-      window.location.href = '/ShowChartAccount'
+    if (!AccountType || !Accountname) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
+      const result = await AddNewSubAccountName(Accountname, Accountnamecode, description, AccountType, parentaccount, localStorage.getItem('Organisation'), localStorage.getItem('User_id'))
+      setLoading(true)
+      if (result === 'Added') {
+        setAlertObj({ type: 'success', text: 'Country Added', url: '/ShowChartAccount' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
 
     return
@@ -99,8 +115,8 @@ function ChartOfAccount() {
       <Header />
       {
         loading ?
-          <div className={`content-wrapper py-2`}>
-            <div className={`card w-50 m-auto`}>
+          <div className='content-wrapper py-2'>
+            <div className='card w-50 m-auto'>
               <article className="card-body" >
                 <h3 className='text-center'>Chart Of Account</h3>
                 <form autoComplete="off">
@@ -171,6 +187,9 @@ function ChartOfAccount() {
                 }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

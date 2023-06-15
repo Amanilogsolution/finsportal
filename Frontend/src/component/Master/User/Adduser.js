@@ -4,6 +4,7 @@ import Footer from "../../Footer/Footer";
 import { InsertUser, insertUserLogin, UploadData, ActiveCustomer, ActiveUserRole, TotalOrganistion } from '../../../api';
 import Select from 'react-select';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const AddUser = () => {
   const [loading, setLoading] = useState(false)
@@ -15,6 +16,9 @@ const AddUser = () => {
   const [file, setFile] = useState('')
   const [user_profile_url, setUserProfile] = useState('')
   const [totalorg, setTotalOrg] = useState([])
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -43,6 +47,7 @@ const AddUser = () => {
 
   const handleSaveUser = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const employee_name = document.getElementById('employee_name').value;
     const role = document.getElementById('role').value;
     const warehouse = document.getElementById('warehouse').value;
@@ -58,23 +63,24 @@ const AddUser = () => {
 
 
     if (!employee_name || !role || !warehouse || !user_name || !password || !email_id || !phone) {
-      alert('Please! enter the data')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await InsertUser(employee_name, role, warehouse, user_name,
         password, email_id, phone, operate_mode, customer, reporting_to, designation, authentication, user_profile_url, localStorage.getItem('User_id'), localStorage.getItem('Organisation'));
+      setLoading(true)
 
       if (result === 'Added') {
         const loginInsert = await insertUserLogin(user_name, employee_name, warehouse, localStorage.getItem('Organisation Name'), password, localStorage.getItem('Organisation'), user_profile_url, role, phone)
-        console.log(loginInsert)
-        alert('Data Added')
-        window.location.href = '/ShowUser';
+        setAlertObj({ type: 'success', text: 'User Added', url: '/ShowUser' })
       }
       else if (result === 'Already') {
-        alert('This User Id Already Exist')
+        setAlertObj({ type: 'warning', text: 'This User Id Already Exist', url: '' })
       }
       else {
-        alert('Server Error')
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+
       }
 
     }
@@ -87,10 +93,6 @@ const AddUser = () => {
   const organisation = totalorg.map((ele) => {
     return { value: ele.org_db_name, label: ele.org_name }
   })
-  // const handleChange = (e) => {
-  //   const data = document.getElementById('auth').checked;
-  //   setAuthentication(data)
-  // }
 
   return (
     <div className="wrapper">
@@ -104,7 +106,7 @@ const AddUser = () => {
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Add User</h3>
               <div className="card" style={{ width: "100%" }}>
-                <article className={`card-body`}>
+                <article className='card-body'>
                   <form autoComplete='off'>
 
                     <div className="form-row">
@@ -256,8 +258,6 @@ const AddUser = () => {
 
                             </label> 
                           </div>*/}
-
-
                   </form>
                 </article>
                 <div className='mt-1 border-top card-footer'>
@@ -266,6 +266,9 @@ const AddUser = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

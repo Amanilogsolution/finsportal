@@ -3,17 +3,20 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { InsertCurrency, Activecountries } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const AddCurrency = () => {
   const [loading, setLoading] = useState(false)
   const [selectCountry, setSelectCountry] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await Activecountries()
       setSelectCountry(result)
       setLoading(true)
-
     }
     fetchdata()
   }, [])
@@ -21,6 +24,8 @@ const AddCurrency = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
+
     const country = document.getElementById('country_name');
     const country_name = country.options[country.selectedIndex].text
     const country_code = country.value;
@@ -28,14 +33,20 @@ const AddCurrency = () => {
     const currency_code = document.getElementById('currency_code').value;
 
     if (!country_name || !country_code || !currency_name) {
-      alert('Enter data')
-    } else {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
       const result = await InsertCurrency(localStorage.getItem("Organisation"), localStorage.getItem("User_id"), country_name, country_code, currency_name, currency_code);
-
+      setLoading(true)
       if (result === "Already") {
-        alert('Already')
-      } else {
-        window.location.href = '/ShowCurrency'
+        setAlertObj({ type: 'warning', text: 'Currency Already Exist', url: '' })
+      }
+      else if (result === "Added") {
+        setAlertObj({ type: 'success', text: 'Currency Added', url: '/ShowCurrency' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
   }

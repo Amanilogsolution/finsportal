@@ -6,6 +6,7 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const ShowFinancialyear = () => {
@@ -13,6 +14,9 @@ const ShowFinancialyear = () => {
   const [data, setData] = useState([{}])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -117,7 +121,10 @@ const ShowFinancialyear = () => {
               return (
                 <input type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} onChange={async () => {
                   const result = await Statusfincialyear(localStorage.getItem('Organisation'), row.sno)
-                  if (result.rowsAffected[0]) { window.location.href = "./ShowFinancialyear" }
+                  if (result.rowsAffected[0]) {
+                    setAlertObj({ type: 'success', text: `Status Change`, url: '/ShowFinancialyear' })
+
+                  }
                 }} />
               );
             }
@@ -168,6 +175,9 @@ const ShowFinancialyear = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

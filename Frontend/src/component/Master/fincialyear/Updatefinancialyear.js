@@ -3,11 +3,15 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { Selectfincialyear, UpdateFincialyear } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const Updatefincialyear = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetch = async () => {
@@ -25,7 +29,7 @@ const Updatefincialyear = () => {
 
   const handelsave = async (e) => {
     e.preventDefault();
-
+    setLoading(false)
     const invoice_ser = document.getElementById('invoiceser').value;
     const voucher_ser = document.getElementById('voucher').value;
     const po_ser = document.getElementById('po_series').value;
@@ -45,23 +49,23 @@ const Updatefincialyear = () => {
     lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
 
     if (!invoice_ser || !voucher_ser || !po_ser || !jv_ser) {
-      alert('All Fields are mandatory')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-
       if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4 || so_ser.length > 4 || cn_ser.length > 4 || dn_ser.length > 4 || jv_ser.length > 4) {
-        alert("invoice Series is must be smaller then 6 char and voucher is 4")
+        setLoading(true)
+        setAlertObj({ type: 'warning', text: 'invoice Series is must be smaller then 6 char and voucher is 4', url: '' })
       }
       else {
         const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser, User_id)
+        setLoading(true)
         if (result[0] > 0) {
-          alert("Updated")
           localStorage.removeItem('FinsyearSno');
-          window.location.href = "./ShowFinancialyear"
+          setAlertObj({ type: 'success', text: 'Financial year Updated', url: '/ShowFinancialyear' })
         }
         else {
-          alert("Server Error!");
-          window.location.reload();
+          setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
         }
       }
     }
@@ -189,6 +193,9 @@ const Updatefincialyear = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

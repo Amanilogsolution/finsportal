@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showCity, updateCity, Activecountries, showactivestate } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const EditCity = () => {
@@ -11,6 +12,10 @@ const EditCity = () => {
   const [selectCountry, setSelectCountry] = useState([]);
   const [selectState, setSelectState] = useState([]);
   const [country, setCountry] = useState()
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
+
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -18,11 +23,9 @@ const EditCity = () => {
       setData(result)
       setCountry(result.country_name)
       if (result.country_name) {
-
         const statesresult = await showactivestate(result.country_name)
         setSelectState(statesresult)
       }
-
       const country = await Activecountries()
       setSelectCountry(country)
       setLoading(true)
@@ -33,16 +36,26 @@ const EditCity = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const state_name = document.getElementById('state_name').value;
     const city_id = document.getElementById('city_id').value;
     const city_name = document.getElementById('city_name').value;
     const User_id = localStorage.getItem("User_id");
 
-    const result = await updateCity(localStorage.getItem('citySno'), city_id, city_name, state_name, country, User_id);
-    if (result) {
-      alert("Data Updated");
-      localStorage.removeItem('citySno');
-      window.location.href = '/ShowCity'
+    if (!state_name || !city_name) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
+      const result = await updateCity(localStorage.getItem('citySno'), city_id, city_name, state_name, country, User_id);
+      setLoading(true)
+      if (result === 'Updated') {
+        localStorage.removeItem('citySno');
+        setAlertObj({ type: 'success', text: 'City Updated', url: '/ShowCity' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 

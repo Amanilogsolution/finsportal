@@ -3,10 +3,14 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { ShowRecurringFreq, UpdateRecurringFreq } from '../../../api/index.js'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditRecurringFreq = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -27,13 +31,19 @@ const EditRecurringFreq = () => {
     const recurring_month = document.getElementById('recurring_month').value;
     const remark = document.getElementById('remark').value;
 
-    const result = await UpdateRecurringFreq(localStorage.getItem('Organisation'), recurring_type, recurring_month, remark, localStorage.getItem('User_id'), localStorage.getItem('FreqSno'));
-    if (result == 'Updated') {
-      window.location.href = '/TotalRecurringFrequency'
+    if (!recurring_type || !recurring_month) {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      alert('Server Not Response')
+      const result = await UpdateRecurringFreq(localStorage.getItem('Organisation'), recurring_type, recurring_month, remark, localStorage.getItem('User_id'), localStorage.getItem('FreqSno'));
       setLoading(true)
+      if (result == 'Updated') {
+        setAlertObj({ type: 'success', text: 'Recurring Frequency Updated', url: '/TotalRecurringFrequency' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 
@@ -44,11 +54,11 @@ const EditRecurringFreq = () => {
       <Header />
       {
         loading ?
-          <div className={`content-wrapper`}>
+          <div className='content-wrapper'>
             <div className="container-fluid">
               <h3 className="py-3 ml-5">Update Frequency</h3>
               <div className="card w-100" >
-                <article className={`card-body`}>
+                <article className='card-body'>
                   <form autoComplete='off'>
                     <div className="form-row">
                       <label htmlFor="unit_name" className="col-md-2 col-form-label font-weight-normal">Frequency Type</label>
@@ -72,12 +82,15 @@ const EditRecurringFreq = () => {
 
                   </form>
                 </article>
-                <div className={`border-top card-footer`}>
+                <div className='border-top card-footer'>
                   <button className="btn btn-success" onClick={handleClick}>Update</button>
                   <button className="btn btn-secondary ml-3" onClick={() => window.location.href = './ShowUnit'}>Cancel</button>
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

@@ -93,7 +93,7 @@ async function updateuser(req, res) {
         update_date_time=getdate(),update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' 
          where sno = ${sno}`)
 
-        res.send('done')
+        res.send('Updated')
     }
     catch (err) {
         res.send(err)

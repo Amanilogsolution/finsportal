@@ -20,7 +20,9 @@ const ShowCountry = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done',url:''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -118,7 +120,8 @@ const ShowCountry = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deletecountry(row.sno, status)
-                    window.location.href = 'ShowCountry'
+                    setAlertObj({type:'success',text:`Status ${status}`,url:'/ShowCountry'})
+                    // window.location.href = 'ShowCountry'
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -251,14 +254,17 @@ const ShowCountry = () => {
                       customStyles={customStyles}
                     />
                   </DataTableExtensions>
+                  {/* <button onClick={(e) => {e.preventDefault();setAlertObj({type:'success',text:'done',url:'/ShowCountry'})}}>Click</button> */}
                 </article>
               </div>
             </div>
-            {/* <AlertsComp /> */}
+            {
+              alertObj.type?<AlertsComp data={alertObj} />:console.log(alertObj)
+            }
           </div>
           : <LoadingPage />
       }
-      
+
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div

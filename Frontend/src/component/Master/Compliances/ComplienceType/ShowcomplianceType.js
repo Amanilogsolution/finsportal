@@ -7,19 +7,21 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import customStyles from '../../../customTableStyle';
 import LoadingPage from '../../../loadingPage/loadingPage';
+import AlertsComp from '../../../AlertsComp';
 
 function ShowcomplianceType() {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
       const result = await showcompliancesType(org)
       setData(result)
-
       fetchRoles()
     }
     fetchdata()
@@ -95,7 +97,8 @@ function ShowcomplianceType() {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await Compliancesstatus(localStorage.getItem('Organisation'), row.sno, status)
-                    window.location.href = 'ShowcompliancesType'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowcompliancesType' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -153,6 +156,9 @@ function ShowcomplianceType() {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

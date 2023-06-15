@@ -3,12 +3,16 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showcompliancesData, updatecompliance, showcompliancesType } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 function Editcompliances() {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
     const [compliancetype, setComplianceType] = useState([])
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -26,6 +30,8 @@ function Editcompliances() {
 
     const senddata = async (e) => {
         e.preventDefault();
+        setLoading(false)
+
         const compliance_type = document.getElementById("compliancetype").value;
         const nature = document.getElementById("nature").value;
         const period = document.getElementById('period').value;
@@ -36,10 +42,19 @@ function Editcompliances() {
         const due_date = document.getElementById('due_date').value;
         const extended_date = document.getElementById('extended_date').value;
 
-        const result = await updatecompliance(localStorage.getItem('Organisation'), compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, localStorage.getItem('ComplianceSno'), localStorage.getItem('User_name'))
-        if (result) {
-            window.location.href = '/Showcompliances'
-            localStorage.removeItem('ComplianceSno')
+        if (!compliance_type || !nature) {
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+        }
+        else {
+            const result = await updatecompliance(localStorage.getItem('Organisation'), compliance_type, nature, period, period_name, from_month, to_month, from_applicable, due_date, extended_date, localStorage.getItem('ComplianceSno'), localStorage.getItem('User_name'))
+            if (result === 'updated') {
+                localStorage.removeItem('ComplianceSno')
+                setAlertObj({ type: 'success', text: 'Country Added', url: '/Showcompliances' })
+            }
+            else {
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+            }
         }
 
     }
@@ -134,6 +149,9 @@ function Editcompliances() {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

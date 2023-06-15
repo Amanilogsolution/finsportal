@@ -3,6 +3,7 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import { showLocation, InsertLocationAddress, getCity } from '../../../../api'
 import LoadingPage from '../../../loadingPage/loadingPage';
+import AlertsComp from '../../../AlertsComp';
 
 
 function AddOrgAddress() {
@@ -10,6 +11,9 @@ function AddOrgAddress() {
   const [pincount, setPincount] = useState();
   const [data, setData] = useState({});
   const [citylist, setCitylist] = useState([])
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -25,6 +29,7 @@ function AddOrgAddress() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const User_id = localStorage.getItem('User_id');
     const location_add1 = document.getElementById('location_add1').value;
     const location_add2 = document.getElementById('location_add2').value;
@@ -34,23 +39,23 @@ function AddOrgAddress() {
     const from_date = document.getElementById('from_date').value;
     const location_pin = document.getElementById('location_pin').value;
 
-
     const to_date = new Date(from_date);
     to_date.setDate(to_date.getDate() - 1);
     let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" + to_date.getDate()
 
     if (!location_city || !location_pin || location_pin.length > 6) {
-      alert('Please Fill the mandatory field');
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await InsertLocationAddress(localStorage.getItem('Organisation'), data.location_name, data.gstin_no, location_add1, location_add2, location_city, location_state, location_country, from_date, localStorage.getItem('location_id'), location_pin, formatted_date, User_id)
-      if (result) {
-        alert('Data Added')
+      setLoading(true)
+      if (result === 'Added') {
         localStorage.removeItem('location_id');
-        window.location.href = '/TotalLocation'
+        setAlertObj({ type: 'success', text: 'Address Added', url: '/TotalLocation' })
       }
       else {
-        alert('Server Error')
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
 
@@ -137,14 +142,12 @@ function AddOrgAddress() {
                         />
                       </div>
                     </div>
-
                     <div className="form-row">
                       <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">From Date</label>
                       <div className="col form-group">
                         <input type="Date" className="form-control col-md-4" id='from_date' />
                       </div>
                     </div>
-
                   </form>
                 </article>
                 <div className="border-top card-footer">
@@ -153,6 +156,9 @@ function AddOrgAddress() {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

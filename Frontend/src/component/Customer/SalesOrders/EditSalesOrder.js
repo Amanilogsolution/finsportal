@@ -4,10 +4,13 @@ import Footer from "../../Footer/Footer";
 import { ActiveCustomer, SelectedCustomer, ActiveAccountMinorCode, ActiveItems, Activeunit, getSoDetails, getSubSoDetails, EditsalesOrder, showOrganisation, Getfincialyearid, Updatefinancialcount } from '../../../api/index'
 import Preview from './PreviewSalesOrder/PreviewSalesOrder'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 export default function EditSalesOrder() {
     const [loading, setLoading] = useState(false)
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [itemtoggle, setItemtoggle] = useState([false])
     const [itemsdata, setItemdata] = useState([])
     const [orgdata, setOrgdata] = useState([])
@@ -50,7 +53,7 @@ export default function EditSalesOrder() {
 
             const cust_name = await SelectedCustomer(org, Sodata[0].cust_id)
             setCustName(cust_name.cust_name)
-            
+
             setSomajorData({
                 ...somajorData,
                 customer_name: cust_name.cust_name,
@@ -93,8 +96,7 @@ export default function EditSalesOrder() {
         setLoading(false)
         if (btntype === 'save') {
             setLoading(true)
-            alert('Data Saved')
-            window.location.href = "./SaveSalesOrder"
+            setAlertObj({ type: 'success', text: 'Data Saved', url: '/SaveSalesOrder' })
         }
         else {
             const org = localStorage.getItem('Organisation')
@@ -103,15 +105,13 @@ export default function EditSalesOrder() {
             let new_so_num = id[0].so_ser + id[0].year + String(lastno).padStart(5, '0')
 
             const result = await EditsalesOrder(localStorage.getItem('Organisation'), new_so_num, 'post', localStorage.getItem('soNo'));
-
+            setLoading(true)
             if (result === "Updated") {
                 await Updatefinancialcount(org, 'so_count', lastno)
-                alert('So Posted')
-                window.location.href = "./SaveSalesOrder"
+                setAlertObj({ type: 'success', text: 'So Posted', url: '/SaveSalesOrder' })
             }
             else {
-                alert('Server Not Response')
-                setLoading(true)
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
     }
@@ -291,6 +291,9 @@ export default function EditSalesOrder() {
                                         </div>
                                     </div>
                                 </div>
+                                {
+                                    alertObj.type ? <AlertsComp data={alertObj} /> : null
+                                }
                             </div>
                             <Preview somajorData={somajorData} items={itemsrowval} org={orgdata} />
                         </div>

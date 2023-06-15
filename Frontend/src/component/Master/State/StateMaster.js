@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { addstates, Activecountries } from "../../../api";
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const StateMaster = () => {
@@ -10,7 +11,9 @@ const StateMaster = () => {
   const [select_type, setStateType] = useState();
   const [selectCountry, setSelectCountry] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('india');
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,17 +28,22 @@ const StateMaster = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const state_name = document.getElementById("State_name").value;
     const state_code = document.getElementById("state_code").value;
     const state_short_name = document.getElementById("State_Short_Name").value;
     if (!state_name || !state_code || !state_short_name) {
-      alert('Enter data')
-    } else {
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+    }
+    else {
       const result = await addstates(state_name, selectedCountry, state_code, state_short_name, select_type, localStorage.getItem('User_id'));
+      setLoading(true)
       if (result === "Already") {
-        alert('Already')
-      } else {
-        window.location.href = '/ShowState'
+        setAlertObj({ type: 'warning', text: 'Already!', url: '' })
+      }
+      else {
+        setAlertObj({ type: 'success', text: 'Country Added', url: '/ShowState' })
       }
     }
 
@@ -109,12 +117,15 @@ const StateMaster = () => {
                     </div>
                   </div>
                 </form>
-                <div className={`border-top card-footer`}>
+                <div className='border-top card-footer'>
                   <button className="btn btn-success" onClick={handleClick}>Save</button>
                   <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./ShowState" }}>Cancel</button>
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

@@ -4,13 +4,16 @@ import Footer from "../../Footer/Footer";
 import { showstate } from '../../../api/index.js'
 import { updateState, Activecountries } from '../../../api/index.js'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const EditState = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
   const [statetype, setStateType] = useState()
   const [selectCountry, setSelectCountry] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,23 +38,25 @@ const EditState = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const country_name = document.getElementById('Country_name').value;
     const state_name = document.getElementById('State_name').value;
     const state_code = document.getElementById('State_code').value;
     const state_short_name = document.getElementById('State_short').value;
 
     if (!country_name || !state_name) {
-      alert('Please fill the Country or State name field')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await updateState(localStorage.getItem('stateSno'), country_name, state_name, state_code, state_short_name, statetype, localStorage.getItem('User_id'));
+      setLoading(true)
       if (result === 'Updated') {
         localStorage.removeItem('stateSno')
-        alert('State Updated')
-        window.location.href = '/ShowState'
+        setAlertObj({ type: 'success', text: 'State Updated', url: '/ShowState' })
       }
       else {
-        alert('Server not Response');
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
 
@@ -122,12 +127,15 @@ const EditState = () => {
                     </div>
                   </form>
                 </article>
-                <div className='border-top card-footer '>
+                <div className='border-top card-footer'>
                   <button className="btn btn-success" onClick={handleClick}>Update</button>
                   <button className="btn btn-secondary ml-3" onClick={() => window.location.href = './ShowState'}>Cancel</button>
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

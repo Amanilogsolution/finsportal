@@ -7,10 +7,14 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { TotalUserRole, DeleteUserRole, getUserRolePermission } from '../../../api';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowRoles = () => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     const columns = [
         {
@@ -41,7 +45,8 @@ const ShowRoles = () => {
                         onChange={async (e) => {
                             const status = e.target.value;
                             await DeleteUserRole(localStorage.getItem('Organisation'), row.sno, status)
-                            window.location.href = 'ShowRoles'
+                            setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowRoles' })
+
                         }}
                     >
                         <option value={row.status} hidden> {row.status}</option>
@@ -109,6 +114,9 @@ const ShowRoles = () => {
                                 </article>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

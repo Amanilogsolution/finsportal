@@ -3,19 +3,21 @@ import Header from "../../../Header/Header";
 import Footer from "../../../Footer/Footer";
 import { locationAddress, UpdateLocationAddress, getCity } from '../../../../api'
 import LoadingPage from '../../../loadingPage/loadingPage';
+import AlertsComp from '../../../AlertsComp';
 
 
 function EditOrgAddress() {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
   const [citylist, setCitylist] = useState([])
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await locationAddress(localStorage.getItem('Organisation'), localStorage.getItem('location_id'))
       setData(result)
-
       const city = await getCity(result.location_state);
       setCitylist(city)
       setLoading(true)
@@ -25,6 +27,7 @@ function EditOrgAddress() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     const location_add1 = document.getElementById('location_add1').value;
     const location_add2 = document.getElementById('location_add2').value;
     const location_city = document.getElementById('location_city').value;
@@ -35,17 +38,18 @@ function EditOrgAddress() {
     const User_id = localStorage.getItem('User_id');
 
     if (!location_city || !location_pin || location_pin.length < 6) {
-      alert('Please Fill the mandatory field or Invalid Data')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await UpdateLocationAddress(localStorage.getItem('Organisation'), location_add1, location_add2, location_city, location_state, location_country, from_date, localStorage.getItem('location_id'), location_pin, User_id)
-      if (result) {
-        alert('Data Updated');
+      setLoading(true)
+      if (result === 'done') {
         localStorage.removeItem('location_id');
-        window.location.href = '/TotalLocation'
+        setAlertObj({ type: 'success', text: 'Address Updated', url: '/TotalLocation' })
       }
       else {
-        alert('Server Error')
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
 
     }
@@ -176,6 +180,9 @@ function EditOrgAddress() {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

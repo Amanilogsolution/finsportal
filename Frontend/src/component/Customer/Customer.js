@@ -4,6 +4,7 @@ import "./Customer.css";
 import Footer from "../Footer/Footer";
 import { Activecountries, showactivestate, getCity, Getfincialyearid, CustomerMastId, ActivePaymentTerm, AddCustomer, ActiveCurrency, CustInsertAddress, UpdatefinancialTwocount, Updatefinancialcount } from '../../api';
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 
 const Customer = () => {
@@ -35,6 +36,10 @@ const Customer = () => {
     masterId_count: 0,
     custId_count: 0
   })
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
+
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation');
@@ -119,8 +124,8 @@ const Customer = () => {
     const User_id = localStorage.getItem("User_id");
 
     if (!customer_firstname || !gst_treatment || !tax_preference || !selectedcurrency) {
-      alert('Please Enter Mandatory field')
       setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const custnamrchar = cust_name.substring(0, 3);
@@ -137,9 +142,9 @@ const Customer = () => {
         if (result[0] > 0) {
           const insertAdd = await CustInsertAddress(org, User_id, generatedcust, cust_name, gstin_uin, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, custaddid)
           await Updatefinancialcount(localStorage.getItem('Organisation'), 'cust_count', custMastIdCount.custId_count)
+          setLoading(true)
           if (insertAdd[0] > 0) {
-            alert("Data Added")
-            window.location.href = './TotalCustomer'
+            setAlertObj({ type: 'success', text: 'Customer Added', url: '/TotalCustomer' })
           }
           else {
             alert('Server not Response');
@@ -147,8 +152,7 @@ const Customer = () => {
           }
         }
         else {
-          alert('Server Not Response');
-          setLoading(true)
+          setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
         }
       }
       else {
@@ -163,18 +167,16 @@ const Customer = () => {
           const insertAdd = await CustInsertAddress(org, User_id, generatedcust, cust_name, gstin_uin, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, custaddid)
 
           await UpdatefinancialTwocount(localStorage.getItem('Organisation'), 'invoice_count', custMastIdCount.masterId_count, 'cust_count', custMastIdCount.custId_count)
+          setLoading(true)
           if (insertAdd[0] > 0) {
-            alert("Data Added");
-            window.location.href = './TotalCustomer'
+            setAlertObj({ type: 'success', text: 'Customer Added', url: '/TotalCustomer' })
           }
           else {
-            alert('Server not Response');
-            setLoading(true)
+            setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
           }
         }
         else {
-          alert('Server not Response');
-          setLoading(true)
+          setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
         }
       }
 
@@ -847,6 +849,9 @@ const Customer = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

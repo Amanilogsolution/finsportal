@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { Insertcompliance, Showactivecompliancestype } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const Addcompliances = () => {
@@ -16,6 +17,9 @@ const Addcompliances = () => {
   const [duedate, setdueDate] = useState([])
   const [extenddate, setExtendDate] = useState([])
   const [period, setPeriod] = useState()
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,19 +66,28 @@ const Addcompliances = () => {
   }
 
   const handlesave = () => {
+    setLoading(false)
     const org = localStorage.getItem('Organisation')
     const ComplianceType = document.getElementById('compliancetype').value
     const nature = document.getElementById('nature').value
     const fromapplicable = document.getElementById('fromapplicable').value
     if (!nature || !period || !periodname || !fromdate || !todate || !fromapplicable || !duedate || !extenddate) {
+      setLoading(true)
       setMandatory(true)
-    } else {
+    }
+    else {
+      let result;
       periodname.map(async (name, index) => {
-        const result = await Insertcompliance(org, ComplianceType, nature, period, name, fromdate[index], todate[index], fromapplicable, duedate[index], extenddate[index], localStorage.getItem('User_name'))
-        if (result) {
-          window.location.href = 'Showcompliances'
-        }
+        result = await Insertcompliance(org, ComplianceType, nature, period, name, fromdate[index], todate[index], fromapplicable, duedate[index], extenddate[index], localStorage.getItem('User_name'))
+        setLoading(true)
       })
+      if (result === 'Added') {
+        setAlertObj({ type: 'success', text: 'Compliance Added', url: '/Showcompliances' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
+
     }
 
   }
@@ -185,6 +198,9 @@ const Addcompliances = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

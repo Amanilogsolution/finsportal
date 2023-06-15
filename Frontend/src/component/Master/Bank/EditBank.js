@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showBank, updateBank, Activecountries, showactivestate, getCity } from '../../../api'
+import AlertsComp from '../../AlertsComp';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 const EditBank = () => {
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState({})
   const [countrylist, setCountrylist] = useState([])
   const [statelist, setStatelist] = useState([])
   const [citylist, setCitylist] = useState([])
   const [type, setType] = useState('')
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +42,7 @@ const EditBank = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     // const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
@@ -53,20 +60,19 @@ const EditBank = () => {
     const User_id = localStorage.getItem('User_id');
 
     if (!account_no || !ifsc_code || !country || !state) {
-      alert('Please Enter the Mandatoy fields')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await updateBank(localStorage.getItem('BankSno'), data.chart_of_account, account_no, type, bank_name, branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id);
-      if (result) {
-        alert('Data Updated')
-        window.location.href = '/TotalBank'
+      setLoading(true)
+      if (result === 'Updated') {
+        setAlertObj({ type: 'success', text: 'Bank Data Updated', url: '/TotalBank' })
       }
       else {
-        alert('Server Error');
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
-
-
   }
 
 

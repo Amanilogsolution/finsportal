@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { insertBank, Activecountries, showactivestate, getCity, ActiveAllChartofAccount } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const AddBank = () => {
   const [loading, setLoading] = useState(false)
@@ -13,6 +14,9 @@ const AddBank = () => {
   const [pincode, setPincode] = useState(0);
   const [chartofacctlist, setChartofacctlist] = useState([]);
   const [accountingcode, setAccountingcode] = useState();
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -30,7 +34,7 @@ const AddBank = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
+    setLoading(false)
     // const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
@@ -47,23 +51,22 @@ const AddBank = () => {
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id');
 
-
     if (!account_no || !ifsc_code || !bank_name || !country || !state || !city) {
-      alert('Please Enter Mandatory Field')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await insertBank(accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city,
         pincode, ifsc_code, actype, acname, description, branch, org, User_id)
+      setLoading(true)
       if (result === "Already") {
-        alert('Already')
+        setAlertObj({ type: 'warning', text: 'Already!', url: '' })
       }
       else if (result === "Added") {
-        alert('Data Added')
-        window.location.href = '/TotalBank'
+        setAlertObj({ type: 'success', text: 'Bank Added', url: '/TotalBank' })
       }
       else {
-        alert('Server Not Response')
-        window.location.reload();
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
 
@@ -230,6 +233,9 @@ const AddBank = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

@@ -4,6 +4,7 @@ import Footer from "../../Footer/Footer";
 import { ActiveCustomer, ActiveVendor, InsertCrm } from "../../../api";
 import Select from 'react-select';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const AddCrm = () => {
     const [loading, setLoading] = useState(false)
@@ -12,6 +13,9 @@ const AddCrm = () => {
     const [vendorlist, setVendorlist] = useState([])
     const [custvendval, setCustvendval] = useState('');
     const [typeselect, setTypeSelect] = useState('Vendor')
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -27,6 +31,7 @@ const AddCrm = () => {
     }, [])
     const handleClick = async (e) => {
         e.preventDefault();
+        setLoading(false)
         const crmtypes = typeselect;
         const person_name = document.getElementById("person_name").value;
         const cust_vend_name = custvendval.value;
@@ -42,16 +47,17 @@ const AddCrm = () => {
         // let formatted_date = to_date.getFullYear() + "-" + (to_date.getMonth() + 1) + "-" + to_date.getDate()
 
         if (!crmtypes || !person_name || !cust_vend_name) {
-            alert('Enter data')
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const result = await InsertCrm(localStorage.getItem('Organisation'), person_name, crmtypes, cust_vend_name, localStorage.getItem('User_id'), from_date, formatted_date);
+            setLoading(true)
             if (result === "Added") {
-                alert('Data Added')
-                window.location.href = '/ShowCrm'
+                setAlertObj({ type: 'success', text: 'Country Added', url: '/ShowCrm' })
             }
             else {
-                alert('Server not Response')
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
 
@@ -146,6 +152,9 @@ const AddCrm = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

@@ -335,7 +335,7 @@ export const showuser = async (sno) => {
 
 export const UpdateUser = async (sno, employee_name, role, warehouse, user_name, password,
     email_id, phone, operate_mode, customer, reporting_to, designation, two_factor_authentication, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateuser`
+    const url = `http://localhost:3008/api/updateuser`
     return axios.post(url, {
         sno, employee_name, role, warehouse, user_name, password, email_id, phone,
         operate_mode, customer, reporting_to, designation, two_factor_authentication, User_id
@@ -817,7 +817,7 @@ export const ShowcompliancesTypeselect = async (org, sno) => {
 }
 
 export const UpdatecomplianceType = async (org, compliance_type, user_name, sno) => {
-    const url = `https://finsbackend.awlinternational.com/api/UpdatecomplianceType`
+    const url = `http://localhost:3008/api/UpdatecomplianceType`
     return axios.post(url, { org, compliance_type, user_name, sno }).then(response => response.data).catch(error => console.log(error));
 }
 export const Compliancesstatus = async (org, sno, status) => {
@@ -896,7 +896,8 @@ export const deleteItems = async (org, sno, status) => {
 }
 
 export const UpdateItems = async (sno, org, type, Name, Unit, hsncode, saccode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, glcode, user_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateItems`
+    console.log('Api',sno)
+    const url = `http://localhost:3008/api/updateItems`
     return axios.post(url, { sno, org, type, Name, Unit, hsncode, saccode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, glcode, user_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveItems = async (org, major_code) => {

@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { GetItems, UpdateItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit } from "../../api";
 import LoadingPage from '../loadingPage/loadingPage';
-
+import AlertsComp from '../AlertsComp';
 
 const EditItem = () => {
     const [loading, setLoading] = useState(false)
@@ -12,7 +12,9 @@ const EditItem = () => {
     const [chartofaccountlist, setChartofaccountlist] = useState([]);
     const [type, setType] = useState();
     const [unitdata, setUnitdata] = useState([]);
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -100,25 +102,21 @@ const EditItem = () => {
         const user_id = localStorage.getItem('User_id');
 
         if (!Name || !minor_code_id || !chartofaccount_id || !taxpreference) {
-            alert('Enter the Mandatory field...')
             setLoading(true)
-
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const checkbox = document.getElementById('checkboxgst').checked || false
             let glcode = '';
             if (checkbox) { glcode = data.glcode }
-
             const result = await UpdateItems(sno, org, type, Name, Unit, hsncode, saccode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, glcode, user_id);
+            setLoading(true)
             if (result === "updated") {
-                alert('Data Updated')
                 localStorage.removeItem('ItemsSno');
-                window.location.href = '/ShowItem'
+                setAlertObj({ type: 'success', text: 'Item Updated', url: '/ShowItem' })
             }
             else {
-                alert('Server error')
-                setLoading(true)
-
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
 
@@ -271,6 +269,9 @@ const EditItem = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

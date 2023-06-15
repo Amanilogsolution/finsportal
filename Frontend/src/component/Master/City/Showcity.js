@@ -10,6 +10,7 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const Showcity = () => {
   const [loading, setLoading] = useState(false)
@@ -20,7 +21,9 @@ const Showcity = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     async function fetchdata() {
@@ -119,7 +122,7 @@ const Showcity = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteCity(row.sno, status)
-                    window.location.href = 'ShowCity'
+                    setAlertObj({ type: 'success', text:`Status ${status}`, url: '/ShowCity' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -259,6 +262,9 @@ const Showcity = () => {
 
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }
