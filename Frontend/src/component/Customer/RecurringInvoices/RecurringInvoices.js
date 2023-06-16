@@ -480,22 +480,16 @@ function AddRecurringInvoices() {
                 <Header />
                 {
                     loading ?
-
-                        <div className={`content-wrapper `} >
+                        <div className='content-wrapper' >
                             <div className="container-fluid" >
                                 <h3 className="pt-3 px-3">Add Recurring Invoice</h3>
-
                                 <div className="card my-2" >
                                     <article className="card-body">
                                         <form autoComplete="off">
                                             <div className="form-row">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="custname"
-                                                        className="form-control"
-                                                        onChange={handleCustname}
-                                                    >
+                                                    <select id="custname" className="form-control" onChange={handleCustname} >
                                                         <option value='' hidden>Select Customer</option>
                                                         {
                                                             activecustomer.map((items, index) => (
@@ -639,8 +633,6 @@ function AddRecurringInvoices() {
                                                 </div>
                                             </div>
                                             <br />
-
-
                                             <table className="table  table-striped table-bordered">
                                                 <thead>
                                                     <tr>
@@ -835,9 +827,7 @@ function AddRecurringInvoices() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress"
-                                    onChange={handleSearchBillingLoc}
-                                />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress" onChange={handleSearchBillingLoc} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -883,9 +873,7 @@ function AddRecurringInvoices() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress"
-                                    onChange={handleSearchCustLoc}
-                                />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress" onChange={handleSearchCustLoc} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -894,7 +882,6 @@ function AddRecurringInvoices() {
                                     <tr>
                                         <th>City</th>
                                         <th>Address </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>

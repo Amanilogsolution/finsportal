@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
+import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
 
@@ -11,7 +11,7 @@ function AddBankingPayment() {
     const [orgdata, setOrgdata] = useState([])
 
     const minorBankPayobj = {
-        achead: '', glcode: '', custId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
+        chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
         //  tds: '', net_amt: '',
         pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
     }
@@ -19,8 +19,12 @@ function AddBankingPayment() {
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [banklist, setBanklist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
+    const [employeelist, setEmployeelist] = useState([])
     const [currentindex, setCurrentindex] = useState(0);
     const [locationstate, setLocationstate] = useState([]);
+    const [vendorBilllist, setVendorBilllist] = useState([]);
+    const [selectedBillData, setSelectedBillData] = useState([])
+    const [selectedBillIndex, setSelectedBillIndex] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -34,6 +38,10 @@ function AddBankingPayment() {
 
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
+
+            const emp_list = await ActiveEmployee(org)
+            console.log(emp_list)
+            setEmployeelist(emp_list)
             setLoading(true)
             Todaydate()
         }
@@ -80,11 +88,27 @@ function AddBankingPayment() {
         minorData[index][e.target.name] = e.target.value;
         setBankPayMinData(minorData)
     }
+
+    const handleChangePayType = (e, index) => {
+        const pay_type = e.target.value;
+        let minorData = [...bankPayMinData];
+        minorData[index].pay_type = pay_type;
+        if (pay_type === 'partial') {
+            minorData[index].amt_paid = 0
+        }
+        else if (pay_type === 'full') {
+            minorData[index].amt_paid = bankPayMinData[index].refAmt
+            minorData[index].amt_bal = 0
+            document.getElementById(`amt_paid-${index}`).disabled = true;
+        }
+        setBankPayMinData(minorData)
+    }
     // ###################### Handle Change Minor Data End ###############################
 
     // ###################### Handle Change Ac Head Data Start ###############################
     const handleChnageAcHead = async (chartOfAcct, glCode) => {
         let minorData = [...bankPayMinData];
+        minorData[currentindex].chart_of_acct = chartOfAcct;
         minorData[currentindex].achead = chartOfAcct;
         minorData[currentindex].glcode = glCode;
         setBankPayMinData(minorData)
@@ -95,6 +119,70 @@ function AddBankingPayment() {
             setVendorlist(vendors)
             document.getElementById('SelectVendorModal').style.display = 'block'
         }
+    }
+
+
+    const handleClickVendor = async (id, name, mast_id) => {
+        const onAccount = document.getElementById('on_account').checked === true ? true : false
+        if (!onAccount) {
+            const bills = await GetBillVendorID(localStorage.getItem('Organisation'), id)
+            setVendorBilllist(bills)
+            offCustomModal('SelectVendorModal');
+            document.getElementById('billCustomModal').style.display = "block"
+            bankPayMinData[currentindex].vendorId = id;
+        }
+        else {
+            offCustomModal('SelectVendorModal');
+        }
+        bankPayMinData[currentindex].masterId = mast_id;
+        bankPayMinData[currentindex].achead = name;
+    }
+
+
+    const handleSetBillData = (index, bill_no, bill_date, bill_amt, location) => {
+        const getcheckval =
+            document.getElementById(`billcheck-${index}`).checked === true ? true : false;
+
+        if (getcheckval) {
+            setSelectedBillData([...selectedBillData,
+            {
+                chart_of_acct: bankPayMinData[currentindex].chart_of_acct, achead: bankPayMinData[currentindex].achead, glcode: bankPayMinData[currentindex].glcode, vendorId: bankPayMinData[currentindex].vendorId,
+                masterId: bankPayMinData[currentindex].masterId, costCenter: location, refNo: bill_no, refDate: bill_date, refAmt: bill_amt,
+                pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
+            }
+            ]);
+            setSelectedBillIndex([...selectedBillIndex, index]);
+        }
+        else {
+            const inexvno = selectedBillIndex.indexOf(index);
+
+            if (inexvno > -1) {
+                selectedBillIndex.splice(inexvno, 1);
+                selectedBillData.splice(inexvno, 1);
+            }
+        }
+
+    }
+
+    const handleMergeInvoiceBillArry = () => {
+        console.log(selectedBillData)
+        const rowsInput = [...bankPayMinData];
+        rowsInput.pop()
+        let newRowData;
+        newRowData = [...rowsInput, ...selectedBillData]
+        setSelectedBillIndex([]);
+        setSelectedBillData([]);
+        offCustomModal('billCustomModal')
+        setBankPayMinData(newRowData)
+
+        setTimeout(() => {
+            for (let i = currentindex; i < newRowData.length; i++) {
+                document.getElementById(`location-${i}`).disabled = true
+                document.getElementById(`ref_no-${i}`).disabled = true
+                document.getElementById(`ref_date-${i}`).disabled = true
+                document.getElementById(`ref_amt-${i}`).disabled = true
+            }
+        }, 1000)
 
     }
     // ###################### Handle Change  Ac Head  Data End ###############################
@@ -122,6 +210,12 @@ function AddBankingPayment() {
             const locatonstateres = await ActiveLocationAddress(org)
             setLocationstate(locatonstateres)
         }
+    }
+
+    const handlelocation = (location_id) => {
+        let minorData = [...bankPayMinData];
+        minorData[currentindex].costCenter = location_id;
+        setBankPayMinData(minorData)
     }
 
     // ------------------------------ Submit Form ---------------------------------
@@ -190,9 +284,12 @@ function AddBankingPayment() {
                                                         bankPayMinData={bankPayMinData}
                                                         handleRemoveDeleteRow={handleRemoveDeleteRow}
                                                         handleChangeMiorData={handleChangeMiorData}
+                                                        handleChangePayType={handleChangePayType}
                                                         chartofacctlist={chartofacctlist}
                                                         handleChnageAcHead={handleChnageAcHead}
                                                         setCurrentindex={setCurrentindex}
+                                                        employeelist={employeelist}
+
                                                     />
                                                 </tbody>
                                             </table>
@@ -266,7 +363,7 @@ function AddBankingPayment() {
                                     {
                                         vendorlist.map((vendor, index) =>
                                             <tr key={index} className="cursor-pointer"
-                                            // onClick={() => { handleClickCustomer(vendor.vend_id, vendor.vend_name,vendor.mast_id) }}
+                                                onClick={() => { handleClickVendor(vendor.vend_id, vendor.vend_name, vendor.mast_id) }}
                                             >
                                                 <td className="pl-3 text-center">{index + 1}</td>
                                                 <td className="pl-3 text-center">{vendor.vend_name}</td>
@@ -284,7 +381,54 @@ function AddBankingPayment() {
                     </div>
                 </div>
             </div>
+            {/* ############## Bill Custome Modal ################################# */}
+            <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Select Bill</h5>
+                        </div>
+                        <div className="modal-body">
+                            <table className="table  table-striped table-sm ">
+                                <thead className="position-sticky bg-white  " style={{ top: '0' }}>
+                                    <tr>
+                                        <th className="pl-4 text-left" style={{ fontSize: '20px' }}>Select</th>
+                                        <th className="pl-4 text-left" style={{ fontSize: '20px' }}>Bill no</th>
+                                        <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Bill Date</th>
+                                        <th className="pl-4 text-right" style={{ fontSize: '20px' }}>Bill Amt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        vendorBilllist.map((bill, index) =>
+                                            <tr key={index} className="cursor-pointer" >
+                                                <td className="pl-3"><input type="checkbox" id={`billcheck-${index}`}
+                                                    onChange={() => { handleSetBillData(index, bill.vourcher_no, bill.voudate, bill.total_bill_amt, bill.location) }}
+                                                /></td>
 
+                                                <td className="pl-3 text-left">{bill.vourcher_no}</td>
+                                                <td className="pl-3 text-center">{bill.voudate}</td>
+                                                <td className="pl-3 text-right">{bill.total_bill_amt}</td>
+                                            </tr>
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary"
+                                onClick={() => { offCustomModal('billCustomModal'); }}
+                            >Close</button>
+                            <button type="button" className="btn btn-success"
+                                onClick={() => handleMergeInvoiceBillArry()}
+                            >Procced</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* ############## Invoice Custome Modal ################################# */}
             {/* ########################## modal Chart Of Account  Start ######################## */}
             <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -348,7 +492,7 @@ function AddBankingPayment() {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                    onClick={(e) => { handlelocation(items.location_id) }}
                                                 >
                                                     <td>{items.location_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>

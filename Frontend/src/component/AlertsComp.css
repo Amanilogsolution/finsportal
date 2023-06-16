@@ -1,7 +1,7 @@
 #snackbar {
-  visibility: hidden;
   min-width: 400px;
   max-width: 450px;
+  visibility: hidden;
   margin-left: -125px;
   color: #000;
   text-align: center;
@@ -16,7 +16,9 @@
   justify-content: space-between;
   align-items: center;
 }
-
+#snackbar::after{
+  background-color: red;
+}
 #snackbar.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;

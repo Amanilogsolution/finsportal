@@ -25,7 +25,7 @@ const AlertsComp = ({ data }) => {
     x.className = 'show';
     document.getElementById('snackbar').style.background = color;
     document.getElementById('textTag').innerHTML = text;
-   
+
 
 
     setTimeout(function () {
@@ -38,7 +38,8 @@ const AlertsComp = ({ data }) => {
       <div>
         <div id="snackbar">
           <div id='snackbar_icons'>
-            <img src='' alt='Alert Icons' id='alert_icons' /> </div>
+            <img src='' alt='Alert Icons' id='alert_icons' />
+          </div>
           <div id='textTag'>Some text some message..</div>
         </div>
       </div>
