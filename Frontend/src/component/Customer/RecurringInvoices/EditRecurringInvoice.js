@@ -5,7 +5,7 @@ import InvoicePreview from '../Invoices/EditInvoice/PreviewEditInvoice';
 import { getRecurringInvoice, getSubRecurringInvoice, InsertInvoice, Getfincialyearid, UpdateRecurringInvoice, UpdateSaveSubRecurringInvoice, Updatefinancialcount, InsertInvoiceSub, GetSalesOrderByCust } from '../../../api/index'
 import LoadingPage from '../../loadingPage/loadingPage';
 import CreatableSelect from 'react-select/creatable';
-
+import AlertsComp from '../../AlertsComp';
 
 
 function EditRecurringInvoice() {
@@ -16,8 +16,9 @@ function EditRecurringInvoice() {
     const [sovalue, setValue] = useState();
     const [solist, setSolist] = useState([])
     const [activepaymentterm, setActivePaymentTerm] = useState([])
-
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
 
     useEffect(() => {
@@ -82,12 +83,12 @@ function EditRecurringInvoice() {
         const dueDate = document.getElementById('Duedate').value
         const remarks = document.getElementById('custnotes').value
 
-        if (!invoiceid) {
-            alert('Please Fill the Mandatory Fields');
+        if (!invoiceid || !sovalue) {
             setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
-            const orderNo = sovalue.value ? sovalue.value : ''
+            const orderNo = sovalue ? sovalue.value : ''
 
             const result2 = await InsertInvoice(org, invoice_detail.fin_year, invoiceid,
                 invoicepefix, invoiceDate, orderNo, invoice_detail.invoice_amt, invoice_detail.user_id, invoice_detail.periodfrom, invoice_detail.periodto, '', invoice_detail.location, invoice_detail.custid, invoice_detail.billsubtotal,
@@ -108,14 +109,13 @@ function EditRecurringInvoice() {
 
                 if (result2 === 'Added') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
-                    alert('Invoice Posted');
                     localStorage.removeItem('invoiceNo');
-                    window.location.href = '/TotalRecurringInvoice'
+                    setAlertObj({ type: 'success', text: 'Invoice Posted', url: '/TotalRecurringInvoice' })
                 }
             }
             else {
-                alert('Server Not Response')
                 setLoading(true)
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
     }
@@ -214,7 +214,7 @@ function EditRecurringInvoice() {
                                                 </div> */}
 
                                                 <div className="form-row mt-3">
-                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number </label>
+                                                    <label className="col-md-2 col-form-label font-weight-normal" >Order Number <span className='text-danger'>*</span>  </label>
                                                     <div className="d-flex col-md-4">
                                                         <CreatableSelect
                                                             className='col-md px-1'
@@ -419,8 +419,10 @@ function EditRecurringInvoice() {
                                             <button id='previewbtn' type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                         </div>
                                     </div>
-
                                 </div>
+                                {
+                                    alertObj.type ? <AlertsComp data={alertObj} /> : null
+                                }
                             </div>
                         </>
                         :

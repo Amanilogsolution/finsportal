@@ -4,10 +4,13 @@ import Footer from "../../Footer/Footer";
 import Preview from './PreviewPurchaseOrder/Preview';
 import { ActiveVendor, ActiveSelectedVendor, ActivePurchesItems, Activeunit, Updatefinancialcount, showLocation, Getfincialyearid, Editpurchaseorder, ActiveLocationAddress, getPoDetailsPreview, getSubPoDetailsPreview } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 export default function EditPurchaseOrder() {
     const [loading, setLoading] = useState(false)
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [data, setData] = useState({})
     const [vendorlist, setVendorlist] = useState([])
     const [unitlist, setUnitlist] = useState([])
@@ -85,8 +88,9 @@ export default function EditPurchaseOrder() {
     const handleSubmit = async (btntype) => {
         setLoading(false)
         if (btntype === 'save') {
-            alert('Data Saved')
-            window.location.href = "./SavePurchaseOrder"
+            setLoading(true)
+            setAlertObj({ type: 'success', text: 'PO Saved', url: '/SavePurchaseOrder' })
+
         }
         else {
             const org = localStorage.getItem('Organisation')
@@ -98,12 +102,12 @@ export default function EditPurchaseOrder() {
 
             if (result === "Updated") {
                 await Updatefinancialcount(org, 'po_count', lastno)
-                alert('Po Posted')
-                window.location.href = "./SavePurchaseOrder"
+                setLoading(true)
+                setAlertObj({ type: 'success', text: 'Po Posted', url: '/SavePurchaseOrder' })
             }
             else {
-                alert('Server not Response')
                 setLoading(true)
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
     }
@@ -246,8 +250,10 @@ export default function EditPurchaseOrder() {
                                     <Preview data={poalldetail} Allitems={poitem} vendordata={vendordata.vend_name} locationdata={locationdata.location_name} />
                                 </div>
                             </div>
+                            {
+                                alertObj.type ? <AlertsComp data={alertObj} /> : null
+                            }
                         </div>
-
                         : <LoadingPage />
                 }
                 <Footer />

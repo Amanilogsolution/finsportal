@@ -40,8 +40,6 @@ function ChangePassword() {
         const newpassword = document.getElementById('newpassword').value;
         const confirmpassword = document.getElementById('confirmpassword').value
 
-     
-
         if (!CurrentPassword || !newpassword || !confirmpassword) {
             setCheckpass(!checkpass)
         }
@@ -61,7 +59,7 @@ function ChangePassword() {
                     setShowalert(true);
                 }           
              }else{
-                alert('Not User')
+                alert('Invalid User')
             }
             
         }

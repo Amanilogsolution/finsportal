@@ -10,9 +10,13 @@ import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/Vendor Address formate.xlsx'
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const TotalVendAddress = () => {
   const [loading, setLoading] = useState(false)
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
   const [data, setData] = useState([])
   const [selectedvendname, setSelectedvendname] = useState([])
   const [importdata, setImportdata] = useState([]);
@@ -115,7 +119,8 @@ const TotalVendAddress = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await DeleteVendAddress(row.sno, status, localStorage.getItem('Organisation'))
-                    window.location.href = 'TotalVendAddress'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalVendAddress' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -289,7 +294,7 @@ const TotalVendAddress = () => {
                 </ul>
               </form>
               <br />
-              <div className={`card w-100`}>
+              <div className='card w-100'>
                 <article className="card-body py-0">
                   <DataTableExtensions
                     {...tableData}
@@ -307,6 +312,9 @@ const TotalVendAddress = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

@@ -3,10 +3,13 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { Activecountries, showactivestate, getCity, ActiveVendor, VendInsertAddress } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
-
+import AlertsComp from '../../AlertsComp';
 
 const AddVendAddress = () => {
   const [loading, setLoading] = useState(false)
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
   const [getVendID, setVendId] = useState([]);
   const [billing_address_country, setBilling_address_country] = useState();
   const [selectState, setSelectState] = useState([]);
@@ -29,7 +32,6 @@ const AddVendAddress = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     setLoading(false)
-
     const vend = document.getElementById('venddetail');
     const vend_name = vend.options[vend.selectedIndex].text;
     const vendid = vend.value;
@@ -40,7 +42,6 @@ const AddVendAddress = () => {
     const billing_address_fax = document.getElementById('billing_address_fax').value;
     const billing_address_city = document.getElementById('billing_address_city').value;
 
-
     const vendnamrchar = vend_name.substring(0, 3);
     const citychar = billing_address_city.substring(0, 3);
     const vendaddid = vendnamrchar.toUpperCase() + citychar.toUpperCase() + Math.floor(Math.random() * 100000);
@@ -49,20 +50,17 @@ const AddVendAddress = () => {
     const User_id = localStorage.getItem('User_id');
 
     if (!vend || !billing_address_country || !billing_address_city || !billing_address_state || !billing_address_pincode || !billing_address_phone) {
-      alert("Please! fill the mandatory field.")
       setLoading(true)
-
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await VendInsertAddress(vendid, vend_name, vendaddid, billing_address_gstno, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
+      setLoading(true)
       if (result[0] > 0) {
-        alert('Data Added')
-        window.location.href = 'TotalVendAddress'
+        setAlertObj({ type: 'success', text: 'Vendor Address Added', url: '/TotalVendAddress' })
       }
       else {
-        alert('Server not response')
-        setLoading(true)
-
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
 
     }
@@ -193,6 +191,9 @@ const AddVendAddress = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

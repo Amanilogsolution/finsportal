@@ -6,6 +6,7 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const TotalRecurringInvoice = () => {
@@ -13,7 +14,9 @@ const TotalRecurringInvoice = () => {
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -21,7 +24,6 @@ const TotalRecurringInvoice = () => {
       const result = await totalRecurringInvoice(org)
 
       setData(result)
-
       fetchRoles()
     }
 
@@ -33,7 +35,6 @@ const TotalRecurringInvoice = () => {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
-
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'recurring_invoice')
     setUserRightsData(UserRights)
@@ -80,7 +81,8 @@ const TotalRecurringInvoice = () => {
           }
           if (userRightsData.recurring_invoice_edit === 'true' && row.status === 'Active') {
             return (
-              <a title='Edit Invoice ' href="/EditRecurringInvoice" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('invoiceNo', `${row.invoice_no}`)}
+              <a title='Edit Invoice ' href="/EditRecurringInvoice" id={`editactionbtns${row.sno}`}
+                onClick={() => localStorage.setItem('invoiceNo', `${row.invoice_no}`)}
                 style={{ borderBottom: '1px solid blue' }}>{row.invoice_no}</a>
             );
           }
@@ -111,10 +113,13 @@ const TotalRecurringInvoice = () => {
           }
           if (userRightsData.recurring_invoice_delete === 'true') {
             return (
-              <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} onChange={async () => {
-                const result = await DeleteRecurringInvoice(row.sno, localStorage.getItem('Organisation'), row.status === 'Active' ? 'Deactive' : 'Active')
-                if (result == 'done') { window.location.href = "./TotalRecurringInvoice" }
-              }} />
+              <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false}
+                onChange={async () => {
+                  const result = await DeleteRecurringInvoice(row.sno, localStorage.getItem('Organisation'), row.status === 'Active' ? 'Deactive' : 'Active')
+                  if (result == 'done') {
+                    setAlertObj({ type: 'success', text: `Recurring Status Change`, url: '/TotalRecurringInvoice' })
+                  }
+                }} />
             );
           }
           else {
@@ -160,6 +165,9 @@ const TotalRecurringInvoice = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

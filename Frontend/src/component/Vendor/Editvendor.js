@@ -4,10 +4,14 @@ import Footer from "../Footer/Footer";
 import "./Vendor.css";
 import { showvendor, UpdateVendor } from '../../api'
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 
 const Vendor = () => {
   const [loading, setLoading] = useState(false)
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
   const [data, setData] = useState({})
   const themeval = localStorage.getItem('themetype')
 
@@ -59,16 +63,21 @@ const Vendor = () => {
     const org = localStorage.getItem('Organisation');
     const User_id = localStorage.getItem('User_id');
 
-
-    const result = await UpdateVendor(sno, vend_email, vend_work_phone, vend_phone, contact_person_name, contact_person_email, contact_person_work_phone,
-      contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id)
-    if (result) {
-      alert('Data Updated')
-      window.location.href = '/Showvendor'
+    if (!sno || !org) {
+      setLoading(true)
+      setAlertObj({ type: 'error', text: 'Something went Wrong', url: '/Showvendor' })
     }
     else {
-      alert('Server Not Response')
+      const result = await UpdateVendor(sno, vend_email, vend_work_phone, vend_phone, contact_person_name, contact_person_email, contact_person_work_phone,
+        contact_person_phone, contact_person_skype, contact_person_designation, contact_person_department, remark, org, User_id)
       setLoading(true)
+
+      if (result === 'done') {
+        setAlertObj({ type: 'success', text: 'Vendor Data Updated', url: '/Showvendor' })
+      }
+      else {
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+      }
     }
   }
 
@@ -474,45 +483,22 @@ const Vendor = () => {
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="pan_no"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          PAN
-                        </label>
+                        <label htmlFor="pan_no" className="col-md-2 col-form-label font-weight-normal"  > PAN </label>
                         <div className="col form-group">
-                          <input
-                            type="number"
-                            id="pan_no"
-                            className="form-control col-md-4 cursor-notallow"
-                            disabled
-                            defaultValue={data.pan_no}
-                          />
+                          <input type="number" id="pan_no" className="form-control col-md-4 cursor-notallow" disabled defaultValue={data.pan_no} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="source_of_supply"
-                          className="col-md-2 col-form-label font-weight-normal">
-                          <span style={{ color: "red" }}>
-                            Source Of Supply *
-                          </span>
+                        <label htmlFor="source_of_supply" className="col-md-2 col-form-label font-weight-normal"><span style={{ color: "red" }}>  Source Of Supply *</span>
                         </label>
                         <div className="col form-group">
-                          <input type='text' id="source_of_supply"
-                            className="form-control col-md-4 cursor-notallow"
-                            disabled defaultValue={data.source_of_supply} />
+                          <input type='text' id="source_of_supply" className="form-control col-md-4 cursor-notallow" disabled defaultValue={data.source_of_supply} />
 
                         </div>
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="currency"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          <span style={{ color: "red" }}>Currency *</span>
-                        </label>
+                        <label htmlFor="currency" className="col-md-2 col-form-label font-weight-normal" > <span style={{ color: "red" }}>Currency *</span> </label>
                         <div className="col-md-4 form-group pr-0">
                           <input className="form-control col-md-10 cursor-notallow" id="currency" defaultValue={data.currency} disabled />
                           {/* <select
@@ -533,96 +519,41 @@ const Vendor = () => {
                       </div>
 
                       <div className="form-row">
-                        <label
-                          htmlFor="opening_balance"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Opening Balance
-                        </label>
+                        <label htmlFor="opening_balance" className="col-md-2 col-form-label font-weight-normal" >  Opening Balance </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            id="opening_balance"
-                            className="form-control col-md-4 cursor-notallow"
-                            defaultValue={data.opening_balance}
-                            disabled
-                          />
+                          <input type="text" id="opening_balance" className="form-control col-md-4 cursor-notallow" defaultValue={data.opening_balance} disabled />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="payment_terms"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Payment Terms
-                        </label>
+                        <label htmlFor="payment_terms" className="col-md-2 col-form-label font-weight-normal" > Payment Terms</label>
                         <div className="col form-group">
-                          <input type='text' id="payment_terms"
-                            className="form-control col-md-4 cursor-notallow"
-                            disabled defaultValue={data.payment_terms} />
+                          <input type='text' id="payment_terms" className="form-control col-md-4 cursor-notallow" disabled defaultValue={data.payment_terms} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="tds"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          TDS
-                        </label>
+                        <label htmlFor="tds" className="col-md-2 col-form-label font-weight-normal" >  TDS </label>
                         <div className="col form-group">
-                          <input type='text' id="tds"
-                            className="form-control col-md-4 cursor-notallow"
-                            disabled defaultValue={data.tds} />
-
+                          <input type='text' id="tds" className="form-control col-md-4 cursor-notallow" disabled defaultValue={data.tds} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">
                           <div className="tooltip1">
                             Enable Portal?
-                            <span className="tooltipcontent">
-                              Give your customers access to portal to view
-                              transaction and make online payments.
-                            </span>
+                            <span className="tooltipcontent"> Give your customers access to portal to view transaction and make online payments. </span>
                           </div>
                         </label>
                         <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="portalcheck"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            Allow portal access for this customer
-                          </label>
+                          <input className="form-check-input" type="checkbox" id="portalcheck" />
+                          <label className="form-check-label" htmlFor="flexCheckDefault">  Allow portal access for this customer </label>
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="portal_language"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          <div className="tooltip1">
-                            Portal Language
-                            <span className="tooltipcontent">
-                              This will change the contact's portal in
-                              corresponding languages.
-                            </span>
-                          </div>
+                        <label htmlFor="portal_language" className="col-md-2 col-form-label font-weight-normal">
+                          <div className="tooltip1"> Portal Language <span className="tooltipcontent"> This will change the contact's portal in corresponding languages.  </span> </div>
                         </label>
                         <div className="col form-group">
-                          <select
-                            id="portal_language"
-                            className="form-control col-md-4 cursor-notallow"
-                            defaultValue={data.portal_language}
-                            disabled
-                          >
+                          <select id="portal_language" className="form-control col-md-4 cursor-notallow" defaultValue={data.portal_language} disabled >
                             <option>English</option>
                             <option>हिंदी</option>
                             <option>عربي</option>
@@ -634,156 +565,63 @@ const Vendor = () => {
                         {/* form-group end.// */}
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="facebook_url"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Facebook
-                        </label>
+                        <label htmlFor="facebook_url" className="col-md-2 col-form-label font-weight-normal" >  Facebook</label>
                         <div className="col form-group input-group">
-                          <input
-                            className="form-control col-md-4 cursor-notallow"
-                            placeholder="www.facebook.com"
-                            id="facebook_url"
-                            type="url"
-                            defaultValue={data.facebook_url}
-                            disabled
-                          />
+                          <input className="form-control col-md-4 cursor-notallow" placeholder="www.facebook.com" id="facebook_url" type="url" defaultValue={data.facebook_url} disabled />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="twitter_url"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Twitter
-                        </label>
+                        <label htmlFor="twitter_url" className="col-md-2 col-form-label font-weight-normal"  >  Twitter </label>
                         <div className="col form-group input-group">
-                          <input
-                            className="form-control col-md-4 cursor-notallow"
-                            placeholder="www.twitter.com"
-                            id="twitter_url"
-                            type="url"
-                            defaultValue={data.twitter_url}
-                            disabled
-                          />
+                          <input className="form-control col-md-4 cursor-notallow" placeholder="www.twitter.com" id="twitter_url" type="url" defaultValue={data.twitter_url} disabled />
                         </div>
                       </div>
                     </div>
                     {/*------------- Address-------------- */}
                     <div className="Address mt-3" id="addressdiv" style={{ display: "none" }}>
-                      <div
-                        className="Address_left"
-                        style={{ width: "50%", float: "left" }}
-                      >
+                      <div className="Address_left" style={{ width: "50%", float: "left" }} >
                         <label>BILLING ADDRESS</label>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_attention"
-                            className="col-md-3  col-form-label font-weight-normal"
-                          >
-                            Attention
-                          </label>
+                          <label htmlFor="billing_address_attention" className="col-md-3  col-form-label font-weight-normal"  >  Attention </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="billing_address_attention"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_attention}
-                              disabled
-                            />
+                            <input type="text" id="billing_address_attention" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_attention} disabled />
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_country"
-                            className="col-md-3 col-form-label font-weight-normal"
-                          >
-                            Country / Region
-                          </label>
+                          <label htmlFor="billing_address_country" className="col-md-3 col-form-label font-weight-normal" >  Country / Region </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="billing_address_country"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_country}
-                              disabled
-                            />
+                            <input type="text" id="billing_address_country" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_country} disabled />
                           </div>
                         </div>
 
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_city"
-                            className="col-md-3 col-form-label font-weight-normal"> City
-                          </label>
+                          <label htmlFor="billing_address_city" className="col-md-3 col-form-label font-weight-normal"> City </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="billing_address_city"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_city}
-                              disabled
-                            />
+                            <input type="text" id="billing_address_city" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_city} disabled />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="billing_address_state" className="col-md-3 col-form-label font-weight-normal">State</label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="billing_address_state"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_state}
-                              disabled
-                            />
+                            <input type="text" id="billing_address_state" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_state} disabled />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="billing_address_pincode" className="col-md-3 col-form-label font-weight-normal"> Zip Code </label>
                           <div className="col form-group">
-                            <input
-                              type="number"
-                              id="billing_address_pincode"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_pincode}
-                              disabled
-                            />
+                            <input type="number" id="billing_address_pincode" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_pincode} disabled />
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_phone"
-                            className="col-md-3 col-form-label font-weight-normal"
-                          >
-                            Phone
-                          </label>
+                          <label htmlFor="billing_address_phone" className="col-md-3 col-form-label font-weight-normal"> Phone </label>
                           <div className="col form-group">
-                            <input
-                              type="tel"
-                              id="billing_address_phone"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_phone}
-                              maxLength={10}
-                              disabled
-                            />
+                            <input type="tel" id="billing_address_phone" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_phone} maxLength={10} disabled />
                           </div>
                         </div>
                         <div className="form-row">
-                          <label
-                            htmlFor="billing_address_fax"
-                            className="col-md-3 col-form-label font-weight-normal"
-                          >
-                            Fax
-                          </label>
+                          <label htmlFor="billing_address_fax" className="col-md-3 col-form-label font-weight-normal" > Fax </label>
                           <div className="col form-group">
-                            <input
-                              type="text"
-                              id="billing_address_fax"
-                              className="form-control col-md-7 cursor-notallow"
-                              defaultValue={data.billing_address_fax}
-                              disabled
-                            />
+                            <input type="text" id="billing_address_fax" className="form-control col-md-7 cursor-notallow" defaultValue={data.billing_address_fax} disabled />
                           </div>
                         </div>
                       </div>
@@ -791,90 +629,54 @@ const Vendor = () => {
                     </div>
                     {/*--------- Remark ---------- */}
                     <div className="form-column" id="remarkdiv" style={{ display: "none" }}>
-                      <label
-                        htmlFor="remark"
-                        className=" col-form-label font-weight-normal"
-                      >
-                        Remarks
-                      </label>
+                      <label htmlFor="remark" className=" col-form-label font-weight-normal" >  Remarks</label>
                       <div className="col form-group">
-                        <textarea
-                          name="text"
-                          className="col-md-9"
-                          id="remark"
-                          cols="30"
-                          rows="5"
-                          defaultValue={data.remark}></textarea>
+                        <textarea name="text" className="col-md-9" id="remark" cols="30" rows="5" defaultValue={data.remark}></textarea>
                       </div>
                     </div>
                     {/*---------Add Contact Person ---------- */}
                     <div className="Address mt-3" id="contactdiv" style={{ display: "none" }}>
                       <label>Contact Person</label>
                       <div className="form-row">
-                        <label
-                          htmlFor="contact_person_fname"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Name
-                        </label>
+                        <label htmlFor="contact_person_fname" className="col-md-2 col-form-label font-weight-normal" > Name </label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            id="contact_person_fname"
-                            className="form-control col-md-4"
-                            defaultValue={data.contact_person_name}
-                          />
+                          <input type="text" id="contact_person_fname" className="form-control col-md-4" defaultValue={data.contact_person_name} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="contact_person_email" className="col-md-2 col-form-label font-weight-normal">Email Address</label>
                         <div className="col form-group">
-                          <input type="email" id="contact_person_email"
-                            className="form-control col-md-4"
-                            defaultValue={data.contact_person_email} />
+                          <input type="email" id="contact_person_email" className="form-control col-md-4" defaultValue={data.contact_person_email} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="contact_person_work_phone" className="col-md-2 col-form-label font-weight-normal">Work Phone</label>
                         <div className="col form-group">
-                          <input type="number" id="contact_person_work_phone"
-                            className="form-control col-md-4"
-                            value={data.contact_person_work_phone}
-                            onChange={handleChangeContactwokphone} />
+                          <input type="number" id="contact_person_work_phone" className="form-control col-md-4" value={data.contact_person_work_phone} onChange={handleChangeContactwokphone} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="contact_person_phone" className="col-md-2 col-form-label font-weight-normal">Mobile</label>
                         <div className="col form-group">
-                          <input type="number" id="contact_person_phone"
-                            className="form-control col-md-4"
-                            value={data.contact_person_phone}
-                            onChange={handleChangeContactphone} />
+                          <input type="number" id="contact_person_phone" className="form-control col-md-4" value={data.contact_person_phone} onChange={handleChangeContactphone} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="contact_person_skype" className="col-md-2 col-form-label font-weight-normal">Skype Name/Number</label>
                         <div className="col form-group">
-                          <input type="text"
-                            id="contact_person_skype"
-                            className="form-control col-md-4"
-                            defaultValue={data.contact_person_skype} />
+                          <input type="text" id="contact_person_skype" className="form-control col-md-4" defaultValue={data.contact_person_skype} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="contact_person_designation" className="col-md-2 col-form-label font-weight-normal">Designation</label>
                         <div className="col form-group">
-                          <input type="text" id="contact_person_designation"
-                            className="form-control col-md-4"
-                            defaultValue={data.contact_person_designation} />
+                          <input type="text" id="contact_person_designation" className="form-control col-md-4" defaultValue={data.contact_person_designation} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="contact_person_department" className="col-md-2 col-form-label font-weight-normal">Department</label>
                         <div className="col form-group">
-                          <input type="text" id="contact_person_department"
-                            className="form-control col-md-4"
-                            defaultValue={data.contact_person_department} />
+                          <input type="text" id="contact_person_department" className="form-control col-md-4" defaultValue={data.contact_person_department} />
                         </div>
                       </div>
                     </div>
@@ -886,11 +688,14 @@ const Vendor = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }
       <Footer theme={themeval} />
-    </div>
+    </div >
   );
 };
 export default Vendor;
