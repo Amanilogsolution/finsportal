@@ -31,8 +31,9 @@ function AddBankingPayment() {
             const org = localStorage.getItem("Organisation");
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
-            const allank = await ActiveBank(org);
-            setBanklist(allank)
+            const allbank = await ActiveBank(org);
+            setBanklist(allbank)
+            console.log(allbank)
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
 
@@ -221,7 +222,20 @@ function AddBankingPayment() {
     // ------------------------------ Submit Form ---------------------------------
 
     const handleSubmitForm = () => {
-        console.log(bankPayMinData)
+        // console.log(bankPayMinData)
+        const bank_payment_id = ''
+        const bank_recep_date = document.getElementById('bank_recep_date').value
+        const check_ref_no = document.getElementById('check_ref_no').value;
+        const check_date = document.getElementById('check_date').value;
+        const check_amt = document.getElementById('check_amt').value;
+        const bank = document.getElementById('bank').value.split(',');
+        const bank_id = bank[0];
+        const bank_sub_code = bank[1]
+        const bank_name = bank[2]
+        const onAccount = document.getElementById('on_account').checked === true ? true : false
+
+        console.log(bank_payment_id,bank_recep_date,check_ref_no)
+
     }
     return (
         <>
@@ -252,7 +266,7 @@ function AddBankingPayment() {
                                                 <select type="date" className="form-control col-md-10 " id="bank" >
                                                     <option value='' hidden>Select Bank</option>
                                                     {banklist.map((bankdata, index) => (
-                                                        <option key={index} value={bankdata.bank_name}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
+                                                        <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
                                                     }
                                                 </select>
                                             </div>
@@ -329,7 +343,7 @@ function AddBankingPayment() {
                                 </article>
                                 <div className="card-footer border-top">
                                     <button id="save" name="save" className="btn btn-danger" onClick={() => { handleSubmitForm() }} >Submit</button>
-                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
+                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalBankingPayment"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
                                     <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankPayPreview" > Preview Payment</button>
                                 </div>
 
