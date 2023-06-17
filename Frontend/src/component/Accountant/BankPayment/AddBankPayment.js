@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee } from '../../../api'
+import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee, Getfincialyearid } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
 
@@ -25,6 +25,7 @@ function AddBankingPayment() {
     const [vendorBilllist, setVendorBilllist] = useState([]);
     const [selectedBillData, setSelectedBillData] = useState([])
     const [selectedBillIndex, setSelectedBillIndex] = useState([])
+    const [bankpayCount, setBankpayCount] = useState(0)
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -33,7 +34,6 @@ function AddBankingPayment() {
             setChartofacctlist(chartofacct);
             const allbank = await ActiveBank(org);
             setBanklist(allbank)
-            console.log(allbank)
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
 
@@ -41,9 +41,13 @@ function AddBankingPayment() {
             setLocationstate(locatonstateres);
 
             const emp_list = await ActiveEmployee(org)
-            console.log(emp_list)
             setEmployeelist(emp_list)
+
+            const id = await Getfincialyearid(org)
+            const lastno = Number(id[0].bank_payment_count) + 1
+            setBankpayCount(lastno)
             setLoading(true)
+            document.getElementById('bank_recep_id').value = id[0].bank_payment_ser + id[0].year + String(lastno).padStart(5, '0')
             Todaydate()
         }
 
@@ -223,7 +227,7 @@ function AddBankingPayment() {
 
     const handleSubmitForm = () => {
         // console.log(bankPayMinData)
-        const bank_payment_id = ''
+        const bank_payment_id = document.getElementById('bank_recep_id').value
         const bank_recep_date = document.getElementById('bank_recep_date').value
         const check_ref_no = document.getElementById('check_ref_no').value;
         const check_date = document.getElementById('check_date').value;
@@ -234,7 +238,7 @@ function AddBankingPayment() {
         const bank_name = bank[2]
         const onAccount = document.getElementById('on_account').checked === true ? true : false
 
-        console.log(bank_payment_id,bank_recep_date,check_ref_no)
+        console.log(bank_payment_id, bank_recep_date, check_ref_no)
 
     }
     return (
@@ -249,6 +253,8 @@ function AddBankingPayment() {
                                 <article className="card-body">
                                     <form autoComplete="off">
                                         <div className="form-row ">
+                                            <label htmlFor="bank_recep_id" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt ID</label>
+                                            <div className="d-flex col-md-4"><input type="text" className="form-control col-md-10" id="bank_recep_id" disabled /></div>
                                             <label htmlFor="bank_recep_date" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt Date</label>
                                             <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="bank_recep_date" disabled /></div>
                                         </div>

@@ -82,6 +82,11 @@ CREATE TABLE ${dbname}.dbo.tbl_currency (
     dn_count nvarchar(100) NULL,
     jv_ser nvarchar(100) NULL,
     jv_count nvarchar(100) NULL,
+
+    bank_recep_ser nvarchar(50) NULL,
+    bank_recep_count nvarchar(100) NULL,
+    bank_payment_ser nvarchar(50) NULL,
+    bank_payment_count nvarchar(100) NULL,
     
     financial_year_lock nvarchar(50) NULL,
     add_user_name varchar(50) NULL,

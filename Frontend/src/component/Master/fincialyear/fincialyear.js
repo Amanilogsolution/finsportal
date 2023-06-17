@@ -55,20 +55,24 @@ const Fincialyear = () => {
     let jv_ser = document.getElementById('jv_ser').value;
     jv_ser = jv_ser.toUpperCase();
 
+    let bank_recp_ser = document.getElementById('bank_recep_ser').value.toUpperCase();
+    let bank_pyt_ser = document.getElementById('bank_payt_ser').value.toUpperCase();
+
+
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
 
-    if (!fincialyear || !year || !from_date || !to_date || !invoice_ser || !voucher_ser || !purchase_ser || !salesorder_ser || !creditNotes || !debitNotes || !jv_ser) {
+    if (!fincialyear || !year || !from_date || !to_date || !invoice_ser || !voucher_ser || !purchase_ser || !salesorder_ser || !creditNotes || !debitNotes || !jv_ser || !bank_recp_ser || !bank_pyt_ser) {
       setLoading(true)
       setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser > 4) {
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser > 4 || bank_recp_ser > 4 || bank_pyt_ser > 4) {
         setLoading(true)
         setAlertObj({ type: 'warning', text: 'All Series are must be smaller then given no. of char ', url: '' })
       }
       else {
-        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id)
+        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, bank_recp_ser, bank_pyt_ser, User_id)
         setLoading(true)
         if (result.rowsAffected[0] > 0) {
           setAlertObj({ type: 'success', text: 'Financial year Added', url: '/ShowFinancialyear' })
@@ -104,7 +108,7 @@ const Fincialyear = () => {
                       </div>
 
                       <div className="col form-row">
-                        <label htmlFor="from_date" className="col-md-4 col-form-label font-weight-normal">To date <span className='text-danger'>*</span></label>
+                        <label htmlFor="to_date" className="col-md-4 col-form-label font-weight-normal">To date <span className='text-danger'>*</span></label>
                         <div className="col form-group">
                           <input type="date" className="form-control col-md-10" id='to_date' onChange={handleChangetodate} />
                         </div>
@@ -120,7 +124,7 @@ const Fincialyear = () => {
                       </div>
 
                       <div className="col form-row">
-                        <label htmlFor="fincialyear" className="col-md-4 col-form-label font-weight-normal">Year <span className='text-danger'>*</span></label>
+                        <label htmlFor="lastyear" className="col-md-4 col-form-label font-weight-normal">Year <span className='text-danger'>*</span></label>
                         <div className="col form-group">
                           <input type="text" className="form-control col-md-10" id='lastyear' disabled value={year} />
                         </div>
@@ -165,7 +169,7 @@ const Fincialyear = () => {
 
                     <div className="row">
                       <div className="col form-row">
-                        <label htmlFor="po" className="col-md-4 col-form-label font-weight-normal">CreditNotes Series <span className='text-danger'>*</span></label>
+                        <label htmlFor="creditnotes" className="col-md-4 col-form-label font-weight-normal">CreditNotes Series <span className='text-danger'>*</span></label>
                         <div className="col form-group">
                           <input type="text" className="form-control col-md-10 text-uppercase" id='creditnotes' maxLength={4} />
                           <small >CreditNotes Series not more than 4 Character</small>
@@ -173,7 +177,7 @@ const Fincialyear = () => {
                       </div>
 
                       <div className="col form-row">
-                        <label htmlFor="so" className="col-md-4 col-form-label font-weight-normal">DebitNotes Series <span className='text-danger'>*</span></label>
+                        <label htmlFor="debitnotes" className="col-md-4 col-form-label font-weight-normal">DebitNotes Series <span className='text-danger'>*</span></label>
                         <div className="col form-group">
                           <input type="text" className="form-control col-md-10 text-uppercase" id='debitnotes' minLength={4} maxLength={4} />
                           <small >DebitNotes Series not more than 4 Character</small>
@@ -183,15 +187,30 @@ const Fincialyear = () => {
 
                     <div className="form-row">
                       <div className="col form-row">
-                        <label htmlFor="jv_ser" className="col-md-2 col-form-label font-weight-normal">Journal Voucher Series <span className='text-danger'>*</span></label>
-                        <div className="col-md-4 form-group">
+                        <label htmlFor="jv_ser" className="col-md-4 col-form-label font-weight-normal">Journal Voucher Series <span className='text-danger'>*</span></label>
+                        <div className="col-md form-group">
                           <input type="text" className="form-control col-md-10 text-uppercase" id='jv_ser' maxLength={4} />
                           <small >Journal Voucher Series not more than 4 Character</small>
                         </div>
                       </div>
-
-
+                      <div className="col form-row">
+                        <label htmlFor="bank_recep_ser" className="col-md-4 col-form-label font-weight-normal">Bank Receipt Series <span className='text-danger'>*</span></label>
+                        <div className="col-md form-group">
+                          <input type="text" className="form-control col-md-10 text-uppercase" id='bank_recep_ser' maxLength={4} />
+                          <small >Bank Receipt Series not more than 4 Character</small>
+                        </div>
+                      </div>
                     </div>
+                    <div className="form-row">
+                      <div className="col form-row">
+                        <label htmlFor="bank_payt_ser" className="col-md-2 col-form-label font-weight-normal">Bank Payment Series <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col-md-10 text-uppercase" id='bank_payt_ser' maxLength={4} />
+                          <small >Bank Payment Series not more than 4 Character</small>
+                        </div>
+                      </div>
+                    </div>
+
                   </form>
                 </article>
 

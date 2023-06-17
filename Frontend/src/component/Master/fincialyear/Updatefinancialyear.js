@@ -17,6 +17,7 @@ const Updatefincialyear = () => {
     const fetch = async () => {
       const result = await Selectfincialyear(localStorage.getItem('Organisation'), localStorage.getItem('FinsyearSno'))
       setData(result)
+      console.log(result)
       setLoading(true)
 
       if (result.financial_year_lock === 'Lock') {
@@ -30,14 +31,16 @@ const Updatefincialyear = () => {
   const handelsave = async (e) => {
     e.preventDefault();
     setLoading(false)
-    const invoice_ser = document.getElementById('invoiceser').value;
-    const voucher_ser = document.getElementById('voucher').value;
-    const po_ser = document.getElementById('po_series').value;
+    const invoice_ser = document.getElementById('invoiceser').value.toUpperCase();
+    const voucher_ser = document.getElementById('voucher').value.toUpperCase();
+    const po_ser = document.getElementById('po_series').value.toUpperCase();
 
-    const so_ser = document.getElementById('so_ser').value;
-    const cn_ser = document.getElementById('cn_ser').value;
-    const dn_ser = document.getElementById('dn_ser').value;
-    const jv_ser = document.getElementById('jv_ser').value;
+    const so_ser = document.getElementById('so_ser').value.toUpperCase();
+    const cn_ser = document.getElementById('cn_ser').value.toUpperCase();
+    const dn_ser = document.getElementById('dn_ser').value.toUpperCase();
+    const jv_ser = document.getElementById('jv_ser').value.toUpperCase();
+    const bank_recp_ser = document.getElementById('bank_recp_ser').value.toUpperCase();
+    const bank_payt_ser = document.getElementById('bank_payt_ser').value.toUpperCase();
 
 
     const org = localStorage.getItem('Organisation')
@@ -48,17 +51,17 @@ const Updatefincialyear = () => {
     let lockscreen
     lock === true ? lockscreen = 'Lock' : lockscreen = 'UnLock';
 
-    if (!invoice_ser || !voucher_ser || !po_ser || !jv_ser) {
+    if (!invoice_ser || !voucher_ser || !po_ser || !jv_ser || !bank_recp_ser || !bank_payt_ser) {
       setLoading(true)
       setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4 || so_ser.length > 4 || cn_ser.length > 4 || dn_ser.length > 4 || jv_ser.length > 4) {
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || po_ser.length > 4 || so_ser.length > 4 || cn_ser.length > 4 || dn_ser.length > 4 || jv_ser.length > 4 || bank_recp_ser.length > 4 || bank_payt_ser > 4) {
         setLoading(true)
         setAlertObj({ type: 'warning', text: 'invoice Series is must be smaller then 6 char and voucher is 4', url: '' })
       }
       else {
-        const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser, User_id)
+        const result = await UpdateFincialyear(org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser,bank_recp_ser,bank_payt_ser, User_id)
         setLoading(true)
         if (result[0] > 0) {
           localStorage.removeItem('FinsyearSno');
@@ -170,13 +173,29 @@ const Updatefincialyear = () => {
                     </div>
                     <div className="form-row">
                       <div className="col form-row">
-                        <label htmlFor="jv_ser" className="col-md-2 col-form-label font-weight-normal">Journal Voucher Series <span className='text-danger'>*</span></label>
-                        <div className="col-md-4 form-group">
+                        <label htmlFor="jv_ser" className="col-md-4 col-form-label font-weight-normal">Journal Voucher Series <span className='text-danger'>*</span></label>
+                        <div className="col-md form-group">
                           <input type="text" className="form-control col-md-10" id='jv_ser' defaultValue={data.jv_ser} maxLength={4} />
                           <small >Journal Voucher Series not more than 4 Character</small>
                         </div>
                       </div>
+                      <div className="col form-row">
+                        <label htmlFor="bank_recp_ser" className="col-md-4 col-form-label font-weight-normal">Bank Receipt Series  <span className='text-danger'>*</span></label>
+                        <div className="col-md form-group">
+                          <input type="text" className="form-control col-md-10" id='bank_recp_ser' defaultValue={data.bank_recep_ser} maxLength={4} />
+                          <small >Bank Receipt Series not more than 4 Character</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-row">
 
+                      <div className="col form-row">
+                        <label htmlFor="bank_payt_ser" className="col-md-2 col-form-label font-weight-normal">Bank Payment Series  <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col-md-10" id='bank_payt_ser' defaultValue={data.bank_payment_ser} maxLength={4} />
+                          <small >Bank Payment Series not more than 4 Character</small>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="form-row">
