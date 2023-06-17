@@ -328,7 +328,6 @@ function AddBankingPayment() {
                                                         handleChnageAcHead={handleChnageAcHead}
                                                         setCurrentindex={setCurrentindex}
                                                         employeelist={employeelist}
-
                                                     />
                                                 </tbody>
                                             </table>
@@ -533,12 +532,9 @@ function AddBankingPayment() {
                                     {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
-                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                    onClick={(e) => { handlelocation(items.location_id) }}
-                                                >
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal" onClick={(e) => { handlelocation(items.location_id) }} >
                                                     <td>{items.location_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
-
                                                 </tr>
                                             ))
                                             : 'Select Customer'
