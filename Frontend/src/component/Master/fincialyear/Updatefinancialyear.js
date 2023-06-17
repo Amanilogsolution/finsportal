@@ -42,7 +42,6 @@ const Updatefincialyear = () => {
     const bank_recp_ser = document.getElementById('bank_recp_ser').value.toUpperCase();
     const bank_payt_ser = document.getElementById('bank_payt_ser').value.toUpperCase();
 
-
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
     const sno = localStorage.getItem('FinsyearSno')
