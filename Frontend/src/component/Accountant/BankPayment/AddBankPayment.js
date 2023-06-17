@@ -5,11 +5,14 @@ import LoadingPage from "../../loadingPage/loadingPage";
 import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee, Getfincialyearid } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
+import AlertsComp from '../../AlertsComp';
 
 function AddBankingPayment() {
     const [loading, setLoading] = useState(false)
     const [orgdata, setOrgdata] = useState([])
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const minorBankPayobj = {
         chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
         //  tds: '', net_amt: '',
@@ -226,19 +229,35 @@ function AddBankingPayment() {
     // ------------------------------ Submit Form ---------------------------------
 
     const handleSubmitForm = () => {
+        setLoading(false)
         // console.log(bankPayMinData)
-        const bank_payment_id = document.getElementById('bank_recep_id').value
-        const bank_recep_date = document.getElementById('bank_recep_date').value
+        const bank_payment_id = document.getElementById('bank_recep_id').value;
+        const bank_recep_date = document.getElementById('bank_recep_date').value;
         const check_ref_no = document.getElementById('check_ref_no').value;
         const check_date = document.getElementById('check_date').value;
         const check_amt = document.getElementById('check_amt').value;
         const bank = document.getElementById('bank').value.split(',');
         const bank_id = bank[0];
-        const bank_sub_code = bank[1]
-        const bank_name = bank[2]
-        const onAccount = document.getElementById('on_account').checked === true ? true : false
+        const bank_sub_code = bank[1];
+        const bank_name = bank[2];
+        const onAccount = document.getElementById('on_account').checked === true ? true : false;
+        const remarks = document.getElementById('remarks').value;
 
-        console.log(bank_payment_id, bank_recep_date, check_ref_no)
+        if (!check_ref_no || !check_amt || !bank_id) {
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+        }
+        else {
+            setLoading(true)
+
+            console.log(bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, onAccount, remarks)
+            // if (result[0] > 0) {
+            //     setAlertObj({ type: 'success', text: 'Financial year Updated', url: '/ShowFinancialyear' })
+            //   }
+            //   else {
+            //     setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+            //   }
+        }
 
     }
     return (
@@ -355,6 +374,9 @@ function AddBankingPayment() {
 
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                 ) : (
                     <LoadingPage />
