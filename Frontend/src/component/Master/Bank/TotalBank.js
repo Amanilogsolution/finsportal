@@ -8,10 +8,11 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/Bank_formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
-
-
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const TotalBank = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([]);
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -19,12 +20,13 @@ const TotalBank = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
       const org = localStorage.getItem('Organisation')
-
       const result = await totalBank(org);
       setData(result)
       fetchRoles()
@@ -38,10 +40,12 @@ const TotalBank = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'banking')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+    setLoading(true)
+
     if (financstatus === 'Lock') {
       document.getElementById('addbankbtn').style.background = '#7795fa';
     }
@@ -130,7 +134,7 @@ const TotalBank = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteBank(row.sno, status, localStorage.getItem("Organisation"))
-                    window.location.href = 'TotalBank'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalBank' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -258,35 +262,43 @@ const TotalBank = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
-        <button type="button" id='addbankbtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddBankList" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Bank</button>
-        <button type="button" id='excelbankbtn' style={{ float: "right", marginRight: '2%', marginTop: '1%', display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-        <div className="container-fluid">
-          <h3 className="py-2 ml-5">Banks</h3>
-          <div className="card mb-0">
-            <article className={`card-body py-1`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between p-3 mx-4'>
+              <h3 className="">Banks</h3>
+              <div className='d-flex'>
+                <button type="button" id='excelbankbtn' style={{ display: "none" }} className="btn btn-success mx-2" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addbankbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddBankList" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Bank</button>
+              </div>
+            </div>
+            <div className="container-fluid">
+              <div className="card mb-0">
+                <article className='card-body py-1'>
+                  <DataTableExtensions {...tableData} >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
-        </div>
-      </div>
-
+          : <LoadingPage />
+      }
       <Footer />
 
       {/* ------------------ Modal start -----------------------------*/}

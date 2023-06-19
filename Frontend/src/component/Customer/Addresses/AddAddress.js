@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { Totalcountry, showactivestate, getCity, ActiveCustomer, CustInsertAddress, Activecountries } from '../../../api';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 const AddCustAddress = () => {
@@ -16,7 +17,9 @@ const AddCustAddress = () => {
   const [billing_address_state, setBilling_address_state] = useState();
   const [zipcount, setZipcount] = useState()
   const [phonecount, setPhonecount] = useState()
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -25,7 +28,6 @@ const AddCustAddress = () => {
       const customerlist = await ActiveCustomer(localStorage.getItem('Organisation'))
       setGetCustId(customerlist)
       setLoading(true)
-
     }
     fetchdata()
   }, []);
@@ -52,20 +54,17 @@ const AddCustAddress = () => {
 
 
     if (!custname || !billing_address_country || !billing_address_state || !billing_address_city || !billing_address_phone || !billing_address_pincode) {
-      alert("Please! enter the data ")
       setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-
       const result = await CustInsertAddress(org, User_id, custid, custname, gst_no, billing_address_attention, billing_address_country, billing_address_city, billing_address_state, billing_address_pincode, billing_address_phone, billing_address_fax, custaddid)
+      setLoading(true)
       if (result[0] > 0) {
-        alert("Data Added")
-        window.location.href = './TotalCustAddress'
+        setAlertObj({ type: 'success', text: 'Data Added', url: '/TotalCustAddress' })
       }
       else {
-        alert("Server not response")
-        setLoading(true)
-        window.location.reload();
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
   }
@@ -88,7 +87,7 @@ const AddCustAddress = () => {
 
   return (
     <div className="wrapper">
-    
+
       <Header />
       {
         loading ?
@@ -101,11 +100,7 @@ const AddCustAddress = () => {
                     <div className="Address_left" style={{ width: "80%" }}>
                       <label>BILLING ADDRESS</label>
                       <div className="form-row">
-                        <label
-                          htmlFor="custname"
-                          className="col-md-2 col-form-label font-weight-normal">
-                          Customer ID
-                        </label>
+                        <label htmlFor="custname" className="col-md-2 col-form-label font-weight-normal"> Customer ID</label>
                         <div className="col-md-6 form-group">
                           <select id="custname" className="form-control ">
                             <option value='' hidden> Select Customer</option>
@@ -126,30 +121,15 @@ const AddCustAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_attention"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Attention
-                        </label>
+                        <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal" >  Attention </label>
                         <div className="col form-group">
-                          <input type="text"
-                            className="form-control col-md-7"
-                            id="billing_address_attention" />
+                          <input type="text" className="form-control col-md-7" id="billing_address_attention" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="inputState"
-                          className="col-md-2 col-form-label font-weight-normal">
-                          Country / Region
-                        </label>
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal"> Country / Region  </label>
                         <div className="col-md-6 form-group">
-                          <select
-                            id="inputState"
-                            className="form-control"
-                            onChange={handleAddressCountry}
-                          >
+                          <select id="inputState" className="form-control" onChange={handleAddressCountry}>
                             <option hidden value=''> Select Country</option>
                             {
                               selectedCountry.map((data, index) => (
@@ -162,17 +142,9 @@ const AddCustAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="user_name"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          State
-                        </label>
+                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" > State </label>
                         <div className="col-md-6 form-group">
-                          <select
-                            id="inputState"
-                            className="form-control "
-                            onChange={handleChangebillingState}>
+                          <select id="inputState" className="form-control " onChange={handleChangebillingState}>
                             <option hidden value=''> Select state</option>
                             {
                               selectState.map((data, index) => (
@@ -183,40 +155,22 @@ const AddCustAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="inputcity"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          City
-                        </label>
+                        <label htmlFor="inputcity" className="col-md-2 col-form-label font-weight-normal" >  City </label>
                         <div className="col-md-6 form-group">
-                          <select
-                            id="inputcity"
-                            className="form-control"
-                          >
+                          <select id="inputcity" className="form-control"  >
                             <option hidden value=''> Select City</option>
                             {
                               selectCity.map((data, index) => (
                                 <option key={index} value={data.city_name}>{data.city_name}</option>
                               ))
-
                             }
                           </select>
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_pincode"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Zip Code
-                        </label>
+                        <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal" > Zip Code </label>
                         <div className="col form-group">
-                          <input
-                            type="number"
-                            className="form-control col-md-7"
-                            id="billing_address_pincode"
-                            value={zipcount}
+                          <input type="number" className="form-control col-md-7" id="billing_address_pincode" value={zipcount}
                             onChange={(e) => {
                               if (e.target.value.length === 7) return false;
                               setZipcount(e.target.value)
@@ -225,18 +179,9 @@ const AddCustAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_phone"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Phone
-                        </label>
+                        <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone</label>
                         <div className="col form-group">
-                          <input
-                            type="number"
-                            className="form-control col-md-7"
-                            id="billing_address_phone"
-                            value={phonecount}
+                          <input type="number" className="form-control col-md-7" id="billing_address_phone" value={phonecount}
                             onChange={(e) => {
                               if (e.target.value.length === 11) return false;
                               setPhonecount(e.target.value)
@@ -245,18 +190,9 @@ const AddCustAddress = () => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <label
-                          htmlFor="billing_address_fax"
-                          className="col-md-2 col-form-label font-weight-normal"
-                        >
-                          Fax
-                        </label>
+                        <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal" >  Fax</label>
                         <div className="col form-group">
-                          <input
-                            type="text"
-                            className="form-control col-md-7"
-                            id="billing_address_fax"
-                          />
+                          <input type="text" className="form-control col-md-7" id="billing_address_fax" />
                         </div>
                       </div>
                     </div>
@@ -269,6 +205,9 @@ const AddCustAddress = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

@@ -3,8 +3,10 @@ import Header from "../../Header/Header";
 import { showOrganisation, updateOrganisation, UploadData } from "../../../api/index";
 import Footer from '../../Footer/Footer';
 import './EditOrganisation.css'
+import LoadingPage from '../../loadingPage/loadingPage';
 
 function EditOrganisation() {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
   const [file, setFile] = useState('')
   const [report_basic, setReportBasic] = useState('')
@@ -32,7 +34,7 @@ function EditOrganisation() {
     const result = await updateOrganisation(localStorage.getItem('Organisation_details'), org_contact_name, org_contact_phone, org_contact_email, org_street, org_city, org_pincode, org_gst, User_id, Industry_Type, Fins_year, report_basic, Company_Id, Tax_id, uploadimage)
     if (result) {
       alert('Updated')
-      window.location.href = '/home';
+      window.location.href = '/Home';
       localStorage.removeItem('Organisation_details')
     }
   };
@@ -63,9 +65,10 @@ function EditOrganisation() {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const result = await showOrganisation(localStorage.getItem('Organisation_details'))
+      const result = await showOrganisation(localStorage.getItem('Organisation'))
       setData(result)
-      console.log(result)
+      setLoading(true)
+
       if (result.report_basic === 'Accural') {
         document.getElementById('Accural').checked = true
         setReportBasic('Accural')
@@ -99,255 +102,163 @@ function EditOrganisation() {
   return (
     <>
       <div className="wrapper">
-        <div className="preloader flex-column justify-content-center align-items-center">
-          <div className="spinner-border" role="status"> </div>
-        </div>
+        {/* <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div> */}
         <Header />
-        <div className={`content-wrapper `}>
-          <div className="container-fluid">
-            <div className='py-3 px-5 d-flex justify-content-between '>
-              <h3 className="-3 ml-5">Organisation Details</h3>
-              <button className='btn btn-success mx-3'
-                onClick={(e) => {
-                  e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
-                }}
-              >Back</button>
-            </div>
+        {
+          loading ?
+            <div className='content-wrapper'>
+              <div className="container-fluid">
+                <div className='py-3 px-5 d-flex justify-content-between '>
+                  <h3 className="-3 ml-5">Organisation Details</h3>
+                  <button className='btn btn-success mx-3'
+                    onClick={(e) => {
+                      e.preventDefault(); window.location.href = '/Home'; localStorage.removeItem('Organisation_details')
+                    }}>Back</button>
+                </div>
 
-            <div className={`card mb-0 `}>
-              <article className='card-body'>
-                <form autoComplete="off" className='edit-orgform d-flex justify-content-between'>
-                  <div className='img-div py-5'>
-                    <div className='position-relative '>
-                      <img src={data.org_logo} alt='Organisation Logo' className=' rounded-circle border my-3' height='150' width='150' />
-                      <i className="fa fa-camera position-absolute cursor-pointer" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ bottom: '10%', right: '2%' }}></i>
-                    </div>
-                    <div>
-                      <p className='text-uppercase text-success font-weight-bold  mb-0'> {data.org_name}</p>
-
-                      <div className='d-flex  align-items-center'>
-                        <small className='text-danger'>companyId:- </small>
-                        <p className='  mb-0'> {data.company_id}</p>
-                      </div>
-                      <div className='d-flex  align-items-center'>
-                        <small className='text-danger'>GST No:- </small>
-                        <p className='  mb-0'> {data.org_gst}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='inp-div'>
-                    <div className="form-row">
-                      <div className="col form-group">
-                        <label>Organisation Name <span className='text-danger'>*</span> </label>
-                        <input type="text" className={`form-control cursor-notallow `} id="org_name" disabled value={data.org_name} />
-                      </div>
-                      <div className="col form-group">
-                        <label>Industry Type <span className='text-danger'>*</span> </label>
-                        <input type="text" className={`form-control `} id="industry_type" defaultValue={data.industry_type} />
-                      </div>
-                    </div>
-
-                    <div className="form-row">
-                      <div className="col form-group">
-                        <label>
-                          Business Location/Country <span className='text-danger'>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={`form-control cursor-notallow `}
-                          value={data.org_country}
-                          id="org_country"
-                          required
-                          disabled
-                        />
-                      </div>
-                      <div className="form-group col-md-6">
-                        <label htmlFor='org_state'>
-                          State/Union Territory
-                          <span className='text-danger'> *</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={`form-control cursor-notallow `}
-                          value={data.org_state}
-                          id="org_state"
-                          disabled
-
-                        />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <div className="col form-group">
-                        <label htmlFor='org_city'>City</label>
-                        <input
-                          type="text"
-                          className={`form-control `}
-                          placeholder="City"
-                          id='org_city'
-                          value={data.org_city}
-                          onChange={(e) => handleChangeCity(e)}
-                        />
-                      </div>
-                      <div className="form-group col-md-6">
-                        <label htmlFor='org_pin'>Zip/Postal Code</label>
-                        <input
-                          type="number"
-                          className={`form-control `}
-                          placeholder="Zip/Postal Code"
-                          id="org_pin"
-                          value={data.org_pincode}
-                          onChange={(e) => handleChangePin(e)}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor='org_street'>Street</label>
-                      <input
-                        type="text"
-                        className={`form-control `}
-                        placeholder="Street"
-                        id='org_street'
-                        defaultValue={data.org_street}
-                      />
-                    </div>
-                    <p className="regtext cursor-pointer" onClick={handleToggleContPer}>Contact Person Detail <i className="fa fa-chevron-down" aria-hidden="true"></i></p>
-
-                    <div id="contactperbox" style={{ display: 'none' }}>
-                      <div className="form-row">
-                        <div className="col form-group col-md-4">
-                          <label htmlFor='org_contact_name'>Contact Person Name</label>
-                          <input
-                            type="text"
-                            className={`form-control `}
-                            placeholder="Contact Person Name"
-                            id='org_contact_name'
-                            defaultValue={data.org_contact_name}
-                          />
+                <div className='card mb-0'>
+                  <article className='card-body'>
+                    <form autoComplete="off" className='edit-orgform d-flex justify-content-between'>
+                      <div className='img-div py-5'>
+                        <div className='position-relative '>
+                          <img src={data.org_logo} alt='Organisation Logo' className='rounded-circle border my-3' height='150' width='150' />
+                          <i className="fa fa-camera position-absolute cursor-pointer" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" style={{ bottom: '10%', right: '2%' }}></i>
                         </div>
-                        <div className="form-group col-md-4">
-                          <label htmlFor=''>Contact Mobile no.</label>
-                          <input
-                            className={`form-control `}
-                            type="number"
-                            placeholder="Contact Mobile no." id='org_contact_phone'
-                            value={data.org_contact_phone}
-                            onChange={(e) => handleChangeContactPhone(e)}
+                        <div>
+                          <p className='text-uppercase text-success font-weight-bold  mb-0'> {data.org_name}</p>
 
-                          />
-                        </div>
-                        <div className="form-group col-md-4">
-                          <label htmlFor='org_contact_email'>Contact Email</label>
-                          <input
-                            type="email" className={`form-control `}
-                            placeholder="Contact Email" id='org_contact_email' defaultValue={data.org_contact_email} />
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="regtext cursor-pointer" onClick={handleToggleRegionalSet}>REGIONAL SETTINGS <i className="fa fa-chevron-down" aria-hidden="true"></i></p>
-                    <div id='regional_setting' style={{ display: 'none' }}>
-                      <div className="form-row">
-                        <div className="form-group col">
-                          <label>Finacial year</label>
-                          <select
-                            id="fins_year" className={`form-control col-md-6 `}>
-                            <option value={data.fins_year_month} hidden >{data.fins_year_month}</option>
-                            <option value='January_Feburary' >January_Feburary</option>
-                          </select>
-                        </div>
-                        <div className="form-group col d-flex" onChange={handleChange}>
-                          <label> Report Basic </label>
-                          <div className='row mx-3'>
-                            <label className="form-check form-check mx-3">
-                              <input
-                                className="form-check-input " type="radio"
-                                name="taxpreference"
-                                value="Accural"
-                                id="Accural"
-                              />Accural
-                            </label>
-                            <label className="form-check form-check " >
-
-                              <input
-                                className="form-check-input "
-                                type="radio"
-                                name="taxpreference"
-                                value="Cash"
-                                id="Cash"
-                              />Cash
-
-                            </label>
+                          <div className='d-flex  align-items-center'>
+                            <small className='text-danger'>companyId:- </small>
+                            <p className='mb-0'> {data.company_id}</p>
+                          </div>
+                          <div className='d-flex  align-items-center'>
+                            <small className='text-danger'>GST No:- </small>
+                            <p className='mb-0'> {data.org_gst}</p>
                           </div>
                         </div>
                       </div>
+                      <div className='inp-div'>
+                        <div className="form-row">
+                          <div className="col form-group">
+                            <label htmlFor='org_name'>Organisation Name <span className='text-danger'>*</span> </label>
+                            <input type="text" className='form-control cursor-notallow' id="org_name" disabled value={data.org_name} />
+                          </div>
+                          <div className="col form-group">
+                            <label htmlFor='industry_type'>Industry Type <span className='text-danger'>*</span> </label>
+                            <input type="text" className='form-control' id="industry_type" defaultValue={data.industry_type} />
+                          </div>
+                        </div>
 
-                      <div className="form-row">
-                        <div className="form-group col-md-6">
-                          <label>Currency</label>
-                          <input
-                            type="text"
-                            className={`form-control cursor-notallow `}
-                            value={data.org_currency}
-                            id="org_currency"
-                            disabled
-                          />
+                        <div className="form-row">
+                          <div className="col form-group">
+                            <label htmlFor='org_country'> Business Location/Country <span className='text-danger'>*</span></label>
+                            <input type="text" className='form-control cursor-notallow' value={data.org_country} id="org_country" required disabled />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label htmlFor='org_state'>  State/Union Territory  <span className='text-danger'> *</span> </label>
+                            <input type="text" className='form-control cursor-notallow' value={data.org_state} id="org_state" disabled />
+                          </div>
                         </div>
-                        <div className="form-group col-md-6">
-                          <label>Language</label>
-                          <input
-                            type="text"
-                            className={`form-control cursor-notallow `}
-                            value={data.org_lang}
-                            id="org_lang"
-                            disabled
+                        <div className="form-row">
+                          <div className="col form-group">
+                            <label htmlFor='org_city'>City</label>
+                            <input type="text" className='form-control' placeholder="City" id='org_city' value={data.org_city} onChange={(e) => handleChangeCity(e)} />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label htmlFor='org_pin'>Zip/Postal Code</label>
+                            <input type="number" className='form-control' placeholder="Zip/Postal Code" id="org_pin" value={data.org_pincode} onChange={(e) => handleChangePin(e)} />
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor='org_street'>Street</label>
+                          <input type="text" className='form-control' placeholder="Street" id='org_street' defaultValue={data.org_street} />
+                        </div>
+                        <p className="regtext cursor-pointer" onClick={handleToggleContPer}>Contact Person Detail <i className="fa fa-chevron-down" aria-hidden="true"></i></p>
 
-                          />
+                        <div id="contactperbox" style={{ display: 'none' }}>
+                          <div className="form-row">
+                            <div className="col form-group col-md-4">
+                              <label htmlFor='org_contact_name'>Contact Person Name</label>
+                              <input type="text" className='form-control' placeholder="Contact Person Name" id='org_contact_name' defaultValue={data.org_contact_name} />
+                            </div>
+                            <div className="form-group col-md-4">
+                              <label htmlFor='org_contact_phone'>Contact Mobile no.</label>
+                              <input className='form-control' type="number" placeholder="Contact Mobile no." id='org_contact_phone' value={data.org_contact_phone} onChange={(e) => handleChangeContactPhone(e)} />
+                            </div>
+                            <div className="form-group col-md-4">
+                              <label htmlFor='org_contact_email'>Contact Email</label>
+                              <input type="email" className='form-control' placeholder="Contact Email" id='org_contact_email' defaultValue={data.org_contact_email} />
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="regtext cursor-pointer" onClick={handleToggleRegionalSet}>REGIONAL SETTINGS <i className="fa fa-chevron-down" aria-hidden="true"></i></p>
+                        <div id='regional_setting' style={{ display: 'none' }}>
+                          <div className="form-row">
+                            <div className="form-group col">
+                              <label>Finacial year</label>
+                              <select id="fins_year" className='form-control col-md-6'>
+                                <option value={data.fins_year_month} hidden >{data.fins_year_month}</option>
+                                <option value='January_Feburary' >January_Feburary</option>
+                              </select>
+                            </div>
+                            <div className="form-group col d-flex" onChange={handleChange}>
+                              <label> Report Basic </label>
+                              <div className='row mx-3'>
+                                <label className="form-check form-check mx-3">
+                                  <input className="form-check-input " type="radio" name="taxpreference" value="Accural" id="Accural" />Accural
+                                </label>
+                                <label className="form-check form-check " >
+                                  <input className="form-check-input " type="radio" name="taxpreference" value="Cash" id="Cash" />Cash
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="form-row">
+                            <div className="form-group col-md-6">
+                              <label htmlFor='org_currency'>Currency</label>
+                              <input type="text" className='form-control cursor-notallow' value={data.org_currency} id="org_currency" disabled />
+                            </div>
+                            <div className="form-group col-md-6">
+                              <label htmlFor='org_lang'>Language</label>
+                              <input type="text" className='form-control cursor-notallow' value={data.org_lang} id="org_lang" disabled />
+                            </div>
+                          </div>
+                          <div className="form-row">
+                            <div className="col form-group">
+                              <label htmlFor='company_id'> Company ID<span className='text-danger'>*</span> </label>
+                              <input type="text" className='form-control' id="company_id" required defaultValue={data.company_id} />
+                            </div>
+                            <div className="form-group col-md-6">
+                              <label htmlFor='tax_id'> Tax ID <span className='text-danger'>*</span></label>
+                              <input type="text" className='form-control' id="tax_id" defaultValue={data.tax_id} />
+                            </div>
+                          </div>
+                          <div className="form-row">
+                            <div className="form-group col-md-6">
+                              <label htmlFor='org_gst'>GST No</label>
+                              <input type="text" className='form-control' id="org_gst" placeholder="Enter Your GSTIN" defaultValue={data.org_gst} />
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <button id="save" name="save" onClick={Orgdetails} className="btn btn-success"> Update Details </button>
+                          <button id="clear" onClick={(e) => {
+                            e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                          }} name="clear" className="btn btn-secondary mx-4">Cancel
+                          </button>
                         </div>
                       </div>
-                      <div className="form-row">
-                        <div className="col form-group">
-                          <label>
-                            Company ID<span className='text-danger'>*</span>
-                          </label>
-                          <input type="text" className={`form-control `} id="company_id" required defaultValue={data.company_id} />
-                        </div>
-                        <div className="form-group col-md-6">
-                          <label>
-                            Tax ID
-                            <span className='text-danger'>*</span>
-                          </label>
-                          <input type="text" className={`form-control `} id="tax_id" defaultValue={data.tax_id}
-                          />
-                        </div>
-                      </div>
-                      <div className="form-row">
-                        <div className="form-group col-md-6">
-                          <label>GST No</label>
-                          <input
-                            type="text"
-                            className={`form-control `}
-                            id="org_gst"
-                            placeholder="Enter Your GSTIN"
-                            defaultValue={data.org_gst}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <button id="save" name="save" onClick={Orgdetails} className="btn btn-success">
-                        Update Details
-                      </button>
-                      <button id="clear" onClick={(e) => {
-                        e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
-                      }} name="clear" className="btn btn-secondary mx-4">Cancel
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </article>
+                    </form>
+                  </article>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+            : <LoadingPage />
+        }
         {/* <div className="row justify-content-center " style={{ width: "100%" }}>
             <div className="col-md-6">
               <div className="card">
@@ -590,7 +501,7 @@ function EditOrganisation() {
                           Update
                         </button>
                         <button id="clear" onClick={(e) => {
-                          e.preventDefault(); window.location.href = '/home'; localStorage.removeItem('Organisation_details')
+                          e.preventDefault(); window.location.href = '/Home'; localStorage.removeItem('Organisation_details')
                         }} name="clear" className="btn btn-secondary ml-2">Cancel
                         </button>
                         <a href="#" style={{ float: "right" }}>
@@ -641,7 +552,7 @@ function EditOrganisation() {
         </div>
         {/* ############################### Modal ####################################### */}
 
-        <Footer  />
+        <Footer />
       </div>
     </>
   )

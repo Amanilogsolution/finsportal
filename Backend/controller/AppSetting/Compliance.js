@@ -34,7 +34,7 @@ const Insertcompliance = async (req, res) => {
             add_ip_address ,status,document_status )
             values('${compliance_type}','${nature}','${period}','${period_name}','${from_month}','${to_month}',
              '${from_applicable}','${due_date}','${extended_date}',getDate(),'${user_name}','${os.hostname()}','${req.ip}','Active','false')`);
-        res.send(result)
+        res.send('Added')
     }
     catch (err) {
         res.send(err)
@@ -75,7 +75,7 @@ const Updatecompliance = async (req, res) => {
         const result = await sql.query(` update ${org}.dbo.tbl_compliance set compliance_type='${compliance_type}',nature='${nature}',period='${period}',period_name='${period_name}',from_month='${from_month}',
         to_month='${to_month}',from_applicable='${from_applicable}',due_date='${due_date}',extended_date='${extended_date}',update_date_time =GETDATE(),update_user_name ='${user_name}',
         update_system_name ='${os.hostname()}',update_ip_address='${req.ip}' WHERE sno=${sno};`);
-        res.send(result)
+        res.send('updated')
     }
     catch (err) {
         res.send(err)

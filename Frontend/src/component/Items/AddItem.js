@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { InsertItems, ActiveAccountMinorCode, SelectSubAccountname, TotalActiveUnit } from "../../api";
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 
 const AddItem = () => {
@@ -12,12 +13,14 @@ const AddItem = () => {
     const [type, setType] = useState('Goods');
     const [unitdata, setUnitdata] = useState([]);
     const [gstvaluecount, setGstvaluecount] = useState();
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
             const result = await ActiveAccountMinorCode(localStorage.getItem('Organisation'))
             setData(result)
-
             const result1 = await TotalActiveUnit(localStorage.getItem("Organisation"));
             setUnitdata(result1)
             setLoading(true)
@@ -85,9 +88,8 @@ const AddItem = () => {
         const user_id = localStorage.getItem('User_id');
 
         if (!Name || !chartofaccount_id || !taxpreference || !minor_code_id) {
-            alert('Please Enter the mandatory field')
             setLoading(true)
-
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const checkbox = document.getElementById('checkboxgst').checked || false
@@ -97,15 +99,13 @@ const AddItem = () => {
             }
 
             const result = await InsertItems(type, Name, unit, HSNcode, SACcode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, org, user_id, glcode);
+            setLoading(true)
             if (result === "Added") {
-                alert('Data Added')
                 localStorage.removeItem('ChargecodeSno');
-                window.location.href = '/ShowItem'
+                setAlertObj({ type: 'success', text: 'Item Added', url: '/ShowItem' })
             }
             else {
-                alert('Server Error')
-                setLoading(true)
-
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
     }
@@ -231,6 +231,9 @@ const AddItem = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

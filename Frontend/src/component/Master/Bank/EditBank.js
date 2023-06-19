@@ -2,41 +2,47 @@ import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { showBank, updateBank, Activecountries, showactivestate, getCity } from '../../../api'
+import AlertsComp from '../../AlertsComp';
+import LoadingPage from '../../loadingPage/loadingPage';
 
 const EditBank = () => {
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState({})
   const [countrylist, setCountrylist] = useState([])
   const [statelist, setStatelist] = useState([])
   const [citylist, setCitylist] = useState([])
   const [type, setType] = useState('')
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
-  useEffect(async () => {
-    const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
-    setData(result)
-    console.log(result)
-    if (result.ac_type === "Bank") {
-      document.getElementById('Bank').checked = true
-      setType('bank')
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await showBank(localStorage.getItem('BankSno'), localStorage.getItem('Organisation'));
+      setData(result)
+      if (result.ac_type === "Bank") {
+        document.getElementById('Bank').checked = true
+        setType('bank')
+      }
+      else if (result.ac_type === 'CreditCard') {
+        document.getElementById('CreditCard').checked = true
+        setType('CreditCard')
+      }
+      else {
+        setType(result.ac_type)
+      }
+      const country = await Activecountries();
+      setCountrylist(country)
+      const state = await showactivestate(result.country)
+      setStatelist(state)
+      const city = await getCity(result.state)
     }
-    else if (result.ac_type === 'CreditCard') {
-      document.getElementById('CreditCard').checked = true
-      setType('CreditCard')
-    }
-    else {
-      setType(result.ac_type)
-    }
-
-
-    const country = await Activecountries();
-    setCountrylist(country)
-    const state = await showactivestate(result.country)
-    setStatelist(state)
-    const city = await getCity(result.state)
-
+    fetchData()
   }, [])
 
   const handleClick = async (e) => {
     e.preventDefault();
+    setLoading(false)
     // const account_code = document.getElementById('account_code').value;
     const account_no = document.getElementById('account_no').value;
     const address_line1 = document.getElementById('address_line1').value;
@@ -54,20 +60,19 @@ const EditBank = () => {
     const User_id = localStorage.getItem('User_id');
 
     if (!account_no || !ifsc_code || !country || !state) {
-      alert('Please Enter the Mandatoy fields')
+      setLoading(true)
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
       const result = await updateBank(localStorage.getItem('BankSno'), data.chart_of_account, account_no, type, bank_name, branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id);
-      if (result) {
-        alert('Data Updated')
-        window.location.href = '/TotalBank'
+      setLoading(true)
+      if (result === 'Updated') {
+        setAlertObj({ type: 'success', text: 'Bank Data Updated', url: '/TotalBank' })
       }
       else {
-        alert('Server Error');
+        setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
       }
     }
-
-
   }
 
 

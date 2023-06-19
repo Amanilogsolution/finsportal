@@ -30,9 +30,10 @@ const Addfincialyear = async (req, res) => {
     const creditNotes = req.body.creditNotes;
     const debitNotes = req.body.debitNotes;
     const jv_ser = req.body.jv_ser;
+    const bank_recp_ser = req.body.bank_recp_ser;
+    const bank_pyt_ser = req.body.bank_pyt_ser;
 
     const User_id = req.body.User_id;
-
 
     try {
         await sql.connect(sqlConfig)
@@ -41,9 +42,11 @@ const Addfincialyear = async (req, res) => {
         if (result1.rowsAffected[0]) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_fin_year (fin_year,year,from_date,to_date,mcust_count,
         cust_count,mvend_count,vend_count,invoice_ser ,invoice_count,voucher_ser,voucher_count, 
-        location_count,add_user_name,add_system_name,add_ip_address,add_date_time ,status,po_ser,po_count, so_ser,so_count,cn_ser,cn_count,dn_ser,dn_count,jv_ser,jv_count)
+        location_count,add_user_name,add_system_name,add_ip_address,add_date_time ,status,po_ser,po_count, so_ser,so_count,cn_ser,cn_count,dn_ser,dn_count,jv_ser,jv_count,
+        bank_recep_ser,bank_recep_count,bank_payment_ser,bank_payment_count)
             values('${fincialyear}','${year}','${from_date}','${to_date}','0','0','0','0','${invoice_ser}','0','${voucher_ser}','0','0',
-            '${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${po_series}','0','${salesorder_ser}','0','${creditNotes}','0','${debitNotes}','0','${jv_ser}','0');`)
+            '${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${po_series}','0','${salesorder_ser}','0','${creditNotes}','0','${debitNotes}','0','${jv_ser}','0',
+            '${bank_recp_ser}','0','${bank_pyt_ser}','0');`)
             res.send(result)
         }
         else {
@@ -69,14 +72,15 @@ const Updatefincialyear = async (req, res) => {
     const cn_ser = req.body.cn_ser;
     const dn_ser = req.body.dn_ser;
     const jv_ser = req.body.jv_ser;
-
+    const bank_recp_ser = req.body.bank_recp_ser;
+    const bank_payt_ser = req.body.bank_payt_ser;
 
     try {
         await sql.connect(sqlConfig)
 
         const result = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set invoice_ser='${invoice_ser}',voucher_ser='${voucher_ser}',update_user_name='${user_id}',
         update_system_name='${os.hostname()}',update_ip_address='${req.ip}',update_date_time=getdate(),financial_year_lock='${financial_year_lock}',po_ser='${po_ser}',
-        so_ser='${so_ser}',cn_ser='${cn_ser}',dn_ser='${dn_ser}',jv_ser='${jv_ser}' where sno='${sno}';`)
+        so_ser='${so_ser}',cn_ser='${cn_ser}',dn_ser='${dn_ser}',jv_ser='${jv_ser}',bank_recep_ser='${bank_recp_ser}',bank_payment_ser='${bank_payt_ser}' where sno='${sno}';`)
         res.send(result.rowsAffected)
     }
     catch (err) {

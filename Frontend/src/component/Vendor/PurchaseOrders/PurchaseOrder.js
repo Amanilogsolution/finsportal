@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActivePurchesItems, Activeunit, Getfincialyearid, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount,SearchVendAddress,SelectVendorAddress } from '../../../api'
+import { ActiveVendor, ActivePurchesItems, Activeunit, Getfincialyearid, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount, SearchVendAddress, SelectVendorAddress } from '../../../api'
 import Preview from './PreviewPurchaseOrder/Preview';
 import LoadingPage from '../../loadingPage/loadingPage';
-
+import AlertsComp from '../../AlertsComp';
 
 function PurchaseOrder() {
     const [loading, setLoading] = useState(false)
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [totalValues, setTotalValues] = useState([1])
     const [vendorlist, setVendorlist] = useState([])
     const [locationstate, setLocationstate] = useState([])
@@ -17,8 +19,6 @@ function PurchaseOrder() {
     const [pocount, setPOcount] = useState(0)
     const [vendorlocations, setVendorLocations] = useState('');
     const [vendorlocation, setVendorLocation] = useState([]);
-
-
 
     const [poalldetail, setPOalldetail] = useState({
         po_number: '',
@@ -180,7 +180,7 @@ function PurchaseOrder() {
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
 
-       
+
     }
 
     const handleSubmit = async (btntype) => {
@@ -194,8 +194,8 @@ function PurchaseOrder() {
         const poamount = poalldetail.poamount
 
         if (!vendorname || !polocation) {
-            alert('Please enter Mandatory Fields')
             setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             if (btntype === 'save') {
@@ -207,16 +207,15 @@ function PurchaseOrder() {
                 if (btntype !== 'save') {
                     await Updatefinancialcount(org, 'po_count', pocount)
                 }
-
                 poitem.map(async (item) => {
                     await InsertSubPurchaseorder(org, vendorname, ponumber, item.location_id, item.item, item.qty, item.rate, item.amt, item.unit, item.glcode)
                 })
-                alert("PO Generated")
-                window.location.href = "/SavePurchaseOrder"
+                setAlertObj({ type: 'success', text: 'PO Generated', url: '/SavePurchaseOrder' })
             }
             else {
-                alert('Server not Response')
                 setLoading(true)
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+
             }
         }
     }
@@ -251,7 +250,7 @@ function PurchaseOrder() {
 
                                                 <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Vendor  Location <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                <button type="button" className="btn border col-md-10" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
+                                                    <button type="button" className="btn border col-md-10" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
                                                         e.preventDefault();
                                                         setTimeout(() => {
                                                             document.getElementById('searchLocation').focus()
@@ -281,7 +280,6 @@ function PurchaseOrder() {
                                                 <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Shipping Address <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select
-                                                        onChange={handleVendorLocation}
                                                         id="polocation"
                                                         className="form-control col-md-10">
                                                         <option value='' hidden>Select location</option>
@@ -310,14 +308,14 @@ function PurchaseOrder() {
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>
-                                                        
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {
                                                         totalValues.map((element, index) => (
                                                             <tr key={index}>
-                                                                
+
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                     <select id={`item-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeItems(index) }}>
                                                                         <option value='' hidden>Select Item</option>
@@ -347,7 +345,7 @@ function PurchaseOrder() {
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                     <input type='number' id={`amount-${index}`} className="form-control cursor-notallow" disabled />
                                                                 </td>
-                                                                
+
                                                             </tr>
                                                         ))
                                                     }
@@ -370,26 +368,26 @@ function PurchaseOrder() {
 
                                         </div>
                                     </div>
-
-
                                     <div className="card-footer border-top">
                                         <button id="save" name="save" className="btn btn-danger" onClick={() => { handleSubmit('save') }}>Save</button>
                                         <button id="post" name="save" className="btn btn-danger ml-2" onClick={() => { handleSubmit('post') }}>Post</button>
-                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
+                                        <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SavePurchaseOrder' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
                                     </div>
                                     <Preview data={poalldetail} Allitems={poitem} />
 
                                 </div>
                             </div>
+                            {
+                                alertObj.type ? <AlertsComp data={alertObj} /> : null
+                            }
                         </div>
                         : <LoadingPage />
                 }
-
                 <Footer />
 
-                 {/* #######################  modal Vendor Location  Start ###################################### */}
-                 <div className="modal fade bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                {/* #######################  modal Vendor Location  Start ###################################### */}
+                <div className="modal fade bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div className="modal-content">
                             <div className="modal-header">

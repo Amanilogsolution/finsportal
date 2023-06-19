@@ -74,7 +74,7 @@ const Login = () => {
             // // const OTP = Math.floor(Math.random() * 1000000)
             // // setOpts(OTP)
             // // const result1 = await OTPVerification(result.number, OTP)
-            // // window.location.href = '/home'
+            // // window.location.href = '/Home'
             // const loginlogs = await LoginLogs(result.user_id, result.user_name, result.org_name, result.org_db_name)
         }
         else {
@@ -108,7 +108,7 @@ const Login = () => {
 
                 alert("Athorized successfully")
                 const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
-                window.location.href = '/home'
+                window.location.href = '/Home'
             }
             else {
                 setCount(count + 1)
@@ -138,7 +138,7 @@ const Login = () => {
                 localStorage.setItem('Role', logindetails.UserRole)
                 alert(result1)
                 const loginlogs = await LoginLogs(logindetails.user_id, logindetails.user_name, logindetails.org_name, logindetails.org_db_name)
-                window.location.href = '/home'
+                window.location.href = '/Home'
             }
             else {
                 alert('Invalid Token')
@@ -155,7 +155,7 @@ const Login = () => {
         const otpinput = document.getElementById('Otp').value
         if (otpinput === otps) {
             alert("Athorized successfully")
-            window.location.href = '/home'
+            window.location.href = '/Home'
         } else {
             setCount(count + 1)
             alert("Invalid Otp")
@@ -214,7 +214,7 @@ const Login = () => {
                             <button type="button" id='verifybtn' onClick={handleClickVerify} className="btn login-btn" style={{ display: "none" }}><span className='m-auto'>Verify</span></button>
                             <div className='mt-1'>
                                 {/* <a href="forgot-password.html" className='text-danger float-left'>Forgot password ?</a> */}
-                                <a href="./otppage" className='text-right'>Login via OTP</a>
+                                <a href="./OtpPage" className='text-right'>Login via OTP</a>
                             </div>
                         </form>
                         <p className="text-center mt-2">Don't have an account ? <a href="/Signup">Sign up</a></p>

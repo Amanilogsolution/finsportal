@@ -4,13 +4,16 @@ import Footer from "../../../Footer/Footer";
 import InvoicePreview from './PreviewEditInvoice';
 import { GetInvoice, GetSubInvoice, GetAccountMinorCodeName, Getfincialyearid, UpdateSaveInvoiceToPost, UpdateSaveSubInvoiceToPost, Updatefinancialcount } from '../../../../api/index'
 import LoadingPage from '../../../loadingPage/loadingPage';
+import AlertsComp from '../../../AlertsComp';
 
 
 function EditInvoice() {
     const [loading, setLoading] = useState(false)
     const [invoice_detail, setInvoice_detail] = useState({})
     const [invoicesub, setInvoicesub] = useState([])
-
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -39,7 +42,6 @@ function EditInvoice() {
         e.preventDefault();
         setLoading(false)
         const org = localStorage.getItem('Organisation')
-
         const fin_year = await Getfincialyearid(org)
         const billing_add = invoice_detail.origin;
         const invoicepefix = fin_year[0].invoice_ser;
@@ -51,20 +53,25 @@ function EditInvoice() {
         const invoiceidauto = invoicecount.padStart(5, '0')
         const invoiceid = invoicepefix + invoicecitypre + fin_year[0].year + invoiceidauto;
 
-        const update_inv_no = await UpdateSaveInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
-        if (update_inv_no === 'Updated') {
-            const update_sub_invno = await UpdateSaveSubInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
-            if (update_sub_invno === 'Updated') {
-                const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
-                alert('Invoice Posted');
-                localStorage.removeItem('invoiceNo');
-                window.location.href = '/SaveInvoice'
-            }
+        if (!invoiceid) {
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
-            alert('Server Not Response')
+            const update_inv_no = await UpdateSaveInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
+            console.log(update_inv_no)
             setLoading(true)
-
+            if (update_inv_no === 'Updated') {
+                const update_sub_invno = await UpdateSaveSubInvoiceToPost(org, invoice_detail.invoice_no, invoiceid)
+                if (update_sub_invno === 'Updated') {
+                    const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', invoicecount)
+                    localStorage.removeItem('invoiceNo');
+                    setAlertObj({ type: 'success', text: 'Invoice Posted', url: '/SaveInvoice' })
+                }
+            }
+            else {
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+            }
         }
     }
 
@@ -290,8 +297,8 @@ function EditInvoice() {
                                             <button id="savebtn" type='submit' name="save" className="btn btn-danger" value='save'
                                                 onClick={(e) => {
                                                     e.preventDefault();
-                                                    alert('Invoice Saved');
-                                                    localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice'
+                                                    localStorage.removeItem('invoiceNo'); 
+                                                    setAlertObj({ type: 'success', text: 'Invoice Saved', url: '/SaveInvoice' })
                                                 }}>Save</button>
                                             <button id="postbtn" name="save" type='submit' className="btn btn-danger ml-2" value='post' onClick={handlePostbtn}>Post</button>
                                             <button id="clear" onClick={(e) => { e.preventDefault(); localStorage.removeItem('invoiceNo'); window.location.href = '/SaveInvoice' }}
@@ -301,6 +308,9 @@ function EditInvoice() {
                                     </div>
 
                                 </div>
+                                {
+                                    alertObj.type ? <AlertsComp data={alertObj} /> : null
+                                }
                             </div>
 
                         </>

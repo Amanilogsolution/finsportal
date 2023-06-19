@@ -12,15 +12,20 @@ import Excelfile from '../../../excelformate/tbl_location_master.xlsx';
 import Excelfile2 from '../../../excelformate/tbl_location_address.xlsx';
 import customStyles from '../../customTableStyle';
 import './location.css'
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const TotalLocation = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [btntype, setBtntype] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     async function fetchdata() {
@@ -37,13 +42,14 @@ const TotalLocation = () => {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'branch')
+    setUserRightsData(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('addbranchbtn').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'branch')
-    setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
     if (UserRights.branch_create === 'true') {
       document.getElementById('addbranchbtn').style.display = "block";
       if (financstatus !== 'Lock') {
@@ -127,7 +133,8 @@ const TotalLocation = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await Locationstatus(localStorage.getItem("Organisation"), row.location_id, status)
-                    window.location.href = 'TotalLocation'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalLocation' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -180,11 +187,8 @@ const TotalLocation = () => {
           else {
             return
           }
-
         }
       }
-
-
     }
   ]
 
@@ -297,43 +301,45 @@ const TotalLocation = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between py-2 px-3 location-div'>
+              <h3 className="ml-5">Location</h3>
+              <div className='d-flex'>
+                <button type="button" id='uploadlocaddbtn' style={{ display: "none" }} className="btn btn-success " data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
+                <button type="button" id='uploadlocabtn' style={{ display: "none" }} className="btn btn-success mx-3" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
+                <button type="button" id='addbranchbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddLocation" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Location</button>
 
-        <div className='d-flex justify-content-between py-2 px-3 location-div'>
-          <h3 className="ml-5">Location</h3>
-          <div className='d-flex'>
-            <button type="button" id='uploadlocaddbtn' style={{ display: "none" }} className="btn btn-success " data-toggle="modal" data-target="#exampleModal" onClick={btntype2}>Import Location Address</button>
-            <button type="button" id='uploadlocabtn' style={{ display: "none" }} className="btn btn-success mx-3" data-toggle="modal" data-target="#exampleModal" onClick={btntype1}>Import Location</button>
-            <button type="button" id='addbranchbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddLocation" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Location</button>
-
+              </div>
+            </div>
+            <div className="container-fluid">
+              <div className="card my-2 w-100">
+                <article className={`card-body py-1`}>
+                  <DataTableExtensions  {...tableData} >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
-        </div>
-
-
-        <div className="container-fluid">
-          <div className="card my-2 w-100">
-            <article className={`card-body py-1`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div

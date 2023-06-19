@@ -9,8 +9,11 @@ import { deleteCity, ImportCity, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import Excelfile from '../../../excelformate/tbl_cities.xlsx';
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const Showcity = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -18,7 +21,9 @@ const Showcity = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     async function fetchdata() {
@@ -35,9 +40,10 @@ const Showcity = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'city')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+    setLoading(true)
 
     if (financstatus === 'Lock') {
       document.getElementById('addcitybtn').style.background = '#7795fa';
@@ -116,7 +122,7 @@ const Showcity = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteCity(row.sno, status)
-                    window.location.href = 'ShowCity'
+                    setAlertObj({ type: 'success', text:`Status ${status}`, url: '/ShowCity' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -220,41 +226,48 @@ const Showcity = () => {
   }
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
-        <div className='d-flex justify-content-between px-3 py-3'>
-          <h3 className="ml-5">City</h3>
-          <div className='d-flex '>
-            <button type="button" id='uploadcitybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addcitybtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Addcity" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add City</button>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between px-3 py-3'>
+              <h3 className="ml-5">City</h3>
+              <div className='d-flex '>
+                <button type="button" id='uploadcitybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addcitybtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Addcity" : alert('You are not in Current Financial Year') }} className="btn btn-primary mx-4">Add City</button>
+              </div>
+            </div>
+
+            <div className="container-fluid">
+              <div className="card">
+                <article className='card-body py-1'>
+                  <DataTableExtensions
+                    {...tableData}
+                  >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      dense
+                      highlightOnHover
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+
+                </article>
+
+              </div>
+            </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
-        </div>
-
-        <div className="container-fluid">
-          <div className="card">
-            <article className={`card-body  py-1`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  dense
-                  highlightOnHover
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-
-            </article>
-
-          </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}

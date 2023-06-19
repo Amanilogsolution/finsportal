@@ -3,10 +3,14 @@ import Footer from "../Footer/Footer";
 import { ActiveCustomer, customernameChange, UpdateCustomerName } from '../../api'
 import Header from "../Header/Header";
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 export default function CustomerNames() {
     const [loading, setLoading] = useState(false)
     const [activecustomer, setActiveCustomer] = useState([])
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -41,19 +45,18 @@ export default function CustomerNames() {
         const date = document.getElementById('date').value
 
         if (!customerid) {
-            alert('Please Enter Customer Name')
             setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Customer Name', url: '' })
         }
         else {
             const result = await customernameChange(org, customerid, cust_name, date, User_id)
             const updatename = await UpdateCustomerName(org, name, customerid)
+            setLoading(true)
             if (updatename === 'Updated') {
-                alert('Customer Name Changed')
-                window.location.href = "/TotalCustomer"
+                setAlertObj({ type: 'success', text: 'Customer Name Changed', url: '/TotalCustomer' })
             }
             else {
-                alert('Server Error');
-                setLoading(true)
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
     }
@@ -103,6 +106,9 @@ export default function CustomerNames() {
                                 </div>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

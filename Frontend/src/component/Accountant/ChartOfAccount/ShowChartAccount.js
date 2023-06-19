@@ -8,14 +8,20 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelformate from '..//../../excelformate/tbl_chartofAccount.xlsx'
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 
 function ShowChartAccount() {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   const [userRightsData, setUserRightsData] = useState([]);
   let [errorno, setErrorno] = useState(0);
   const [financialstatus, setFinancialstatus] = useState('Lock')
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -23,7 +29,6 @@ function ShowChartAccount() {
       const result = await TotalChartOfAccount(org)
       setData(result)
       fetchRoles()
-
     }
     fetchdata()
   }, [])
@@ -33,13 +38,14 @@ function ShowChartAccount() {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
+    setUserRightsData(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('addchartofacct').style.background = '#7795fa';
     }
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'chartof_accounts')
-    setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
     if (UserRights.chartof_accounts_create === 'true') {
       document.getElementById('addchartofacct').style.display = "block";
       if (financstatus !== 'Lock') {
@@ -154,7 +160,8 @@ function ShowChartAccount() {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await ChartOfAccountStatus(localStorage.getItem("Organisation"), status, row.sno)
-                    window.location.href = '/ShowChartAccount'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowChartAccount' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -278,46 +285,50 @@ function ShowChartAccount() {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
-        <div className='d-flex justify-content-between pt-4 pb-3 px-5'>
-          <h3 className="">Chart Of Account</h3>
-          <div className='d-flex'>
-          <button type="button" id='excelchartofacct' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addchartofacct' style={{ display: 'none' }} onClick={() => {
-              financialstatus !== 'Lock' ? window.location.href = "./ChartOfAccount" : alert('You are not in Current Financial Year')}} className="btn btn-primary mx-2">Add Chart Of Account</button>
-           
-           <button onClick={() => {window.location.href = "./ShowAccountMinorCode" }} className="btn btn-primary"> Account Minor</button>
-           <button onClick={() => {window.location.href = "./ShowAccountMajor" }} className="btn btn-primary ml-2"> Account Major</button>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between pt-4 pb-3 px-5'>
+              <h3 className="">Chart Of Account</h3>
+              <div className='d-flex'>
+                <button type="button" id='excelchartofacct' style={{ display: 'none' }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addchartofacct' style={{ display: 'none' }} onClick={() => {
+                  financialstatus !== 'Lock' ? window.location.href = "./ChartOfAccount" : alert('You are not in Current Financial Year')
+                }} className="btn btn-primary mx-2">Add Chart Of Account</button>
+
+                <button onClick={() => { window.location.href = "./ShowAccountMinorCode" }} className="btn btn-primary"> Account Minor</button>
+                <button onClick={() => { window.location.href = "./ShowAccountMajor" }} className="btn btn-primary ml-2"> Account Major</button>
+              </div>
+            </div>
+
+
+            <div className="container-fluid">
+              <div className="card w-100" >
+                <article className='card-body py-1'>
+                  <DataTableExtensions {...tableData}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
-        </div>
-
-
-        <div className="container-fluid">
-
-          <div className="card w-100" >
-            <article className={`card-body py-1`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
-        </div>
-      </div>
-
+          : <LoadingPage />
+      }
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div

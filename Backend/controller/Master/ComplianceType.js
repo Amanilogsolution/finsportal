@@ -67,7 +67,7 @@ const UpdatecomplianceType = async (req, res) =>{
         const result =await sql.query(`update ${org}.dbo.tbl_compliances_type set compliance_type='${compliance_type}',update_date_time=getDate() ,update_user_name='${user_name}' ,update_system_name='${os.hostname()}',
             update_ip_address='${req.ip}' where sno=${sno}`);
            
-        res.send(result)
+        res.send('updated')
     }
     catch(err)
     {

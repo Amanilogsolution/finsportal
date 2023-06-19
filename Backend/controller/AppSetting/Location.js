@@ -115,12 +115,12 @@ const InsertLocationAddress = async (req, res) => {
             const update = await sql.query(`update ${org}.dbo.tbl_location_address set status='Deactive',to_date='${to_date}' where status='Active' and location_id='${location_id}'`)
             const insert = await sql.query(`insert into  ${org}.dbo.tbl_location_address (location_id,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_pin,location_country,from_date,add_date_time,add_user_name,add_system_name,add_ip_address,status)
                                          values('${location_id}','${location_name}','${gstin_no}','${location_add1}','${location_add2}','${location_city}','${location_state}','${location_pin}','${location_country}','${from_date}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
-            res.send(insert)
+            res.send('Added')
         }
         else {
             const insert = await sql.query(`insert into  ${org}.dbo.tbl_location_address (location_id,location_name,gstin_no,location_add1,location_add2,location_city,location_state,location_pin,location_country,from_date,add_date_time,add_user_name,add_system_name,add_ip_address,status)
             values('${location_id}','${location_name}','${gstin_no}','${location_add1}','${location_add2}','${location_city}','${location_state}','${location_pin}','${location_country}','${from_date}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
-            res.send(insert)
+            res.send('Added')
         }
     }
     catch (err) {

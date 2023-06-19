@@ -253,7 +253,7 @@ function Estimates() {
                                             Save and Send
                                         </button>
                                         <button id="clear" onClick={(e) => {
-                                            e.preventDefault(); window.location.href = '/home'
+                                            e.preventDefault(); window.location.href = '/Home'
                                         }} name="clear" className="btn btn-secondary ml-2">
                                             Cancel
                                         </button>

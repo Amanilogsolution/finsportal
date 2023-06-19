@@ -8,8 +8,11 @@ import Excelfile from '../../../excelformate/tbl_countries.xlsx';
 import { deletecountry, ImportCountry, Totalcountry, getUserRolePermission } from '../../../api';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle'
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowCountry = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -17,7 +20,9 @@ const ShowCountry = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done',url:''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -34,10 +39,11 @@ const ShowCountry = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'country')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('addcountrybtn').style.background = '#7795fa';
     }
@@ -114,7 +120,8 @@ const ShowCountry = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deletecountry(row.sno, status)
-                    window.location.href = 'ShowCountry'
+                    setAlertObj({type:'success',text:`Status ${status}`,url:'/ShowCountry'})
+                    // window.location.href = 'ShowCountry'
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -217,38 +224,47 @@ const ShowCountry = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper`}>
-        <div className='d-flex py-3 px-5  justify-content-between'>
-          <h3 className="ml-5">Country</h3>
-          <div className='d-flex '>
-            <button type="button" id='uploadcountrybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddCountry" }} className="btn btn-primary mx-4">Add Country</button>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex py-3 px-5  justify-content-between'>
+              <h3 className="ml-5">Country</h3>
+              <div className='d-flex '>
+                <button type="button" id='uploadcountrybtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addcountrybtn' style={{ display: "none" }} onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddCountry" }} className="btn btn-primary mx-4">Add Country</button>
+              </div>
+            </div>
+            <div className="container-fluid">
+              <div className="card mb-0">
+                <article className='card-body py-1'>
+                  <DataTableExtensions
+                    {...tableData}
+                  >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      dense
+                      highlightOnHover
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                  {/* <button onClick={(e) => {e.preventDefault();setAlertObj({type:'success',text:'done',url:'/ShowCountry'})}}>Click</button> */}
+                </article>
+              </div>
+            </div>
+            {
+              alertObj.type?<AlertsComp data={alertObj} />:console.log(alertObj)
+            }
           </div>
-        </div>
-        <div className="container-fluid">
-          <div className="card mb-0">
-            <article className={`card-body py-1`}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  dense
-                  highlightOnHover
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
+
       <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       <div

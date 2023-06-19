@@ -40,8 +40,6 @@ function ChangePassword() {
         const newpassword = document.getElementById('newpassword').value;
         const confirmpassword = document.getElementById('confirmpassword').value
 
-     
-
         if (!CurrentPassword || !newpassword || !confirmpassword) {
             setCheckpass(!checkpass)
         }
@@ -54,14 +52,14 @@ function ChangePassword() {
                     }
                     else {
                         alert("Password changed successfully ...");
-                        window.location.href = '/home'
+                        window.location.href = '/Home'
                     }
                 }
                 else {
                     setShowalert(true);
                 }           
              }else{
-                alert('Not User')
+                alert('Invalid User')
             }
             
         }

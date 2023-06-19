@@ -131,7 +131,7 @@ function VendorCredits() {
         DebitCodeSub.forEach(async (item) => {
             const SubDn = await InsertSubDebitNote(org, dn_no, voucher_no, item.bill_no, item.location, item.items, item.emp_name, item.gl_code, item.amt, fins_year, item.balance_amt, item.pass_amt, remark, user_id, item.sub_id)
         })
-        if (result == "Updated") {
+        if (result === "Updated") {
             const DnFlag =await UpdateBillDNFlag(org,'3',Dndata.total_dn_amt,billdata.vourcher_no)
 
             window.location.href = "./DebitNotes"
@@ -245,7 +245,7 @@ function VendorCredits() {
                                                                     <td className="col-md-2 px-1 text-center" id={`Items${index}`}>{element.item_name}</td>
                                                                     <td className="col-md-2 px-1 text-center" id={`glCode${index}`}>{element.glcode}</td>
                                                                     <td className="col-md-2 px-1 text-center" >{element.amt}</td>
-                                                                    <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.bill_sub_sno == `${element.sno}`).balance_amt : element.amt}</td>
+                                                                    <td className="col-md-2 px-1 text-center" id={`Amt${index}`}>{subDetails.length > 0 ? subDetails.find(val => val.bill_sub_sno === `${element.sno}`).balance_amt : element.amt}</td>
                                                                     <td className="col-md-2 px-1 "><input style={{ border: "none" }} className='text-center form-control col' type="number" id={`PassAmount${index}`} placeholder="Pass Amount" onChange={(e) => { handleChangePassAmount(e.target.value, index, element.sno) }} /></td>
                                                                     <td className="col-md-2 px-1 text-center text-danger" id={`AmountLeft${index}`}></td>
                                                                 </tr>
@@ -349,7 +349,7 @@ function VendorCredits() {
                                         <div className="col-md-20" style={{ width: "100%" }}>
                                             <button id="save" name="save" className="btn btn-danger" onClick={apiCAll}>
                                                 Create</button>
-                                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                            <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/Home' }}
                                                 name="clear" className="btn ml-2 btn-secondary">Cancel</button>
                                             <button className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal" onClick={(e) => { e.preventDefault(); console.log('nin', billdata) }}>  Preview</button>
                                         </div>

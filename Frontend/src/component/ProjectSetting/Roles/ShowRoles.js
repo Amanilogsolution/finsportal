@@ -6,9 +6,15 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import { TotalUserRole, DeleteUserRole, getUserRolePermission } from '../../../api';
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowRoles = () => {
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
 
     const columns = [
         {
@@ -39,7 +45,8 @@ const ShowRoles = () => {
                         onChange={async (e) => {
                             const status = e.target.value;
                             await DeleteUserRole(localStorage.getItem('Organisation'), row.sno, status)
-                            window.location.href = 'ShowRoles'
+                            setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowRoles' })
+
                         }}
                     >
                         <option value={row.status} hidden> {row.status}</option>
@@ -58,6 +65,8 @@ const ShowRoles = () => {
             const result = await TotalUserRole(org)
             setData(result)
             const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'roles')
+            setLoading(true)
+
             if (UserRights.roles_create === 'true') {
                 document.getElementById('addcitybtn').style.display = "block";
             }
@@ -78,33 +87,40 @@ const ShowRoles = () => {
 
     return (
         <div className="wrapper">
-            <div className="preloader flex-column justify-content-center align-items-center">
-                <div className="spinner-border" role="status"> </div>
-            </div>
+            {/* <div className="preloader flex-column justify-content-center align-items-center">
+        <div className="spinner-border" role="status"> </div>
+      </div> */}
             <Header />
-            <div className={`content-wrapper`}>
-                <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./addroles" }} className="btn btn-primary">New Roles</button>
-                <div className="container-fluid">
-                    <h3 className="py-3 ml-5">User Roles</h3>
-                    <div className="card w-100" >
-                        <article className={`card-body`}>
-                            <DataTableExtensions
-                                {...tableData}>
-                                <DataTable
-                                    noHeader
-                                    defaultSortField="id"
-                                    defaultSortAsc={false}
-                                    pagination
-                                    highlightOnHover
-                                    dense
-                                    customStyles={customStyles}
-                                />
-                            </DataTableExtensions>
-                        </article>
+            {
+                loading ?
+                    <div className='content-wrapper'>
+                        <button type="button" id='addcitybtn' style={{ float: "right", marginRight: '10%', marginTop: '1%', display: "none" }} onClick={() => { window.location.href = "./addroles" }} className="btn btn-primary">New Roles</button>
+                        <div className="container-fluid">
+                            <h3 className="py-3 ml-5">User Roles</h3>
+                            <div className="card w-100" >
+                                <article className='card-body'>
+                                    <DataTableExtensions
+                                        {...tableData}>
+                                        <DataTable
+                                            noHeader
+                                            defaultSortField="id"
+                                            defaultSortAsc={false}
+                                            pagination
+                                            highlightOnHover
+                                            dense
+                                            customStyles={customStyles}
+                                        />
+                                    </DataTableExtensions>
+                                </article>
+                            </div>
+                        </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
-                </div>
-            </div>
-            <Footer  />
+                    : <LoadingPage />
+            }
+            <Footer />
         </div>
     )
 

@@ -142,7 +142,7 @@ const Header = () => {
             </a>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
-            <a href="/home" className="nav-link">
+            <a href="/Home" className="nav-link">
               Home
             </a>
           </li>
@@ -192,7 +192,7 @@ const Header = () => {
                 </div>
                 <ul className="list-group list-group-flush">
                   <li className={`list-group-item bg-${themeval}`}><b >My Organisation</b>
-                    <a href='/org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
+                    <a href='/Org' style={{ float: "right", textDecoration: "underline" }} className='text-primary'> Add Organisation</a>
                   </li>
                   {
                     data.map((item, index) => (

@@ -18,7 +18,7 @@ const TotalRecurringBill = () => {
       const org = localStorage.getItem('Organisation')
       const result = await getRecurringBill(org)
       setData(result)
-      setLoading(true)
+     
       fetchRoles()
     }
     fetchdata();
@@ -30,18 +30,16 @@ const TotalRecurringBill = () => {
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
-
-    if (financstatus === 'Lock') {
-      document.getElementById('addbillbtn').style.background = '#7795fa';
-    }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'recurring_bill')
     // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     setUserRightsData(UserRights)
-
+    setLoading(true)
 
     if (UserRights.recurring_bill_create === 'true') {
       document.getElementById('addbillbtn').style.display = "block";
-
+      if (financstatus === 'Lock') {
+        document.getElementById('addbillbtn').style.background = '#7795fa';
+      }
     }
   }
 

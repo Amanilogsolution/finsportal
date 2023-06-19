@@ -278,9 +278,9 @@ export const Activeunit = async (org) => {
 
 // ###################### Bank api start #############################
 
-export const insertBank = async (accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description,branch, org, User_id) => {
+export const insertBank = async (accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, branch, org, User_id) => {
     const url = `http://localhost:3008/api/addbank`
-    return axios.post(url, { accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description,branch, org, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { accountingcode, bank_name, account_no, address_line1, address_line2, country, state, city, pincode, ifsc_code, actype, acname, description, branch, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const totalBank = async (org) => {
@@ -295,9 +295,9 @@ export const showBank = async (sno, org) => {
     const url = `https://finsbackend.awlinternational.com/api/showbank`
     return axios.post(url, { sno, org }).then(response => response.data).catch(error => console.log(error));
 }
-export const updateBank = async (sno, account_code, account_no, type, bank_name,branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id) => {
+export const updateBank = async (sno, account_code, account_no, type, bank_name, branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id) => {
     const url = `http://localhost:3008/api/updatebank`
-    return axios.post(url, { sno, account_code, account_no, type, bank_name,branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { sno, account_code, account_no, type, bank_name, branch, address_line1, address_line2, country, state, city, pincode, ifsc_code, acname, description, org, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ImportBank = async (data, org, User_id) => {
@@ -335,7 +335,7 @@ export const showuser = async (sno) => {
 
 export const UpdateUser = async (sno, employee_name, role, warehouse, user_name, password,
     email_id, phone, operate_mode, customer, reporting_to, designation, two_factor_authentication, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateuser`
+    const url = `http://localhost:3008/api/updateuser`
     return axios.post(url, {
         sno, employee_name, role, warehouse, user_name, password, email_id, phone,
         operate_mode, customer, reporting_to, designation, two_factor_authentication, User_id
@@ -817,7 +817,7 @@ export const ShowcompliancesTypeselect = async (org, sno) => {
 }
 
 export const UpdatecomplianceType = async (org, compliance_type, user_name, sno) => {
-    const url = `https://finsbackend.awlinternational.com/api/UpdatecomplianceType`
+    const url = `http://localhost:3008/api/UpdatecomplianceType`
     return axios.post(url, { org, compliance_type, user_name, sno }).then(response => response.data).catch(error => console.log(error));
 }
 export const Compliancesstatus = async (org, sno, status) => {
@@ -835,13 +835,13 @@ export const Showfincialyear = async (org) => {
     const url = `https://finsbackend.awlinternational.com/api/showfincialyear`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
-export const Addfincialyear = async (org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id) => {
+export const Addfincialyear = async (org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, bank_recp_ser, bank_pyt_ser, User_id) => {
     const url = `http://localhost:3008/api/addfincialyear`
-    return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, bank_recp_ser, bank_pyt_ser, User_id }).then(response => response.data).catch(error => console.log(error));
 }
-export const UpdateFincialyear = async (org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser, User_id) => {
+export const UpdateFincialyear = async (org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser,bank_recp_ser,bank_payt_ser, User_id) => {
     const url = `http://localhost:3008/api/updatefincialyear`
-    return axios.post(url, { org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, sno, invoice_ser, voucher_ser, lockscreen, po_ser, so_ser, cn_ser, dn_ser, jv_ser,bank_recp_ser,bank_payt_ser, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const Statusfincialyear = async (org, sno) => {
     const url = `https://finsbackend.awlinternational.com/api/statusfincialyear`
@@ -896,7 +896,8 @@ export const deleteItems = async (org, sno, status) => {
 }
 
 export const UpdateItems = async (sno, org, type, Name, Unit, hsncode, saccode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, glcode, user_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateItems`
+    console.log('Api', sno)
+    const url = `http://localhost:3008/api/updateItems`
     return axios.post(url, { sno, org, type, Name, Unit, hsncode, saccode, minor_code, major_code_id, minor_code_id, chartofaccount_id, chartofaccount, taxpreference, Purchase, Sales, gstrate, glcode, user_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveItems = async (org, major_code) => {
@@ -1088,9 +1089,9 @@ export const GetAccountMinorCode = async (org, AccountMinorCode) => {
     return axios.post(url, { org, AccountMinorCode }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateAccountMinorCode = async (org, account_name_code, account_name,remarks, User_id) => {
+export const UpdateAccountMinorCode = async (org, account_name_code, account_name, remarks, User_id) => {
     const url = `http://localhost:3008/api/updateaccountminorcode`
-    return axios.post(url, { org, account_name_code, account_name,remarks, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, account_name_code, account_name, remarks, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const ActiveAccountMinorCode = async (org) => {
@@ -1349,7 +1350,7 @@ export const InsertEmployee = async (org, emp_name, wh, emp_id, User_id) => {
 }
 
 export const GetEmployee = async (org, sno) => {
-    const url = `https://finsbackend.awlinternational.com/api/getemployee`
+    const url = `http://localhost:3008/api/getemployee`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 

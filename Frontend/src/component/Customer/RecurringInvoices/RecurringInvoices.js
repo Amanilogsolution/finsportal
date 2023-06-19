@@ -11,9 +11,13 @@ import {
 import '../Invoices/invoice.css'
 import LoadingPage from '../../loadingPage/loadingPage';
 // import CreatableSelect from 'react-select/creatable';
+import AlertsComp from '../../AlertsComp';
 
 function AddRecurringInvoices() {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [count, setCount] = useState(1);
     const [arry, setArry] = useState([0]);
     const [itemsrowval, setItemsrowval] = useState([{
@@ -374,9 +378,7 @@ function AddRecurringInvoices() {
     const handlesavebtn = async (e) => {
         e.preventDefault();
         setLoading(false)
-
         document.getElementById('savebtn').disabled = true;
-
         let invoiceids = document.getElementById('invoiceid').value;
         let squ_nos = ""
         const btn_type = e.target.value;
@@ -389,7 +391,6 @@ function AddRecurringInvoices() {
         //     invoiceids = allInvoiceData.TaxInvoice;
         //     squ_nos = invoiceprefix;
         // }
-
 
         const Invoicedate = '';
         const ordernumber = ''
@@ -421,9 +422,8 @@ function AddRecurringInvoices() {
         const taxableamt = allInvoiceData.TotalTaxamount;
 
         let RecurringType = document.getElementById('recurringType')
-        const RecurringMonth =RecurringType.value
+        const RecurringMonth = RecurringType.value
         RecurringType = RecurringType.options[RecurringType.selectedIndex].text;
-
 
         // let RecurringType = document.getElementById('recurringType').value;
         // const RecurringMonth = ''
@@ -433,8 +433,8 @@ function AddRecurringInvoices() {
         const org = localStorage.getItem('Organisation')
 
         if (!custid || !invoiceids || !billsubtotal || !consignee || !(itemsrowval[0].items).length > 0) {
-            alert('Please Fill the Mandatory Fields');
             setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const result = await InsertRecurringInvoice(org, RecurringType, RecurringMonth, RecurringDate, fin_year, invoiceids,
@@ -442,38 +442,19 @@ function AddRecurringInvoices() {
                 total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
                 paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
 
-            // if (btn_type !== 'save') {
-            //     const result2 = await InsertInvoice(org, fin_year, invoiceids,
-            //         squ_nos, Invoicedate, ordernumber, invoiceamt, User_id, periodfrom, periodto, '', locationid, custid, billsubtotal,
-            //         total_tax, custadddetail.custAddId, remark, btn_type, location, consignee, masterid, cgst, sgst, utgst, igst, taxableamt, currency_type,
-            //         paymentterm, Duedate, User_id, custaddrs, allInvoiceData.BillToGst, invoice_destination, invoice_origin)
-            // }
-
             if (result === 'Added') {
                 itemsrowval.map(async (item, index) => {
-
                     const result1 = await InsertSubRecurringInvoice(org, fin_year, invoiceids, item.majorCode, item.items, item.glcode,
                         item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
                         item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id);
-
-                    // if (btn_type !== 'save') {
-                    //     const result3 = await InsertInvoiceSub(org, fin_year, invoiceids, item.majorCode, item.items, item.glcode,
-                    //         item.activity, item.Quantity, item.rate, item.unit, item.amount, consignee, custadddetail.state, custid, custadddetail.custAddId,
-                    //         item.taxable, cgst, sgst, utgst, igst, cgstamount, sgstamount, utgstamount, igstamount, item.taxAmt, User_id)
-                    // }
-
                 })
-
-                // if (btn_type !== 'save') {
-                //     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
-                // }
-                alert('Added')
-                window.location.href = './TotalRecurringInvoice';
+                setLoading(true)
+                setAlertObj({ type: 'success', text: 'Recurring Invoice Added', url: '/TotalRecurringInvoice' })
             }
             else {
-                alert('Server not Response');
                 setLoading(true)
-                window.location.reload();
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+
             }
         }
     }
@@ -499,22 +480,16 @@ function AddRecurringInvoices() {
                 <Header />
                 {
                     loading ?
-
-                        <div className={`content-wrapper `} >
+                        <div className='content-wrapper' >
                             <div className="container-fluid" >
                                 <h3 className="pt-3 px-3">Add Recurring Invoice</h3>
-
                                 <div className="card my-2" >
                                     <article className="card-body">
                                         <form autoComplete="off">
                                             <div className="form-row">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="custname"
-                                                        className="form-control"
-                                                        onChange={handleCustname}
-                                                    >
+                                                    <select id="custname" className="form-control" onChange={handleCustname} >
                                                         <option value='' hidden>Select Customer</option>
                                                         {
                                                             activecustomer.map((items, index) => (
@@ -658,8 +633,6 @@ function AddRecurringInvoices() {
                                                 </div>
                                             </div>
                                             <br />
-
-
                                             <table className="table  table-striped table-bordered">
                                                 <thead>
                                                     <tr>
@@ -835,8 +808,10 @@ function AddRecurringInvoices() {
                                         </form>
                                     </article>
                                 </div>
-
                             </div>
+                            {
+                                alertObj.type ? <AlertsComp data={alertObj} /> : null
+                            }
                         </div>
                         :
                         <LoadingPage />
@@ -852,9 +827,7 @@ function AddRecurringInvoices() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Billing Address</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress"
-                                    onChange={handleSearchBillingLoc}
-                                />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchBillingAddress" onChange={handleSearchBillingLoc} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -900,9 +873,7 @@ function AddRecurringInvoices() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Customer Address</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress"
-                                    onChange={handleSearchCustLoc}
-                                />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchCustAddress" onChange={handleSearchCustLoc} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -911,7 +882,6 @@ function AddRecurringInvoices() {
                                     <tr>
                                         <th>City</th>
                                         <th>Address </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>

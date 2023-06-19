@@ -7,10 +7,13 @@ import {
   Getfincialyearid, Updatefinancialcount, UpdatefinancialTwocount, ActivePaymentTerm, ActiveCurrency, VendInsertAddress
 } from '../../api'
 import LoadingPage from '../loadingPage/loadingPage';
-
+import AlertsComp from '../AlertsComp';
 
 const Vendor = () => {
   const [loading, setLoading] = useState(false)
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
   const [vendworkphonecount, setVendworkphonecount] = useState();
   const [vendphonecount, setVendphonecount] = useState();
   const [billpincount, setBillpincount] = useState();
@@ -164,9 +167,8 @@ const Vendor = () => {
     const User_id = localStorage.getItem('User_id')
 
     if (!vend_fname || !vend_display_name || !vend_work_phone || !gst_treatment || !source_of_supply || !currency || !payment_terms || !billing_address_attention || !billing_address_country_val || !billing_address_state_val || !billing_address_city_val || !billing_address_pincode || !billing_address_phone || !contact_person_name || !pan_no) {
-      alert('Please Fill the Mandatory fields...')
       setLoading(true)
-
+      setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
 
@@ -187,14 +189,13 @@ const Vendor = () => {
         if (result[0] > 0) {
           await VendInsertAddress(generateVend_id, vend_name, vendaddid, gstin_uin, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
           const updateFin_year = await Updatefinancialcount(org, 'vend_count', increvend)
+          setLoading(true)
 
           if (updateFin_year[0] > 0) {
-            alert("data Added")
-            window.location.href = '/Showvendor'
+            setAlertObj({ type: 'success', text: 'Vendor Added', url: '/Showvendor' })
           }
           else {
-            alert('Server not response')
-            setLoading(true)
+            setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
           }
         }
       }
@@ -212,19 +213,16 @@ const Vendor = () => {
         if (result2[0] > 0) {
           await VendInsertAddress(generateVend_id, vend_name, vendaddid, gstin_uin, billing_address_attention, billing_address_country_val, billing_address_city_val, billing_address_state_val, billing_address_pincode, billing_address_phone, billing_address_fax, org, User_id)
           const updateFin_year = await UpdatefinancialTwocount(org, 'mvend_count', incremvend, 'vend_count', increvend)
-
+          setLoading(true)
           if (updateFin_year[0] > 0) {
-            alert("data Added")
-            window.location.href = '/Showvendor'
+            setAlertObj({ type: 'success', text: 'Vendor Added', url: '/Showvendor' })
           }
           else {
-            alert('Server not response')
-            setLoading(true)
+            setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+
           }
         }
-
       }
-
     }
   }
 
@@ -873,6 +871,9 @@ const Vendor = () => {
                 </div>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

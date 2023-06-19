@@ -10,6 +10,7 @@ import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle'
 import './TotalCustomer.css'
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 const TotalCustomer = () => {
   const [loading, setLoading] = useState(false)
@@ -26,14 +27,16 @@ const TotalCustomer = () => {
   // const [ActionToogle, setActionToogle] = useState(false);
   const [ActionToogle, setActionToogle] = useState(true);
   const [financialstatus, setFinancialstatus] = useState('Lock')
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
       const result = await TotalCustomers(localStorage.getItem("Organisation"))
       setData(result)
       let getids = await Getfincialyearid(localStorage.getItem('Organisation'))
-      setLoading(true)
+
       fetchRoles()
 
       setYear(getids[0].year);
@@ -50,10 +53,10 @@ const TotalCustomer = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'customer')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
-
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('addcustbtn').style.background = '#7795fa';
       document.getElementById('updatecustNamebtn').style.background = '#7795fa';
@@ -139,7 +142,8 @@ const TotalCustomer = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await DeleteCustomer(row.sno, status, localStorage.getItem("Organisation"))
-                    window.location.href = '/TotalCustomer'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalCustomer' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -364,6 +368,9 @@ const TotalCustomer = () => {
                   </DataTableExtensions>
                 </article>
               </div>
+              {
+                alertObj.type ? <AlertsComp data={alertObj} /> : null
+              }
             </div>
             : <LoadingPage />
         }

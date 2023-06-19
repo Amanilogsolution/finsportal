@@ -20,7 +20,7 @@ const InvoiceSave = () => {
       const org = localStorage.getItem('Organisation')
       const result = await GetSaveInvoice(org)
       setData(result)
-      setLoading(true)
+
       fetchRoles()
     }
 
@@ -33,15 +33,16 @@ const InvoiceSave = () => {
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
 
-    if (financstatus === 'Lock') {
-      document.getElementById('addivoicebtn').style.background = '#7795fa';
-    }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'invoice')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    setLoading(true)
+    
     if (UserRights.invoice_create === 'true') {
       document.getElementById('addivoicebtn').style.display = "block";
+      if (financstatus === 'Lock') {
+        document.getElementById('addivoicebtn').style.background = '#7795fa';
+      }
     }
   }
 

@@ -9,9 +9,13 @@ import Excelfile from '../../excelformate/tbl_vendor_formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../customTableStyle';
 import LoadingPage from '../loadingPage/loadingPage';
+import AlertsComp from '../AlertsComp';
 
 const Showvendor = () => {
     const [loading, setLoading] = useState(false)
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [userRightsData, setUserRightsData] = useState([]);
 
     const [data, setData] = useState([])
@@ -39,7 +43,7 @@ const Showvendor = () => {
             setMvendid(mvendid)
             setVendid(vendid)
             const year = financialyear[0].year;
-            setLoading(true)
+
             fetchRoles()
         }
         fetchdata();
@@ -52,18 +56,19 @@ const Showvendor = () => {
         const financstatus = localStorage.getItem('financialstatus')
         setFinancialstatus(financstatus);
 
+        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
+        setUserRightsData(UserRights);
+        setLoading(true)
+        // localStorage["RolesDetais"] = JSON.stringify(UserRights)
         if (financstatus === 'Lock') {
             document.getElementById('addvendbtn').style.background = '#7795fa';
         }
-        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
-        setUserRightsData(UserRights)
-        localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
         if (UserRights.vendor_create === 'true') {
             document.getElementById('addvendbtn').style.display = "block";
             if (financstatus !== 'Lock') {
                 document.getElementById('excelvendbtn').style.display = "block";
             }
+
         }
     }
 
@@ -119,7 +124,7 @@ const Showvendor = () => {
                                     <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                                         const status = e.target.value;
                                         await DeleteVendor(row.sno, status, localStorage.getItem('Organisation'))
-                                        window.location.href = '/ShowVendor'
+                                        setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowVendor' })
                                     }}>
                                         <option value={row.status} hidden> {row.status}</option>
                                         <option value='Active'>Active</option>
@@ -316,7 +321,7 @@ const Showvendor = () => {
             <Header />
             {
                 loading ?
-                    <div className={`content-wrapper `}>
+                    <div className='content-wrapper'>
                         <div className='d-flex justify-content-between px-4 pt-4 pb-2'>
                             <h3>Vendor</h3>
                             <div className='d-flex'>
@@ -327,7 +332,7 @@ const Showvendor = () => {
 
                         <div className="container-fluid">
                             <div className="card mb-2 w-100" >
-                                <article className={`card-body py-0`}>
+                                <article className='card-body py-0'>
                                     <DataTableExtensions
                                         {...tableData}>
                                         <DataTable
@@ -343,6 +348,9 @@ const Showvendor = () => {
                                 </article>
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                     : <LoadingPage />
             }

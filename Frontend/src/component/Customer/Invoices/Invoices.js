@@ -11,9 +11,13 @@ import {
 import './invoice.css'
 import LoadingPage from '../../loadingPage/loadingPage';
 import CreatableSelect from 'react-select/creatable';
+import AlertsComp from '../../AlertsComp';
 
 function Invoices() {
     const [loading, setLoading] = useState(false)
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [count, setCount] = useState(1);
     const [arry, setArry] = useState([0]);
     const [itemsrowval, setItemsrowval] = useState([{
@@ -420,8 +424,8 @@ function Invoices() {
 
         // // Insert Data
         if (!custid || !invoiceids || !billsubtotal || !consignee || !(itemsrowval[0].items).length > 0) {
-            alert('Please Fill the Mandatory Fields');
             setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
             const result = await InsertInvoice(localStorage.getItem('Organisation'), fin_year, invoiceids,
@@ -454,13 +458,12 @@ function Invoices() {
                 if (btn_type !== 'save') {
                     const invcount = await Updatefinancialcount(localStorage.getItem('Organisation'), 'invoice_count', updateinvcount)
                 }
-                alert('Added')
-                window.location.href = './SaveInvoice';
+                setLoading(true)
+                setAlertObj({ type: 'success', text: 'Country Added', url: '/SaveInvoice' })
             }
             else {
-                alert('Server not Response');
                 setLoading(true)
-                window.location.reload();
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
         }
     }
@@ -470,8 +473,7 @@ function Invoices() {
                 <Header />
                 {
                     loading ?
-
-                        <div className={`content-wrapper `} >
+                        <div className='content-wrapper' >
                             <div className="container-fluid" >
                                 <h3 className="pt-3 px-3"> New Invoice</h3>
 
@@ -481,11 +483,7 @@ function Invoices() {
                                             <div className="form-row">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="custname"
-                                                        className="form-control"
-                                                        onChange={handleCustname}
-                                                    >
+                                                    <select id="custname" className="form-control" onChange={handleCustname}>
                                                         <option value='' hidden>Select Customer</option>
                                                         {
                                                             activecustomer.map((items, index) => (
@@ -573,11 +571,7 @@ function Invoices() {
                                                 <div className="d-flex col-md-4 ">
                                                     <label className="col-md-3 text-center col-form-label font-weight-normal" >Terms</label>
 
-                                                    <select
-                                                        id="paymentterm"
-                                                        className='col-md-6  mr-0 form-control'
-                                                        onChange={handleAccountTerm}
-                                                    >
+                                                    <select id="paymentterm" className='col-md-6  mr-0 form-control' onChange={handleAccountTerm} >
                                                         <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
                                                         {
                                                             activepaymentterm.map((item, index) => (
@@ -682,7 +676,7 @@ function Invoices() {
                                                     }
                                                 </tbody>
                                             </table>
-                                            <input type='button' className="btn btn-primary" onClick={addRow} id='additembtm' value='Add Item'/>
+                                            <input type='button' className="btn btn-primary" onClick={addRow} id='additembtm' value='Add Item' />
                                             <input type='button' className="btn btn-danger ml-2" onClick={RemoveRow} id='removeitembtm' value='Remove' />
                                             <div className='d-flex justify-content-between'>
                                                 <div style={{ width: "40%" }}>
@@ -772,26 +766,20 @@ function Invoices() {
                                             }
 
                                             <div className="form-group mt-3">
-                                                <button id="savebtn" type='button' name="save" className="btn btn-danger"
-                                                    onClick={handlesavebtn}
-                                                    value='save'>
-                                                    Save
-                                                </button>
-                                                <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2"
-                                                    onClick={handlesavebtn}
-                                                    value='post' >
-                                                    Post
-                                                </button>
+                                                <button id="savebtn" type='button' name="save" className="btn btn-danger" onClick={handlesavebtn} value='save'> Save</button>
+                                                <button id="postbtn" type='button' name="save" className="btn btn-danger mx-2" onClick={handlesavebtn} value='post' > Post </button>
                                                 <button id="clear"
-                                                    // onClick={(e) => { e.preventDefault(); window.location.href = '/home' }}
+                                                    // onClick={(e) => { e.preventDefault(); window.location.href = '/Home' }}
                                                     name="clear" className="btn mx-2 btn btn-primary">Cancel </button>
                                                 <button id='previewbtn' type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" >Preview Invoice </button>
                                             </div>
                                         </form>
                                     </article>
                                 </div>
-
                             </div>
+                            {
+                                alertObj.type ? <AlertsComp data={alertObj} /> : null
+                            }
                         </div>
                         :
                         <LoadingPage />

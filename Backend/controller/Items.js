@@ -115,6 +115,7 @@ const UpdateItems = async (req, res) => {
             chart_of_acct_id='${chartofaccount_id}',tax_preference='${tax_preference}',sales_account='${sales_account}',purchase_account='${purchase_account}',gst_rate='${gst_rate}',minor_code_id='${minor_code_id}',minor_code='${minor_code}',glcode='${glcode}',
             update_user_name='${user_id}',update_system_name='${os.hostname()}' ,update_ip_address='${req.ip}' ,update_date_time=getdate()  WHERE  sno='${sno}'`)
 
+            console.log(result)
         if (result.rowsAffected[0] > 0) {
             res.send("updated")
         }

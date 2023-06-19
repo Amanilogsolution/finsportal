@@ -63,7 +63,7 @@ function Org() {
           const result = await register(dbname, org_name, org_country, org_state, org_street, org_currency, org_lang, org_gst, org_contact_name, org_contact_phone, org_contact_email, org_city, org_pincode, User_id, fins_year, last_year, startdate, toyear)
           if (result) {
             alert('Organisation created')
-            window.location.href = '/home'
+            window.location.href = '/Home'
           }
         }
         else {
@@ -320,7 +320,7 @@ function Org() {
                             Get start
                           </button>
                           <button id="clear" onClick={(e) => {
-                            e.preventDefault(); window.location.href = '/home'
+                            e.preventDefault(); window.location.href = '/Home'
                           }} name="clear" className="btn ml-2 btn-secondary">
                             Cancel
                           </button>

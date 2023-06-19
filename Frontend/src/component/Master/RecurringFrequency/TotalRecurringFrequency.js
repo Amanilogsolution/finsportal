@@ -6,13 +6,16 @@ import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
 import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowRecurring = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
-
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -102,7 +105,7 @@ const ShowRecurring = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteRecurringFreq(localStorage.getItem('Organisation'), status, row.sno)
-                    window.location.href = 'TotalRecurringFrequency'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/TotalRecurringFrequency' })
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -135,17 +138,15 @@ const ShowRecurring = () => {
       <Header />
       {
         loading ?
-          <div className={`content-wrapper `}>
+          <div className='content-wrapper'>
             <div className='d-flex justify-content-between py-4 px-4'>
               <h3 className="text-left ml-5">Recurring Frequency</h3>
               <button type="button" id="addrecuFreqtermbtn" style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddRecurringFrequency" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Frequency</button>
             </div>
             <div className="container-fluid">
               <div className="card w-100">
-                <article className={`card-body py-1`}>
-                  <DataTableExtensions
-                    {...tableData}
-                  >
+                <article className='card-body py-1'>
+                  <DataTableExtensions {...tableData}  >
                     <DataTable
                       noHeader
                       defaultSortField="id"
@@ -159,6 +160,9 @@ const ShowRecurring = () => {
                 </article>
               </div>
             </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
           : <LoadingPage />
       }

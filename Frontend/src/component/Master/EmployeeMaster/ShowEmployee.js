@@ -5,11 +5,17 @@ import { TotalEmployee, deleteEmployee, getUserRolePermission } from '../../../a
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowEmployee = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -28,16 +34,15 @@ const ShowEmployee = () => {
 
     setFinancialstatus(financstatus);
 
+    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'employee')
+    setUserRightsData(UserRights)
+    setLoading(true)
     if (financstatus === 'Lock') {
       document.getElementById('addempbtn').style.background = '#7795fa';
     }
-
-    const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'employee')
-    setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     if (UserRights.employee_create === 'true') {
       document.getElementById('addempbtn').style.display = "block";
-
     }
   }
 
@@ -58,7 +63,7 @@ const ShowEmployee = () => {
       sortable: true,
       selector: 'null',
       cell: (row) => {
-        if (localStorage.getItem('financialstatus') === 'Lock') {
+        if (financialstatus === 'Lock') {
           return (
             <div className='droplist'>
               <p>{row.status}</p>
@@ -77,7 +82,8 @@ const ShowEmployee = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteEmployee(localStorage.getItem('Organisation'), row.sno, status)
-                    window.location.href = '/showemployee'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/showemployee' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -111,7 +117,7 @@ const ShowEmployee = () => {
           }
           if (userRightsData.employee_edit === 'true') {
             return (
-              <button className='p-1 px-2 btn-success' onClick={(e) => { e.preventDefault(); localStorage.setItem('citySno', `${row.sno}`); window.location.href = '/editemployee' }}>Edit</button>
+              <button className='p-1 px-2 btn-success' onClick={(e) => { e.preventDefault(); localStorage.setItem('EmpmasterSno', `${row.sno}`); window.location.href = '/editemployee' }}>Edit</button>
             );
           }
           else {
@@ -139,35 +145,42 @@ const ShowEmployee = () => {
 
   return (
     <div className="wrapper">
-      <div className="preloader flex-column justify-content-center align-items-center">
+      {/* <div className="preloader flex-column justify-content-center align-items-center">
         <div className="spinner-border" role="status"> </div>
-      </div>
+      </div> */}
       <Header />
-      <div className={`content-wrapper `}>
-        <div className='d-flex justify-content-between py-4 px-4'>
-          <h3 className="text-left ml-5"> Employee Master </h3>
-          <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./addemployee" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Employee </button>
-        </div>
-        <div className="container-fluid">
-          <div className="card w-100"  >
-            <article className={`card-body `}>
-              <DataTableExtensions
-                {...tableData}
-              >
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between py-4 px-4'>
+              <h3 className="text-left ml-5"> Employee Master </h3>
+              <button type="button " id='addempbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./addemployee" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary">Add Employee </button>
+            </div>
+            <div className="container-fluid">
+              <div className="card w-100"  >
+                <article className='card-body'>
+                  <DataTableExtensions
+                    {...tableData}
+                  >
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
-        </div>
-      </div>
+          : <LoadingPage />
+      }
       <Footer />
     </div>
   )

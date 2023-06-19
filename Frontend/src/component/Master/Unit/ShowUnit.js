@@ -8,8 +8,11 @@ import 'react-data-table-component-extensions/dist/index.css';
 import Excelfile from '../../../excelformate/unit Formate.xlsx';
 import * as XLSX from "xlsx";
 import customStyles from '../../customTableStyle';
+import LoadingPage from '../../loadingPage/loadingPage';
+import AlertsComp from '../../AlertsComp';
 
 const ShowUnit = () => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [importdata, setImportdata] = useState([]);
   let [errorno, setErrorno] = useState(0);
@@ -17,6 +20,9 @@ const ShowUnit = () => {
   const [backenddata, setBackenddata] = useState(false);
   const [financialstatus, setFinancialstatus] = useState('Lock')
   const [userRightsData, setUserRightsData] = useState([]);
+  const [alertObj, setAlertObj] = useState({
+    type: '', text: 'Done', url: ''
+  })
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -34,10 +40,12 @@ const ShowUnit = () => {
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'unit')
     setUserRightsData(UserRights)
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
+    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
 
     const financstatus = localStorage.getItem('financialstatus')
     setFinancialstatus(financstatus);
+    setLoading(true)
+
     if (financstatus === 'Lock') {
       document.getElementById('addunitbtn').style.background = '#7795fa';
     }
@@ -85,9 +93,7 @@ const ShowUnit = () => {
     {
       name: 'Status',
       selector: 'null',
-      cell: (row) =>
-
-      {
+      cell: (row) => {
         if (localStorage.getItem('financialstatus') === 'Lock') {
           return (
             <div className='droplist'>
@@ -107,7 +113,8 @@ const ShowUnit = () => {
                   <select id={`deleteselect${row.sno}`} onChange={async (e) => {
                     const status = e.target.value;
                     await deleteUnit(row.sno, status, localStorage.getItem('Organisation'))
-                    window.location.href = 'ShowUnit'
+                    setAlertObj({ type: 'success', text: `Status ${status}`, url: '/ShowUnit' })
+
                   }}>
                     <option value={row.status} hidden> {row.status}</option>
                     <option value='Active'>Active</option>
@@ -127,7 +134,7 @@ const ShowUnit = () => {
 
         }
       }
-      
+
       // [
 
       //   <div className='droplist' id={`deletebtn${row.sno}`} style={{ display: "none" }}>
@@ -243,34 +250,41 @@ const ShowUnit = () => {
         <div className="spinner-border" role="status"> </div>
       </div>
       <Header />
-      <div className={`content-wrapper `}>
-        <div className='d-flex justify-content-between px-4 py-4'>
-          <h3 className=" ml-5">Unit</h3>
-          <div className='d-flex  px-3'>
-            <button type="button" id='uploadunitbtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
-            <button type="button" id='addunitbtn' style={{ display: "none" }} onClick={() => {  financialstatus !== 'Lock' ? window.location.href = "./AddUnit": alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Unit</button>
+      {
+        loading ?
+          <div className='content-wrapper'>
+            <div className='d-flex justify-content-between px-4 py-4'>
+              <h3 className=" ml-5">Unit</h3>
+              <div className='d-flex  px-3'>
+                <button type="button" id='uploadunitbtn' style={{ display: "none" }} className="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import excel file</button>
+                <button type="button" id='addunitbtn' style={{ display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./AddUnit" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary mx-3">Add Unit</button>
+              </div>
+            </div>
+            <div className="container-fluid">
+              <div className="card mb-0 w-100">
+                <article className='card-body py-0'>
+                  <DataTableExtensions
+                    {...tableData}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                      dense
+                      customStyles={customStyles}
+                    />
+                  </DataTableExtensions>
+                </article>
+              </div>
+            </div>
+            {
+              alertObj.type ? <AlertsComp data={alertObj} /> : null
+            }
           </div>
-        </div>
-        <div className="container-fluid">
-          <div className="card mb-0 w-100">
-            <article className={`card-body py-0`}>
-              <DataTableExtensions
-                {...tableData}>
-                <DataTable
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={false}
-                  pagination
-                  highlightOnHover
-                  dense
-                  customStyles={customStyles}
-                />
-              </DataTableExtensions>
-            </article>
-          </div>
-        </div>
-      </div>
-      <Footer/>
+          : <LoadingPage />
+      }
+      <Footer />
       {/* ------------------ Modal start -----------------------------*/}
       {/* <Modal excel={Excelfile} importdatas={setImportdata} /> */}
       <div
