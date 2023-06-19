@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress,SearchLocationAddress } from '../../../api'
+import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 
@@ -189,6 +189,7 @@ function AddBankingReceipt() {
         if (!onAccount) {
             const invoices = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
             setCustomerInvlist(invoices)
+            console.log(invoices)
             document.getElementById('InvCustomModal').style.display = "block"
         }
         Bankrowdata[currentindex].custId = customer_id;
@@ -200,7 +201,7 @@ function AddBankingReceipt() {
     }
 
 
-    const handleSetInvoiceData = (index, inv_no, inv_date, inv_amt) => {
+    const handleSetInvoiceData = (index, inv_no, inv_date, inv_amt, location) => {
         const getcheckval =
             document.getElementById(`check-${index}`).checked === true ? true : false;
 
@@ -208,7 +209,7 @@ function AddBankingReceipt() {
             setSelectedInvoiceData([...selectedInvoiceData,
             {
                 achead: Bankrowdata[currentindex].achead, glcode: Bankrowdata[currentindex].glcode,
-                custId: Bankrowdata[currentindex].custId, costCenter: '',
+                custId: Bankrowdata[currentindex].custId, costCenter: location,
                 refNo: inv_no, refDate: inv_date, refAmt: inv_amt, deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
             }
             ]);
@@ -238,6 +239,16 @@ function AddBankingReceipt() {
             totalRefAmt = Number(totalRefAmt) + Number(newRowData[i].refAmt)
         }
         document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+
+        setTimeout(() => {
+            for (let i = currentindex; i < newRowData.length; i++) {
+                document.getElementById(`chartofacct-${i}`).disabled = true
+                document.getElementById(`location-${i}`).disabled = true
+                document.getElementById(`refNo-${i}`).disabled = true
+                document.getElementById(`refDate-${i}`).disabled = true
+                document.getElementById(`refAmt-${i}`).disabled = true
+            }
+        }, 1000)
     }
 
     const handleSearchLocation = async (e) => {
@@ -251,6 +262,13 @@ function AddBankingReceipt() {
             setLocationstate(locatonstateres)
         }
     }
+
+    const handlelocation = (location_id) => {
+        let minorData = [...Bankrowdata];
+        minorData[currentindex].costCenter = location_id;
+        setBankrowdata(minorData)
+    }
+    // ----------------- Handle Submit ------------------------------
     const handleSubmitFormData = (e) => {
         e.preventDefault();
         console.log(Bankrowdata)
@@ -413,7 +431,6 @@ function AddBankingReceipt() {
                                         >
                                             <td>{index + 1}</td>
                                             <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
-
                                         </tr>))
                                     }
                                 </tbody>
@@ -433,9 +450,7 @@ function AddBankingReceipt() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation"
-                                    onChange={handleSearchLocation}
-                                />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation" onChange={handleSearchLocation} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -451,7 +466,7 @@ function AddBankingReceipt() {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                    onClick={(e) => { handlelocation(items.location_id) }}
                                                 >
                                                     <td>{items.location_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
@@ -530,7 +545,7 @@ function AddBankingReceipt() {
                                                 <tr key={index} className="cursor-pointer"
                                                 // onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }} 
                                                 >
-                                                    <td><input type='checkbox' id={`check-${index}`} style={{ height: '15px', width: '15px' }} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt) }} /></td>
+                                                    <td><input type='checkbox' id={`check-${index}`} style={{ height: '15px', width: '15px' }} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt, inv.location) }} /></td>
                                                     <td className="pl-3">{inv.invoice_no}</td>
                                                     <td className="pl-3">{inv.Invdate}</td>
                                                     <td className="pl-3">{inv.invoice_amt}</td>
