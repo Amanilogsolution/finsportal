@@ -59,16 +59,16 @@ const CNReport = (props) => {
             selector: 'Joindate',
             sortable: true
         },
-        {
-            name: 'PO Number',
-            selector: 'po_no',
-            sortable: true
-        },
-        {
-            name: 'Voucher Number',
-            selector: 'vourcher_no',
-            sortable: true
-        },
+        // {
+        //     name: 'PO Number',
+        //     selector: 'po_no',
+        //     sortable: true
+        // },
+        // {
+        //     name: 'Voucher Number',
+        //     selector: 'vourcher_no',
+        //     sortable: true
+        // },
         {
             name: "Actions",
             sortable: false,

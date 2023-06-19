@@ -46,11 +46,11 @@ const CNDetails = (props) => {
             selector: 'total_dn_amt',
             sortable: true
         },
-        {
-            name: 'Voucher_No',
-            selector: 'voucher_no',
-            sortable: true
-        },
+        // {
+        //     name: 'Voucher_No',
+        //     selector: 'voucher_no',
+        //     sortable: true
+        // },
         {
             name: "Actions",
             sortable: false,

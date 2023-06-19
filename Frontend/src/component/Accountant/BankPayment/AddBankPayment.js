@@ -19,6 +19,8 @@ function AddBankingPayment() {
         pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
     }
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
+
+
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [banklist, setBanklist] = useState([])
     const [vendorlist, setVendorlist] = useState([])
@@ -73,6 +75,8 @@ function AddBankingPayment() {
         e.preventDefault()
         setBankPayMinData([...bankPayMinData, minorBankPayobj])
     }
+
+    
     const handleRemoveDeleteRow = (e, removetype, index = 0) => {
         e.preventDefault();
         if (bankPayMinData.length > 1) {

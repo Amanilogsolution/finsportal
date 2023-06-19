@@ -70,6 +70,7 @@ function VendorCredits() {
         let gl_code = document.getElementById(`glCode${index}`).innerHTML
         let amt = document.getElementById(`Amt${index}`).innerHTML
         let Balancevalue = amt - value
+        console.log(Balancevalue)
         let sum = 0
         if (Balancevalue < 0) {
             alert(`You cannot pass More than ${amt}`)
@@ -145,11 +146,17 @@ function VendorCredits() {
     const apiCAll = (e) => {
         e.preventDefault()
         const value = document.getElementById('totalCnAmt').innerHTML
+        if(document.getElementById('totalCnAmt').innerHTML !== Dndata.total_dn_amt){
+            alert('Error ')
+        }else{
+
+        
         if (Number(Dndata.total_dn_amt) > value) {
             btn.current.click()
         } else {
             handleClick()
         }
+    }
     }
 
     return (
@@ -259,13 +266,14 @@ function VendorCredits() {
                                                 <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
                                                     <table className='mx-3' style={{ width: "95%" }}>
                                                         <tbody >
+                                                           
                                                             <tr scope="row">
-                                                                <td colSpan='2' ><h4 > Total CN Amount</h4></td>
-                                                                <td id="totalCnAmt" className="text-danger text-center" style={{ minWidth: '100px' }}><h4>0</h4></td>
+                                                                <td colSpan='2' className=''><h4>Bill Amount</h4></td>
+                                                                <td className='text-center' ><h4>{billdata.bill_amt}</h4></td>
                                                             </tr>
                                                             <tr scope="row">
-                                                                <td colSpan='2' className=''><h4>Net Total</h4></td>
-                                                                <td className='text-center' ><h4>{billdata.bill_amt}</h4></td>
+                                                                <td colSpan='2' ><h4 > Total DN Amount</h4></td>
+                                                                <td id="totalCnAmt" className="text-danger text-center" style={{ minWidth: '100px' }}><h4>0</h4></td>
                                                             </tr>
                                                             <tr>
                                                                 <td className='col-md-4'>IGST</td>
