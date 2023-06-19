@@ -46,7 +46,9 @@ const EditAddress = () => {
     const billing_address_fax = document.getElementById('billing_address_fax').value;
     const User_id = localStorage.getItem('User_id')
 
-    if (!billing_address_pincode || !User_id) {
+    // if (!billing_address_pincode || !User_id) {
+
+    if ( !billing_address_country || !billing_address_state || !billing_address_city || !billing_address_phone || !billing_address_pincode) {
       setLoading(true)
       setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
@@ -82,11 +84,11 @@ const EditAddress = () => {
   }
 
   const handleChangePincode = async (e) => {
-    if (e.target.value.length === 7) return false;
+    if (e.target.value.length >= 7) return false;
     setData({ ...data, billing_address_pincode: e.target.value })
   }
   const handleChangePhone = async (e) => {
-    if (e.target.value.length === 11) return false;
+    if (e.target.value.length >= 11) return false;
     setData({ ...data, billing_address_phone: e.target.value })
   }
 
@@ -101,31 +103,29 @@ const EditAddress = () => {
               <div className="card ">
                 <article className="card-body">
                   <form autoComplete="off">
-                    <div className="Address_left" style={{ width: "80%" }}>
+                    <div className="Address_left">
                       <label>BILLING ADDRESS</label>
                       <div className="form-row">
                         <label htmlFor="cust_name" className="col-md-2 col-form-label font-weight-normal" > Customer Name </label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-7 cursor-notallow" id="cust_name" defaultValue={data.cust_name} disabled />
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col cursor-notallow" id="cust_name" defaultValue={data.cust_name} disabled />
+                        </div>
+                        <label htmlFor="gstno" className="col-md-2 col-form-label text-center font-weight-normal"> GST No:-</label>
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col cursor-notallow" id="gstno" defaultValue={data.gst_no} disabled />
                         </div>
                       </div>
 
-                      <div className="form-row">
-                        <label htmlFor="gstno" className="col-md-2 col-form-label font-weight-normal"> GST No:-</label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-7 cursor-notallow" id="gstno" defaultValue={data.gst_no} disabled />
-                        </div>
-                      </div>
 
                       <div className="form-row">
                         <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal"> Attention</label>
-                        <div className="col form-group">
-                          <input type="text" className='form-control col-md-7' id="billing_address_attention" defaultValue={data.billing_address_attention} />
+                        <div className="col-md-4 form-group">
+                          <input type="text" className='form-control col' id="billing_address_attention" defaultValue={data.billing_address_attention} />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" >  Country / Region</label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" >  Country / Region <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
                           <select id="inputState" className='form-control' onChange={handleAddressCountry} >
                             <option value={data.billing_address_country} hidden> {data.billing_address_country}</option>
                             {
@@ -135,10 +135,8 @@ const EditAddress = () => {
                             }
                           </select>
                         </div>
-                      </div>
-                      <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal"> State</label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal text-center"> State <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
                           <select id="inputState" className='form-control' onChange={handleChangebillingState}>
                             <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
                             {
@@ -149,9 +147,10 @@ const EditAddress = () => {
                           </select>
                         </div>
                       </div>
+
                       <div className="form-row">
-                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" > City </label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal" > City <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
                           <select id="inputState" className='form-control' onChange={handleAddressCity} >
                             <option valu={data.billing_address_city} hidden>{data.billing_address_city}</option>
                             {
@@ -162,23 +161,22 @@ const EditAddress = () => {
 
                           </select>
                         </div>
-                      </div>
-                      <div className="form-row">
-                        <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal" > Zip Code </label>
-                        <div className="col form-group">
-                          <input type="number" className='form-control col-md-7 ' id="billing_address_pincode" value={data.billing_address_pincode} onChange={handleChangePincode} />
+                        <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label text-center font-weight-normal" > Zip Code <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
+                          <input type="number" className='form-control col' id="billing_address_pincode" value={data.billing_address_pincode} onChange={handleChangePincode} />
                         </div>
                       </div>
+                    
                       <div className="form-row">
-                        <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone</label>
-                        <div className="col form-group">
-                          <input type="number" className='form-control col-md-7 ' id="billing_address_phone" value={data.billing_address_phone} onChange={handleChangePhone} />
+                        <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
+                          <input type="number" className='form-control col' id="billing_address_phone" value={data.billing_address_phone} onChange={handleChangePhone} />
                         </div>
                       </div>
                       <div className="form-row">
                         <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal" >  Fax </label>
-                        <div className="col form-group">
-                          <input type="text" className='form-control col-md-7 ' id="billing_address_fax" defaultValue={data.billing_address_fax} />
+                        <div className="col-md-4 form-group">
+                          <input type="text" className='form-control col' id="billing_address_fax" defaultValue={data.billing_address_fax} />
                         </div>
                       </div>
                     </div>

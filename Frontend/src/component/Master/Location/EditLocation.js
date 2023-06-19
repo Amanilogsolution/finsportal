@@ -64,12 +64,12 @@ function EditLocation() {
 
   const handleChangeContactphone1 = (e) => {
     const no = e.target.value;
-    if (no.length === 11) return false;
+    if (no.length >= 11) return false;
     setData({ ...data, contact_phone_no1: no })
   }
   const handleChangeContactphone2 = (e) => {
     const no = e.target.value;
-    if (no.length === 11) return false;
+    if (no.length >= 11) return false;
     setData({ ...data, contact_phone_no2: no })
   }
 

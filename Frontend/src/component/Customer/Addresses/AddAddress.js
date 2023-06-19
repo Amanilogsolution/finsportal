@@ -97,11 +97,11 @@ const AddCustAddress = () => {
               <div className="card mb-0 mb-2">
                 <article className="card-body ">
                   <form autoComplete="off">
-                    <div className="Address_left" style={{ width: "80%" }}>
+                    <div className="Address_left" >
                       <label>BILLING ADDRESS</label>
                       <div className="form-row">
-                        <label htmlFor="custname" className="col-md-2 col-form-label font-weight-normal"> Customer ID</label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="custname" className="col-md-2 col-form-label font-weight-normal"> Customer ID <span className="text-danger">*</span></label>
+                        <div className="col-md-4 form-group">
                           <select id="custname" className="form-control ">
                             <option value='' hidden> Select Customer</option>
                             {
@@ -112,23 +112,22 @@ const AddCustAddress = () => {
                             }
                           </select>
                         </div>
+                        <label htmlFor="gst_no" className="col-md-2 col-form-label text-center font-weight-normal">GST No</label>
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col " id="gst_no" />
+                        </div>
 
                       </div>
+                      
                       <div className="form-row">
-                        <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-7 " id="gst_no" />
+                        <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal" >  Attention/Address </label>
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col" id="billing_address_attention" />
                         </div>
                       </div>
                       <div className="form-row">
-                        <label htmlFor="billing_address_attention" className="col-md-2 col-form-label font-weight-normal" >  Attention </label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-7" id="billing_address_attention" />
-                        </div>
-                      </div>
-                      <div className="form-row">
-                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal"> Country / Region  </label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal"> Country / Region   <span className="text-danger">*</span></label>
+                        <div className="col-md-4 form-group">
                           <select id="inputState" className="form-control" onChange={handleAddressCountry}>
                             <option hidden value=''> Select Country</option>
                             {
@@ -140,10 +139,8 @@ const AddCustAddress = () => {
 
                           </select>
                         </div>
-                      </div>
-                      <div className="form-row">
-                        <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" > State </label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="user_name" className="col-md-2 col-form-label text-center font-weight-normal" > State  <span className="text-danger">*</span> </label>
+                        <div className="col-md-4 form-group">
                           <select id="inputState" className="form-control " onChange={handleChangebillingState}>
                             <option hidden value=''> Select state</option>
                             {
@@ -154,9 +151,10 @@ const AddCustAddress = () => {
                           </select>
                         </div>
                       </div>
+                    
                       <div className="form-row">
-                        <label htmlFor="inputcity" className="col-md-2 col-form-label font-weight-normal" >  City </label>
-                        <div className="col-md-6 form-group">
+                        <label htmlFor="inputcity" className="col-md-2 col-form-label font-weight-normal" >  City  <span className="text-danger">*</span></label>
+                        <div className="col-md-4 form-group">
                           <select id="inputcity" className="form-control"  >
                             <option hidden value=''> Select City</option>
                             {
@@ -166,24 +164,23 @@ const AddCustAddress = () => {
                             }
                           </select>
                         </div>
-                      </div>
-                      <div className="form-row">
-                        <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal" > Zip Code </label>
-                        <div className="col form-group">
-                          <input type="number" className="form-control col-md-7" id="billing_address_pincode" value={zipcount}
+                        <label htmlFor="billing_address_pincode" className="col-md-2 text-center col-form-label font-weight-normal" > Zip Code <span className="text-danger">*</span> </label>
+                        <div className="col-md-4 form-group">
+                          <input type="number" className="form-control col" id="billing_address_pincode" value={zipcount}
                             onChange={(e) => {
-                              if (e.target.value.length === 7) return false;
+                              if (e.target.value.length >= 7) return false;
                               setZipcount(e.target.value)
                             }}
                           />
                         </div>
                       </div>
+                    
                       <div className="form-row">
-                        <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone</label>
-                        <div className="col form-group">
-                          <input type="number" className="form-control col-md-7" id="billing_address_phone" value={phonecount}
+                        <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" > Phone <span className="text-danger">*</span></label>
+                        <div className="col-md-4 form-group">
+                          <input type="number" className="form-control col-md" id="billing_address_phone" value={phonecount}
                             onChange={(e) => {
-                              if (e.target.value.length === 11) return false;
+                              if (e.target.value.length >= 11) return false;
                               setPhonecount(e.target.value)
                             }}
                           />
@@ -191,8 +188,8 @@ const AddCustAddress = () => {
                       </div>
                       <div className="form-row">
                         <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal" >  Fax</label>
-                        <div className="col form-group">
-                          <input type="text" className="form-control col-md-7" id="billing_address_fax" />
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col" id="billing_address_fax" />
                         </div>
                       </div>
                     </div>

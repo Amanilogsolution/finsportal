@@ -33,6 +33,7 @@ const AddItem = () => {
         e.preventDefault()
         const minor_val = e.target.value;
         const minor_arr_val = minor_val.split('^')
+        console.log(minor_arr_val)
         const chartofaccount = await SelectSubAccountname(localStorage.getItem('Organisation'), minor_arr_val[1])
         setChartofaccountlist(chartofaccount)
     }
@@ -62,13 +63,12 @@ const AddItem = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        setLoading(false)
+        // setLoading(false)
 
         const Name = document.getElementById("name").value;
         const unit = document.getElementById("unit").value;
-        const HSNcode = document.getElementById('hsncode').value
-        const SACcode = document.getElementById('saccode').value
-
+        let HSNcode = document.getElementById('hsncode').value
+        let SACcode = document.getElementById('saccode').value
 
         const minor_val = document.getElementById('major_code')
         const minor_arr_val = minor_val.value.split('^')
@@ -86,7 +86,13 @@ const AddItem = () => {
         const gstrate = document.getElementById("gstrate").value;
         const org = localStorage.getItem('Organisation');
         const user_id = localStorage.getItem('User_id');
-
+        if(type === 'Goods'){
+            SACcode = ''
+        }
+        else{
+            HSNcode = ''
+        }
+       
         if (!Name || !chartofaccount_id || !taxpreference || !minor_code_id) {
             setLoading(true)
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })

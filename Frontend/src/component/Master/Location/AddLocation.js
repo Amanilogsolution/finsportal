@@ -12,7 +12,6 @@ function AddLocation() {
   const [phone1, setPhone1] = useState('')
   const [phone2, setPhone2] = useState('')
   const [locationcount, setLocationcount] = useState()
-  const [fins_year, setFins_year] = useState();
   const [alertObj, setAlertObj] = useState({
     type: '', text: 'Done', url: ''
   })
@@ -23,7 +22,6 @@ function AddLocation() {
       setCountry(totlcountry);
       const response = await Getfincialyearid(localStorage.getItem('Organisation'))
       setLocationcount(response[0].location_count)
-      setFins_year(response[0].year);
       setLoading(true)
     }
     fetch()
@@ -32,7 +30,6 @@ function AddLocation() {
   const handleClick = async (e) => {
     e.preventDefault();
     setLoading(false)
-
     const selectedcountry = document.getElementById('country').value;
     const selectedstate = document.getElementById('inputState').value;
 
@@ -49,7 +46,7 @@ function AddLocation() {
     const contact_phone1 = document.getElementById('contact_phone1').value;
     const contact_phone2 = document.getElementById('contact_phone2').value;
     const User_id = localStorage.getItem('User_id');
-
+    const fins_year = localStorage.getItem('fin_year')
 
     if (!selectedcountry || !selectedstate || !Location_name || !gst_no || contact_phone1.length < 10 || contact_phone2.length < 10) {
       setLoading(true)
@@ -146,7 +143,7 @@ function AddLocation() {
                         <input type="number" className="form-control col-md-4" id='contact_phone1'
                           value={phone1}
                           onChange={(e) => {
-                            if (e.target.value.length === 11) return false;
+                            if (e.target.value.length >= 11) return false;
                             setPhone1(e.target.value)
                           }} />
                       </div>
@@ -164,7 +161,7 @@ function AddLocation() {
                         <input type="number" className="form-control col-md-4" id='contact_phone2'
                           value={phone2}
                           onChange={(e) => {
-                            if (e.target.value.length === 11) return false;
+                            if (e.target.value.length >= 11) return false;
                             setPhone2(e.target.value)
                           }} />
                       </div>
