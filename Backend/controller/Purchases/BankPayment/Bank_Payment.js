@@ -20,6 +20,7 @@ const InsertBillPayment = async (req,res) =>{
     const fins_year = req.body.fins_year;
     const uuid = uuidv1()
 
+
     try{
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_bank_payment (
@@ -28,8 +29,8 @@ const InsertBillPayment = async (req,res) =>{
             fins_year ,bank_payment_uuid ) 
             values( '${bank_payment_id}' ,'${bank_payment_date}' ,'${cheq_ref_no}' ,'${cheq_date}' ,'${cheq_amt}' ,'${bank_id}' ,'${bank_sub_code}' ,'${bank}' ,
             '${bank_glcode}' ,'${on_account}','${remarks}' ,'${username}' ,'${os.hostname()}' ,'${req.ip}' ,getDate() ,'Active',
-            '${fins_year}' ,'${uuid}' `)
-            res.status(201).json({result})
+            '${fins_year}' ,'${uuid}' )`)
+            res.status(201).json({result:"Added successfully"})
     }
     catch(err){
         console.log(err)
@@ -90,4 +91,18 @@ const UpdateBillPayment = async(req, res) => {
     }
 }
 
-module.exports ={InsertBillPayment,AllBillPayment,GetBillPayment,UpdateBillPayment}
+const DeleteBillPayment = async (req,res) => {
+    const sno = req.body.sno;
+    const org = req.body.org;
+    const status = req.body.status;
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`update ${org}.dbo.tbl_bank_payment set status='${status}' where sno='${sno}'`)
+        res.status(202).send('Deleted')
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports ={InsertBillPayment,AllBillPayment,GetBillPayment,UpdateBillPayment,DeleteBillPayment}

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee, Getfincialyearid } from '../../../api'
+import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee, Getfincialyearid,InsertBillPayment,Updatefinancialcount,InsertSubBillPayment } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
 import AlertsComp from '../../AlertsComp';
 
 function AddBankingPayment() {
+    const org = localStorage.getItem("Organisation");
+
     const [loading, setLoading] = useState(false)
     const [orgdata, setOrgdata] = useState([])
     const [alertObj, setAlertObj] = useState({
@@ -15,7 +17,6 @@ function AddBankingPayment() {
     })
     const minorBankPayobj = {
         chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
-        //  tds: '', net_amt: '',
         pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
     }
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
@@ -34,7 +35,6 @@ function AddBankingPayment() {
 
     useEffect(() => {
         const fetchdata = async () => {
-            const org = localStorage.getItem("Organisation");
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
             const allbank = await ActiveBank(org);
@@ -126,7 +126,7 @@ function AddBankingPayment() {
         setBankPayMinData(minorData)
         document.getElementById('on_account').disabled = true;
         if (glCode === '3020001') {
-            const org = localStorage.getItem('Organisation')
+            // const org = localStorage.getItem('Organisation')
             const vendors = await ActiveVendor(org)
             setVendorlist(vendors)
             document.getElementById('SelectVendorModal').style.display = 'block'
@@ -177,7 +177,6 @@ function AddBankingPayment() {
     }
 
     const handleMergeInvoiceBillArry = () => {
-        console.log(selectedBillData)
         const rowsInput = [...bankPayMinData];
         rowsInput.pop()
         let newRowData;
@@ -232,9 +231,8 @@ function AddBankingPayment() {
 
     // ------------------------------ Submit Form ---------------------------------
 
-    const handleSubmitForm = () => {
+    const handleSubmitForm = async() => {
         setLoading(false)
-        // console.log(bankPayMinData)
         const bank_payment_id = document.getElementById('bank_recep_id').value;
         const bank_recep_date = document.getElementById('bank_recep_date').value;
         const check_ref_no = document.getElementById('check_ref_no').value;
@@ -246,6 +244,8 @@ function AddBankingPayment() {
         const bank_name = bank[2];
         const onAccount = document.getElementById('on_account').checked === true ? true : false;
         const remarks = document.getElementById('remarks').value;
+        const username = localStorage.getItem('User_id')
+        const fins_year = localStorage.getItem('fin_year')
 
         if (!check_ref_no || !check_amt || !bank_id) {
             setLoading(true)
@@ -254,13 +254,18 @@ function AddBankingPayment() {
         else {
             setLoading(true)
 
-            console.log(bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, onAccount, remarks)
-            // if (result[0] > 0) {
-            //     setAlertObj({ type: 'success', text: 'Financial year Updated', url: '/ShowFinancialyear' })
-            //   }
-            //   else {
-            //     setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
-            //   }
+            bankPayMinData.map(async(element)=>{
+                const result = await InsertSubBillPayment(org,bank_payment_id,element.glcode,element.achead,element.glcode,element.costCenter,element.refNo,element.refDate,'amt',element.pay_type,element.amt_paid,element.amt_bal,'master_id','emp_id',element.sub_cost_center)
+            })
+            const result = await InsertBillPayment(org,bank_payment_id,bank_recep_date,check_ref_no,check_date,check_amt,bank_id,bank_sub_code,bank,'bank_glcode',onAccount,remarks,username,fins_year)
+            await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
+            
+            if(result.result === 'Added successfully'){
+                      setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+            }else{
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' }) 
+            }
+          
         }
 
     }

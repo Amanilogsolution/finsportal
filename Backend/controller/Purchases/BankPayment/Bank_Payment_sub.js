@@ -27,7 +27,7 @@ const InsertSubBillPayment = async (req,res) => {
         values(  '${bank_payment_id}' ,'${chart_of_acct}' ,'${ac_head}' ,'${glcode}' ,'${location}' ,'${ref_no}' ,'${ref_date}' ,'${amt}' ,
             '${pay_type}' ,'${amt_paid}' ,'${bal_amt}' ,'${master_id}' ,'${emp_id}' ,'${emp_name}')`)
 
-            res.send(201).json({result:"Added"})
+            res.status(201).json({result:"Added"})
 
     }
     catch(err){
