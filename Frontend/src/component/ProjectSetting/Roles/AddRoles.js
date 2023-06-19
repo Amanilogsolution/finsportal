@@ -283,7 +283,6 @@ const AddRoles = () => {
         const reports_invoice_edit = document.getElementById('reports_invoice_edit').checked === true ? true : false;
         const reports_invoice_delete = document.getElementById('reports_invoice_delete').checked === true ? true : false;
 
-        // Now
         const reports_salesorder_view = document.getElementById('reports_salesorder_view').checked === true ? true : false;
         const reports_salesorder_create = document.getElementById('reports_salesorder_create').checked === true ? true : false;
         const reports_salesorder_edit = document.getElementById('reports_salesorder_edit').checked === true ? true : false;
