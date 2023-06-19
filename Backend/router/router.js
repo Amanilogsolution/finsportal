@@ -57,6 +57,9 @@ const tdsHead = require('../controller/Master/tdsHead')
 
 const JVContoller = require('../controller/JournalVoucher')
 
+const BankPayment = require('../controller/Purchases/BankPayment/Bank_Payment')
+const SubBankPayment = require('../controller/Purchases/BankPayment/Bank_Payment_sub')
+
 //Routes
 //DB
 router.post('/newdb', NewdbController.Newdb);
@@ -460,6 +463,16 @@ router.post('/insertjv',JVContoller.InsertJV)
 router.post('/totaljv',JVContoller.TotalJV)
 router.post('/updatejvstatus',JVContoller.UpdateJVStatus)
 router.post('/getjv',JVContoller.GetJV)
+
+//Bank Payment
+router.post('/insertbillpayment',BankPayment.InsertBillPayment)
+router.post('/allbillpayment',BankPayment.AllBillPayment)
+router.post('/deletebillpayment',BankPayment.DeleteBillPayment)
+
+
+// Sub Bank Payment
+router.post('/insertsubbillpayment',SubBankPayment.InsertSubBillPayment)
+
 
 
 module.exports = router;

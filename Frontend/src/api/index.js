@@ -1861,3 +1861,35 @@ export const GetJV = async (org, sno) => {
     const url = `http://localhost:3008/api/getjv`
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
+
+// Bill Payment
+
+export const AllBillPayment = async (org) => {
+    const url = `http://localhost:3008/api/allbillpayment`
+    return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const InsertBillPayment = async (org,bank_payment_id,bank_payment_date,cheq_ref_no,cheq_date,cheq_amt,bank_id,bank_sub_code,bank,bank_glcode,on_account,remarks,username,fins_year) => {
+    const url = `http://localhost:3008/api/insertbillpayment`
+    return axios.post(url, {org,bank_payment_id,bank_payment_date,cheq_ref_no,cheq_date,cheq_amt,bank_id,bank_sub_code,bank,bank_glcode,on_account,remarks,username,fins_year})
+    .then(response => response.data).catch(error => console.log(error));
+}
+
+export const DeleteBillPayment = async (sno,org,status) => {
+    const url = `http://localhost:3008/api/deletebillpayment`
+    return axios.post(url, { sno,org,status }).then(response => response.data).catch(error => console.log(error));
+}
+
+
+
+// Sub Bill Payment
+
+export const InsertSubBillPayment = async (org,bank_payment_id,chart_of_acct,ac_head,glcode,location,ref_no,ref_date,amt,pay_type,amt_paid,bal_amt,master_id,emp_id,emp_name) => {
+    const url = `http://localhost:3008/api/insertsubbillpayment`
+    return axios.post(url, {org,bank_payment_id,chart_of_acct,ac_head,glcode,location,ref_no,ref_date,amt,pay_type,amt_paid,bal_amt,master_id,emp_id,emp_name})
+    .then(response => response.data).catch(error => console.log(error));
+}
+
+
+
+
