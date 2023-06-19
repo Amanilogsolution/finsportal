@@ -49,7 +49,7 @@ const EditCountry = () => {
 
   const handleChangeCp = (e) => {
     const no = e.target.value;
-    if (no.length === 5) return false;
+    if (no.length >= 5) return false;
     setData({ ...data, country_phonecode: no })
   }
 
