@@ -946,6 +946,15 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     tds_head_edit nvarchar(100) NULL,
     tds_head_delete nvarchar(100) NULL,
 
+    bank_recp_view nvarchar(100) NULL,
+    bank_recp_create nvarchar(100) NULL,
+    bank_recp_edit nvarchar(100) NULL,
+    bank_recp_delete nvarchar(100) NULL,
+    bank_payt_view nvarchar(100) NULL,
+    bank_payt_create nvarchar(100) NULL,
+    bank_payt_edit nvarchar(100) NULL,
+    bank_payt_delete nvarchar(100) NULL,
+
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
@@ -1532,6 +1541,8 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
              recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
              journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
              tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
+             bank_recp_view,bank_recp_create ,bank_recp_edit ,bank_recp_delete ,
+             bank_payt_view ,bank_payt_create ,bank_payt_edit ,bank_payt_delete ,
              add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
              
              )
@@ -1583,6 +1594,8 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         'true','true','true','true',
         'true','true','true','true',
         
+        'true','true','true','true',
+        'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
