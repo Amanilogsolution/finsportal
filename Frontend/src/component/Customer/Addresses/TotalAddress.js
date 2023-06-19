@@ -14,6 +14,7 @@ import LoadingPage from '../../loadingPage/loadingPage';
 
 const TotalCustAddress = () => {
   const [loading, setLoading] = useState(false)
+  const [userRightsData, setUserRightsData] = useState([]);
 
   const [data, setData] = useState([])
   const [selectedCustname, setSelectedCustname] = useState([])
@@ -26,7 +27,6 @@ const TotalCustAddress = () => {
   useEffect(() => {
     async function fetchdata() {
       setLoading(true)
-
       fetchRoles()
     }
     fetchdata()
@@ -44,8 +44,7 @@ const TotalCustAddress = () => {
     }
 
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'customer')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
+    setUserRightsData(UserRights)
 
     if (UserRights.customer_create === 'true') {
       document.getElementById('addCustAddress-btn').style.display = "inline";
@@ -65,7 +64,7 @@ const TotalCustAddress = () => {
           return <p title='Edit Customer Address is Lock'>{row.cust_name}</p>
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          let role = userRightsData
           if (!role) {
             fetchRoles()
           }
@@ -112,7 +111,7 @@ const TotalCustAddress = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          let role = userRightsData
           if (!role) {
             fetchRoles()
             window.location.reload()

@@ -119,8 +119,7 @@ const EditVendorAddress = () => {
               <div className="card" >
                 <article className='card-body'>
                   <form autoComplete='off'>
-                    <div className="Address" id="addressdiv">
-                      <div className="Address_left">
+               
                         <label>BILLING ADDRESS</label>
                         <div className="form-row">
                           <label htmlFor="venddetail" className="col-md-2 col-form-label font-weight-normal" > Vendor Name </label>
@@ -172,9 +171,7 @@ const EditVendorAddress = () => {
                           </div>
                         </div>
 
-                        <div className="form-row">
-
-                        </div>
+                     
                         <div className="form-row">
                           <label htmlFor="billing_address_city" className="col-md-2 col-form-label font-weight-normal" > City </label>
                           <div className="col-md-4 form-group">
@@ -205,8 +202,7 @@ const EditVendorAddress = () => {
                             <input type="text" className="form-control col" id="billing_address_fax" defaultValue={data.billing_address_fax} />
                           </div>
                         </div>
-                      </div>
-                    </div>
+                     
                   </form>
                 </article>
                 <div className="border-top card-footer">
