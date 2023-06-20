@@ -30,7 +30,6 @@ const Menu = (props) => {
   ])
 
   const Rolefunction = (result) => {
-
     // ------------------------------- ALL Access to Admin Start -----------------------------------------------
     if (localStorage.getItem('Role') === 'Admin') {
       document.getElementById('estimatesMenu').style.display = "block"
@@ -241,7 +240,16 @@ const Menu = (props) => {
       } else {
         document.getElementById('journal_voucherMenu').style.display = "none"
       }
-
+      if (result.bank_recp_view === "true") {
+        document.getElementById('banking_receMenu').style.display = "block"
+      } else {
+        document.getElementById('banking_receMenu').style.display = "none"
+      }
+      if (result.bank_payt_view === "true") {
+        document.getElementById('banking_paytMenu').style.display = "block"
+      } else {
+        document.getElementById('banking_paytMenu').style.display = "none"
+      }
 
       if (result.chartof_accounts_view === "true") {
         document.getElementById('coacctMenu').style.display = "block"
@@ -437,19 +445,19 @@ const Menu = (props) => {
                     <p>Currency Adjustments </p>
                   </a>
                 </li>
-                <li className="nav-item" id='journal_voucherMenu'>
+                <li className="nav-item" style={{ display: "none" }} id='journal_voucherMenu'>
                   <a href="/TotalJVoucher" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Journal Voucher </p>
                   </a>
                 </li>
-                <li className="nav-item" id='banking_receMenu'>
+                <li className="nav-item" style={{ display: "none" }} id='banking_receMenu'>
                   <a href="/TotalBankingReceipt" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Banking (Receipts)</p>
                   </a>
                 </li>
-                <li className="nav-item" id='banking_receMenu'>
+                <li className="nav-item" style={{ display: "none" }} id='banking_paytMenu'>
                   <a href="/TotalBankingPayment" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Banking (Payment)</p>

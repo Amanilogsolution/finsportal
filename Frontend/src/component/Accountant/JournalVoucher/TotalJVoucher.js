@@ -9,9 +9,9 @@ import { getUserRolePermission,TotalJV,UpdateJVStatus } from '../../../api'
 
 const TotalJVoucher = () => {
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState([])
     const [userRightsData, setUserRightsData] = useState([]);
     const [financialstatus, setFinancialstatus] = useState('Lock')
+    const [data, setData] = useState([])
 
 
     useEffect(() => {
@@ -19,7 +19,6 @@ const TotalJVoucher = () => {
             const org = localStorage.getItem('Organisation')
 
             const totalresult = await TotalJV(org)
-            console.log(totalresult)
             setData(totalresult)
             setLoading(true)
             fetchRoles();
@@ -100,7 +99,7 @@ const TotalJVoucher = () => {
                             <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} 
                             onChange={async () => {
                               const result = await UpdateJVStatus(localStorage.getItem('Organisation'),row.status === 'Active' ? 'Deactive' : 'Active',row.jv_no )
-                              if (result == 'done') { window.location.href = "./TotalJVoucher" }
+                              if (result === 'done') { window.location.href = "./TotalJVoucher" }
                             }} 
 
                             />
