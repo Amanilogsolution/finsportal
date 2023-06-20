@@ -10,7 +10,7 @@ const AddUserRole = async (req, res) => {
     const role_id = req.body.role_id;
     const description = req.body.description;
     const multiorg = req.body.multiorg;
-    
+
 
     const sales_all = req.body.sales_all;
 
@@ -212,11 +212,23 @@ const AddUserRole = async (req, res) => {
     const journal_voucher_create = req.body.journal_voucher_create
     const journal_voucher_edit = req.body.journal_voucher_edit
     const journal_voucher_delete = req.body.journal_voucher_delete
-    
+
     const tds_head_view = req.body.tds_head_view
     const tds_head_create = req.body.tds_head_create
     const tds_head_edit = req.body.tds_head_edit
     const tds_head_delete = req.body.tds_head_delete
+
+    const bank_receipt_view = req.body.bank_receipt_view
+    const bank_receipt_create = req.body.bank_receipt_create
+    const bank_receipt_edit = req.body.bank_receipt_edit
+    const bank_receipt_delete = req.body.bank_receipt_delete
+
+
+    const bank_payment_view = req.body.bank_payment_view
+    const bank_payment_create = req.body.bank_payment_create
+    const bank_payment_edit = req.body.bank_payment_edit
+    const bank_payment_delete = req.body.bank_payment_delete
+
     try {
         await sql.connect(sqlConfig)
 
@@ -279,6 +291,8 @@ const AddUserRole = async (req, res) => {
                  recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
                  journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
                  tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
+                 bank_recp_view,bank_recp_create ,bank_recp_edit ,bank_recp_delete ,
+                 bank_payt_view ,bank_payt_create ,bank_payt_edit ,bank_payt_delete ,
                  add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
                  
                  )
@@ -335,6 +349,8 @@ const AddUserRole = async (req, res) => {
             '${recurring_bill_view}','${recurring_bill_create}','${recurring_bill_edit}','${recurring_bill_delete}',
             '${journal_voucher_view}','${journal_voucher_create}','${journal_voucher_edit}','${journal_voucher_delete}',
             '${tds_head_view}','${tds_head_create}','${tds_head_edit}','${tds_head_delete}',
+            '${bank_receipt_view}','${bank_receipt_create}' ,'${bank_receipt_edit}' ,'${bank_receipt_delete}' ,
+            '${bank_payment_view}' ,'${bank_payment_create}' ,'${bank_payment_edit}' ,'${bank_payment_delete}' ,
             '${user_id}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')`)
 
             res.send('Added')
@@ -415,4 +431,4 @@ const getUserRolePermission = async (req, res) => {
 }
 
 
-module.exports = { AddUserRole,TotalUserRole, getUserRole, ActiveUserRole,DeleteUserRole, getUserRolePermission }
+module.exports = { AddUserRole, TotalUserRole, getUserRole, ActiveUserRole, DeleteUserRole, getUserRolePermission }
