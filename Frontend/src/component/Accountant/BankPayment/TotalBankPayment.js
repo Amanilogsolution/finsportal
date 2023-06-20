@@ -53,9 +53,15 @@ const TotalBankingPayment = () => {
                     return <p title='Edit Bank Payment Lock'>{row.bank_payment_id}</p>
                 }
                 else {
-                    return <Link title="Edit Bank Payment" className='pb-1' to="#"
-                        style={{ borderBottom: '3px solid blue' }}>{row.bank_payment_id}
-                    </Link>
+                    if (userRightsData.bank_payt_edit === 'true') {
+                        return <Link title="Edit Bank Payment" className='pb-1' to="#"
+                            style={{ borderBottom: '3px solid blue' }}>{row.bank_payment_id}
+                        </Link>
+                    }
+                    else {
+                        return <p title="Edit Bank Payment" className='pb-1'>{row.bank_payment_id} </p>
+                    }
+
                 }
 
             }
@@ -69,7 +75,7 @@ const TotalBankingPayment = () => {
             selector: 'status',
             sortable: true,
             cell: (row) => {
-                return <input title={row.status} type='checkbox' className='cursor-pointer'
+                return <input title={row.status} type='checkbox' className='cursor-pointer' disabled={userRightsData.bank_payt_delete !== 'true'?true:false}
                     onChange={async (e) => {
                         const result = await DeleteBillPayment(row.sno, localStorage.getItem('Organisation'), row.status === 'Active' ? 'Deactive' : 'Active')
                         if (result === 'Deleted') {
