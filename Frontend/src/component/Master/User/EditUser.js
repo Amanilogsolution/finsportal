@@ -83,7 +83,7 @@ const EditUser = () => {
   }
   const handleChangephone = (e) => {
     const no = e.target.value;
-    if (no.length === 11) return 0;
+    if (no.length >= 11) return 0;
     setData({ ...data, phone: no })
   }
 

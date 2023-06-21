@@ -1344,9 +1344,9 @@ export const deleteEmployee = async (org, sno, status) => {
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertEmployee = async (org, emp_name, wh, emp_id, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertemployee`
-    return axios.post(url, { org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
+export const InsertEmployee = async (org, emp_name, wh, emp_id,bank_name,account_no, User_id) => {
+    const url = `http://localhost:3008/api/insertemployee`
+    return axios.post(url, { org, emp_name, wh, emp_id,bank_name,account_no, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetEmployee = async (org, sno) => {
@@ -1354,9 +1354,9 @@ export const GetEmployee = async (org, sno) => {
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateemployee`
-    return axios.post(url, { sno, org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
+export const UpdateEmployee = async (sno, org, emp_name, wh,bank_name,account_no, emp_id, User_id) => {
+    const url = `http://localhost:3008/api/updateemployee`
+    return axios.post(url, { sno, org, emp_name, wh,bank_name,account_no, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveEmployee = async (org) => {
     const url = `http://localhost:3008/api/activeemployee`

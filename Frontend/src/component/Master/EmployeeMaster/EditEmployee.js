@@ -19,6 +19,7 @@ const EditEmployee = () => {
             const location = await ActiveLocationAddress(org)
             setLocationlist(location)
             const emp = await GetEmployee(org, localStorage.getItem('EmpmasterSno'))
+            console.log(emp)
             setData(emp)
             setLoading(true)
         }
@@ -31,13 +32,15 @@ const EditEmployee = () => {
         setLoading(false)
         const emp_name = document.getElementById('emp_name').value;
         const wh = document.getElementById('wh').value;
+        const bank_name = document.getElementById('bank_name').value;
+        const account_no = document.getElementById('account_no').value;
 
         if (!emp_name || !wh) {
             setLoading(true)
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
-            const result = await UpdateEmployee(localStorage.getItem('EmpmasterSno'), localStorage.getItem('Organisation'), emp_name, wh, data.emp_id, localStorage.getItem('User_id'));
+            const result = await UpdateEmployee(localStorage.getItem('EmpmasterSno'), localStorage.getItem('Organisation'), emp_name, wh, bank_name, account_no, data.emp_id, localStorage.getItem('User_id'));
             setLoading(true)
             if (result === "Updated") {
                 localStorage.removeItem('EmpmasterSno');
@@ -74,22 +77,30 @@ const EditEmployee = () => {
                                     <form>
                                         <div className="form-row">
                                             <label htmlFor="emp_name" className="col-md-2 col-form-label font-weight-normal">Employee Name<span style={{ color: "red" }}>*</span></label>
-                                            <div className="col form-group">
-                                                <input type='text' className="form-control col-md-4" id='emp_name' value={data.emp_name} onChange={handelChangeName} required />
+                                            <div className="col-md-4 form-group">
+                                                <input type='text' className="form-control col" id='emp_name' value={data.emp_name} onChange={handelChangeName} required />
 
                                             </div>
-                                        </div>
-
-                                        <div className="form-row">
-                                            <label htmlFor="wh" className="col-md-2 col-form-label font-weight-normal">warehouse <span style={{ color: "red" }}>*</span></label>
-                                            <div className="col form-group">
-                                                <select className="form-control col-md-4" id='wh' onChange={handelChangewh}>
+                                            <label htmlFor="wh" className="col-md-2 col-form-label text-center font-weight-normal">warehouse <span style={{ color: "red" }}>*</span></label>
+                                            <div className="col-md-4 form-group">
+                                                <select className="form-control col" id='wh' onChange={handelChangewh}>
                                                     <option value={data.wh} hidden>{data.wh}</option>
                                                     {
                                                         locationlist.map((item, index) =>
                                                             <option key={index} value={item.location_name}>{item.location_name}</option>)
                                                     }
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="form-row">
+                                            <label htmlFor="bank_name" className="col-md-2 col-form-label font-weight-normal">Bank Name<span style={{ color: "red" }}>*</span></label>
+                                            <div className="col-md-4 form-group">
+                                                <input type='text' className="form-control col-md" id='bank_name' defaultValue={data.bank_name} />
+                                            </div>
+                                            <label htmlFor="account_no" className="col-md-2 col-form-label font-weight-normal text-center">Account No.<span style={{ color: "red" }}>*</span></label>
+                                            <div className="col-md-4 form-group">
+                                                <input type='text' id='account_no' className="form-control col-md" max={18} defaultValue={data.acct_no} />
                                             </div>
                                         </div>
                                     </form>

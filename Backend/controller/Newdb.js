@@ -659,6 +659,8 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     emp_name nvarchar(100) NULL,
     wh nvarchar (30) NULL,
     emp_id nvarchar(30) NULL,
+    bank_name nvarchar(150) NULL,
+    acct_no nvarchar(100) NULL,
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
