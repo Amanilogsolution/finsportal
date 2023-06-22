@@ -17,6 +17,7 @@ const AddEmployee = () => {
         const fetchdata = async () => {
             const location = await ActiveLocationAddress(localStorage.getItem('Organisation'))
             setLocationlist(location)
+            console.log(location)
         }
         fetchdata()
     }, [])
@@ -29,7 +30,7 @@ const AddEmployee = () => {
         const wh = document.getElementById('wh').value;
         const bank_name = document.getElementById('bank_name').value;
         const account_no = document.getElementById('account_no').value;
-
+        const fin_year = localStorage.getItem('fin_year')
         const id = emp_name.slice(0, 3)
         const lastno = '' + Math.floor(Math.random() * 10000);
         const emp_id = id.toUpperCase() + lastno;
@@ -39,7 +40,7 @@ const AddEmployee = () => {
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
-            const result = await InsertEmployee(localStorage.getItem('Organisation'), emp_name, wh, emp_id, bank_name, account_no, localStorage.getItem('User_id'));
+            const result = await InsertEmployee(localStorage.getItem('Organisation'), emp_name, wh, emp_id, bank_name, account_no, localStorage.getItem('User_id'),fin_year);
             setLoading(true)
             if (result === "Added") {
                 setAlertObj({ type: 'success', text: 'Employee Added', url: '/showemployee' })
@@ -82,7 +83,7 @@ const AddEmployee = () => {
                                                     <option value='' hidden>Select Location</option>
                                                     {
                                                         locationlist.map((item, index) =>
-                                                            <option key={index} value={item.location_name}>{item.location_name}</option>)
+                                                            <option key={index} value={item.location_id}>{item.location_name}</option>)
                                                     }
                                                 </select>
                                             </div>

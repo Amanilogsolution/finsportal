@@ -23,6 +23,7 @@ const insertemployee = async (req, res) => {
     const bank_name = req.body.bank_name;
     const account_no = req.body.account_no;
     const User_id = req.body.User_id;
+    const fin_year = req.body.fin_year;
     const uuid = uuidv1()
 
     try {
@@ -30,8 +31,8 @@ const insertemployee = async (req, res) => {
         const checkDublicate = await sql.query(`select * from ilogsolution.dbo.tbl_emp te where bank_name='${bank_name}' and acct_no='${account_no}'`)
         if (!checkDublicate.recordset.length > 0) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_emp(emp_name,wh,emp_id,bank_name,acct_no,add_user_name ,add_system_name,add_ip_address,
-            add_date_time,status ,emp_uuid )
-            values('${emp_name}','${wh}','${emp_id}','${bank_name}','${account_no}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${uuid}') 
+            add_date_time,status ,emp_uuid,fin_year )
+            values('${emp_name}','${wh}','${emp_id}','${bank_name}','${account_no}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${uuid}','${fin_year}') 
           `)
             res.send('Added')
         }

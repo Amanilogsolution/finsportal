@@ -1344,9 +1344,9 @@ export const deleteEmployee = async (org, sno, status) => {
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertEmployee = async (org, emp_name, wh, emp_id,bank_name,account_no, User_id) => {
+export const InsertEmployee = async (org, emp_name, wh, emp_id,bank_name,account_no, User_id,fin_year) => {
     const url = `http://localhost:3008/api/insertemployee`
-    return axios.post(url, { org, emp_name, wh, emp_id,bank_name,account_no, User_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, emp_name, wh, emp_id,bank_name,account_no, User_id,fin_year }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetEmployee = async (org, sno) => {

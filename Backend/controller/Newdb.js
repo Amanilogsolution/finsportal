@@ -670,8 +670,9 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     update_ip_address nvarchar(30) NULL,
     update_date_time datetime NULL,
     status nvarchar(30) NULL,
-    emp_uuid nvarchar(350) NULL
-   );          
+    emp_uuid nvarchar(350) NULL,
+    fin_year nvarchar(100) NULL,
+   );             
     
    CREATE TABLE  ${dbname}.dbo.tbl_bill (
     sno bigint IDENTITY(1,1) NOT NULL,
