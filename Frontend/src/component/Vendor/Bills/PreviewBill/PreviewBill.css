@@ -6,9 +6,7 @@
     width: 60vw;
     transform: translate(-10%);
 }
-/*  */
 .modalbill .bill-orgname {
-    border-bottom: 1px solid rgb(184, 182, 182);
     padding: 10px 0px 5px 0px;
 }
 
@@ -30,83 +28,51 @@
 .modalbill .bill-orgname .toporgname {
     width: 75%;
 }
+.modalbill .billorgbottomdiv{
+    background-color: #f0e9e9;
+}
 
 .bill-detail .left-bill-detail table {
-    margin: 10px 0px 0px 20px;
+    margin: 10px 0px 0px 10px;
     width: 100%;
 }
 
 .bill-detail .left-bill-detail table tr th:nth-child(1) {
-    width: 130px;
+    width:27%;
 }
+
 
 .bill-detail .right-bill-detail table {
     width: 100%;
     margin: 20px 0px 0px 10px;
 }
 
-.modalbill .bill-bottomdetail table {
-    width: 45%;
-    /* border-top: 1px solid #000; */
-}
-
-.modalbill .bill-bottomdetail table #billborderbottom {
-    border-bottom: 1px solid #000;
-}
-
-.modalbill .bill-bottomdetail table tr th:nth-child(1) {
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-}
-
-.modalbill .bill-bottomdetail table tr td:nth-child(2) {
-    width: 200px;
-}
-
 .modalbill .bill-items .items-table{
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border: 1px solid #000;
+}
+.modalbill .bill-items .items-table .item-table-row{
+    border: 1px solid #000;
 }
 
-.modalbill .bill-items .items-table .billitemrow{
-    border-bottom: 1px solid rgb(174, 172, 172);
-}
-
-.modalbill .bill-items .items-table tr .first-col {
-    width: 4%;
-    padding: 5px 0 0px 0px;
-    /* border-bottom: 1px solid rgb(174, 172, 172); */
-    /* border-right: 1px solid rgb(174, 172, 172); */
+.modalbill .bottom-table{
+    height:100px;
+    border-top:1px solid #000
 
 }
-
-.modalbill .bill-items .items-table tr .second-col {
-    width: 30%;
+.modalbill .bottom-table .bottominner-table-narration{
+width: 40%;
 }
-
-.modalbill .bill-items .items-table tr .third-col {
-    width: 5%;
+.modalbill .bottom-table .bottominner-table{
+    width: 60%;
+    height: 100%;
+    float: right;
 }
-
-
-.modalbill .bill-items .items-table tr .four-col {
-    width: 5%;
+.modalbill .bottom-table .bottominner-table table{
+    width: 100%;
+    height: 100%;
 }
-
-.modalbill .bill-items .items-table tr .five-col {
-    width: 5%;
-}
-
-.modalbill .bill-items .items-table tr .six-col {
-    width: 5%;
-}
-
-.modalbill .bill-items .items-table tr .seven-col {
-    width: 5%;
-}
-
-.modalbill .bill-items .items-table tr .eight-col {
-    width: 4%;
+.modalbill .bottom-table .bottominner-table{
+    border-color:  #000;
 }
 
 @media screen and (min-width:1350px) {
@@ -163,10 +129,6 @@
         font-size: 15px;
     }
 
-    .modalbill .bill-bottomdetail table {
-        width: 55%;
-    }
-
 
 }
 
@@ -183,15 +145,6 @@
     .modelbillcard {
         transform: translate(-13%);
     }
-
-    .modalbill .bill-items .items-table tr .billitem {
-        padding: 5px;
-    }
-
-    .modalbill .bill-bottomdetail table {
-        width: 75%;
-    }
-
 }
 
 @media screen and (max-width:650px) {
