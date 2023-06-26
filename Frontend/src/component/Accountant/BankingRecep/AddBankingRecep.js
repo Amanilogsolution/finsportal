@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
+import { ActiveAllChartofAccount,Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 
@@ -22,7 +22,7 @@ function AddBankingReceipt() {
     }
     const [Bankrowdata, setBankrowdata] = useState([obj])
     const [locationstate, setLocationstate] = useState([]);
-
+    const [bankRepCount, setBankRepCount] = useState(0)
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
@@ -35,7 +35,13 @@ function AddBankingReceipt() {
             setOrgdata(orgdata)
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
+
+            const id = await Getfincialyearid(org)
+            const lastno = Number(id[0].bank_recep_count) + 1
+            setBankRepCount(lastno)
             setLoading(true)
+            document.getElementById('bank_recep_id').value = id[0].bank_recep_ser + id[0].year + String(lastno).padStart(5, '0');
+
             Todaydate()
         }
 
@@ -286,6 +292,8 @@ function AddBankingReceipt() {
                                 <article className="card-body">
                                     <form autoComplete="off">
                                         <div className="form-row ">
+                                            <label htmlFor="bank_recep_id" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt Id</label>
+                                            <div className="d-flex col-md-4"><input type="text" className="form-control col-md-10" id="bank_recep_id" disabled /></div>
                                             <label htmlFor="bank_recep_date" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt Date</label>
                                             <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="bank_recep_date" disabled /></div>
                                         </div>
@@ -303,7 +311,7 @@ function AddBankingReceipt() {
                                                 <select type="date" className="form-control col-md-10 " id="bank" >
                                                     <option value='' hidden>Select Bank</option>
                                                     {banklist.map((bankdata, index) => (
-                                                        <option key={index} value={bankdata.bank_name}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
+                                                        <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name, bankdata.chart_of_account]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
                                                     }
                                                 </select>
                                             </div>

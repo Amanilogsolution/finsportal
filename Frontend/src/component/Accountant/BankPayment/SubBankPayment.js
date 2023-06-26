@@ -1,4 +1,4 @@
-const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMiorData, handleChangePayType, setCurrentindex, employeelist }) => {
+const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMiorData,handleCalculateMinorData, handleChangePayType, setCurrentindex, employeelist }) => {
     return (
         bankPayMinData.map((minordata, index) =>
             <tr key={index}>
@@ -29,7 +29,7 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
                 </td>
                 <td className="p-0"><input type="text" className="form-control " name="refNo" id={`ref_no-${index}`} value={minordata.refNo} onChange={(e) => handleChangeMiorData(e, index)} /></td>
                 <td className="p-0"><input type="date" className="form-control " name="refDate" id={`ref_date-${index}`} value={minordata.refDate} onChange={(e) => handleChangeMiorData(e, index)} /></td>
-                <td className="p-0"><input type="number" className="form-control " name="refAmt" id={`ref_amt-${index}`} value={minordata.refAmt} onChange={(e) => handleChangeMiorData(e, index)} /></td>
+                <td className="p-0"><input type="number" className="form-control " name="refAmt" id={`ref_amt-${index}`} value={minordata.refAmt} onChange={(e) => {handleChangeMiorData(e, index);handleCalculateMinorData('refAmt',index)}} /></td>
                 {/* <td className="p-0"><input type="number" className="form-control " name="tds" value={minordata.tds} onChange={(e) => handleChangeMiorData(e, index)} /></td> */}
                 {/* <td className="p-0"><input type="number" className="form-control " name="net_amt" value={minordata.net_amt} onChange={(e) => handleChangeMiorData(e, index)} /></td> */}
                 <td className="p-0">
@@ -40,15 +40,15 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
                         <option value='full' >Full</option>
                     </select>
                 </td>
-                <td className="p-0"><input type="number" className="form-control " name="amt_paid" id={`amt_paid-${index}`} value={minordata.amt_paid} onChange={(e) => handleChangeMiorData(e, index)} /></td>
+                <td className="p-0"><input type="number" className="form-control " name="amt_paid" id={`amt_paid-${index}`} value={minordata.amt_paid} onChange={(e) => {handleChangeMiorData(e, index);handleCalculateMinorData('amt_paid',index)}} /></td>
                 <td className="p-0"><input type="number" className="form-control " name="amt_bal" id={`ref_bal-${index}`} value={minordata.amt_bal} disabled /></td>
                 <td className="p-0"><input type="text" className="form-control " name="glcode" defaultValue={minordata.glcode} disabled /></td>
                 <td className="p-0">
                     <select type="text" className="form-control " name="sub_cost_center" value={minordata.sub_cost_center} onChange={(e) => handleChangeMiorData(e, index)}>
-                        <option hidden value=''>Select Employee</option>
+                        <option hidden value=''>{minordata.sub_cost_center?minordata.sub_cost_center:'Select Employee'}</option>
                         {
                             employeelist.map((emp, index) =>
-                                <option key={index} value={emp.emp_id}>{emp.emp_name}</option>
+                                <option key={index} value={[emp.emp_id,emp.emp_name]}>{emp.emp_name}</option>
                             )
                         }
                     </select>

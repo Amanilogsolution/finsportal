@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee, Getfincialyearid,InsertBillPayment,Updatefinancialcount,InsertSubBillPayment } from '../../../api'
+import { ActiveAllChartofAccount, SearchActiveChartofAccount, showOrganisation, ActiveBank, ActiveVendor, ActiveLocationAddress, SearchLocationAddress, GetBillVendorID, ActiveEmployee, Getfincialyearid, InsertBillPayment, Updatefinancialcount, InsertSubBillPayment } from '../../../api'
 import BankPayPreview from "./BankPayPreview/BankPayPreview";
 import SubBankPayment from "./SubBankPayment";
 import AlertsComp from '../../AlertsComp';
@@ -17,7 +17,7 @@ function AddBankingPayment() {
     })
     const minorBankPayobj = {
         chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
-        pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '',
+        pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '', sub_cost_center_id: ''
     }
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
 
@@ -38,6 +38,7 @@ function AddBankingPayment() {
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
             const allbank = await ActiveBank(org);
+            console.log(allbank)
             setBanklist(allbank)
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
@@ -76,7 +77,7 @@ function AddBankingPayment() {
         setBankPayMinData([...bankPayMinData, minorBankPayobj])
     }
 
-    
+
     const handleRemoveDeleteRow = (e, removetype, index = 0) => {
         e.preventDefault();
         if (bankPayMinData.length > 1) {
@@ -97,7 +98,35 @@ function AddBankingPayment() {
     // ###################### Handle Change Minor Data Start ###############################
     const handleChangeMiorData = (e, index) => {
         let minorData = [...bankPayMinData];
-        minorData[index][e.target.name] = e.target.value;
+        if (e.target.name === 'sub_cost_center') {
+            let sub_cost = e.target.value.split(',')
+            minorData[index].sub_cost_center_id = sub_cost[0]
+            minorData[index].sub_cost_center = sub_cost[1]
+        }
+        else {
+            minorData[index][e.target.name] = e.target.value;
+        }
+        console.log(minorData)
+        setBankPayMinData(minorData)
+    }
+    const handleCalculateMinorData = (fieldType, index) => {
+        if (fieldType === 'refAmt') {
+            let totalAmt = 0;
+            for (let i = 0; i < bankPayMinData.length; i++) {
+                totalAmt = totalAmt + Number(bankPayMinData[i].refAmt)
+            }
+            document.getElementById('totalamount').innerHTML = totalAmt;
+        }
+        else if (fieldType === 'amt_paid') {
+            let totalAmtPad = 0;
+            for (let i = 0; i < bankPayMinData.length; i++) {
+                totalAmtPad = totalAmtPad + Number(bankPayMinData[i].amt_paid)
+            }
+            document.getElementById('totalAmtPad').innerHTML = totalAmtPad;
+        }
+        let amt_bal = Number(bankPayMinData[index].refAmt) - Number(bankPayMinData[index].amt_paid)
+        let minorData = [...bankPayMinData];
+        minorData[index].amt_bal = amt_bal;
         setBankPayMinData(minorData)
     }
 
@@ -107,6 +136,7 @@ function AddBankingPayment() {
         minorData[index].pay_type = pay_type;
         if (pay_type === 'partial') {
             minorData[index].amt_paid = 0
+            document.getElementById(`amt_paid-${index}`).disabled = false;
         }
         else if (pay_type === 'full') {
             minorData[index].amt_paid = bankPayMinData[index].refAmt
@@ -114,6 +144,7 @@ function AddBankingPayment() {
             document.getElementById(`amt_paid-${index}`).disabled = true;
         }
         setBankPayMinData(minorData)
+        handleCalculateMinorData('amt_paid', index)
     }
     // ###################### Handle Change Minor Data End ###############################
 
@@ -149,7 +180,6 @@ function AddBankingPayment() {
         bankPayMinData[currentindex].masterId = mast_id;
         bankPayMinData[currentindex].achead = name;
     }
-
 
     const handleSetBillData = (index, bill_no, bill_date, bill_amt, location) => {
         const getcheckval =
@@ -193,6 +223,11 @@ function AddBankingPayment() {
                 document.getElementById(`ref_date-${i}`).disabled = true
                 document.getElementById(`ref_amt-${i}`).disabled = true
             }
+            let totalAmt = 0;
+            for (let i = 0; i < newRowData.length; i++) {
+                totalAmt = totalAmt + Number(newRowData[i].refAmt)
+            }
+            document.getElementById('totalamount').innerHTML = totalAmt;
         }, 1000)
 
     }
@@ -231,7 +266,7 @@ function AddBankingPayment() {
 
     // ------------------------------ Submit Form ---------------------------------
 
-    const handleSubmitForm = async() => {
+    const handleSubmitForm = async () => {
         setLoading(false)
         const bank_payment_id = document.getElementById('bank_recep_id').value;
         const bank_recep_date = document.getElementById('bank_recep_date').value;
@@ -242,6 +277,7 @@ function AddBankingPayment() {
         const bank_id = bank[0];
         const bank_sub_code = bank[1];
         const bank_name = bank[2];
+        const bank_glcode = bank[3]
         const onAccount = document.getElementById('on_account').checked === true ? true : false;
         const remarks = document.getElementById('remarks').value;
         const username = localStorage.getItem('User_id')
@@ -252,22 +288,19 @@ function AddBankingPayment() {
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
-            setLoading(true)
+            const result = await InsertBillPayment(org, bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, bank_glcode, onAccount, remarks, username, fins_year)
 
-            bankPayMinData.map(async(element)=>{
-                const result = await InsertSubBillPayment(org,bank_payment_id,element.glcode,element.achead,element.glcode,element.costCenter,element.refNo,element.refDate,'amt',element.pay_type,element.amt_paid,element.amt_bal,'master_id','emp_id',element.sub_cost_center)
+            bankPayMinData.map(async (element) => {
+                await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
             })
-            const result = await InsertBillPayment(org,bank_payment_id,bank_recep_date,check_ref_no,check_date,check_amt,bank_id,bank_sub_code,bank,'bank_glcode',onAccount,remarks,username,fins_year)
             await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
-            
-            if(result.result === 'Added successfully'){
-                      setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
-            }else{
-                setAlertObj({ type: 'error', text: 'Server Not response', url: '' }) 
+            setLoading(true)
+            if (result.result === 'Added successfully') {
+                setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+            } else {
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
-          
         }
-
     }
     return (
         <>
@@ -300,7 +333,7 @@ function AddBankingPayment() {
                                                 <select type="date" className="form-control col-md-10 " id="bank" >
                                                     <option value='' hidden>Select Bank</option>
                                                     {banklist.map((bankdata, index) => (
-                                                        <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
+                                                        <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name, bankdata.chart_of_account]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
                                                     }
                                                 </select>
                                             </div>
@@ -332,12 +365,19 @@ function AddBankingPayment() {
                                                         bankPayMinData={bankPayMinData}
                                                         handleRemoveDeleteRow={handleRemoveDeleteRow}
                                                         handleChangeMiorData={handleChangeMiorData}
+                                                        handleCalculateMinorData={handleCalculateMinorData}
                                                         handleChangePayType={handleChangePayType}
                                                         chartofacctlist={chartofacctlist}
                                                         handleChnageAcHead={handleChnageAcHead}
                                                         setCurrentindex={setCurrentindex}
                                                         employeelist={employeelist}
                                                     />
+                                                    <tr>
+                                                        <td colSpan={4} className="text-right">Total</td>
+                                                        <td id='totalamount'></td>
+                                                        <td></td>
+                                                        <td id="totalAmtPad"></td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
