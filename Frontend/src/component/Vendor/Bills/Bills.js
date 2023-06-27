@@ -761,6 +761,23 @@ function Bills() {
                                                     <input type="date" className="form-control col-md-10" id="po_date" disabled />
                                                 </div>
                                             </div>
+                                            <div className="form-row mt-2" >
+                                                <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4" >
+                                                    <select id="payment_term_select" className="form-control col-md-10" onChange={handleAccountTerm}>
+                                                        <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : 'Select Payment term'}</option>
+                                                        {
+                                                            paymenttermlist.map((item, index) => (
+                                                                <option key={index} value={item.term_days}>{item.term}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
+                                                <div className="d-flex col-md-4 " >
+                                                    <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
+                                                </div>
+                                            </div>
 
                                             <div className="form-row mt-2">
                                                 <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
@@ -781,23 +798,7 @@ function Bills() {
                                                 </div>
                                             </div>
 
-                                            <div className="form-row mt-2" >
-                                                <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md-4" >
-                                                    <select id="payment_term_select" className="form-control col-md-10" onChange={handleAccountTerm}>
-                                                        <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : 'Select Payment term'}</option>
-                                                        {
-                                                            paymenttermlist.map((item, index) => (
-                                                                <option key={index} value={item.term_days}>{item.term}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
-                                                <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
-                                                </div>
-                                            </div>
+                                          
                                             <div className="form-row mt-2">
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal">Employee<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
