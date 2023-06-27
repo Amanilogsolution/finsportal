@@ -598,19 +598,19 @@ function AddBankingReceipt() {
                             </table>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal') }}>Close</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal');window.location.reload(); }}>Close</button>
                         </div>
                     </div>
                 </div>
             </div>
             {/* ############## Invoice Custome Modal ################################# */}
             <div className="position-absolute" id="InvCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" style={{ width: '55vw' }}>
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Select Invoice</h5>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body overflow-auto position-relative p-0 px-2"  style={{ height: '50vh' }}>
                             <table className="table table-bored table-sm ">
                                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                                     <tr>
@@ -620,11 +620,11 @@ function AddBankingReceipt() {
                                         <th className="pl-4 " style={{ fontSize: '20px' }}>Invoice Amt</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {
                                         customerInvlist.length > 0 ?
                                             customerInvlist.map((inv, index) =>
-                                                <tr key={index} className="cursor-pointer"
+                                                <tr key={index} className="cursor-pointer text-center"
                                                 // onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }} 
                                                 >
                                                     <td><input type='checkbox' id={`check-${index}`} style={{ height: '15px', width: '15px' }} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt, inv.location) }} /></td>
