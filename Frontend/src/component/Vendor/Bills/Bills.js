@@ -444,38 +444,20 @@ function Bills() {
         //  tabledata[index].netamount = Aftertds
 
         let arr = []
-
-
         let net_amt = 0;
         tabledata.map((item, index) => {
-            console.log(item)
             if (item.tds_check == 'Y') {
-
-
                 arr.push(item.amount * Number(TdsPer) / 100)
 
             } else {
                 console.log('nooo')
             }
-
         })
 
         arr.map((item, i) => { net_amt += item })
-        console.log(net_amt)
-
         document.getElementById('total_bill_amt').innerHTML = netamt - net_amt
-
-
-
-
-
-
+        document.getElementById('tdstagval').innerHTML =net_amt;
         document.getElementById('tdsdiv').style.display = 'none';
-
-
-
-
-
         // document.getElementById(`netamt${index}`).value = Aftertds
     }
 
@@ -526,8 +508,8 @@ function Bills() {
 
     const handleClickAdd = async (e) => {
         e.preventDefault()
-        document.getElementById('savebtn').disabled = true;
-        document.getElementById('postbtn').disabled = true;
+        // document.getElementById('savebtn').disabled = true;
+        // document.getElementById('postbtn').disabled = true;
         const btn_type = e.target.value;
         let voucher_no = "";
 
@@ -541,9 +523,9 @@ function Bills() {
         const voucher_date = document.getElementById('voucher_date').value
         const vendor_detail = document.getElementById('vend_name');
         const vendor_id = vendor_detail.value;
-        const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
+        const vend_name = vendor_detail.options[vendor_detail.selectedIndex].text;
 
-        const Location = vendorlocations
+        const vend_location = vendorlocations
         const bill_no = document.getElementById('bill_no').value
         const bill_date = document.getElementById('bill_date').value
         const bill_amt = document.getElementById('bill_amt').value
@@ -552,8 +534,9 @@ function Bills() {
 
         const total_bill_amt = document.getElementById('total_bill_amt').innerText;
 
-        const payment_t = document.getElementById('payment_term_select').value
+        const payment_term = document.getElementById('payment_term_select').value
         const due_date = document.getElementById('due_date').value;
+        const emp_id = document.getElementById('employee_name').value
         const amt_paid = '';
         const amt_balance = '';
         const amt_booked = '';
@@ -564,17 +547,26 @@ function Bills() {
 
 
         const expense_amt = document.getElementById('expense_amt').value;
-        const remarks = document.getElementById('remarks').value
-        const fins_year = localStorage.getItem('fin_year')
+        
 
         const cgst_amt = Number(cgstval)
         const sgst_amt = Number(sgstval)
         const igst_amt = Number(igstval)
+        
+        const gst_location_id = document.getElementById('gstlocation').value
+
         const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
         const non_taxable_amt = ''
-        const userid = localStorage.getItem('User_id')
         const discount = document.getElementById('discount_amt').value
-        const employee = document.getElementById('employee_name').value
+        const remarks = document.getElementById('remarks').value
+        const bill_url = ''
+        const userid = localStorage.getItem('User_id')
+        const org = localStorage.getItem('Organisation')
+        const fins_year = localStorage.getItem('fin_year')
+
+        console.log(voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, payment_term, due_date, emp_id,
+            amt_paid, amt_balance, amt_booked, tds_section, tdscomp, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, cgst_amt, sgst_amt, igst_amt,
+            gst_location_id, discount, bill_url, userid, fins_year, org)
 
         if (!voucher_no) {
             alert('Please Enter mandatory field')
@@ -588,35 +580,35 @@ function Bills() {
                 document.getElementById('postbtn').disabled = false;
             }
             else {
-                const org = localStorage.getItem('Organisation')
-                const result = await InsertBill(org, voucher_no, voucher_date, vendor_name, Location, bill_no,
-                    bill_date, bill_amt, total_bill_amt, payment_t, due_date, amt_paid, amt_balance, amt_booked, tds_section, tdscomp, tds_per, tds_amt,
-                    taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, img, btn_type, po_no, po_date, billsubtotalamt)
 
-                if (result === 'Added') {
-                    const result1 = await InsertSubBill(org, voucher_no, bill_no, tabledata, fins_year, userid)
+                // const result = await InsertBill(voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, 
+                //     payment_term,due_date, emp_id,amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,
+                //     sgst_amt,igst_amt,gst_location_id,discount,bill_url,userid,fins_year,org)
 
-                    if (btn_type !== 'save') {
-                        await Updatefinancialcount(org, 'voucher_count', vouchercount)
-                    }
+                // if (result === 'Added') {
+                //     const result1 = await InsertSubBill(org, voucher_no, bill_no, tabledata, fins_year, userid)
+
+                //     if (btn_type !== 'save') {
+                //         await Updatefinancialcount(org, 'voucher_count', vouchercount)
+                //     }
 
 
-                    if (result1 === 'Added') {
-                        alert('Data Added')
-                        window.location.href = './SaveBillReport';
-                    }
-                }
-                else if (result === 'Already') {
-                    alert('Bill no Already exists');
-                    document.getElementById('savebtn').disabled = false;
-                    document.getElementById('postbtn').disabled = false;
-                }
+                //     if (result1 === 'Added') {
+                //         alert('Data Added')
+                //         window.location.href = './SaveBillReport';
+                //     }
+                // }
+                // else if (result === 'Already') {
+                //     alert('Bill no Already exists');
+                //     document.getElementById('savebtn').disabled = false;
+                //     document.getElementById('postbtn').disabled = false;
+                // }
 
-                else {
-                    alert('Server Not Response')
-                    document.getElementById('savebtn').disabled = false;
-                    document.getElementById('postbtn').disabled = false;
-                }
+                // else {
+                //     alert('Server Not Response')
+                //     document.getElementById('savebtn').disabled = false;
+                //     document.getElementById('postbtn').disabled = false;
+                // }
             }
         }
 
@@ -713,40 +705,7 @@ function Bills() {
 
                                     <article className="card-body">
                                         <form autoComplete="off">
-                                            <div className="form-row ">
-                                                <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <select
-                                                        id="vend_name"
-                                                        onChange={handlevendorselect}
-                                                        className="form-control col-md-4">
-                                                        <option value='' hidden>select vendor</option>
-                                                        {
-                                                            vendorlist.map((item, index) =>
-                                                                <option key={index} value={item.vend_id}>{item.vend_name}</option>)
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-2">
-                                                <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Location <span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-
-                                                    <button type="button" className="btn border col-md-4" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setTimeout(() => {
-                                                            document.getElementById('searchLocation').focus()
-                                                        }, 600)
-                                                    }}>
-                                                        {
-                                                            vendorlocations ? vendorlocations : 'Select Vendor Location'
-                                                        }
-                                                    </button>
-                                                </div>
-
-                                            </div>
-
-                                            <div className="form-row mt-3" >
+                                            <div className="form-row" >
                                                 <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
                                                 <div className="d-flex col-md-4" >
                                                     <input type="text" className="form-control col-md-10 cursor-notallow" id="voucher_no" placeholder="" disabled />
@@ -757,14 +716,33 @@ function Bills() {
                                                 </div>
                                             </div>
 
-                                            <div className="form-row mt-3">
-                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-4" id="bill_no" />
+                                            <div className="form-row mt-2">
+                                                <label htmlFor='vend_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select id="vend_name" onChange={handlevendorselect} className="form-control col-md-10">
+                                                        <option value='' hidden>select vendor</option>
+                                                        {
+                                                            vendorlist.map((item, index) =>
+                                                                <option key={index} value={item.vend_id}>{item.vend_name}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Vendor Location <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <button type="button" className="btn border col-md-10" data-toggle="modal" data-target="#locationmodal" onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setTimeout(() => {
+                                                            document.getElementById('searchLocation').focus()
+                                                        }, 600)
+                                                    }}>
+                                                        {
+                                                            vendorlocations ? vendorlocations : 'Select Vendor Location'
+                                                        }
+                                                    </button>
                                                 </div>
                                             </div>
 
-                                            <div className="form-row mt-3">
+                                            <div className="form-row mt-2">
                                                 <label htmlFor='po_no' className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
                                                 <div className="d-flex col-md-4" >
                                                     <select className="form-control col-md-10" id="po_no" onChange={handleGetPoData}>
@@ -783,25 +761,30 @@ function Bills() {
                                                     <input type="date" className="form-control col-md-10" id="po_date" disabled />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+
+                                            <div className="form-row mt-2">
+                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <input type="text" className="form-control col-md-10" id="bill_no" />
+                                                </div>
                                                 <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="number" className="form-control col-md-4" id="bill_amt" />
+                                                <div className="d-flex col-md-4">
+                                                    <input type="number" className="form-control col-md-10" id="bill_amt" />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+
+
+                                            <div className="form-row mt-2">
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md">
                                                     <input type="date" className="form-control col-md-4" id="bill_date" />
                                                 </div>
                                             </div>
 
-                                            <div className="form-row mt-3" >
+                                            <div className="form-row mt-2" >
                                                 <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4" >
-                                                    <select
-                                                        id="payment_term_select"
-                                                        className="form-control col-md-10" onChange={handleAccountTerm}>
+                                                    <select id="payment_term_select" className="form-control col-md-10" onChange={handleAccountTerm}>
                                                         <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : 'Select Payment term'}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
@@ -810,12 +793,12 @@ function Bills() {
                                                         }
                                                     </select>
                                                 </div>
-                                                <label htmlFor='due_date' className="col-md-1 col-form-label font-weight-normal" >Due Date</label>
+                                                <label htmlFor='due_date' className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
                                                 <div className="d-flex col-md-4 " >
                                                     <input type="date" className="form-control col-md-10 cursor-notallow" id="due_date" disabled />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+                                            <div className="form-row mt-2">
                                                 <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal">Employee<span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select className="form-control ml-0 col-md-10" id="employee_name">
@@ -829,8 +812,7 @@ function Bills() {
                                                 </div>
                                             </div>
 
-                                            <br />
-                                            <div style={{ position: "relative" }}>
+                                            <div className='mt-3' style={{ position: "relative" }}>
                                                 <table className="table table-striped table-bordered">
                                                     <thead className='text-center'>
                                                         <tr>
@@ -841,8 +823,8 @@ function Bills() {
                                                             <th scope="col">Unit</th>
                                                             <th scope="col">Amount</th>
 
-                                                            <th scope="col">gst %</th>
-                                                            <th scope="col">tds</th>
+                                                            <th scope="col">GST %</th>
+                                                            <th scope="col">TDS</th>
                                                             <th scope="col">Net Amt</th>
                                                         </tr>
                                                     </thead>
@@ -904,7 +886,7 @@ function Bills() {
                                                                     </td>
 
                                                                     <td className='p-1 pt-2' style={{ width: "20px" }}>
-                                                                        <input type='checkbox' id={`tds${index}`} className='ml-2' onClick={(e) => handletds(e, index)} />
+                                                                        <input type='checkbox' id={`tds${index}`} className='ml-2 mt-2' style={{ height: '18px', width: '18px' }} onClick={(e) => handletds(e, index)} />
                                                                     </td>
 
                                                                     <td className='p-1 pt-2' style={{ width: "150px" }}>
@@ -913,14 +895,8 @@ function Bills() {
                                                                 </tr>
                                                             ))
                                                         }
-
                                                     </tbody>
                                                 </table>
-
-
-
-
-
                                             </div>
                                             <input type='button' className="btn btn-primary" onClick={handleAdd} value='Add Item' />
                                             <input type='button' className="btn btn-danger ml-2" onClick={handleRemove} value='Remove' />
@@ -982,11 +958,9 @@ function Bills() {
                                                                     </div>
 
                                                                     <div className="form-group ">
-                                                                        <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Location <span className='text-danger'>*</span> </label>
+                                                                        <label htmlFor='gstlocation' className="col-form-label font-weight-normal" >Select GST Location <span className='text-danger'>*</span> </label>
                                                                         <div>
-                                                                            <select
-                                                                                id="gsttype"
-                                                                                className="form-control col">
+                                                                            <select id="gstlocation" className="form-control col">
                                                                                 <option value='' hidden>Select GST Location</option>
                                                                                 {
                                                                                     locationstate.map((item, index) => (

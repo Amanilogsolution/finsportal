@@ -1369,9 +1369,13 @@ export const ActiveEmployee = async (org) => {
 
 // ############################ For Purchases Bill api Start #################################
 
-export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, po_date, net_amt) => {
+export const InsertBill = async ( voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, payment_term,due_date, emp_id,
+    amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,sgst_amt,igst_amt,
+    gst_location_id,discount,bill_url,userid,fins_year,org) => {
     const url = `http://localhost:3008/api/insertbill`
-    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, po_date, net_amt }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {  voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, payment_term,due_date, emp_id,
+    amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,sgst_amt,igst_amt,
+    gst_location_id,discount,bill_url,userid,fins_year,org }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetBillData = async (org, voucher_no) => {
     const url = `https://finsbackend.awlinternational.com/api/getbilldata`

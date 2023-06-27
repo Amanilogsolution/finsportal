@@ -5,20 +5,25 @@ const uuidv1 = require("uuid/v1");
 
 const InsertBill = async (req, res) => {
     const org = req.body.org
-    const vourcher_no = req.body.vourcher_no;
+    const voucher_no = req.body.voucher_no;
     const voucher_date = req.body.voucher_date;
+    const vendor_id = req.body.vendor_id;
     const vend_name = req.body.vend_name;
-    const location = req.body.location;
+    const vend_location = req.body.vend_location;
     const bill_no = req.body.bill_no;
     const bill_date = req.body.bill_date;
     const bill_amt = req.body.bill_amt;
+    const po_no = req.body.po_no;
+    const po_date = req.body.po_date;
     const total_bill_amt = req.body.total_bill_amt;
     const payment_term = req.body.payment_term;
     const due_date = req.body.due_date;
+    const emp_id = req.body.emp_id;
+    
     const amt_paid = req.body.amt_paid;
     const amt_balance = req.body.amt_balance;
     const amt_booked = req.body.amt_booked;
-    const tds_head = req.body.tds_head;
+    const tds_section = req.body.tds_section;
     const tds_ctype = req.body.tds_ctype;
     const tds_per = req.body.tds_per;
     const tds_amt = req.body.tds_amt;
@@ -30,28 +35,31 @@ const InsertBill = async (req, res) => {
     const cgst_amt = req.body.cgst_amt;
     const sgst_amt = req.body.sgst_amt;
     const igst_amt = req.body.igst_amt;
-    const userid = req.body.userid;
-    const vendor_id = req.body.vendor_id;
+    const gst_location_id = req.body.gst_location_id;
+    const discount = req.body.discount;
     const bill_url = req.body.bill_url;
-    const flagsave = req.body.flagsave;
-    const po_no = req.body.po_no;
-    const po_date = req.body.po_date;
     
-    const net_amt = req.body.net_amt;
+    const userid = req.body.userid;
     const uuid = uuidv1()
 
     try {
         await sql.connect(sqlConfig)
         const dublicate_bill = await sql.query(`select * from ${org}.dbo.tbl_bill with (nolock) WHERE bill_no='${bill_no}'`)
         if (dublicate_bill.recordset.length === 0) {
-            const result = await sql.query(`insert into ${org}.dbo.tbl_bill(
-            vourcher_no,voucher_date,vend_id,vend_name,location,bill_no,bill_date,bill_amt,total_bill_amt,po_no,po_date,payment_term,due_date,amt_paid,
-            amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,
-            fins_year,confirm_flag,
-            cgst_amt,sgst_amt,igst_amt,add_user_name,add_system_name,add_ip_address,add_date_time,status,bill_uuid,bill_url,flagsave,net_amt)
-            values('${vourcher_no}','${voucher_date}','${vendor_id}','${vend_name}','${location}',
-            '${bill_no}','${bill_date}','${bill_amt}','${total_bill_amt}','${po_no}','${po_date}','${payment_term}','${due_date}','${amt_paid}','${amt_balance}','${amt_booked}','${tds_head}','${tds_ctype}','${tds_per}','${tds_amt}','${taxable_amt}','${non_taxable_amt}',
-            '${expense_amt}','${remarks}','${fins_year}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}','${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Active','${uuid}','${bill_url}','${flagsave}','${net_amt}')`)
+            const result = await sql.query(`insert into ilogsolution.dbo.tbl_bill(
+                voucher_no,voucher_date,vend_id,vend_name,vend_location,bill_no,bill_date ,
+                bill_amt ,total_bill_amt,po_no,po_date,payment_term,due_date,emp_id,amt_paid ,
+                amt_balance ,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,
+                taxable_amt,non_taxable_amt,expense_amt,confirm_flag,cgst_amt,sgst_amt,igst_amt,
+                gst_location_id,dnflag,dn_amt,discount,bill_url,remarks,
+                add_user_name,add_system_name,add_ip_address,add_date_time,status,fins_year,bill_uuid)
+
+                values('${voucher_no}','${voucher_date}','${vendor_id}','${vend_name}','${vend_location}','${bill_no}','${bill_date}' ,
+                '${bill_amt}' ,'${total_bill_amt}','${po_no}','${po_date}','${payment_term}','${due_date}','${emp_id}','${amt_paid}' ,
+                '${amt_balance}' ,'${amt_booked}','${tds_section}','${tds_ctype}','${tds_per}','${tds_amt}',
+                '${taxable_amt}','${non_taxable_amt}','${expense_amt}','flag','${cgst_amt}','${sgst_amt}','${igst_amt}',
+                '${gst_location_id}','','','${discount}','${bill_url}','${remarks}',
+                '${userid}','${os, os.hostname()}','${req.ip}',getDate(),'Actives','${fins_year}','${uuid}'))`)
             res.send('Added')
         }
         else {
