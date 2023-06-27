@@ -3,7 +3,7 @@ import DecamalNumber from 'decimal-number-to-words';
 import './BankPayPreview.css'
 import jsPDF from "jspdf";
 
-const BankPayPreview = ({ orgdata }) => {
+const BankPayPreview = ({ orgdata, bankPayMinData, majorBankData }) => {
     const pdfRef = useRef(null);
     const print = (e) => {
         e.preventDefault();
@@ -39,56 +39,53 @@ const BankPayPreview = ({ orgdata }) => {
                                         <h1 className='mb-0 border-top-0 text-center'>Bank Payment</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 bankpay_cust_inner1  px-2 py-2'><strong>Receipt No.:</strong>{ }</div>
-                                                <div className='w-50 bankpay_cust_inner1  px-2 py-2'><strong>Address:</strong> { } </div>
+                                                <div className='w-50 bankpay_cust_inner1  px-2 py-1'><strong>Receipt No.:</strong> {majorBankData.bankrecpId}</div>
+                                                <div className='w-50 bankpay_cust_inner1  px-2 py-1'><strong>Receipt Date:</strong> {majorBankData.bankrecpDate} </div>
                                             </div>
                                             <div className=' d-flex'>
-                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-2'><strong>Sales Order No:</strong> { }</div>
-                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-2'><strong>Sales Order Date:</strong> { } </div>
+                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Cheq No. :</strong> {majorBankData.cheqNo}</div>
+                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Cheq Date:</strong> {majorBankData.cheqDate} </div>
+                                            </div>
+                                            <div className=' d-flex'>
+                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Cheq Amt :</strong> {majorBankData.cheqAmt}</div>
+                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Bank Name:</strong> {majorBankData.bank} </div>
                                             </div>
                                         </div>
                                         <table id="bankpay_second_table" className='text-center' style={{ width: '100%' }}>
                                             <thead style={{ background: "#cccccc" }}>
                                                 <tr>
-                                                    <th >SNo.</th>
-                                                    <th >Item</th>
-                                                    <th >Qty</th>
-                                                    <th >Rate</th>
+                                                    <th >Sno.</th>
+                                                    <th >ACHead</th>
+                                                    <th >Bill No.</th>
                                                     <th >Amount</th>
-                                                    <th >Taxable </th>
-                                                    <th >Unit</th>
-                                                    <th >Total Amt</th>
+                                                    <th >Amount Paid</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {/* {items.map((item, index) => {
+                                                {bankPayMinData.map((item, index) => {
                                                     return (<tr key={index}>
                                                         <td>{index + 1}</td>
-                                                        <td>{item.items}</td>
-                                                        <td>{item.Quantity}</td>
-                                                        <td>{item.rate}</td>
-                                                        <td>{item.amount}</td>
-                                                        <td>{item.taxPer}</td>
-                                                        <td>{item.taxAmt}</td>
-                                                        <td>{item.unit}</td>
-                                                        <td>{item.total}</td>
-
+                                                        <td>{item.achead}</td>
+                                                        <td>{item.refNo}</td>
+                                                        <td>{item.refAmt}</td>
+                                                        <td>{item.amt_paid}</td>
                                                     </tr>)
-                                                })} */}
+                                                })}
 
 
                                             </tbody>
                                         </table>
                                     </div>
-                                    {/* <div className="Total_so_div p-2">
+                                    <div className="Total_so_div p-2">
                                         <strong>Total Amount Value (In Figure)</strong>
-                                        <strong className='float-right'>{somajorData.total_amt}</strong>
+                                        <strong className='float-right'>{majorBankData.cheqAmt}</strong>
                                     </div>
                                     <div className="Total_so_div p-2">
                                         <strong>Total Amount Value (In Words)</strong>
-                                        <strong className='float-right'>{DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()} Only</strong>
-                                    </div> */}
-                                    <div className="bankpay_Amount_tax d-flex ">
+                                        <strong className='float-right'>{DecamalNumber.toWords(Number(majorBankData.cheqAmt)).toUpperCase()} Only</strong>
+                                    </div>
+                                    {/* <div className="bankpay_Amount_tax d-flex ">
                                         <strong style={{ margin: '12px 5px' }}>Amount Of Tax:</strong>
                                         <table>
                                             <tbody>
@@ -98,13 +95,13 @@ const BankPayPreview = ({ orgdata }) => {
                                                 </tr>
                                                 <tr>
                                                     {/* <td>{somajorData.total_gst_rate}</td>
-                                                    <td>{somajorData.total_gst_amt}</td> */}
+                                                    <td>{somajorData.total_gst_amt}</td> 
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div> */}
                                     <div className="Total_bankpay_div p-2">
-                                        <strong>Remarks :</strong> {}
+                                        <strong>Remarks :</strong> {majorBankData.remarks}
                                     </div>
                                     <div className="Total_bankpay_div p-2">
                                         <strong>Signature of Authorizated Representative :</strong>

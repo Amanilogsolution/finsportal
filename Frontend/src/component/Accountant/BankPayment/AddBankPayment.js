@@ -15,6 +15,15 @@ function AddBankingPayment() {
     const [alertObj, setAlertObj] = useState({
         type: '', text: 'Done', url: ''
     })
+    const [majorBankData, setMajorBankData] = useState([{
+        bankrecpId: '',
+        bankrecpDate: '',
+        cheqNo: '',
+        cheqDate: '',
+        cheqAmt: '',
+        bank: '',
+        remarks: ''
+    }])
     const minorBankPayobj = {
         chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
         pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '', sub_cost_center_id: ''
@@ -95,6 +104,25 @@ function AddBankingPayment() {
     const offCustomModal = (ids) => {
         document.getElementById(ids).style.display = 'none'
     }
+
+
+    // ------------------------------ Bank Payment Major Data  -----------------------------------
+    const handleSetMajorData = () => {
+        const bank = document.getElementById('bank').value.split(',');
+        const bank_name = bank[2];
+        setMajorBankData({
+            bankrecpId: document.getElementById('bank_recep_id').value,
+            bankrecpDate: document.getElementById('bank_recep_date').value,
+            cheqNo: document.getElementById('check_ref_no').value,
+            cheqDate: document.getElementById('check_date').value,
+            cheqAmt: document.getElementById('check_amt').value,
+            bank: bank_name,
+            remarks: document.getElementById('remarks').value
+        })
+    }
+
+
+
     // ###################### Handle Change Minor Data Start ###############################
     const handleChangeMiorData = (e, index) => {
         let minorData = [...bankPayMinData];
@@ -330,7 +358,7 @@ function AddBankingPayment() {
                                             <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="check_amt" /></div>
                                             <label htmlFor="bank" className="col-md-2 col-form-label font-weight-normal">Bank <span className="text-danger">*</span></label>
                                             <div className="d-flex col-md-4">
-                                                <select type="date" className="form-control col-md-10 " id="bank" >
+                                                <select type="date" className="form-control col-md-10 " id="bank" onChange={handleSetMajorData}>
                                                     <option value='' hidden>Select Bank</option>
                                                     {banklist.map((bankdata, index) => (
                                                         <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name, bankdata.chart_of_account]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
@@ -389,7 +417,7 @@ function AddBankingPayment() {
                                                     <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                                                     <div className="d-flex col-md">
                                                         <textarea type="text" className="form-control " rows="3"
-                                                            id="remarks" placeholder="Remarks" style={{ resize: "none" }}></textarea>
+                                                            id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handleSetMajorData}></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -432,7 +460,7 @@ function AddBankingPayment() {
                 <Footer />
 
             </div>
-            <BankPayPreview orgdata={orgdata} />
+            <BankPayPreview orgdata={orgdata} bankPayMinData={bankPayMinData} majorBankData={majorBankData}/>
 
             {/* ###################### Vendor Custom Modal ############################### */}
             <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
