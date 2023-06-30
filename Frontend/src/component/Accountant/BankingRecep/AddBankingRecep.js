@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress,SearchLocationAddress } from '../../../api'
+import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
 import SubAddBankRec from './SubAddBankRec'
 import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
+import AlertsComp from '../../AlertsComp';
 
 
 function AddBankingReceipt() {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [alertObj, setAlertObj] = useState({
+        type: '', text: 'Done', url: ''
+    })
     const [orgdata, setOrgdata] = useState([])
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [banklist, setBanklist] = useState([])
@@ -17,12 +21,21 @@ function AddBankingReceipt() {
     const [currentindex, setCurrentindex] = useState(0)
     const [selectedInvoiceIndex, setSelectedInvoiceIndex] = useState([])
     const [selectedInvoiceData, setSelectedInvoiceData] = useState([])
+    const [bankRecpMajorData, setBankRecpMajorData] = useState({
+        bankRecepId: '',
+        bankRecepDate: '',
+        cheq_no: '',
+        cheq_Date: '',
+        cheq_amt: '',
+        bank_name: '',
+        remark: ''
+    })
     const obj = {
-        achead: '', glcode: '', custId: '', costCenter: '', refNo: '', refDate: '', refAmt: '', deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
+        achead: '', glcode: '', custId: '', master_id: '', costCenter: '', refNo: '', refDate: '', refAmt: '', deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
     }
     const [Bankrowdata, setBankrowdata] = useState([obj])
     const [locationstate, setLocationstate] = useState([]);
-
+    const [bankRepCount, setBankRepCount] = useState(0)
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
@@ -35,7 +48,13 @@ function AddBankingReceipt() {
             setOrgdata(orgdata)
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
+
+            const id = await Getfincialyearid(org)
+            const lastno = Number(id[0].bank_recep_count) + 1
+            setBankRepCount(lastno)
             setLoading(true)
+            document.getElementById('bank_recep_id').value = id[0].bank_recep_ser + id[0].year + String(lastno).padStart(5, '0');
+
             Todaydate()
         }
 
@@ -89,6 +108,22 @@ function AddBankingReceipt() {
         setBankrowdata(rowsInput);
     }
 
+    // ------------------------ Handle Major Data ---------------------------
+    const handleSetMajorData = () => {
+        let bank = document.getElementById('bank').value;
+        bank = bank.split(',')
+        let bank_name = bank[2]
+        setBankRecpMajorData({
+            bankRecepId: document.getElementById('bank_recep_id').value,
+            bankRecepDate: document.getElementById('bank_recep_date').value,
+            cheq_no: document.getElementById('check_ref_no').value,
+            cheq_Date: document.getElementById('check_date').value,
+            cheq_amt: document.getElementById('check_amt').value,
+            bank_name: bank_name,
+            remark:  document.getElementById('remarks').value
+        })
+    }
+    // -------------------------Handle Minor Data ---------------------------
     const handleSearchChartofAccount = async (e) => {
         const org = localStorage.getItem('Organisation');
         if (e.target.value.length > 2) {
@@ -184,23 +219,28 @@ function AddBankingReceipt() {
 
         setBankrowdata(rowsInput);
     }
-    const handleClickCustomer = async (customer_id, customer_name) => {
+    const handleClickCustomer = async (customer_id, customer_name, master_id) => {
+        let rowsInputData = [...Bankrowdata];
         const onAccount = document.getElementById('on_account').checked === true ? true : false;
         if (!onAccount) {
             const invoices = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
             setCustomerInvlist(invoices)
             document.getElementById('InvCustomModal').style.display = "block"
+
         }
-        Bankrowdata[currentindex].custId = customer_id;
-        Bankrowdata[currentindex].achead = customer_name;
+        rowsInputData[currentindex].custId = customer_id;
+        rowsInputData[currentindex].achead = customer_name;
+        rowsInputData[currentindex].master_id = master_id;
         offCustomModal('SelectCustomerModal');
+        setBankrowdata(rowsInputData)
     }
+
     const offCustomModal = (ids) => {
         document.getElementById(ids).style.display = 'none'
     }
 
 
-    const handleSetInvoiceData = (index, inv_no, inv_date, inv_amt) => {
+    const handleSetInvoiceData = (index, inv_no, inv_date, inv_amt, location) => {
         const getcheckval =
             document.getElementById(`check-${index}`).checked === true ? true : false;
 
@@ -208,7 +248,7 @@ function AddBankingReceipt() {
             setSelectedInvoiceData([...selectedInvoiceData,
             {
                 achead: Bankrowdata[currentindex].achead, glcode: Bankrowdata[currentindex].glcode,
-                custId: Bankrowdata[currentindex].custId, costCenter: '',
+                custId: Bankrowdata[currentindex].custId, costCenter: location,
                 refNo: inv_no, refDate: inv_date, refAmt: inv_amt, deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
             }
             ]);
@@ -225,7 +265,9 @@ function AddBankingReceipt() {
 
     }
     const handleMergeArry = () => {
-
+        selectedInvoiceIndex.map((inv) => (
+            document.getElementById(`check-${inv}`).checked = false
+        ))
         const rowsInput = [...Bankrowdata];
         rowsInput.pop()
         const newRowData = [...rowsInput, ...selectedInvoiceData]
@@ -238,6 +280,16 @@ function AddBankingReceipt() {
             totalRefAmt = Number(totalRefAmt) + Number(newRowData[i].refAmt)
         }
         document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+
+        setTimeout(() => {
+            for (let i = currentindex; i < newRowData.length; i++) {
+                document.getElementById(`chartofacct-${i}`).disabled = true
+                document.getElementById(`location-${i}`).disabled = true
+                document.getElementById(`refNo-${i}`).disabled = true
+                document.getElementById(`refDate-${i}`).disabled = true
+                document.getElementById(`refAmt-${i}`).disabled = true
+            }
+        }, 1000)
     }
 
     const handleSearchLocation = async (e) => {
@@ -251,9 +303,52 @@ function AddBankingReceipt() {
             setLocationstate(locatonstateres)
         }
     }
+
+    const handlelocation = (location_id) => {
+        let minorData = [...Bankrowdata];
+        minorData[currentindex].costCenter = location_id;
+        setBankrowdata(minorData)
+    }
+    // ----------------- Handle Submit ------------------------------
     const handleSubmitFormData = (e) => {
         e.preventDefault();
         console.log(Bankrowdata)
+        // setLoading(false)
+        const bank_recep_id = document.getElementById('bank_recep_id').value
+        const bank_recep_date = document.getElementById('bank_recep_date').value
+        const check_ref_no = document.getElementById('check_ref_no').value
+        const check_date = document.getElementById('check_date').value
+        const check_amt = document.getElementById('check_amt').value
+        let bank = document.getElementById('bank').value;
+        bank = bank.split(',')
+        let bank_id = bank[0]
+        let bank_sub_code = bank[1]
+        let bank_name = bank[2]
+        let bank_glcode = bank[3]
+        let on_account = document.getElementById('on_account').checked === true ? true : false
+        let remarks = document.getElementById('remarks').value;
+        let fins_year = localStorage.getItem('fin_year')
+
+        if (!check_ref_no || !check_amt || !bank_id) {
+            // setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+        }
+        else {
+
+            // const result = await InsertBillPayment(org, bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, bank_glcode, onAccount, remarks, username, fins_year)
+
+            // bankPayMinData.map(async (element) => {
+            //     await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
+            // })
+            // await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
+            // setLoading(true)
+            // if (result.result === 'Added successfully') {
+            //     setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+            // } else {
+            //     setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+            // }
+        }
+
     }
 
     return (
@@ -268,6 +363,8 @@ function AddBankingReceipt() {
                                 <article className="card-body">
                                     <form autoComplete="off">
                                         <div className="form-row ">
+                                            <label htmlFor="bank_recep_id" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt Id</label>
+                                            <div className="d-flex col-md-4"><input type="text" className="form-control col-md-10" id="bank_recep_id" disabled /></div>
                                             <label htmlFor="bank_recep_date" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt Date</label>
                                             <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="bank_recep_date" disabled /></div>
                                         </div>
@@ -282,10 +379,10 @@ function AddBankingReceipt() {
                                             <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="check_amt" /></div>
                                             <label htmlFor="bank" className="col-md-2 col-form-label font-weight-normal">Bank <span className="text-danger">*</span></label>
                                             <div className="d-flex col-md-4">
-                                                <select type="date" className="form-control col-md-10 " id="bank" >
+                                                <select type="date" className="form-control col-md-10 " id="bank" onChange={handleSetMajorData}>
                                                     <option value='' hidden>Select Bank</option>
                                                     {banklist.map((bankdata, index) => (
-                                                        <option key={index} value={bankdata.bank_name}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
+                                                        <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name, bankdata.chart_of_account]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
                                                     }
                                                 </select>
                                             </div>
@@ -337,12 +434,12 @@ function AddBankingReceipt() {
                                         <input type='button' className="btn btn-primary" onClick={handleAddRow} value='Add Row' />
                                         <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 0, 'pop')} value='Remove' />
                                         <div className="d-flex mb-2 justify-content-between">
-                                            <div style={{ width: "40%" }}>
+                                            <div style={{ width: "50%" }}>
                                                 <div className="form ">
                                                     <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                                                     <div className="d-flex col-md">
                                                         <textarea type="text" className="form-control " rows="4"
-                                                            id="remarks" placeholder="Remarks" style={{ resize: "none" }}></textarea>
+                                                            id="remarks" placeholder="Remarks" style={{ resize: "none" }} onClick={handleSetMajorData}></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -377,13 +474,16 @@ function AddBankingReceipt() {
 
                             </div>
                         </div>
+                        {
+                            alertObj.type ? <AlertsComp data={alertObj} /> : null
+                        }
                     </div>
                 ) : (
                     <LoadingPage />
                 )}
                 <Footer />
             </div>
-            <BankRecepPreview orgdata={orgdata} />
+            <BankRecepPreview orgdata={orgdata} bankRecpMajorData={bankRecpMajorData} Bankrowdata={Bankrowdata} />
 
             {/* ########################## modal Chart Of Account  Start ######################## */}
             <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -413,7 +513,6 @@ function AddBankingReceipt() {
                                         >
                                             <td>{index + 1}</td>
                                             <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
-
                                         </tr>))
                                     }
                                 </tbody>
@@ -433,9 +532,7 @@ function AddBankingReceipt() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
                             <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation"
-                                    onChange={handleSearchLocation}
-                                />
+                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation" onChange={handleSearchLocation} />
                             </div>
                         </div>
                         <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -451,7 +548,7 @@ function AddBankingReceipt() {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                // onClick={(e) => { handlelocation(e, items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                    onClick={(e) => { handlelocation(items.location_id) }}
                                                 >
                                                     <td>{items.location_city}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
@@ -490,7 +587,7 @@ function AddBankingReceipt() {
                                     {
                                         customerlist.map((customer, index) =>
                                             <tr key={index} className="cursor-pointer"
-                                                onClick={() => { handleClickCustomer(customer.cust_id, customer.cust_name) }}
+                                                onClick={() => { handleClickCustomer(customer.cust_id, customer.cust_name, customer.mast_id) }}
                                             >
                                                 <td className="pl-3 text-center">{index + 1}</td>
                                                 <td className="pl-3 text-center">{customer.cust_name}</td>
@@ -501,19 +598,19 @@ function AddBankingReceipt() {
                             </table>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal') }}>Close</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal');window.location.reload(); }}>Close</button>
                         </div>
                     </div>
                 </div>
             </div>
             {/* ############## Invoice Custome Modal ################################# */}
             <div className="position-absolute" id="InvCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" style={{ width: '55vw' }}>
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Select Invoice</h5>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body overflow-auto position-relative p-0 px-2"  style={{ height: '50vh' }}>
                             <table className="table table-bored table-sm ">
                                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                                     <tr>
@@ -523,14 +620,14 @@ function AddBankingReceipt() {
                                         <th className="pl-4 " style={{ fontSize: '20px' }}>Invoice Amt</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {
                                         customerInvlist.length > 0 ?
                                             customerInvlist.map((inv, index) =>
-                                                <tr key={index} className="cursor-pointer"
+                                                <tr key={index} className="cursor-pointer text-center"
                                                 // onClick={() => { handleSetBillInvData(inv.invoice_no, inv.Invdate, inv.invoice_amt) }} 
                                                 >
-                                                    <td><input type='checkbox' id={`check-${index}`} style={{ height: '15px', width: '15px' }} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt) }} /></td>
+                                                    <td><input type='checkbox' id={`check-${index}`} style={{ height: '15px', width: '15px' }} onChange={() => { handleSetInvoiceData(index, inv.invoice_no, inv.Invdate, inv.invoice_amt, inv.location) }} /></td>
                                                     <td className="pl-3">{inv.invoice_no}</td>
                                                     <td className="pl-3">{inv.Invdate}</td>
                                                     <td className="pl-3">{inv.invoice_amt}</td>

@@ -101,7 +101,7 @@ const Addcity = () => {
                         <input type="number" className="form-control col-md-4" id='city_id'
                           value={cityidno}
                           onChange={(e) => {
-                            if (e.target.value.length === 5) return false;
+                            if (e.target.value.length >= 5) return false;
                             setCityidno(e.target.value)
                           }}
                         />

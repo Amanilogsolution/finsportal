@@ -81,7 +81,7 @@ const AddCountry = () => {
                         <input type="number" className="form-control col-md-4" id='Country_phonecode'
                           value={phonenumerr}
                           onChange={(event) => {
-                            if (event.target.value.length === 5) return false;
+                            if (event.target.value.length >= 5) return false;
                             setPhonenumerr(event?.target.value);
                           }}
                         />

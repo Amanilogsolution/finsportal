@@ -40,7 +40,6 @@ const ShowEmployee = () => {
     if (financstatus === 'Lock') {
       document.getElementById('addempbtn').style.background = '#7795fa';
     }
-    // localStorage["RolesDetais"] = JSON.stringify(UserRights)
     if (UserRights.employee_create === 'true') {
       document.getElementById('addempbtn').style.display = "block";
     }
@@ -145,9 +144,6 @@ const ShowEmployee = () => {
 
   return (
     <div className="wrapper">
-      {/* <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"> </div>
-      </div> */}
       <Header />
       {
         loading ?
@@ -159,9 +155,7 @@ const ShowEmployee = () => {
             <div className="container-fluid">
               <div className="card w-100"  >
                 <article className='card-body'>
-                  <DataTableExtensions
-                    {...tableData}
-                  >
+                  <DataTableExtensions {...tableData} >
                     <DataTable
                       noHeader
                       defaultSortField="id"

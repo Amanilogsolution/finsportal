@@ -23,6 +23,8 @@ import DnUserManual from './Purchases/DnUserManual/DnUserManual';
 // Accountant
 import CurrAdjUserManual from './Accountant/CurrAdjUserManual/CurrAdjUserManual';
 import JVUserManual from './Accountant/JVUserManual/JVUserManual';
+import BankReceiptUserManual from './Accountant/BankReceiptUserManual/BankReceiptUserManual';
+import BankPaymentUserManual from './Accountant/BankPaymentUserManual/BankPaymentUserManual';
 
 // Master
 import CountryUserManual from './Master/CountryUserManual/CountryUserManual';
@@ -70,8 +72,8 @@ const UserManualSidebar = () => {
             VendorAddUserManual, BillUserManual, PoUserManual, RecBillUserManual, DnUserManual,
             CurrAdjUserManual, JVUserManual, CountryUserManual, StateUserManual, CityUserManual, CurrencyUserManual,
             UnitUserManual, BankUserManual, User_UserManual, CompTypeUserManual, PayTermUserManual, EmpUserManual,
-            ChartOfAccUserManual, RecFreUserManual, TdsHeadUserManual,ReportsUserManual,FinancialUserManual,OrganisationUserManual,
-            OrgProfileUserManual,FinsYearSeqUserManual,BranchUserManual,CrmUserManual,CompliUserManual,UserRoleUserManual]
+            ChartOfAccUserManual, RecFreUserManual, TdsHeadUserManual, ReportsUserManual, FinancialUserManual, OrganisationUserManual,
+            OrgProfileUserManual, FinsYearSeqUserManual, BranchUserManual, CrmUserManual, CompliUserManual, UserRoleUserManual, BankReceiptUserManual, BankPaymentUserManual]
 
         const ComponentReturn = step < tag_array.length ? tag_array[step] : tag_array[0]
         return <ComponentReturn />
@@ -79,7 +81,7 @@ const UserManualSidebar = () => {
 
 
     const handleToggleUl = (type) => {
-      
+
         if (type === 'sales') {
             setUsermenutoggle({ ...usermenutoggle, sales: !usermenutoggle.sales })
         }
@@ -92,7 +94,7 @@ const UserManualSidebar = () => {
         else if (type === 'master') {
             setUsermenutoggle({ ...usermenutoggle, master: !usermenutoggle.master })
         }
- 
+
         else if (type === 'setting') {
             setUsermenutoggle({ ...usermenutoggle, setting: !usermenutoggle.setting })
         }
@@ -156,6 +158,8 @@ const UserManualSidebar = () => {
                                     <ul id='inner_ul' className='pl-4' >
                                         <li className='py-1' onClick={() => { setStep(14) }}>Currency-Adjustment</li>
                                         <li className='py-1' onClick={() => { setStep(15) }}>Journal Voucher</li>
+                                        <li className='py-1' onClick={() => { setStep(38) }}>Bank Receipt</li>
+                                        <li className='py-1' onClick={() => { setStep(39) }}>Bank Payment</li>
                                     </ul>
                                     : null
                             }

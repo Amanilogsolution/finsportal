@@ -14,6 +14,7 @@ import AlertsComp from '../../AlertsComp';
 
 const TotalVendAddress = () => {
   const [loading, setLoading] = useState(false)
+  const [userRightsData, setUserRightsData] = useState([]);
   const [alertObj, setAlertObj] = useState({
     type: '', text: 'Done', url: ''
   })
@@ -45,8 +46,7 @@ const TotalVendAddress = () => {
       document.getElementById('add-vend_address_btn').style.background = '#7795fa';
     }
     const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'vendor')
-    localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
+    setUserRightsData(UserRights)
     if (UserRights.vendor_create === 'true') {
       document.getElementById('add-vend_address_btn').style.display = "block";
       if (financstatus !== 'Lock') {
@@ -107,7 +107,7 @@ const TotalVendAddress = () => {
           )
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          let role = userRightsData
           if (!role) {
             fetchRoles()
             window.location.reload()
@@ -150,7 +150,7 @@ const TotalVendAddress = () => {
           return
         }
         else {
-          let role = JSON.parse(localStorage.getItem('RolesDetais'))
+          let role = userRightsData
           if (!role) {
             fetchRoles()
           }

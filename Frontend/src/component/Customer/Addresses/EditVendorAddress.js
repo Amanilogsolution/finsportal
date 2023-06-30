@@ -97,12 +97,12 @@ const EditVendorAddress = () => {
   }
 
   const handleChangePincode = async (e) => {
-    if (e.target.value.length === 7) return false
+    if (e.target.value.length >= 7) return false
     setData({ ...data, billing_address_pincode: e.target.value })
 
   }
   const handleChangePhone = async (e) => {
-    if (e.target.value.length === 11) return false;
+    if (e.target.value.length >= 11) return false;
     setData({ ...data, billing_address_phone: e.target.value })
   }
 
@@ -116,15 +116,14 @@ const EditVendorAddress = () => {
           <div className='content-wrapper'>
             <div className="container-fluid">
               <br /> <h3 className="text-left ml-5">Edit Vendor Address</h3>
-              <div className="card" style={{ width: "100%" }}>
+              <div className="card" >
                 <article className='card-body'>
                   <form autoComplete='off'>
-                    <div className="Address" id="addressdiv">
-                      <div className="Address_left">
+               
                         <label>BILLING ADDRESS</label>
                         <div className="form-row">
                           <label htmlFor="venddetail" className="col-md-2 col-form-label font-weight-normal" > Vendor Name </label>
-                          <div className="col-md-6 form-group">
+                          <div className="col-md-4 form-group">
                             <select id="venddetail" className="form-control" onChange={handleChangeCID} >
                               <option value={data.vend_id} hidden> {data.vend_name}</option>
                               {
@@ -134,23 +133,22 @@ const EditVendorAddress = () => {
                               }
                             </select>
                           </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="gstno" className="col-md-2 col-form-label font-weight-normal" > GST </label>
-                          <div className="col-md-6 form-group">
+                          <label htmlFor="gstno" className="col-md-2 col-form-label font-weight-normal text-center" > GST </label>
+                          <div className="col-md-4 form-group">
                             <input type="text" className="form-control " id="gstno" value={data.gst_no} disabled />
                           </div>
                         </div>
 
+
                         <div className="form-row">
-                          <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal"  > Address</label>
-                          <div className="col-md-6 form-group">
+                          <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal">Attention/Address</label>
+                          <div className="col-md-4 form-group">
                             <input type="text" className="form-control " id="billing_address_attention" value={data.billing_address_attention} onChange={handleChangeAttention} />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" > Country </label>
-                          <div className="col-md-6 form-group">
+                          <div className="col-md-4 form-group">
                             <select id="inputState" className="form-control" onChange={handleAddressCountry} >
                               <option value={data.billing_address_country} hidden>{data.billing_address_country}</option>
                               {
@@ -160,11 +158,8 @@ const EditVendorAddress = () => {
                               }
                             </select>
                           </div>
-                        </div>
-
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >  State </label>
-                          <div className="col-md-6 form-group">
+                          <label htmlFor="user_name" className="col-md-2 col-form-label text-center font-weight-normal" >  State </label>
+                          <div className="col-md-4 form-group">
                             <select id="inputState" className="form-control" onChange={handleChangebillingState} >
                               <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
                               {
@@ -175,9 +170,11 @@ const EditVendorAddress = () => {
                             </select>
                           </div>
                         </div>
+
+                     
                         <div className="form-row">
                           <label htmlFor="billing_address_city" className="col-md-2 col-form-label font-weight-normal" > City </label>
-                          <div className="col-md-6 form-group">
+                          <div className="col-md-4 form-group">
                             <select id="billing_address_city" className="form-control" >
                               <option hidden value={data.billing_address_city}>{data.billing_address_city}</option>
                               {
@@ -187,27 +184,25 @@ const EditVendorAddress = () => {
                               }
                             </select>
                           </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal" > Zip Code </label>
-                          <div className="col form-group">
-                            <input type="number" className="form-control col-md-7" id="billing_address_pincode" value={data.billing_address_pincode} onChange={handleChangePincode} />
+                          <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label text-center font-weight-normal" > Zip Code </label>
+                          <div className="col-md-4 form-group">
+                            <input type="number" className="form-control col" id="billing_address_pincode" value={data.billing_address_pincode} onChange={handleChangePincode} />
                           </div>
                         </div>
+                       
                         <div className="form-row">
                           <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" >  Phone</label>
-                          <div className="col form-group">
-                            <input type="number" className="form-control col-md-7" id="billing_address_phone" value={data.billing_address_phone} onChange={handleChangePhone} />
+                          <div className="col-md-4 form-group">
+                            <input type="number" className="form-control col" id="billing_address_phone" value={data.billing_address_phone} onChange={handleChangePhone} />
                           </div>
                         </div>
                         <div className="form-row">
                           <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal"> Fax </label>
-                          <div className="col form-group">
-                            <input type="text" className="form-control col-md-7" id="billing_address_fax" defaultValue={data.billing_address_fax} />
+                          <div className="col-md-4 form-group">
+                            <input type="text" className="form-control col" id="billing_address_fax" defaultValue={data.billing_address_fax} />
                           </div>
                         </div>
-                      </div>
-                    </div>
+                     
                   </form>
                 </article>
                 <div className="border-top card-footer">

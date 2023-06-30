@@ -23,13 +23,10 @@ const PreviewBill = (props) => {
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
                 <div className="modal-dialog   modal-lg" role="document" >
                     <div className="modal-content modelbillcard" >
-
                         <div className="modal-body" ref={pdfRef}>
                             <div className="modalbill border border-dark">
-
                                 <div className="bill-orgname d-flex justify-content-around align-items-center " >
                                     <div>
                                         <img className='billorglogo' src={localStorage.getItem('Orglogo')} alt='' />
@@ -42,9 +39,11 @@ const PreviewBill = (props) => {
 
                                     </div>
                                 </div>
-                                <div className="billorgbottomdiv text-center"><h5 className='m-0 font-weight-bold'>Purchase Voucher</h5></div>
+                                <div className="billorgbottomdiv text-center py-2">
+                                    <h5 className='m-0 font-weight-bold'>Purchase Voucher</h5>
+                                </div>
                                 <div className='bill-detail d-flex'>
-                                    <div className='left-bill-detail' style={{ width: "49%" }}>
+                                    <div className='left-bill-detail' style={{ width: "55%" }}>
                                         <table>
                                             <tbody>
                                                 <tr >
@@ -57,17 +56,21 @@ const PreviewBill = (props) => {
                                                 </tr>
                                                 <tr >
                                                     <th >Pay To :</th>
-                                                    <td >{props.data.pay_to}</td>
+                                                    <td >PERFECT OFFICE BUSSINESS PVT LTD.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, id modi</td>
                                                 </tr>
                                             </tbody>
                                         </table>
 
                                     </div>
-                                    <div className='right-bill-detail ml-2' style={{ width: "48%" }}>
+                                    <div className='right-bill-detail ml-2' style={{ width: "45%" }}>
                                         <table >
                                             <tbody>
                                                 <tr >
-                                                    <th >Vide/Cash/Cheque/DD: </th>
+                                                    <th >Bill no: </th>
                                                     <td >GIP173/22-23/024</td>
                                                 </tr>
                                                 <tr >
@@ -82,80 +85,72 @@ const PreviewBill = (props) => {
                                 </div>
 
                                 <div className='bill-items '>
-                                    <table className='table items-table table-borderless m-0' >
-                                        <tbody>
-                                            <tr className='billitemrow'>
-                                                <th className='first-col billitem text-center'>Sno.</th>
-                                                <th className='second-col billitem text-center'>Location</th>
-                                                <th className='second-col billitem text-center'>Item</th>
-                                                <th className='third-col billitem text-center'>Quantity</th>
-                                                <th className='four-col billitem text-center'>Rate</th>
-                                                <th className='five-col billitem text-center'>Amount</th>
-                                                <th className='six-col billitem text-center'>Deduction</th>
-                                                <th className='seven-col billitem text-center'>Unit</th>
-                                                <th className='eight-col billitem text-center'>Net Amt</th>
+                                    <table className='table table-borderless items-table'>
+                                        <tbody className='table-items-tbody'>
+                                            <tr className='text-center item-table-row'>
+                                                <th>Sno.</th>
+                                                <th>Item</th>
+                                                <th>GST Rate</th>
+                                                <th>Quantity</th>
+                                                <th>Rate</th>
+                                                <th>Unit</th>
+                                                <th>Amount</th>
                                             </tr>
                                             {
                                                 props.Allitems.map((item, index) => (
-                                                    <tr key={index} className='billitemrow'>
-                                                        <td className='first-col billitem text-center'>{index + 1}</td>
-                                                        <td className='second-col billitem text-center'>{item.location}</td>
-                                                        <td className='second-col billitem text-center'>{item.item}</td>
-                                                        <td className='third-col billitem text-center'>{item.quantity}</td>
-                                                        <td className='four-col billitem text-center'>{item.rate}</td>
-                                                        <td className='five-col billitem text-center'>{item.amount}</td>
-                                                        <td className='six-col billitem text-center'>{item.deduction}</td>
-                                                        <td className='seven-col billitem text-center'>{item.unit}</td>
-                                                        <td className='eight-col billitem text-center'>{item.netamount}</td>
+                                                    <tr key={index} className=' text-center item-table-row'>
+                                                        <td>{index + 1}</td>
+                                                        <td>{item.item}</td>
+                                                        <td>{Number(item.cgst_per) + Number(item.igst_per) + Number(item.sgst_per)}</td>
+                                                        <td>{item.quantity}</td>
+                                                        <td>{item.rate}</td>
+                                                        <td>{item.unit}</td>
+                                                        <td>{item.amount}</td>
                                                     </tr>
                                                 ))
                                             }
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                                <div className='bill-bottomdetail d-flex justify-content-end' >
-
-                                    <table className='table table-borderless m-0' >
-                                        <tbody>
-                                            <tr id='billborderbottom'>
-                                                <th className='text-right'  >Net Amount</th>
-                                                <td className='text-center'>{props.netamt}</td>
-                                            </tr>
-                                            <tr style={{ lineHeight: "16px" }}>
-                                                <th className='text-right '  >CGST</th>
-                                                <td className='text-center'>{props.data.cgst_amt}</td>
-                                            </tr>
-                                            <tr style={{ lineHeight: "16px" }}>
-                                                <th className='text-right'  >SGST</th>
-                                                <td className='text-center'>{props.data.sgst_amt}</td>
-                                            </tr>
-                                            <tr id='billborderbottom' style={{ lineHeight: "16px" }} >
-                                                <th className='text-right'  >IGST</th>
-                                                <td className='text-center'>{props.data.igst_amt}</td>
-                                            </tr>
-                                            <tr id='billborderbottom' >
-                                                <th className='text-right'>Bill Amount</th>
-                                                <td className='text-center'>{props.data.bill_amt}</td>
-                                            </tr>
-                                            <tr id='billborderbottom'>
-                                                <th className='text-right' >TDS@ {props.data.tds_per}%</th>
-                                                <td className='text-center'>{props.data.tds_amt}</td>
-                                            </tr>
-                                            <tr>
-                                                <th className='text-right' >Total Booked Amt</th>
-                                                <td className='text-center'>{props.data.net_amt}</td>
+                                            <tr className='item-table-row'>
+                                                <th colSpan={6} className='text-right border border-dark border-bottom-0 border-left-0'>Total</th>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <div className='bill-footerdiv d-flex pt-3 pl-3' style={{ borderTop: "1px solid #000" }}>
-                                    <h4>Naration: </h4>
-                                    <h5 className='mt-1'>{props.data.remarks}</h5>
 
                                 </div>
+                                <div className='bottom-table d-flex justify-content-end'>
+                                    <div className='bottominner-table'>
+                                        <table className='text-center table-bordered' style={{background:"#eee"}} >
+                                            <thead>
+                                                <tr>
+                                                    <th>Taxable Value</th>
+                                                    <th>Central Tax</th>
+                                                    <th>State Tax</th>
+                                                    <th>TDS Amt</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>2637</td>
+                                                    <td>72838</td>
+                                                    <td>782</td>
+                                                    <td>782</td>
+                                                    <td>2932</td>
+                                                </tr>
+                                            </tbody>
+                                         
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className='bottominner-table-narration p-2'>
+                                    <h5><b>Total Amount (In Words):</b> </h5>
+                                    <h6 >{props.data.remarks}</h6>
+                                </div>
+                                <div className='bottominner-table-narration p-2'>
+                                    <h5>Naration: </h5>
+                                    <h6 >{props.data.remarks}</h6>
+                                </div>
+
                             </div>
                         </div>
                         <div className="modal-footer">

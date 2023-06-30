@@ -9,9 +9,9 @@ import { getUserRolePermission } from '../../../api'
 
 const TotalBankingReceipt = () => {
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState([])
     const [userRightsData, setUserRightsData] = useState([]);
     const [financialstatus, setFinancialstatus] = useState('Lock')
+    const [data, setData] = useState([])
 
 
     useEffect(() => {
@@ -30,20 +30,20 @@ const TotalBankingReceipt = () => {
         const financstatus = localStorage.getItem('financialstatus')
         setFinancialstatus(financstatus);
 
+
+
+        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bank_recp')
+        setUserRightsData(UserRights)
+
+        if (UserRights.bank_recp_create === 'true') {
+            document.getElementById('addbankingrecebtn').style.display = "block";
         if (financstatus === 'Lock') {
-            document.getElementById('addJvbtn').style.background = '#7795fa';
+            document.getElementById('addbankingrecebtn').style.background = '#7795fa';
         }
-
-        // const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'journal_voucher')
-        // setUserRightsData(UserRights)
-        // localStorage["RolesDetais"] = JSON.stringify(UserRights)
-
-        // if (UserRights.journal_voucher_create === 'true') {
-        //     document.getElementById('addJvbtn').style.display = "block";
-        // }
+        }
     }
 
-    const columns = [ ]
+    const columns = []
 
     const tableData = {
         columns, data
@@ -57,7 +57,7 @@ const TotalBankingReceipt = () => {
                     <div className="content-wrapper">
                         <div className='d-flex justify-content-between pt-3 px-4'>
                             <h3 className="px-5">Total Banking (Receipts)</h3>
-                            <button type="button " id='addbankingrecebtn'  onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddBankingReceipt" }} className="btn btn-primary mx-4">Add Banking Receipts</button>
+                            <button type="button " style={{display:"none"}} id='addbankingrecebtn' onClick={() => { financialstatus === 'Lock' ? alert('You cannot Add in This Financial Year') : window.location.href = "./AddBankingReceipt" }} className="btn btn-primary mx-4">Add Banking Receipts</button>
                         </div>
                         <div className="container-fluid mt-2">
                             <div className="card mb-2 w-100">

@@ -1335,7 +1335,7 @@ export const Verify2fa = async (secret, otp, userid, org, userAgent) => {
 // ############################ For Employee api Start #################################
 
 export const TotalEmployee = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/totalemployee`
+    const url = `http://localhost:3008/api/totalemployee`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1344,9 +1344,9 @@ export const deleteEmployee = async (org, sno, status) => {
     return axios.post(url, { org, sno, status }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertEmployee = async (org, emp_name, wh, emp_id, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertemployee`
-    return axios.post(url, { org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
+export const InsertEmployee = async (org, emp_name, wh, emp_id, bank_name, account_no, bank_holder_name, ifsc_code, User_id, fin_year) => {
+    const url = `http://localhost:3008/api/insertemployee`
+    return axios.post(url, {org, emp_name, wh, emp_id, bank_name, account_no, bank_holder_name, ifsc_code, User_id, fin_year }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetEmployee = async (org, sno) => {
@@ -1354,9 +1354,9 @@ export const GetEmployee = async (org, sno) => {
     return axios.post(url, { org, sno }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const UpdateEmployee = async (sno, org, emp_name, wh, emp_id, User_id) => {
-    const url = `https://finsbackend.awlinternational.com/api/updateemployee`
-    return axios.post(url, { sno, org, emp_name, wh, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
+export const UpdateEmployee = async (sno, org, emp_name, wh, bank_name, account_no,bank_holder_name,ifsc_code, emp_id, User_id) => {
+    const url = `http://localhost:3008/api/updateemployee`
+    return axios.post(url, {sno, org, emp_name, wh, bank_name, account_no,bank_holder_name,ifsc_code, emp_id, User_id }).then(response => response.data).catch(error => console.log(error));
 }
 export const ActiveEmployee = async (org) => {
     const url = `http://localhost:3008/api/activeemployee`
@@ -1369,9 +1369,13 @@ export const ActiveEmployee = async (org) => {
 
 // ############################ For Purchases Bill api Start #################################
 
-export const InsertBill = async (org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, po_date, net_amt) => {
+export const InsertBill = async ( voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, payment_term,due_date, emp_id,
+    amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,sgst_amt,igst_amt,
+    gst_location_id,discount,bill_url,userid,fins_year,org) => {
     const url = `http://localhost:3008/api/insertbill`
-    return axios.post(url, { org, vourcher_no, voucher_date, vend_name, location, bill_no, bill_date, bill_amt, total_bill_amt, payment_term, due_date, amt_paid, amt_balance, amt_booked, tds_section, tds_ctype, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, fins_year, cgst_amt, sgst_amt, igst_amt, userid, vendor_id, bill_url, flagsave, po_no, po_date, net_amt }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, {  voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, payment_term,due_date, emp_id,
+    amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,sgst_amt,igst_amt,
+    gst_location_id,discount,bill_url,userid,fins_year,org }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetBillData = async (org, voucher_no) => {
     const url = `https://finsbackend.awlinternational.com/api/getbilldata`
@@ -1462,7 +1466,9 @@ export const AddUserRole = async (org, roles, role_id, description, multiorg, sa
     recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
     recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete,
     journal_voucher_view, journal_voucher_create, journal_voucher_edit, journal_voucher_delete,
-    tds_head_view, tds_head_create, tds_head_edit, tds_head_delete
+    tds_head_view, tds_head_create, tds_head_edit, tds_head_delete,
+    bank_receipt_view, bank_receipt_create, bank_receipt_edit, bank_receipt_delete,
+    bank_payment_view, bank_payment_create, bank_payment_edit, bank_payment_delete,
 ) => {
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
@@ -1506,7 +1512,9 @@ export const AddUserRole = async (org, roles, role_id, description, multiorg, sa
         recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
         recurring_bill_view, recurring_bill_create, recurring_bill_edit, recurring_bill_delete,
         journal_voucher_view, journal_voucher_create, journal_voucher_edit, journal_voucher_delete,
-        tds_head_view, tds_head_create, tds_head_edit, tds_head_delete
+        tds_head_view, tds_head_create, tds_head_edit, tds_head_delete,
+        bank_receipt_view, bank_receipt_create, bank_receipt_edit, bank_receipt_delete,
+        bank_payment_view, bank_payment_create, bank_payment_edit, bank_payment_delete,
     }).then(response => response.data).catch(error => console.log(error));
 }
 

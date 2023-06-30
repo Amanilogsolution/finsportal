@@ -3,7 +3,7 @@ import DecamalNumber from 'decimal-number-to-words';
 import './BankRecepPreview.css'
 import jsPDF from "jspdf";
 
-const BankRecepPreview = ({ orgdata }) => {
+const BankRecepPreview = ({ orgdata,bankRecpMajorData,Bankrowdata }) => {
     const pdfRef = useRef(null);
     const print = (e) => {
         e.preventDefault();
@@ -17,6 +17,7 @@ const BankRecepPreview = ({ orgdata }) => {
             margin: [5, 0, 0, 5],
         });
     };
+    console.log(bankRecpMajorData)
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="BankRecepPreview" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -39,18 +40,18 @@ const BankRecepPreview = ({ orgdata }) => {
                                         <h1 className='mb-0 border-top-0 text-center'>Bank Receipt</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt No.:</strong>{ }</div>
-                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt Date:</strong> { } </div>
+                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt No.:</strong>{bankRecpMajorData.bankRecepId}</div>
+                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt Date:</strong> {bankRecpMajorData.bankRecepDate} </div>
                                             </div>
                                             <div className=' d-flex'>
-                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Vide cash/cheque/DD.No::</strong> { }</div>
+                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Vide cash/cheque/DD.No::</strong> {bankRecpMajorData.cheq_no}</div>
                                                 <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Customer.:</strong> { } </div>
                                             </div>
                                         </div>
                                         <table id="bankrec_second_table" className='text-center' style={{ width: '100%' }}>
                                             <thead style={{ background: "#cccccc" }}>
                                                 <tr>
-                                                    <th >SNo.</th>
+                                                    <th >Sno.</th>
                                                     <th >Inv no</th>
                                                     <th >Inv Amt</th>
                                                     <th >Tds</th>
@@ -75,7 +76,7 @@ const BankRecepPreview = ({ orgdata }) => {
                                                 })} */}
                                                 <tr>
                                                     <td colSpan='4'><strong>Total</strong></td>
-                                                    <td></td>
+                                                    <td>{bankRecpMajorData.cheq_amt}</td>
                                                 </tr>
 
 
@@ -86,22 +87,23 @@ const BankRecepPreview = ({ orgdata }) => {
                                         <strong>Total ReceiveAmt Value (In Figure)</strong>
                                         <strong className='float-right'>{}</strong>
                                     </div> */}
-                                    <div className="Total_so_div p-2">
-                                        <strong>Total ReceiveAmt Value (In Words)</strong>
-                                        <strong className='float-right'>
-                                            {/* {DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()}  */}
-                                            Only</strong>
+                                    <div className="Total_so_div py-2 px-0">
+                                        <strong>Total Amt (In Words)</strong>
+                                        <span className='float-right'>
+                                            {DecamalNumber.toWords(Number(bankRecpMajorData.cheq_amt)).toUpperCase()} 
+                                            Only</span>
                                     </div>
                                     <div className="Total_so_div p-2">
                                         <strong>On Account of :</strong>
                                         <strong className='float-right'>Being amt received through UPI</strong>
                                     </div>
-                                    <div className="bankrec_Amount_tax d-flex ">
-                                        <strong style={{ margin: '12px 5px' }}>Drawn On :</strong>
+                                    <div className="bankrec_Amount_tax d-flex justify-content-between align-items-center px-4 py-2">
+                                        <strong >Drawn On :</strong>
+                                        <span>{bankRecpMajorData.bank_name}</span>
 
                                     </div>
                                     <div className="Total_bankrec_div p-2">
-                                        <strong>Remarks :</strong> { }
+                                        <strong>Remarks :</strong>  {bankRecpMajorData.remark}
                                     </div>
                                     <div className="Total_bankrec_div p-2">
                                         <strong>Signature of Authorizated Representative :</strong>

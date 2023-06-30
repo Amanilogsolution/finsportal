@@ -659,6 +659,10 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     emp_name nvarchar(100) NULL,
     wh nvarchar (30) NULL,
     emp_id nvarchar(30) NULL,
+    bank_name nvarchar(150) NULL,
+    acct_no nvarchar(100) NULL,
+    bank_holder_name nvarchar(150) NULL,
+    ifsc_code nvarchar(100) NULL,
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
@@ -668,24 +672,26 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     update_ip_address nvarchar(30) NULL,
     update_date_time datetime NULL,
     status nvarchar(30) NULL,
-    emp_uuid nvarchar(350) NULL
-   );          
+    emp_uuid nvarchar(350) NULL,
+    fin_year nvarchar(100) NULL,
+   );             
     
    CREATE TABLE  ${dbname}.dbo.tbl_bill (
     sno bigint IDENTITY(1,1) NOT NULL,
-    vourcher_no nvarchar(100) NULL,
+    voucher_no nvarchar(100) NULL,
     voucher_date date NULL,
+    vend_id nvarchar(100) NULL,
     vend_name nvarchar(100) NULL,
-    location nvarchar(200) NULL,
+    vend_location nvarchar(200) NULL,
     bill_no nvarchar(50) NULL,
     bill_date date NULL ,
     bill_amt money NULL,
-    net_amt nvarchar(100) NULL,
+    total_bill_amt nvarchar(100) NULL,
     po_no nvarchar(100) NULL,
     po_date date NULL,
-    bill_url nvarchar(400) NULL,
     payment_term nvarchar(50) NULL,
     due_date date NULL,
+    emp_id nvarchar(100) NULL,
     amt_paid money NULL,
     amt_balance money NULL,
     amt_booked nvarchar(200) NULL,
@@ -696,14 +702,17 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     taxable_amt nvarchar(200) NULL,
     non_taxable_amt nvarchar(200) NULL,
     expense_amt nvarchar(200) NULL,
-    remarks nvarchar(200) NULL,
-    fins_year nvarchar(200) NULL,
     confirm_flag nvarchar(200) NULL,
     cgst_amt nvarchar(100) NULL,
     sgst_amt nvarchar(100) NULL,
     igst_amt nvarchar(100) NULL,
+    gst_location_id nvarchar(100) NULL,
     dnflag nvarchar(100) NULL,
+    flagsave nvarchar(100) NULL,
     dn_amt nvarchar(100) NULL,
+    discount nvarchar(100) NULL,
+    bill_url nvarchar(400) NULL,
+    remarks nvarchar(200) NULL,
     
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
@@ -714,6 +723,7 @@ CREATE TABLE  ${dbname}.dbo.tbl_emp (
     update_ip_address nvarchar(30) NULL,
     update_date_time datetime NULL,
     status nvarchar(30) NULL,
+    fins_year nvarchar(200) NULL,
     bill_uuid nvarchar(350) NULL
 );
 CREATE TABLE  ${dbname}.dbo.tbl_sub_bill (
@@ -722,28 +732,15 @@ CREATE TABLE  ${dbname}.dbo.tbl_sub_bill (
     bill_no nvarchar (100) NULL,
     location nvarchar(100) NULL,
     item_name nvarchar(100) NULL,
-    emp_name nvarchar(100) NULL,
     glcode nvarchar(100) NULL,
+    sac_hsn nvarchar(100) NULL,
     qty nvarchar(100) NULL,
     rate nvarchar(100) NULL,
-    amt nvarchar(100) NULL,
     unit nvarchar(100) NULL,
-    file_no nvarchar(100) NULL,
-    deduction nvarchar(100) NULL,
-    sac_hsn nvarchar(100) NULL,
+    amt nvarchar(100) NULL,
+    gst_per nvarchar(100) NULL,
+    tds nvarchar(100) NULL,
     net_amt nvarchar(100) NULL,
-    fin_year nvarchar(100) NULL,
-    
-    add_user_name nvarchar(50) NULL,
-    add_system_name nvarchar(100) NULL,
-    add_ip_address nvarchar(30) NULL,
-    add_date_time datetime NULL,
-    update_user_name nvarchar(30) NULL,
-    update_system_name nvarchar(100) NULL,
-    update_ip_address nvarchar(30) NULL,
-    update_date_time datetime NULL,
-    status nvarchar(30) NULL,
-    sub_bill_uuid nvarchar(350) NULL
 );
 
 CREATE TABLE  ${dbname}.dbo.user_roles (
@@ -945,6 +942,15 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     tds_head_create nvarchar(100) NULL,
     tds_head_edit nvarchar(100) NULL,
     tds_head_delete nvarchar(100) NULL,
+
+    bank_recp_view nvarchar(100) NULL,
+    bank_recp_create nvarchar(100) NULL,
+    bank_recp_edit nvarchar(100) NULL,
+    bank_recp_delete nvarchar(100) NULL,
+    bank_payt_view nvarchar(100) NULL,
+    bank_payt_create nvarchar(100) NULL,
+    bank_payt_edit nvarchar(100) NULL,
+    bank_payt_delete nvarchar(100) NULL,
 
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
@@ -1532,6 +1538,8 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
              recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
              journal_voucher_view,journal_voucher_create,journal_voucher_edit,journal_voucher_delete,
              tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
+             bank_recp_view,bank_recp_create ,bank_recp_edit ,bank_recp_delete ,
+             bank_payt_view ,bank_payt_create ,bank_payt_edit ,bank_payt_delete ,
              add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
              
              )
@@ -1583,6 +1591,8 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         'true','true','true','true',
         'true','true','true','true',
         
+        'true','true','true','true',
+        'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
