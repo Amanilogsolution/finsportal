@@ -456,7 +456,7 @@ function Bills() {
 
         arr.map((item, i) => { net_amt += item })
         document.getElementById('total_bill_amt').innerHTML = netamt - net_amt
-        document.getElementById('tdstagval').innerHTML =net_amt;
+        document.getElementById('tdstagval').innerHTML = net_amt;
         document.getElementById('tdsdiv').style.display = 'none';
         // document.getElementById(`netamt${index}`).value = Aftertds
     }
@@ -547,12 +547,12 @@ function Bills() {
 
 
         const expense_amt = document.getElementById('expense_amt').value;
-        
+
 
         const cgst_amt = Number(cgstval)
         const sgst_amt = Number(sgstval)
         const igst_amt = Number(igstval)
-        
+
         const gst_location_id = document.getElementById('gstlocation').value
 
         const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
@@ -673,9 +673,6 @@ function Bills() {
             // tabledata[i].amount  = subpodata[i]["amount"]
             // tabledata[i].unit  = subpodata[i]["unit"]
 
-
-
-
             document.getElementById(`Quantity${i}`).value = subpodata[i]["quantity"]
             document.getElementById(`rate${i}`).value = subpodata[i]["rate"]
             document.getElementById(`unit${i}`).value = subpodata[i]["unit"]
@@ -683,12 +680,6 @@ function Bills() {
             document.getElementById(`local${0}`).value = 'DELHI'
             document.getElementById(`items${i}`).value = 'Bill'
         }
-
-
-
-
-
-
     }
 
     return (
@@ -697,18 +688,17 @@ function Bills() {
                 <Header />
                 {
                     loading ?
-                        <div className={`content-wrapper `}>
-                            <div className="container-fluid ">
+                        <div className='content-wrapper'>
+                            <div className="container-fluid">
                                 <h3 className="pt-3 pb-1 ml-5"> New Bill</h3>
-
-                                <div className={`card mb-2 `}>
+                                <div className='card mb-2'>
 
                                     <article className="card-body">
                                         <form autoComplete="off">
                                             <div className="form-row" >
                                                 <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >Voucher no </label>
                                                 <div className="d-flex col-md-4" >
-                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="voucher_no" placeholder="" disabled />
+                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="voucher_no" disabled />
                                                 </div>
                                                 <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">Voucher Date</label>
                                                 <div className="d-flex col-md-4 " >
@@ -798,9 +788,9 @@ function Bills() {
                                                 </div>
                                             </div>
 
-                                          
+
                                             <div className="form-row mt-2">
-                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal">Employee<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal">Employee</label>
                                                 <div className="d-flex col-md-4">
                                                     <select className="form-control ml-0 col-md-10" id="employee_name">
                                                         <option value='' hidden>Select Employee</option>
@@ -929,8 +919,12 @@ function Bills() {
                                                             </tr>
                                                         </thead>
                                                         <tbody className='position-relative'>
+                                                            <tr>
+                                                                <td style={{ width: "150px" }} className='cursor-pointer text-primary' >Taxable Amt</td>
+
+                                                            </tr>
                                                             <tr scope="row">
-                                                                <td style={{ width: "150px" }} onClick={handletogglegstdiv} className='cursor-pointer text-primary' >Total CGST Amt</td>
+                                                                <td style={{ width: "150px" }} onClick={handletogglegstdiv} className='cursor-pointer text-primary text-decoration-underline' >CGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
                                                                     <div className="input-group" >
                                                                         <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='cgst-inp' disabled />
@@ -978,7 +972,7 @@ function Bills() {
                                                             </div>
 
                                                             <tr>
-                                                                <td>Total SGST Amt</td>
+                                                                <td>SGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent border-none'>
                                                                     <div className="input-group" >
                                                                         <input type="number" className="form-control col-md-5 ml-5  cursor-notallow" id='sgst-inp' disabled />
@@ -990,7 +984,7 @@ function Bills() {
                                                                 <td className='text-center' style={{ width: "150px" }} id='sgstamt'>{sgstval}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Total IGST Amt</td>
+                                                                <td>IGST Amt</td>
                                                                 <td className='form-control col-md p-0 bg-transparent ' >
                                                                     <div className="input-group" >
                                                                         <input type='number' className="form-control col-md-5 ml-5  cursor-notallow" id='igst-inp' disabled />

@@ -43,7 +43,7 @@ const PreviewBill = (props) => {
                                     <h5 className='m-0 font-weight-bold'>Purchase Voucher</h5>
                                 </div>
                                 <div className='bill-detail d-flex'>
-                                    <div className='left-bill-detail' style={{ width: "49%" }}>
+                                    <div className='left-bill-detail' style={{ width: "55%" }}>
                                         <table>
                                             <tbody>
                                                 <tr >
@@ -66,11 +66,11 @@ const PreviewBill = (props) => {
                                         </table>
 
                                     </div>
-                                    <div className='right-bill-detail ml-2' style={{ width: "48%" }}>
+                                    <div className='right-bill-detail ml-2' style={{ width: "45%" }}>
                                         <table >
                                             <tbody>
                                                 <tr >
-                                                    <th >Vide/Cash/Cheque/DD: </th>
+                                                    <th >Bill no: </th>
                                                     <td >GIP173/22-23/024</td>
                                                 </tr>
                                                 <tr >
@@ -117,18 +117,15 @@ const PreviewBill = (props) => {
                                     </table>
 
                                 </div>
-                                <div className='bottom-table d-flex'>
-                                    <div className='bottominner-table-narration'>
-                                        <h5>Naration: </h5>
-                                        <h5 className='mt-1'>{props.data.remarks}</h5>
-                                    </div>
+                                <div className='bottom-table d-flex justify-content-end'>
                                     <div className='bottominner-table'>
-                                        <table className='text-center'>
+                                        <table className='text-center table-bordered' style={{background:"#eee"}} >
                                             <thead>
                                                 <tr>
                                                     <th>Taxable Value</th>
                                                     <th>Central Tax</th>
                                                     <th>State Tax</th>
+                                                    <th>TDS Amt</th>
                                                     <th>Total</th>
                                                 </tr>
                                             </thead>
@@ -137,18 +134,22 @@ const PreviewBill = (props) => {
                                                     <td>2637</td>
                                                     <td>72838</td>
                                                     <td>782</td>
+                                                    <td>782</td>
                                                     <td>2932</td>
                                                 </tr>
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </tfoot>
+                                         
                                         </table>
                                     </div>
                                 </div>
-
+                                <div className='bottominner-table-narration p-2'>
+                                    <h5><b>Total Amount (In Words):</b> </h5>
+                                    <h6 >{props.data.remarks}</h6>
+                                </div>
+                                <div className='bottominner-table-narration p-2'>
+                                    <h5>Naration: </h5>
+                                    <h6 >{props.data.remarks}</h6>
+                                </div>
 
                             </div>
                         </div>

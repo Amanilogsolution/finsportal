@@ -61,11 +61,6 @@
     height: 100px;
     border-top: 1px solid #000
 }
-
-.modalbill .bottom-table .bottominner-table-narration {
-    width: 40%;
-}
-
 .modalbill .bottom-table .bottominner-table {
     width: 60%;
     height: 100%;
@@ -76,11 +71,10 @@
     width: 100%;
     height: 100%;
 }
-
-.modalbill .bottom-table .bottominner-table {
-    border-color: #000;
+.modalbill .bottominner-table-narration {
+    width: 100%;
+    border-top: 1px solid #000;
 }
-
 @media screen and (min-width:1350px) {
     .modalbill .bill-orgname div {
         width: 25%;
