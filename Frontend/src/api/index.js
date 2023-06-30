@@ -1545,14 +1545,14 @@ export const DeleteUserRole = async (org, sno, status) => {
 // ############################ For Role api Start #################################
 
 // ############################ For Po api Start #################################
-export const InsertPurchaseorder = async (org, vendor_id, po_location, po_number, po_date, User_id, flagsave, poamount) => {
-    const url = `https://finsbackend.awlinternational.com/api/InsertPurchaseorder`
-    return axios.post(url, { org, vendor_id, po_location, po_number, po_date, User_id, flagsave, poamount }).then(response => response.data).catch(error => console.log(error));
+export const InsertPurchaseorder = async (org, poalldetail, ponumber, userid,fins_year, btntype) => {
+    const url = `http://localhost:3008/api/InsertPurchaseorder`
+    return axios.post(url, { org, poalldetail, ponumber, userid,fins_year, btntype }).then(response => response.data).catch(error => console.log(error));
 }
 
-export const InsertSubPurchaseorder = async (org, vendor_id, po_number, location, items, quantity, rate, amount, unit, glcode) => {
+export const InsertSubPurchaseorder = async (org, vendor_id, ponumber,poitem) => {
     const url = `http://localhost:3008/api/InsertSubPurchaseorder`
-    return axios.post(url, { org, vendor_id, po_number, location, items, quantity, rate, amount, unit, glcode }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(url, { org, vendor_id, ponumber,poitem }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetPodetailsVendor = async (org, vendor_id) => {
@@ -1561,7 +1561,7 @@ export const GetPodetailsVendor = async (org, vendor_id) => {
 }
 
 export const getSavePO = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/getsavepo`
+    const url = `http://localhost:3008/api/getsavepo`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1570,7 +1570,7 @@ export const filterPO = async (org, startDate, lastDate, vendor_id, po_location)
     return axios.post(url, { org, startDate, lastDate, vendor_id, po_location }).then(response => response.data).catch(error => console.log(error));
 }
 export const getPoDetailsPreview = async (org, po_number) => {
-    const url = `https://finsbackend.awlinternational.com/api/getPoDetailsPreview`
+    const url = `http://localhost:3008/api/getPoDetailsPreview`
     return axios.post(url, { org, po_number }).then(response => response.data).catch(error => console.log(error));
 }
 
@@ -1580,7 +1580,6 @@ export const getSubPoDetailsPreview = async (org, po_number) => {
 }
 
 export const Editpurchaseorder = async (org, new_po_number, status, po_num) => {
-    console.log(org, new_po_number, status, po_num)
     const url = `https://finsbackend.awlinternational.com/api/editpurchaseorder`
     return axios.post(url, { org, new_po_number, status, po_num }).then(response => response.data).catch(error => console.log(error));
 }

@@ -963,36 +963,17 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     status nvarchar(30) NULL,
     roles_uuid nvarchar(350) NULL
     );
-
-CREATE TABLE ${dbname}.dbo.tbl_purchase_order (
-    sno bigint IDENTITY(1,1) NOT NULL,
-    vendor_id  nvarchar(100) NULL,
-    po_location nvarchar(100) NULL,
-    po_number varchar(100) NULL,
-    po_date nvarchar(100) NULL,
-    add_date_time datetime NULL,
-    add_user_name varchar(50) NULL,
-    add_system_name varchar(50) NULL,
-    add_ip_address varchar(30) NULL,
-    update_date_time datetime NULL,
-    update_user_name varchar(50) NULL,
-    update_system_name varchar(100) NULL,
-    update_ip_address varchar(50) NULL,
-    status varchar(30) NULL,
-    po_uuid varchar(100) NULL
-    );
-
-CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
+    CREATE TABLE ${dbname}.dbo.tbl_purchase_order (
         sno bigint IDENTITY(1,1) NOT NULL,
         vendor_id  nvarchar(100) NULL,
+        vendor_location  nvarchar(100) NULL,
+        bill_add_id  nvarchar(100) NULL,
+        ship_add_id nvarchar(100) NULL,
+        ship_add_location  nvarchar(100) NULL,
         po_number varchar(100) NULL,
-        location nvarchar(100) NULL,
-        items nvarchar(100) NULL,
-        glcode nvarchar(100) NULL,
-        quantity nvarchar(100) NULL,
-        rate nvarchar(100) NULL,
-        amount nvarchar(100) NULL,
-        unit nvarchar(100) NULL,
+        po_date date NULL,  
+        po_amt  nvarchar(100) NULL,
+        flagsave nvarchar(100) NULL,
         add_date_time datetime NULL,
         add_user_name varchar(50) NULL,
         add_system_name varchar(50) NULL,
@@ -1001,8 +982,24 @@ CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
         update_user_name varchar(50) NULL,
         update_system_name varchar(100) NULL,
         update_ip_address varchar(50) NULL,
-        status varchar(30) NULL
-    );
+        status varchar(30) NULL,
+        fins_year nvarchar(100) NULL,
+        po_uuid varchar(100) NULL,
+        );
+           
+     CREATE TABLE ${dbname}.dbo.tbl_sub_purchase_order (
+            sno bigint IDENTITY(1,1) NOT NULL,
+            vendor_id  nvarchar(100) NULL,
+            po_number varchar(100) NULL,
+            items nvarchar(100) NULL,
+            glcode nvarchar(100) NULL,
+            quantity nvarchar(100) NULL,
+            rate nvarchar(100) NULL,
+            amt nvarchar(100) NULL,
+            unit nvarchar(100) NULL,
+            sac_hsn nvarchar(100) NULL,
+        );   
+        
     CREATE TABLE ${dbname}.dbo.cust_name_recoard (
             sno bigint IDENTITY(1,1) NOT NULL,
             cust_id nvarchar(100) NULL,

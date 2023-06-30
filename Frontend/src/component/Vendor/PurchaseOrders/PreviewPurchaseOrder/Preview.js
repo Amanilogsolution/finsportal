@@ -1,22 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import './Preview.css'
 import DecamalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
-import { showOrganisation } from '../../../../api'
-
 
 const PreviewPO = (props) => {
-    const [orgdata, setOrgdata] = useState([])
     const pdfRef = useRef(null);
-
-    useEffect(() => {
-        const fetchdata = async () => {
-            let org = localStorage.getItem('Organisation');
-            const result = await showOrganisation(org)
-            setOrgdata(result)
-        }
-        fetchdata()
-    }, [])
 
     const print = (e) => {
         e.preventDefault();
@@ -30,7 +18,6 @@ const PreviewPO = (props) => {
             margin: [5, 8, 8.5, 6],
         });
     };
-
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -41,12 +28,12 @@ const PreviewPO = (props) => {
                         <div className="modal-body" ref={pdfRef}>
                             <div className="po_head_div d-flex justify-content-between border border-dark">
                                 <div className="po_company_logo">
-                                    <img src={orgdata.org_logo} alt='Organisation Logo' />
+                                    <img src={props.orgdata.org_logo} alt='Organisation Logo' />
                                 </div>
                                 <div className="po_company_details m-1 p-1">
                                     <h3>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
-                                    <p>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
-                                    <p>GSTIN : {orgdata.org_gst}</p>
+                                    <p>{props.orgdata.org_street} , {props.orgdata.org_city} , {props.orgdata.org_state}, {props.orgdata.org_country}</p>
+                                    <p>GSTIN : {props.orgdata.org_gst}</p>
                                 </div>
                             </div>
                             <div className="purchases_order">
@@ -59,9 +46,7 @@ const PreviewPO = (props) => {
                                         </tr>
                                         <tr >
                                             <td>
-                                                Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Optio sunt a mollitia hic,
-                                                alias obcaecati magni ex dolorum adipisci sint.
+                                                {props.bill_add}
                                                 <br />
                                                 <br />
 
@@ -69,9 +54,7 @@ const PreviewPO = (props) => {
                                                 <strong>Contact No: </strong><br />
                                                 <strong>Email Id: </strong>
                                             </td>
-                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Eum adipisci tempora porro enim modi exercitationem corporis
-                                                sunt nulla reprehenderit necessitatibus.
+                                            <td>{props.data.ship_add_location}
 
                                                 <br />
                                                 <br />
@@ -93,8 +76,8 @@ const PreviewPO = (props) => {
                                         </tr>
                                         <tr className='text-center'>
                                             <td>{props.data.po_number}</td>
-                                            <td>{props.data.po_date} </td>
-                                            <td>{props.data.po_date}</td>
+                                            <td>{props.data.podate} </td>
+                                            <td>{props.data.podate}</td>
                                             <td></td>
                                         </tr>
                                     </tbody>
@@ -103,7 +86,7 @@ const PreviewPO = (props) => {
                                 <table id="items_table" style={{ width: '100%' }}>
                                     <tbody>
                                         <tr className='text-center'>
-                                            <th>SNo.</th>
+                                            <th>Sno.</th>
                                             <th>Item</th>
                                             <th>Qty</th>
                                             <th>Rate</th>
@@ -114,8 +97,8 @@ const PreviewPO = (props) => {
                                             props.Allitems.map((item, index) => (
                                                 <tr key={index} className='text-center'>
                                                     <td>{index + 1}</td>
-                                                    <td>{item.item}</td>
-                                                    <td>{item.qty}</td>
+                                                    <td>{item.items}</td>
+                                                    <td>{item.quantity}</td>
                                                     <td>{item.rate}</td>
                                                     <td>{item.unit}</td>
                                                     <td>{item.amt}</td>
@@ -130,11 +113,11 @@ const PreviewPO = (props) => {
                                         <tbody>
                                             <tr>
                                                 <td><strong>Total Amount in Numbers :</strong></td>
-                                                <td><strong> INR {props.data.poamount}</strong></td>
+                                                <td><strong> INR {props.data.po_amt}</strong></td>
                                             </tr>
                                             <tr style={{ borderBottom: 'none' }}>
                                                 <td><strong>Total Amount in words : </strong></td>
-                                                <td>{DecamalNumber.toWords(Number(props.data.poamount)).toUpperCase()} Only</td>
+                                                <td>{DecamalNumber.toWords(Number(props.data.po_amt)).toUpperCase()} Only</td>
                                             </tr>
                                         </tbody>
                                     </table>

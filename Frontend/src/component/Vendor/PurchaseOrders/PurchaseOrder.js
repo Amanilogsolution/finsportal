@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActivePurchesItems, Activeunit, Getfincialyearid, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount, SearchVendAddress, SelectVendorAddress } from '../../../api'
+import { ActiveVendor, ActivePurchesItems,showOrganisation, Activeunit, Getfincialyearid, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount, SearchVendAddress, SelectVendorAddress } from '../../../api'
 import Preview from './PreviewPurchaseOrder/Preview';
 import LoadingPage from '../../loadingPage/loadingPage';
 import AlertsComp from '../../AlertsComp';
@@ -11,8 +11,8 @@ function PurchaseOrder() {
     const [alertObj, setAlertObj] = useState({
         type: '', text: 'Done', url: ''
     })
-    const [totalValues, setTotalValues] = useState([1])
     const [vendorlist, setVendorlist] = useState([])
+    const [orgdata, setOrgdata] = useState([])
     const [locationstate, setLocationstate] = useState([])
     const [itemlist, setItemlist] = useState([])
     const [unitlist, setUnitlist] = useState([])
@@ -20,30 +20,15 @@ function PurchaseOrder() {
     const [vendorlocations, setVendorLocations] = useState('');
     const [vendorlocation, setVendorLocation] = useState([]);
 
-    const [poalldetail, setPOalldetail] = useState({
-        po_number: '',
-        vendor_id: '',
-        vendor_name: '',
-        po_location_id: '',
-        po_location: '',
-        po_date: '',
-        poamount: ''
-    })
-    const [poitem, setPOitems] = useState([{
-        location_id: '',
-        location: '',
-        item: '',
-        qty: '',
-        rate: '',
-        amt: '',
-        unit: '',
-        glcode: ''
-    }])
+    const [poalldetail, setPOalldetail] = useState({ po_number: '', podate: '', vendor_id: '', vendor_name: '', vendor_location: '', bill_add_id: '', bill_add: '', ship_add_id: '', ship_add_location: '', po_amt: '' })
+    let itemObj = { items: '', glcode: '', sac_hsn: '', quantity: '', rate: '', amt: '', unit: '' }
+    const [poitem, setPOitems] = useState([itemObj])
 
     useEffect(() => {
         const fetchdata = async () => {
-
             const org = localStorage.getItem('Organisation');
+            const orgData = await showOrganisation(org)
+            setOrgdata(orgData)
             const dataId = await ActiveVendor(org)
             setVendorlist(dataId)
             const units = await Activeunit(org)
@@ -73,93 +58,32 @@ function PurchaseOrder() {
         document.getElementById("po_date").value = today;
     }
 
-
-    const handleChangeLocation = (index) => {
-        const location_data = document.getElementById(`location-${index}`)
-        let location_name = location_data.options[location_data.selectedIndex].text;
-        let location_id = location_data.value
-        poitem[index].location_id = location_id
-        poitem[index].location = location_name
-    }
-
-    const handleChangeItems = (index) => {
-        const item_data = document.getElementById(`item-${index}`).value;
-        const [item, glcodes] = item_data.split('^')
-        poitem[index].item = item
-        poitem[index].glcode = glcodes
-    }
-
     const handleAdd = (e) => {
         e.preventDefault()
-        setTotalValues([...totalValues, 1])
-        let obj = { location_id: '', location: '', item: '', qty: '', rate: '', amt: '', unit: '' }
-        poitem.push(obj)
-    }
-    const handleChangeRate = (index) => {
-        const qty = document.getElementById(`quantity-${index}`).value || 0;
-        const rate = document.getElementById(`rate-${index}`).value || 0;
-        let amt = Number(qty) * Number(rate)
-        poitem[index].qty = qty
-        poitem[index].rate = rate
-        poitem[index].amt = amt
-        document.getElementById(`amount-${index}`).value = amt
-        let total_amt = 0
-        poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
-        document.getElementById('subtotalval').innerHTML = total_amt;
-
-        setPOalldetail({
-            ...poalldetail,
-            poamount: total_amt
-        })
+        let newItemRow = [...poitem]
+        newItemRow.push(itemObj)
+        setPOitems(newItemRow)
     }
 
     const handleRemove = (e) => {
         e.preventDefault()
-        if (!(totalValues.length === 1)) {
-            let newvalue = [...totalValues]
-            newvalue.pop()
-            setTotalValues(newvalue)
+        if (!(poitem.length === 1)) {
             poitem.pop()
             let total_amt = 0
             poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
             document.getElementById('subtotalval').innerHTML = total_amt;
             setPOalldetail({
                 ...poalldetail,
-                poamount: total_amt
+                po_amt: total_amt
             })
         }
     }
-
-
-    const handleVendorLocation = (e) => {
-        e.preventDefault()
-        const vendor_data = document.getElementById('vend_name')
-        let vendor_name = vendor_data.options[vendor_data.selectedIndex].text;
-        let venddor_id = vendor_data.value;
-        const location_data = document.getElementById('polocation')
-        let location_name = location_data.options[location_data.selectedIndex].text;
-        let location_id = location_data.value;
-
-        setPOalldetail({
-            ...poalldetail,
-            po_number: document.getElementById('po_no').value,
-            po_date: document.getElementById('po_date').value,
-            vendor_id: venddor_id,
-            vendor_name: vendor_name,
-            po_location_id: location_id,
-            po_location: location_name,
-            poamount: document.getElementById('subtotalval').innerHTML
-        })
+    // Vendor Select
+    const handlevendorselect = async (e) => {
+        const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
+        setVendorLocation(result1)
     }
-
-    const handleChangeUnit = (index) => {
-        const unit_data = document.getElementById(`unit-${index}`).value;
-        let data = [...poitem]
-        data[index].unit = unit_data
-        setPOitems(data)
-
-    }
-
+    // Search Vendor Address
     const handleSearchVendid = async (e) => {
         const org = localStorage.getItem('Organisation')
         if (e.target.value.length > 2) {
@@ -171,29 +95,77 @@ function PurchaseOrder() {
             setVendorLocation(result1)
         }
     }
+    // Set Major Data
+    const handleBillingLocation = (e) => {
+        e.preventDefault()
+        const vendor_data = document.getElementById('vend_name')
+        let vendor_name = vendor_data.options[vendor_data.selectedIndex].text;
+        let venddor_id = vendor_data.value;
+        const billing_location = document.getElementById('billadd')
+        let billing_location_name = billing_location.options[billing_location.selectedIndex].text;
+        let billing_location_id = billing_location.value;
+        const shipAdd_location = document.getElementById('shipAdd')
+        let shipAdd_location_name = shipAdd_location.options[shipAdd_location.selectedIndex].text;
+        let shipAdd_location_id = shipAdd_location.value;
 
-    const handlevendorselect = async (e) => {
-        // const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
-        // setVendorselectedlist(result[0])
+        setPOalldetail({
+            ...poalldetail,
+            po_number: document.getElementById('po_no').value,
+            podate: document.getElementById('po_date').value,
+            vendor_id: venddor_id,
+            vendor_name: vendor_name,
+            vendor_location: vendorlocations,
+            bill_add_id: billing_location_id,
+            bill_add: billing_location_name,
+            ship_add_id: shipAdd_location_id,
+            ship_add_location: shipAdd_location_name,
+            po_amt: document.getElementById('subtotalval').innerHTML
+        })
+    }
+    // Change Item
+    const handleChangeItems = (index) => {
+        const item_data = document.getElementById(`item-${index}`).value;
+        const itemArrData = item_data.split('^')
+        poitem[index].items = itemArrData[0]
+        poitem[index].glcode = itemArrData[1]
+        poitem[index].sac_hsn = itemArrData[2]
+    }
+    const handleChangeRate = (index) => {
+        const qty = document.getElementById(`quantity-${index}`).value || 0;
+        const rate = document.getElementById(`rate-${index}`).value || 0;
+        let amt = Number(qty) * Number(rate)
+        poitem[index].quantity = qty
+        poitem[index].rate = rate
+        poitem[index].amt = amt
+        document.getElementById(`amount-${index}`).value = amt
+        let total_amt = 0
+        poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
+        document.getElementById('subtotalval').innerHTML = total_amt;
 
+        setPOalldetail({
+            ...poalldetail,
+            po_amt: total_amt
+        })
+    }
 
-        const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
-        setVendorLocation(result1)
-
-
+    const handleChangeUnit = (index, valu) => {
+        const unit_data = valu
+        let data = [...poitem]
+        data[index].unit = unit_data
+        setPOitems(data)
     }
 
     const handleSubmit = async (btntype) => {
+        // console.log(poalldetail)
+        // console.log(poitem)
         setLoading(false)
         const org = localStorage.getItem('Organisation');
         const userid = localStorage.getItem('User_id');
-        const vendorname = poalldetail.vendor_id
-        const polocation = poalldetail.po_location_id
-        let ponumber = poalldetail.po_number
-        const podate = poalldetail.po_date
-        const poamount = poalldetail.poamount
+        const fins_year = localStorage.getItem('fin_year');
 
-        if (!vendorname || !polocation) {
+        let ponumber = poalldetail.po_number
+
+        if (!poalldetail.vendor_id || !poalldetail.vendor_location || !poalldetail.bill_add_id || !poalldetail.ship_add_id) {
             setLoading(true)
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
@@ -201,21 +173,18 @@ function PurchaseOrder() {
             if (btntype === 'save') {
                 ponumber = 'Random' + Math.floor(Math.random() * 10000)
             }
-            const result = await InsertPurchaseorder(org, vendorname, polocation, ponumber, podate, userid, btntype, poamount)
-
+            const result = await InsertPurchaseorder(org, poalldetail, ponumber, userid, fins_year, btntype)
             if (result === "Insert") {
+                await InsertSubPurchaseorder(org, poalldetail.vendor_id, ponumber, poitem)
                 if (btntype !== 'save') {
                     await Updatefinancialcount(org, 'po_count', pocount)
                 }
-                poitem.map(async (item) => {
-                    await InsertSubPurchaseorder(org, vendorname, ponumber, item.location_id, item.item, item.qty, item.rate, item.amt, item.unit, item.glcode)
-                })
+                setLoading(true)
                 setAlertObj({ type: 'success', text: 'PO Generated', url: '/SavePurchaseOrder' })
             }
             else {
                 setLoading(true)
                 setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
-
             }
         }
     }
@@ -231,13 +200,20 @@ function PurchaseOrder() {
                                 <div className="card">
                                     <article className="card-body" >
                                         <form autoComplete="off">
-                                            <div className="form-row ">
+                                            <div className="form-row">
+                                                <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >P.O Number </label>
+                                                <div className="d-flex col-md-4" >
+                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no" placeholder="" disabled />
+                                                </div>
+                                                <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">P.O Date</label>
+                                                <div className="d-flex col-md-4 " >
+                                                    <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-3">
                                                 <label htmlFor='ac_name' className="col-md-2 col-form-label font-weight-normal" >Vendor Name <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="vend_name"
-                                                        onChange={handlevendorselect}
-                                                        className="form-control col-md-10">
+                                                    <select id="vend_name" onChange={handlevendorselect} className="form-control col-md-10">
                                                         <option value='' hidden>select vendor</option>
                                                         {
                                                             vendorlist.length > 0 ?
@@ -263,12 +239,9 @@ function PurchaseOrder() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-3">
-                                                <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Billing Address <span className='text-danger'>*</span> </label>
+                                                <label htmlFor='billadd' className="col-md-2 col-form-label font-weight-normal" >Billing Address <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        onChange={handleVendorLocation}
-                                                        id="polocation"
-                                                        className="form-control col-md-10">
+                                                    <select onChange={handleBillingLocation} id="billadd" className="form-control col-md-10">
                                                         <option value='' hidden>Select location</option>
                                                         {
                                                             locationstate.map((item, index) =>
@@ -277,11 +250,9 @@ function PurchaseOrder() {
                                                     </select>
                                                 </div>
 
-                                                <label htmlFor='location' className="col-md-2 col-form-label font-weight-normal" >Shipping Address <span className='text-danger'>*</span> </label>
+                                                <label htmlFor='shipAdd' className="col-md-2 col-form-label font-weight-normal" >Shipping Address <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select
-                                                        id="polocation"
-                                                        className="form-control col-md-10">
+                                                    <select id="shipAdd" onChange={handleBillingLocation} className="form-control col-md-10">
                                                         <option value='' hidden>Select location</option>
                                                         {
                                                             locationstate.map((item, index) =>
@@ -290,16 +261,7 @@ function PurchaseOrder() {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3" >
-                                                <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >P.O Number </label>
-                                                <div className="d-flex col-md-4" >
-                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no" placeholder="" disabled />
-                                                </div>
-                                                <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">P.O Date</label>
-                                                <div className="d-flex col-md-4 " >
-                                                    <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
-                                                </div>
-                                            </div>
+
                                             <table className="table table-bordered mt-3">
                                                 <thead>
                                                     <tr>
@@ -308,12 +270,11 @@ function PurchaseOrder() {
                                                         <th scope="col">Rate</th>
                                                         <th scope="col">Unit</th>
                                                         <th scope="col">Amount</th>
-
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {
-                                                        totalValues.map((element, index) => (
+                                                        poitem.map((element, index) => (
                                                             <tr key={index}>
 
                                                                 <td className='p-1 pt-2' style={{ width: "180px" }}>
@@ -321,7 +282,7 @@ function PurchaseOrder() {
                                                                         <option value='' hidden>Select Item</option>
                                                                         {
                                                                             itemlist.map((items, index) => (
-                                                                                <option key={index} value={`${items.item_name}^${items.glcode}`} >{items.item_name}</option>
+                                                                                <option key={index} value={`${items.item_name}^${items.glcode}^${items.sac_code}^${items.hsn_code}`} >{items.item_name}</option>
 
                                                                             ))
                                                                         }
@@ -334,7 +295,7 @@ function PurchaseOrder() {
                                                                     <input type='number' id={`rate-${index}`} onChange={() => { handleChangeRate(index) }} className="form-control" />
                                                                 </td>
                                                                 <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select id={`unit-${index}`} className="form-control ml-0" onChange={() => { handleChangeUnit(index) }}>
+                                                                    <select id={`unit-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeUnit(index, e.target.value) }}>
                                                                         <option value='' hidden>Select Unit</option>
                                                                         {
                                                                             unitlist.map((item, index) =>
@@ -365,7 +326,6 @@ function PurchaseOrder() {
                                                     </tr>
                                                 </tbody>
                                             </table>
-
                                         </div>
                                     </div>
                                     <div className="card-footer border-top">
@@ -374,7 +334,7 @@ function PurchaseOrder() {
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SavePurchaseOrder' }} name="clear" className="btn btn-secondary ml-2">Cancel</button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" >Preview PO</button>
                                     </div>
-                                    <Preview data={poalldetail} Allitems={poitem} />
+                                    <Preview data={poalldetail} Allitems={poitem} orgdata={orgdata} bill_add={poalldetail.bill_add} />
 
                                 </div>
                             </div>

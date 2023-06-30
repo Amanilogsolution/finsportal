@@ -72,13 +72,13 @@ export default function SavePurchaseOrder() {
     },
     {
       name: 'PO Date',
-      selector: 'po_date',
+      selector: 'podate',
       sortable: true
     },
 
     {
-      name: 'PO Location',
-      selector: 'po_location',
+      name: 'Shipping Address',
+      selector: 'ship_add_location',
       sortable: true
     },
   ]
