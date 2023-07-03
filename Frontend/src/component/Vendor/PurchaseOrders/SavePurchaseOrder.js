@@ -19,7 +19,10 @@ export default function SavePurchaseOrder() {
       const org = localStorage.getItem('Organisation')
 
       const result = await getSavePO(org)
-      setData(result)
+      if(result.length>0){
+          setData(result)
+      }
+      
 
       fetchRoles()
     }

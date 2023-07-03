@@ -84,7 +84,7 @@ function PurchaseOrder() {
 
     const handleChangeItems = (index) => {
         const item_data = document.getElementById(`item-${index}`).value;
-        const [item, glcodes] = item_data.split('^')
+        const [item, glcodes,sac_hsn] = item_data.split('^')
         poitem[index].item = item
         poitem[index].glcode = glcodes
     }
@@ -157,7 +157,6 @@ function PurchaseOrder() {
         let data = [...poitem]
         data[index].unit = unit_data
         setPOitems(data)
-
     }
 
     const handleSearchVendid = async (e) => {
@@ -173,14 +172,8 @@ function PurchaseOrder() {
     }
 
     const handlevendorselect = async (e) => {
-        // const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
-        // setVendorselectedlist(result[0])
-
-
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
         setVendorLocation(result1)
-
-
     }
 
     const handleSubmit = async (btntype) => {
@@ -192,6 +185,8 @@ function PurchaseOrder() {
         let ponumber = poalldetail.po_number
         const podate = poalldetail.po_date
         const poamount = poalldetail.poamount
+        const vendorLocation = vendorlocations
+
 
         if (!vendorname || !polocation) {
             setLoading(true)
@@ -321,7 +316,7 @@ function PurchaseOrder() {
                                                                         <option value='' hidden>Select Item</option>
                                                                         {
                                                                             itemlist.map((items, index) => (
-                                                                                <option key={index} value={`${items.item_name}^${items.glcode}`} >{items.item_name}</option>
+                                                                                <option key={index} value={`${items.item_name}^${items.glcode}^${items.hsn_code}^${items.sac_code}`} >{items.item_name}</option>
 
                                                                             ))
                                                                         }
