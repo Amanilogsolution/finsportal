@@ -229,7 +229,7 @@ const Reportdata = () => {
                         <select className="form-control col" id='report_type' onChange={handleChangetype}>
                           <option value='' hidden>Select Type</option>
                           <option id='invoicedropdown' style={{ display: "none" }} value='Invoice'>Invoice</option>
-                          <option id='billdropdown' style={{ display: "none" }} value='Bills'>Bills</option>
+                          <option id='billdropdown' style={{ display: "none" }} value='Bills'>Purchase Journal</option>
                           <option id='podropdown' style={{ display: "none" }}  value='PO'>Purchase Order</option>
                           <option id="sodropdown" style={{ display: "none" }}  value='SO'>Sales Order</option>
                           <option id="codropdown" style={{ display: "none" }} value='CN'>Credit Note</option>

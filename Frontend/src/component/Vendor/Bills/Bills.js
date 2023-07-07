@@ -233,7 +233,7 @@ function Bills() {
         tabledata[index].amount = amt
         tabledata[index].quantity = Number(e.target.value)
         tabledata[index].rate = Number(document.getElementById(`rate${index}`).value)
-        tabledata[index].netamount = sum + amt 
+        tabledata[index].netamount = sum + amt
 
 
         let net_amt = 0;
@@ -347,10 +347,10 @@ function Bills() {
         setNetamt(net_amt)
 
         document.getElementById('gstdiv').style.display = 'none';
-        
+
     }
 
-    
+
 
     const handlegst_submit_txt = (e) => {
         e.preventDefault();
@@ -422,7 +422,7 @@ function Bills() {
         // const TdsAmount = document.getElementById('tds_amt').value
         const TdsPer = document.getElementById('tds_per').value
         document.getElementById('tdsperinp').value = TdsPer
-     
+
 
         let arr = []
         let net_amt = 0;
@@ -663,7 +663,7 @@ function Bills() {
                     loading ?
                         <div className='content-wrapper'>
                             <div className="container-fluid">
-                                <h3 className="pt-3 pb-1 ml-5"> New Bill</h3>
+                                <h3 className="pt-3 pb-1 ml-3"> Purchase Journal</h3>
                                 <div className='card mb-2'>
 
                                     <article className="card-body">
@@ -761,7 +761,7 @@ function Bills() {
                                                 </div>
                                             </div>
                                             <div className="form-row mt-2">
-                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal">Employee</label>
+                                                <label htmlFor='employee_name' className="col-md-2 col-form-label font-weight-normal">Employee</label>
                                                 <div className="d-flex col-md-4">
                                                     <select className="form-control ml-0 col-md-10" id="employee_name">
                                                         <option value='' hidden>Select Employee</option>
@@ -808,8 +808,8 @@ function Bills() {
                                                                             <option value='' hidden>Select Item</option>
                                                                             {
                                                                                 itemlist.map((items, index) => (
-                                                                                    <option key={index} 
-                                                                                    value={`${items.item_name}^${items.glcode}^${items.hsn_code}^${items.sac_code}`}
+                                                                                    <option key={index}
+                                                                                        value={`${items.item_name}^${items.glcode}^${items.hsn_code}^${items.sac_code}`}
                                                                                     >{items.item_name}</option>
 
                                                                                 ))
@@ -898,7 +898,7 @@ function Bills() {
                                                             <tr scope="row">
                                                                 <td style={{ width: "150px" }} className='text-decoration-underline' >Taxable Amount</td>
                                                                 <td className='form-control col-md p-0 bg-transparent pb-1'>
-                                                                   
+
                                                                 </td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='taxableamount'>{amt}</td>
                                                             </tr>
@@ -1047,7 +1047,7 @@ function Bills() {
                                                             <tr>
                                                                 <td>Round Off </td>
                                                                 <td className='form-control col-md p-0 bg-transparent '>
-                                                                    <input type="text" className="form-control col-md-7 ml-5" id='roundoff' onChange={(e)=>{e.preventDefault(); let value = netamt+e.target.value; setNetamt(value)}} />
+                                                                    <input type="text" className="form-control col-md-7 ml-5" id='roundoff' onChange={(e) => { e.preventDefault(); let value = netamt + e.target.value; setNetamt(value) }} />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1076,7 +1076,7 @@ function Bills() {
                                             onClick={handleClickAdd}
                                             value='post'>Post </button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SaveBillReport' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
-                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview Bill</button>
+                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview </button>
                                     </div>
                                 </div>
 

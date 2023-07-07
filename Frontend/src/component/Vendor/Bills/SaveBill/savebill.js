@@ -55,7 +55,7 @@ const BillSave = () => {
     },
     {
       name: 'Vourcher No',
-      selector: 'vourcher_no',
+      selector: 'voucher_no',
       sortable: true
     },
 
@@ -86,7 +86,7 @@ const BillSave = () => {
       selector: row => row.null,
       cell: (row) => [
         <button type="button" onClick={() => {
-          window.location.href = "/EditBill"; localStorage.setItem('vourcher_no', row.vourcher_no)
+          window.location.href = "/EditBill"; localStorage.setItem('vourcher_no', row.voucher_no)
         }} className="btn btn-danger">Edit</button>
       ]
     }
@@ -113,12 +113,12 @@ const BillSave = () => {
         <Header />
         {
           loading ?
-            <div className={`content-wrapper `}>
-              <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Bills" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add Bill </button>
+            <div className='content-wrapper'>
+              <button type="button " id='addbillbtn' style={{ marginRight: '10%', marginTop: '2%', display: "none" }} onClick={() => { financialstatus !== 'Lock' ? window.location.href = "./Bills" : alert('You cannot Add in This Financial Year') }} className="btn btn-primary float-right">Add Purchase Journal </button>
               <div className="container-fluid">
-                <h3 className="py-4 ml-5"> Save Bill </h3>
+                <h3 className="py-4 ml-5"> Save Purchase Journal </h3>
                 <div className="card" >
-                  <article className={`card-body py-1`}>
+                  <article className='card-body py-1'>
                     <DataTableExtensions {...tableData}>
                       <DataTable
                         noHeader

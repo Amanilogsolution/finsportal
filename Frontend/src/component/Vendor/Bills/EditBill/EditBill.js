@@ -72,7 +72,7 @@ function Bills() {
                     loading ?
                         <div className={`content-wrapper `}>
                             <div className="container-fluid ">
-                                <h3 className="pt-3 pb-1 ml-5"> Update Bill</h3>
+                                <h3 className="pt-3 pb-1 ml-5"> Update Purchase Journal</h3>
 
                                 <div className={`card mb-2 `}>
                                     <article className="card-body">

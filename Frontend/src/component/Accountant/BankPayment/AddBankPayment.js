@@ -198,6 +198,7 @@ function AddBankingPayment() {
         if (!onAccount) {
             const bills = await GetBillVendorID(localStorage.getItem('Organisation'), id)
             setVendorBilllist(bills)
+            console.log(bills)
             offCustomModal('SelectVendorModal');
             document.getElementById('billCustomModal').style.display = "block"
             bankPayMinData[currentindex].vendorId = id;
@@ -239,11 +240,16 @@ function AddBankingPayment() {
         rowsInput.pop()
         let newRowData;
         newRowData = [...rowsInput, ...selectedBillData]
-        setSelectedBillIndex([]);
-        setSelectedBillData([]);
-        offCustomModal('billCustomModal')
-        setBankPayMinData(newRowData)
 
+        setSelectedBillData([]);
+        selectedBillIndex.map((item)=>(
+            document.getElementById(`billcheck-${item}`).checked=false
+        ))
+        setSelectedBillIndex([]);
+        offCustomModal('billCustomModal')
+     
+        setBankPayMinData(newRowData)
+        
         setTimeout(() => {
             for (let i = currentindex; i < newRowData.length; i++) {
                 document.getElementById(`location-${i}`).disabled = true
@@ -463,7 +469,7 @@ function AddBankingPayment() {
             <BankPayPreview orgdata={orgdata} bankPayMinData={bankPayMinData} majorBankData={majorBankData}/>
 
             {/* ###################### Vendor Custom Modal ############################### */}
-            <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
+            <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "120%", display: "none" }} tabIndex="-1" role="dialog" >
                 <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
                     <div className="modal-content">
                         <div className="modal-header">
@@ -492,21 +498,21 @@ function AddBankingPayment() {
                             </table>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary"
+                            {/* <button type="button" className="btn btn-secondary"
                                 onClick={() => { offCustomModal('SelectVendorModal') }}
-                            >Close</button>
+                            >Close</button> */}
                         </div>
                     </div>
                 </div>
             </div>
             {/* ############## Bill Custome Modal ################################# */}
-            <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" >
+            <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "122%", display: "none"}} tabIndex="-1" role="dialog" >
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document" style={{ width: '55vw' }}>
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLongTitle">Select Bill</h5>
+                            <h5 className="modal-title" id="exampleModalLongTitle">Select Purchase Journal</h5>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body overflow-auto position-relative p-2" style={{ maxHeight: '40vh' }}>
                             <table className="table  table-striped table-sm ">
                                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                                     <tr>
@@ -521,10 +527,10 @@ function AddBankingPayment() {
                                         vendorBilllist.map((bill, index) =>
                                             <tr key={index} className="cursor-pointer" >
                                                 <td className="pl-3"><input type="checkbox" id={`billcheck-${index}`}
-                                                    onChange={() => { handleSetBillData(index, bill.vourcher_no, bill.voudate, bill.total_bill_amt, bill.location) }}
+                                                    onChange={() => { handleSetBillData(index, bill.voucher_no, bill.voudate, bill.total_bill_amt, bill.gst_location_id) }}
                                                 /></td>
 
-                                                <td className="pl-3 text-left">{bill.vourcher_no}</td>
+                                                <td className="pl-3 text-left">{bill.voucher_no}</td>
                                                 <td className="pl-3 text-center">{bill.voudate}</td>
                                                 <td className="pl-3 text-right">{bill.total_bill_amt}</td>
                                             </tr>
