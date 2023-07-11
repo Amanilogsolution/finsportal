@@ -33,7 +33,7 @@ const InsertCountry = async (req, res) => {
     const uuid = uuidv1()
     try {
         await sql.connect(sqlConfig)
-        const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_countries where country_name='${country_name}' OR country_id='${country_id}' OR country_code='${country_code}' OR country_phonecode='${country_phonecode}'`)
+        const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_countries where country_name='${country_name}' OR country_id='${country_id}' OR country_code='${country_code}' AND country_phonecode='${country_phonecode}'`)
         if (!duplicate.recordset.length) {
             const result = await sql.query(`insert into FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode,country_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
         values('${country_name}','${country_id}','${country_code}','${country_phonecode}','${uuid}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)

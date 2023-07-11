@@ -48,7 +48,7 @@ function AddLocation() {
     const User_id = localStorage.getItem('User_id');
     const fins_year = localStorage.getItem('fin_year')
 
-    if (!selectedcountry || !selectedstate || !Location_name || !gst_no || contact_phone1.length < 10 || contact_phone2.length < 10) {
+    if (!selectedcountry || !selectedstate || !Location_name ) {
       setLoading(true)
       setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }

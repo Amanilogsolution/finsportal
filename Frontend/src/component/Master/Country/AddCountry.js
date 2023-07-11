@@ -64,7 +64,7 @@ const AddCountry = () => {
                     <div className="form-row">
                       <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country ID</label>
                       <div className="col form-group">
-                        <input type="number" className="form-control col-md-4" id='country_id' />
+                        <input type="text" className="form-control col-md-4" id='country_id' />
                       </div>
                     </div>
 

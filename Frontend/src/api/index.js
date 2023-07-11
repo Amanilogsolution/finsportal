@@ -128,7 +128,7 @@ export const Activecountries = async () => {
 }
 
 export const InsertCountry = async (User_id, country_name, country_id, country_code, country_phonecode) => {
-    const url = `https://finsbackend.awlinternational.com/api/insertcountry`
+    const url = `http://localhost:3008/api/insertcountry`
     return axios.post(url, { User_id, country_name, country_id, country_code, country_phonecode }).then(response => response.data).catch(error => console.log(error));
 }
 

@@ -43,7 +43,7 @@ const StateMaster = () => {
         setAlertObj({ type: 'warning', text: 'Already!', url: '' })
       }
       else {
-        setAlertObj({ type: 'success', text: 'Country Added', url: '/ShowState' })
+        setAlertObj({ type: 'success', text: 'State Added', url: '/ShowState' })
       }
     }
 
