@@ -84,22 +84,19 @@ function EditLocation() {
 
   return (
     <div className="wrapper">
-      {/* <div className="preloader flex-column justify-content-center align-items-center">
-        <div className="spinner-border" role="status"> </div>
-      </div> */}
       <Header />
       {
         loading ?
           <div className='content-wrapper'>
             <div className="container-fluid">
-              <br /> <h3 className="text-left ml-5">Edit Location</h3>
-              <div className="card" style={{ width: "100%" }}>
+              <br /> <h3 className="ml-5">Edit Location</h3>
+              <div className="card">
                 <article className='card-body'>
                   <form autoComplete='off'>
                     <div className="form-row">
                       <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country</label>
                       <div className="col form-group">
-                        <select className="form-control col-md-4 cursor-notallow" id='country' onChange={handleAddressCountry} disabled>
+                        <select className="form-control col-md-10 cursor-notallow" id='country' onChange={handleAddressCountry} disabled>
                           <option hidden value={data.country}> {data.country}</option>
                           {
                             country.map((data, index) =>
@@ -107,12 +104,9 @@ function EditLocation() {
                           }
                         </select>
                       </div>
-                    </div>
-
-                    <div className="form-row">
                       <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal ">State</label>
                       <div className="col form-group">
-                        <select id="inputState" className="form-control col-md-4 cursor-notallow" onChange={handlechangestate} disabled >
+                        <select id="inputState" className="form-control col-md-10 cursor-notallow" onChange={handlechangestate} disabled >
                           <option hidden value={data.state}> {data.state}</option>
                           {
                             state.map((data, index) => (
@@ -122,6 +116,8 @@ function EditLocation() {
                         </select>
                       </div>
                     </div>
+
+
 
                     <div className="form-row">
                       <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>

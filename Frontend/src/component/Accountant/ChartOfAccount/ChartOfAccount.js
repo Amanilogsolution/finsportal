@@ -4,7 +4,7 @@ import Footer from "../../Footer/Footer";
 import { ShowChartOfAccount, ChartOfAccountParentAccount, ParentAccountNumber, AddAccountName, AddSubAccountName, AddNewSubAccountName } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
 import AlertsComp from '../../AlertsComp';
-
+import './ChartOfAccount.css'
 
 function ChartOfAccount() {
   const [loading, setLoading] = useState(false)
@@ -116,7 +116,7 @@ function ChartOfAccount() {
       {
         loading ?
           <div className='content-wrapper py-2'>
-            <div className='card w-50 m-auto'>
+            <div className='card m-auto  chart_of_acct_main_div'>
               <article className="card-body" >
                 <h3 className='text-center'>Chart Of Account</h3>
                 <form autoComplete="off">

@@ -427,24 +427,7 @@ function AddBankingPayment() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/* <div className="rounded py-1 px-2" style={{ width: "50%", background: '#eee' }}>
-                                                <table className="w-100">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Total CR</td>
-                                                            <td id="Subtotal"> <span id="totalcrval">0</span> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td> Total DR</td>
-                                                            <td id="Subtotal"> <span id="totaldrval">0</span> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="text-danger">Difference </td>
-                                                            <td id="Subtotal"> <span id="difference">0</span></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div> */}
+                                         
                                         </div>
                                     </form>
                                 </article>
@@ -620,7 +603,7 @@ function AddBankingPayment() {
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
                                                 </tr>
                                             ))
-                                            : 'Select Customer'
+                                            : <tr><td>Select Customer</td></tr>
                                     }
                                 </tbody>
                             </table>

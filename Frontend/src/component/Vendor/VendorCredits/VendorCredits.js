@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import './VendorCredit.css'
 import Header from "../../Header/Header";
 import { getDNData, GetBillData, GetSubBillItems, UpdateDebitNote, InsertSubDebitNote, SelectDnSubDetails,UpdateBillDNFlag } from "../../../api/index"
 import Footer from "../../Footer/Footer";
@@ -254,8 +255,8 @@ function VendorCredits() {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div className='d-flex justify-content-between'>
-                                                <div style={{ width: "40%" }}>
+                                            <div className='d-flex justify-content-between dn_bottom_sec'>
+                                                <div className='dn_bottom_remark_sec'>
                                                     <div className="form p-0">
                                                         <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remark</label>
                                                         <div className="d-flex col-md px-0">
@@ -263,10 +264,9 @@ function VendorCredits() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div style={{ width: "55%", marginLeft: "3px", padding: "5px", backgroundColor: "#eee", borderRadius: "7px" }}>
+                                                <div className='dn_bottom_gst_sec'>
                                                     <table className='mx-3' style={{ width: "95%" }}>
-                                                        <tbody >
-                                                           
+                                                        <tbody>
                                                             <tr scope="row">
                                                                 <td colSpan='2' className=''><h4>Bill Amount</h4></td>
                                                                 <td className='text-center' ><h4>{billdata.bill_amt}</h4></td>
@@ -276,10 +276,10 @@ function VendorCredits() {
                                                                 <td id="totalCnAmt" className="text-danger text-center" style={{ minWidth: '100px' }}><h4>0</h4></td>
                                                             </tr>
                                                             <tr>
-                                                                <td className='col-md-4'>IGST</td>
-                                                                <td className=' col-md-3 p-0 bg-transparent '>
-                                                                    <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-2  cursor-notallow" id='igst-inp' disabled />
+                                                                <td className=''>IGST</td>
+                                                                <td className='dn_bottom_table_col2'>
+                                                                    <div className="input-group col" >
+                                                                        <input type="number" className="form-control cursor-notallow" id='igst-inp' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -288,10 +288,10 @@ function VendorCredits() {
                                                                 <td className=' text-center'>{billdata.igst_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td className='col-md-4'>CGST</td>
-                                                                <td className='col-md-4 p-0 bg-transparent'>
-                                                                    <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-2   cursor-notallow" id='cgst-inp' disabled />
+                                                                <td className=''>CGST</td>
+                                                                <td className='dn_bottom_table_col2'>
+                                                                    <div className="input-group col" >
+                                                                        <input type="number" className="form-control cursor-notallow" id='cgst-inp' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -300,10 +300,10 @@ function VendorCredits() {
                                                                 <td className='text-center'>{billdata.cgst_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td className='col-md-4'>SGST</td>
-                                                                <td className=' col-md p-0 bg-transparent'>
-                                                                    <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-2  cursor-notallow" id='sgst-inp' disabled />
+                                                                <td className=''>SGST</td>
+                                                                <td className='dn_bottom_table_col2'>
+                                                                    <div className="input-group col" >
+                                                                        <input type="number" className="form-control cursor-notallow" id='sgst-inp' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -312,10 +312,10 @@ function VendorCredits() {
                                                                 <td className='text-center'>{billdata.sgst_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td className='col-md-4'>Total GST</td>
-                                                                <td className=' col-md p-0 bg-transparent'>
-                                                                    <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-2   cursor-notallow" id='tgst-inp' disabled />
+                                                                <td className=''>Total GST</td>
+                                                                <td className='dn_bottom_table_col2'>
+                                                                    <div className="input-group col" >
+                                                                        <input type="number" className="form-control cursor-notallow" id='tgst-inp' disabled />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -324,10 +324,10 @@ function VendorCredits() {
                                                                 <td className='text-center'>{billdata.taxable_amt}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td className='col-md-4'>TDS</td>
-                                                                <td className=' col-md p-0 bg-transparent'>
-                                                                    <div className="input-group" >
-                                                                        <input type="number" className="form-control col-md-2 cursor-notallow" id='cgst-inp' disabled defaultValue={billdata.tds_per} />
+                                                                <td className=''>TDS</td>
+                                                                <td className='dn_bottom_table_col2'>
+                                                                    <div className="input-group col" >
+                                                                        <input type="number" className="form-control cursor-notallow" id='cgst-inp' disabled defaultValue={billdata.tds_per} />
                                                                         <div className="input-group-append">
                                                                             <span className="input-group-text">%</span>
                                                                         </div>
@@ -356,7 +356,7 @@ function VendorCredits() {
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" ref={btn} class="btn" data-toggle="modal" data-target="#exampleModal1">
+                            <button type="button" ref={btn} className="btn" data-toggle="modal" data-target="#exampleModal1">
                             </button>
                         </div>
 
@@ -368,22 +368,22 @@ function VendorCredits() {
                 DebitCodeSub.length > 0 ? <VendorCreditsPreview data={billdata} Dndata={Dndata} DebitCodeSub={DebitCodeSub} /> : null
             }
             {/* #######################  Modal ###################################### */}
-            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">DebitNote Request</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="exampleModal1" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">DebitNote Request</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <p>{`${subTotal.length > 0 ? document.getElementById('totalCnAmt').innerHTML : '0'} is less than 
                             ${Dndata.total_dn_amt}  Are you Still want to make a Request`}</p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                            <button type="button" class="btn btn-primary" onClick={handleClick}>Yes</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="button" className="btn btn-primary" onClick={handleClick}>Yes</button>
                         </div>
                     </div>
                 </div>

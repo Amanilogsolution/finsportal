@@ -75,19 +75,17 @@ function AddOrgAddress() {
               <div className='card mb-2'>
                 <article className="card-body py-1">
                   <form autoComplete='off' >
-                    <div className="form-row">
+                    <div className="form-row mt-2">
                       <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
                       <div className="col form-group">
-                        <input type="text" className="form-control col-md-4 cursor-notallow" id='location_country' defaultValue={data.country} disabled />
+                        <input type="text" className="form-control col-md-10 cursor-notallow" id='location_country' defaultValue={data.country} disabled />
+                      </div>
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
+                      <div className="col form-group">
+                        <input type="text" className="form-control col-md-10 cursor-notallow" id='location_state' defaultValue={data.state} disabled />
                       </div>
                     </div>
 
-                    <div className="form-row">
-                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4 cursor-notallow" id='location_state' defaultValue={data.state} disabled />
-                      </div>
-                    </div>
 
                     <div className="form-row">
                       <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>

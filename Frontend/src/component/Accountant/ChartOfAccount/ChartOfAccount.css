@@ -1,0 +1,14 @@
+.chart_of_acct_main_div{
+    width: 50%;
+}
+
+@media screen and (max-width:768px){
+    .chart_of_acct_main_div{
+        width: 90%;
+    }
+}
+@media screen and (max-width:450px){
+    .chart_of_acct_main_div{
+        width: 96%;
+    }
+}

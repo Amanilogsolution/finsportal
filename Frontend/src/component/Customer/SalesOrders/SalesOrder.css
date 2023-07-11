@@ -1,0 +1,23 @@
+.so_bottom_remark_sec {
+    width: 40%;
+}
+
+.so_bottom_total_div {
+    width: 55%;
+    background: #eee;
+    border-radius: 7px;
+}
+
+@media screen and (max-width:768px) {
+    .so_bottom_sec {
+        flex-direction: column-reverse;
+    }
+
+    .so_bottom_remark_sec {
+        width: 100%;
+    }
+    .so_bottom_total_div {
+        margin-top: 5px;
+        width: 100%;
+    }
+}

@@ -1,12 +1,52 @@
-.vendlocation-li{
+.vendlocation-li {
     padding: 5px 0px 5px 10px;
     margin-left: 5px;
 }
 
 
-.vendlocation-li:not(:first-child){
-    border-top:1px solid rgb(174, 171, 171);
+.vendlocation-li:not(:first-child) {
+    border-top: 1px solid rgb(174, 171, 171);
 }
-.vendlocation-li:hover{
+
+.vendlocation-li:hover {
     background: rgb(203, 203, 203);
+}
+
+.bill_bottom_sec .bill_bottom_div {
+    width: 40%;
+}
+
+.bill_bottom_sec .bill_remark_sec {
+    width: 40%;
+}
+
+.bill_bottom_sec .bill_gsttds_sec {
+    width: 55%;
+    background: #eee;
+    border-radius: 7px;
+}
+
+.bill_bottom_sec .bill_gsttds_sec .bill_gsttds_tablecol2 {
+    width: 150px;
+    padding: 0%;
+}
+
+@media screen and (max-width:768px) {
+    .bill_bottom_sec {
+        flex-direction: column-reverse;
+    }
+
+    .bill_bottom_sec .bill_remark_sec {
+        width: 80%;
+    }
+
+    .bill_bottom_sec .bill_gsttds_sec {
+        width: 100%;
+    }
+}
+@media screen and (max-width:400px) {
+    .bill_bottom_sec .bill_remark_sec {
+        width: 100%;
+    }
+
 }

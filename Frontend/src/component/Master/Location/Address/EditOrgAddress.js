@@ -91,37 +91,28 @@ function EditOrgAddress() {
                 <article className='card-body'>
                   <form autoComplete='off'>
                     <div className="form-row">
-                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4 cursor-notallow" id='country_name' defaultValue={data.location_name} disabled />
-                      </div>
-                    </div>
-
-                    <div className="form-row">
-                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">GST No</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4 cursor-notallow" id='country_id' defaultValue={data.gstin_no} disabled />
-                      </div>
-                    </div>
-
-                    <div className="form-row">
                       <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">Country</label>
                       <div className="col form-group">
-                        <input type="text" className="form-control col-md-4 cursor-notallow" id='location_country'
-                          defaultValue={data.location_country}
-                          disabled
-                        />
+                        <input type="text" className="form-control col-md-10 cursor-notallow" id='location_country' defaultValue={data.location_country} disabled />
+                      </div>
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
+                      <div className="col form-group">
+                        <input type="text" className="form-control col-md-10 cursor-notallow" id='location_state' defaultValue={data.location_state} disabled />
                       </div>
                     </div>
 
                     <div className="form-row">
-                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">State</label>
+                      <label htmlFor="location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
                       <div className="col form-group">
-                        <input type="text" className="form-control col-md-4 cursor-notallow" id='location_state' defaultValue={data.location_state}
-                          disabled
-                        />
+                        <input type="text" className="form-control col-md-10 cursor-notallow" id='location_name' defaultValue={data.location_name} disabled />
+                      </div>
+                      <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
+                      <div className="col form-group">
+                        <input type="text" className="form-control col-md-10 cursor-notallow" id='gst_no' defaultValue={data.gstin_no} disabled />
                       </div>
                     </div>
+
+
 
                     <div className="form-row">
                       <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal">City</label>

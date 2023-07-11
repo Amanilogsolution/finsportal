@@ -124,61 +124,56 @@ export default function EditPurchaseOrder() {
                                                 </div>
                                             </div>
 
-
-
-                                            <table className="table mt-4 table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Item</th>
-                                                        <th scope="col">Quality</th>
-                                                        <th scope="col">Rate</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Unit</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        subinv.map((element, index) => (
-                                                            <tr key={index}>
-                                                                <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <input type='text' id={`item${index}`} value={element.items} className="form-control" disabled />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`Quantity${index}`} value={element.quantity} className="form-control" disabled />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id="Rate"
-                                                                        value={element.rate} className="form-control" disabled />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`Amount${index}`} value={element.amt} className="form-control cursor-notallow" disabled />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select className="form-control ml-0" disabled>
-                                                                        <option value='' hidden>{element.unit}</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                    }
-                                                </tbody>
-                                            </table>
+                                            <div className='w-100 overflow-auto'>
+                                                <table className="table mt-4 table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Item</th>
+                                                            <th scope="col">Quality</th>
+                                                            <th scope="col">Rate</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Unit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            subinv.map((element, index) => (
+                                                                <tr key={index}>
+                                                                    <td className='p-1 pt-2' style={{ width: "180px" }}>
+                                                                        <input type='text' id={`item${index}`} value={element.items} className="form-control" disabled />
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <input type='number' id={`Quantity${index}`} value={element.quantity} className="form-control" disabled />
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <input type='number' id="Rate"
+                                                                            value={element.rate} className="form-control" disabled />
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <input type='number' id={`Amount${index}`} value={element.amt} className="form-control cursor-notallow" disabled />
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <select className="form-control ml-0" disabled>
+                                                                            <option value='' hidden>{element.unit}</option>
+                                                                            {
+                                                                                unitlist.map((item, index) =>
+                                                                                    <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </form>
                                     </article>
                                     <div className='d-flex justify-content-end '>
-                                        <div className='rounded py-1 mx-5' style={{ width: "25%" }}>
-                                            <table className='w-100'>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><h4 id='subtotalbtn'> Total</h4></td>
-                                                        <td id="Subtotal"><h5>INR {data.po_amt}</h5></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <div className='rounded py-1 mx-5 col-md-3 d-flex justify-content-between' >
+                                            <h4 id='subtotalbtn'> Total</h4>
+                                            <div id="Subtotal"><h5>INR {data.po_amt}</h5></div>
+
                                         </div>
                                     </div>
 

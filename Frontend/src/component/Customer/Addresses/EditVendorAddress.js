@@ -119,90 +119,86 @@ const EditVendorAddress = () => {
               <div className="card" >
                 <article className='card-body'>
                   <form autoComplete='off'>
-               
-                        <label>BILLING ADDRESS</label>
-                        <div className="form-row">
-                          <label htmlFor="venddetail" className="col-md-2 col-form-label font-weight-normal" > Vendor Name </label>
-                          <div className="col-md-4 form-group">
-                            <select id="venddetail" className="form-control" onChange={handleChangeCID} >
-                              <option value={data.vend_id} hidden> {data.vend_name}</option>
-                              {
-                                getvendname.map((item, index) =>
-                                  <option key={index} value={item.vend_id}>{item.vend_name}</option>
-                                )
-                              }
-                            </select>
-                          </div>
-                          <label htmlFor="gstno" className="col-md-2 col-form-label font-weight-normal text-center" > GST </label>
-                          <div className="col-md-4 form-group">
-                            <input type="text" className="form-control " id="gstno" value={data.gst_no} disabled />
-                          </div>
-                        </div>
+                    <label>BILLING ADDRESS</label>
+                    <div className="form-row">
+                      <label htmlFor="venddetail" className="col-md-2 col-form-label font-weight-normal" > Vendor Name </label>
+                      <div className="col-md-4 form-group">
+                        <select id="venddetail" className="form-control col-md-10" onChange={handleChangeCID} >
+                          <option value={data.vend_id} hidden> {data.vend_name}</option>
+                          {
+                            getvendname.map((item, index) =>
+                              <option key={index} value={item.vend_id}>{item.vend_name}</option>
+                            )
+                          }
+                        </select>
+                      </div>
+                      <label htmlFor="gstno" className="col-md-2 col-form-label font-weight-normal" > GST </label>
+                      <div className="col-md-4 form-group">
+                        <input type="text" className="form-control col-md-10" id="gstno" value={data.gst_no} disabled />
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" > Country </label>
+                      <div className="col-md-4 form-group">
+                        <select id="inputState" className="form-control col-md-10" onChange={handleAddressCountry} >
+                          <option value={data.billing_address_country} hidden>{data.billing_address_country}</option>
+                          {
+                            selectedCountry.map((item, index) => (
+                              <option key={index} value={item.country_name}>{item.country_name}</option>
+                            ))
+                          }
+                        </select>
+                      </div>
+                      <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" >  State </label>
+                      <div className="col-md-4 form-group">
+                        <select id="inputState" className="form-control col-md-10" onChange={handleChangebillingState} >
+                          <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
+                          {
+                            selectState.map((data, index) => (
+                              <option key={index} value={data.state_name}>{data.state_name}</option>
+                            ))
+                          }
+                        </select>
+                      </div>
+                    </div>
 
 
-                        <div className="form-row">
-                          <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal">Attention/Address</label>
-                          <div className="col-md-4 form-group">
-                            <input type="text" className="form-control " id="billing_address_attention" value={data.billing_address_attention} onChange={handleChangeAttention} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="user_name" className="col-md-2 col-form-label font-weight-normal" > Country </label>
-                          <div className="col-md-4 form-group">
-                            <select id="inputState" className="form-control" onChange={handleAddressCountry} >
-                              <option value={data.billing_address_country} hidden>{data.billing_address_country}</option>
-                              {
-                                selectedCountry.map((item, index) => (
-                                  <option key={index} value={item.country_name}>{item.country_name}</option>
-                                ))
-                              }
-                            </select>
-                          </div>
-                          <label htmlFor="user_name" className="col-md-2 col-form-label text-center font-weight-normal" >  State </label>
-                          <div className="col-md-4 form-group">
-                            <select id="inputState" className="form-control" onChange={handleChangebillingState} >
-                              <option value={data.billing_address_state} hidden>{data.billing_address_state}</option>
-                              {
-                                selectState.map((data, index) => (
-                                  <option key={index} value={data.state_name}>{data.state_name}</option>
-                                ))
-                              }
-                            </select>
-                          </div>
-                        </div>
+                    <div className="form-row">
+                      <label htmlFor="billing_address_city" className="col-md-2 col-form-label font-weight-normal" > City </label>
+                      <div className="col-md-4 form-group">
+                        <select id="billing_address_city" className="form-control col-md-10" >
+                          <option hidden value={data.billing_address_city}>{data.billing_address_city}</option>
+                          {
+                            selectCity.map((data, index) => (
+                              <option key={index} value={data.city_name}>{data.city_name}</option>
+                            ))
+                          }
+                        </select>
+                      </div>
+                      <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label font-weight-normal" > Zip Code </label>
+                      <div className="col-md-4 form-group">
+                        <input type="number" className="form-control col-md-10" id="billing_address_pincode" defaultValue={data.billing_address_pincode} onChange={handleChangePincode} />
+                      </div>
+                    </div>
 
-                     
-                        <div className="form-row">
-                          <label htmlFor="billing_address_city" className="col-md-2 col-form-label font-weight-normal" > City </label>
-                          <div className="col-md-4 form-group">
-                            <select id="billing_address_city" className="form-control" >
-                              <option hidden value={data.billing_address_city}>{data.billing_address_city}</option>
-                              {
-                                selectCity.map((data, index) => (
-                                  <option key={index} value={data.city_name}>{data.city_name}</option>
-                                ))
-                              }
-                            </select>
-                          </div>
-                          <label htmlFor="billing_address_pincode" className="col-md-2 col-form-label text-center font-weight-normal" > Zip Code </label>
-                          <div className="col-md-4 form-group">
-                            <input type="number" className="form-control col" id="billing_address_pincode" value={data.billing_address_pincode} onChange={handleChangePincode} />
-                          </div>
-                        </div>
-                       
-                        <div className="form-row">
-                          <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" >  Phone</label>
-                          <div className="col-md-4 form-group">
-                            <input type="number" className="form-control col" id="billing_address_phone" value={data.billing_address_phone} onChange={handleChangePhone} />
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal"> Fax </label>
-                          <div className="col-md-4 form-group">
-                            <input type="text" className="form-control col" id="billing_address_fax" defaultValue={data.billing_address_fax} />
-                          </div>
-                        </div>
-                     
+                    <div className="form-row">
+                      <label htmlFor="inputState" className="col-md-2 col-form-label font-weight-normal">Attention/Address</label>
+                      <div className="col-md-4 form-group">
+                        <input type="text" className="form-control col-md-10" id="billing_address_attention" defaultValue={data.billing_address_attention} onChange={handleChangeAttention} />
+                      </div>
+                      <label htmlFor="billing_address_phone" className="col-md-2 col-form-label font-weight-normal" >  Phone</label>
+                      <div className="col-md-4 form-group">
+                        <input type="number" className="form-control col-md-10" id="billing_address_phone" defaultValue={data.billing_address_phone} onChange={handleChangePhone} />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <label htmlFor="billing_address_fax" className="col-md-2 col-form-label font-weight-normal"> Fax </label>
+                      <div className="col-md-4 form-group">
+                        <input type="text" className="form-control col-md-10" id="billing_address_fax" defaultValue={data.billing_address_fax} />
+                      </div>
+                    </div>
+
                   </form>
                 </article>
                 <div className="border-top card-footer">

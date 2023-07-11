@@ -5,7 +5,7 @@ import { ActiveCustomer, ShowCustAddress, ActiveAccountMinorCode, ActiveItems, A
 import Preview from './PreviewSalesOrder/PreviewSalesOrder';
 import LoadingPage from '../../loadingPage/loadingPage';
 import AlertsComp from '../../AlertsComp';
-
+import './SalesOrder.css'
 function SalesOrder() {
     const [loading, setLoading] = useState(false)
     const [alertObj, setAlertObj] = useState({
@@ -271,13 +271,19 @@ function SalesOrder() {
                                     <article className="card-body">
                                         <form autoComplete="off">
                                             <div className="form-row">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <select
-                                                        id="cust_id"
-                                                        className="form-control col-md-5"
-                                                        onChange={handleCustname}
-                                                    >
+                                                <label className="col-md-2 col-form-label font-weight-normal" >SO Number</label>
+                                                <div className="d-flex col">
+                                                    <input type="text" className="form-control col-md-10" id="so_no" placeholder="SO-00001" disabled />
+                                                </div>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >SO Date </label>
+                                                <div className="d-flex col">
+                                                    <input type="date" className="form-control col-md-10" id="Sodate" disabled />
+                                                </div>
+                                            </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Name <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col">
+                                                    <select id="cust_id" className="form-control col-md-10" onChange={handleCustname}  >
                                                         <option value='' hidden>Select Customer</option>
                                                         {
                                                             activecustomer.map((items, index) => (
@@ -286,12 +292,9 @@ function SalesOrder() {
                                                         }
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Location <span style={{ color: "red" }}>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <button type="button" className="btn border col-md-5" data-toggle="modal" data-target="#custAddnmodal"
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Customer Location <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col">
+                                                    <button type="button" className="btn border col-md-10" data-toggle="modal" data-target="#custAddnmodal"
                                                         onClick={(e) => { e.preventDefault(); setTimeout(() => { document.getElementById('searchCustAddress').focus() }, 700) }}>
                                                         {
                                                             custAddressLocation.length > 0 ? `${custAddressLocation[0]}, ${custAddressLocation[1]}, ${custAddressLocation[2]}` : 'Select Customer Address Location'
@@ -299,108 +302,98 @@ function SalesOrder() {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-2">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >SO Number</label>
-                                                <div className="d-flex col-md">
-                                                    <input type="text" className="form-control col-md-5" id="so_no" placeholder="SO-00001" disabled />
-                                                </div>
-                                            </div>
-                                            <div className="form-row mt-3">
-                                                <label className="col-md-2 col-form-label font-weight-normal" >SO Date </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-5" id="Sodate" disabled />
-                                                </div>
-                                            </div>
-                                            <table className="table  table-striped table-bordered mt-3">
-                                                <thead className='text-center'>
-                                                    <tr>
-                                                        <th scope="col">Activity</th>
-                                                        <th scope="col">Items</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Rate</th>
-                                                        <th scope="col">Tax Amt</th>
-                                                        <th scope="col">Unit</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody >
-                                                    {
-                                                        totalValues.map((element, index) => (
-                                                            <tr key={index}>
-                                                                <td className='px-1' style={{ width: "200px" }}>
-                                                                    <select id={`Activity-${index}`} className="form-control"
-                                                                        onChange={(e) => handleChangeActivity(e, index)}>
-                                                                        <option value='' hidden>Select Activity</option>
-                                                                        {
-                                                                            Activeaccount.map((items, index) => (
-                                                                                <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className="col-md-2 px-1">
-                                                                    {
-                                                                        <select id={`items-${index}`} className='form-control col'
-                                                                            onChange={(e) => { handleChangeItems(e.target.value, index) }}
-                                                                        >
-                                                                            <option value='' hidden > Select item</option>
+
+                                            <div className='overflow-auto w-100'>
+                                                <table className="table  table-striped table-bordered mt-3">
+                                                    <thead className='text-center'>
+                                                        <tr>
+                                                            <th scope="col">Activity</th>
+                                                            <th scope="col">Items</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Rate</th>
+                                                            <th scope="col">Tax Amt</th>
+                                                            <th scope="col">Unit</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody >
+                                                        {
+                                                            totalValues.map((element, index) => (
+                                                                <tr key={index}>
+                                                                    <td className='px-1' style={{ width: "200px" }}>
+                                                                        <select id={`Activity-${index}`} className="form-control"
+                                                                            onChange={(e) => handleChangeActivity(e, index)}>
+                                                                            <option value='' hidden>Select Activity</option>
                                                                             {
-                                                                                itemtoggle[index] == true ?
-                                                                                    itemsdata[index].map((item, index) => (
-                                                                                        <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.glcode}`} >{item.item_name}</option>
-                                                                                    ))
-                                                                                    : null
+                                                                                Activeaccount.map((items, index) => (
+                                                                                    <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
+                                                                                ))
                                                                             }
                                                                         </select>
-                                                                    }
-                                                                </td>
-                                                                <td className='px-1' style={{ width: "140px" }}>
-                                                                    <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={(e) => { handleChangeQuantity_Rate(index) }} />
-                                                                </td>
-                                                                <td className='px-1' style={{ maxWidth: '10px' }}>
-                                                                    <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
-                                                                </td>
-                                                                <td id="gst" className='col-md-1 px-1'>
-                                                                    <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled />
-                                                                </td>
-                                                                <td className='px-1 col-md-2'>
-                                                                    <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
-                                                                        <option value='' hidden > Select Unit</option>
+                                                                    </td>
+                                                                    <td className="col-md-2 px-1">
                                                                         {
-                                                                            activeunit.map((item, index) => (
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
-                                                                            ))
+                                                                            <select id={`items-${index}`} className='form-control col'
+                                                                                onChange={(e) => { handleChangeItems(e.target.value, index) }}
+                                                                            >
+                                                                                <option value='' hidden > Select item</option>
+                                                                                {
+                                                                                    itemtoggle[index] == true ?
+                                                                                        itemsdata[index].map((item, index) => (
+                                                                                            <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.glcode}`} >{item.item_name}</option>
+                                                                                        ))
+                                                                                        : null
+                                                                                }
+                                                                            </select>
                                                                         }
-                                                                    </select>
-                                                                </td>
-                                                                <td id="amountvalue" className='col-md-1 px-1'>
-                                                                    <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
-                                                                </td>
-                                                                <td id="Totalsum" className='col-md-1 px-1'>
-                                                                    <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                    }
-
-                                                </tbody>
-                                            </table>
+                                                                    </td>
+                                                                    <td className='px-1' style={{ width: "140px" }}>
+                                                                        <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={(e) => { handleChangeQuantity_Rate(index) }} />
+                                                                    </td>
+                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                        <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                    </td>
+                                                                    <td id="gst" className='col-md-1 px-1'>
+                                                                        <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled />
+                                                                    </td>
+                                                                    <td className='px-1 col-md-2'>
+                                                                        <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
+                                                                            <option value='' hidden > Select Unit</option>
+                                                                            {
+                                                                                activeunit.map((item, index) => (
+                                                                                    <option key={index} value={item.unit_name}>{item.unit_name}</option>
+                                                                                ))
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td id="amountvalue" className='col-md-1 px-1'>
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
+                                                                    </td>
+                                                                    <td id="Totalsum" className='col-md-1 px-1'>
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
                                             <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
 
-                                            <div className='d-flex justify-content-between'>
-                                                <div style={{ width: "40%" }}>
+                                            <div className='d-flex justify-content-between so_bottom_sec'>
+                                                <div className='so_bottom_remark_sec'>
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="2" id="remark" placeholder="Looking forward for your bussiness " onBlur={handleRemark}></textarea>
+                                                            <textarea type="text" className="form-control " rows="3" id="remark" placeholder="Looking forward for your bussiness " onBlur={handleRemark}></textarea>
                                                         </div>
-                                                        <label className="col-md-7 col-form-label font-weight-normal" >Terms & Conditions</label>
+                                                        <label className="col-md-7 col-form-label font-weight-normal text-danger" >Terms & Conditions</label>
                                                     </div>
                                                 </div>
-                                                <div style={{ width: "55%", marginLeft: "3px", padding: "20px", backgroundColor: "#eee", borderRadius: "7px" }}>
-                                                    <table style={{ width: "100%" }}>
+                                                <div className='so_bottom_total_div'>
+                                                    <table className='table table-borderless'>
                                                         <tbody>
                                                             <tr>
                                                                 <td>Sub Total</td>
@@ -477,7 +470,7 @@ function SalesOrder() {
 
                                                 </tr>
                                             ))
-                                            : 'Select Customer'
+                                            : <tr><td>Select Customer</td></tr>
                                     }
                                 </tbody>
                             </table>

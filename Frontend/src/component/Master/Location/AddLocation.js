@@ -93,95 +93,91 @@ function AddLocation() {
                     <div className="form-row">
                       <label htmlFor="country" className="col-md-2 col-form-label font-weight-normal">Country</label>
                       <div className="col form-group">
-                        <select className="form-control col-md-4" id='country' onChange={handleAddressCountry} >
+                        <select className="form-control col-md-10" id='country' onChange={handleAddressCountry} >
                           <option value='' hidden>Select Country</option>
                           {
                             country.map((data, index) =>
                               <option key={index} value={data.country_name}>{data.country_name}</option>)
                           }
                         </select>
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State</label>
+                      </div>  <label htmlFor="state" className="col-md-2 col-form-label font-weight-normal">State</label>
                       <div className="col form-group">
-                        <select
-                          id="inputState"
-                          className="form-control col-md-4">
-                          <option value='' hidden> Select State</option>
-                          {
-                            state.map((data, index) => (
-                              <option key={index} value={data.state_name}>{data.state_name}</option>
-                            ))
-                          }
-                        </select>
-                      </div>
+                        <select id="inputState" className="form-control col-md-10">
+                        <option value='' hidden> Select State</option>
+                        {
+                          state.map((data, index) => (
+                            <option key={index} value={data.state_name}>{data.state_name}</option>
+                          ))
+                        }
+                      </select>
                     </div>
-                    <div className="form-row">
-                      <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4" id='Location_name' />
-                      </div>
-                    </div>
+                  </div>
 
-                    <div className="form-row">
-                      <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4" id='gst_no' />
-                      </div>
+                  <div className="form-row">
+                    <label htmlFor="Location_name" className="col-md-2 col-form-label font-weight-normal">Location Name</label>
+                    <div className="col form-group">
+                      <input type="text" className="form-control col-md-4" id='Location_name' />
                     </div>
+                  </div>
 
-                    <div className="form-row">
-                      <label htmlFor="contact_Person1" className="col-md-2 col-form-label font-weight-normal">Contact Person 1</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4" id='contact_Person1' />
-                      </div>
+                  <div className="form-row">
+                    <label htmlFor="gst_no" className="col-md-2 col-form-label font-weight-normal">GST No</label>
+                    <div className="col form-group">
+                      <input type="text" className="form-control col-md-4" id='gst_no' />
                     </div>
-                    <div className="form-row">
-                      <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
-                      <div className="col form-group">
-                        <input type="number" className="form-control col-md-4" id='contact_phone1'
-                          value={phone1}
-                          onChange={(e) => {
-                            if (e.target.value.length >= 11) return false;
-                            setPhone1(e.target.value)
-                          }} />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
-                      <div className="col form-group">
-                        <input type="text" className="form-control col-md-4" id='contact_person2' />
-                      </div>
-                    </div>
+                  </div>
 
-                    <div className="form-row">
-                      <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
-                      <div className="col form-group">
-                        <input type="number" className="form-control col-md-4" id='contact_phone2'
-                          value={phone2}
-                          onChange={(e) => {
-                            if (e.target.value.length >= 11) return false;
-                            setPhone2(e.target.value)
-                          }} />
-                      </div>
+                  <div className="form-row">
+                    <label htmlFor="contact_Person1" className="col-md-2 col-form-label font-weight-normal">Contact Person 1</label>
+                    <div className="col form-group">
+                      <input type="text" className="form-control col-md-4" id='contact_Person1' />
                     </div>
-                  </form>
-                </article>
-                <div className='border-top card-footer'>
-                  <button className="btn btn-success" onClick={handleClick} >Save</button>
-                  <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
-                </div>
+                  </div>
+                  <div className="form-row">
+                    <label htmlFor="contact_phone1" className="col-md-2 col-form-label font-weight-normal">Contact Phone 1</label>
+                    <div className="col form-group">
+                      <input type="number" className="form-control col-md-4" id='contact_phone1'
+                        value={phone1}
+                        onChange={(e) => {
+                          if (e.target.value.length >= 11) return false;
+                          setPhone1(e.target.value)
+                        }} />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <label htmlFor="contact_person2" className="col-md-2 col-form-label font-weight-normal">Contact Person 2</label>
+                    <div className="col form-group">
+                      <input type="text" className="form-control col-md-4" id='contact_person2' />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <label htmlFor="contact_phone2" className="col-md-2 col-form-label font-weight-normal">Contact Phone 2</label>
+                    <div className="col form-group">
+                      <input type="number" className="form-control col-md-4" id='contact_phone2'
+                        value={phone2}
+                        onChange={(e) => {
+                          if (e.target.value.length >= 11) return false;
+                          setPhone2(e.target.value)
+                        }} />
+                    </div>
+                  </div>
+                </form>
+              </article>
+              <div className='border-top card-footer'>
+                <button className="btn btn-success" onClick={handleClick} >Save</button>
+                <button className="btn btn-secondary ml-3" onClick={() => { window.location.href = "./TotalLocation" }}>Cancel</button>
               </div>
             </div>
-            {
-              alertObj.type ? <AlertsComp data={alertObj} /> : null
-            }
           </div>
-          : <LoadingPage />
+            {
+        alertObj.type ? <AlertsComp data={alertObj} /> : null
       }
-      <Footer />
     </div>
+          : <LoadingPage />
+}
+<Footer />
+    </div >
   )
 
 }

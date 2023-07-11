@@ -1,0 +1,26 @@
+.jv_bottom_sec .jv_bottom_remark_sec {
+    width: 40%;
+}
+
+.jv_bottom_sec .jv_bottom_total_div {
+    width: 50%;
+    background: #eee;
+}
+
+@media screen and (max-width:768px) {
+    .jv_bottom_sec .jv_bottom_remark_sec {
+        width: 48%;
+    }
+}
+@media screen and (max-width:550px) {
+    .jv_bottom_sec {
+        flex-direction: column-reverse;
+    }
+
+    .jv_bottom_sec .jv_bottom_remark_sec {
+        width: 100%;
+    }
+    .jv_bottom_sec .jv_bottom_total_div {
+        width: 100%;
+    }
+}

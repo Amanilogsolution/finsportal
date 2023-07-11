@@ -120,7 +120,7 @@ function AddBankingReceipt() {
             cheq_Date: document.getElementById('check_date').value,
             cheq_amt: document.getElementById('check_amt').value,
             bank_name: bank_name,
-            remark:  document.getElementById('remarks').value
+            remark: document.getElementById('remarks').value
         })
     }
     // -------------------------Handle Minor Data ---------------------------
@@ -555,7 +555,7 @@ function AddBankingReceipt() {
 
                                                 </tr>
                                             ))
-                                            : 'Select Customer'
+                                            : <tr><td>Select Customer</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -598,7 +598,7 @@ function AddBankingReceipt() {
                             </table>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal');window.location.reload(); }}>Close</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal'); window.location.reload(); }}>Close</button>
                         </div>
                     </div>
                 </div>
@@ -610,7 +610,7 @@ function AddBankingReceipt() {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Select Invoice</h5>
                         </div>
-                        <div className="modal-body overflow-auto position-relative p-0 px-2"  style={{ height: '50vh' }}>
+                        <div className="modal-body overflow-auto position-relative p-0 px-2" style={{ height: '50vh' }}>
                             <table className="table table-bored table-sm ">
                                 <thead className="position-sticky bg-white  " style={{ top: '0' }}>
                                     <tr>

@@ -130,3 +130,9 @@
     display: none;
   }
  }
+ @media screen and (max-width:365px) {
+  .full_screen_icon{
+    display: none;
+  }
+ }
+ 

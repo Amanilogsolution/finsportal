@@ -298,7 +298,7 @@ const Header = () => {
           {/* ######################## User Manual Icon END ################################# */}
 
           {/* ######################## Full Screen Button  ################################## */}
-          <li className="nav-item" >
+          <li className="nav-item full_screen_icon" >
             <a className="nav-link" data-widget="fullscreen" href="#" role="button">
               <i className="fas fa-expand-arrows-alt"></i>
             </a>

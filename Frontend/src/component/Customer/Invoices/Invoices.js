@@ -527,13 +527,13 @@ function Invoices() {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+                                            <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Invoice <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <input type="text" className='form-control col-md  cursor-notallow' id="invoiceid" value={invoiceid} disabled />
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
+                                            <div className="form-row mt-2">
                                                 <label className="col-md-2 col-form-label font-weight-normal" >Order Number <span className='text-danger'>*</span></label>
                                                 <div className="d-flex col-md-4 ">
                                                     <CreatableSelect
@@ -562,29 +562,20 @@ function Invoices() {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="form-row mt-3">
-                                                <div className="d-flex col-md-3">
-                                                    <label className="col-md-6 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
-                                                    <input type="date" className='form-control col-md-6  cursor-notallow' id="Invoicedate" disabled />
-                                                </div>
-
-                                                <div className="d-flex col-md-4 ">
-                                                    <label className="col-md-3 text-center col-form-label font-weight-normal" >Terms</label>
-
-                                                    <select id="paymentterm" className='col-md-6  mr-0 form-control' onChange={handleAccountTerm} >
-                                                        <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
-                                                        {
-                                                            activepaymentterm.map((item, index) => (
-                                                                <option key={index} value={item.term_days}>{item.term}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                </div>
-
-                                                <div className="d-flex col-md-3" >
-                                                    <label className="col-md-5 col-form-label font-weight-normal" >Due Date</label>
-                                                    <input type="date" className={`form-control col-md-7  cursor-notallow`} id="Duedate" disabled />
-                                                </div>
+                                            <div className="form-row mt-2">
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Invoice Date<span className='text-danger'>*</span> </label>
+                                                <input type="date" className='form-control col-md-2  cursor-notallow' id="Invoicedate" disabled />
+                                                <label className="col-md-2  col-form-label font-weight-normal" >Terms</label>
+                                                <select id="paymentterm" className='col-md-2  mr-0 form-control' onChange={handleAccountTerm} >
+                                                    <option value={custdetail.payment_terms} hidden>{custdetail.payment_terms ? `Net ${custdetail.payment_terms}` : 'select term'}</option>
+                                                    {
+                                                        activepaymentterm.map((item, index) => (
+                                                            <option key={index} value={item.term_days}>{item.term}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                                <label className="col-md-2 col-form-label font-weight-normal" >Due Date</label>
+                                                <input type="date" className='form-control col-md-2  cursor-notallow' id="Duedate" disabled />
                                             </div>
 
 
@@ -599,87 +590,87 @@ function Invoices() {
                                                 </div>
                                             </div>
                                             <br />
-
-
-                                            <table className="table  table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Activity</th>
-                                                        <th scope="col">Items</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Rate</th>
-                                                        <th scope="col">Tax Amt</th>
-                                                        <th scope="col">Unit</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        arry.map((element, index) => (
-                                                            <tr key={index}>
-                                                                <td className="col-md-2 px-1">
-                                                                    <select id={`Activity-${index}`} className="form-control"
-                                                                        onChange={(e) => handleChangeActivity(e, index)}
-                                                                    >
-                                                                        <option value='' hidden>Select Activity</option>
-                                                                        {
-                                                                            Activeaccount.map((items, index) => (
-                                                                                <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className="col-md-2 px-1">
-                                                                    {
-                                                                        <select id={`items-${index}`} className='form-control col'
-                                                                            onChange={(e) => { handleChangeItems(e.target.value, index) }}
+                                            <div className='overflow-auto'>
+                                                <table className="table  table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Activity</th>
+                                                            <th scope="col">Items</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Rate</th>
+                                                            <th scope="col">Tax Amt</th>
+                                                            <th scope="col">Unit</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            arry.map((element, index) => (
+                                                                <tr key={index}>
+                                                                    <td className="col-md-2 px-1">
+                                                                        <select id={`Activity-${index}`} className="form-control"
+                                                                            onChange={(e) => handleChangeActivity(e, index)}
                                                                         >
-                                                                            <option value='' hidden > Select item</option>
+                                                                            <option value='' hidden>Select Activity</option>
                                                                             {
-                                                                                itemtoggle[index] == true ?
-                                                                                    itemsdata[index].map((item, index) => (
-                                                                                        <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.glcode}`} >{item.item_name}</option>
-                                                                                    ))
-                                                                                    : null
+                                                                                Activeaccount.map((items, index) => (
+                                                                                    <option key={index} value={[items.account_type_code, items.account_name_code]}>{items.account_name}</option>
+                                                                                ))
                                                                             }
                                                                         </select>
-                                                                    }
-                                                                </td>
-                                                                <td className='px-1' style={{ maxWidth: '10px' }}>
-                                                                    <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
-                                                                </td>
-                                                                <td className='px-1' style={{ maxWidth: '10px' }}>
-                                                                    <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
-                                                                </td>
-                                                                <td id="gst" className='col-md-1 px-1'>
-                                                                    <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled /></td>
-
-                                                                <td className='px-1 col-md-2'>
-                                                                    <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
-                                                                        <option value='' hidden > Select Unit</option>
+                                                                    </td>
+                                                                    <td className="col-md-2 px-1">
                                                                         {
-                                                                            activeunit.map((item, index) => (
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>
-                                                                            ))
+                                                                            <select id={`items-${index}`} className='form-control col'
+                                                                                onChange={(e) => { handleChangeItems(e.target.value, index) }}
+                                                                            >
+                                                                                <option value='' hidden > Select item</option>
+                                                                                {
+                                                                                    itemtoggle[index] == true ?
+                                                                                        itemsdata[index].map((item, index) => (
+                                                                                            <option key={index} value={`${item.gst_rate}^${item.item_name}^${item.glcode}`} >{item.item_name}</option>
+                                                                                        ))
+                                                                                        : null
+                                                                                }
+                                                                            </select>
                                                                         }
-                                                                    </select>
-                                                                </td>
-                                                                <td id="amountvalue" className='col-md-1 px-1'>
-                                                                    <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
-                                                                </td>
-                                                                <td id="Totalsum" className='col-md-1 px-1'>
-                                                                    <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                    }
-                                                </tbody>
-                                            </table>
+                                                                    </td>
+                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                        <input className='form-control' type="number" id={`Quality-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                    </td>
+                                                                    <td className='px-1' style={{ maxWidth: '10px' }}>
+                                                                        <input className="form-control" type="number" id={`Rate-${index}`} placeholder="0" onChange={() => { handleChangeQuantity_Rate(index) }} />
+                                                                    </td>
+                                                                    <td id="gst" className='col-md-1 px-1'>
+                                                                        <input type='text' id={`tax-${index}`} className="form-control col cursor-notallow" disabled /></td>
+
+                                                                    <td className='px-1 col-md-2'>
+                                                                        <select className='form-control col' id={`unit-${index}`} onChange={(e) => { handleChangeUnit(index, e) }}>
+                                                                            <option value='' hidden > Select Unit</option>
+                                                                            {
+                                                                                activeunit.map((item, index) => (
+                                                                                    <option key={index} value={item.unit_name}>{item.unit_name}</option>
+                                                                                ))
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td id="amountvalue" className='col-md-1 px-1'>
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`amount-${index}`} disabled />
+                                                                    </td>
+                                                                    <td id="Totalsum" className='col-md-1 px-1'>
+                                                                        <input type='text' className="form-control col cursor-notallow" id={`TotalAmount-${index}`} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <input type='button' className="btn btn-primary" onClick={addRow} id='additembtm' value='Add Item' />
                                             <input type='button' className="btn btn-danger ml-2" onClick={RemoveRow} id='removeitembtm' value='Remove' />
-                                            <div className='d-flex justify-content-between'>
-                                                <div style={{ width: "40%" }}>
+                                            <div className='d-flex justify-content-between inv_bottom_sec'>
+                                                <div className='inv_bottom_remark_div'>
                                                     <div className="form mt-3">
                                                         <label className="col-md-7 col-form-label font-weight-normal" >Remarks :-</label>
                                                         <div className="d-flex col-md">
@@ -687,7 +678,7 @@ function Invoices() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className='rounded py-2 px-3' style={{ width: "55%", background: '#eee' }}>
+                                                <div className='rounded py-2 px-3 inv_bottom_gst_sec'>
                                                     <table className='w-100'>
                                                         <tbody>
                                                             <tr>
@@ -823,7 +814,7 @@ function Invoices() {
 
                                                 </tr>
                                             ))
-                                            : 'Select Customer'
+                                            : <tr><td className='text-center' colSpan={2}>Select Customer</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -872,7 +863,7 @@ function Invoices() {
 
                                                 </tr>
                                             ))
-                                            : 'Select Customer'
+                                            : <tr><td colSpan={2} className='text-center'>Select Customer</td></tr>
                                     }
                                 </tbody>
                             </table>

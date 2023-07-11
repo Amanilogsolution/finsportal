@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
-import { ActiveVendor, ActivePurchesItems,showOrganisation, Activeunit, Getfincialyearid, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount, SearchVendAddress, SelectVendorAddress } from '../../../api'
+import { ActiveVendor, ActivePurchesItems, showOrganisation, Activeunit, Getfincialyearid, ActiveLocationAddress, InsertPurchaseorder, InsertSubPurchaseorder, Updatefinancialcount, SearchVendAddress, SelectVendorAddress } from '../../../api'
 import Preview from './PreviewPurchaseOrder/Preview';
 import LoadingPage from '../../loadingPage/loadingPage';
 import AlertsComp from '../../AlertsComp';
@@ -203,7 +203,7 @@ function PurchaseOrder() {
                                             <div className="form-row">
                                                 <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >P.O Number </label>
                                                 <div className="d-flex col-md-4" >
-                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no" placeholder="" disabled />
+                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no"  disabled />
                                                 </div>
                                                 <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">P.O Date</label>
                                                 <div className="d-flex col-md-4 " >
@@ -261,71 +261,66 @@ function PurchaseOrder() {
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div className='w-100 overflow-auto'>
+                                                <table className="table table-bordered mt-3">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Item</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Rate</th>
+                                                            <th scope="col">Unit</th>
+                                                            <th scope="col">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            poitem.map((element, index) => (
+                                                                <tr key={index}>
 
-                                            <table className="table table-bordered mt-3">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Item</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Rate</th>
-                                                        <th scope="col">Unit</th>
-                                                        <th scope="col">Amount</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        poitem.map((element, index) => (
-                                                            <tr key={index}>
+                                                                    <td className='p-1 pt-2' style={{ width: "180px" }}>
+                                                                        <select id={`item-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeItems(index) }}>
+                                                                            <option value='' hidden>Select Item</option>
+                                                                            {
+                                                                                itemlist.map((items, index) => (
+                                                                                    <option key={index} value={`${items.item_name}^${items.glcode}^${items.sac_code}^${items.hsn_code}`} >{items.item_name}</option>
 
-                                                                <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                    <select id={`item-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeItems(index) }}>
-                                                                        <option value='' hidden>Select Item</option>
-                                                                        {
-                                                                            itemlist.map((items, index) => (
-                                                                                <option key={index} value={`${items.item_name}^${items.glcode}^${items.sac_code}^${items.hsn_code}`} >{items.item_name}</option>
+                                                                                ))
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <input type='number' id={`quantity-${index}`} onChange={() => { handleChangeRate(index) }} className="form-control" />
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <input type='number' id={`rate-${index}`} onChange={() => { handleChangeRate(index) }} className="form-control" />
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <select id={`unit-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeUnit(index, e.target.value) }}>
+                                                                            <option value='' hidden>Select Unit</option>
+                                                                            {
+                                                                                unitlist.map((item, index) =>
+                                                                                    <option key={index} value={item.unit_name}>{item.unit_name}</option>)
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td className='p-1 pt-2' style={{ width: "160px" }}>
+                                                                        <input type='number' id={`amount-${index}`} className="form-control cursor-notallow" disabled />
+                                                                    </td>
 
-                                                                            ))
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`quantity-${index}`} onChange={() => { handleChangeRate(index) }} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`rate-${index}`} onChange={() => { handleChangeRate(index) }} className="form-control" />
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <select id={`unit-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeUnit(index, e.target.value) }}>
-                                                                        <option value='' hidden>Select Unit</option>
-                                                                        {
-                                                                            unitlist.map((item, index) =>
-                                                                                <option key={index} value={item.unit_name}>{item.unit_name}</option>)
-                                                                        }
-                                                                    </select>
-                                                                </td>
-                                                                <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                    <input type='number' id={`amount-${index}`} className="form-control cursor-notallow" disabled />
-                                                                </td>
-
-                                                            </tr>
-                                                        ))
-                                                    }
-                                                </tbody>
-                                            </table>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <button className="btn btn-primary" onClick={handleAdd}>Add Item</button>   &nbsp;
                                             <button className="btn btn-danger" onClick={handleRemove}>Remove</button>
                                         </form>
                                     </article>
-                                    <div className='d-flex justify-content-end '>
-                                        <div className='rounded py-1 px-2' style={{ width: "35%" }}>
-                                            <table className='w-100'>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><h4 id='subtotalbtn'>Total</h4> </td>
-                                                        <td id="Subtotal">INR <span id="subtotalval">0</span></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                    <div className='d-flex justify-content-end mx-3'>
+                                        <div className='rounded py-1 px-2 col-md-3 d-flex justify-content-between'>
+                                            <h4 id='subtotalbtn'>Total</h4>
+                                            <div id="Subtotal">INR <span id="subtotalval font-weight-bold">0</span></div>
                                         </div>
                                     </div>
                                     <div className="card-footer border-top">
@@ -391,7 +386,7 @@ function PurchaseOrder() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

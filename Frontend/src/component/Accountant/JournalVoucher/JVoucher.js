@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
+import './JVoucher.css'
 import LoadingPage from "../../loadingPage/loadingPage";
 import { ActiveLocationAddress, ActiveAllChartofAccount, Getfincialyearid, ActiveVendor, GetBillVendorID, ActiveCustomer, GetInvoicesByCustomer, showOrganisation, InsertJV, ActiveEmployee, Updatefinancialcount, SearchLocationAddress, SearchActiveChartofAccount } from "../../../api/index";
 import JvPreview from "./JVPreview/JvPreview";
@@ -414,8 +415,8 @@ function JVoucher() {
                     </div>
                     <input type='button' className="btn btn-primary" onClick={handleAdd} value='Add Row' />
                     <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 'pop')} value='Remove' />
-                    <div className="d-flex mb-2 justify-content-between">
-                      <div style={{ width: "40%" }}>
+                    <div className="d-flex my-2 justify-content-between jv_bottom_sec">
+                      <div className="jv_bottom_remark_sec">
                         <div className="form ">
                           <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                           <div className="d-flex col-md">
@@ -424,8 +425,8 @@ function JVoucher() {
                           </div>
                         </div>
                       </div>
-                      <div className="rounded py-1 px-2" style={{ width: "50%", background: '#eee' }}>
-                        <table className="w-100">
+                      <div className="rounded py-1 px-2 jv_bottom_total_div" >
+                        <table className="table table-borderless">
                           <tbody>
                             <tr>
                               <td>Total CR</td>
@@ -576,7 +577,7 @@ function JVoucher() {
 
                         </tr>
                       ))
-                      : 'Select Customer'
+                      : <tr><td>Select Customer</td></tr>
                   }
                 </tbody>
               </table>
