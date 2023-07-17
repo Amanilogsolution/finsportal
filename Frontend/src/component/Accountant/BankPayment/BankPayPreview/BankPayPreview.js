@@ -36,21 +36,22 @@ const BankPayPreview = ({ orgdata, bankPayMinData, majorBankData }) => {
                                         </div>
                                     </div>
                                     <div className="bankpay">
-                                        <h1 className='mb-0 border-top-0 text-center'>Bank Payment</h1>
+                                        <h3 className='mb-0 border-top-0 text-center'>Payment Voucher</h3>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 bankpay_cust_inner1  px-2 py-1'><strong>Receipt No.:</strong> {majorBankData.bankrecpId}</div>
-                                                <div className='w-50 bankpay_cust_inner1  px-2 py-1'><strong>Receipt Date:</strong> {majorBankData.bankrecpDate} </div>
+                                                <div className='w-50 bankpay_cust_inner1  px-2 py-1'><strong>Payment No.:</strong> {majorBankData.bankrecpId}</div>
+                                                <div className='w-50 bankpay_cust_inner1  px-2 py-1'><strong>Payment Date:</strong> {majorBankData.bankrecpDate} </div>
                                             </div>
                                             <div className=' d-flex'>
                                                 <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Cheq No. :</strong> {majorBankData.cheqNo}</div>
-                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Cheq Date:</strong> {majorBankData.cheqDate} </div>
+                                                <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Pay to M/s:</strong></div>
                                             </div>
-                                            <div className=' d-flex'>
+                                            {/* <div className=' d-flex'>
                                                 <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Cheq Amt :</strong> {majorBankData.cheqAmt}</div>
                                                 <div className='w-50 bankpay_cust_inner1 bankpay_cust_inner2 px-2 py-1'><strong>Bank Name:</strong> {majorBankData.bank} </div>
-                                            </div>
+                                            </div> */}
                                         </div>
+                                        <div className='parent_table'>
                                         <table id="bankpay_second_table" className='text-center' style={{ width: '100%' }}>
                                             <thead style={{ background: "#cccccc" }}>
                                                 <tr>
@@ -59,7 +60,6 @@ const BankPayPreview = ({ orgdata, bankPayMinData, majorBankData }) => {
                                                     <th >Bill No.</th>
                                                     <th >Amount</th>
                                                     <th >Amount Paid</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -76,35 +76,30 @@ const BankPayPreview = ({ orgdata, bankPayMinData, majorBankData }) => {
 
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                     <div className="Total_so_div p-2">
-                                        <strong>Total Amount Value (In Figure)</strong>
+                                        <strong>Total Amount Value (In Figure):</strong>
                                         <strong className='float-right'>{majorBankData.cheqAmt}</strong>
                                     </div>
                                     <div className="Total_so_div p-2">
-                                        <strong>Total Amount Value (In Words)</strong>
+                                        <strong>Total Amount Value (In Words):</strong>
                                         <strong className='float-right'>{DecamalNumber.toWords(Number(majorBankData.cheqAmt)).toUpperCase()} Only</strong>
                                     </div>
-                                    {/* <div className="bankpay_Amount_tax d-flex ">
-                                        <strong style={{ margin: '12px 5px' }}>Amount Of Tax:</strong>
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td><strong>GST Rate</strong></td>
-                                                    <td><strong>GST AMT</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    {/* <td>{somajorData.total_gst_rate}</td>
-                                                    <td>{somajorData.total_gst_amt}</td> 
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div> */}
+                                    <div className=''>
+
+                                    </div>
+
                                     <div className="Total_bankpay_div p-2">
-                                        <strong>Remarks :</strong> {majorBankData.remarks}
+                                        <div className="Total_bankpay_innerdiv"><strong>Drawn On:</strong> {majorBankData.remarks}</div>
+                                        <div><strong>On Account of:</strong> {majorBankData.remarks}</div>
                                     </div>
                                     <div className="Total_bankpay_div p-2">
-                                        <strong>Signature of Authorizated Representative :</strong>
+                                        <div><strong>Checked by:</strong></div>
+                                        <div className='w-50'>
+                                            <div><strong>Authorised Signatory :</strong></div>
+                                            <div><strong>Varified by:</strong></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

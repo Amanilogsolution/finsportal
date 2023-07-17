@@ -28,9 +28,9 @@
     line-height: 1.3;
 }
 
-.bankpay h1 {
+.bankpay h3 {
     background: #cccccc;
-    font-size: 26px;
+    font-size: 21px;
     border: 1px solid black;
 }
 
@@ -78,7 +78,10 @@
 .Total_bankpay_div {
     border: 1px solid;
     border-top: none;
+    display: flex;
+    justify-content: space-between;
 }
+
 
 .bankpay_Amount_tax {
     border: 1px solid;
@@ -105,15 +108,7 @@
     padding: 0 5px;
 }
 
-@media only screen and (max-width: 1190px) {
-    .bankpay-main_div {
-        border: 1px solid;
-        width: 80%;
-        padding: 9px;
-    }
-}
-
-@media only screen and (max-width: 1030px) {
+@media screen and (max-width: 1190px) {
     .bankpay-main_div {
         border: 1px solid;
         width: 90%;
@@ -121,26 +116,62 @@
     }
 }
 
-@media only screen and (max-width: 920px) {
+@media screen and (max-width: 1030px) {
+    .bankpay-main_div {
+         border: 1px solid; 
+        width: 100%;
+        padding: 9px;
+    }
+}
+
+@media screen and (max-width: 920px) {
     .bankpay_company_logo img {
         width: 150px;
         margin: 30px 0
     }
 
     .bankpay-main_div {
-        border: 1px solid;
         padding: 9px;
     }
 
-    #bankpay_second_table {
+    /* #bankpay_second_table {
         overflow: auto;
         display: inline-block
-    }
+    } */
 }
 
-@media only screen and (max-width: 580px) {
+@media screen and (max-width: 580px) {
     .bankpay_company_logo img {
         width: 100px;
         margin: 30px 0
+    }
+    .Total_bankpay_div {
+      flex-direction: column; 
+    }
+} 
+
+
+@media screen and (max-width:350px) {
+   
+    .bankpay-head_div{
+        flex-direction: column;
+    }
+    .bankpay_company_logo {
+        width: 100%;
+        max-height:100px;
+        padding: 0px;
+    }
+
+    .bankpay_company_details {
+        width: 100%;
+        line-height:1;
+    }
+    .parent_table{
+        overflow: auto;
+    }
+    .Total_so_div{
+        flex-direction: column;
+        border: 2px solid red;
+
     }
 }

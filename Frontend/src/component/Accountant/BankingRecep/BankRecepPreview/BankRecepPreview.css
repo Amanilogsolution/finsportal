@@ -32,7 +32,7 @@
 
 .bankrec h1 {
     background: #cccccc;
-    font-size: 26px;
+    font-size: 21px;
     border: 1px solid black;
 }
 
@@ -103,10 +103,21 @@
     font-size: 14px;
     padding: 0 5px;
 }
-
+.Total_bankrecp_div {
+    border: 1px solid;
+    border-top: none;
+    display: flex;
+    justify-content: space-between;
+}
 .Total_bankrec_div {
     border: 1px solid;
     border-top: none;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+}
+.Total_bankrec_div_inner{
+    width: 50%;
 }
 
 .bankrec_Amount_tax {
@@ -161,15 +172,44 @@
         padding: 9px;
     }
 
-    #bankrec_second_table {
-        overflow: auto;
-        display: inline-block
-    }
 }
 
 @media only screen and (max-width: 580px) {
     .bankrec_company_logo img {
         width: 100px;
         margin: 30px 0
+    }
+    .Total_bankrec_div {
+        flex-direction: column;
+        padding-left: 0px;
+    }
+    .Total_bankrec_div_inner{
+        width: 100%;
+        border-top: 1px solid ;
+    }
+    .Total_bankrecp_div {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width:450px){
+    .bankrec-head_div{
+        flex-direction: column;
+    }
+    .bankrec_company_logo{
+        width: 100%;
+        height: 120px;
+        padding: 0%;
+    }
+    .bankrec_company_logo img {
+        width: 100%;
+        height: 80%;
+        margin: auto;
+    }
+    .bankrec_company_details {
+        width: 100%;
+    }
+    .bankec_table{
+        overflow: auto;
     }
 }

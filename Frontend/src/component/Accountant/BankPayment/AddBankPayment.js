@@ -348,9 +348,9 @@ function AddBankingPayment() {
                                 <article className="card-body">
                                     <form autoComplete="off">
                                         <div className="form-row ">
-                                            <label htmlFor="bank_recep_id" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt ID</label>
+                                            <label htmlFor="bank_recep_id" className="col-md-2 col-form-label font-weight-normal" > Banking Payment ID</label>
                                             <div className="d-flex col-md-4"><input type="text" className="form-control col-md-10" id="bank_recep_id" disabled /></div>
-                                            <label htmlFor="bank_recep_date" className="col-md-2 col-form-label font-weight-normal" > Banking Receipt Date</label>
+                                            <label htmlFor="bank_recep_date" className="col-md-2 col-form-label font-weight-normal" > Banking Payment Date</label>
                                             <div className="d-flex col-md-4"><input type="date" className="form-control col-md-10" id="bank_recep_date" disabled /></div>
                                         </div>
                                         <div className="form-row mt-2">
