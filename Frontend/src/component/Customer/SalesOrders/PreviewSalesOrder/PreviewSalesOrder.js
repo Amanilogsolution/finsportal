@@ -31,7 +31,7 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
                                             <img src={org.org_logo} alt='Organisation Logo' />
                                         </div>
                                         <div className="so_company_details">
-                                            <h3>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
+                                            <h3 className='so_com_name'>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
                                             <p>{org.org_street} , {org.org_city} , {org.org_state}, {org.org_country}</p>
                                             <p>GSTIN : {org.org_gst}</p>
                                         </div>
@@ -91,7 +91,7 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
                                         <strong>Total Amount Value (In Figure)</strong>
                                         <strong className='float-right'>{somajorData.total_amt}</strong>
                                     </div>
-                                    <div className="Total_so_div p-2">
+                                    <div className="Total_so_div p-2 so_word_div">
                                         <strong>Total Amount Value (In Words)</strong>
                                         <strong className='float-right'>{DecamalNumber.toWords(Number(somajorData.total_amt)).toUpperCase()} Only</strong>
                                     </div>

@@ -45,7 +45,6 @@ const JvPreview = ({ orgdata }) => {
                                                     <td><strong>JV No: </strong></td>
                                                     <td><strong>JV Date : </strong></td>
                                                 </tr>
-                                               
                                             </tbody>
                                         </table>
                                         

@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import DecamalNumber from 'decimal-number-to-words';
-import { showOrganisation } from '../../../../api'
 import './CreditNotePreview.css'
 import jsPDF from "jspdf";
 
-const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
-    const [orgdata, setOrgdata] = useState([])
-
+const CreditNotePreview = ({ ChargeCodeSub, data, location, custname, orgdata }) => {
     const pdfRef = useRef(null);
     const print = (e) => {
         e.preventDefault();
@@ -20,16 +17,7 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
             margin: [5, 0, 0, 5],
         });
     };
-    useEffect(() => {
-        const fetchdata = async () => {
-            let org = localStorage.getItem('Organisation');
-            const result = await showOrganisation(org)
-            setOrgdata(result)
 
-        }
-        fetchdata()
-    }, [data])
-    // console.log('nknlk',data)
 
     return (
         <>
@@ -78,51 +66,53 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname }) => {
                                             <div className="ship">
                                                 <h3 className='text-center' style={{ borderBottom: '1px solid' }}>Ship to party</h3>
                                                 <div className='px-2'>
-                                                    <strong>Name: {custname}</strong><br />
+                                                    <strong>Name:</strong><br />
                                                     <strong>Address: </strong><br />
-                                                    GSTIN:
+                                                    <strong>GSTIN: </strong>
                                                 </div>
                                             </div>
                                         </div>
-                                        <table id="second_table" style={{ width: '100%' }}>
-                                            <thead className='text-center'>
-                                                <tr>
-                                                    <th rowSpan="2">SNo.</th>
-                                                    <th rowSpan="2">Activity</th>
+                                        <div className='cn_table'>
+                                            <table id="second_table" style={{ width: '100%' }}>
+                                                <thead className='text-center'>
+                                                    <tr>
+                                                        <th rowSpan="2">SNo.</th>
+                                                        <th rowSpan="2">Activity</th>
+                                                        <th rowSpan="2">Amount</th>
+                                                        <th rowSpan="2">Pass Amt</th>
+                                                        <th colSpan="2">CGST </th>
+                                                        <th colSpan="2">SGST </th>
+                                                        <th colSpan="2">IGST </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th> Rate</th>
+                                                        <th> Amt</th>
+                                                        <th> Rate</th>
+                                                        <th> Amt</th>
+                                                        <th> Rate</th>
+                                                        <th> Amt</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {ChargeCodeSub.map((item, index) => {
+                                                        return (<tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{item.item}</td>
+                                                            <td>{item.amount}</td>
+                                                            <td>{item.pass_amt}</td>
+                                                            <td>{item.cgstper}</td>
+                                                            <td>{item.cgstamt}</td>
+                                                            <td>{item.sgstper}</td>
+                                                            <td>{item.sgstamt}</td>
+                                                            <td>{item.igstper}</td>
+                                                            <td>{item.igstamt}</td>
+                                                        </tr>)
+                                                    })}
 
-                                                    <th rowSpan="2">Amount</th>
-                                                    <th rowSpan="2">Pass Amt</th>
-                                                    <th colSpan="2">CGST </th>
-                                                    <th colSpan="2">SGST </th>
-                                                    <th colSpan="2">IGST </th>
-                                                </tr>
-                                                <tr>
-                                                    <th> Rate</th>
-                                                    <th> Amt</th>
-                                                    <th> Rate</th>
-                                                    <th> Amt</th>
-                                                    <th> Rate</th>
-                                                    <th> Amt</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {ChargeCodeSub.map((item, index) => {
-                                                    return (<tr key={index}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{item.item}</td>
-                                                        <td>{item.amount}</td>
-                                                        <td>{item.pass_amt}</td>
-                                                        <td>{item.cgstper}</td>
-                                                        <td>{item.cgstamt}</td>
-                                                        <td>{item.sgstper}</td>
-                                                        <td>{item.sgstamt}</td>
-                                                        <td>{item.igstper}</td>
-                                                        <td>{item.igstamt}</td>
-                                                    </tr>)
-                                                })}
 
-
-                                            </tbody></table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div className="Total_div p-2">
                                         <strong>Total Amount Value (In Figure)</strong>

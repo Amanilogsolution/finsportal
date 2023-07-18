@@ -169,9 +169,4 @@
     .parent_table{
         overflow: auto;
     }
-    .Total_so_div{
-        flex-direction: column;
-        border: 2px solid red;
-
-    }
 }

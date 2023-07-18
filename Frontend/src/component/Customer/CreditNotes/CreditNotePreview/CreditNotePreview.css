@@ -7,7 +7,6 @@
      width: 100%;
      position: relative;
      padding: 5px;
-     /* border: 2px solid black; */
  }
 
  .cn-main_div {
@@ -38,7 +37,7 @@
 
  .credit_Note h1 {
      background: #cccccc;
-     font-size: 26px;
+     font-size: 21px;
      border: 1px solid black;
  }
 
@@ -69,7 +68,7 @@
  }
 
  .cn_bill h3 {
-     font-size: 25px;
+     font-size: 21px;
      background: #cccccc;
  }
 
@@ -83,7 +82,7 @@
  }
 
  .ship h3 {
-     font-size: 25px;
+     font-size: 21px;
      background: #cccccc;
  }
 
@@ -173,89 +172,8 @@
          width: 100px;
          margin: 30px 0
      }
+
+     .cn_table {
+         overflow: auto;
+     }
  }
-
-
-
-
- /*
-.cnPreview-orgdetail {
-    height: 24vh;
-    width: 100%;
-}
-
-.cnPreview-orgdetail .cn-orgPreviewlogo {
-    width: 48%;
-    height: 100%;
-}
-
-.cnPreview-orgdetail .cn-orgPreviewlogo .cn-orgpreviewlogo {
-    height: 100%;
-    margin: 0px auto;
-}
-
-.cn-detailminiPreview {
-    height: 60px;
-    width: 100%;
-    background: #eee;
-}
-
-.cn-detailsPreview {
-    min-height: 140px;
-}
-.cn-detailsPreview .cn-detailsPreview1{
-    width: 50%;
-}
-.cn-detailsPreview .cn-detailsPreview1,.cn-detailsPreview2{
-    padding: 15px;
-    width: 50%;
-}
-.detail-head{
-    font-size: 18px;
-}
-
-.cn-detailsTotalPreview{
-  height: 110px;
-}
-.cn-detailsTotalPreview .cn-detailsTotalPreviewsub{
-    background-color: #eee;
-    width: 55%;
-}
-
-
-@media screen and (max-width:1000px){
-    .cnPreview-modal {
-        min-width: 70vw;
-    }
-}
-@media screen and (max-width:850px){
-    .cnPreview-modal {
-        min-width: 90vw;
-    }
-    .cn-detailsPreview .cn-detailsPreview1,.cn-detailsPreview2{
-        padding: 10px;
-    }
-    .detail-head{
-        font-size: 16px;
-    }
-    .cn-detailsTotalPreview .cn-detailsTotalPreviewsub{
-        background-color: #eee;
-        width: 55%;
-    }
-    .cn-orgPreview-items{
-        overflow: auto;
-    }
-}
-
-@media screen and (max-width:768px){
-    .cnPreview-modal {
-        min-width: 100vw;
-    }
-    .cn-detailsPreview .cn-detailsPreview1,.cn-detailsPreview2{
-        padding: 6px;
-    }
-    .cn-detailsTotalPreview .cn-detailsTotalPreviewsub{
-        background-color: #eee;
-        width: 65%;
-    }
-} */

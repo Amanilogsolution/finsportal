@@ -105,12 +105,10 @@ function SalesOrder() {
         const result2 = await ActiveItems(localStorage.getItem('Organisation'), datwe[0]);
         let value = [...itemsdata]
         value[index] = result2;
-        console.log(value)
         setItemdata(value)
         let val = document.getElementById(`Activity-${index}`);
         let text = val.options[val.selectedIndex].text;
         itemsrowval[index].activity = text;
-
     }
 
     const handleChangeItems = async (value, index) => {

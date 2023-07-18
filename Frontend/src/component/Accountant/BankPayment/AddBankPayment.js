@@ -47,7 +47,6 @@ function AddBankingPayment() {
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
             const allbank = await ActiveBank(org);
-            console.log(allbank)
             setBanklist(allbank)
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)

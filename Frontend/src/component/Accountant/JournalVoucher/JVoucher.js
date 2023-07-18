@@ -420,7 +420,7 @@ function JVoucher() {
                         <div className="form ">
                           <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                           <div className="d-flex col-md">
-                            <textarea type="text" className="form-control " rows="3"
+                            <textarea type="text" className="form-control " rows="4"
                               id="remarks" placeholder="Remarks" style={{ resize: "none" }}></textarea>
                           </div>
                         </div>
