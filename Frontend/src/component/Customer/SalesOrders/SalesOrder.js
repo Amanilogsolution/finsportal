@@ -150,16 +150,12 @@ function SalesOrder() {
             subTotal.map(item => sum += Number(item))
             gstTotal.map(item => gstamt += Number(item))
             grandTotal.map(item => grandamt += Number(item))
-            console.log(gstpercent)
             const maxgst = gstpercent.reduce((a, b) => Math.max(a, b), -Infinity);
-
 
             document.getElementById('subTotal').innerHTML = sum;
             document.getElementById('totalgst').innerHTML = gstamt;
             document.getElementById('totalgrand').innerHTML = grandamt;
             document.getElementById('gstper').innerHTML = `${maxgst} %`
-
-
 
         }, 1000)
     }
@@ -167,7 +163,6 @@ function SalesOrder() {
         itemsrowval[index].unit = e.target.value;
         let cust_name = document.getElementById('cust_id')
         cust_name = cust_name.options[cust_name.selectedIndex].text;
-
 
         setSomajorData({
             customer_name: cust_name,
@@ -199,7 +194,6 @@ function SalesOrder() {
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
         else {
-
             if (flag === 'save') {
                 so_no = 'Random' + Math.floor(Math.random() * 10000)
             }

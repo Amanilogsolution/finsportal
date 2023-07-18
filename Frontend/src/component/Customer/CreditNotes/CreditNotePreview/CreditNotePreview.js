@@ -108,8 +108,6 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname, orgdata })
                                                             <td>{item.igstamt}</td>
                                                         </tr>)
                                                     })}
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -118,13 +116,13 @@ const CreditNotePreview = ({ ChargeCodeSub, data, location, custname, orgdata })
                                         <strong>Total Amount Value (In Figure)</strong>
                                         <strong className='float-right'>{data.total_cn_amt}</strong>
                                     </div>
-                                    <div className="Total_div p-2">
+                                    <div className="Total_div total_in_word p-2">
                                         <strong>Total Amount Value (In Words)</strong>
                                         <strong className='float-right'>{DecamalNumber.toWords(Number(data.total_cn_amt)).toUpperCase()} Only</strong>
                                     </div>
                                     <div className="Amount_tax d-flex ">
                                         <strong style={{ margin: '12px 5px' }}>Amount Of Tax:</strong>
-                                        <table>
+                                        <table className=''>
                                             <tbody>
                                                 <tr>
                                                     <td><strong>CGST AMT</strong></td>

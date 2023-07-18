@@ -64,7 +64,6 @@
      border: 1px solid;
      border-top: none;
      border-bottom: none;
-     line-height: 2;
  }
 
  .cn_bill h3 {
@@ -78,12 +77,15 @@
      border-top: none;
      border-left: none;
      border-bottom: none;
-     line-height: 2;
+     /* line-height: 2; */
  }
 
  .ship h3 {
      font-size: 21px;
      background: #cccccc;
+ }
+ .cn_inner_bill,.ship_inner{
+    line-height: 1.5;
  }
 
  #second_table {
@@ -94,14 +96,12 @@
  #second_table th {
      border: 1px solid;
      border-collapse: collapse;
-     font-size: 14px;
      padding: 0 5px;
  }
 
  #second_table td {
      border: 1px solid;
      border-collapse: collapse;
-     font-size: 14px;
      padding: 0 5px;
  }
 
@@ -161,19 +161,78 @@
          padding: 9px;
      }
 
-     #second_table {
-         overflow: auto;
-         display: inline-block
-     }
+
+
  }
 
  @media only screen and (max-width: 580px) {
      .company_logo img {
          width: 100px;
-         margin: 30px 0
+         margin: 30px 0;
      }
 
      .cn_table {
          overflow: auto;
+     }
+
+     .total_in_word {
+         display: flex;
+         flex-direction: column;
+     }
+ }
+
+ @media screen and (max-width:515px) {
+     .cn-head_div {
+         flex-direction: column;
+     }
+
+     .company_logo {
+         width: 100%;
+         max-height: 25%;
+         padding: 0px;
+     }
+
+     .company_logo img {
+         width: 90%;
+         height: 120px;
+         margin: 0px auto;
+     }
+
+     .company_details {
+         width: 100%;
+         line-height: 0.5;
+         text-align: center;
+     }
+
+     #second_table {
+         overflow: auto;
+         display: inline-block;
+     }
+
+     #cn_first_table {
+         line-height: 1;
+     }
+
+     #cn_first_table tbody tr td {
+         line-height: 1.5;
+     }
+ }
+
+ @media screen and (max-width:420px) {
+     .Total_div {
+         display: flex;
+         flex-direction: column;
+     }
+
+     .Amount_tax {
+         flex-direction: column;
+     }
+
+     .Amount_tax strong {
+         width: 100%;
+     }
+
+     .Amount_tax table {
+         width: 100%;
      }
  }

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import DecamalNumber from 'decimal-number-to-words';
-import '../../../Customer/SalesOrders/PreviewSalesOrder/PreviewSalesOrder.css'
+// import '../../../Customer/SalesOrders/PreviewSalesOrder/PreviewSalesOrder.css'
 import jsPDF from "jspdf";
 import { getSoDetails, SelectedCustomer, getSubSoDetails, showOrganisation } from '../../../../api'
 import LoadingPage from '../../../loadingPage/loadingPage';
@@ -30,23 +30,15 @@ const SoPreview = ({ soNum }) => {
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem('Organisation');
-
             const Sodata = await getSoDetails(org, soNum)
             setData(Sodata[0])
-
             const cust_name = await SelectedCustomer(org, Sodata[0].cust_id)
             setCustName(cust_name.cust_name)
-            console.log('cust_name', cust_name)
-
             const Sosubdata = await getSubSoDetails(org, soNum)
             setItems(Sosubdata)
-            console.log('Sosubdata', Sosubdata)
-
             const orgdata = await showOrganisation(localStorage.getItem('Organisation'))
             setOrgdata(orgdata)
-            console.log('orgdata', orgdata)
             setLoading(true)
-
         }
         fetchdata()
     }, [soNum])
@@ -75,12 +67,12 @@ const SoPreview = ({ soNum }) => {
                                                     <h1 className='mb-0 border-top-0 text-center'>Sales Order</h1>
                                                     <div>
                                                         <div className='d-flex border-top-0'>
-                                                            <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Customer Name:</strong>{custName}</div>
-                                                            <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Address:</strong> {data.cust_addressid} </div>
+                                                            <div className='w-50 sales_order_cust_inner1  p-2'><strong>Customer Name:</strong>{custName}</div>
+                                                            <div className='w-50 sales_order_cust_inner1  p-2'><strong>Address:</strong> {data.cust_addressid} </div>
                                                         </div>
                                                         <div className=' d-flex'>
-                                                            <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 px-2 py-2'><strong>Sales Order No:</strong> {soNum}</div>
-                                                            <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 px-2 py-2'><strong>Sales Order Date:</strong> {data.sodate} </div>
+                                                            <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 p-2'><strong>Sales Order No:</strong> {soNum}</div>
+                                                            <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 p-2'><strong>Sales Order Date:</strong> {data.sodate} </div>
                                                         </div>
                                                     </div>
                                                     <table id="so_second_table" className='text-center' style={{ width: '100%' }}>
@@ -94,7 +86,6 @@ const SoPreview = ({ soNum }) => {
                                                                 <th colSpan="2">Taxable </th>
                                                                 <th rowSpan="2">Unit</th>
                                                                 <th rowSpan="2">Total Amt</th>
-
                                                             </tr>
                                                             <tr>
                                                                 <td>Rate</td>
@@ -117,8 +108,6 @@ const SoPreview = ({ soNum }) => {
 
                                                                 </tr>)
                                                             })}
-
-
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -126,7 +115,7 @@ const SoPreview = ({ soNum }) => {
                                                     <strong>Total Amount Value (In Figure)</strong>
                                                     <strong className='float-right'>{data.total_amt}</strong>
                                                 </div>
-                                                <div className="Total_so_div p-2">
+                                                <div className="Total_so_div p-2 so_word_div">
                                                     <strong>Total Amount Value (In Words)</strong>
                                                     <strong className='float-right'>{DecamalNumber.toWords(Number(data.total_amt)).toUpperCase()} Only</strong>
                                                 </div>

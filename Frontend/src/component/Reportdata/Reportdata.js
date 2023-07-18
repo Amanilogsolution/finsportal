@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
@@ -30,37 +30,29 @@ const Reportdata = () => {
       const location = await ActiveLocationAddress(org)
       setLocationlist(location)
 
-
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
       Todaydate()
 
-
+      const role = await getUserRole(org, localStorage.getItem('Role'))
       setLoading(true)
-      const UserRights_invoice = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_invoice')
-      if (UserRights_invoice.reports_invoice_view === 'true') {
+
+      if (role.reports_invoice_view === 'true') {
         document.getElementById('invoicedropdown').style.display = 'block'
       }
-
-      const UserRights_bill = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_bill')
-      if (UserRights_bill.reports_bill_view === 'true') {
+      if (role.reports_bill_view === 'true') {
         document.getElementById('billdropdown').style.display = 'block'
       }
-      const UserRights_po = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_po')
-      if (UserRights_po.reports_po_view === 'true') {
+      if (role.reports_po_view === 'true') {
         document.getElementById('podropdown').style.display = 'block'
       }
-      const UserRights_so = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_so')
-      if (UserRights_so.reports_so_view === 'true') {
+      if (role.reports_so_view === 'true') {
         document.getElementById('sodropdown').style.display = 'block'
       }
-
-      const UserRights_cn = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_cn')
-      if (UserRights_cn.reports_cn_view === 'true') {
+      if (role.reports_cn_view === 'true') {
         document.getElementById('codropdown').style.display = 'block'
       }
-      const UserRights_dn = await getUserRolePermission(org, localStorage.getItem('Role'), 'reports_dn')
-      if (UserRights_dn.reports_dn_view=== 'true') {
+      if (role.reports_dn_view === 'true') {
         document.getElementById('dodropdown').style.display = 'block'
       }
     }
@@ -110,9 +102,7 @@ const Reportdata = () => {
 
       setVendcustname(vend.options[vend.selectedIndex].text)
       const result = await filterPO(org, fromdate, todate, vendid, locationid)
-      console.log(result)
       setData(result)
-
     }
     else if (report_type === 'SO') {
       const Customer = document.getElementById('customer');
@@ -230,8 +220,8 @@ const Reportdata = () => {
                           <option value='' hidden>Select Type</option>
                           <option id='invoicedropdown' style={{ display: "none" }} value='Invoice'>Invoice</option>
                           <option id='billdropdown' style={{ display: "none" }} value='Bills'>Purchase Journal</option>
-                          <option id='podropdown' style={{ display: "none" }}  value='PO'>Purchase Order</option>
-                          <option id="sodropdown" style={{ display: "none" }}  value='SO'>Sales Order</option>
+                          <option id='podropdown' style={{ display: "none" }} value='PO'>Purchase Order</option>
+                          <option id="sodropdown" style={{ display: "none" }} value='SO'>Sales Order</option>
                           <option id="codropdown" style={{ display: "none" }} value='CN'>Credit Note</option>
                           <option id="dodropdown" style={{ display: "none" }} value='DN'>Debit Note</option>
 

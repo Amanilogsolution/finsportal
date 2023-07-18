@@ -32,20 +32,15 @@ const CnPreview = ({ cnSNum }) => {
             let org = localStorage.getItem('Organisation');
             const result = await showOrganisation(org)
             setOrgdata(result)
-            // console.log('nkj', cnSNum)
             const cn_result = await getCNData(org, cnSNum)
             setData(cn_result)
-            // console.log('cnData', cn_result)
             const Invoice = await GetInvoice(org, cn_result.inv_no)
             setInvoiceData(Invoice[0])
-            // console.log('bjkbnkjn', Invoice[0])
             const result1 = await GetSubInvoice(org, cn_result.inv_no)
             const result2 = await locationAddress(org, cn_result.location)
             setLocation(result2)
-            // console.log('kiou', org, cn_result.cn_no, cn_result.inv_no, result1.length)
             const Subdata = await SelectCnSubDetails(org, cn_result.cn_no, cn_result.inv_no, result1.length)
             setSubDetails(Subdata)
-            // console.log('wnjknkl', Subdata)
             setLoading(true)
         }
         fetchdata()
@@ -68,8 +63,8 @@ const CnPreview = ({ cnSNum }) => {
                                                         <img src={orgdata.org_logo} alt='Organisation Logo' />
                                                     </div>
                                                     <div className="company_details">
-                                                        <h3 className='my-2'>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
-                                                        <p className='mb-0'>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
+                                                        <h3>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</h3>
+                                                        <p>{orgdata.org_street} , {orgdata.org_city} , {orgdata.org_state}, {orgdata.org_country}</p>
                                                         <p>GSTIN : {orgdata.org_gst}</p>
                                                     </div>
                                                 </div>
@@ -90,7 +85,7 @@ const CnPreview = ({ cnSNum }) => {
                                                     <div className="cn_bill_ship d-flex">
                                                         <div className="cn_bill">
                                                             <h3 className='text-center' style={{ borderBottom: '1px solid' }}>Bill to party</h3>
-                                                            <div className='px-2'>
+                                                            <div className='cn_inner_bill px-2'>
                                                                 <strong>Name: {invoicedata.consignee}</strong><br />
                                                                 <strong>Address: </strong>
                                                                 {location.location_add1},{location.location_city}, {location.location_state},
@@ -101,57 +96,58 @@ const CnPreview = ({ cnSNum }) => {
                                                         </div>
                                                         <div className="ship">
                                                             <h3 className='text-center' style={{ borderBottom: '1px solid' }}>Ship to party</h3>
-                                                            <div className='px-2'>
+                                                            <div className='ship_inner px-2'>
                                                                 <strong>Name: {invoicedata.consignee}</strong><br />
                                                                 <strong>Address: </strong><br />
                                                                 GSTIN:
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <table id="second_table" style={{ width: '100%' }}>
-                                                        <thead className='text-center'>
-                                                            <tr>
-                                                                <th rowSpan="2">SNo.</th>
-                                                                <th rowSpan="2">Activity</th>
-                                                                <th rowSpan="2">Amount</th>
-                                                                <th rowSpan="2">Pass Amt</th>
-                                                                <th colSpan="2">CGST </th>
-                                                                <th colSpan="2">SGST </th>
-                                                                <th colSpan="2">IGST </th>
-                                                            </tr>
-                                                            <tr>
-                                                                <th> Rate</th>
-                                                                <th> Amt</th>
-                                                                <th> Rate</th>
-                                                                <th> Amt</th>
-                                                                <th> Rate</th>
-                                                                <th> Amt</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {subDetails.map((item, index) => {
-                                                                return (<tr key={index}>
-                                                                    <td>{index + 1}</td>
-                                                                    <td>{item.items}</td>
-                                                                    <td>{item.amt}</td>
-                                                                    <td>{item.pass_amt}</td>
-                                                                    <td>{item.cgst_rate}</td>
-                                                                    <td>{item.cgst_amt}</td>
-                                                                    <td>{item.sgst_rate}</td>
-                                                                    <td>{item.sgst_amt}</td>
-                                                                    <td>{item.igst_rate}</td>
-                                                                    <td>{item.igst_amt}</td>
-                                                                </tr>)
-                                                            })}
-
-
-                                                        </tbody></table>
+                                                    <div className='cn_table'>
+                                                        <table id="second_table" style={{ width: '100%' }}>
+                                                            <thead className='text-center'>
+                                                                <tr>
+                                                                    <th rowSpan="2">SNo.</th>
+                                                                    <th rowSpan="2">Activity</th>
+                                                                    <th rowSpan="2">Amount</th>
+                                                                    <th rowSpan="2">Pass Amt</th>
+                                                                    <th colSpan="2">CGST </th>
+                                                                    <th colSpan="2">SGST </th>
+                                                                    <th colSpan="2">IGST </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th> Rate</th>
+                                                                    <th> Amt</th>
+                                                                    <th> Rate</th>
+                                                                    <th> Amt</th>
+                                                                    <th> Rate</th>
+                                                                    <th> Amt</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {subDetails.map((item, index) => {
+                                                                    return (<tr key={index}>
+                                                                        <td>{index + 1}</td>
+                                                                        <td>{item.items}</td>
+                                                                        <td>{item.amt}</td>
+                                                                        <td>{item.pass_amt}</td>
+                                                                        <td>{item.cgst_rate}</td>
+                                                                        <td>{item.cgst_amt}</td>
+                                                                        <td>{item.sgst_rate}</td>
+                                                                        <td>{item.sgst_amt}</td>
+                                                                        <td>{item.igst_rate}</td>
+                                                                        <td>{item.igst_amt}</td>
+                                                                    </tr>)
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                                 <div className="Total_div p-2">
                                                     <strong>Total Amount Value (In Figure)</strong>
                                                     <strong className='float-right'>{data.total_cn_amt}</strong>
                                                 </div>
-                                                <div className="Total_div p-2">
+                                                <div className="Total_div total_in_word p-2">
                                                     <strong>Total Amount Value (In Words)</strong>
                                                     <strong className='float-right'>{DecamalNumber.toWords(Number(data.total_cn_amt)).toUpperCase()} Only</strong>
                                                 </div>

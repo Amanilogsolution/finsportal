@@ -4,7 +4,6 @@ import './PreviewSalesOrder.css'
 import jsPDF from "jspdf";
 
 const PreviewSalesOrder = ({ somajorData, items, org }) => {
-
     const pdfRef = useRef(null);
     const print = (e) => {
         e.preventDefault();
@@ -40,12 +39,12 @@ const PreviewSalesOrder = ({ somajorData, items, org }) => {
                                         <h1 className='mb-0 border-top-0 text-center'>Sales Order</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Customer Name:</strong>{somajorData.customer_name}</div>
-                                                <div className='w-50 sales_order_cust_inner1  px-2 py-2'><strong>Address:</strong> {somajorData.cust_address} </div>
+                                                <div className='w-50 sales_order_cust_inner1  p-2'><strong>Customer Name:</strong>{somajorData.customer_name}</div>
+                                                <div className='w-50 sales_order_cust_inner1  p-2'><strong>Address:</strong> {somajorData.cust_address} </div>
                                             </div>
                                             <div className=' d-flex'>
-                                                <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 px-2 py-2'><strong>Sales Order No:</strong> {somajorData.salesOrder_no}</div>
-                                                <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 px-2 py-2'><strong>Sales Order Date:</strong> {somajorData.salesOrder_date} </div>
+                                                <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 p-2'><strong>Sales Order No:</strong> {somajorData.salesOrder_no}</div>
+                                                <div className='w-50 sales_order_cust_inner1 sales_order_cust_inner2 p-2'><strong>Sales Order Date:</strong> {somajorData.salesOrder_date} </div>
                                             </div>
                                         </div>
                                         <table id="so_second_table" className='text-center' style={{ width: '100%' }}>
