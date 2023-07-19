@@ -29,6 +29,7 @@ const BankPayRepPreview = ({ bankPayId, orgdata }) => {
             console.log(paymentData.result[0])
             setMajorBankData(paymentData.result[0])
             const paymentSubData= await GetSubBillPayment(localStorage.getItem('Organisation'), bankPayId);
+            
             setBankPayMinData(paymentSubData.result)
             console.log(paymentSubData.result)
         }
