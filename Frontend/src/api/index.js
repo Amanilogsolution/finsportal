@@ -1892,6 +1892,10 @@ export const DeleteBillPayment = async (sno, org, status) => {
     const url = `http://localhost:3008/api/deletebillpayment`
     return axios.post(url, { sno, org, status }).then(response => response.data).catch(error => console.log(error));
 }
+export const GetBillPayment = async (org, bank_payment_id) => {
+    const url = `http://localhost:3008/api/getbillpayment`
+    return axios.post(url, {org, bank_payment_id }).then(response => response.data).catch(error => console.log(error));
+}
 
 
 
@@ -1901,6 +1905,16 @@ export const InsertSubBillPayment = async (org, bank_payment_id, chart_of_acct, 
     const url = `http://localhost:3008/api/insertsubbillpayment`
     return axios.post(url, { org, bank_payment_id, chart_of_acct, ac_head, glcode, location, ref_no, ref_date, amt, pay_type, amt_paid, bal_amt, master_id, emp_id, emp_name })
         .then(response => response.data).catch(error => console.log(error));
+}
+
+export const filterBankPayment = async(org, fromdate, todate, vendid, locationid) => {
+    const url = `http://localhost:3008/api/filterBankpaymentReport`
+    return axios.post(url, {org, fromdate, todate, vendid, locationid})
+        .then(response => response.data).catch(error => console.log(error))
+}
+export const GetSubBillPayment = async (org, bank_payment_id) => {
+    const url = `http://localhost:3008/api/getsubbillpayment`
+    return axios.post(url, {org, bank_payment_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 

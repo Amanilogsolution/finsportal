@@ -324,7 +324,7 @@ function AddBankingPayment() {
             const result = await InsertBillPayment(org, bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, bank_glcode, onAccount, remarks, username, fins_year)
 
             bankPayMinData.map(async (element) => {
-                await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
+                await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.vendorId, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
             })
             await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
             setLoading(true)

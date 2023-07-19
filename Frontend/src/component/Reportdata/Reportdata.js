@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole,filterBankPayment } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
 import CNReport from './Reports/CNReport';
 import DNReport from './Reports/DNReport';
+import BankPayReport from './Reports/BankPayReport'
 import Loading from '../loadingPage/loadingPage'
 
 const Reportdata = () => {
@@ -32,11 +33,11 @@ const Reportdata = () => {
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-      Todaydate()
+     
 
       const role = await getUserRole(org, localStorage.getItem('Role'))
       setLoading(true)
-
+      Todaydate()
       if (role.reports_invoice_view === 'true') {
         document.getElementById('invoicedropdown').style.display = 'block'
       }
@@ -54,6 +55,12 @@ const Reportdata = () => {
       }
       if (role.reports_dn_view === 'true') {
         document.getElementById('dodropdown').style.display = 'block'
+      }
+      if (role.reports_bankrecep_view === 'true') {
+        document.getElementById('bankRecpdropdown').style.display = 'block'
+      }
+      if (role.reports_bankpymt_view === 'true') {
+        document.getElementById('bankPaydropdown').style.display = 'block'
       }
     }
     fetchData()
@@ -128,7 +135,24 @@ const Reportdata = () => {
       setVendcustname(vend.options[vend.selectedIndex].text)
       const result = await filterDN(org, fromdate, todate, vendid, locationid)
       setData(result)
+    }
+    else if (report_type === 'bank_recp') {
+      // const Customer = document.getElementById('customer');
+      // const Customerid = Customer.value;
+      // const locationid = document.getElementById('location').value;
 
+      // setVendcustname(Customer.options[Customer.selectedIndex].text)
+      // const result = await filterCN(org, fromdate, todate, Customerid, locationid)
+      // setData(result)
+    }
+    else if (report_type === 'bank_pymt') {
+      const vend = document.getElementById('vendor');
+      const vendid = vend.value;
+      const locationid = document.getElementById('location').value;
+      setVendcustname(vend.options[vend.selectedIndex].text)
+      const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
+      console.log(result)
+      setData(result)
     }
 
   }
@@ -166,6 +190,16 @@ const Reportdata = () => {
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
     }
+    else if (e.target.value === 'bank_recp') {
+      document.getElementById('locationdiv').style.display = 'flex';
+      document.getElementById('customerdiv').style.display = 'flex';
+      document.getElementById('vendordiv').style.display = 'none';
+    }
+    else if (e.target.value === 'bank_pymt') {
+      document.getElementById('locationdiv').style.display = 'flex';
+      document.getElementById('customerdiv').style.display = 'none';
+      document.getElementById('vendordiv').style.display = 'flex';
+    }
   }
   return (
     <div className="wrapper">
@@ -177,11 +211,9 @@ const Reportdata = () => {
               <div className="container-fluid">
                 <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                   <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
-
-
                 <br /> <h3 className="text-left ml-5">Report</h3>
                 <div className="card w-100">
-                  <article className={`card-body`}>
+                  <article className='card-body'>
                     <form>
                       {
                         data ? (
@@ -191,7 +223,8 @@ const Reportdata = () => {
                                 <POReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'SO') ?
                                   <SOReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'CN') ?
                                     <CNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'DN') ?
-                                      <DNReport displaydata={data} name={vendcustname} /> : null)
+                                      <DNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'bank_pymt') ?
+                                      <BankPayReport displaydata={data} name={vendcustname} /> : null)
                           : <h3 className='text-center'>Filter to show data</h3>
                       }
                     </form>
@@ -204,7 +237,7 @@ const Reportdata = () => {
             {/* ######################## Modal Start ############################### */}
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog" role="document">
-                <div className={`modal-content`}>
+                <div className='modal-content'>
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel"><i className="fa fa-filter" aria-hidden="true"></i> Generate Report</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -224,7 +257,8 @@ const Reportdata = () => {
                           <option id="sodropdown" style={{ display: "none" }} value='SO'>Sales Order</option>
                           <option id="codropdown" style={{ display: "none" }} value='CN'>Credit Note</option>
                           <option id="dodropdown" style={{ display: "none" }} value='DN'>Debit Note</option>
-
+                          <option id="bankRecpdropdown" style={{ display: "none" }} value='bank_recp'>Bank Receipt</option>
+                          <option id="bankPaydropdown" style={{ display: "none" }} value='bank_pymt'>Bank Payment</option>
                         </select>
                       </div>
                     </div>

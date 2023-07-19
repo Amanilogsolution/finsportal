@@ -468,10 +468,14 @@ router.post('/getjv',JVContoller.GetJV)
 router.post('/insertbillpayment',BankPayment.InsertBillPayment)
 router.post('/allbillpayment',BankPayment.AllBillPayment)
 router.post('/deletebillpayment',BankPayment.DeleteBillPayment)
+router.post('/getbillpayment',BankPayment.GetBillPayment)
 
 
 // Sub Bank Payment
 router.post('/insertsubbillpayment',SubBankPayment.InsertSubBillPayment)
+router.post('/filterBankpaymentReport',SubBankPayment.filterBankpaymentReport)
+router.post('/getsubbillpayment',SubBankPayment.GetSubBillPayment)
+
 
 
 
