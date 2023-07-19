@@ -11,7 +11,6 @@ const AddUserRole = async (req, res) => {
     const description = req.body.description;
     const multiorg = req.body.multiorg;
 
-
     const sales_all = req.body.sales_all;
 
     const customer_view = req.body.customer_view;
@@ -193,6 +192,17 @@ const AddUserRole = async (req, res) => {
     const reports_debitnote_edit = req.body.reports_debitnote_edit
     const reports_debitnote_delete = req.body.reports_debitnote_delete
 
+    const reports_bankrecep_view = req.body.reports_bankrecep_view
+    const reports_bankrecep_create = req.body.reports_bankrecep_create
+    const reports_bankrecep_edit = req.body.reports_bankrecep_edit
+    const reports_bankrecep_delete = req.body.reports_bankrecep_delete
+
+    const reports_bankpymt_view = req.body.reports_bankpymt_view
+    const reports_bankpymt_create = req.body.reports_bankpymt_create
+    const reports_bankpymt_edit = req.body.reports_bankpymt_edit
+    const reports_bankpymt_delete = req.body.reports_bankpymt_delete
+
+
     const recurring_freq_view = req.body.recurring_freq_view
     const recurring_freq_create = req.body.recurring_freq_create
     const recurring_freq_edit = req.body.recurring_freq_edit
@@ -285,7 +295,9 @@ const AddUserRole = async (req, res) => {
                  reports_po_view,reports_po_create,reports_po_edit,reports_po_delete,
                  reports_cn_view,reports_cn_create,reports_cn_edit ,reports_cn_delete ,
                  reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
-            
+                 reports_bankrecep_view,reports_bankrecep_create,reports_bankrecep_edit ,reports_bankrecep_delete ,
+                 reports_bankpymt_view ,reports_bankpymt_create ,reports_bankpymt_edit ,reports_bankpymt_delete,
+
                  recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
                  recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
                  recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
@@ -343,7 +355,9 @@ const AddUserRole = async (req, res) => {
             '${reports_purchasesorder_view}','${reports_purchasesorder_create}','${reports_purchasesorder_edit}','${reports_purchasesorder_delete}',
             '${reports_creditnote_view}','${reports_creditnote_create}','${reports_creditnote_edit}','${reports_creditnote_delete}',
             '${reports_debitnote_view}','${reports_debitnote_create}','${reports_debitnote_edit}','${reports_debitnote_delete}',
-            
+            '${reports_bankrecep_view}','${reports_bankrecep_create}','${reports_bankrecep_edit}','${reports_bankrecep_delete}',
+            '${reports_bankpymt_view}','${reports_bankpymt_create}','${reports_bankpymt_edit}','${reports_bankpymt_delete}',
+
             '${recurring_freq_view}','${recurring_freq_create}','${recurring_freq_edit}','${recurring_freq_delete}',
             '${recurring_invoice_view}','${recurring_invoice_create}','${recurring_invoice_edit}','${recurring_invoice_delete}',
             '${recurring_bill_view}','${recurring_bill_create}','${recurring_bill_edit}','${recurring_bill_delete}',

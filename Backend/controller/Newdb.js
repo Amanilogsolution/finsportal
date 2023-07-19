@@ -918,6 +918,16 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     reports_dn_edit nvarchar(100) NULL,
     reports_dn_delete nvarchar(100) NULL,
 
+    reports_bankrecep_view nvarchar(30) NULL,
+    reports_bankrecep_create nvarchar(30) NULL,
+    reports_bankrecep_edit nvarchar(30) NULL,
+    reports_bankrecep_delete nvarchar(30) NULL,
+
+    reports_bankpymt_view nvarchar(30) NULL,
+    reports_bankpymt_create nvarchar(30) NULL,
+    reports_bankpymt_edit nvarchar(30) NULL,
+    reports_bankpymt_delete nvarchar(30) NULL,
+
     recurring_freq_view nvarchar(10) NULL,
     recurring_freq_create nvarchar(100) NULL,
     recurring_freq_edit nvarchar(100) NULL,
@@ -1529,6 +1539,8 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
              reports_po_view,reports_po_create,reports_po_edit,reports_po_delete,
              reports_cn_view,reports_cn_create,reports_cn_edit ,reports_cn_delete ,
              reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
+             reports_bankrecep_view,reports_bankrecep_create,reports_bankrecep_edit ,reports_bankrecep_delete ,
+             reports_bankpymt_view ,reports_bankpymt_create ,reports_bankpymt_edit ,reports_bankpymt_delete,
         
              recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
              recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
@@ -1583,6 +1595,8 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
         'true','true','true','true',
         'true','true','true','true',
         
+        'true','true','true','true',
+        'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
