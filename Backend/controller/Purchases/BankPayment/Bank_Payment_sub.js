@@ -31,7 +31,7 @@ const InsertSubBillPayment = async (req, res) => {
 
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 const GetSubBillPayment = async (req, res) => {
@@ -44,7 +44,7 @@ const GetSubBillPayment = async (req, res) => {
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 

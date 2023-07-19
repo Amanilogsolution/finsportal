@@ -33,7 +33,7 @@ const InsertBillPayment = async (req, res) => {
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -45,7 +45,7 @@ const AllBillPayment = async (req, res) => {
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -59,7 +59,7 @@ const GetBillPayment = async (req, res) => {
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 
@@ -87,7 +87,7 @@ const UpdateBillPayment = async (req, res) => {
 
     }
     catch (err) {
-        console.log(err)
+        res.send(err)
     }
 }
 

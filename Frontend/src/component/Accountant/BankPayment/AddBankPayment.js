@@ -120,8 +120,6 @@ function AddBankingPayment() {
         })
     }
 
-
-
     // ###################### Handle Change Minor Data Start ###############################
     const handleChangeMiorData = (e, index) => {
         let minorData = [...bankPayMinData];
@@ -133,7 +131,6 @@ function AddBankingPayment() {
         else {
             minorData[index][e.target.name] = e.target.value;
         }
-        console.log(minorData)
         setBankPayMinData(minorData)
     }
     const handleCalculateMinorData = (fieldType, index) => {
@@ -197,7 +194,6 @@ function AddBankingPayment() {
         if (!onAccount) {
             const bills = await GetBillVendorID(localStorage.getItem('Organisation'), id)
             setVendorBilllist(bills)
-            console.log(bills)
             offCustomModal('SelectVendorModal');
             document.getElementById('billCustomModal').style.display = "block"
             bankPayMinData[currentindex].vendorId = id;
@@ -225,7 +221,6 @@ function AddBankingPayment() {
         }
         else {
             const inexvno = selectedBillIndex.indexOf(index);
-
             if (inexvno > -1) {
                 selectedBillIndex.splice(inexvno, 1);
                 selectedBillData.splice(inexvno, 1);
