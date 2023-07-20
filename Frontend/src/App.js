@@ -171,8 +171,14 @@ import TotalBankingReceipt from './component/Accountant/BankingRecep/TotalBankin
 import AddBankingReceipt from './component/Accountant/BankingRecep/AddBankingRecep';
 import TotalBankingPayment from './component/Accountant/BankPayment/TotalBankPayment';
 import AddBankingPayment from './component/Accountant/BankPayment/AddBankPayment';
-import AddCashPayment from './component/Accountant/CashPayment/AddCashPayment';
 
+import TotalCashPayment from './component/Accountant/CashPayment/TotalCashPayment';
+import AddCashPayment from './component/Accountant/CashPayment/AddCashPayment';
+import UpdateCashPayment from './component/Accountant/CashPayment/UpdateCashPayment';
+
+import TotalCashReceipt from './component/Accountant/CashReceipt/TotalCashReceipt';
+import AddCashReceipt from './component/Accountant/CashReceipt/AddCashReceipt';
+import UpdateCashReceipt from './component/Accountant/CashReceipt/UpdateCashReceipt';
 
 const App = () => {
 
@@ -268,7 +274,7 @@ const App = () => {
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
-     
+
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
           <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount} />
@@ -373,8 +379,15 @@ const App = () => {
           <PrivatRoute exact path="/TotalBankingPayment" component={TotalBankingPayment} />
           <PrivatRoute exact path="/AddBankingPayment" component={AddBankingPayment} />
 
+          <PrivatRoute exact path='/TotalCashPayment' component={TotalCashPayment} />
+          <PrivatRoute exact path='/AddCashPayment' component={AddCashPayment} />
+          <PrivatRoute exact path='/UpdateCashPayment' component={UpdateCashPayment} />
+
+          <PrivatRoute exact path='/TotalCashReceipt' component={TotalCashReceipt} />
+          <PrivatRoute exact path='/AddCashReceipt' component={AddCashReceipt} />
+          <PrivatRoute exact path='/UpdateCashReceipt' component={UpdateCashReceipt} />
+
           <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
-          <PrivatRoute exact path="/AddCashPayment" component={AddCashPayment} />
 
           <Route exact path="*" component={PageNotFound} />
         </Switch>
