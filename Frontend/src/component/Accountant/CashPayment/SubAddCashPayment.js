@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SubAddCashRec = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handleChangeRowData}) => {
+const SubAddCashPayment = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handleChangeRowData}) => {
     // console.log(Cashrowdata)
   return (
     Cashrowdata.map((rowdata, index) => (
@@ -66,13 +66,12 @@ const SubAddCashRec = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handleCha
 
             /> </td>
             <td className='p-0'> <input type="number" className="form-control" name='amtbal' 
-            value={rowdata.amtbal} onChange={(e) => handleChangeRowData(e, index)} 
+            value={rowdata.amtbal} onChange={(e) => handleChangeRowData(e, index)} disabled
             // onBlur={(e) => { handleBlurMethod(e, index) }} 
 
             /> </td>
           
-            <td className='p-0'> <input type="number" className="form-control" name='glcode' id={`recAmt-${index}`} 
-            value={rowdata.glcode} 
+            <td className='p-0'> <input type="number" className="form-control" name='glcode' id={`recAmt-${index}`} value={rowdata.glcode} disabled
             // onChange={(e) => handleChangeRowData(e, index)} onBlur={(e) => { handleBlurMethod(e, index) }} 
 
             /> </td>
@@ -91,4 +90,4 @@ const SubAddCashRec = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handleCha
   )
 }
 
-export default SubAddCashRec
+export default SubAddCashPayment

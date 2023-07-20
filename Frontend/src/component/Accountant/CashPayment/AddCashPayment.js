@@ -1,12 +1,12 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import SubAddCashRec from "./SubAddCashRec";
+import SubAddCashPayment from "./SubAddCashPayment";
 import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
 
 
-const AddCashPayment=()=>{
+const AddCashPayment = () => {
     const [loading, setLoading] = useState(false);
     const obj = {
         achead: '', glcode: '', custId: '', master_id: '', costCenter: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: ''
@@ -18,9 +18,6 @@ const AddCashPayment=()=>{
     const [locationstate, setLocationstate] = useState([]);
 
 
-
-
-
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
@@ -30,11 +27,22 @@ const AddCashPayment=()=>{
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
             setLoading(true)
-
+            Todaydate()
         }
 
         fetchdata();
     }, [])
+    const Todaydate = () => {
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("cash_payt_date").defaultValue = today;
+        document.getElementById("ref_date").defaultValue = today;
+    };
 
     const handleAddRow = (e) => {
         e.preventDefault()
@@ -116,205 +124,183 @@ const AddCashPayment=()=>{
     }
 
     return (<>
-         <div className="wrapper position-relative">
-                <Header />
-                {loading ? (
-                    <div className="content-wrapper">
-                        <div className="container-fluid">
-                            <h3 className="pt-3 pb-2 pl-5">Add Cash (Receipts)</h3>
-                            <div className="card">
-                                <article className="card-body">
-                                    <form autoComplete="off">
-                                        <div className="form-row ">
-                                            <label htmlFor="bank_recep_id" className="col-md-2 col-form-label font-weight-normal" > Cash Receipt Id</label>
-                                            <div className="d-flex col-md-4"><input type="text" className="form-control col-md-10" id="bank_recep_id" disabled /></div>
-                                            <label htmlFor="check_ref_no" className="col-md-2 col-form-label font-weight-normal">Date <span className="text-danger">*</span></label>
-                                            <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="check_ref_no" /></div>
-                                        </div>
-                                        <div className="form-row mt-2">
-                                        <label htmlFor="check_ref_no" className="col-md-2 col-form-label font-weight-normal">Ref Date <span className="text-danger">*</span></label>
-                                            <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="check_ref_no" /></div>
-                                            <label htmlFor="check_date" className="col-md-2 col-form-label font-weight-normal">Ref No <span className="text-danger">*</span></label>
-                                            <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="check_date" /></div>
-                                        </div>
-                                        <div className="form-row mt-2">
-                                            <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
-                                            <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="check_amt" /></div>
-                                        </div>
-                                        <div className="w-100 overflow-auto">
-                                            <table className="table table-bordered mt-3">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">AcHead/GlCode</th>
-                                                        <th scope="col">Cost Center</th>
-                                                        <th scope="col">InvNo</th>
-                                                        <th scope="col">InvDate</th>
-                                                        <th scope="col">InvAmt</th>
-                                                        <th scope="col">NetAmt</th>
-                                                        <th scope="col">PayType</th>
-                                                        <th scope="col">AmtPaid</th>
-                                                        <th scope="col">AmtBal</th>
-                                                        <th scope="col">GlCode</th>
-                                                        <th scope="col">Sub CostCentre</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                <SubAddCashRec 
-                                                Cashrowdata={Cashrowdata}
-                                                setCurrentindex={setCurrentindex}
-                                                handleDeleteRemove={handleDeleteRemove}
-                                                handleChangeRowData={handleChangeRowData}
+        <div className="wrapper position-relative">
+            <Header />
+            {loading ? (
+                <div className="content-wrapper">
+                    <div className="container-fluid">
+                        <h3 className="pt-3 pb-2 pl-5">Add Cash (Payment)</h3>
+                        <div className="card">
+                            <article className="card-body">
+                                <form autoComplete="off">
+                                    <div className="form-row ">
+                                        <label htmlFor="cash_payt_id" className="col-md-2 col-form-label font-weight-normal" > Cash Payment Id</label>
+                                        <div className="d-flex col-md-4"><input type="text" className="form-control col-md-10" id="cash_payt_id" disabled /></div>
+                                        <label htmlFor="cash_payt_date" className="col-md-2 col-form-label font-weight-normal">Cash Payment Date <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10" id="cash_payt_date" disabled /></div>
+                                    </div>
+                                    <div className="form-row mt-2">
+                                        <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Ref No <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10" id="ref_no" /></div>
+                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Ref Date <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" /></div>
+                                    </div>
+                                    <div className="form-row mt-2">
+                                        <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10" id="check_amt" /></div>
+                                    </div>
+                                    <div className="w-100 overflow-auto">
+                                        <table className="table table-bordered mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">AcHead/GlCode</th>
+                                                    <th scope="col">Cost Center</th>
+                                                    <th scope="col">InvNo</th>
+                                                    <th scope="col">InvDate</th>
+                                                    <th scope="col">InvAmt</th>
+                                                    <th scope="col">NetAmt</th>
+                                                    <th scope="col">PayType</th>
+                                                    <th scope="col">AmtPaid</th>
+                                                    <th scope="col">AmtBal</th>
+                                                    <th scope="col">GlCode</th>
+                                                    <th scope="col">Sub CostCentre</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <SubAddCashPayment  
+                                                    Cashrowdata={Cashrowdata}
+                                                    setCurrentindex={setCurrentindex}
+                                                    handleDeleteRemove={handleDeleteRemove}
+                                                    handleChangeRowData={handleChangeRowData}
                                                 />
-                                             
-                                                    <tr>
-                                                        <td colSpan='4' className="text-right">Total</td>
-                                                        <td id="total_ref_amt">0</td>
-                                                        <td id="total_deduction">0</td>
-                                                        <td id="total_tds">0</td>
-                                                        <td id="total_net_amt">0</td>
-                                                        <td ></td>
-                                                        <td id="total_rec_amt">0</td>
-                                                        <td id="total_bal_amt">0</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <input type='button' className="btn btn-primary" onClick={handleAddRow} value='Add Row' />
-                                        <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 0, 'pop')} value='Remove' />
-                                        <div className="d-flex mb-2 justify-content-between">
-                                            <div style={{ width: "50%" }}>
-                                                <div className="form ">
-                                                    <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
-                                                    <div className="d-flex col-md">
-                                                        <textarea type="text" className="form-control " rows="4"
-                                                            id="remarks" placeholder="Remarks" style={{ resize: "none" }} 
-                                                            // onClick={handleSetMajorData}
-                                                            ></textarea>
-                                                    </div>
+                                                <tr>
+                                                    <td colSpan='4' className="text-right">Total</td>
+                                                    <td id="total_ref_amt">0</td>
+                                                    <td id="total_net_amt">0</td>
+                                                    <td ></td>
+                                                    <td id="total_amt_paid">0</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <input type='button' className="btn btn-primary" onClick={handleAddRow} value='Add Row' />
+                                    <input type='button' className="btn btn-danger ml-2" onClick={(e) => handleDeleteRemove(e, 0, 'pop')} value='Remove' />
+                                    <div className="d-flex mb-2 justify-content-between">
+                                        <div style={{ width: "50%" }}>
+                                            <div className="form ">
+                                                <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
+                                                <div className="d-flex col-md">
+                                                    <textarea type="text" className="form-control " rows="4"
+                                                        id="remarks" placeholder="Remarks" style={{ resize: "none" }}
+                                                    // onClick={handleSetMajorData}
+                                                    ></textarea>
                                                 </div>
                                             </div>
-                                            {/* <div className="rounded py-1 px-2" style={{ width: "50%", background: '#eee' }}>
-                                                <table className="w-100">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Total CR</td>
-                                                            <td id="Subtotal"> <span id="totalcrval">0</span> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td> Total DR</td>
-                                                            <td id="Subtotal"> <span id="totaldrval">0</span> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="text-danger">Difference </td>
-                                                            <td id="Subtotal"> <span id="difference">0</span></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div> */}
                                         </div>
-                                    </form>
-                                </article>
+                                    </div>
+                                </form>
+                            </article>
 
 
-                                <div className="card-footer border-top">
-                                    <button id="save" name="save" className="btn btn-danger" 
-                                    // onClick={handleSubmitFormData}
-                                    >Submit</button>
-                                    <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                                    <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankRecepPreview"  > Preview Receipts</button>
-                                </div>
-
+                            <div className="card-footer border-top">
+                                <button id="save" name="save" className="btn btn-danger"
+                                // onClick={handleSubmitFormData}
+                                >Submit</button>
+                                <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
+                                <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankRecepPreview"  > Preview Receipts</button>
                             </div>
+
                         </div>
-                        {
-                            
-                        }
                     </div>
-                ) : (
-                    <LoadingPage />
-                )}
-                <Footer />
-            </div>
-            <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div className="modal-content " >
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLongTitle">Chart of Account</h5>
-                            <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Item' id="searchChartofAcct"
-                                    onChange={handleSearchChartofAccount}
-                                />
-                            </div>
-                        </div>
-                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '50vh' }}>
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th>Sno.</th>
-                                        <th>Items</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    {
 
-                                    {chartofacctlist.map((items, index) => (
-                                        <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                            onClick={(e) => handleChangeChartofAcct(items.account_sub_name, items.account_sub_name_code)}
-                                        >
-                                            <td>{index + 1}</td>
-                                            <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
-                                        </tr>))
-                                    }
-                                </tbody>
-                            </table>
+                    }
+                </div>
+            ) : (
+                <LoadingPage />
+            )}
+            <Footer />
+        </div>
+        <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div className="modal-content " >
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLongTitle">Chart of Account</h5>
+                        <div className="form-group col-md-5">
+                            <input type="text" className='form-control col' placeholder='Search Item' id="searchChartofAcct"
+                                onChange={handleSearchChartofAccount}
+                            />
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                    </div>
+                    <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '50vh' }}>
+                        <table className='table'>
+                            <thead>
+                                <tr>
+                                    <th>Sno.</th>
+                                    <th>Items</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {chartofacctlist.map((items, index) => (
+                                    <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                        onClick={(e) => handleChangeChartofAcct(items.account_sub_name, items.account_sub_name_code)}
+                                    >
+                                        <td>{index + 1}</td>
+                                        <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
+                                    </tr>))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div className="modal-content " >
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
-                            <div className="form-group col-md-5">
-                                <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation" onChange={handleSearchLocation} />
-                            </div>
+        <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div className="modal-content " >
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLongTitle">Location</h5>
+                        <div className="form-group col-md-5">
+                            <input type="text" className='form-control col' placeholder='Search Address' id="searchLocation" onChange={handleSearchLocation} />
                         </div>
-                        <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th>City </th>
-                                        <th>Address</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        locationstate.length > 0 ?
-                                            locationstate.map((items, index) => (
-                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                    onClick={(e) => { handlelocation(items.location_id) }}
-                                                >
-                                                    <td>{items.location_city}</td>
-                                                    <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
+                    </div>
+                    <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
+                        <table className='table'>
+                            <thead>
+                                <tr>
+                                    <th>City </th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    locationstate.length > 0 ?
+                                        locationstate.map((items, index) => (
+                                            <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                                onClick={(e) => { handlelocation(items.location_id) }}
+                                            >
+                                                <td>{items.location_city}</td>
+                                                <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
 
-                                                </tr>
-                                            ))
-                                            : <tr><td>Select Customer</td></tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                                            </tr>
+                                        ))
+                                        : <tr><td>Select Customer</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
+        </div>
     </>)
 }
 export default AddCashPayment;
