@@ -389,8 +389,14 @@ const Menu = (props) => {
                     <p>Cash (Payment)</p>
                   </a>
                 </li>
+                <li className="nav-item" id='cash_recepMenu'>
+                  <a href="/TotalCashReceipt" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Cash (Receipt)</p>
+                  </a>
+                </li>
 
-
+                
                 {/* 
                 <li className="nav-item" style={styleDisplay} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">

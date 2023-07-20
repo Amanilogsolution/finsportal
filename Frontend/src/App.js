@@ -176,6 +176,10 @@ import TotalCashPayment from './component/Accountant/CashPayment/TotalCashPaymen
 import AddCashPayment from './component/Accountant/CashPayment/AddCashPayment';
 import UpdateCashPayment from './component/Accountant/CashPayment/UpdateCashPayment';
 
+import TotalCashReceipt from './component/Accountant/CashReceipt/TotalCashReceipt';
+import AddCashReceipt from './component/Accountant/CashReceipt/AddCashReceipt';
+import UpdateCashReceipt from './component/Accountant/CashReceipt/UpdateCashReceipt';
+
 const App = () => {
 
   //  setTimeout(() => {
@@ -378,6 +382,10 @@ const App = () => {
           <PrivatRoute exact path='/TotalCashPayment' component={TotalCashPayment} />
           <PrivatRoute exact path='/AddCashPayment' component={AddCashPayment} />
           <PrivatRoute exact path='/UpdateCashPayment' component={UpdateCashPayment} />
+
+          <PrivatRoute exact path='/TotalCashReceipt' component={TotalCashReceipt} />
+          <PrivatRoute exact path='/AddCashReceipt' component={AddCashReceipt} />
+          <PrivatRoute exact path='/UpdateCashReceipt' component={UpdateCashReceipt} />
 
           <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
 
