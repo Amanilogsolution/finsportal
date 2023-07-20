@@ -382,6 +382,15 @@ const Menu = (props) => {
                     <p>Banking (Payment)</p>
                   </a>
                 </li>
+                {/* <li className="nav-item" style={styleDisplay} id='cash_paytMenu'> */}
+                <li className="nav-item" id='cash_paytMenu'>
+                  <a href="/TotalCashPayment" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Cash (Payment)</p>
+                  </a>
+                </li>
+
+
                 {/* 
                 <li className="nav-item" style={styleDisplay} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">
