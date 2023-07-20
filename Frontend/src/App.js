@@ -171,6 +171,7 @@ import TotalBankingReceipt from './component/Accountant/BankingRecep/TotalBankin
 import AddBankingReceipt from './component/Accountant/BankingRecep/AddBankingRecep';
 import TotalBankingPayment from './component/Accountant/BankPayment/TotalBankPayment';
 import AddBankingPayment from './component/Accountant/BankPayment/AddBankPayment';
+import AddCashPayment from './component/Accountant/CashPayment/AddCashPayment';
 
 
 const App = () => {
@@ -373,6 +374,8 @@ const App = () => {
           <PrivatRoute exact path="/AddBankingPayment" component={AddBankingPayment} />
 
           <PrivatRoute exact path="/UserManual" component={UserManualSidebar} />
+          <PrivatRoute exact path="/AddCashPayment" component={AddCashPayment} />
+
           <Route exact path="*" component={PageNotFound} />
         </Switch>
       </Router>
