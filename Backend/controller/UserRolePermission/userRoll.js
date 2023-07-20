@@ -233,11 +233,23 @@ const AddUserRole = async (req, res) => {
     const bank_receipt_edit = req.body.bank_receipt_edit
     const bank_receipt_delete = req.body.bank_receipt_delete
 
-
     const bank_payment_view = req.body.bank_payment_view
     const bank_payment_create = req.body.bank_payment_create
     const bank_payment_edit = req.body.bank_payment_edit
     const bank_payment_delete = req.body.bank_payment_delete
+
+    // _view, cash_receipt_create, cash_receipt_edit, cash_receipt_delete,
+    // cash_payment_view, cash_payment_create, cash_payment_edit, cash_payment_delete
+
+    const cash_receipt_view = req.body.cash_receipt_view
+    const cash_receipt_create = req.body.cash_receipt_create
+    const cash_receipt_edit = req.body.cash_receipt_edit
+    const cash_receipt_delete = req.body.cash_receipt_delete
+
+    const cash_payment_view = req.body.cash_payment_view
+    const cash_payment_create = req.body.cash_payment_create
+    const cash_payment_edit = req.body.cash_payment_edit
+    const cash_payment_delete = req.body.cash_payment_delete
 
     try {
         await sql.connect(sqlConfig)
@@ -305,8 +317,9 @@ const AddUserRole = async (req, res) => {
                  tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
                  bank_recp_view,bank_recp_create ,bank_recp_edit ,bank_recp_delete ,
                  bank_payt_view ,bank_payt_create ,bank_payt_edit ,bank_payt_delete ,
+                 cash_recp_view ,cash_recp_create ,cash_recp_edit ,cash_recp_delete ,
+                 cash_payt_view ,cash_payt_create,cash_payt_edit,cash_payt_delete ,
                  add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
-                 
                  )
                       
             values('${roles}','${role_id}','${description}','${multiorg}','${sales_all}',
@@ -365,6 +378,9 @@ const AddUserRole = async (req, res) => {
             '${tds_head_view}','${tds_head_create}','${tds_head_edit}','${tds_head_delete}',
             '${bank_receipt_view}','${bank_receipt_create}' ,'${bank_receipt_edit}' ,'${bank_receipt_delete}' ,
             '${bank_payment_view}' ,'${bank_payment_create}' ,'${bank_payment_edit}' ,'${bank_payment_delete}' ,
+
+            '${cash_receipt_view}','${cash_receipt_create}' ,'${cash_receipt_edit}' ,'${cash_receipt_delete}' ,
+            '${cash_payment_view}' ,'${cash_payment_create}' ,'${cash_payment_edit}' ,'${cash_payment_delete}' ,
             '${user_id}','${os.hostname()}','${req.ip}',getDate(),'Active','${uuid}')`)
 
             res.send('Added')

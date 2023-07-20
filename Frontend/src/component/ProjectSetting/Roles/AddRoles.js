@@ -160,7 +160,17 @@ const AddRoles = () => {
         const bank_payment_edit = document.getElementById('bank_payment_edit').checked === true ? true : false;
         const bank_payment_delete = document.getElementById('bank_payment_delete').checked === true ? true : false;
 
-        const accountant_all = chartacct_view || currency_addjustment_view || journal_voucher_view || bank_receipt_view || bank_payment_view
+        const cash_receipt_view = document.getElementById('cash_receipt_view').checked === true ? true : false;
+        const cash_receipt_create = document.getElementById('cash_receipt_create').checked === true ? true : false;
+        const cash_receipt_edit = document.getElementById('cash_receipt_edit').checked === true ? true : false;
+        const cash_receipt_delete = document.getElementById('cash_receipt_delete').checked === true ? true : false;
+
+        const cash_payment_view = document.getElementById('cash_payment_view').checked === true ? true : false;
+        const cash_payment_create = document.getElementById('cash_payment_create').checked === true ? true : false;
+        const cash_payment_edit = document.getElementById('cash_payment_edit').checked === true ? true : false;
+        const cash_payment_delete = document.getElementById('cash_payment_delete').checked === true ? true : false;
+
+        const accountant_all = chartacct_view || currency_addjustment_view || journal_voucher_view || bank_receipt_view || bank_payment_view || cash_receipt_view || cash_payment_view
 
         //  ########################################### Master #########################################
         // Setting
@@ -369,6 +379,9 @@ const AddRoles = () => {
                 tds_head_view, tds_head_create, tds_head_edit, tds_head_delete,
                 bank_receipt_view, bank_receipt_create, bank_receipt_edit, bank_receipt_delete,
                 bank_payment_view, bank_payment_create, bank_payment_edit, bank_payment_delete,
+
+                cash_receipt_view, cash_receipt_create, cash_receipt_edit, cash_receipt_delete,
+                cash_payment_view, cash_payment_create, cash_payment_edit, cash_payment_delete
             )
 
             if (submitdata === 'Role Already') {
@@ -384,7 +397,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt','cash_recpt','cash_payt'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -420,10 +433,10 @@ const AddRoles = () => {
     const handleChangeAllAccess = (e) => {
         const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
             'org', 'paymentTerm', 'financial', 'branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
-            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote','reports_bankrecep','reports_bankpymt','recurring_freq', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'tds_head', 'bank_receipt', 'bank_payment']
+            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote','reports_bankrecep','reports_bankpymt','recurring_freq', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'tds_head', 'bank_receipt', 'bank_payment','cash_receipt','cash_payment']
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt','cash_recpt','cash_payt'];
         const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency', 'tds_head'];
         const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote','reportbankreceipt','reportbankpymt'];
 
@@ -672,6 +685,22 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='bank_payment_create' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='bank_payment_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='bank_payment_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='cash_recpt' style={displaynone}>
+                                                    <th className="text-left">Cash Receipt</th>
+                                                    <td><input type='checkbox' id='cash_receipt_full' style={checkboxstyle} onClick={() => fullaccess('cash_receipt_full', 'cash_receipt_view', 'cash_receipt_create', 'cash_receipt_edit', 'cash_receipt_delete')} /></td>
+                                                    <td><input type='checkbox' id='cash_receipt_view' style={checkboxstyle} onClick={() => viewoff('cash_receipt_full', 'cash_receipt_view', 'cash_receipt_create', 'cash_receipt_edit', 'cash_receipt_delete')} /></td>
+                                                    <td><input type='checkbox' id='cash_receipt_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='cash_receipt_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='cash_receipt_delete' style={checkboxstyle} disabled /></td>
+                                                </tr>
+                                                <tr id='cash_payt' style={displaynone}>
+                                                    <th className="text-left">Cash Payment</th>
+                                                    <td><input type='checkbox' id='cash_payment_full' style={checkboxstyle} onClick={() => fullaccess('cash_payment_full', 'cash_payment_view', 'cash_payment_create', 'cash_payment_edit', 'cash_payment_delete')} /></td>
+                                                    <td><input type='checkbox' id='cash_payment_view' style={checkboxstyle} onClick={() => viewoff('cash_payment_full', 'cash_payment_view', 'cash_payment_create', 'cash_payment_edit', 'cash_payment_delete')} /></td>
+                                                    <td><input type='checkbox' id='cash_payment_create' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='cash_payment_edit' style={checkboxstyle} disabled /></td>
+                                                    <td><input type='checkbox' id='cash_payment_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
                                                 {/* #############################  Master #################################################### */}
 

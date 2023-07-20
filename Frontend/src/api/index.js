@@ -1473,6 +1473,9 @@ export const AddUserRole = async (org, roles, role_id, description, multiorg, sa
     tds_head_view, tds_head_create, tds_head_edit, tds_head_delete,
     bank_receipt_view, bank_receipt_create, bank_receipt_edit, bank_receipt_delete,
     bank_payment_view, bank_payment_create, bank_payment_edit, bank_payment_delete,
+
+    cash_receipt_view, cash_receipt_create, cash_receipt_edit, cash_receipt_delete,
+    cash_payment_view, cash_payment_create, cash_payment_edit, cash_payment_delete
 ) => {
     const url = `http://localhost:3008/api/adduserrole`
     return axios.post(url, {
@@ -1521,6 +1524,9 @@ export const AddUserRole = async (org, roles, role_id, description, multiorg, sa
         tds_head_view, tds_head_create, tds_head_edit, tds_head_delete,
         bank_receipt_view, bank_receipt_create, bank_receipt_edit, bank_receipt_delete,
         bank_payment_view, bank_payment_create, bank_payment_edit, bank_payment_delete,
+
+        cash_receipt_view, cash_receipt_create, cash_receipt_edit, cash_receipt_delete,
+        cash_payment_view, cash_payment_create, cash_payment_edit, cash_payment_delete
     }).then(response => response.data).catch(error => console.log(error));
 }
 

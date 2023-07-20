@@ -962,6 +962,16 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     bank_payt_edit nvarchar(100) NULL,
     bank_payt_delete nvarchar(100) NULL,
 
+    cash_recp_view nvarchar(30) NULL,
+    cash_recp_edit nvarchar(30) NULL,
+    cash_recp_delete nvarchar(30) NULL,
+    cash_recp_create nvarchar(30) NULL,
+
+    cash_payt_create nvarchar(30) NULL,
+    cash_payt_view nvarchar(30) NULL,
+    cash_payt_edit nvarchar(30) NULL,
+    cash_payt_delete nvarchar(30) NULL,
+
     add_user_name nvarchar(50) NULL,
     add_system_name nvarchar(100) NULL,
     add_ip_address nvarchar(30) NULL,
@@ -1549,6 +1559,8 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
              tds_head_view,tds_head_create,tds_head_edit,tds_head_delete,
              bank_recp_view,bank_recp_create ,bank_recp_edit ,bank_recp_delete ,
              bank_payt_view ,bank_payt_create ,bank_payt_edit ,bank_payt_delete ,
+             cash_recp_view ,cash_recp_create ,cash_recp_edit ,cash_recp_delete ,
+             cash_payt_view ,cash_payt_create,cash_payt_edit,cash_payt_delete ,
              add_user_name,add_system_name ,add_ip_address,add_date_time,status,roles_uuid
              
              )
@@ -1602,6 +1614,8 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
         'true','true','true','true',
         'true','true','true','true',
         
+        'true','true','true','true',
+        'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',

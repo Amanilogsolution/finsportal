@@ -167,7 +167,7 @@ const AddCashPayment = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <SubAddCashPayment  
+                                                <SubAddCashPayment
                                                     Cashrowdata={Cashrowdata}
                                                     setCurrentindex={setCurrentindex}
                                                     handleDeleteRemove={handleDeleteRemove}
