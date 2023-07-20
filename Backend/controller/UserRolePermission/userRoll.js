@@ -238,9 +238,6 @@ const AddUserRole = async (req, res) => {
     const bank_payment_edit = req.body.bank_payment_edit
     const bank_payment_delete = req.body.bank_payment_delete
 
-    // _view, cash_receipt_create, cash_receipt_edit, cash_receipt_delete,
-    // cash_payment_view, cash_payment_create, cash_payment_edit, cash_payment_delete
-
     const cash_receipt_view = req.body.cash_receipt_view
     const cash_receipt_create = req.body.cash_receipt_create
     const cash_receipt_edit = req.body.cash_receipt_edit
