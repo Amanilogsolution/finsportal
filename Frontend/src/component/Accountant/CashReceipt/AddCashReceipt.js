@@ -7,6 +7,7 @@ import SubAddCashReceipt from "./SubAddCashReceipt";
 // import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
 import AlertsComp from '../../AlertsComp';
 
+
 const AddCashReceipt = () => {
     const [loading, setLoading] = useState(false);
     const [alertObj, setAlertObj] = useState({
@@ -29,7 +30,7 @@ const AddCashReceipt = () => {
     const [locationstate, setLocationstate] = useState([]);
     const [cashRepIdCount, setCashRepIdCount] = useState(0)
     const [activeEmp, setActiveEmp] = useState([])
-
+   
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
@@ -49,6 +50,7 @@ const AddCashReceipt = () => {
             setLoading(true)
             document.getElementById('cash_recep_id').value = id[0].bank_recep_ser + id[0].year + String(lastno).padStart(5, '0');
             Todaydate()
+           
         }
 
         fetchdata();
@@ -90,6 +92,8 @@ const AddCashReceipt = () => {
             document.getElementById('total_ref_amt').innerHTML = totalRefAmt
         }
     }
+
+
 
     const handleChangeRowData = (e, index) => {
         e.preventDefault();

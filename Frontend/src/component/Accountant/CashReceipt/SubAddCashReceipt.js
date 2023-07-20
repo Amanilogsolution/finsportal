@@ -1,5 +1,6 @@
 import React from 'react'
-const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowData, handleBlurMethod, setCurrentindex, activeEmp }) => {
+
+const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowData, handleBlurMethod, setCurrentindex, activeEmp}) => {
     return (
         CashSubdata.map((rowdata, index) => (
             <tr key={index}>
@@ -44,6 +45,7 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
                                 <option key={index} value={`${emp.emp_id}^${emp.emp_name}`}>{emp.emp_name}</option>)
                         }
                     </select>
+                  
                 </td>
                 <td className='px-0 py-1'>
                     <div className='d-flex justify-content-center align-items-center rounded-circle text-primary cursor-pointer border border-primary' style={{ height: '25px', width: '25px' }}
