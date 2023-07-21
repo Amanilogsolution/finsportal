@@ -4,7 +4,7 @@ import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
 import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveEmployee } from '../../../api'
 import SubAddCashReceipt from "./SubAddCashReceipt";
-// import BankRecepPreview from "./BankRecepPreview/BankRecepPreview";
+import CashReceiptPreview from './CashReceiptPreview/CashReceiptPreview';
 import AlertsComp from '../../AlertsComp';
 
 
@@ -20,6 +20,8 @@ const AddCashReceipt = () => {
     const [cashRecpMajorData, setCashRecpMajorData] = useState({
         cashRecepId: '',
         cashRecepDate: '',
+        ref_no:'',
+        ref_date:'',
         amt: '',
         remark: ''
     })
@@ -30,7 +32,7 @@ const AddCashReceipt = () => {
     const [locationstate, setLocationstate] = useState([]);
     const [cashRepIdCount, setCashRepIdCount] = useState(0)
     const [activeEmp, setActiveEmp] = useState([])
-   
+
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
@@ -50,7 +52,7 @@ const AddCashReceipt = () => {
             setLoading(true)
             document.getElementById('cash_recep_id').value = id[0].cash_recep_ser + id[0].year + String(lastno).padStart(5, '0');
             Todaydate()
-           
+
         }
 
         fetchdata();
@@ -109,6 +111,8 @@ const AddCashReceipt = () => {
             cashRecepId: document.getElementById('cash_recep_id').value,
             cashRecepDate: document.getElementById('cash_recep_date').value,
             amt: document.getElementById('cash_recep_amt').value,
+            ref_no: document.getElementById('ref_no').value,
+            ref_date: document.getElementById('ref_date').value,
             remark: document.getElementById('remarks').value
         })
     }
@@ -283,10 +287,15 @@ const AddCashReceipt = () => {
                                     </div>
 
                                     <div className="form-row mt-2">
-                                        <label htmlFor="cash_recep_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
-                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" /></div>
+                                        <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Ref No</label>
+                                        <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="ref_no" onBlur={handleSetMajorData}/></div>
                                         <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Ref Date</label>
-                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" /></div>
+                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData}/></div>
+                                    </div>
+                                    <div className="form-row mt-2">
+                                        <label htmlFor="cash_recep_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" onBlur={handleSetMajorData}/></div>
+
                                     </div>
 
                                     <div className="w-100 overflow-auto">
@@ -347,7 +356,7 @@ const AddCashReceipt = () => {
                             <div className="card-footer border-top">
                                 <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitFormData}>Submit</button>
                                 <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                                <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankRecepPreview"> Preview Receipts</button>
+                                <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#CashRecepPreview"> Preview Receipts</button>
                             </div>
 
                         </div>
@@ -361,7 +370,7 @@ const AddCashReceipt = () => {
             )}
             <Footer />
         </div>
-        {/* <BankRecepPreview orgdata={orgdata} cashRecpMajorData={cashRecpMajorData} CashSubdata={CashSubdata} /> */}
+        <CashReceiptPreview orgdata={orgdata} cashRecpMajorData={cashRecpMajorData} CashSubdata={CashSubdata} />
 
         {/* ########################## modal Chart Of Account  Start ######################## */}
         <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
