@@ -45,10 +45,10 @@ const AddCashReceipt = () => {
             setActiveEmp(allEmp);
 
             const id = await Getfincialyearid(org)
-            const lastno = Number(id[0].bank_recep_count) + 1
+            const lastno = Number(id[0].cash_recep_count) + 1;
             setCashRepIdCount(lastno)
             setLoading(true)
-            document.getElementById('cash_recep_id').value = id[0].bank_recep_ser + id[0].year + String(lastno).padStart(5, '0');
+            document.getElementById('cash_recep_id').value = id[0].cash_recep_ser + id[0].year + String(lastno).padStart(5, '0');
             Todaydate()
            
         }
@@ -255,7 +255,7 @@ const AddCashReceipt = () => {
         //     // bankPayMinData.map(async (element) => {
         //     //     await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
         //     // })
-        //     // await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
+        //     // await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', cashRepIdCount)
         //     // setLoading(true)
         //     // if (result.result === 'Added successfully') {
         //     //     setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })

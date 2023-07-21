@@ -16,7 +16,7 @@ const AddCashPayment = () => {
     const [currentindex, setCurrentindex] = useState(0)
     const [customerlist, setCustomerlist] = useState([])
     const [locationstate, setLocationstate] = useState([]);
-
+    const [cashPayIdCount, setCashPayIdCount] = useState(0)
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -26,7 +26,11 @@ const AddCashPayment = () => {
 
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
+            const id = await Getfincialyearid(org)
+            const lastno = Number(id[0].cash_payment_count) + 1;
+            setCashPayIdCount(lastno)
             setLoading(true)
+            document.getElementById('cash_payt_id').value = id[0].cash_payment_ser + id[0].year + String(lastno).padStart(5, '0');
             Todaydate()
         }
 

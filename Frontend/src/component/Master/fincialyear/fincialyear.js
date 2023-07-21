@@ -58,6 +58,8 @@ const Fincialyear = () => {
     let bank_recp_ser = document.getElementById('bank_recep_ser').value.toUpperCase();
     let bank_pyt_ser = document.getElementById('bank_payt_ser').value.toUpperCase();
 
+    let cash_recp_ser = document.getElementById('cash_recep_ser').value.toUpperCase();
+    let cash_pyt_ser = document.getElementById('cash_payt_ser').value.toUpperCase();
 
     const org = localStorage.getItem('Organisation')
     const User_id = localStorage.getItem('User_id')
@@ -67,17 +69,19 @@ const Fincialyear = () => {
       setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
     }
     else {
-      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser > 4 || bank_recp_ser > 4 || bank_pyt_ser > 4) {
+      if (invoice_ser.length > 5 || voucher_ser.length > 4 || purchase_ser.length > 4 || salesorder_ser.length > 4 || creditNotes.length > 4 || debitNotes.length > 4 || jv_ser > 4 || bank_recp_ser > 4 || bank_pyt_ser > 4 || cash_recp_ser > 4 || cash_pyt_ser > 4) {
         setLoading(true)
         setAlertObj({ type: 'warning', text: 'All Series are must be smaller then given no. of char ', url: '' })
       }
       else {
-        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, bank_recp_ser, bank_pyt_ser, User_id)
-        setLoading(true)
+        const result = await Addfincialyear(org, fincialyear, year, from_date, to_date, invoice_ser, voucher_ser, purchase_ser, salesorder_ser, creditNotes, debitNotes, jv_ser, bank_recp_ser, bank_pyt_ser, cash_recp_ser, cash_pyt_ser, User_id)
+
         if (result.rowsAffected[0] > 0) {
+          setLoading(true)
           setAlertObj({ type: 'success', text: 'Financial year Added', url: '/ShowFinancialyear' })
         }
         else {
+          setLoading(true)
           setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
         }
       }
@@ -203,14 +207,30 @@ const Fincialyear = () => {
                     </div>
                     <div className="form-row">
                       <div className="col form-row">
-                        <label htmlFor="bank_payt_ser" className="col-md-2 col-form-label font-weight-normal">Bank Payment Series <span className='text-danger'>*</span></label>
-                        <div className="col-md-4 form-group">
+                        <label htmlFor="bank_payt_ser" className="col-md-4 col-form-label font-weight-normal">Bank Payment Series <span className='text-danger'>*</span></label>
+                        <div className="col form-group">
                           <input type="text" className="form-control col-md-10 text-uppercase" id='bank_payt_ser' maxLength={4} />
                           <small >Bank Payment Series not more than 4 Character</small>
                         </div>
                       </div>
+                      <div className="col form-row">
+                        <label htmlFor="cash_recep_ser" className="col-md-4 col-form-label font-weight-normal">Cash Receipt Series<span className='text-danger'>*</span></label>
+                        <div className="col-md form-group">
+                          <input type="text" className="form-control col-md-10 text-uppercase" id='cash_recep_ser' maxLength={4} />
+                          <small >Cash Receipt Series not more than 4 Character</small>
+                        </div>
+                      </div>
                     </div>
 
+                    <div className="form-row">
+                      <div className="col form-row">
+                        <label htmlFor="cash_payt_ser" className="col-md-2 col-form-label font-weight-normal">Cash Payment Series <span className='text-danger'>*</span></label>
+                        <div className="col-md-4 form-group">
+                          <input type="text" className="form-control col-md-10 text-uppercase" id='cash_payt_ser' maxLength={4} />
+                          <small >Cash Payment Series not more than 4 Character</small>
+                        </div>
+                      </div>
+                    </div>
                   </form>
                 </article>
 

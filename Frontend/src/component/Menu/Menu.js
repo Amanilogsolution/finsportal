@@ -178,6 +178,12 @@ const Menu = (props) => {
         document.getElementById('banking_paytMenu').style.display = "block"
       }
 
+      if (result.cash_recp_view === "true") {
+        document.getElementById('cash_recepMenu').style.display = "block"
+      }
+      if (result.cash_payt_view === "true") {
+        document.getElementById('cash_paytMenu').style.display = "block"
+      }
       if (result.chartof_accounts_view === "true") {
         document.getElementById('coacctMenu').style.display = "block"
       }
@@ -382,21 +388,21 @@ const Menu = (props) => {
                     <p>Banking (Payment)</p>
                   </a>
                 </li>
-                {/* <li className="nav-item" style={styleDisplay} id='cash_paytMenu'> */}
-                <li className="nav-item" id='cash_paytMenu'>
-                  <a href="/TotalCashPayment" className="nav-link active">
-                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
-                    <p>Cash (Payment)</p>
-                  </a>
-                </li>
-                <li className="nav-item" id='cash_recepMenu'>
+                <li className="nav-item" style={styleDisplay} id='cash_recepMenu'>
                   <a href="/TotalCashReceipt" className="nav-link active">
                     <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
                     <p>Cash (Receipt)</p>
                   </a>
                 </li>
+                <li className="nav-item" style={styleDisplay} id='cash_paytMenu'>
+                  <a href="/TotalCashPayment" className="nav-link active">
+                    <i className="nav-icon" >&#36;</i>&nbsp;&nbsp;
+                    <p>Cash (Payment)</p>
+                  </a>
+                </li>
 
-                
+
+
                 {/* 
                 <li className="nav-item" style={styleDisplay} id='coacctMenu'>
                   <a href="#" className="nav-link active bg-success">
