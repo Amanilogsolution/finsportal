@@ -202,6 +202,8 @@ const AddUserRole = async (req, res) => {
     const reports_bankpymt_edit = req.body.reports_bankpymt_edit
     const reports_bankpymt_delete = req.body.reports_bankpymt_delete
 
+    const reports_cashrecep_view = req.body.reports_cashrecep_view
+    const reports_cashpymt_view = req.body.reports_cashpymt_view
 
     const recurring_freq_view = req.body.recurring_freq_view
     const recurring_freq_create = req.body.recurring_freq_create
@@ -306,6 +308,7 @@ const AddUserRole = async (req, res) => {
                  reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
                  reports_bankrecep_view,reports_bankrecep_create,reports_bankrecep_edit ,reports_bankrecep_delete ,
                  reports_bankpymt_view ,reports_bankpymt_create ,reports_bankpymt_edit ,reports_bankpymt_delete,
+                 reports_cashrecep_view,reports_cashpymt_view,
 
                  recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
                  recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
@@ -367,6 +370,7 @@ const AddUserRole = async (req, res) => {
             '${reports_debitnote_view}','${reports_debitnote_create}','${reports_debitnote_edit}','${reports_debitnote_delete}',
             '${reports_bankrecep_view}','${reports_bankrecep_create}','${reports_bankrecep_edit}','${reports_bankrecep_delete}',
             '${reports_bankpymt_view}','${reports_bankpymt_create}','${reports_bankpymt_edit}','${reports_bankpymt_delete}',
+            '${reports_cashrecep_view}','${reports_cashpymt_view}',
 
             '${recurring_freq_view}','${recurring_freq_create}','${recurring_freq_edit}','${recurring_freq_delete}',
             '${recurring_invoice_view}','${recurring_invoice_create}','${recurring_invoice_edit}','${recurring_invoice_delete}',

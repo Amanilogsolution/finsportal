@@ -340,13 +340,13 @@ const Menu = (props) => {
                 <li className="nav-item" style={styleDisplay} id="vendBillsMenu">
                   <a href="/SaveBillReport" className="nav-link active">
                     <i className="fa fa-file nav-icon" />
-                    <p>Bills</p>
+                    <p>Purchase Journal</p>
                   </a>
                 </li>
                 <li className="nav-item" id='vendrecbillMenu' style={styleDisplay}>
                   <a href="/TotalRecurringBill" className="nav-link active">
                     <i className="fa fa-retweet nav-icon" />
-                    <p>Recurring Bills</p>
+                    <p>Recurring Bills (PJ)</p>
                   </a>
                 </li>
                 <li className="nav-item" id='vendcredMenu' style={styleDisplay}>

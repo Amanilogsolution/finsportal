@@ -325,7 +325,10 @@ const AddRoles = () => {
         const reports_bankpymt_edit = document.getElementById('reports_bankpymt_edit').checked === true ? true : false;
         const reports_bankpymt_delete = document.getElementById('reports_bankpymt_delete').checked === true ? true : false;
 
-        const reports_all = reports_bills_view || reports_invoice_view || reports_salesorder_view || reports_purchasesorder_view || reports_creditnote_view || reports_debitnote_view || reports_bankrecep_view || reports_bankpymt_view;
+        const reports_cashrecep_view = document.getElementById('reports_cashrecep_view').checked === true ? true : false;
+        const reports_cashpymt_view = document.getElementById('reports_cashpymt_view').checked === true ? true : false;
+
+        const reports_all = reports_bills_view || reports_invoice_view || reports_salesorder_view || reports_purchasesorder_view || reports_creditnote_view || reports_debitnote_view || reports_bankrecep_view || reports_bankpymt_view || reports_cashrecep_view || reports_cashpymt_view
 
         const user_id = localStorage.getItem('User_id');
         const org = localStorage.getItem('Organisation');
@@ -371,6 +374,7 @@ const AddRoles = () => {
                 reports_debitnote_view, reports_debitnote_create, reports_debitnote_edit, reports_debitnote_delete,
                 reports_bankrecep_view, reports_bankrecep_create, reports_bankrecep_edit, reports_bankrecep_delete,
                 reports_bankpymt_view, reports_bankpymt_create, reports_bankpymt_edit, reports_bankpymt_delete,
+                reports_cashrecep_view, reports_cashpymt_view,
 
                 recurring_freq_view, recurring_freq_create, recurring_freq_edit, recurring_freq_delete,
                 recurring_invoice_view, recurring_invoice_create, recurring_invoice_edit, recurring_invoice_delete,
@@ -397,7 +401,7 @@ const AddRoles = () => {
     }
 
     const handletransition = () => {
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt','cash_recpt','cash_payt'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt', 'cash_recpt', 'cash_payt'];
         if (transition) {
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
@@ -433,20 +437,24 @@ const AddRoles = () => {
     const handleChangeAllAccess = (e) => {
         const arr1 = ['cust', 'invoice', 'vend', 'bills', 'salesorder', 'purchasesorder', 'creditnotes', 'debitnote', 'chartacct', 'currency_addjustment',
             'org', 'paymentTerm', 'financial', 'branch', 'crm', 'compliance', 'roles', 'items', 'country', 'state', 'city', 'currency', 'unit', 'banking', 'comptype',
-            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote','reports_bankrecep','reports_bankpymt','recurring_freq', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'tds_head', 'bank_receipt', 'bank_payment','cash_receipt','cash_payment']
+            'users', 'empmaster', 'reports_bills', 'reports_invoice', 'reports_salesorder', 'reports_purchasesorder', 'reports_creditnote', 'reports_debitnote', 'reports_bankrecep', 'reports_bankpymt', 'recurring_freq', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'tds_head', 'bank_receipt', 'bank_payment', 'cash_receipt', 'cash_payment']
         const arr2 = ['full', 'view', 'create', 'edit', 'delete']
 
-        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt','cash_recpt','cash_payt'];
+        const innertransition = ['customer', 'invoise', 'vendor', 'bills', 'chartofaccount', 'currency_adjustment', 'salesorder', 'purchasesorder', 'creditnote', 'debitnote', 'recurring_invoice', 'recurring_bill', 'journal_voucher', 'bank_recpt', 'bank_payt', 'cash_recpt', 'cash_payt'];
         const innermaster = ['country', 'state', 'city', 'currency', 'unit', 'banking', 'comp_type', 'users', 'employee', 'orgprofile', 'paymentterm', 'finsyear', 'branch', 'crmmaster', 'compliances', 'userrolesrow', 'itemsrow', 'recurring_frequency', 'tds_head'];
-        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote','reportbankreceipt','reportbankpymt'];
+        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote', 'reportbankreceipt', 'reportbankpymt', 'reportCashreceipt', 'reportCashpymt'];
 
 
+        const remportArr = ['reports_cashrecep','reports_cashpymt']
         if (e.target.checked === true) {
             for (var val of arr1) {
                 for (let val2 of arr2) {
                     document.getElementById(`${val}_${val2}`).checked = true
                 }
                 fullaccess(`${val}_full`, `${val}_view`, `${val}_create`, `${val}_edit`, `${val}_delete`)
+            }
+            for (var val of remportArr) {
+                document.getElementById(`${val}_view`).checked = true
             }
 
             for (let i = 0; i < innertransition.length; i++) {
@@ -471,6 +479,9 @@ const AddRoles = () => {
                 }
                 fullaccess(`${val}_full`, `${val}_view`, `${val}_create`, `${val}_edit`, `${val}_delete`)
             }
+            for (var val of remportArr) {
+                document.getElementById(`${val}_view`).checked = false
+            }
             for (let i = 0; i < innertransition.length; i++) {
                 document.getElementById(innertransition[i]).style.display = 'none'
             }
@@ -489,7 +500,7 @@ const AddRoles = () => {
 
 
     const handlereport = () => {
-        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote','reportbankreceipt','reportbankpymt'];
+        const innerreport = ['reportbill', 'reportinvoice', 'reportsalesorder', 'reportpurchasesorder', 'reportdebitnote', 'reportcreditnote', 'reportbankreceipt', 'reportbankpymt','reportCashreceipt', 'reportCashpymt'];
         if (reporttoggle) {
             for (let i = 0; i < innerreport.length; i++) {
                 document.getElementById(innerreport[i]).style.display = 'none'
@@ -878,7 +889,7 @@ const AddRoles = () => {
                                                 </tr>
 
                                                 <tr id='reportbill' style={displaynone}>
-                                                    <th className="text-left">Reports Bills</th>
+                                                    <th className="text-left">Reports Purchase Journal</th>
                                                     <td><input type='checkbox' id='reports_bills_full' style={checkboxstyle} onClick={() => fullaccess('reports_bills_full', 'reports_bills_view', 'reports_bills_create', 'reports_bills_edit', 'reports_bills_delete')} /></td>
                                                     <td><input type='checkbox' id='reports_bills_view' style={checkboxstyle} onClick={() => viewoff('reports_bills_full', 'reports_bills_view', 'reports_bills_create', 'reports_bills_edit', 'reports_bills_delete')} /></td>
                                                     <td><input type='checkbox' id='reports_bills_create' style={checkboxstyle} disabled /></td>
@@ -941,7 +952,20 @@ const AddRoles = () => {
                                                     <td><input type='checkbox' id='reports_bankpymt_edit' style={checkboxstyle} disabled /></td>
                                                     <td><input type='checkbox' id='reports_bankpymt_delete' style={checkboxstyle} disabled /></td>
                                                 </tr>
-
+                                                <tr id='reportCashreceipt' style={displaynone}>
+                                                    <th className="text-left" >Reports Cash Receipt</th>
+                                                    <td>
+                                                        {/* <input type='checkbox' id='reports_bankrecep_full' style={checkboxstyle} onClick={() => fullaccess('reports_bankrecep_full', 'reports_bankrecep_view', 'reports_bankrecep_create', 'reports_bankrecep_edit', 'reports_bankrecep_delete')} /> */}
+                                                    </td>
+                                                    <td><input type='checkbox' id='reports_cashrecep_view' style={checkboxstyle} /></td>
+                                                </tr>
+                                                <tr id='reportCashpymt' style={displaynone}>
+                                                    <th className="text-left" >Reports Cash Payment</th>
+                                                    <td>
+                                                        {/* <input type='checkbox' id='reports_bankpymt_full' style={checkboxstyle} onClick={() => fullaccess('reports_bankpymt_full', 'reports_bankpymt_view', 'reports_bankpymt_create', 'reports_bankpymt_edit', 'reports_bankpymt_delete')} /> */}
+                                                    </td>
+                                                    <td><input type='checkbox' id='reports_cashpymt_view' style={checkboxstyle} /></td>
+                                                </tr>
 
                                             </tbody>
                                         </table>

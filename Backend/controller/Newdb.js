@@ -933,6 +933,9 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
     reports_bankpymt_edit nvarchar(30) NULL,
     reports_bankpymt_delete nvarchar(30) NULL,
 
+    reports_cashrecep_view nvarchar(30) NULL,
+    reports_cashpymt_view nvarchar(30) NULL,
+
     recurring_freq_view nvarchar(10) NULL,
     recurring_freq_create nvarchar(100) NULL,
     recurring_freq_edit nvarchar(100) NULL,
@@ -1556,7 +1559,8 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
              reports_dn_view ,reports_dn_create ,reports_dn_edit ,reports_dn_delete,
              reports_bankrecep_view,reports_bankrecep_create,reports_bankrecep_edit ,reports_bankrecep_delete ,
              reports_bankpymt_view ,reports_bankpymt_create ,reports_bankpymt_edit ,reports_bankpymt_delete,
-        
+             reports_cashrecep_view,reports_cashpymt_view,
+
              recurring_freq_view ,recurring_freq_create ,recurring_freq_edit ,recurring_freq_delete ,
              recurring_invoice_view ,recurring_invoice_create ,recurring_invoice_edit ,recurring_invoice_delete,
              recurring_bill_view,recurring_bill_create ,recurring_bill_edit ,recurring_bill_delete ,
@@ -1618,6 +1622,7 @@ CREATE TABLE  ${dbname}.dbo.user_roles (
         'true','true','true','true',
         'true','true','true','true',
         'true','true','true','true',
+        'true','true',
         
         'true','true','true','true',
         'true','true','true','true',
