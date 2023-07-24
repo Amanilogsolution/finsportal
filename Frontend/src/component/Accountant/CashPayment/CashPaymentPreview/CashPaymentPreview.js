@@ -4,7 +4,7 @@ import '../../BankPayment/BankPayPreview/BankPayPreview.css'
 // import './CashPaymentPreview.css'
 import jsPDF from "jspdf";
 
-const CashPaymentPreview = ({orgdata}) => {
+const CashPaymentPreview = ({orgdata,cashPayMajorData,Cashrowdata}) => {
     
     const pdfRef = useRef(null);
     const print = (e) => {
@@ -37,17 +37,17 @@ const CashPaymentPreview = ({orgdata}) => {
                                             <p>GSTIN : {orgdata.org_gst}</p>
                                         </div>
                                     </div>
-                                    {/* <div className="bankrec">
-                                        <h1 className='mb-0 border-top-0 text-center'>Receipt Voucher</h1>
+                                    <div className="bankrec">
+                                        <h1 className='mb-0 border-top-0 text-center'>Cash Payment Voucher</h1>
                                         <div>
                                             <div className='d-flex border-top-0'>
-                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt No.:</strong>{cashRecpMajorData.cashRecepId}</div>
-                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Receipt Date:</strong> {cashRecpMajorData.cashRecepDate} </div>
+                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Voucher No.:</strong> {cashPayMajorData.cashPayId}</div>
+                                                <div className='w-50 bankrec_cust_inner1  px-2 py-2'><strong>Voucher Date:</strong> {cashPayMajorData.cashPayDate} </div>
                                             </div>
                                             <div className=' d-flex'>
-                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Vide cash/cheque/DD.No::</strong> {cashRecpMajorData.ref_no}</div>
+                                                <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Vide cash/cheque/DD.No::</strong> {cashPayMajorData.refNo}</div>
                                                 <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'>
-                                                    {/* <strong>Customer:</strong> { }  *
+                                                     <strong>Cheque Date:</strong> {cashPayMajorData.refDate}
                                                 </div>
                                             </div>
                                         </div>
@@ -58,12 +58,11 @@ const CashPaymentPreview = ({orgdata}) => {
                                                         <th >Sno.</th>
                                                         <th >Inv no</th>
                                                         <th >Inv Amt</th>
-                                                        <th >Tds</th>
                                                         <th >ReceiveAmt  </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {/* {CashSubdata.map((item, index) => {
+                                                  {/* {CashSubdata.map((item, index) => {
                                                     return (<tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{item.items}</td>
@@ -75,27 +74,27 @@ const CashPaymentPreview = ({orgdata}) => {
                                                         <td>{item.unit}</td>
                                                         <td>{item.total}</td>
                                                     </tr>)
-                                                })}  *
+                                                })}  
                                                     <tr>
                                                         <td colSpan='4'><strong>Total</strong></td>
                                                         <td>{cashRecpMajorData.amt}</td>
-                                                    </tr>
+                                                    </tr> */}
 
 
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div> */}
-                                    {/* <div className="Total_so_div p-2">
-                                        <strong>Total ReceiveAmt Value (In Figure)</strong>
-                                        <strong className='float-right'>{cashRecpMajorData.amt}</strong>
+                                    </div> 
+                                    <div className="Total_so_div p-2">
+                                        <strong>Total Payment Amt Value (In Figure)</strong>
+                                        <strong className='float-right'>{cashPayMajorData.amt}</strong>
                                     </div>
                                     <div className="Total_bankrecp_div p-2">
                                         <strong>Total Amt (In Words):</strong>
                                         <span className='float-right'>
-                                            {DecamalNumber.toWords(Number(cashRecpMajorData.amt)).toUpperCase()}
+                                            {DecamalNumber.toWords(Number(cashPayMajorData.amt)).toUpperCase()}
                                             Only</span>
-                                    </div> */}
+                                    </div>
                                     {/* <div className="Total_bankrecp_div p-2">
                                         <strong>On Account of :</strong>
                                         <strong className='float-right'>Being amt received through UPI</strong>
@@ -111,9 +110,9 @@ const CashPaymentPreview = ({orgdata}) => {
                                             <div><strong>Verified by :</strong> </div>
                                         </div>
                                     </div>
-                                    {/* <div className="Total_bankrec_div p-2">
+                                    <div className="Total_bankrec_div p-2">
                                         <strong>Signature of Authorizated Representative :</strong>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
 

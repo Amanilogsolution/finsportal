@@ -17,7 +17,7 @@ const AddCashPayment = () => {
         remarks: ''
     })
     const obj = {
-        achead: '', glcode: '',vendorId:'', master_id: '', costCenter: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: ''
+        achead: '', glcode: '',vendorId:'', master_id: '', costCenter: '',costCenterName:'', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: ''
     }
     const [Cashrowdata, setCashrowdata] = useState([obj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
@@ -131,9 +131,11 @@ const AddCashPayment = () => {
         setCashrowdata(minorData)
         offCustomModal('SelectVendorModal');
     }
-    const handlelocation = (location_id) => {
+    const handlelocation = (location_id,location_add1,location_city,location_country) => {
+        const locationName=location_add1+', '+location_city+', '+location_country;
         let minorData = [...Cashrowdata];
         minorData[currentindex].costCenter = location_id;
+        minorData[currentindex].costCenterName = locationName
         setCashrowdata(minorData)
     }
 
@@ -162,6 +164,7 @@ const AddCashPayment = () => {
     const handleBlurMethod = (e, index) => {
         let { name, value } = e.target;
         const rowsInput = [...Cashrowdata];
+       
         if (name === 'refAmt') {
             // let totalRefAmt = 0;
             // for (let i = 0; i < rowsInput.length; i++) {
@@ -173,6 +176,7 @@ const AddCashPayment = () => {
         }
         else if (name === 'payType') {
             value = value.toUpperCase()
+            console.log( name, value)
             if (value === 'P') {
                 rowsInput[index][name] = value
                 rowsInput[index].recAmt = 0
@@ -183,6 +187,7 @@ const AddCashPayment = () => {
                 rowsInput[index].recAmt = rowsInput[index].refAmt || 0
                 rowsInput[index].balAmt = 0
                 document.getElementById(`recAmt-${index}`).disabled = true
+                document.getElementById(`amtpaid-${index}`).disabled = true
             }
             else {
                 rowsInput[index][name] = ''
@@ -266,6 +271,7 @@ const AddCashPayment = () => {
                                                     setCurrentindex={setCurrentindex}
                                                     handleDeleteRemove={handleDeleteRemove}
                                                     handleChangeRowData={handleChangeRowData}
+                                                    handleBlurMethod={handleBlurMethod}
 
                                                 />
                                                 <tr>
@@ -316,7 +322,7 @@ const AddCashPayment = () => {
                 <LoadingPage />
             )}
             <Footer />
-            <CashPaymentPreview orgdata={orgdata} />
+            <CashPaymentPreview orgdata={orgdata} cashPayMajorData={cashPayMajorData} Cashrowdata={Cashrowdata}/>
         </div>
         {/* --------------------------- Modal for Chart of Account (Ac Head) ---------------------------- */}
 
@@ -414,7 +420,7 @@ const AddCashPayment = () => {
                                     locationstate.length > 0 ?
                                         locationstate.map((items, index) => (
                                             <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                onClick={(e) => { handlelocation(items.location_id) }}
+                                                onClick={(e) => { handlelocation(items.location_id,items.location_add1,items.location_city,items.location_country) }}
                                             >
                                                 <td>{items.location_city}</td>
                                                 <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>

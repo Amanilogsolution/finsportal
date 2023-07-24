@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SubAddCashPayment = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handleChangeRowData}) => {
+const SubAddCashPayment = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handleChangeRowData,handleBlurMethod}) => {
     // console.log(Cashrowdata)
   return (
     Cashrowdata.map((rowdata, index) => (
@@ -27,7 +27,7 @@ const SubAddCashPayment = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handl
                         }, 700)
                     }}
                 >
-                    {rowdata.costCenter.length > 0 ? rowdata.costCenter : "Select Cost Center"}
+                    {rowdata.costCenter.length > 0 ? rowdata.costCenterName : "Select Cost Center"}
                 </button>
 
                 {/* <input type="text" className="form-control " name='costCenter' value={rowdata.costCenter} onChange={(e) => handleChangeRowData(e, index)} /> */}
@@ -53,14 +53,15 @@ const SubAddCashPayment = ({Cashrowdata,setCurrentindex,handleDeleteRemove,handl
               <td className='p-0'>
                 <select className="form-control" name='paytype' 
                 onChange={(e) => handleChangeRowData(e, index)}
-                //  onBlur={(e) => { handleBlurMethod(e, index) }} 
+                 onBlur={(e) => { handleBlurMethod(e, index) }} 
                 >
                     <option value='' hidden>Select Pay Type</option>
                     <option value='p'>Partial</option>
                     <option value='f'>Full</option>
                 </select>
             </td>
-            <td className='p-0'> <input type="number" className="form-control" name='amtPaid' 
+            <td className='p-0'> <input type="number" className="form-control"
+             id={`amtpaid-${index}`} name='amtPaid' 
             value={rowdata.amtPaid} onChange={(e) => handleChangeRowData(e, index)} 
             // onBlur={(e) => { handleBlurMethod(e, index) }} 
 
