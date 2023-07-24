@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole,filterBankPayment } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
@@ -33,7 +33,7 @@ const Reportdata = () => {
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-     
+
 
       const role = await getUserRole(org, localStorage.getItem('Role'))
       setLoading(true)
@@ -61,6 +61,12 @@ const Reportdata = () => {
       }
       if (role.reports_bankpymt_view === 'true') {
         document.getElementById('bankPaydropdown').style.display = 'block'
+      }
+      if (role.reports_cashrecep_view === 'true') {
+        document.getElementById('cashRecpdropdown').style.display = 'block'
+      }
+      if (role.reports_cashpymt_view === 'true') {
+        document.getElementById('cashPaydropdown').style.display = 'block'
       }
     }
     fetchData()
@@ -154,6 +160,24 @@ const Reportdata = () => {
       console.log(result)
       setData(result)
     }
+    else if (report_type === 'cash_recp') {
+      // const vend = document.getElementById('vendor');
+      // const vendid = vend.value;
+      // const locationid = document.getElementById('location').value;
+      // setVendcustname(vend.options[vend.selectedIndex].text)
+      // const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
+      // console.log(result)
+      // setData(result)
+    }
+    else if (report_type === 'cash_pymt') {
+      // const vend = document.getElementById('vendor');
+      // const vendid = vend.value;
+      // const locationid = document.getElementById('location').value;
+      // setVendcustname(vend.options[vend.selectedIndex].text)
+      // const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
+      // console.log(result)
+      // setData(result)
+    }
 
   }
 
@@ -190,12 +214,12 @@ const Reportdata = () => {
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
     }
-    else if (e.target.value === 'bank_recp') {
+    else if (e.target.value === 'bank_recp' || e.target.value === 'cash_recp') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
     }
-    else if (e.target.value === 'bank_pymt') {
+    else if (e.target.value === 'bank_pymt' || e.target.value === 'cash_pymt') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
@@ -224,7 +248,7 @@ const Reportdata = () => {
                                   <SOReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'CN') ?
                                     <CNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'DN') ?
                                       <DNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'bank_pymt') ?
-                                      <BankPayReport displaydata={data} name={vendcustname} /> : null)
+                                        <BankPayReport displaydata={data} name={vendcustname} /> : null)
                           : <h3 className='text-center'>Filter to show data</h3>
                       }
                     </form>
@@ -259,6 +283,8 @@ const Reportdata = () => {
                           <option id="dodropdown" style={{ display: "none" }} value='DN'>Debit Note</option>
                           <option id="bankRecpdropdown" style={{ display: "none" }} value='bank_recp'>Bank Receipt</option>
                           <option id="bankPaydropdown" style={{ display: "none" }} value='bank_pymt'>Bank Payment</option>
+                          <option id="cashRecpdropdown" style={{ display: "none" }} value='cash_recp'>Cash Receipt</option>
+                          <option id="cashPaydropdown" style={{ display: "none" }} value='cash_pymt'>Cash Payment</option>
                         </select>
                       </div>
                     </div>

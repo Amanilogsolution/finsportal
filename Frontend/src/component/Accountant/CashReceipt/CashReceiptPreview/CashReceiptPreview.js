@@ -19,7 +19,7 @@ const CashReceiptPreview = ({ orgdata, cashRecpMajorData, CashSubdata }) => {
             margin: [5, 0, 0, 5],
         });
     };
-    console.log('wiuydiu', cashRecpMajorData, CashSubdata)
+    // console.log('wiuydiu', cashRecpMajorData, CashSubdata)
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="CashRecepPreview" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -48,7 +48,7 @@ const CashReceiptPreview = ({ orgdata, cashRecpMajorData, CashSubdata }) => {
                                             <div className=' d-flex'>
                                                 <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'><strong>Vide cash/cheque/DD.No::</strong> {cashRecpMajorData.ref_no}</div>
                                                 <div className='w-50 bankrec_cust_inner1 bankrec_cust_inner2 px-2 py-2'>
-                                                    {/* <strong>Customer:</strong> { }  */}
+                                                    <strong>Cheque Date:</strong> {cashRecpMajorData.ref_date} 
                                                 </div>
                                             </div>
                                         </div>

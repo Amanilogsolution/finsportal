@@ -20,13 +20,13 @@ const AddCashReceipt = () => {
     const [cashRecpMajorData, setCashRecpMajorData] = useState({
         cashRecepId: '',
         cashRecepDate: '',
-        ref_no:'',
-        ref_date:'',
+        ref_no: '',
+        ref_date: '',
         amt: '',
         remark: ''
     })
     const obj = {
-        achead: '', glcode: '', custId: '', master_id: '', costCenter: '', refNo: '', refDate: '', refAmt: '', netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
+        achead: '', glcode: '', custId: '', master_id: '', costCenter: '', costCenterName: '', refNo: '', refDate: '', refAmt: '', netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
     }
     const [CashSubdata, setCashSubdata] = useState([obj])
     const [locationstate, setLocationstate] = useState([]);
@@ -52,7 +52,6 @@ const AddCashReceipt = () => {
             setLoading(true)
             document.getElementById('cash_recep_id').value = id[0].cash_recep_ser + id[0].year + String(lastno).padStart(5, '0');
             Todaydate()
-
         }
 
         fetchdata();
@@ -160,6 +159,7 @@ const AddCashReceipt = () => {
             if (value === 'P') {
                 rowsInput[index][name] = value
                 rowsInput[index].recAmt = 0
+                rowsInput[index].balAmt = rowsInput[index].refAmt
                 document.getElementById(`recAmt-${index}`).disabled = false
             }
             else if (value === 'F') {
@@ -187,6 +187,7 @@ const AddCashReceipt = () => {
                 totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
             }
             rowsInput[index][name] = value;
+            rowsInput[index].balAmt = rowsInput[index].refAmt - e.target.value;
             document.getElementById('total_rec_amt').innerHTML = totalrecAmt
         }
 
@@ -223,9 +224,10 @@ const AddCashReceipt = () => {
         }
     }
 
-    const handlelocation = (location_id) => {
+    const handlelocation = (location_id, location_name) => {
         let minorData = [...CashSubdata];
         minorData[currentindex].costCenter = location_id;
+        minorData[currentindex].costCenterName = location_name;
         setCashSubdata(minorData)
     }
     // ----------------- Handle Submit ------------------------------
@@ -288,13 +290,13 @@ const AddCashReceipt = () => {
 
                                     <div className="form-row mt-2">
                                         <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Ref No</label>
-                                        <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="ref_no" onBlur={handleSetMajorData}/></div>
+                                        <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="ref_no" onBlur={handleSetMajorData} /></div>
                                         <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Ref Date</label>
-                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData}/></div>
+                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData} /></div>
                                     </div>
                                     <div className="form-row mt-2">
                                         <label htmlFor="cash_recep_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
-                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" onBlur={handleSetMajorData}/></div>
+                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" onBlur={handleSetMajorData} /></div>
 
                                     </div>
 
@@ -422,7 +424,7 @@ const AddCashReceipt = () => {
                         <table className='table'>
                             <thead>
                                 <tr>
-                                    <th>City </th>
+                                    <th>Name</th>
                                     <th>Address</th>
                                 </tr>
                             </thead>
@@ -431,9 +433,9 @@ const AddCashReceipt = () => {
                                     locationstate.length > 0 ?
                                         locationstate.map((items, index) => (
                                             <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                onClick={(e) => { handlelocation(items.location_id) }}
+                                                onClick={(e) => { handlelocation(items.location_id, items.location_name) }}
                                             >
-                                                <td>{items.location_city}</td>
+                                                <td>{items.location_name}</td>
                                                 <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
                                             </tr>
                                         ))

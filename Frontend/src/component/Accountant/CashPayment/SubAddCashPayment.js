@@ -42,12 +42,12 @@ const SubAddCashPayment = ({ Cashrowdata, setCurrentindex, handleDeleteRemove, h
                 /> </td>
                 <td className='p-0'> <input type="number" className="form-control px-1" name='invAmt' id={`invAmt-${index}`} value={rowdata.invAmt}
                     onChange={(e) => handleChangeRowData(e, index)}
-                //  onBlur={(e) => { handleBlurMethod(e, index) }}
+                 onBlur={(e) => { handleBlurMethod(e, index) }}
                 />
                 </td>
                 <td className='p-0'> <input type="number" className="form-control" name='netamt'
                     value={rowdata.netamt} onChange={(e) => handleChangeRowData(e, index)}
-                // onBlur={(e) => { handleBlurMethod(e, index) }} 
+                onBlur={(e) => { handleBlurMethod(e, index) }} 
 
                 /> </td>
                 <td className='p-0'>
@@ -62,8 +62,9 @@ const SubAddCashPayment = ({ Cashrowdata, setCurrentindex, handleDeleteRemove, h
                 </td>
                 <td className='p-0'> <input type="number" className="form-control"
                     id={`amtpaid-${index}`} name='amtPaid'
-                    value={rowdata.amtPaid} onChange={(e) => handleChangeRowData(e, index)}
-                // onBlur={(e) => { handleBlurMethod(e, index) }} 
+                    value={rowdata.amtPaid}
+                     onChange={(e) => handleChangeRowData(e, index)}
+                onBlur={(e) => { handleBlurMethod(e, index) }} 
 
                 /> </td>
                 <td className='p-0'> <input type="number" className="form-control" name='amtbal'
@@ -73,7 +74,7 @@ const SubAddCashPayment = ({ Cashrowdata, setCurrentindex, handleDeleteRemove, h
 
                 /> </td>
 
-                <td className='p-0'> <input type="number" className="form-control" name='glcode' id={`recAmt-${index}`} defaultValue={rowdata.glcode} disabled
+                <td className='p-0'> <input type="number" className="form-control" name='glcode' defaultValue={rowdata.glcode} disabled
                 // onChange={(e) => handleChangeRowData(e, index)} onBlur={(e) => { handleBlurMethod(e, index) }} 
 
                 /> </td>

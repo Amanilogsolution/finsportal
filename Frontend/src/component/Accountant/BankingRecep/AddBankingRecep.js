@@ -31,7 +31,7 @@ function AddBankingReceipt() {
         remark: ''
     })
     const obj = {
-        achead: '', glcode: '', custId: '', master_id: '', costCenter: '', refNo: '', refDate: '', refAmt: '', deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
+        achead: '', glcode: '', custId: '', master_id: '', costCenter: '',costCenterName:'', refNo: '', refDate: '', refAmt: '', deduction: '', tds: '', netAmt: '', payType: '', recAmt: '', balAmt: ''
     }
     const [Bankrowdata, setBankrowdata] = useState([obj])
     const [locationstate, setLocationstate] = useState([]);
@@ -304,9 +304,10 @@ function AddBankingReceipt() {
         }
     }
 
-    const handlelocation = (location_id) => {
+    const handlelocation = (location_id,location_name) => {
         let minorData = [...Bankrowdata];
         minorData[currentindex].costCenter = location_id;
+        minorData[currentindex].costCenterName = location_name;
         setBankrowdata(minorData)
     }
     // ----------------- Handle Submit ------------------------------
@@ -539,7 +540,7 @@ function AddBankingReceipt() {
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th>City </th>
+                                        <th>Name</th>
                                         <th>Address</th>
                                     </tr>
                                 </thead>
@@ -548,9 +549,9 @@ function AddBankingReceipt() {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
                                                 <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                    onClick={(e) => { handlelocation(items.location_id) }}
+                                                    onClick={(e) => { handlelocation(items.location_id,items.location_name) }}
                                                 >
-                                                    <td>{items.location_city}</td>
+                                                    <td>{items.location_name}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
 
                                                 </tr>

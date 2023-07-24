@@ -135,11 +135,11 @@ const AddCashPayment = () => {
         setCashrowdata(minorData)
         offCustomModal('SelectVendorModal');
     }
-    const handlelocation = (location_id, location_add1, location_city, location_country) => {
-        const locationName = location_add1 + ', ' + location_city + ', ' + location_country;
+
+    const handlelocation = (location_id, location_name) => {
         let minorData = [...Cashrowdata];
         minorData[currentindex].costCenter = location_id;
-        minorData[currentindex].costCenterName = locationName
+        minorData[currentindex].costCenterName = location_name
         setCashrowdata(minorData)
     }
 
@@ -175,26 +175,35 @@ const AddCashPayment = () => {
     const handleBlurMethod = (e, index) => {
         let { name, value } = e.target;
         const rowsInput = [...Cashrowdata];
-        if (name === 'refAmt') {
-            // let totalRefAmt = 0;
-            // for (let i = 0; i < rowsInput.length; i++) {
-            //     totalRefAmt = Number(totalRefAmt) + Number(rowsInput[i].refAmt)
-            // }
-            // rowsInput[index][name] = value;
-            // rowsInput[index].recAmt = '';
-            // document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+        if (name === 'invAmt') {
+            let totalRefAmt = 0;
+            for (let i = 0; i < rowsInput.length; i++) {
+                totalRefAmt = Number(totalRefAmt) + Number(rowsInput[i].invAmt)
+            }
+            rowsInput[index][name] = value;
+            rowsInput[index].amtPaid = 0
+            rowsInput[index].amtbal = rowsInput[index].invAmt
+            document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+        }
+        else if (name === 'netamt') {
+            let totalnetamt = 0;
+            for (let i = 0; i < rowsInput.length; i++) {
+                totalnetamt = Number(totalnetamt) + Number(rowsInput[i].netamt)
+            }
+            rowsInput[index][name] = value;
+            document.getElementById('total_net_amt').innerHTML = totalnetamt
         }
         else if (name === 'paytype') {
             value = value.toUpperCase()
             if (value === 'P') {
                 rowsInput[index][name] = value
-                rowsInput[index].amtPaid =0
-                rowsInput[index].amtbal = rowsInput[index].netamt
+                rowsInput[index].amtPaid = 0
+                rowsInput[index].amtbal = rowsInput[index].invAmt
                 document.getElementById(`amtpaid-${index}`).disabled = false
             }
             else if (value === 'F') {
                 rowsInput[index][name] = value
-                rowsInput[index].amtPaid = rowsInput[index].netamt || 0
+                rowsInput[index].amtPaid = rowsInput[index].invAmt
                 rowsInput[index].amtbal = 0
                 document.getElementById(`amtpaid-${index}`).disabled = true
             }
@@ -203,28 +212,24 @@ const AddCashPayment = () => {
             }
         }
 
-        // else if (name === 'netAmt') {
-        //     let totalnetamt = 0;
-        //     for (let i = 0; i < rowsInput.length; i++) {
-        //         totalnetamt = Number(totalnetamt) + Number(rowsInput[i].netAmt)
-        //     }
-        //     rowsInput[index][name] = value;
-        //     document.getElementById('total_net_amt').innerHTML = totalnetamt
-        // }
-        // else if (name === 'recAmt') {
-        //     let totalrecAmt = 0;
-        //     for (let i = 0; i < rowsInput.length; i++) {
-        //         totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
-        //     }
-        //     rowsInput[index][name] = value;
-        //     document.getElementById('total_rec_amt').innerHTML = totalrecAmt
-        // }
 
-        // else if (name === 'subCostCenter') {
-        //     let spliteVal = value.split('^');
-        //     rowsInput[index].subCostCenterId = spliteVal[0];
-        //     rowsInput[index].subCostCenter = spliteVal[1];
-        // }
+        else if (name === 'amtPaid') {
+            // let totalrecAmt = 0;
+            // for (let i = 0; i < rowsInput.length; i++) {
+            //     totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].amtPaid)
+            // }
+            rowsInput[index].amtbal = rowsInput[index].invAmt - Number(value)
+            // document.getElementById('total_amt_paid').innerHTML = totalrecAmt
+            rowsInput[index][name] = value;
+        }
+
+        let totalrecAmt = 0;
+        for (let i = 0; i < rowsInput.length; i++) {
+            totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].amtPaid)
+        }
+        document.getElementById('total_amt_paid').innerHTML = totalrecAmt
+
+
         setCashrowdata(rowsInput);
     }
 
@@ -421,7 +426,7 @@ const AddCashPayment = () => {
                         <table className='table'>
                             <thead>
                                 <tr>
-                                    <th>City </th>
+                                    <th>Name</th>
                                     <th>Address</th>
                                 </tr>
                             </thead>
@@ -430,9 +435,9 @@ const AddCashPayment = () => {
                                     locationstate.length > 0 ?
                                         locationstate.map((items, index) => (
                                             <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                onClick={(e) => { handlelocation(items.location_id, items.location_add1, items.location_city, items.location_country) }}
+                                                onClick={(e) => { handlelocation(items.location_id, items.location_name) }}
                                             >
-                                                <td>{items.location_city}</td>
+                                                <td>{items.location_name}</td>
                                                 <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
 
                                             </tr>
