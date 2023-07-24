@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
 import SubAddCashPayment from "./SubAddCashPayment";
-import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress,ActiveVendor } from '../../../api'
+import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveVendor, ActiveEmployee } from '../../../api'
 import CashPaymentPreview from './CashPaymentPreview/CashPaymentPreview'
 
 const AddCashPayment = () => {
@@ -17,12 +17,13 @@ const AddCashPayment = () => {
         remarks: ''
     })
     const obj = {
-        achead: '', glcode: '',vendorId:'', master_id: '', costCenter: '',costCenterName:'', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: ''
+        achead: '', glcode: '', vendorId: '', master_id: '', costCenter: '', costCenterName: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: '', sub_cost_center: '', sub_cost_centerName: ''
     }
     const [Cashrowdata, setCashrowdata] = useState([obj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
     const [currentindex, setCurrentindex] = useState(0)
     const [customerlist, setCustomerlist] = useState([])
+    const [employeelist, setEmployeelist] = useState([])
     const [locationstate, setLocationstate] = useState([]);
     const [cashPayIdCount, setCashPayIdCount] = useState(0)
     const [vendorlist, setVendorlist] = useState([])
@@ -35,6 +36,9 @@ const AddCashPayment = () => {
             setChartofacctlist(chartofacct);
             const orgdata = await showOrganisation(org)
             setOrgdata(orgdata)
+
+            const emp_list = await ActiveEmployee(org)
+            setEmployeelist(emp_list)
 
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
@@ -131,8 +135,8 @@ const AddCashPayment = () => {
         setCashrowdata(minorData)
         offCustomModal('SelectVendorModal');
     }
-    const handlelocation = (location_id,location_add1,location_city,location_country) => {
-        const locationName=location_add1+', '+location_city+', '+location_country;
+    const handlelocation = (location_id, location_add1, location_city, location_country) => {
+        const locationName = location_add1 + ', ' + location_city + ', ' + location_country;
         let minorData = [...Cashrowdata];
         minorData[currentindex].costCenter = location_id;
         minorData[currentindex].costCenterName = locationName
@@ -154,7 +158,14 @@ const AddCashPayment = () => {
         e.preventDefault();
         let { name, value } = e.target;
         const rowsInput = [...Cashrowdata];
-        rowsInput[index][name] = value
+        if (name === 'sub_cost_center') {
+            let emp = value.split('^')
+            rowsInput[index].sub_cost_center = emp[0]
+            rowsInput[index].sub_cost_centerName = emp[1]
+        }
+        else {
+            rowsInput[index][name] = value
+        }
         setCashrowdata(rowsInput);
     }
     const offCustomModal = (ids) => {
@@ -164,7 +175,6 @@ const AddCashPayment = () => {
     const handleBlurMethod = (e, index) => {
         let { name, value } = e.target;
         const rowsInput = [...Cashrowdata];
-       
         if (name === 'refAmt') {
             // let totalRefAmt = 0;
             // for (let i = 0; i < rowsInput.length; i++) {
@@ -174,19 +184,18 @@ const AddCashPayment = () => {
             // rowsInput[index].recAmt = '';
             // document.getElementById('total_ref_amt').innerHTML = totalRefAmt
         }
-        else if (name === 'payType') {
+        else if (name === 'paytype') {
             value = value.toUpperCase()
-            console.log( name, value)
             if (value === 'P') {
                 rowsInput[index][name] = value
-                rowsInput[index].recAmt = 0
-                document.getElementById(`recAmt-${index}`).disabled = false
+                rowsInput[index].amtPaid =0
+                rowsInput[index].amtbal = rowsInput[index].netamt
+                document.getElementById(`amtpaid-${index}`).disabled = false
             }
             else if (value === 'F') {
                 rowsInput[index][name] = value
-                rowsInput[index].recAmt = rowsInput[index].refAmt || 0
-                rowsInput[index].balAmt = 0
-                document.getElementById(`recAmt-${index}`).disabled = true
+                rowsInput[index].amtPaid = rowsInput[index].netamt || 0
+                rowsInput[index].amtbal = 0
                 document.getElementById(`amtpaid-${index}`).disabled = true
             }
             else {
@@ -272,6 +281,7 @@ const AddCashPayment = () => {
                                                     handleDeleteRemove={handleDeleteRemove}
                                                     handleChangeRowData={handleChangeRowData}
                                                     handleBlurMethod={handleBlurMethod}
+                                                    employeelist={employeelist}
 
                                                 />
                                                 <tr>
@@ -322,7 +332,7 @@ const AddCashPayment = () => {
                 <LoadingPage />
             )}
             <Footer />
-            <CashPaymentPreview orgdata={orgdata} cashPayMajorData={cashPayMajorData} Cashrowdata={Cashrowdata}/>
+            <CashPaymentPreview orgdata={orgdata} cashPayMajorData={cashPayMajorData} Cashrowdata={Cashrowdata} />
         </div>
         {/* --------------------------- Modal for Chart of Account (Ac Head) ---------------------------- */}
 
@@ -420,7 +430,7 @@ const AddCashPayment = () => {
                                     locationstate.length > 0 ?
                                         locationstate.map((items, index) => (
                                             <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
-                                                onClick={(e) => { handlelocation(items.location_id,items.location_add1,items.location_city,items.location_country) }}
+                                                onClick={(e) => { handlelocation(items.location_id, items.location_add1, items.location_city, items.location_country) }}
                                             >
                                                 <td>{items.location_city}</td>
                                                 <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
