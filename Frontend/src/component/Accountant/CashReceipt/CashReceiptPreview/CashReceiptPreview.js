@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import DecamalNumber from 'decimal-number-to-words';
-import './CashReceiptPreview.css'
+// import './CashReceiptPreview.css'
+import '../../BankingRecep/BankRecepPreview/BankRecepPreview.css'
 import jsPDF from "jspdf";
 
 const CashReceiptPreview = ({ orgdata, cashRecpMajorData, CashSubdata }) => {
@@ -8,15 +9,15 @@ const CashReceiptPreview = ({ orgdata, cashRecpMajorData, CashSubdata }) => {
     const pdfRef = useRef(null);
     const print = (e) => {
         e.preventDefault();
-        // const content = pdfRef.current;
-        // const doc = new jsPDF();
-        // doc.html(content, {
-        //     callback: function (doc) {
-        //         doc.save(`Bank(Receipt).pdf`);
-        //     },
-        //     html2canvas: { scale: 0.253 },
-        //     margin: [5, 0, 0, 5],
-        // });
+        const content = pdfRef.current;
+        const doc = new jsPDF();
+        doc.html(content, {
+            callback: function (doc) {
+                doc.save(`Cash(Receipt)-${cashRecpMajorData.cashRecepId}.pdf`);
+            },
+            html2canvas: { scale: 0.253 },
+            margin: [5, 0, 0, 5],
+        });
     };
     console.log('wiuydiu', cashRecpMajorData, CashSubdata)
     return (

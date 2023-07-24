@@ -3,13 +3,21 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
 import SubAddCashPayment from "./SubAddCashPayment";
-import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress } from '../../../api'
-
+import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress,ActiveVendor } from '../../../api'
+import CashPaymentPreview from './CashPaymentPreview/CashPaymentPreview'
 
 const AddCashPayment = () => {
     const [loading, setLoading] = useState(false);
+    const [cashPayMajorData, setCashPayMajorData] = useState({
+        cashPayId: '',
+        cashPayDate: '',
+        refNo: '',
+        refDate: '',
+        amt: '',
+        remarks: ''
+    })
     const obj = {
-        achead: '', glcode: '', custId: '', master_id: '', costCenter: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: ''
+        achead: '', glcode: '',vendorId:'', master_id: '', costCenter: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: ''
     }
     const [Cashrowdata, setCashrowdata] = useState([obj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
@@ -17,12 +25,16 @@ const AddCashPayment = () => {
     const [customerlist, setCustomerlist] = useState([])
     const [locationstate, setLocationstate] = useState([]);
     const [cashPayIdCount, setCashPayIdCount] = useState(0)
+    const [vendorlist, setVendorlist] = useState([])
+    const [orgdata, setOrgdata] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
             const org = localStorage.getItem("Organisation");
             const chartofacct = await ActiveAllChartofAccount(org);
             setChartofacctlist(chartofacct);
+            const orgdata = await showOrganisation(org)
+            setOrgdata(orgdata)
 
             const locatonstateres = await ActiveLocationAddress(org);
             setLocationstate(locatonstateres);
@@ -74,6 +86,18 @@ const AddCashPayment = () => {
         }
     }
 
+    const handleSetMajorData = () => {
+        setCashPayMajorData({
+            ...cashPayMajorData,
+            cashPayId: document.getElementById('cash_payt_id').value,
+            cashPayDate: document.getElementById('cash_payt_date').value,
+            refNo: document.getElementById('ref_no').value,
+            refDate: document.getElementById('ref_date').value,
+            amt: document.getElementById('check_amt').value,
+            remarks: document.getElementById('remarks').value,
+        })
+    }
+
     const handleSearchChartofAccount = async (e) => {
         const org = localStorage.getItem('Organisation');
         if (e.target.value.length > 2) {
@@ -87,21 +111,26 @@ const AddCashPayment = () => {
     }
 
     const handleChangeChartofAcct = async (chartOfAcct, glcode) => {
-        const subBankRec = [...Cashrowdata]
-        subBankRec[currentindex].glcode = glcode;
-        if (glcode === '5020001') {
+        let minorData = [...Cashrowdata];
+        minorData[currentindex].chart_of_acct = chartOfAcct;
+        minorData[currentindex].achead = chartOfAcct;
+        minorData[currentindex].glcode = glcode;
+        setCashrowdata(minorData)
+        if (glcode === '3020001') {
             const org = localStorage.getItem('Organisation')
-            const customers = await ActiveCustomer(org)
-            setCustomerlist(customers)
-            document.getElementById('SelectCustomerModal').style.display = 'block'
+            const vendors = await ActiveVendor(org)
+            setVendorlist(vendors)
+            document.getElementById('SelectVendorModal').style.display = 'block'
         }
-        else {
-            subBankRec[currentindex].achead = chartOfAcct;
-
-        }
-        setCashrowdata(subBankRec);
     }
-
+    const handleClickVendor = async (id, name, mast_id) => {
+        let minorData = [...Cashrowdata];
+        minorData[currentindex].vendorId = id;
+        minorData[currentindex].master_id = mast_id;
+        minorData[currentindex].achead = name;
+        setCashrowdata(minorData)
+        offCustomModal('SelectVendorModal');
+    }
     const handlelocation = (location_id) => {
         let minorData = [...Cashrowdata];
         minorData[currentindex].costCenter = location_id;
@@ -126,7 +155,68 @@ const AddCashPayment = () => {
         rowsInput[index][name] = value
         setCashrowdata(rowsInput);
     }
+    const offCustomModal = (ids) => {
+        document.getElementById(ids).style.display = 'none'
+    }
 
+    const handleBlurMethod = (e, index) => {
+        let { name, value } = e.target;
+        const rowsInput = [...Cashrowdata];
+        if (name === 'refAmt') {
+            // let totalRefAmt = 0;
+            // for (let i = 0; i < rowsInput.length; i++) {
+            //     totalRefAmt = Number(totalRefAmt) + Number(rowsInput[i].refAmt)
+            // }
+            // rowsInput[index][name] = value;
+            // rowsInput[index].recAmt = '';
+            // document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+        }
+        else if (name === 'payType') {
+            value = value.toUpperCase()
+            if (value === 'P') {
+                rowsInput[index][name] = value
+                rowsInput[index].recAmt = 0
+                document.getElementById(`recAmt-${index}`).disabled = false
+            }
+            else if (value === 'F') {
+                rowsInput[index][name] = value
+                rowsInput[index].recAmt = rowsInput[index].refAmt || 0
+                rowsInput[index].balAmt = 0
+                document.getElementById(`recAmt-${index}`).disabled = true
+            }
+            else {
+                rowsInput[index][name] = ''
+            }
+        }
+
+        // else if (name === 'netAmt') {
+        //     let totalnetamt = 0;
+        //     for (let i = 0; i < rowsInput.length; i++) {
+        //         totalnetamt = Number(totalnetamt) + Number(rowsInput[i].netAmt)
+        //     }
+        //     rowsInput[index][name] = value;
+        //     document.getElementById('total_net_amt').innerHTML = totalnetamt
+        // }
+        // else if (name === 'recAmt') {
+        //     let totalrecAmt = 0;
+        //     for (let i = 0; i < rowsInput.length; i++) {
+        //         totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
+        //     }
+        //     rowsInput[index][name] = value;
+        //     document.getElementById('total_rec_amt').innerHTML = totalrecAmt
+        // }
+
+        // else if (name === 'subCostCenter') {
+        //     let spliteVal = value.split('^');
+        //     rowsInput[index].subCostCenterId = spliteVal[0];
+        //     rowsInput[index].subCostCenter = spliteVal[1];
+        // }
+        setCashrowdata(rowsInput);
+    }
+
+    const handleSubmitFormData = () => {
+        console.log(cashPayMajorData, Cashrowdata)
+    }
     return (<>
         <div className="wrapper position-relative">
             <Header />
@@ -145,13 +235,13 @@ const AddCashPayment = () => {
                                     </div>
                                     <div className="form-row mt-2">
                                         <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Ref No <span className="text-danger">*</span></label>
-                                        <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10" id="ref_no" /></div>
+                                        <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10" id="ref_no" onBlur={handleSetMajorData} /></div>
                                         <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Ref Date <span className="text-danger">*</span></label>
-                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" /></div>
+                                        <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData} /></div>
                                     </div>
                                     <div className="form-row mt-2">
                                         <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
-                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10" id="check_amt" /></div>
+                                        <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10" id="check_amt" onBlur={handleSetMajorData} /></div>
                                     </div>
                                     <div className="w-100 overflow-auto">
                                         <table className="table table-bordered mt-3">
@@ -176,6 +266,7 @@ const AddCashPayment = () => {
                                                     setCurrentindex={setCurrentindex}
                                                     handleDeleteRemove={handleDeleteRemove}
                                                     handleChangeRowData={handleChangeRowData}
+
                                                 />
                                                 <tr>
                                                     <td colSpan='4' className="text-right">Total</td>
@@ -196,6 +287,7 @@ const AddCashPayment = () => {
                                                 <div className="d-flex col-md">
                                                     <textarea type="text" className="form-control " rows="4"
                                                         id="remarks" placeholder="Remarks" style={{ resize: "none" }}
+                                                        onBlur={handleSetMajorData}
                                                     // onClick={handleSetMajorData}
                                                     ></textarea>
                                                 </div>
@@ -208,10 +300,10 @@ const AddCashPayment = () => {
 
                             <div className="card-footer border-top">
                                 <button id="save" name="save" className="btn btn-danger"
-                                // onClick={handleSubmitFormData}
+                                    onClick={handleSubmitFormData}
                                 >Submit</button>
                                 <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
-                                <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#BankRecepPreview"  > Preview Receipts</button>
+                                <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#CashPayPreview"> Payment Preview </button>
                             </div>
 
                         </div>
@@ -224,7 +316,10 @@ const AddCashPayment = () => {
                 <LoadingPage />
             )}
             <Footer />
+            <CashPaymentPreview orgdata={orgdata} />
         </div>
+        {/* --------------------------- Modal for Chart of Account (Ac Head) ---------------------------- */}
+
         <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div className="modal-content " >
@@ -263,8 +358,40 @@ const AddCashPayment = () => {
                 </div>
             </div>
         </div>
+        {/* ###################### Vendor Custom Modal ############################### */}
+        <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "120%", display: "none" }} tabIndex="-1" role="dialog" >
+            <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLongTitle">Select Vendor Name</h5>
+                    </div>
+                    <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
+                        <table className="table  table-striped h-100 w-100">
+                            <thead className="position-sticky bg-white  " style={{ top: '0' }}>
+                                <tr>
+                                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
+                                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Vendor Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    vendorlist.map((vendor, index) =>
+                                        <tr key={index} className="cursor-pointer"
+                                            onClick={() => { handleClickVendor(vendor.vend_id, vendor.vend_name, vendor.mast_id) }}
+                                        >
+                                            <td className="pl-3 text-center">{index + 1}</td>
+                                            <td className="pl-3 text-center">{vendor.vend_name}</td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
+        {/* --------------------------- Modal for Location (Cost Center) ---------------------------- */}
         <div className="modal fade  bd-example-modal-lg" id="locationmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div className="modal-content " >
