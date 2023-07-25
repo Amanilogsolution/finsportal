@@ -4,10 +4,11 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const AllCashPayment = async (req, res) => {
+    console.log('kmhk')
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_payment with (nolock) order by sno DESC `)
+        const result = await sql.query(`select convert(varchar(15),cash_payment_date,121) as cash_paymentDate,* from ${org}.dbo.tbl_cash_payment with (nolock) order by sno DESC `)
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {

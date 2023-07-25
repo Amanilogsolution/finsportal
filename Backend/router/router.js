@@ -481,14 +481,14 @@ router.post('/getsubbillpayment',SubBankPayment.GetSubBillPayment)
 
 
 //Cash Payment
-router.post('/AllCashPayment',CashPaymentController.AllCashPayment)
-router.post('/InsertCashPayment',CashPaymentController.InsertCashPayment)
-router.post('/GetCashPayment',CashPaymentController.GetCashPayment)
+router.post('/allcashpayment',CashPaymentController.AllCashPayment)
+router.post('/insertcashpayment',CashPaymentController.InsertCashPayment)
+router.post('/getcashpayment',CashPaymentController.GetCashPayment)
 
 //Cash Payment
-router.post('/AllCashPaymentSub',SubCashPaymentController.AllCashPaymentSub)
-router.post('/InsertCashSubPayment',SubCashPaymentController.InsertCashSubPayment)
-router.post('/GetSubCashPayment',SubCashPaymentController.GetSubCashPayment)
+// router.post('/allcashpaymentsub',SubCashPaymentController.AllCashPaymentSub)
+router.post('/insertcashsubpayment',SubCashPaymentController.InsertCashSubPayment)
+router.post('/getsubcashpayment',SubCashPaymentController.GetSubCashPayment)
 
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
-import { getUserRolePermission } from '../../../api'
+import { getUserRolePermission, AllCashPayment } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
@@ -15,7 +15,8 @@ const TotalCashPayment = () => {
 
     useEffect(() => {
         const fetchdata = async () => {
-
+            const cashAllData = await AllCashPayment(localStorage.getItem('Organisation'))
+            setData(cashAllData.result)
             setLoading(true)
             fetchRoles();
         }
@@ -29,17 +30,81 @@ const TotalCashPayment = () => {
         const financstatus = localStorage.getItem('financialstatus')
         setFinancialstatus(financstatus);
 
-        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'bank_recp')
+        const UserRights = await getUserRolePermission(org, localStorage.getItem('Role'), 'cash_payt')
         setUserRightsData(UserRights)
 
-        if (UserRights.bank_recp_create === 'true') {
+        if (UserRights.cash_payt_create === 'true') {
             document.getElementById('addcashPaybtn').style.display = "block";
             if (financstatus === 'Lock') {
                 document.getElementById('addcashPaybtn').style.background = '#7795fa';
             }
         }
     }
-    const columns = []
+    const columns = [
+        {
+            name: 'Cash Payment Id',
+            selector: 'cash_payment_id',
+            sortable: true,
+            cell: (row) => {
+                if (financialstatus === 'Lock') {
+                    return <p title="Edit Cash Payment is lock">{row.cash_payment_id}</p>
+                }
+                else {
+                    if (!userRightsData) {
+                        fetchRoles()
+                    }
+                    if (userRightsData.cash_payt_edit === 'true') {
+                        return (
+                            <a title="Edit Cash Payment" className='pb-1' href="EditJVoucher" onClick={() => localStorage.setItem('cashPayId', row.cash_payment_id)}
+                                style={{ borderBottom: '3px solid blue' }}>{row.cash_payment_id}</a>
+                        )
+                    } else {
+                        return <p title="do not have Access">{row.cash_payment_id}</p>
+                    }
+                }
+            }
+        },
+
+        {
+            name: 'Cash Payment Date',
+            selector: 'cash_paymentDate',
+            sortable: true
+        },
+        {
+            name: 'Remark',
+            selector: 'remarks',
+            sortable: true
+        },
+        // {
+        //     name: 'Status',
+        //     selector: 'status',
+        //     sortable: true,
+        //     cell:(row) => {
+        //         if(localStorage.getItem('financialstatus') === 'Lock'){
+        //             return <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} disabled />
+        //         }
+        //         else{
+        //             if (!userRightsData) {
+        //                 fetchRoles()
+        //               }
+        //               if(userRightsData.journal_voucher_delete === 'true'){
+        //                 return (
+        //                     <input title={row.status} type="checkbox" className='cursor-pointer' id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} 
+        //                     onChange={async () => {
+        //                       const result = await UpdateJVStatus(localStorage.getItem('Organisation'),row.status === 'Active' ? 'Deactive' : 'Active',row.jv_no )
+        //                       if (result === 'done') { window.location.href = "./TotalJVoucher" }
+        //                     }} 
+
+        //                     />
+        //                   );
+        //               }
+        //               else {
+        //                 return <input title={row.status} type="checkbox" id={`deleteselect${row.sno}`} checked={row.status === 'Active' ? true : false} disabled />
+        //               }
+        //         }
+        //     }
+        // }
+    ]
 
     const tableData = {
         columns, data
