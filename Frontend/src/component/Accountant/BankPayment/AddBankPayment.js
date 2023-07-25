@@ -25,7 +25,7 @@ function AddBankingPayment() {
         remarks: ''
     }])
     const minorBankPayobj = {
-        chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', refNo: '', refDate: '', refAmt: '',
+        chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '',costCenterName:'', refNo: '', refDate: '', refAmt: '',
         pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '', sub_cost_center_id: ''
     }
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
@@ -286,9 +286,10 @@ function AddBankingPayment() {
         }
     }
 
-    const handlelocation = (location_id) => {
+    const handlelocation = (location_id,location_name) => {
         let minorData = [...bankPayMinData];
         minorData[currentindex].costCenter = location_id;
+        minorData[currentindex].costCenterName = location_name;
         setBankPayMinData(minorData)
     }
 
@@ -584,7 +585,7 @@ function AddBankingPayment() {
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th>City </th>
+                                        <th>Name</th>
                                         <th>Address</th>
                                     </tr>
                                 </thead>
@@ -592,8 +593,8 @@ function AddBankingPayment() {
                                     {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
-                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal" onClick={(e) => { handlelocation(items.location_id) }} >
-                                                    <td>{items.location_city}</td>
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal" onClick={(e) => { handlelocation(items.location_id,items.location_name) }} >
+                                                    <td>{items.location_name}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
                                                 </tr>
                                             ))

@@ -725,7 +725,7 @@ export const ActiveLocationAddress = async (org) => {
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 export const SearchLocationAddress = async (org, val) => {
-    const url = `https://finsbackend.awlinternational.com/api/searchlocationaddress`
+    const url = `http://localhost:3008/api/searchlocationaddress`
     return axios.post(url, { org, val }).then(response => response.data).catch(error => console.log(error));
 }
 

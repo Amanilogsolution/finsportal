@@ -244,7 +244,7 @@ const SearchLocationAddress = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * FROM ${org}.dbo.tbl_location_address with (nolock) where status='Active' and location_city LIKE '${val}%' or
-        location_add1 LIKE '${val}%'`)
+        location_name LIKE '${val}%' or location_add1 LIKE '%${val}%'`)
         res.send(result.recordset)
     }
     catch (err) {

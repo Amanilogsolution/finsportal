@@ -24,7 +24,7 @@ const SubBankPayment = ({ bankPayMinData, handleRemoveDeleteRow, handleChangeMio
                             }, 700)
                         }}
                     >
-                        {minordata.costCenter.length > 0 ? minordata.costCenter : "Select Cost Center"}
+                        {minordata.costCenter.length > 0 ? minordata.costCenterName : "Select Cost Center"}
                     </button>
                 </td>
                 <td className="p-0"><input type="text" className="form-control " name="refNo" id={`ref_no-${index}`} value={minordata.refNo} onChange={(e) => handleChangeMiorData(e, index)} /></td>
