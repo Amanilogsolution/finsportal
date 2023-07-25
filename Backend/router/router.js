@@ -59,6 +59,9 @@ const JVContoller = require('../controller/JournalVoucher')
 
 const BankPayment = require('../controller/Purchases/BankPayment/Bank_Payment')
 const SubBankPayment = require('../controller/Purchases/BankPayment/Bank_Payment_sub')
+const CashPaymentController = require('../controller/Purchases/CashPayment/Cashpayment')
+const SubCashPaymentController = require('../controller/Purchases/CashPayment/CashPaymentSub')
+
 
 //Routes
 //DB
@@ -475,6 +478,17 @@ router.post('/getbillpayment',BankPayment.GetBillPayment)
 router.post('/insertsubbillpayment',SubBankPayment.InsertSubBillPayment)
 router.post('/filterBankpaymentReport',SubBankPayment.filterBankpaymentReport)
 router.post('/getsubbillpayment',SubBankPayment.GetSubBillPayment)
+
+
+//Cash Payment
+router.post('/AllCashPayment',CashPaymentController.AllCashPayment)
+router.post('/InsertCashPayment',CashPaymentController.InsertCashPayment)
+router.post('/GetCashPayment',CashPaymentController.GetCashPayment)
+
+//Cash Payment
+router.post('/AllCashPaymentSub',SubCashPaymentController.AllCashPaymentSub)
+router.post('/InsertCashSubPayment',SubCashPaymentController.InsertCashSubPayment)
+router.post('/GetSubCashPayment',SubCashPaymentController.GetSubCashPayment)
 
 
 

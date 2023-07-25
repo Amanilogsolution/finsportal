@@ -55,5 +55,6 @@ const GetCashPayment = async (req, res) => {
         res.send(err)
     }
 
-    module.exports = {AllCashPayment,InsertCashPayment,GetCashPayment}
 }
+
+module.exports = {AllCashPayment,InsertCashPayment,GetCashPayment}
