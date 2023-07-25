@@ -156,14 +156,12 @@ import EditRecurringInvoice from './component/Customer/RecurringInvoices/EditRec
 
 import TotalRecurringBill from './component/Vendor/RecurringBills/TotalRecurringBills'
 import EditRecurringBills from './component/Vendor/RecurringBills/EditRecurringBill';
-
 import LandingPage from './component/LandingPage/LandingPage';
 import Signup from './component/SignUp/Signup';
 import UserManualSidebar from './component/UserManual/UserManualSidebar';
 import JVoucher from './component/Accountant/JournalVoucher/JVoucher'
 import TotalJVoucher from './component/Accountant/JournalVoucher/TotalJVoucher'
 import EditJVoucher from './component/Accountant/JournalVoucher/EditJVoucher';
-
 import inserttdshead from './component/Master/TdsHead/inserttdshead'
 import TotaltdsHead from './component/Master/TdsHead/TotaltdsHead'
 import UpdatetdsHead from './component/Master/TdsHead/UpdatetdsHead'
@@ -171,20 +169,14 @@ import TotalBankingReceipt from './component/Accountant/BankingRecep/TotalBankin
 import AddBankingReceipt from './component/Accountant/BankingRecep/AddBankingRecep';
 import TotalBankingPayment from './component/Accountant/BankPayment/TotalBankPayment';
 import AddBankingPayment from './component/Accountant/BankPayment/AddBankPayment';
-
 import TotalCashPayment from './component/Accountant/CashPayment/TotalCashPayment';
 import AddCashPayment from './component/Accountant/CashPayment/AddCashPayment';
 import UpdateCashPayment from './component/Accountant/CashPayment/UpdateCashPayment';
-
 import TotalCashReceipt from './component/Accountant/CashReceipt/TotalCashReceipt';
 import AddCashReceipt from './component/Accountant/CashReceipt/AddCashReceipt';
 import UpdateCashReceipt from './component/Accountant/CashReceipt/UpdateCashReceipt';
 
 const App = () => {
-
-  //  setTimeout(() => {
-  //   localStorage.removeItem('Token')
-  //  },8000)
 
   return (
     <div>
@@ -194,25 +186,18 @@ const App = () => {
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/Signin" restricted={false} component={Login} />
           <Route exact path="/Signup" restricted={false} component={Signup} />
-
-
           <Route exact path="/OtpPage" component={OTPpage} />
-
           <PrivatRoute exact path="/Home" component={Home} />
           <PrivatRoute exact path="/LoginDetails" component={LoginDetails} />
           <PrivatRoute exact path="/ChangePassword" component={ChangePassword} />
           <PrivatRoute exact path="/Customer" component={Customer} />
           <PrivatRoute exact path="/CustomerNames" component={CustomerNames} />
-
-
           {/* <Route exact path="/Organisation" component={<Organisation/>}/> */}
           <PrivatRoute exact path="/Org" component={Org} />
           <PrivatRoute exact path="/EditOrganisation" component={EditOrganisation} />
-
           <PrivatRoute exact path="/Vendor" component={Vendor} />
           <PrivatRoute exact path="/ShowVendor" component={Showvendor} />
           <PrivatRoute exact path="/EditVendor" component={Editvendor} />
-
           <PrivatRoute exact path="/StateMaster" component={StateMaster} />
           <PrivatRoute exact path="/ShowState" component={ShowState} />
           <PrivatRoute exact path="/EditState" component={EditState} />
@@ -220,7 +205,6 @@ const App = () => {
           <PrivatRoute exact path="/ShowCountry" component={ShowCountry} />
           <PrivatRoute exact path="/AddCountry" component={AddCountry} />
           <PrivatRoute exact path="/EditCountry" component={EditCountry} />
-
           <PrivatRoute exact path="/ShowCurrency" component={ShowCurrency} />
           <PrivatRoute exact path="/AddCurrency" component={AddCurrency} />
           <PrivatRoute exact path="/EditCurrency" component={EditCurrency} />
@@ -274,7 +258,6 @@ const App = () => {
           <PrivatRoute exact path="/ShowFinancialyear" component={ShowFincialyear} />
           <PrivatRoute exact path="/Updatefincialyear" component={Updatefincialyear} />
 
-
           <PrivatRoute exact path="/ShowChartAccount" component={ShowChartAccount} />
           <PrivatRoute exact path="/ChartOfAccount" component={ChartOfAccount} />
           <PrivatRoute exact path="/EditChartAccount" component={EditChartAccount} />
@@ -311,51 +294,38 @@ const App = () => {
           <PrivatRoute exact path="/SalesOrder" component={SalesOrder} />
           <PrivatRoute exact path="/SaveSalesOrder" component={SaveSalesOrder} />
           <PrivatRoute exact path="/EditSalesOrder" component={EditSalesOrder} />
-
-
           <PrivatRoute exact path="/DeliveryChallans" component={DeliveryChallans} />
           <PrivatRoute exact path="/Invoices" component={Invoices} />
-
           <PrivatRoute exact path="/EditInvoice" component={EditInvoice} />
           <PrivatRoute exact path="/SaveInvoice" component={SaveInvoice} />
-
           <PrivatRoute exact path="/RecurringInvoices" component={RecurringInvoices} />
           <PrivatRoute exact path="/CreditNotes" component={CreditNotes} />
           <PrivatRoute exact path="/CreditNotesUI" component={CreditNotesUI} />
           <PrivatRoute exact path="/DebitNotes" component={DebitNotes} />
-
           <PrivatRoute exact path="/PaymentsReceived" component={PaymentsReceived} />
-
           <PrivatRoute exact path="/PurchaseOrder" component={PurchaseOrder} />
           <PrivatRoute exact path="/SavePurchaseOrder" component={SavePurchaseOrder} />
           <PrivatRoute exact path="/EditPurchaseOrder" component={EditPurchaseOrder} />
-
           <PrivatRoute exact path="/Bills" component={Bills} />
           <PrivatRoute exact path="/EditBill" component={EditBill} />
           <PrivatRoute exact path="/RecurringBills" component={RecurringBills} />
           <PrivatRoute exact path="/VendorCredits" component={VendorCredits} />
           <PrivatRoute exact path="/SaveBillReport" component={SaveBillReport} />
-
           <PrivatRoute exact path="/ShowPaymentTerm" component={ShowFincialTerm} />
           <PrivatRoute exact path="/AddPaymentTerm" component={AddPaymentTerm} />
           <PrivatRoute exact path="/UpdatePaymentTerm" component={UpdatePaymentTerm} />
-
           <PrivatRoute exact path="/ShowItem" component={ShowItem} />
           <PrivatRoute exact path="/AddItem" component={AddItem} />
           <PrivatRoute exact path="/EditItem" component={EditItem} />
-
           <PrivatRoute exact path="/AddCrm" component={AddCrm} />
           <PrivatRoute exact path="/EditCrm" component={EditCrm} />
           <PrivatRoute exact path="/ShowCrm" component={ShowCrm} />
           <PrivatRoute exact path="/Reportdata" component={Reportdata} />
-
           <PrivatRoute exact path="/ShowEmployee" component={ShowEmployee} />
           <PrivatRoute exact path="/AddEmployee" component={AddEmployee} />
           <PrivatRoute exact path="/EditEmployee" component={EditEmployee} />
-
           <PrivatRoute exact path="/AddRoles" component={AddRoles} />
           <PrivatRoute exact path="/ShowRoles" component={ShowRoles} />
-
           <PrivatRoute exact path="/AddRecurringInvoices" component={AddRecurringInvoices} />
           <PrivatRoute exact path="/TotalRecurringInvoice" component={TotalRecurringInvoice} />
           <PrivatRoute exact path="/EditRecurringInvoice" component={EditRecurringInvoice} />
