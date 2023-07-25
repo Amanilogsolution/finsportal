@@ -157,7 +157,6 @@ const Reportdata = () => {
       const locationid = document.getElementById('location').value;
       setVendcustname(vend.options[vend.selectedIndex].text)
       const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
-      console.log(result)
       setData(result)
     }
     else if (report_type === 'cash_recp') {
@@ -231,7 +230,7 @@ const Reportdata = () => {
       {
         loading ?
           <>
-            <div className={`content-wrapper`}>
+            <div className='content-wrapper'>
               <div className="container-fluid">
                 <button type="button" style={{ float: "right", marginRight: '10%', marginTop: '1%' }} className={`btn btn-${themebtncolor}`} data-toggle="modal" data-target="#exampleModal">
                   <i className="fa fa-filter" aria-hidden="true"></i> Generate Report</button>
