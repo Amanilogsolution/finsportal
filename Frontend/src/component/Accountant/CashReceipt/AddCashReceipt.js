@@ -182,13 +182,13 @@ const AddCashReceipt = () => {
             document.getElementById('total_net_amt').innerHTML = totalnetamt
         }
         else if (name === 'recAmt') {
-            let totalrecAmt = 0;
-            for (let i = 0; i < rowsInput.length; i++) {
-                totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
-            }
+            // let totalrecAmt = 0;
+            // for (let i = 0; i < rowsInput.length; i++) {
+            //     totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
+            // }
             rowsInput[index][name] = value;
             rowsInput[index].balAmt = rowsInput[index].refAmt - e.target.value;
-            document.getElementById('total_rec_amt').innerHTML = totalrecAmt
+            // document.getElementById('total_rec_amt').innerHTML = totalrecAmt
         }
 
         else if (name === 'subCostCenter') {
@@ -196,6 +196,15 @@ const AddCashReceipt = () => {
             rowsInput[index].subCostCenterId = spliteVal[0];
             rowsInput[index].subCostCenter = spliteVal[1];
         }
+
+        let totalrecAmt = 0;
+        for (let i = 0; i < rowsInput.length; i++) {
+            totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
+        }
+        // rowsInput[index][name] = value;/
+        // rowsInput[index].balAmt = rowsInput[index].refAmt - e.target.value;
+        document.getElementById('total_rec_amt').innerHTML = totalrecAmt
+
         setCashSubdata(rowsInput);
     }
     const handleClickCustomer = async (customer_id, customer_name, master_id) => {
