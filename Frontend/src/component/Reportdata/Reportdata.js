@@ -240,13 +240,13 @@ const Reportdata = () => {
                     <form>
                       {
                         data ? (
-                          (document.getElementById('report_type').value == 'Invoice') ?
-                            <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'Bills')
-                              ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'PO') ?
-                                <POReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'SO') ?
-                                  <SOReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'CN') ?
-                                    <CNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'DN') ?
-                                      <DNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value == 'bank_pymt') ?
+                          (document.getElementById('report_type').value === 'Invoice') ?
+                            <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'Bills')
+                              ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'PO') ?
+                                <POReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'SO') ?
+                                  <SOReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'CN') ?
+                                    <CNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'DN') ?
+                                      <DNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'bank_pymt') ?
                                         <BankPayReport displaydata={data} name={vendcustname} /> : null)
                           : <h3 className='text-center'>Filter to show data</h3>
                       }
