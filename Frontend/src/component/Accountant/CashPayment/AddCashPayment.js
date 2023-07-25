@@ -138,7 +138,6 @@ const AddCashPayment = () => {
     }
 
     const handlelocation = (location_id, location_name) => {
-        console.log(location_name)
         let minorData = [...Cashrowdata];
         minorData[currentindex].costCenter = location_id;
         minorData[currentindex].costCenterName = location_name
