@@ -1928,23 +1928,9 @@ export const GetSubBillPayment = async (org, bank_payment_id) => {
 
 // Cash Payment
 
-// export const InsertBillPayment = async (org, bank_payment_id) => {
-//     const url = `http://localhost:3008/api/insertbillpayment`
-//     return axios.post(url, {org, bank_payment_id }).then(response => response.data).catch(error => console.log(error));
-// }
+export const InsertCashPayment = async () => {
+    const url = `http://localhost:3008/api/insertcashpayment`
+    return axios.post(url, {}).then(response => response.data).catch(error => console.log(error));
+}
 
 
-// org,
-// bank_payment_id,
-// bank_payment_date,
-// cheq_ref_no,
-// cheq_date,
-// cheq_amt,
-// bank_id,
-// bank_sub_code,
-// bank,
-// bank_glcode,
-// on_account,
-// remarks,
-// username,
-// fins_year
