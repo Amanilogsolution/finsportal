@@ -4,7 +4,6 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const AllCashPayment = async (req, res) => {
-    console.log('kmhk')
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)

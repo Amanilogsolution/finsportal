@@ -14,7 +14,8 @@ const AddCashPayment = () => {
         refNo: '',
         refDate: '',
         amt: '',
-        remarks: ''
+        remarks: '',
+        onAccount: false
     })
     const obj = {
         achead: '', glcode: '', vendorId: '', master_id: '', costCenter: '', costCenterName: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: '', sub_cost_center: '', sub_cost_centerName: ''
@@ -254,14 +255,18 @@ const AddCashPayment = () => {
                                         <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10" id="cash_payt_date" disabled /></div>
                                     </div>
                                     <div className="form-row mt-2">
-                                        <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Ref No <span className="text-danger">*</span></label>
+                                        <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Cheque no/Ref no <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10" id="ref_no" onBlur={handleSetMajorData} /></div>
-                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Ref Date <span className="text-danger">*</span></label>
+                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Cheque/Ref Date<span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData} /></div>
                                     </div>
                                     <div className="form-row mt-2">
                                         <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10" id="check_amt" onBlur={handleSetMajorData} /></div>
+                                        <label htmlFor="onaccount" className="col-md-2 col-form-label font-weight-normal">on Account <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="onaccount" style={{ width: '20px', height: '20px' }}
+                                            onChange={() => { setCashPayMajorData({ ...cashPayMajorData, onAccount: !cashPayMajorData.onAccount }) }}
+                                        /></div>
                                     </div>
                                     <div className="w-100 overflow-auto">
                                         <table className="table table-bordered mt-3">
