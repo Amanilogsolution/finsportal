@@ -161,12 +161,12 @@ const Reportdata = () => {
       setData(result)
     }
     else if (report_type === 'cash_recp') {
-      // const vend = document.getElementById('vendor');
-      // const vendid = vend.value;
+      // const Customer = document.getElementById('customer');
+      // const Customerid = Customer.value;
       // const locationid = document.getElementById('location').value;
-      // setVendcustname(vend.options[vend.selectedIndex].text)
-      // const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
-      // console.log(result)
+
+      // setVendcustname(Customer.options[Customer.selectedIndex].text)
+      // const result = await filterCN(org, fromdate, todate, Customerid, locationid)
       // setData(result)
     }
     else if (report_type === 'cash_pymt') {
