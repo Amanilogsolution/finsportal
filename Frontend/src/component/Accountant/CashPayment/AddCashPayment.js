@@ -458,6 +458,53 @@ const AddCashPayment = () => {
                 </div>
             </div>
         </div>
+
+        {/* ############## Bill Custome Modal ################################# */}
+        <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "122%", display: "none" }} tabIndex="-1" role="dialog" >
+            <div className="modal-dialog modal-dialog-centered modal-lg" role="document" style={{ width: '55vw' }}>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLongTitle">Select Purchase Journal</h5>
+                    </div>
+                    <div className="modal-body overflow-auto position-relative p-2" style={{ maxHeight: '40vh' }}>
+                        <table className="table  table-striped table-sm ">
+                            <thead className="position-sticky bg-white  " style={{ top: '0' }}>
+                                <tr>
+                                    <th className="pl-4 text-left">Select</th>
+                                    <th className="pl-4 text-left">Bill no</th>
+                                    <th className="pl-4 text-center">Bill Date</th>
+                                    <th className="pl-4 text-right">Bill Amt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* {
+                                    vendorBilllist.map((bill, index) =>
+                                        <tr key={index} className="cursor-pointer" >
+                                            <td className="pl-3"><input type="checkbox" id={`billcheck-${index}`}
+                                                onChange={() => { handleSetBillData(index, bill.voucher_no, bill.voudate, bill.total_bill_amt, bill.gst_location_id) }}
+                                            /></td>
+
+                                            <td className="pl-3 text-left">{bill.voucher_no}</td>
+                                            <td className="pl-3 text-center">{bill.voudate}</td>
+                                            <td className="pl-3 text-right">{bill.total_bill_amt}</td>
+                                        </tr>
+                                    )
+                                } */}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary"
+                            onClick={() => { offCustomModal('billCustomModal'); }}
+                        >Close</button>
+                        <button type="button" className="btn btn-success"
+                        // onClick={() => handleMergeInvoiceBillArry()}
+                        >Procced</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </>)
 }
 export default AddCashPayment;
