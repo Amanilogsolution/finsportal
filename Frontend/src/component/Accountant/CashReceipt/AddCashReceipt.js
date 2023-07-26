@@ -23,7 +23,8 @@ const AddCashReceipt = () => {
         ref_no: '',
         ref_date: '',
         amt: '',
-        remark: ''
+        remark: '',
+        onAccount: false
     })
     const obj = {
         achead: '', glcode: '', custId: '', master_id: '', costCenter: '', costCenterName: '', refNo: '', refDate: '', refAmt: '', netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
@@ -306,7 +307,7 @@ const AddCashReceipt = () => {
     // ----------------- Handle Submit ------------------------------
     const handleSubmitFormData = (e) => {
         e.preventDefault();
-        console.log(CashSubdata)
+        console.log(cashRecpMajorData,CashSubdata)
         // setLoading(false)
         // const bank_recep_id = document.getElementById('bank_recep_id').value
         // const bank_recep_date = document.getElementById('bank_recep_date').value
@@ -371,7 +372,7 @@ const AddCashReceipt = () => {
                                         <label htmlFor="cash_recep_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" onBlur={handleSetMajorData} /></div>
                                         <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal">On Account</label>
-                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="on_account" style={{ width: '20px', height: '20px' }} /></div>
+                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="on_account" style={{ width: '20px', height: '20px' }} onChange={() => { cashRecpMajorData({ ...cashRecpMajorData, cashRecpMajorData: !cashRecpMajorData.onAccount }) }} /></div>
                                     </div>
 
                                     <div className="w-100 overflow-auto">
