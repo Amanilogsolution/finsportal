@@ -256,7 +256,7 @@ const AddCashPayment = () => {
                                     <div className="form-row mt-2">
                                         <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Cheque no/Ref no <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10" id="ref_no" onBlur={handleSetMajorData} /></div>
-                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Cheque/Ref Date<span className="text-danger">*</span></label>
+                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Cheque/Ref Date <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData} /></div>
                                     </div>
                                     <div className="form-row mt-2">
