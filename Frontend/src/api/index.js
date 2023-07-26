@@ -1269,6 +1269,7 @@ export const UpdateSaveInvoiceToPost = async (org, invoice_no, new_invoice_no) =
 }
 
 export const GetInvoicesByCustomer = async (org, customer_id) => {
+    console.log('API',customer_id)
     const url = `http://localhost:3008/api/getinvoicesbycustomer`
     return axios.post(url, { org, customer_id }).then(response => response.data).catch(error => console.log(error));
 }

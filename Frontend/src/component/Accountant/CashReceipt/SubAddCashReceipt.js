@@ -15,7 +15,7 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
                     </button>
                 </td>
                 <td className='p-0'>
-                    <button type="button" id={`location-${index}`} className="btn border col p-0" style={{ height: '50px' }} data-toggle="modal" data-target="#locationmodal"
+                    <button type="button" id={`location-${index}`} className="btn border col p-0 overflow-auto" style={{maxHeight:'80px',width:'120px'}} data-toggle="modal" data-target="#locationmodal"
                         onClick={(e) => {
                             e.preventDefault(); setCurrentindex(index);
                             setTimeout(() => { document.getElementById('searchLocation').focus() }, 700)

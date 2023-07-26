@@ -1,0 +1,24 @@
+#customerModalInnerDiv{
+    min-width: 55vw;
+}
+#invModalInnerDiv{
+    min-width: 60vw;
+}
+
+@media screen and (max-width:768px) {
+    #customerModalInnerDiv{
+        width: 65%;
+    }
+    #invModalInnerDiv{
+        min-width: 85%;
+    }
+}
+@media screen and (max-width:600px) {
+    #customerModalInnerDiv{
+        min-width: 90%;
+        margin: auto;
+    }
+    #invModalInnerDiv{
+        width: 95%;
+    }
+}

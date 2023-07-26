@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveEmployee } from '../../../api'
+import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveEmployee, GetInvoicesByCustomer } from '../../../api'
 import SubAddCashReceipt from "./SubAddCashReceipt";
 import CashReceiptPreview from './CashReceiptPreview/CashReceiptPreview';
 import AlertsComp from '../../AlertsComp';
-
+import './CashReceipt.css'
 
 const AddCashReceipt = () => {
     const [loading, setLoading] = useState(false);
@@ -32,6 +32,9 @@ const AddCashReceipt = () => {
     const [locationstate, setLocationstate] = useState([]);
     const [cashRepIdCount, setCashRepIdCount] = useState(0)
     const [activeEmp, setActiveEmp] = useState([])
+    const [custInvList, setCustInvList] = useState([])
+    const [checkedInv, setCheckedInv] = useState([])
+    const [checkedInvIndex, setCheckedInvIndex] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -131,6 +134,7 @@ const AddCashReceipt = () => {
         const subBankRec = [...CashSubdata]
         subBankRec[currentindex].glcode = glcode;
         if (glcode === '5020001') {
+            window.scrollTo(0, 0);
             const org = localStorage.getItem('Organisation')
             const customers = await ActiveCustomer(org)
             setCustomerlist(customers)
@@ -197,12 +201,12 @@ const AddCashReceipt = () => {
             rowsInput[index].subCostCenter = spliteVal[1];
         }
 
-        let totalrecAmt = 0;
+        let totalrecAmt = 0, totalBalAmt = 0;
         for (let i = 0; i < rowsInput.length; i++) {
             totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].recAmt)
+            totalBalAmt = Number(totalBalAmt) + Number(rowsInput[i].balAmt);
         }
-        // rowsInput[index][name] = value;/
-        // rowsInput[index].balAmt = rowsInput[index].refAmt - e.target.value;
+        document.getElementById('total_bal_amt').innerHTML = totalBalAmt
         document.getElementById('total_rec_amt').innerHTML = totalrecAmt
 
         setCashSubdata(rowsInput);
@@ -212,6 +216,12 @@ const AddCashReceipt = () => {
         rowsInputData[currentindex].custId = customer_id;
         rowsInputData[currentindex].achead = customer_name;
         rowsInputData[currentindex].master_id = master_id;
+        const onAccount = document.getElementById('on_account').checked;
+        if (!onAccount) {
+            const allInvoice = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
+            setCustInvList(allInvoice)
+            document.getElementById('SelectInvoiceModal').style.display = 'block';
+        }
         offCustomModal('SelectCustomerModal');
         setCashSubdata(rowsInputData)
     }
@@ -238,6 +248,60 @@ const AddCashReceipt = () => {
         minorData[currentindex].costCenter = location_id;
         minorData[currentindex].costCenterName = location_name;
         setCashSubdata(minorData)
+    }
+
+    const handleSelectInvoice = (index, inv_no, inv_date, inv_amt, inv_location, inv_locationName) => {
+        window.scrollTo(0, 0);
+        if (document.getElementById(`invMod-${index}`).checked) {
+            setCheckedInv([...checkedInv, { index, inv_no, inv_date, inv_amt, inv_location, inv_locationName }])
+            setCheckedInvIndex([...checkedInvIndex, index])
+        }
+        else {
+            let unCheckedIndex = checkedInvIndex.indexOf(index)
+            checkedInv.splice(unCheckedIndex, 1)
+            checkedInvIndex.splice(unCheckedIndex, 1)
+        }
+    }
+    const handleMergeInvoice = () => {
+        let previousArr = CashSubdata.slice(0, currentindex)
+        let afterArr = CashSubdata.slice(currentindex + 1)
+        let betweenArr = []
+        for (let i = 0; i < checkedInvIndex.length; i++) {
+            betweenArr.push(
+                {
+                    achead: CashSubdata[currentindex].achead, glcode: CashSubdata[currentindex].glcode,
+                    custId: CashSubdata[currentindex].custId, master_id: CashSubdata[currentindex].master_id,
+                    costCenter: checkedInv[i].inv_location, costCenterName: checkedInv[i].inv_locationName, refNo: checkedInv[i].inv_no, refDate: checkedInv[i].inv_date,
+                    refAmt: checkedInv[i].inv_amt, netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
+                }
+            )
+        }
+        let allArrData = [...previousArr, ...betweenArr, ...afterArr]
+        setCashSubdata(allArrData)
+
+        setTimeout(() => {
+            let countCurrentIndex = currentindex;
+            for (let i = 0; i < checkedInvIndex.length; i++) {
+                document.getElementById(`chartofacct-${countCurrentIndex}`).disabled = true
+                document.getElementById(`location-${countCurrentIndex}`).disabled = true
+                document.getElementById(`refNo-${countCurrentIndex}`).disabled = true
+                document.getElementById(`refDate-${countCurrentIndex}`).disabled = true
+                document.getElementById(`refAmt-${countCurrentIndex}`).disabled = true
+                countCurrentIndex = countCurrentIndex + 1;
+
+                document.getElementById(`invMod-${countCurrentIndex}`).checked = false
+            }
+
+            let totalRefAmt = 0;
+            for (let i = 0; i < allArrData.length; i++) {
+                totalRefAmt = Number(totalRefAmt) + Number(allArrData[i].refAmt)
+            }
+            document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+        }, 1000)
+        setCheckedInvIndex([])
+        setCheckedInv([])
+        offCustomModal('SelectInvoiceModal')
+
     }
     // ----------------- Handle Submit ------------------------------
     const handleSubmitFormData = (e) => {
@@ -298,15 +362,16 @@ const AddCashReceipt = () => {
                                     </div>
 
                                     <div className="form-row mt-2">
-                                        <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Ref No</label>
+                                        <label htmlFor="ref_no" className="col-md-2 col-form-label font-weight-normal">Cheque/Ref No <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="text" className="form-control col-md-10 " id="ref_no" onBlur={handleSetMajorData} /></div>
-                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Ref Date</label>
+                                        <label htmlFor="ref_date" className="col-md-2 col-form-label font-weight-normal">Cheque/Ref Date <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="date" className="form-control col-md-10 " id="ref_date" onBlur={handleSetMajorData} /></div>
                                     </div>
                                     <div className="form-row mt-2">
                                         <label htmlFor="cash_recep_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" onBlur={handleSetMajorData} /></div>
-
+                                        <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal">On Account</label>
+                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="on_account" style={{ width: '20px', height: '20px' }} /></div>
                                     </div>
 
                                     <div className="w-100 overflow-auto">
@@ -462,15 +527,15 @@ const AddCashReceipt = () => {
         {/* modal Location  End*/}
 
         {/* ###################### Customer Custom Modal ############################### */}
-        <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none" }} tabIndex="-1" role="dialog" >
-            <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
+        <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none", zIndex: '10000' }} tabIndex="-1" role="dialog" >
+            <div className="modal-dialog modal-dialog-centered" id="customerModalInnerDiv" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLongTitle">Select Customer Name</h5>
                     </div>
                     <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
-                        <table className="table  table-striped h-100 w-100">
-                            <thead className="position-sticky bg-white  " style={{ top: '0' }}>
+                        <table className="table  table-striped table-sm h-100 w-100">
+                            <thead className="position-sticky bg-white  " style={{ top: '-2px' }}>
                                 <tr>
                                     <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
                                     <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Customer Name</th>
@@ -492,6 +557,47 @@ const AddCashReceipt = () => {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal'); window.location.reload(); }}>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/* ###################### Custom Invoice Modal ############################### */}
+        <div className="position-absolute" id="SelectInvoiceModal" style={{ top: "7%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none", zIndex: '10000' }} tabIndex="-1" role="dialog" >
+            <div className="modal-dialog modal-dialog-centered" role="document" id="invModalInnerDiv" >
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLongTitle">Select Invoices</h5>
+                    </div>
+                    <div className="modal-body overflow-auto position-relative p-0" style={{ maxHeight: '40vh' }}>
+                        <table className="table  table-striped table-sm h-100 w-100">
+                            <thead className="position-sticky bg-white  " style={{ top: '-2px' }}>
+                                <tr>
+                                    <th className="text-center"></th>
+                                    <th className="pl-4 text-center">Invoice No</th>
+                                    <th className="pl-4 text-center">Invoice Date</th>
+                                    <th className="pl-4 text-center">Invoice Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    custInvList.map((inv, index) =>
+                                        <tr key={index}
+                                        // onClick={() => { handleClickCustomer(customer.cust_id, customer.cust_name, customer.mast_id) }}
+                                        >
+                                            <td className="pl-3 text-center"><input type="checkbox" id={`invMod-${index}`} className="mt-1 cursor-pointer" style={{ height: "18px", width: "18px" }}
+                                                onChange={(e) => { handleSelectInvoice(index, inv.invoice_no, inv.Invdate, inv.invoice_amt, inv.location, inv.location_name) }} /></td>
+                                            <td className=" text-center">{inv.invoice_no}</td>
+                                            <td className="pl-3 text-center">{inv.Invdate}</td>
+                                            <td className="pl-3 text-center">{inv.invoice_amt}</td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-success" onClick={() => { handleMergeInvoice() }}>Add</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectInvoiceModal'); window.location.reload(); }}>Close</button>
                     </div>
                 </div>
             </div>
