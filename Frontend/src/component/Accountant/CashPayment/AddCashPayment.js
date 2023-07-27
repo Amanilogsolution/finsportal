@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
 import SubAddCashPayment from "./SubAddCashPayment";
-import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveVendor, ActiveEmployee } from '../../../api'
+import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, GetInvoicesByCustomer, ActiveBank, GetBillVendorID, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveVendor, ActiveEmployee } from '../../../api'
 import CashPaymentPreview from './CashPaymentPreview/CashPaymentPreview'
 
 const AddCashPayment = () => {
@@ -18,7 +18,7 @@ const AddCashPayment = () => {
         onAccount: false
     })
     const obj = {
-        achead: '', glcode: '', vendorId: '', master_id: '', costCenter: '', costCenterName: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: '', sub_cost_center: '', sub_cost_centerName: ''
+        achead: '', glcode: '',chart_of_acct:'', vendorId: '', master_id: '', costCenter: '', costCenterName: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: '', sub_cost_center: '', sub_cost_centerName: ''
     }
     const [Cashrowdata, setCashrowdata] = useState([obj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
@@ -29,6 +29,9 @@ const AddCashPayment = () => {
     const [cashPayIdCount, setCashPayIdCount] = useState(0)
     const [vendorlist, setVendorlist] = useState([])
     const [orgdata, setOrgdata] = useState([])
+    const [vendorBilllist, setVendorBilllist] = useState([]);
+    const [checkedInv, setCheckedInv] = useState([])
+    const [checkedInvIndex, setCheckedInvIndex] = useState([])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -125,7 +128,8 @@ const AddCashPayment = () => {
             const org = localStorage.getItem('Organisation')
             const vendors = await ActiveVendor(org)
             setVendorlist(vendors)
-            document.getElementById('SelectVendorModal').style.display = 'block'
+            document.getElementById(`vendorModel-${currentindex}`).click()
+            // document.getElementById('SelectVendorModal').style.display = 'block'
         }
     }
     const handleClickVendor = async (id, name, mast_id) => {
@@ -133,8 +137,14 @@ const AddCashPayment = () => {
         minorData[currentindex].vendorId = id;
         minorData[currentindex].master_id = mast_id;
         minorData[currentindex].achead = name;
+        const onAccount = document.getElementById('on_account').checked;
+        if (!onAccount) {
+            const bills = await GetBillVendorID(localStorage.getItem('Organisation'), id)
+            setVendorBilllist(bills)
+
+            document.getElementById(`vendorBillModel-${currentindex}`).click()
+        }
         setCashrowdata(minorData)
-        offCustomModal('SelectVendorModal');
     }
 
     const handlelocation = (location_id, location_name) => {
@@ -169,9 +179,7 @@ const AddCashPayment = () => {
         }
         setCashrowdata(rowsInput);
     }
-    const offCustomModal = (ids) => {
-        document.getElementById(ids).style.display = 'none'
-    }
+
 
     const handleBlurMethod = (e, index) => {
         let { name, value } = e.target;
@@ -234,6 +242,69 @@ const AddCashPayment = () => {
         setCashrowdata(rowsInput);
     }
 
+    const handleSetBillData = (index, voucher_no, voudate, total_bill_amt, gst_location_id) => {
+        if (document.getElementById(`billcheck-${index}`).checked) {
+            setCheckedInv([...checkedInv,
+            // { index, voucher_no, voudate, total_bill_amt, gst_location_id}
+            {
+                achead: Cashrowdata[currentindex].achead, glcode: Cashrowdata[currentindex].glcode, chart_of_acct:Cashrowdata[currentindex].chart_of_acct,
+                vendorId: Cashrowdata[currentindex].vendorId,
+                master_id: Cashrowdata[currentindex].master_id, costCenter: gst_location_id, costCenterName: '',
+                invNo: voucher_no, invDate: voudate, invAmt: total_bill_amt, netamt: '', paytype: '', amtPaid: '', amtbal: '',
+                sub_cost_center: '', sub_cost_centerName: ''
+            }
+            ])
+            setCheckedInvIndex([...checkedInvIndex, index])
+        }
+        else {
+            let unCheckedIndex = checkedInvIndex.indexOf(index)
+            checkedInv.splice(unCheckedIndex, 1)
+            checkedInvIndex.splice(unCheckedIndex, 1)
+        }
+    }
+    const handleMergeInvoice = () => {
+        let previousArr = Cashrowdata.slice(0, currentindex)
+        let afterArr = Cashrowdata.slice(currentindex + 1)
+        // let betweenArr = []
+        // for (let i = 0; i < checkedInvIndex.length; i++) {
+        //     betweenArr.push(
+        //         {
+        //             achead: CashSubdata[currentindex].achead, glcode: CashSubdata[currentindex].glcode,
+        //             custId: CashSubdata[currentindex].custId, master_id: CashSubdata[currentindex].master_id,
+        //             costCenter: checkedInv[i].inv_location, costCenterName: checkedInv[i].inv_locationName, refNo: checkedInv[i].inv_no, refDate: checkedInv[i].inv_date,
+        //             refAmt: checkedInv[i].inv_amt, netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
+        //         }
+        //     )
+        // }
+        let allArrData = [...previousArr, ...checkedInv, ...afterArr]
+        setCashrowdata(allArrData)
+
+        setTimeout(() => {
+            let countCurrentIndex = currentindex;
+            console.log(currentindex, checkedInvIndex.length)
+            for (let i = 0; i < checkedInvIndex.length; i++) {
+                document.getElementById(`chartofacct-${countCurrentIndex}`).disabled = true
+                document.getElementById(`location-${countCurrentIndex}`).disabled = true
+                document.getElementById(`invNo-${countCurrentIndex}`).disabled = true
+                document.getElementById(`invDate-${countCurrentIndex}`).disabled = true
+                document.getElementById(`invAmt-${countCurrentIndex}`).disabled = true
+
+                console.log(`billcheck-${countCurrentIndex}`)
+                countCurrentIndex = countCurrentIndex + 1;
+                document.getElementById(`billcheck-${i}`).checked = false
+            }
+
+            let totalRefAmt = 0;
+            for (let i = 0; i < allArrData.length; i++) {
+                totalRefAmt = Number(totalRefAmt) + Number(allArrData[i].invAmt)
+            }
+            document.getElementById('total_ref_amt').innerHTML = totalRefAmt
+        }, 1000)
+
+        setCheckedInvIndex([])
+        setCheckedInv([])
+        document.getElementById('on_account').disabled = true
+    }
     const handleSubmitFormData = () => {
         console.log(cashPayMajorData, Cashrowdata)
     }
@@ -262,10 +333,10 @@ const AddCashPayment = () => {
                                     <div className="form-row mt-2">
                                         <label htmlFor="check_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10" id="check_amt" onBlur={handleSetMajorData} /></div>
-                                        <label htmlFor="onaccount" className="col-md-2 col-form-label font-weight-normal">on Account <span className="text-danger">*</span></label>
-                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="onaccount" style={{ width: '20px', height: '20px' }}
-                                            onChange={() => { setCashPayMajorData({ ...cashPayMajorData, onAccount: !cashPayMajorData.onAccount }) }}
-                                        /></div>
+                                        <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal">on Account <span className="text-danger">*</span></label>
+                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="on_account" style={{ width: '20px', height: '20px' }}
+                                            onChange={() => { setCashPayMajorData({ ...cashPayMajorData, onAccount: !cashPayMajorData.onAccount }) }} /></div>
+
                                     </div>
                                     <div className="w-100 overflow-auto">
                                         <table className="table table-bordered mt-3">
@@ -346,9 +417,9 @@ const AddCashPayment = () => {
         </div>
         {/* --------------------------- Modal for Chart of Account (Ac Head) ---------------------------- */}
 
-        <div className="modal fade  bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div className="modal fade bd-example-modal-lg" id="chartofaccountmodal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div className="modal-content " >
+                <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLongTitle">Chart of Account</h5>
                         <div className="form-group col-md-5">
@@ -357,9 +428,9 @@ const AddCashPayment = () => {
                             />
                         </div>
                     </div>
-                    <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '50vh' }}>
-                        <table className='table'>
-                            <thead>
+                    <div className="modal-body overflow-auto pt-0 position-relative" style={{ maxHeight: '50vh' }}>
+                        <table className='table table-striped table-sm'>
+                            <thead className="position-sticky bg-white  " style={{ top: '-2px' }}>
                                 <tr>
                                     <th>Sno.</th>
                                     <th>Items</th>
@@ -368,11 +439,11 @@ const AddCashPayment = () => {
                             <tbody>
 
                                 {chartofacctlist.map((items, index) => (
-                                    <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
+                                    <tr key={index} className="cursor-pointer py-2" data-dismiss="modal"
                                         onClick={(e) => handleChangeChartofAcct(items.account_sub_name, items.account_sub_name_code)}
                                     >
                                         <td>{index + 1}</td>
-                                        <td style={{ fontSize: "15px" }}>{items.account_sub_name}</td>
+                                        <td style={{ fontSize: '16px' }}>{items.account_sub_name}</td>
                                     </tr>))
                                 }
                             </tbody>
@@ -385,18 +456,18 @@ const AddCashPayment = () => {
             </div>
         </div>
         {/* ###################### Vendor Custom Modal ############################### */}
-        <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "120%", display: "none" }} tabIndex="-1" role="dialog" >
-            <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '55vw' }}>
+        <div className="modal fade bd-example-modal-lg" id="SelectVendorModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered" role="document" style={{ minWidth: '55vw' }}>
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLongTitle">Select Vendor Name</h5>
                     </div>
-                    <div className="modal-body overflow-auto position-relative p-0" style={{ height: '40vh' }}>
-                        <table className="table  table-striped h-100 w-100">
-                            <thead className="position-sticky bg-white  " style={{ top: '0' }}>
+                    <div className="modal-body overflow-auto position-relative p-0" style={{ height: '45vh' }}>
+                        <table className="table table-striped table-sm h-100 w-100">
+                            <thead className="position-sticky bg-white  " style={{ top: '-2px' }}>
                                 <tr>
-                                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Sno</th>
-                                    <th className="pl-4 text-center" style={{ fontSize: '20px' }}>Vendor Name</th>
+                                    <th className="pl-4 text-center">Sno</th>
+                                    <th className="pl-4 text-center">Vendor Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -404,7 +475,7 @@ const AddCashPayment = () => {
                                     vendorlist.map((vendor, index) =>
                                         <tr key={index} className="cursor-pointer"
                                             onClick={() => { handleClickVendor(vendor.vend_id, vendor.vend_name, vendor.mast_id) }}
-                                        >
+                                            data-dismiss="modal">
                                             <td className="pl-3 text-center">{index + 1}</td>
                                             <td className="pl-3 text-center">{vendor.vend_name}</td>
                                         </tr>
@@ -412,6 +483,9 @@ const AddCashPayment = () => {
                                 }
                             </tbody>
                         </table>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -460,7 +534,7 @@ const AddCashPayment = () => {
         </div>
 
         {/* ############## Bill Custome Modal ################################# */}
-        <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "122%", display: "none" }} tabIndex="-1" role="dialog" >
+        <div className="modal fade bd-example-modal-lg" id="billCustomModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-lg" role="document" style={{ width: '55vw' }}>
                 <div className="modal-content">
                     <div className="modal-header">
@@ -477,7 +551,7 @@ const AddCashPayment = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {
+                                {
                                     vendorBilllist.map((bill, index) =>
                                         <tr key={index} className="cursor-pointer" >
                                             <td className="pl-3"><input type="checkbox" id={`billcheck-${index}`}
@@ -489,17 +563,15 @@ const AddCashPayment = () => {
                                             <td className="pl-3 text-right">{bill.total_bill_amt}</td>
                                         </tr>
                                     )
-                                } */}
+                                }
                             </tbody>
                         </table>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary"
-                            onClick={() => { offCustomModal('billCustomModal'); }}
-                        >Close</button>
-                        <button type="button" className="btn btn-success"
-                        // onClick={() => handleMergeInvoiceBillArry()}
+                        <button type="button" className="btn btn-success" data-dismiss="modal"
+                            onClick={() => handleMergeInvoice()}
                         >Procced</button>
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

@@ -213,6 +213,7 @@ const AddCashReceipt = () => {
         setCashSubdata(rowsInput);
     }
     const handleClickCustomer = async (customer_id, customer_name, master_id) => {
+        window.scrollTo(0, 0);
         let rowsInputData = [...CashSubdata];
         rowsInputData[currentindex].custId = customer_id;
         rowsInputData[currentindex].achead = customer_name;
@@ -302,7 +303,7 @@ const AddCashReceipt = () => {
         setCheckedInvIndex([])
         setCheckedInv([])
         offCustomModal('SelectInvoiceModal')
-
+        document.getElementById('on_account').disabled=true
     }
     // ----------------- Handle Submit ------------------------------
     const handleSubmitFormData = (e) => {
@@ -597,7 +598,7 @@ const AddCashReceipt = () => {
                         </table>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-success" onClick={() => { handleMergeInvoice() }}>Add</button>
+                        <button type="button" className="btn btn-success" onClick={() => { handleMergeInvoice() }}>Procced</button>
                         <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectInvoiceModal'); window.location.reload(); }}>Close</button>
                     </div>
                 </div>
