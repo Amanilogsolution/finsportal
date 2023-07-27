@@ -500,7 +500,6 @@ const AddCashPayment = () => {
                         <button type="button" className="btn btn-success"
                         // onClick={() => handleMergeInvoiceBillArry()}
                         >Procced</button>
-
                     </div>
                 </div>
             </div>
