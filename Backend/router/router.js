@@ -61,6 +61,9 @@ const BankPayment = require('../controller/Purchases/BankPayment/Bank_Payment')
 const SubBankPayment = require('../controller/Purchases/BankPayment/Bank_Payment_sub')
 const CashPaymentController = require('../controller/Purchases/CashPayment/Cashpayment')
 const SubCashPaymentController = require('../controller/Purchases/CashPayment/CashPaymentSub')
+const CashReceiptController = require('../controller/Sales/CashReceipt/CashReceipt')
+const SubCashReceiptController = require('../controller/Sales/CashReceipt/CashReceiptSub')
+
 
 
 //Routes
@@ -489,6 +492,19 @@ router.post('/getcashpayment',CashPaymentController.GetCashPayment)
 // router.post('/allcashpaymentsub',SubCashPaymentController.AllCashPaymentSub)
 router.post('/insertcashsubpayment',SubCashPaymentController.InsertCashSubPayment)
 router.post('/getsubcashpayment',SubCashPaymentController.GetSubCashPayment)
+
+//Cash Receipt
+router.post('/AllCashReceipt',CashReceiptController.AllCashReceipt)
+router.post('/InsertCashReceipt',CashReceiptController.InsertCashReceipt)
+router.post('/GetCashReceipt',CashReceiptController.GetCashReceipt)
+
+//Cash Receipt Sub
+router.post('/AllCashReceiptSub',SubCashReceiptController.AllCashReceiptSub)
+router.post('/InsertCashSubReceipt',SubCashReceiptController.InsertCashSubReceipt)
+router.post('/GetSubCashReceipt',SubCashReceiptController.GetSubCashReceipt)
+
+
+
 
 
 
