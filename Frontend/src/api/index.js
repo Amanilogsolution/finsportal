@@ -1956,3 +1956,26 @@ export const GetSubCashPayment = async (org,cash_payment_id) => {
     const url = `http://localhost:3008/api/getsubcashpayment`
     return axios.post(url, {org,cash_payment_id}).then(response => response.data).catch(error => console.log(error));
 }
+
+
+
+// Cash Receipt 
+// export const AllCashPayment = async (org) => {
+//     return axios.post(`${url}/allcashpayment`, {org}).then(response => response.data).catch(error => console.log(error));
+// }
+
+export const InsertCashReceipt = async (org,cash_receiptData,add_user_name,fins_year) => {
+    // const url = `http://localhost:3008/api/insertcashpayment`
+    return axios.post(`${url}/InsertCashReceipt`, {org,cash_receiptData,add_user_name,fins_year}).then(response => response.data).catch(error => console.log(error));
+}
+// export const GetCashPayment = async (org,cash_payment_id) => {
+//     const url = `http://localhost:3008/api/getcashpayment`
+//     return axios.post(url, {org,cash_payment_id}).then(response => response.data).catch(error => console.log(error));
+// }
+
+
+// Cash Receipt Sub
+export const InsertCashSubReceipt = async (org,cashRecepId,cash_receiptSubData) => {
+    // const url = `http://localhost:3008/api/insertcashpayment`
+    return axios.post(`${url}/InsertCashSubReceipt`, {org,cashRecepId,cash_receiptSubData}).then(response => response.data).catch(error => console.log(error));
+}

@@ -16,17 +16,18 @@ const AllCashReceipt = async (req, res) => {
 }
 
 const InsertCashReceipt = async (req, res) => {
+    console.log(req.body.org, req.body.cash_receiptData, req.body.add_user_name, req.body.fins_year)
     const org = req.body.org;
-    const cash_receipt_id = req.body.cash_receipt_id;
-    const cash_receipt_date = req.body.cash_receipt_date;
-    const ref_no = req.body.ref_no;
-    const ref_date = req.body.ref_date;
-    const amt = req.body.amt;
-    const remarks = req.body.remarks;
+    const cash_receipt_id = req.body.cash_receiptData.cashRecepId;
+    const cash_receipt_date = req.body.cash_receiptData.cashRecepDate;
+    const ref_no = req.body.cash_receiptData.ref_no;
+    const ref_date = req.body.cash_receiptData.ref_date;
+    const amt = req.body.cash_receiptData.amt;
+    const remarks = req.body.cash_receiptData.remark;
     const add_user_name = req.body.add_user_name;
     const fins_year = req.body.fins_year;
     const uuid = uuidv1()
-    const on_account = req.body.on_account;
+    const on_account = req.body.cash_receiptData.onAccount;
 
     try {
         await sql.connect(sqlConfig)
@@ -35,6 +36,7 @@ const InsertCashReceipt = async (req, res) => {
             add_user_name,add_system_name,add_ip_address,add_date_time,status ,fins_year ,cash_receipt_uuid,on_account )
         values('${cash_receipt_id}','${cash_receipt_date}','${ref_no}','${ref_date}','${amt}','${remarks}',
             '${add_user_name}','${os.hostname()}','${req.ip}',getdate(),'Active','${fins_year}','${uuid}','${on_account}') `)
+
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
@@ -57,4 +59,4 @@ const GetCashReceipt = async (req, res) => {
 
 }
 
-module.exports = {AllCashReceipt,InsertCashReceipt,GetCashReceipt}
+module.exports = { AllCashReceipt, InsertCashReceipt, GetCashReceipt }

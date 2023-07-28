@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import LoadingPage from "../../loadingPage/loadingPage";
-import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveEmployee, GetInvoicesByCustomer } from '../../../api'
+import { ActiveAllChartofAccount, Getfincialyearid, ActiveCustomer, showOrganisation, SearchActiveChartofAccount, ActiveLocationAddress, SearchLocationAddress, ActiveEmployee, GetInvoicesByCustomer, InsertCashReceipt, InsertCashSubReceipt, Updatefinancialcount } from '../../../api'
 import SubAddCashReceipt from "./SubAddCashReceipt";
 import CashReceiptPreview from './CashReceiptPreview/CashReceiptPreview';
 import AlertsComp from '../../AlertsComp';
@@ -27,7 +27,7 @@ const AddCashReceipt = () => {
         onAccount: false
     })
     const obj = {
-        achead: '', glcode: '', custId: '', master_id: '', costCenter: '', costCenterName: '', refNo: '', refDate: '', refAmt: '', netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
+        achead: '', chartOfAcct: '', glcode: '', custId: '', master_id: '', costCenter: '', costCenterName: '', refNo: '', refDate: '', refAmt: '', netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
     }
     const [CashSubdata, setCashSubdata] = useState([obj])
     const [locationstate, setLocationstate] = useState([]);
@@ -82,13 +82,23 @@ const AddCashReceipt = () => {
     const handleDeleteRemove = (e, index, deleteType) => {
         e.preventDefault()
         if (CashSubdata.length > 1) {
+            let lastVal= CashSubdata.length-1
+            console.log(lastVal)
+            document.getElementById(`chartofacct-${lastVal}`).disabled = false
+            document.getElementById(`location-${lastVal}`).disabled = false
+            document.getElementById(`refNo-${lastVal}`).disabled = false
+            document.getElementById(`refDate-${lastVal}`).disabled = false
+            document.getElementById(`refAmt-${lastVal}`).disabled = false
+
             let newarr = [...CashSubdata];
             if (deleteType === 'pop') {
                 newarr.pop()
             }
             else if (deleteType === 'splice') {
                 newarr.splice(index, 1)
+
             }
+            console.log(newarr)
             setCashSubdata(newarr);
             let totalRefAmt = 0;
             for (let i = 0; i < newarr.length; i++) {
@@ -111,6 +121,7 @@ const AddCashReceipt = () => {
     // ------------------------ Handle Major Data ---------------------------
     const handleSetMajorData = () => {
         setCashRecpMajorData({
+            ...cashRecpMajorData,
             cashRecepId: document.getElementById('cash_recep_id').value,
             cashRecepDate: document.getElementById('cash_recep_date').value,
             amt: document.getElementById('cash_recep_amt').value,
@@ -133,6 +144,7 @@ const AddCashReceipt = () => {
     }
     const handleChangeChartofAcct = async (chartOfAcct, glcode) => {
         const subBankRec = [...CashSubdata]
+        subBankRec[currentindex].chartOfAcct = chartOfAcct;
         subBankRec[currentindex].glcode = glcode;
         if (glcode === '5020001') {
             window.scrollTo(0, 0);
@@ -272,7 +284,7 @@ const AddCashReceipt = () => {
         for (let i = 0; i < checkedInvIndex.length; i++) {
             betweenArr.push(
                 {
-                    achead: CashSubdata[currentindex].achead, glcode: CashSubdata[currentindex].glcode,
+                    achead: CashSubdata[currentindex].achead, chartOfAcct: CashSubdata[currentindex].chartOfAcct, glcode: CashSubdata[currentindex].glcode,
                     custId: CashSubdata[currentindex].custId, master_id: CashSubdata[currentindex].master_id,
                     costCenter: checkedInv[i].inv_location, costCenterName: checkedInv[i].inv_locationName, refNo: checkedInv[i].inv_no, refDate: checkedInv[i].inv_date,
                     refAmt: checkedInv[i].inv_amt, netAmt: '', payType: '', recAmt: '', balAmt: '', subCostCenterId: '', subCostCenter: ''
@@ -304,47 +316,47 @@ const AddCashReceipt = () => {
         setCheckedInvIndex([])
         setCheckedInv([])
         // offCustomModal('SelectInvoiceModal')
-        document.getElementById('on_account').disabled=true
+        document.getElementById('on_account').disabled = true
     }
     // ----------------- Handle Submit ------------------------------
-    const handleSubmitFormData = (e) => {
+    const handleSubmitFormData = async (e) => {
         e.preventDefault();
-        console.log(cashRecpMajorData,CashSubdata)
-        // setLoading(false)
-        // const bank_recep_id = document.getElementById('bank_recep_id').value
-        // const bank_recep_date = document.getElementById('bank_recep_date').value
-        // const check_ref_no = document.getElementById('check_ref_no').value
-        // const check_date = document.getElementById('check_date').value
-        // const check_amt = document.getElementById('check_amt').value
-        // let bank = document.getElementById('bank').value;
-        // bank = bank.split(',')
-        // let bank_id = bank[0]
-        // let bank_sub_code = bank[1]
-        // let bank_name = bank[2]
-        // let bank_glcode = bank[3]
-        // let on_account = document.getElementById('on_account').checked === true ? true : false
-        // let remarks = document.getElementById('remarks').value;
-        // let fins_year = localStorage.getItem('fin_year')
+        // console.log(cashRecpMajorData, CashSubdata)
+        setLoading(false)
+        let org = localStorage.getItem('Organisation')
+        let fins_year = localStorage.getItem('fin_year')
+        let user_id = localStorage.getItem('User_id')
 
-        // if (!check_ref_no || !check_amt || !bank_id) {
-        //     // setLoading(true)
-        //     setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
-        // }
-        // else {
+        if (!cashRecpMajorData.ref_no || !cashRecpMajorData.ref_date || !cashRecpMajorData.amt) {
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+        }
+        else {
+            const result = await InsertCashReceipt(org, cashRecpMajorData, user_id, fins_year)
+            if (result.result === "Added successfully") {
+                const resultSub = await InsertCashSubReceipt(org, cashRecpMajorData.cashRecepId, CashSubdata)
+                if (resultSub.result === "Added successfully") {
+                    await Updatefinancialcount(localStorage.getItem('Organisation'), 'cash_recep_count', cashRepIdCount)
+                    setLoading(true)
+                    setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+                }
+            }
+            else {
+                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+            }
 
-        //     // const result = await InsertBillPayment(org, bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, bank_glcode, onAccount, remarks, username, fins_year)
 
-        //     // bankPayMinData.map(async (element) => {
-        //     //     await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
-        //     // })
-        //     // await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', cashRepIdCount)
-        //     // setLoading(true)
-        //     // if (result.result === 'Added successfully') {
-        //     //     setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
-        //     // } else {
-        //     //     setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
-        //     // }
-        // }
+            //     // bankPayMinData.map(async (element) => {
+            //     //     await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
+            //     // })
+            //     // await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', cashRepIdCount)
+            //     // setLoading(true)
+            //     // if (result.result === 'Added successfully') {
+            //     //     setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+            //     // } else {
+            //     //   
+            //     // }
+        }
 
     }
     return (<>
@@ -374,7 +386,7 @@ const AddCashReceipt = () => {
                                         <label htmlFor="cash_recep_amt" className="col-md-2 col-form-label font-weight-normal">Amount <span className="text-danger">*</span></label>
                                         <div className="d-flex col-md-4"> <input type="number" className="form-control col-md-10 " id="cash_recep_amt" onBlur={handleSetMajorData} /></div>
                                         <label htmlFor="on_account" className="col-md-2 col-form-label font-weight-normal">On Account</label>
-                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="on_account" style={{ width: '20px', height: '20px' }} onChange={() => { cashRecpMajorData({ ...cashRecpMajorData, cashRecpMajorData: !cashRecpMajorData.onAccount }) }} /></div>
+                                        <div className="d-flex col-md-4 pt-2"> <input type="checkbox" id="on_account" style={{ width: '20px', height: '20px' }} onClick={() => { setCashRecpMajorData({ ...cashRecpMajorData, onAccount: !(cashRecpMajorData.onAccount) }); console.log(!(cashRecpMajorData.onAccount)) }} /></div>
                                     </div>
 
                                     <div className="w-100 overflow-auto">
@@ -463,7 +475,7 @@ const AddCashReceipt = () => {
                     </div>
                     <div className="modal-body overflow-auto px-5 pt-0 position-relative" style={{ maxHeight: '50vh' }}>
                         <table className='table table-hover'>
-                            <thead className="position-sticky bg-white" style={{top: '-3px' }}>
+                            <thead className="position-sticky bg-white" style={{ top: '-3px' }}>
                                 <tr>
                                     <th>Sno.</th>
                                     <th>Items</th>
@@ -602,7 +614,7 @@ const AddCashReceipt = () => {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-success" onClick={() => { handleMergeInvoice() }} data-dismiss="modal">Procced</button>
-                        <button type="button" className="btn btn-secondary" onClick={() => {window.location.reload(); }} data-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(); }} data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

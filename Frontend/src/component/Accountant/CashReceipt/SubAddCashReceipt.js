@@ -30,7 +30,7 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
                 </td>
                 <td className='p-0'> <input type="text" className="form-control px-1" name='refNo' id={`refNo-${index}`} value={rowdata.refNo} onChange={(e) => handleChangeRowData(e, index)} /> </td>
                 <td className='p-0'> <input type="date" className="form-control px-1" name='refDate' id={`refDate-${index}`} value={rowdata.refDate} onChange={(e) => handleChangeRowData(e, index)} /> </td>
-                <td className='p-0'> <input type="number" className="form-control px-1" name='refAmt' id={`refAmt-${index}`} min={0} defaultValue={rowdata.refAmt}
+                <td className='p-0'> <input type="number" className="form-control px-1" name='refAmt' id={`refAmt-${index}`} min={0} value={rowdata.refAmt}
                     onChange={(e) => handleChangeRowData(e, index)}
                     // onChange={(e)=>{console.log(e.target.value==''|| e.target.value)}}
                     onBlur={(e) => { handleBlurMethod(e, index) }} /> </td>

@@ -18,31 +18,23 @@ const AllCashReceiptSub = async (req, res) => {
 
 const InsertCashSubReceipt = async (req, res) => {
     const org = req.body.org;
-    const cash_receipt_id = req.body.cash_receipt_id;
-    const chart_of_acct = req.body.chart_of_acct;
-    const ac_head = req.body.ac_head;
-    const ac_head_name = req.body.ac_head_name;
-    const glcode = req.body.glcode;
-    const location = req.body.location;
-    const ref_no = req.body.ref_no;
-    const ref_date = req.body.ref_date;
-    const amt = req.body.amt;
-    const net_amt = req.body.net_amt;
-    const pay_type = req.body.pay_type;
-    const rec_amt = req.body.rec_amt;
-    const bal_amt = req.body.bal_amt;
-    const master_id = req.body.master_id;
-    const emp_id = req.body.emp_id;
-    const emp_name= req.body.emp_name;
+    const cash_receipt_id = req.body.cashRecepId;
+    const json_data = req.body.cash_receiptSubData;
 
     try {
+        let colName = `insert into  ${org}.dbo.tbl_cash_receipt_sub (cash_receipt_id ,chart_of_acct ,ac_head ,ac_head_name,glcode,location,ref_no,ref_date,
+            amt,net_amt,pay_type,rec_amt,bal_amt,master_id,emp_id,emp_name)values`
+
+        for (let i = 0; i < json_data.length; i++) {
+            colName = colName + `('${cash_receipt_id}' ,'${json_data[i].chartOfAcct}','${json_data[i].custId}' ,'${json_data[i].achead}',
+    '${json_data[i].glcode}','${json_data[i].costCenter}' ,'${json_data[i].refNo}','${json_data[i].refDate}','${json_data[i].refAmt}','${json_data[i].netAmt}',
+    '${json_data[i].payType}','${json_data[i].recAmt}','${json_data[i].balAmt}','${json_data[i].master_id}','${json_data[i].subCostCenterId}','${json_data[i].subCostCenter}')`
+
+            if (i != (json_data.length - 1)) { colName = colName + ',' }
+        }
+
         await sql.connect(sqlConfig)
-        const result = await sql.query(` insert into  ${org}.dbo.tbl_cash_receipt_sub (
-            cash_receipt_id ,chart_of_acct ,ac_head ,ac_head_name,glcode,location,ref_no,ref_date,
-            amt,net_amt,pay_type,rec_amt,bal_amt,master_id,emp_id,emp_name)
-         values('${cash_receipt_id}' ,'${chart_of_acct}','${ac_head}' ,'${ac_head_name}','${glcode}' ,'${location}' ,'${ref_no}','${ref_date}',
-            '${amt}','${net_amt}','${pay_type}','${rec_amt}','${bal_amt}','${master_id}','${emp_id}','${emp_name}'),
-             `);  
+        const result = await sql.query(colName)
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
@@ -65,4 +57,4 @@ const GetSubCashReceipt = async (req, res) => {
 
 }
 
-module.exports = {AllCashReceiptSub,InsertCashSubReceipt,GetSubCashReceipt}
+module.exports = { AllCashReceiptSub, InsertCashSubReceipt, GetSubCashReceipt }
