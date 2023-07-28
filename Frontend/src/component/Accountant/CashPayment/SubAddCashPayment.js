@@ -18,15 +18,12 @@ const SubAddCashPayment = ({ Cashrowdata, setCurrentindex, handleDeleteRemove, h
                     </button>
                 </td>
                 <td className='p-0 d-none'>
-                    <button type="button" id={`vendorModel-${index}`} data-toggle="modal" data-target="#SelectVendorModal" data-backdrop="static"
-                    > Vendor Model</button>
-                </td>
-                <td className='p-0 d-none'>
-                    <button type="button" id={`vendorBillModel-${index}`} data-toggle="modal" data-target="#billCustomModal" data-backdrop="static"
-                    > Vendor Bill Model</button>
+                    <button type="button" id={`vendorModel-${index}`} data-toggle="modal" data-target="#SelectVendorModal" data-backdrop="static"> Vendor Model</button>
+                    <button type="button" id={`vendorBillModel-${index}`} data-toggle="modal" data-target="#billCustomModal" data-backdrop="static"> Vendor Bill Model</button>
                 </td>
                 <td className='p-0'>
                     <button type="button" id={`location-${index}`} className="btn border col overflow-hidden p-0" style={{ height: '50px' }} data-toggle="modal" data-target="#locationmodal"
+                        data-backdrop="static"
                         onClick={(e) => {
                             e.preventDefault();
                             setCurrentindex(index)

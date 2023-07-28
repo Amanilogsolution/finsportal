@@ -139,7 +139,8 @@ const AddCashReceipt = () => {
             const org = localStorage.getItem('Organisation')
             const customers = await ActiveCustomer(org)
             setCustomerlist(customers)
-            document.getElementById('SelectCustomerModal').style.display = 'block'
+            document.getElementById(`customerModel-${currentindex}`).click();
+            // document.getElementById('SelectCustomerModal').style.display = 'block'
         }
         else {
             subBankRec[currentindex].achead = chartOfAcct;
@@ -222,15 +223,16 @@ const AddCashReceipt = () => {
         if (!onAccount) {
             const allInvoice = await GetInvoicesByCustomer(localStorage.getItem('Organisation'), customer_id)
             setCustInvList(allInvoice)
-            document.getElementById('SelectInvoiceModal').style.display = 'block';
+            document.getElementById(`customerInvModel-${currentindex}`).click();
+            // document.getElementById('SelectInvoiceModal').style.display = 'block';
         }
-        offCustomModal('SelectCustomerModal');
+        // offCustomModal('SelectCustomerModal');
         setCashSubdata(rowsInputData)
     }
 
-    const offCustomModal = (ids) => {
-        document.getElementById(ids).style.display = 'none'
-    }
+    // const offCustomModal = (ids) => {
+    //     document.getElementById(ids).style.display = 'none'
+    // }
 
 
     const handleSearchLocation = async (e) => {
@@ -253,7 +255,6 @@ const AddCashReceipt = () => {
     }
 
     const handleSelectInvoice = (index, inv_no, inv_date, inv_amt, inv_location, inv_locationName) => {
-        window.scrollTo(0, 0);
         if (document.getElementById(`invMod-${index}`).checked) {
             setCheckedInv([...checkedInv, { index, inv_no, inv_date, inv_amt, inv_location, inv_locationName }])
             setCheckedInvIndex([...checkedInvIndex, index])
@@ -302,7 +303,7 @@ const AddCashReceipt = () => {
         }, 1000)
         setCheckedInvIndex([])
         setCheckedInv([])
-        offCustomModal('SelectInvoiceModal')
+        // offCustomModal('SelectInvoiceModal')
         document.getElementById('on_account').disabled=true
     }
     // ----------------- Handle Submit ------------------------------
@@ -529,7 +530,7 @@ const AddCashReceipt = () => {
         {/* modal Location  End*/}
 
         {/* ###################### Customer Custom Modal ############################### */}
-        <div className="position-absolute" id="SelectCustomerModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none", zIndex: '10000' }} tabIndex="-1" role="dialog" >
+        <div className="modal fade  bd-example-modal-lg" id="SelectCustomerModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered" id="customerModalInnerDiv" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -546,7 +547,7 @@ const AddCashReceipt = () => {
                             <tbody>
                                 {
                                     customerlist.map((customer, index) =>
-                                        <tr key={index} className="cursor-pointer"
+                                        <tr key={index} className="cursor-pointer" data-dismiss="modal"
                                             onClick={() => { handleClickCustomer(customer.cust_id, customer.cust_name, customer.mast_id) }}
                                         >
                                             <td className="pl-3 text-center">{index + 1}</td>
@@ -558,13 +559,13 @@ const AddCashReceipt = () => {
                         </table>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectCustomerModal'); window.location.reload(); }}>Close</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(); }} data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
         {/* ###################### Custom Invoice Modal ############################### */}
-        <div className="position-absolute" id="SelectInvoiceModal" style={{ top: "7%", backdropFilter: "blur(2px)", width: "100%", height: "100%", display: "none", zIndex: '10000' }} tabIndex="-1" role="dialog" >
+        <div className="modal fade  bd-example-modal-lg" id="SelectInvoiceModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered" role="document" id="invModalInnerDiv" >
                 <div className="modal-content">
                     <div className="modal-header">
@@ -598,8 +599,8 @@ const AddCashReceipt = () => {
                         </table>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-success" onClick={() => { handleMergeInvoice() }}>Procced</button>
-                        <button type="button" className="btn btn-secondary" onClick={() => { offCustomModal('SelectInvoiceModal'); window.location.reload(); }}>Close</button>
+                        <button type="button" className="btn btn-success" onClick={() => { handleMergeInvoice() }} data-dismiss="modal">Procced</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => {window.location.reload(); }} data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

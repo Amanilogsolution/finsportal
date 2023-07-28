@@ -18,7 +18,7 @@ const AddCashPayment = () => {
         onAccount: false
     })
     const obj = {
-        achead: '', glcode: '',chart_of_acct:'', vendorId: '', master_id: '', costCenter: '', costCenterName: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: '', sub_cost_center: '', sub_cost_centerName: ''
+        achead: '', glcode: '', chart_of_acct: '', vendorId: '', master_id: '', costCenter: '', costCenterName: '', invNo: '', invDate: '', invAmt: '', netamt: '', paytype: '', amtPaid: '', amtbal: '', sub_cost_center: '', sub_cost_centerName: ''
     }
     const [Cashrowdata, setCashrowdata] = useState([obj])
     const [chartofacctlist, setChartofacctlist] = useState([]);
@@ -221,7 +221,6 @@ const AddCashPayment = () => {
             }
         }
 
-
         else if (name === 'amtPaid') {
             // let totalrecAmt = 0;
             // for (let i = 0; i < rowsInput.length; i++) {
@@ -237,8 +236,6 @@ const AddCashPayment = () => {
             totalrecAmt = Number(totalrecAmt) + Number(rowsInput[i].amtPaid)
         }
         document.getElementById('total_amt_paid').innerHTML = totalrecAmt
-
-
         setCashrowdata(rowsInput);
     }
 
@@ -247,7 +244,7 @@ const AddCashPayment = () => {
             setCheckedInv([...checkedInv,
             // { index, voucher_no, voudate, total_bill_amt, gst_location_id}
             {
-                achead: Cashrowdata[currentindex].achead, glcode: Cashrowdata[currentindex].glcode, chart_of_acct:Cashrowdata[currentindex].chart_of_acct,
+                achead: Cashrowdata[currentindex].achead, glcode: Cashrowdata[currentindex].glcode, chart_of_acct: Cashrowdata[currentindex].chart_of_acct,
                 vendorId: Cashrowdata[currentindex].vendorId,
                 master_id: Cashrowdata[currentindex].master_id, costCenter: gst_location_id, costCenterName: '',
                 invNo: voucher_no, invDate: voudate, invAmt: total_bill_amt, netamt: '', paytype: '', amtPaid: '', amtbal: '',
@@ -342,7 +339,7 @@ const AddCashPayment = () => {
                                         <table className="table table-bordered mt-3">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">AcHead/GlCode</th>
+                                                    <th scope="col">AcHead/ GlCode</th>
                                                     <th scope="col">Cost Center</th>
                                                     <th scope="col">InvNo</th>
                                                     <th scope="col">InvDate</th>
@@ -429,11 +426,11 @@ const AddCashPayment = () => {
                         </div>
                     </div>
                     <div className="modal-body overflow-auto pt-0 position-relative" style={{ maxHeight: '50vh' }}>
-                        <table className='table table-striped table-sm'>
-                            <thead className="position-sticky bg-white  " style={{ top: '-2px' }}>
+                        <table className='table table-sm table-striped' >
+                            <thead className="position-sticky bg-white" style={{marginTop:'-5px',top: '-3px' }}>
                                 <tr>
                                     <th>Sno.</th>
-                                    <th>Items</th>
+                                    <th className="text-center">Items</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -443,7 +440,7 @@ const AddCashPayment = () => {
                                         onClick={(e) => handleChangeChartofAcct(items.account_sub_name, items.account_sub_name_code)}
                                     >
                                         <td>{index + 1}</td>
-                                        <td style={{ fontSize: '16px' }}>{items.account_sub_name}</td>
+                                        <td style={{ fontSize: '16px' }} className="text-center">{items.account_sub_name}</td>
                                     </tr>))
                                 }
                             </tbody>
@@ -547,7 +544,7 @@ const AddCashPayment = () => {
                                     <th className="pl-4 text-left">Select</th>
                                     <th className="pl-4 text-left">Bill no</th>
                                     <th className="pl-4 text-center">Bill Date</th>
-                                    <th className="pl-4 text-right">Bill Amt</th>
+                                    <th className="pl-4 text-center">Bill Amt</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -555,12 +552,13 @@ const AddCashPayment = () => {
                                     vendorBilllist.map((bill, index) =>
                                         <tr key={index} className="cursor-pointer" >
                                             <td className="pl-3"><input type="checkbox" id={`billcheck-${index}`}
+                                                style={{ height: '20px', width: '20px' }}
                                                 onChange={() => { handleSetBillData(index, bill.voucher_no, bill.voudate, bill.total_bill_amt, bill.gst_location_id) }}
                                             /></td>
 
                                             <td className="pl-3 text-left">{bill.voucher_no}</td>
                                             <td className="pl-3 text-center">{bill.voudate}</td>
-                                            <td className="pl-3 text-right">{bill.total_bill_amt}</td>
+                                            <td className="pl-3 text-center">{bill.total_bill_amt}</td>
                                         </tr>
                                     )
                                 }
