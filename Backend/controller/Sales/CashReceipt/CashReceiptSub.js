@@ -3,11 +3,11 @@ const sqlConfig = require('../../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
 
-const AllCashPaymentSub = async (req, res) => {
+const AllCashReceiptSub = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` select * from ${org}.dbo.tbl_cash_payment_sub with (nolock) order by sno DESC `)
+        const result = await sql.query(` select * from ${org}.dbo.tbl_cash_receipt_sub with (nolock) order by sno DESC `)
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
@@ -16,9 +16,9 @@ const AllCashPaymentSub = async (req, res) => {
 }
 
 
-const InsertCashSubPayment = async (req, res) => {
+const InsertCashSubReceipt = async (req, res) => {
     const org = req.body.org;
-    const cash_payment_id = req.body.cash_payment_id;
+    const cash_receipt_id = req.body.cash_receipt_id;
     const chart_of_acct = req.body.chart_of_acct;
     const ac_head = req.body.ac_head;
     const ac_head_name = req.body.ac_head_name;
@@ -29,7 +29,7 @@ const InsertCashSubPayment = async (req, res) => {
     const amt = req.body.amt;
     const net_amt = req.body.net_amt;
     const pay_type = req.body.pay_type;
-    const amt_paid = req.body.amt_paid;
+    const rec_amt = req.body.rec_amt;
     const bal_amt = req.body.bal_amt;
     const master_id = req.body.master_id;
     const emp_id = req.body.emp_id;
@@ -37,11 +37,12 @@ const InsertCashSubPayment = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(` insert into  ${org}.dbo.tbl_cash_payment_sub (
-            cash_payment_id ,chart_of_acct ,ac_head ,ac_head_name,glcode ,location ,ref_no,ref_date,
-            amt,net_amt,pay_type,amt_paid,bal_amt,master_id,emp_id,emp_name)
-            values('${cash_payment_id}' ,'${chart_of_acct}','${ac_head}' ,'${ac_head_name}','${glcode}' ,'${location}' ,'${ref_no}','${ref_date}',
-            '${amt}','${net_amt}','${pay_type}','${amt_paid}','${bal_amt}','${master_id}','${emp_id}','${emp_name}')`);  
+        const result = await sql.query(` insert into  ${org}.dbo.tbl_cash_receipt_sub (
+            cash_receipt_id ,chart_of_acct ,ac_head ,ac_head_name,glcode,location,ref_no,ref_date,
+            amt,net_amt,pay_type,rec_amt,bal_amt,master_id,emp_id,emp_name)
+         values('${cash_receipt_id}' ,'${chart_of_acct}','${ac_head}' ,'${ac_head_name}','${glcode}' ,'${location}' ,'${ref_no}','${ref_date}',
+            '${amt}','${net_amt}','${pay_type}','${rec_amt}','${bal_amt}','${master_id}','${emp_id}','${emp_name}'),
+             `);  
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
@@ -49,13 +50,13 @@ const InsertCashSubPayment = async (req, res) => {
     }
 }
 
-const GetSubCashPayment = async (req, res) => {
+const GetSubCashReceipt = async (req, res) => {
     const org = req.body.org;
-    const cash_payment_id = req.body.cash_payment_id;
+    const cash_receipt_id = req.body.cash_receipt_id;
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_payment_sub with (nolock) where cash_payment_id='${cash_payment_id}' `)
+        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_receipt_sub with (nolock) where cash_receipt_id='${cash_receipt_id}' `)
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
@@ -64,4 +65,4 @@ const GetSubCashPayment = async (req, res) => {
 
 }
 
-module.exports = {AllCashPaymentSub,InsertCashSubPayment,GetSubCashPayment}
+module.exports = {AllCashReceiptSub,InsertCashSubReceipt,GetSubCashReceipt}
