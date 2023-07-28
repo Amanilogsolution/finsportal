@@ -292,7 +292,7 @@ const AddCashReceipt = () => {
                 document.getElementById(`refAmt-${countCurrentIndex}`).disabled = true
                 countCurrentIndex = countCurrentIndex + 1;
 
-                document.getElementById(`invMod-${countCurrentIndex}`).checked = false
+                document.getElementById(`invMod-${i}`).checked = false
             }
 
             let totalRefAmt = 0;
@@ -422,7 +422,7 @@ const AddCashReceipt = () => {
                                                 <label htmlFor="remarks" className="col-md-7 col-form-label font-weight-normal" > Remarks </label>
                                                 <div className="d-flex col-md">
                                                     <textarea type="text" className="form-control " rows="4"
-                                                        id="remarks" placeholder="Remarks" style={{ resize: "none" }} onClick={handleSetMajorData}></textarea>
+                                                        id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handleSetMajorData}></textarea>
                                                 </div>
                                             </div>
                                         </div>
