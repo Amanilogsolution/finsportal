@@ -420,17 +420,18 @@ const AddCashPayment = () => {
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLongTitle">Chart of Account</h5>
                         <div className="form-group col-md-5">
-                            <input type="text" className='form-control col' placeholder='Search Item' id="searchChartofAcct"
+                            <input type="text" className='form-control col' placeholder='Search Chart of Account' id="searchChartofAcct"
                                 onChange={handleSearchChartofAccount}
                             />
                         </div>
                     </div>
                     <div className="modal-body overflow-auto pt-0 position-relative" style={{ maxHeight: '50vh' }}>
-                        <table className='table table-sm table-striped' >
-                            <thead className="position-sticky bg-white" style={{marginTop:'-5px',top: '-3px' }}>
+                        <table className='table table-hover' >
+                            <thead className="position-sticky bg-white" style={{top: '-3px' }}>
                                 <tr>
                                     <th>Sno.</th>
-                                    <th className="text-center">Items</th>
+                                    <th className="">Items</th>
+                                    <th className="text-center">GL Code</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -440,7 +441,8 @@ const AddCashPayment = () => {
                                         onClick={(e) => handleChangeChartofAcct(items.account_sub_name, items.account_sub_name_code)}
                                     >
                                         <td>{index + 1}</td>
-                                        <td style={{ fontSize: '16px' }} className="text-center">{items.account_sub_name}</td>
+                                        <td style={{ fontSize: '16px' }} >{items.account_sub_name}</td>
+                                        <td style={{ fontSize: '16px' }} className="text-center">{items.account_sub_name_code}</td>
                                     </tr>))
                                 }
                             </tbody>
