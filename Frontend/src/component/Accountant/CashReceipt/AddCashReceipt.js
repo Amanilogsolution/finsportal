@@ -334,7 +334,7 @@ const AddCashReceipt = () => {
             const result = await InsertCashReceipt(org, cashRecpMajorData, user_id, fins_year)
             if (result.message === "Added successfully") {
                 const resultSub = await InsertCashSubReceipt(org, cashRecpMajorData.cashRecepId, CashSubdata)
-                if (resultSub.result === "Added successfully") {
+                if (resultSub.message === "Added successfully") {
                     await Updatefinancialcount(localStorage.getItem('Organisation'), 'cash_recep_count', cashRepIdCount)
                     setLoading(true)
                     setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalCashReceipt' })

@@ -35,7 +35,7 @@ const InsertCashSubReceipt = async (req, res) => {
 
         await sql.connect(sqlConfig)
         const result = await sql.query(colName)
-        res.status(201).json({ result: "Added successfully" })
+        res.status(201).json({ message: "Added successfully" })
     }
     catch (err) {
         res.send(err)
