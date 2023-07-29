@@ -30,8 +30,13 @@ const AlertsComp = ({ data }) => {
 
     setTimeout(function () {
       x.className = x.className.replace('show', '');
-      if (data.type !== 'warning') { window.location.href = url }
-    }, 2000);
+      if (url !== 'referece') {
+        if (data.type !== 'warning') { window.location.href = url }
+      }
+      else{
+        window.location.reload()
+      }
+    }, 1000);
   }
   return (
     <>

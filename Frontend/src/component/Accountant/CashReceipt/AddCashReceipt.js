@@ -82,7 +82,7 @@ const AddCashReceipt = () => {
     const handleDeleteRemove = (e, index, deleteType) => {
         e.preventDefault()
         if (CashSubdata.length > 1) {
-            let lastVal= CashSubdata.length-1
+            let lastVal = CashSubdata.length - 1
             console.log(lastVal)
             document.getElementById(`chartofacct-${lastVal}`).disabled = false
             document.getElementById(`location-${lastVal}`).disabled = false
@@ -321,7 +321,6 @@ const AddCashReceipt = () => {
     // ----------------- Handle Submit ------------------------------
     const handleSubmitFormData = async (e) => {
         e.preventDefault();
-        // console.log(cashRecpMajorData, CashSubdata)
         setLoading(false)
         let org = localStorage.getItem('Organisation')
         let fins_year = localStorage.getItem('fin_year')
@@ -333,29 +332,22 @@ const AddCashReceipt = () => {
         }
         else {
             const result = await InsertCashReceipt(org, cashRecpMajorData, user_id, fins_year)
-            if (result.result === "Added successfully") {
+            if (result.message === "Added successfully") {
                 const resultSub = await InsertCashSubReceipt(org, cashRecpMajorData.cashRecepId, CashSubdata)
                 if (resultSub.result === "Added successfully") {
                     await Updatefinancialcount(localStorage.getItem('Organisation'), 'cash_recep_count', cashRepIdCount)
                     setLoading(true)
-                    setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+                    setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalCashReceipt' })
                 }
             }
+            else if (result.message === "Already Exist") {
+                setLoading(true)
+                setAlertObj({ type: 'warning', text: 'Cheque/Ref No is Already Exist!', url: 'referece' })
+            }
             else {
+                setLoading(true)
                 setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
             }
-
-
-            //     // bankPayMinData.map(async (element) => {
-            //     //     await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.achead, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
-            //     // })
-            //     // await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', cashRepIdCount)
-            //     // setLoading(true)
-            //     // if (result.result === 'Added successfully') {
-            //     //     setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
-            //     // } else {
-            //     //   
-            //     // }
         }
 
     }
@@ -445,7 +437,7 @@ const AddCashReceipt = () => {
 
 
                             <div className="card-footer border-top">
-                                <button id="save" name="save" className="btn btn-danger" onClick={handleSubmitFormData}>Submit</button>
+                                <button id="save submitBtn" name="save" className="btn btn-danger" onClick={handleSubmitFormData}>Submit</button>
                                 <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = "/TotalJVoucher"; }} name="clear" className="btn btn-secondary ml-2" > Cancel </button>
                                 <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#CashRecepPreview"> Preview Receipts</button>
                             </div>

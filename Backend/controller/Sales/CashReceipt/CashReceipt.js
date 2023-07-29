@@ -16,7 +16,6 @@ const AllCashReceipt = async (req, res) => {
 }
 
 const InsertCashReceipt = async (req, res) => {
-    console.log(req.body.org, req.body.cash_receiptData, req.body.add_user_name, req.body.fins_year)
     const org = req.body.org;
     const cash_receipt_id = req.body.cash_receiptData.cashRecepId;
     const cash_receipt_date = req.body.cash_receiptData.cashRecepDate;
@@ -31,13 +30,21 @@ const InsertCashReceipt = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_cash_receipt (
-            cash_receipt_id ,cash_receipt_date ,ref_no,ref_date,amt,remarks,
-            add_user_name,add_system_name,add_ip_address,add_date_time,status ,fins_year ,cash_receipt_uuid,on_account )
-        values('${cash_receipt_id}','${cash_receipt_date}','${ref_no}','${ref_date}','${amt}','${remarks}',
-            '${add_user_name}','${os.hostname()}','${req.ip}',getdate(),'Active','${fins_year}','${uuid}','${on_account}') `)
+        const checkRefNo = await sql.query(`select * from ${org}.dbo.tbl_cash_receipt tcr with (nolock) where ref_no ='${ref_no}'`)
+        if (!(checkRefNo.rowsAffected[0] > 0)) {
+            const result = await sql.query(`insert into ${org}.dbo.tbl_cash_receipt (
+                cash_receipt_id ,cash_receipt_date ,ref_no,ref_date,amt,remarks,
+                add_user_name,add_system_name,add_ip_address,add_date_time,status ,fins_year ,cash_receipt_uuid,on_account )
+            values('${cash_receipt_id}','${cash_receipt_date}','${ref_no}','${ref_date}','${amt}','${remarks}',
+                '${add_user_name}','${os.hostname()}','${req.ip}',getdate(),'Active','${fins_year}','${uuid}','${on_account}') `)
 
-        res.status(201).json({ result: "Added successfully" })
+            res.status().json({ message: "Added successfully" })
+        }
+        else {
+            res.status(201).json({ message: "Already Exist" })
+        }
+
+
     }
     catch (err) {
         res.send(err)
