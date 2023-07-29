@@ -277,6 +277,7 @@ const AddCashReceipt = () => {
             checkedInvIndex.splice(unCheckedIndex, 1)
         }
     }
+    // Merging Arr After Select Invoice
     const handleMergeInvoice = () => {
         let previousArr = CashSubdata.slice(0, currentindex)
         let afterArr = CashSubdata.slice(currentindex + 1)
@@ -318,7 +319,7 @@ const AddCashReceipt = () => {
         // offCustomModal('SelectInvoiceModal')
         document.getElementById('on_account').disabled = true
     }
-    // ----------------- Handle Submit ------------------------------
+    // ----------------- Handle Submit Form Data ------------------------------
     const handleSubmitFormData = async (e) => {
         e.preventDefault();
         setLoading(false)
@@ -444,6 +445,7 @@ const AddCashReceipt = () => {
 
                         </div>
                     </div>
+                    {/* -------------------- Alert Component -------------------- */}
                     {
                         alertObj.type ? <AlertsComp data={alertObj} /> : null
                     }
