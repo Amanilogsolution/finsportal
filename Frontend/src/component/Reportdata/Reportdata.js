@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment, ActiveBank } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
@@ -19,6 +19,7 @@ const Reportdata = () => {
   const [vendorlist, setVendorlist] = useState([])
   const [vendcustname, setVendcustname] = useState('')
   const [locationlist, setLocationlist] = useState([])
+  const [activeBanklist, setActiveBanklist] = useState([])
 
   const themebtncolor = localStorage.getItem('themebtncolor') || 'primary'
 
@@ -33,7 +34,8 @@ const Reportdata = () => {
 
       const vend = await ActiveVendor(org)
       setVendorlist(vend)
-
+      const allbank = await ActiveBank(org);
+      setActiveBanklist(allbank)
 
       const role = await getUserRole(org, localStorage.getItem('Role'))
       setLoading(true)
@@ -143,21 +145,21 @@ const Reportdata = () => {
       setData(result)
     }
     else if (report_type === 'bank_recp') {
-      // const Customer = document.getElementById('customer');
-      // const Customerid = Customer.value;
+      const bank = document.getElementById('bank');
       // const locationid = document.getElementById('location').value;
-
       // setVendcustname(Customer.options[Customer.selectedIndex].text)
-      // const result = await filterCN(org, fromdate, todate, Customerid, locationid)
+      // const result = await filterBank(org, fromdate, todate, bank)
+      // console.log(result)
       // setData(result)
     }
     else if (report_type === 'bank_pymt') {
-      const vend = document.getElementById('vendor');
-      const vendid = vend.value;
-      const locationid = document.getElementById('location').value;
-      setVendcustname(vend.options[vend.selectedIndex].text)
-      const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
-      setData(result)
+      const bank = document.getElementById('bank').value;
+      if (bank !== 'all') {
+        let bank_Name = bank.split(',')
+        setVendcustname(bank_Name[2])
+      }
+      const result = await filterBankPayment(org, fromdate, todate, bank)
+      setData(result.data)
     }
     else if (report_type === 'cash_recp') {
       // const Customer = document.getElementById('customer');
@@ -165,7 +167,7 @@ const Reportdata = () => {
       // const locationid = document.getElementById('location').value;
 
       // setVendcustname(Customer.options[Customer.selectedIndex].text)
-      // const result = await filterCN(org, fromdate, todate, Customerid, locationid)
+      // const result = await filterCashReceipt(org, fromdate, todate)
       // setData(result)
     }
     else if (report_type === 'cash_pymt') {
@@ -185,43 +187,50 @@ const Reportdata = () => {
       document.getElementById('locationdiv').style.display = 'none';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
+      document.getElementById('bankdiv').style.display = 'none';
     }
     else if (e.target.value === 'Invoice') {
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
       document.getElementById('locationdiv').style.display = 'flex';
-
+      document.getElementById('bankdiv').style.display = 'none';
     }
     else if (e.target.value === 'PO') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
+      document.getElementById('bankdiv').style.display = 'none';
     }
     else if (e.target.value === 'SO') {
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
       document.getElementById('locationdiv').style.display = 'none';
+      document.getElementById('bankdiv').style.display = 'none';
     }
     else if (e.target.value === 'CN') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'flex';
       document.getElementById('vendordiv').style.display = 'none';
+      document.getElementById('bankdiv').style.display = 'none';
     }
 
     else if (e.target.value === 'DN') {
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
+      document.getElementById('bankdiv').style.display = 'none';
     }
-    else if (e.target.value === 'bank_recp' || e.target.value === 'cash_recp') {
-      document.getElementById('locationdiv').style.display = 'flex';
-      document.getElementById('customerdiv').style.display = 'flex';
-      document.getElementById('vendordiv').style.display = 'none';
-    }
-    else if (e.target.value === 'bank_pymt' || e.target.value === 'cash_pymt') {
-      document.getElementById('locationdiv').style.display = 'flex';
+    else if (e.target.value === 'bank_recp' || e.target.value === 'bank_pymt') {
+      document.getElementById('locationdiv').style.display = 'none';
       document.getElementById('customerdiv').style.display = 'none';
-      document.getElementById('vendordiv').style.display = 'flex';
+      document.getElementById('vendordiv').style.display = 'none';
+      document.getElementById('bankdiv').style.display = 'flex';
+    }
+    else if (e.target.value === 'cash_pymt' || e.target.value === 'cash_recp') {
+      document.getElementById('locationdiv').style.display = 'none';
+      document.getElementById('customerdiv').style.display = 'none';
+      document.getElementById('vendordiv').style.display = 'none';
+      document.getElementById('bankdiv').style.display = 'none';
     }
   }
   return (
@@ -339,16 +348,27 @@ const Reportdata = () => {
                         </select>
                       </div>
                     </div>
+                    <div className="form-row" style={{ display: "none" }} id='bankdiv'>
+                      <label htmlFor="bank" className="col-md-3 col-form-label font-weight-normal">Bank</label>
+                      <div className="col form-group" >
+                        <select className="form-control col" id='bank' >
+                          <option value='all'>All</option>
+                          {activeBanklist.map((bankdata, index) => (
+                            <option key={index} value={[bankdata.bank_id, bankdata.sub_code, bankdata.bank_name, bankdata.chart_of_account]}> {bankdata.bank_name} ({bankdata.account_no}) </option>))
+                          }
+                        </select>
+                      </div>
+                    </div>
 
                     <div className="form-row" >
-                      <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span style={{ color: "red" }}>*</span></label>
+                      <label htmlFor="from_date" className="col-md-3 col-form-label font-weight-normal">From<span className='text-danger'>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='from_date' />
 
                       </div>
                     </div>
                     <div className="form-row" >
-                      <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span style={{ color: "red" }}>*</span></label>
+                      <label htmlFor="to_date" className="col-md-3 col-form-label font-weight-normal">TO<span className='text-danger'>*</span></label>
                       <div className="col form-group" >
                         <input type="date" className="form-control col" id='to_date' />
 

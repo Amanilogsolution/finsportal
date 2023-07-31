@@ -50,26 +50,28 @@ const GetSubBillPayment = async (req, res) => {
 
 const filterBankpaymentReport = async (req, res) => {
     const org = req.body.org;
-    const fromdate = req.body.fromdate;
-    const todate = req.body.todate;
-    const vendid = req.body.vendid;
-    const locationid = req.body.locationid;
-
+    const from_date = req.body.fromdate
+    const to_date = req.body.todate;
+    let bank_data = req.body.bank;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`SELECT  convert(varchar(15),bank_payment_date,121) as bankPaymentDate,* from ${org}.dbo.tbl_bank_payment tbp where bank_payment_date 
-        BETWEEN '${fromdate}' AND '${todate}' or bank_payment_id in (SELECT  bank_payment_id 
-        from ilogsolution.dbo.tbl_bank_payment_sub tbps where ac_head='${vendid}')`);
-        if (result.recordset.length > 0) {
-            res.status(200).send(result.recordset)
+        if (bank_data === 'all') {
+            const result = await sql.query(`select bank_payment_id,convert(varchar(15), bank_payment_date, 121) as bankPaymentDate ,cheq_ref_no,convert(varchar(15), cheq_date, 121) as cheqDate, cheq_amt, bank 
+             from ${org}.dbo.tbl_bank_payment tbp  with (nolock) where cheq_date BETWEEN '${from_date}' and '${to_date}'`)
+            res.status(200).json({ data: result.recordset })
         }
         else {
-            res.send('Data have have...')
+            bank_data = bank_data.split(',')
+            const result = await sql.query(`select bank_payment_id,convert(varchar(15), bank_payment_date, 121) as bankPaymentDate,cheq_ref_no,convert(varchar(15), cheq_date, 121) as cheqDate, cheq_amt, bank
+            from ${org}.dbo.tbl_bank_payment tbp  with (nolock) where bank_id ='${bank_data[0]}' and bank_sub_code='${bank_data[1]}' and 
+            bank_glcode='${bank_data[3]}' and cheq_date BETWEEN '${from_date}' and '${to_date}'`)
+            res.status(200).json({ data: result.recordset })
         }
     }
     catch (err) {
         res.send(err)
     }
 }
+
 
 module.exports = { InsertSubBillPayment, GetSubBillPayment, GetSubBillPayment, filterBankpaymentReport }

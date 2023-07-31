@@ -114,4 +114,7 @@ const DeleteBillPayment = async (req, res) => {
     }
 }
 
+
+
+
 module.exports = { InsertBillPayment, AllBillPayment, GetBillPayment, UpdateBillPayment, DeleteBillPayment }

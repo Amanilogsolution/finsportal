@@ -32,6 +32,11 @@ const BankPayReport = (props) => {
             sortable: true
         },
         {
+            name: 'Cheq Date',
+            selector: 'cheqDate',
+            sortable: true
+        },
+        {
             name: "Actions",
             sortable: false,
 
@@ -53,7 +58,6 @@ const BankPayReport = (props) => {
         const fetchData = async () => {
             const orgData = await showOrganisation(localStorage.getItem('Organisation'))
             setOrgdata(orgData)
-            
         }
         fetchData()
     }, [])
