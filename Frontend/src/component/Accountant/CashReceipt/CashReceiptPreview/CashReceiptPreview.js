@@ -19,6 +19,7 @@ const CashReceiptPreview = ({ orgdata, cashRecpMajorData, CashSubdata }) => {
             margin: [5, 0, 0, 5],
         });
     };
+    console.log(CashSubdata)
     // console.log('wiuydiu', cashRecpMajorData, CashSubdata)
     return (
         <>
@@ -64,19 +65,16 @@ const CashReceiptPreview = ({ orgdata, cashRecpMajorData, CashSubdata }) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {/* {CashSubdata.map((item, index) => {
+                                                    {CashSubdata.map((item, index) => {
                                                     return (<tr key={index}>
                                                         <td>{index + 1}</td>
-                                                        <td>{item.items}</td>
-                                                        <td>{item.Quantity}</td>
-                                                        <td>{item.rate}</td>
-                                                        <td>{item.amount}</td>
-                                                        <td>{item.taxPer}</td>
-                                                        <td>{item.taxAmt}</td>
-                                                        <td>{item.unit}</td>
-                                                        <td>{item.total}</td>
+                                                        <td>{item.chartOfAcct}</td>
+                                                        <td>{item.refNo}</td>
+                                                        <td>{item.refAmt}</td>
+                                                        <td>{item.recAmt}</td>
+                                                       
                                                     </tr>)
-                                                })}  */}
+                                                })} 
                                                     <tr>
                                                         <td colSpan='4'><strong>Total</strong></td>
                                                         <td>{cashRecpMajorData.amt}</td>

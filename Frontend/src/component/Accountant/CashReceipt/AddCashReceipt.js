@@ -325,10 +325,15 @@ const AddCashReceipt = () => {
         let org = localStorage.getItem('Organisation')
         let fins_year = localStorage.getItem('fin_year')
         let user_id = localStorage.getItem('User_id')
+        const total_rec_amt= document.getElementById('total_rec_amt').innerHTML;
 
         if (!cashRecpMajorData.ref_no || !cashRecpMajorData.ref_date || !cashRecpMajorData.amt) {
             setLoading(true)
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
+        }
+        else if(total_rec_amt !==cashRecpMajorData.amt){
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Amount & total Rec Amount must be same', url: '' })
         }
         else {
             const result = await InsertCashReceipt(org, cashRecpMajorData, user_id, fins_year)
