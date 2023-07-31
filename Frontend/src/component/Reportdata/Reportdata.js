@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment, ActiveBank, filterCashReceiptReport } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment, ActiveBank, filterCashReceiptReport, filterCashPaymentReport } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
@@ -11,6 +11,7 @@ import DNReport from './Reports/DNReport';
 import BankPayReport from './Reports/BankPayReport'
 import Loading from '../loadingPage/loadingPage'
 import CashReceiptReport from './Reports/CashReceipt';
+import CashPaymentReport from './Reports/CashPaymentReport';
 
 const Reportdata = () => {
   const [loading, setLoading] = useState(false)
@@ -163,23 +164,13 @@ const Reportdata = () => {
       setData(result.data)
     }
     else if (report_type === 'cash_recp') {
-      // const Customer = document.getElementById('customer');
-      // const Customerid = Customer.value;
-      // const locationid = document.getElementById('location').value;
-
-      // setVendcustname(Customer.options[Customer.selectedIndex].text)
       const result = await filterCashReceiptReport(org, fromdate, todate)
-      console.log(result)
       setData(result.data)
     }
     else if (report_type === 'cash_pymt') {
-      // const vend = document.getElementById('vendor');
-      // const vendid = vend.value;
-      // const locationid = document.getElementById('location').value;
-      // setVendcustname(vend.options[vend.selectedIndex].text)
-      // const result = await filterBankPayment(org, fromdate, todate, vendid, locationid)
-      // console.log(result)
-      // setData(result)
+      const result = await filterCashPaymentReport(org, fromdate, todate)
+      console.log(result.data)
+      setData(result.data)
     }
 
   }
@@ -255,6 +246,8 @@ const Reportdata = () => {
         return <BankPayReport displaydata={data} name={vendcustname} />
       case 'cash_recp':
         return <CashReceiptReport displaydata={data} name={vendcustname} />
+      case 'cash_pymt':
+        return <CashPaymentReport displaydata={data} name={vendcustname} />
       default:
         return null;
     }

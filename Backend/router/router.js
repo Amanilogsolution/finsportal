@@ -487,6 +487,7 @@ router.post('/getsubbillpayment',SubBankPayment.GetSubBillPayment)
 router.post('/allcashpayment',CashPaymentController.AllCashPayment)
 router.post('/insertcashpayment',CashPaymentController.InsertCashPayment)
 router.post('/getcashpayment',CashPaymentController.GetCashPayment)
+router.post('/filterCashPaymentReport',CashPaymentController.filterCashPaymentReport)
 
 //Cash Sub Payment
 // router.post('/allcashpaymentsub',SubCashPaymentController.AllCashPaymentSub)

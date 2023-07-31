@@ -33,7 +33,7 @@ const InsertCashSubPayment = async (req, res) => {
     const bal_amt = req.body.bal_amt;
     const master_id = req.body.master_id;
     const emp_id = req.body.emp_id;
-    const emp_name= req.body.emp_name;
+    const emp_name = req.body.emp_name;
 
     try {
         await sql.connect(sqlConfig)
@@ -41,7 +41,7 @@ const InsertCashSubPayment = async (req, res) => {
             cash_payment_id ,chart_of_acct ,ac_head ,ac_head_name,glcode ,location ,ref_no,ref_date,
             amt,net_amt,pay_type,amt_paid,bal_amt,master_id,emp_id,emp_name)
             values('${cash_payment_id}' ,'${chart_of_acct}','${ac_head}' ,'${ac_head_name}','${glcode}' ,'${location}' ,'${ref_no}','${ref_date}',
-            '${amt}','${net_amt}','${pay_type}','${amt_paid}','${bal_amt}','${master_id}','${emp_id}','${emp_name}')`);  
+            '${amt}','${net_amt}','${pay_type}','${amt_paid}','${bal_amt}','${master_id}','${emp_id}','${emp_name}')`);
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
@@ -55,8 +55,8 @@ const GetSubCashPayment = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_payment_sub with (nolock) where cash_payment_id='${cash_payment_id}' `)
-        res.status(200).json({ result: result.recordset })
+        const result = await sql.query(`select convert(varchar(15),ref_date, 121) as refDate,* from ${org}.dbo.tbl_cash_payment_sub with (nolock) where cash_payment_id='${cash_payment_id}' `)
+        res.status(200).json({ data: result.recordset })
     }
     catch (err) {
         res.send(err)
@@ -64,4 +64,4 @@ const GetSubCashPayment = async (req, res) => {
 
 }
 // module.exports = {AllCashPaymentSub,InsertCashSubPayment,GetSubCashPayment}
-module.exports = {InsertCashSubPayment,GetSubCashPayment}
+module.exports = { InsertCashSubPayment, GetSubCashPayment }

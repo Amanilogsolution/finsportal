@@ -48,13 +48,29 @@ const GetCashPayment = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_payment with (nolock) where cash_payment_id='${cash_payment_id}'`)
-        res.status(200).json({ result: result.recordset })
+        const result = await sql.query(`select convert(varchar(15),cash_payment_date, 121) as cashPaymentDate,convert(varchar(15),pymt_date, 121) as pymtDate,* from ${org}.dbo.tbl_cash_payment with (nolock) where cash_payment_id='${cash_payment_id}'`)
+        res.status(200).json({ data: result.recordset[0] })
     }
     catch (err) {
         res.send(err)
     }
-
 }
 
-module.exports = {AllCashPayment,InsertCashPayment,GetCashPayment}
+const filterCashPaymentReport = async (req, res) => {
+    const org = req.body.org;
+    const from_date = req.body.from_date;
+    const to_date = req.body.to_date;
+
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select cash_payment_id,convert(varchar(15), cash_payment_date, 121) as cashPaymentDate,pymt_no,
+        convert(varchar(15), pymt_date, 121) as pymtDate,amt from ${org}.dbo.tbl_cash_payment tcp where 
+        cash_payment_date BETWEEN '${from_date}' and '${to_date}'`)
+        res.status(200).json({ data: result.recordset })
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = {AllCashPayment,InsertCashPayment,GetCashPayment,filterCashPaymentReport}

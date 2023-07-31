@@ -1939,22 +1939,24 @@ export const InsertCashPayment = async (org, cash_payment_id, cash_payment_date,
     return axios.post(url, { org, cash_payment_id, cash_payment_date, pymt_no, pymt_date, amt, remarks, add_user_name, fins_year }).then(response => response.data).catch(error => console.log(error));
 }
 export const GetCashPayment = async (org, cash_payment_id) => {
-    const url = `http://localhost:3008/api/getcashpayment`
-    return axios.post(url, { org, cash_payment_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(`${url}/getcashpayment`, { org, cash_payment_id }).then(response => response.data).catch(error => console.log(error));
 }
+
+export const filterCashPaymentReport = async (org, from_date, to_date) => {
+    return axios.post(`${url}/filterCashPaymentReport`, { org, from_date, to_date }).then(response => response.data).catch(error => console.log(error));
+}
+
 // Sub Cash Payment
 // export const TotalCashPaymentSub = async (org) => {
 //     const url = `http://localhost:3008/api/allcashpaymentsub`
 //     return axios.post(url, {org}).then(response => response.data).catch(error => console.log(error));
 // }
 export const InsertCashSubPayment = async (org, cash_payment_id, chart_of_acct, ac_head, ac_head_name, glcode, location, ref_no, ref_date, amt, net_amt, pay_type, amt_paid, bal_amt, master_id, emp_id, emp_name) => {
-    const url = `http://localhost:3008/api/insertcashsubpayment`
-    return axios.post(url, { org, cash_payment_id, chart_of_acct, ac_head, ac_head_name, glcode, location, ref_no, ref_date, amt, net_amt, pay_type, amt_paid, bal_amt, master_id, emp_id, emp_name }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(`${url}/insertcashsubpayment`, { org, cash_payment_id, chart_of_acct, ac_head, ac_head_name, glcode, location, ref_no, ref_date, amt, net_amt, pay_type, amt_paid, bal_amt, master_id, emp_id, emp_name }).then(response => response.data).catch(error => console.log(error));
 }
 
 export const GetSubCashPayment = async (org, cash_payment_id) => {
-    const url = `http://localhost:3008/api/getsubcashpayment`
-    return axios.post(url, { org, cash_payment_id }).then(response => response.data).catch(error => console.log(error));
+    return axios.post(`${url}/getsubcashpayment`, { org, cash_payment_id }).then(response => response.data).catch(error => console.log(error));
 }
 
 
