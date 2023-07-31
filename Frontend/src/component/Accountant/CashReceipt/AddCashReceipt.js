@@ -82,13 +82,14 @@ const AddCashReceipt = () => {
     const handleDeleteRemove = (e, index, deleteType) => {
         e.preventDefault()
         if (CashSubdata.length > 1) {
-            let lastVal = CashSubdata.length - 1
-            console.log(lastVal)
-            document.getElementById(`chartofacct-${lastVal}`).disabled = false
-            document.getElementById(`location-${lastVal}`).disabled = false
-            document.getElementById(`refNo-${lastVal}`).disabled = false
-            document.getElementById(`refDate-${lastVal}`).disabled = false
-            document.getElementById(`refAmt-${lastVal}`).disabled = false
+            let lastVal = CashSubdata.length - 2
+            // console.log(lastVal)
+            // console.log()
+            // document.getElementById(`chartofacct-${lastVal}`).disabled = false
+            // document.getElementById(`location-${lastVal}`).disabled = false
+            // document.getElementById(`refNo-${lastVal}`).disabled = false
+            // document.getElementById(`refDate-${lastVal}`).disabled = false
+            // document.getElementById(`refAmt-${lastVal}`).disabled = false
 
             let newarr = [...CashSubdata];
             if (deleteType === 'pop') {
@@ -96,9 +97,7 @@ const AddCashReceipt = () => {
             }
             else if (deleteType === 'splice') {
                 newarr.splice(index, 1)
-
             }
-            console.log(newarr)
             setCashSubdata(newarr);
             let totalRefAmt = 0;
             for (let i = 0; i < newarr.length; i++) {
