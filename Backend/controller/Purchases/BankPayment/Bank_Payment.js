@@ -23,14 +23,23 @@ const InsertBillPayment = async (req, res) => {
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`insert into ${org}.dbo.tbl_bank_payment (
+        const checkDuplicateRefNo = await sql.query(`select * from ${org}.dbo.tbl_bank_payment tbp  with (nolock) where cheq_ref_no ='${cheq_ref_no}'`)
+
+        if (checkDuplicateRefNo.rowsAffected[0] > 0) {
+            res.status(201).json({ message: "Cheq/Ref no Already exist" })
+        }
+        else {
+            const result = await sql.query(`insert into ${org}.dbo.tbl_bank_payment (
             bank_payment_id ,bank_payment_date ,cheq_ref_no ,cheq_date ,cheq_amt ,bank_id ,bank_sub_code ,bank ,
             bank_glcode ,on_account,remarks ,add_user_name ,add_system_name ,add_ip_address ,add_date_time ,status,
             fins_year ,bank_payment_uuid ) 
             values( '${bank_payment_id}' ,'${bank_payment_date}' ,'${cheq_ref_no}' ,'${cheq_date}' ,'${cheq_amt}' ,'${bank_id}' ,'${bank_sub_code}' ,'${bank}' ,
             '${bank_glcode}' ,'${on_account}','${remarks}' ,'${username}' ,'${os.hostname()}' ,'${req.ip}' ,getDate() ,'Active',
             '${fins_year}' ,'${uuid}' )`)
-        res.status(201).json({ result: "Added successfully" })
+
+            res.status(201).json({ message: "Added successfully" })
+        }
+
     }
     catch (err) {
         res.send(err)

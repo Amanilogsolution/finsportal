@@ -325,7 +325,7 @@ const AddCashReceipt = () => {
         let org = localStorage.getItem('Organisation')
         let fins_year = localStorage.getItem('fin_year')
         let user_id = localStorage.getItem('User_id')
-        const total_rec_amt= document.getElementById('total_rec_amt').innerHTML;
+        const total_rec_amt= Number(document.getElementById('total_rec_amt').innerHTML)
 
         if (!cashRecpMajorData.ref_no || !cashRecpMajorData.ref_date || !cashRecpMajorData.amt) {
             setLoading(true)

@@ -25,7 +25,7 @@ function AddBankingPayment() {
         remarks: ''
     }])
     const minorBankPayobj = {
-        chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '',costCenterName:'', refNo: '', refDate: '', refAmt: '',
+        chart_of_acct: '', achead: '', glcode: '', vendorId: '', masterId: '', costCenter: '', costCenterName: '', refNo: '', refDate: '', refAmt: '',
         pay_type: '', amt_paid: '', amt_bal: '', sub_cost_center: '', sub_cost_center_id: ''
     }
     const [bankPayMinData, setBankPayMinData] = useState([minorBankPayobj])
@@ -236,14 +236,14 @@ function AddBankingPayment() {
         newRowData = [...rowsInput, ...selectedBillData]
 
         setSelectedBillData([]);
-        selectedBillIndex.map((item)=>(
-            document.getElementById(`billcheck-${item}`).checked=false
+        selectedBillIndex.map((item) => (
+            document.getElementById(`billcheck-${item}`).checked = false
         ))
         setSelectedBillIndex([]);
         offCustomModal('billCustomModal')
-     
+
         setBankPayMinData(newRowData)
-        
+
         setTimeout(() => {
             for (let i = currentindex; i < newRowData.length; i++) {
                 document.getElementById(`location-${i}`).disabled = true
@@ -286,7 +286,7 @@ function AddBankingPayment() {
         }
     }
 
-    const handlelocation = (location_id,location_name) => {
+    const handlelocation = (location_id, location_name) => {
         let minorData = [...bankPayMinData];
         minorData[currentindex].costCenter = location_id;
         minorData[currentindex].costCenterName = location_name;
@@ -311,23 +311,34 @@ function AddBankingPayment() {
         const remarks = document.getElementById('remarks').value;
         const username = localStorage.getItem('User_id')
         const fins_year = localStorage.getItem('fin_year')
+        const totalAmtPad = Number(document.getElementById('totalAmtPad').innerHTML)
 
         if (!check_ref_no || !check_amt || !bank_id) {
             setLoading(true)
             setAlertObj({ type: 'warning', text: 'Please Enter Mandatory fields !', url: '' })
         }
+        else if (totalAmtPad !== check_amt) {
+            setLoading(true)
+            setAlertObj({ type: 'warning', text: 'Total Paid Amt & Cheque Amt must be same', url: '' })
+        }
         else {
             const result = await InsertBillPayment(org, bank_payment_id, bank_recep_date, check_ref_no, check_date, check_amt, bank_id, bank_sub_code, bank_name, bank_glcode, onAccount, remarks, username, fins_year)
 
-            bankPayMinData.map(async (element) => {
-                await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.vendorId, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
-            })
-            await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
-            setLoading(true)
-            if (result.result === 'Added successfully') {
-                setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
-            } else {
-                setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+            if (result.message === "Added successfully") {
+                bankPayMinData.map(async (element) => {
+                    await InsertSubBillPayment(org, bank_payment_id, element.glcode, element.vendorId, element.glcode, element.costCenter, element.refNo, element.refDate, element.refAmt, element.pay_type, element.amt_paid, element.amt_bal, element.masterId, element.sub_cost_center_id, element.sub_cost_center)
+                })
+                await Updatefinancialcount(localStorage.getItem('Organisation'), 'bank_payment_count', bankpayCount)
+                setLoading(true)
+                if (result.result === 'Added successfully') {
+                    setAlertObj({ type: 'success', text: 'Bank Payment Done', url: '/TotalBankingPayment' })
+                } else {
+                    setAlertObj({ type: 'error', text: 'Server Not response', url: '' })
+                }
+            }
+            else {
+                setLoading(true)
+                setAlertObj({ type: 'warning', text: 'This Cheq/Ref no Already exist', url: '' })
             }
         }
     }
@@ -422,7 +433,7 @@ function AddBankingPayment() {
                                                     </div>
                                                 </div>
                                             </div>
-                                         
+
                                         </div>
                                     </form>
                                 </article>
@@ -444,7 +455,7 @@ function AddBankingPayment() {
                 <Footer />
 
             </div>
-            <BankPayPreview orgdata={orgdata} bankPayMinData={bankPayMinData} majorBankData={majorBankData}/>
+            <BankPayPreview orgdata={orgdata} bankPayMinData={bankPayMinData} majorBankData={majorBankData} />
 
             {/* ###################### Vendor Custom Modal ############################### */}
             <div className="position-absolute" id="SelectVendorModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "120%", display: "none" }} tabIndex="-1" role="dialog" >
@@ -484,7 +495,7 @@ function AddBankingPayment() {
                 </div>
             </div>
             {/* ############## Bill Custome Modal ################################# */}
-            <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "122%", display: "none"}} tabIndex="-1" role="dialog" >
+            <div className="position-absolute" id="billCustomModal" style={{ top: "0%", backdropFilter: "blur(2px)", width: "100%", height: "122%", display: "none" }} tabIndex="-1" role="dialog" >
                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document" style={{ width: '55vw' }}>
                     <div className="modal-content">
                         <div className="modal-header">
@@ -593,7 +604,7 @@ function AddBankingPayment() {
                                     {
                                         locationstate.length > 0 ?
                                             locationstate.map((items, index) => (
-                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal" onClick={(e) => { handlelocation(items.location_id,items.location_name) }} >
+                                                <tr key={index} className="cursor-pointer py-0" data-dismiss="modal" onClick={(e) => { handlelocation(items.location_id, items.location_name) }} >
                                                     <td>{items.location_name}</td>
                                                     <td style={{ fontSize: "15px" }}>{items.location_add1},{items.location_city},{items.location_country}</td>
                                                 </tr>
