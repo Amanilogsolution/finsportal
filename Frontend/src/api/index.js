@@ -1960,22 +1960,27 @@ export const GetSubCashPayment = async (org, cash_payment_id) => {
 
 
 // Cash Receipt 
+
 // export const AllCashPayment = async (org) => {
 //     return axios.post(`${url}/allcashpayment`, {org}).then(response => response.data).catch(error => console.log(error));
 // }
 
 export const InsertCashReceipt = async (org, cash_receiptData, add_user_name, fins_year) => {
-    // const url = `http://localhost:3008/api/insertcashpayment`
     return axios.post(`${url}/InsertCashReceipt`, { org, cash_receiptData, add_user_name, fins_year }).then(response => response.data).catch(error => console.log(error));
 }
-// export const GetCashPayment = async (org,cash_payment_id) => {
-//     const url = `http://localhost:3008/api/getcashpayment`
-//     return axios.post(url, {org,cash_payment_id}).then(response => response.data).catch(error => console.log(error));
-// }
+export const GetCashReceipt = async (org, cash_receipt_id) => {
+    return axios.post(`${url}/GetCashReceipt`, { org, cash_receipt_id }).then(response => response.data).catch(error => console.log(error));
+}
 
+export const filterCashReceiptReport = async (org, from_date, to_date) => {
+    return axios.post(`${url}/filterCashReceiptReport`, { org, from_date, to_date }).then(response => response.data).catch(error => console.log(error));
+}
 
 // Cash Receipt Sub
 export const InsertCashSubReceipt = async (org, cashRecepId, cash_receiptSubData) => {
-    // const url = `http://localhost:3008/api/insertcashpayment`
     return axios.post(`${url}/InsertCashSubReceipt`, { org, cashRecepId, cash_receiptSubData }).then(response => response.data).catch(error => console.log(error));
+}
+
+export const GetCashSubReceipt = async (org, cashRecepId) => {
+    return axios.post(`${url}/GetSubCashReceipt`, { org, cashRecepId}).then(response => response.data).catch(error => console.log(error));
 }

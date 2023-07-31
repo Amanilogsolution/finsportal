@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import InvoiceReport from './Reports/InvoiceReport';
-import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment, ActiveBank } from '../../api'
+import { FilterInvoice, ActiveCustomer, ActiveLocationAddress, ActiveVendor, FilterBillReport, getUserRolePermission, filterPO, filterSO, filterCN, filterDN, getUserRole, filterBankPayment, ActiveBank, filterCashReceiptReport } from '../../api'
 import BillReport from './Reports/BillReport';
 import POReport from './Reports/POReport';
 import SOReport from './Reports/SOReport';
@@ -10,6 +10,7 @@ import CNReport from './Reports/CNReport';
 import DNReport from './Reports/DNReport';
 import BankPayReport from './Reports/BankPayReport'
 import Loading from '../loadingPage/loadingPage'
+import CashReceiptReport from './Reports/CashReceipt';
 
 const Reportdata = () => {
   const [loading, setLoading] = useState(false)
@@ -167,8 +168,9 @@ const Reportdata = () => {
       // const locationid = document.getElementById('location').value;
 
       // setVendcustname(Customer.options[Customer.selectedIndex].text)
-      // const result = await filterCashReceipt(org, fromdate, todate)
-      // setData(result)
+      const result = await filterCashReceiptReport(org, fromdate, todate)
+      console.log(result)
+      setData(result.data)
     }
     else if (report_type === 'cash_pymt') {
       // const vend = document.getElementById('vendor');
@@ -233,6 +235,31 @@ const Reportdata = () => {
       document.getElementById('bankdiv').style.display = 'none';
     }
   }
+
+
+  const reportType = () => {
+    switch (document.getElementById('report_type').value) {
+      case 'Invoice':
+        return <InvoiceReport displaydata={data} name={vendcustname} />
+      case 'Bills':
+        return <BillReport displaydata={data} name={vendcustname} />
+      case 'PO':
+        return <POReport displaydata={data} name={vendcustname} />
+      case 'SO':
+        return <SOReport displaydata={data} name={vendcustname} />
+      case 'CN':
+        return <CNReport displaydata={data} name={vendcustname} />
+      case 'DN':
+        return <DNReport displaydata={data} name={vendcustname} />
+      case 'bank_pymt':
+        return <BankPayReport displaydata={data} name={vendcustname} />
+      case 'cash_recp':
+        return <CashReceiptReport displaydata={data} name={vendcustname} />
+      default:
+        return null;
+    }
+  }
+
   return (
     <div className="wrapper">
       <Header />
@@ -248,16 +275,7 @@ const Reportdata = () => {
                   <article className='card-body'>
                     <form>
                       {
-                        data ? (
-                          (document.getElementById('report_type').value === 'Invoice') ?
-                            <InvoiceReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'Bills')
-                              ? <BillReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'PO') ?
-                                <POReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'SO') ?
-                                  <SOReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'CN') ?
-                                    <CNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'DN') ?
-                                      <DNReport displaydata={data} name={vendcustname} /> : (document.getElementById('report_type').value === 'bank_pymt') ?
-                                        <BankPayReport displaydata={data} name={vendcustname} /> : null)
-                          : <h3 className='text-center'>Filter to show data</h3>
+                        data ? reportType() : <h3 className='text-center'>Filter to show data</h3>
                       }
                     </form>
                   </article>

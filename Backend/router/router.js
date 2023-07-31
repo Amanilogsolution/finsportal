@@ -497,6 +497,7 @@ router.post('/getsubcashpayment',SubCashPaymentController.GetSubCashPayment)
 router.post('/AllCashReceipt',CashReceiptController.AllCashReceipt)
 router.post('/InsertCashReceipt',CashReceiptController.InsertCashReceipt)
 router.post('/GetCashReceipt',CashReceiptController.GetCashReceipt)
+router.post('/filterCashReceiptReport',CashReceiptController.filterCashReceiptReport)
 
 //Cash Receipt Sub
 router.post('/AllCashReceiptSub',SubCashReceiptController.AllCashReceiptSub)

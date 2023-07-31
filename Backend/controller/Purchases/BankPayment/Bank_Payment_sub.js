@@ -57,14 +57,14 @@ const filterBankpaymentReport = async (req, res) => {
         await sql.connect(sqlConfig)
         if (bank_data === 'all') {
             const result = await sql.query(`select bank_payment_id,convert(varchar(15), bank_payment_date, 121) as bankPaymentDate ,cheq_ref_no,convert(varchar(15), cheq_date, 121) as cheqDate, cheq_amt, bank 
-             from ${org}.dbo.tbl_bank_payment tbp  with (nolock) where cheq_date BETWEEN '${from_date}' and '${to_date}'`)
+             from ${org}.dbo.tbl_bank_payment tbp  with (nolock) where bank_payment_date BETWEEN '${from_date}' and '${to_date}'`)
             res.status(200).json({ data: result.recordset })
         }
         else {
             bank_data = bank_data.split(',')
             const result = await sql.query(`select bank_payment_id,convert(varchar(15), bank_payment_date, 121) as bankPaymentDate,cheq_ref_no,convert(varchar(15), cheq_date, 121) as cheqDate, cheq_amt, bank
             from ${org}.dbo.tbl_bank_payment tbp  with (nolock) where bank_id ='${bank_data[0]}' and bank_sub_code='${bank_data[1]}' and 
-            bank_glcode='${bank_data[3]}' and cheq_date BETWEEN '${from_date}' and '${to_date}'`)
+            bank_glcode='${bank_data[3]}' and bank_payment_date BETWEEN '${from_date}' and '${to_date}'`)
             res.status(200).json({ data: result.recordset })
         }
     }

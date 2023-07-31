@@ -44,12 +44,12 @@ const InsertCashSubReceipt = async (req, res) => {
 
 const GetSubCashReceipt = async (req, res) => {
     const org = req.body.org;
-    const cash_receipt_id = req.body.cash_receipt_id;
+    const cash_receipt_id = req.body.cashRecepId;
 
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_receipt_sub with (nolock) where cash_receipt_id='${cash_receipt_id}' `)
-        res.status(200).json({ result: result.recordset })
+        const result = await sql.query(`select convert(varchar(15),ref_date, 121) as refDate,* from ${org}.dbo.tbl_cash_receipt_sub with (nolock) where cash_receipt_id='${cash_receipt_id}' `)
+        res.status(200).json({ data: result.recordset })
     }
     catch (err) {
         res.send(err)

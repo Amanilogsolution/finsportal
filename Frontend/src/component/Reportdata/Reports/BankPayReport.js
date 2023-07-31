@@ -60,6 +60,7 @@ const BankPayReport = (props) => {
             setOrgdata(orgData)
         }
         fetchData()
+        console.log(props)
     }, [])
     return (
         <div>

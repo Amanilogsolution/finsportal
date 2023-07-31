@@ -53,17 +53,31 @@ const InsertCashReceipt = async (req, res) => {
 
 const GetCashReceipt = async (req, res) => {
     const org = req.body.org;
-    const cash_payment_id = req.body.cash_payment_id;
-
+    const cash_receipt_id = req.body.cash_receipt_id;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_receipt with (nolock) where cash_receipt_id='${cash_payment_id}'`)
-        res.status(200).json({ result: result.recordset })
+        const result = await sql.query(`select convert(varchar(15),cash_receipt_date, 121) as cashReceiptDate,convert(varchar(15), ref_date, 121) as refDate,* from ${org}.dbo.tbl_cash_receipt with (nolock) where cash_receipt_id='${cash_receipt_id}'`)
+        res.status(200).json({ data: result.recordset[0] })
     }
     catch (err) {
         res.send(err)
     }
-
 }
 
-module.exports = { AllCashReceipt, InsertCashReceipt, GetCashReceipt }
+const filterCashReceiptReport = async (req, res) => {
+    const org = req.body.org;
+    const from_date = req.body.from_date;
+    const to_date = req.body.to_date;
+
+    try {
+        await sql.connect(sqlConfig)
+        const result = await sql.query(`select cash_receipt_id,convert(varchar(15), cash_receipt_date, 121) as cashReceiptDate,ref_no,convert(varchar(15), ref_date, 121) as refDate,amt
+        from ${org}.dbo.tbl_cash_receipt tcr where cash_receipt_date BETWEEN '${from_date}' and '${to_date}'`)
+        res.status(200).json({ data: result.recordset })
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+module.exports = { AllCashReceipt, InsertCashReceipt, GetCashReceipt, filterCashReceiptReport }
