@@ -1,7 +1,5 @@
 const sql = require('mssql')
 const sqlConfig = require('../../../config.js')
-const os = require('os')
-const uuidv1 = require("uuid/v1");
 
 const AllCashReceiptSub = async (req, res) => {
     const org = req.body.org;

@@ -43,8 +43,6 @@ const InsertCashReceipt = async (req, res) => {
         else {
             res.status(201).json({ message: "Already Exist" })
         }
-
-
     }
     catch (err) {
         res.send(err)

@@ -93,8 +93,6 @@ const CashReceiptRepPreview = ({ cashRecpId, orgdata }) => {
                                                         <td colSpan='4'><strong>Total</strong></td>
                                                         <td>{cashRecpMajorData.amt}</td>
                                                     </tr>
-
-
                                                 </tbody>
                                             </table>
                                         </div>
