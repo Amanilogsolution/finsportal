@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
-import { getUserRolePermission } from '../../../api'
+import { getUserRolePermission, AllCashReceipt } from '../../../api'
 import LoadingPage from '../../loadingPage/loadingPage';
 import DataTable from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
@@ -15,7 +15,9 @@ const TotalCashReceipt = () => {
 
     useEffect(() => {
         const fetchdata = async () => {
-
+            const totalCashReceiptData = await AllCashReceipt(localStorage.getItem('Organisation'))
+            console.log(totalCashReceiptData.data)
+            setData(totalCashReceiptData.data)
             setLoading(true)
             fetchRoles();
         }
@@ -39,7 +41,55 @@ const TotalCashReceipt = () => {
             }
         }
     }
-    const columns = []
+    const columns = [
+        {
+            name: 'Cash Receipt Id',
+            selector: 'cash_receipt_id',
+            sortable: true,
+            cell: (row) => {
+                if (localStorage.getItem('financialstatus') === 'Lock') {
+                    return <p title='Edit SalesOrder is Lock'>{row.cash_receipt_id}</p>
+                }
+                else {
+                    if (!userRightsData) {
+                        fetchRoles()
+                    }
+                    if (userRightsData.bank_recp_edit === 'true') {
+                        return (
+                            <a title='Edit Cash Receipt' className='pb-1' href="" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('cashReceiptID', `${row.cash_receipt_id}`)}
+                                style={{ borderBottom: '3px solid blue' }}>{row.cash_receipt_id}</a>
+                        );
+                    }
+                    else {
+                        return <p title='Not Access to Edit Cash Receipt'>{row.cash_receipt_id}</p>
+                    }
+
+                }
+            }
+        },
+        {
+            name: 'Cash Receipt Date',
+            selector: 'cashReceiptDate',
+            sortable: true
+        },
+        {
+            name: 'Cheque/Ref No.',
+            selector: 'ref_no',
+            sortable: true
+        },
+        {
+            name: 'Cheque/Ref Date',
+            selector: 'refDate',
+            sortable: true
+        },
+
+        {
+            name: 'Amount',
+            selector: 'amt',
+            sortable: true
+        },
+    ]
+
 
     const tableData = {
         columns, data

@@ -7,8 +7,8 @@ const AllCashReceipt = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select * from ${org}.dbo.tbl_cash_receipt with (nolock) order by sno DESC `)
-        res.status(200).json({ result: result.recordset })
+        const result = await sql.query(`select convert(varchar(15),cash_receipt_date, 121) as cashReceiptDate,convert(varchar(15), ref_date, 121) as refDate,* from ${org}.dbo.tbl_cash_receipt with (nolock) order by sno DESC `)
+        res.status(200).json({ data: result.recordset })
     }
     catch (err) {
         res.send(err)

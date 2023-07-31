@@ -1963,9 +1963,9 @@ export const GetSubCashPayment = async (org, cash_payment_id) => {
 
 // Cash Receipt 
 
-// export const AllCashPayment = async (org) => {
-//     return axios.post(`${url}/allcashpayment`, {org}).then(response => response.data).catch(error => console.log(error));
-// }
+export const AllCashReceipt = async (org) => {
+    return axios.post(`${url}/AllCashReceipt`, {org}).then(response => response.data).catch(error => console.log(error));
+}
 
 export const InsertCashReceipt = async (org, cash_receiptData, add_user_name, fins_year) => {
     return axios.post(`${url}/InsertCashReceipt`, { org, cash_receiptData, add_user_name, fins_year }).then(response => response.data).catch(error => console.log(error));
