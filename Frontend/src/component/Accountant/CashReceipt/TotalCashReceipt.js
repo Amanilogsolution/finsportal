@@ -56,7 +56,7 @@ const TotalCashReceipt = () => {
                     }
                     if (userRightsData.bank_recp_edit === 'true') {
                         return (
-                            <a title='Edit Cash Receipt' className='pb-1' href="" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('cashReceiptID', `${row.cash_receipt_id}`)}
+                            <a title='Edit Cash Receipt' className='pb-1' href="#" id={`editactionbtns${row.sno}`} onClick={() => localStorage.setItem('cashReceiptID', `${row.cash_receipt_id}`)}
                                 style={{ borderBottom: '3px solid blue' }}>{row.cash_receipt_id}</a>
                         );
                     }

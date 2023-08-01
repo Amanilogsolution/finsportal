@@ -55,7 +55,7 @@ const TotalCashPayment = () => {
                     }
                     if (userRightsData.cash_payt_edit === 'true') {
                         return (
-                            <a title="Edit Cash Payment" className='pb-1' href="EditJVoucher" onClick={() => localStorage.setItem('cashPayId', row.cash_payment_id)}
+                            <a title="Edit Cash Payment" className='pb-1' href="#" onClick={() => localStorage.setItem('cashPayId', row.cash_payment_id)}
                                 style={{ borderBottom: '3px solid blue' }}>{row.cash_payment_id}</a>
                         )
                     } else {
