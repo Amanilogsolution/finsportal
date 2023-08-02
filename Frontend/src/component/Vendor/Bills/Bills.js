@@ -8,7 +8,6 @@ import LoadingPage from '../../loadingPage/loadingPage';
 
 function Bills() {
     const [loading, setLoading] = useState(false);
-    const [totalValues, setTotalValues] = useState([1]);
     const [vendorlist, setVendorlist] = useState([]);
     const [unitlist, setUnitlist] = useState([]);
     const [paymenttermlist, setPaymenttermlist] = useState([]);
@@ -36,45 +35,12 @@ function Bills() {
     const [index, setIndex] = useState()
 
     const [billalldetail, setBillalldetail] = useState({
-        voucher_no: '',
-        voucher_date: '',
-        bill_date: '',
-        pay_to: '',
-        net_amt: '',
-        cgst_amt: '',
-        sgst_amt: '',
-        igst_amt: '',
-        bill_amt: '',
-        tds_per: '',
-        tds_amt: '',
-        remarks: ''
+        voucher_no: '', voucher_date: '', bill_date: '', pay_to: '', net_amt: '', cgst_amt: '', sgst_amt: '', igst_amt: '', bill_amt: '', tds_per: '', tds_amt: '', remarks: ''
     })
-
-
-
-    const [tabledata, setTabledata] = useState([
-        {
-            location: '',
-            item: '',
-            glcode: '',
-            sac_hsn: '',
-            quantity: '',
-            rate: 0,
-            amount: 0,
-            unit: '',
-            netamount: 0,
-            cgst_amt: 0,
-            sgst_amt: 0,
-            igst_amt: 0,
-            cgst_per: 0,
-            sgst_per: 0,
-            igst_per: 0,
-            tds_per: 0,
-            tds_amt: 0,
-            gst_amt: 0,
-            tds_check: ''
-        }
-    ])
+    const tableSubObj = {
+        location: '', item: '', glcode: '', sac_hsn: '', quantity: '', rate: 0, amount: 0, unit: '', netamount: 0, cgst_amt: 0, sgst_amt: 0, igst_amt: 0, cgst_per: 0, sgst_per: 0, igst_per: 0, tds_per: 0, tds_amt: 0, gst_amt: 0, tds_check: ''
+    }
+    const [tableRowData, setTableRowData] = useState([tableSubObj])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -91,20 +57,16 @@ function Bills() {
             setActiveUser(result2)
             const items = await ActivePurchesItems(org)
             setItemlist(items)
-            console.log(items)
             const result = await showOrganisation(org)
             setOrgdata(result)
             const tds_list = await getActiveTdsHead(org)
             setTdsheadlist(tds_list)
-            setLoading(true)
-            Todaydate()
-
-            console.log(tabledata)
-
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
-            setVouchercount(lastno)
+            setLoading(true)
+            Todaydate()
             document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+            setVouchercount(lastno)
             document.getElementById('savebtn').disabled = true;
             document.getElementById('postbtn').disabled = true;
         }
@@ -121,7 +83,7 @@ function Bills() {
         if (day < 10) day = "0" + day;
         var today = year + "-" + month + "-" + day;
         document.getElementById("voucher_date").defaultValue = today;
-        document.getElementById("bill_date").defaultValue = today;
+        // document.getElementById("bill_date").defaultValue = today;
     }
 
     const Duedate = (lastday) => {
@@ -144,7 +106,6 @@ function Bills() {
     const handlevendorselect = async (e) => {
         const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
         setVendorselectedlist(result[0])
-
         Duedate(result[0].payment_terms);
 
         const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
@@ -155,47 +116,19 @@ function Bills() {
     }
 
     const handleChangeLocation = (e, index) => {
-        tabledata[index].location = e.target.value
+        tableRowData[index].location = e.target.value
     }
-
-    const handleAdd = (e) => {
-        e.preventDefault()
-        setTotalValues([...totalValues, 1])
-        setTabledata([...tabledata, {
-            location: '',
-            item: '',
-            glcode: '',
-            sac_hsn: '',
-            quantity: '',
-            rate: 0,
-            amount: 0,
-            unit: '',
-            netamount: 0,
-            cgst_amt: 0,
-            sgst_amt: 0,
-            igst_amt: 0,
-            cgst_per: 0,
-            sgst_per: 0,
-            igst_per: 0,
-            tds_per: 0,
-            tds_amt: 0,
-            gst_amt: 0,
-            tds_check: ''
-        }])
-    }
-
-    const handleRemove = (e) => {
-        e.preventDefault()
-        var newvalue = [...totalValues]
-        var newtablevalue = [...tabledata]
-        if (newvalue.length === 1) {
-            setTotalValues(newvalue)
-            setTabledata(newtablevalue)
-        } else {
-            newvalue.pop()
-            newtablevalue.pop()
-            setTotalValues(newvalue)
-            setTabledata(newtablevalue)
+    // Handle Add And Remove Row 
+    const handleAddRemoveRow = (invokeType) => {
+        if (invokeType === 'add') {
+            setTableRowData([...tableRowData, tableSubObj])
+        }
+        else if (invokeType === 'remove') {
+            if (tableRowData.length !== 1) {
+                let newtablevalue = [...tableRowData];
+                newtablevalue.pop()
+                setTableRowData(newtablevalue)
+            }
         }
     }
 
@@ -203,113 +136,76 @@ function Bills() {
         setTdscomp(e.target.value)
     }
 
-    // const handleChangeEmployee = (e, index) => {
-    //     tabledata[index].employee = e.target.value
-    // }
 
-    // Item Hadle Calculation
-
+    // Item Handle Calculation
     const handleChangeItems = (e, index) => {
         let val = e.target.value;
-        console.log(val);
         let item_arr = val.split('^')
-        tabledata[index].item = item_arr[0]
-        tabledata[index].glcode = item_arr[1]
-        tabledata[index].sac_hsn = item_arr[2] || item_arr[3]
+        tableRowData[index].item = item_arr[0]
+        tableRowData[index].glcode = item_arr[1]
+        tableRowData[index].sac_hsn = item_arr[2] || item_arr[3]
     }
 
     // Quantity Hadle Calculation
     const handleChangeQuantity = (e, index) => {
-
         document.getElementById(`Quantity${index}`).value = e.target.value;
-
         let amt = document.getElementById(`rate${index}`).value * e.target.value
         document.getElementById(`amount${index}`).value = amt;
-        const sum = [Number(tabledata[index]["cgst_amt"]), Number(tabledata[index]["sgst_amt"]), Number(tabledata[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
-        const tds = tabledata[index]["tds_amt"]
+        const sum = [Number(tableRowData[index]["cgst_amt"]), Number(tableRowData[index]["sgst_amt"]), Number(tableRowData[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
+        const tds = tableRowData[index]["tds_amt"]
 
         document.getElementById(`netamt${index}`).value = sum + amt
 
-        tabledata[index].amount = amt
-        tabledata[index].quantity = Number(e.target.value)
-        tabledata[index].rate = Number(document.getElementById(`rate${index}`).value)
-        tabledata[index].netamount = sum + amt
+        tableRowData[index].amount = amt
+        tableRowData[index].quantity = Number(e.target.value)
+        tableRowData[index].rate = Number(document.getElementById(`rate${index}`).value)
+        tableRowData[index].netamount = sum + amt
 
 
         let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         setNetamt(net_amt)
 
         let amtount = 0;
-        tabledata.map((item, index) => { amtount = amtount + Number(item.amount) })
+        tableRowData.map((item, index) => { amtount = amtount + Number(item.amount) })
         setAmt(amtount)
-
-
     }
 
     // Rate Hadle Calculation
     const handleChangeRate = (e, index) => {
-        tabledata[index].rate = e.target.value
+        tableRowData[index].rate = e.target.value
         document.getElementById(`rate${index}`).value = e.target.value;
-
 
         let amt = document.getElementById(`Quantity${index}`).value * e.target.value
         document.getElementById(`amount${index}`).value = amt;
 
-        const sum = [Number(tabledata[index]["cgst_amt"]), Number(tabledata[index]["sgst_amt"]), Number(tabledata[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
-        const tds = tabledata[index]["tds_amt"]
+        const sum = [Number(tableRowData[index]["cgst_amt"]), Number(tableRowData[index]["sgst_amt"]), Number(tableRowData[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
+        const tds = tableRowData[index]["tds_amt"]
 
         document.getElementById(`netamt${index}`).value = sum + amt - tds
-        tabledata[index].amount = amt
-        tabledata[index].quantity = Number(document.getElementById(`Quantity${index}`).value)
-        tabledata[index].rate = Number(e.target.value)
-        tabledata[index].netamount = sum + amt - tds
+        tableRowData[index].amount = amt
+        tableRowData[index].quantity = Number(document.getElementById(`Quantity${index}`).value)
+        tableRowData[index].rate = Number(e.target.value)
+        tableRowData[index].netamount = sum + amt - tds
 
         let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         setNetamt(net_amt)
 
         let amtount = 0;
-        tabledata.map((item, index) => { amtount = amtount + Number(item.amount) })
+        tableRowData.map((item, index) => { amtount = amtount + Number(item.amount) })
         setAmt(amtount)
-
-
     }
 
-    // Deduction Hadle Calculation
-    // const handleChangeDeduction = (e, index) => {
-    //     tabledata[index].deduction = e.target.value
-    //     document.getElementById(`deduction${index}`).value = e.target.value;
 
-    //     let netamt = document.getElementById(`amount${index}`).value - e.target.value
-    //     document.getElementById(`netamt${index}`).value = netamt;
-    //     tabledata[index].netamount = netamt
-    // }
-    // Ref no /File no Hadle Calculation
-    // const handleChangeFileno = (e, index) => {
-    //     tabledata[index].ref_fileno = e.target.value;
-    //     document.getElementById(`fileno${index}`).value = e.target.value;
-    // }
     // Unit Hadle Calculation
     const handleChangeUnit = (e, index) => {
-        tabledata[index].unit = e.target.value;
+        tableRowData[index].unit = e.target.value;
     }
 
     //Toggle & Calculation of Gst Div
     const handletogglegstdiv = () => {
-        // var sum = 0
-        // tabledata.map((item) => sum += Number(item.netamount))
-        // setNetTotal(sum)
-        // setBillsubtotalamt(sum)
-        // document.getElementById('totalamount').value = sum;
-        // if (e.target.checked === true) {
         document.getElementById('gstdiv').style.display = 'block';
-        // }
-        // else {
-        // document.getElementById(`netamt${index}`).value = document.getElementById(`amount${index}`).value
-        // document.getElementById('gstdiv').style.display = 'none';
-        // }
-
 
         const vendor_detail = document.getElementById('vend_name');
         const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
@@ -335,19 +231,14 @@ function Bills() {
         let tax = totalvalue * gst / 100
         document.getElementById(`netamt${index}`).value = Number(tax) + Number(totalvalue)
 
-        console.log(tax)
-
-        tabledata[index].gst_amt = tax
-        tabledata[index].netamount = Number(tax) + Number(totalvalue)
-
-
+        tableRowData[index].gst_amt = tax
+        tableRowData[index].netamount = Number(tax) + Number(totalvalue)
 
         let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         setNetamt(net_amt)
 
         document.getElementById('gstdiv').style.display = 'none';
-
     }
 
 
@@ -358,7 +249,7 @@ function Bills() {
 
         let net_amt = 0;
 
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.gst_amt) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.gst_amt) })
 
         if (gst_type === 'Inter') {
             document.getElementById("cgstamt").innerHTML = 0
@@ -391,13 +282,11 @@ function Bills() {
 
         if (e.target.checked === true) {
             // document.getElementById('tdsdiv').style.display = 'block';
-            tabledata[index].tds_check = 'Y'
-
+            tableRowData[index].tds_check = 'Y'
         }
         else {
             // document.getElementById('tdsdiv').style.display = 'none';  
-            tabledata[index].tds_check = 'N'
-
+            tableRowData[index].tds_check = 'N'
         }
 
         // setBillalldetail({
@@ -425,8 +314,8 @@ function Bills() {
 
         let arr = []
         let net_amt = 0;
-        tabledata.map((item, index) => {
-            if (item.tds_check == 'Y') {
+        tableRowData.map((item, index) => {
+            if (item.tds_check === 'Y') {
 
                 arr.push(item.amount * Number(TdsPer) / 100)
 
@@ -446,44 +335,36 @@ function Bills() {
 
     const handlesetalldata = (e) => {
         e.preventDefault();
-
         let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         const value = net_amt;
-
         setNetamt(value - Number(document.getElementById('expense_amt').value))
-
     }
 
     const handleDiscount = (e) => {
         e.preventDefault();
-
         let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         const value = net_amt;
-
         setNetamt(value - Number(document.getElementById('expense_amt').value) - Number(document.getElementById('discount_amt').value))
     }
 
     // ################################ Remark Div ##########################################
-
     const handlesetremark = (e) => {
         e.preventDefault();
         setBillalldetail({
             ...billalldetail,
             remarks: document.getElementById('remarks').value,
             net_amt: document.getElementById('total_bill_amt').innerHTML
-
         })
         document.getElementById('savebtn').disabled = false;
         document.getElementById('postbtn').disabled = false;
     }
 
-
     // 
     const handleCalNetAmt = () => {
         let net_amt = 0;
-        tabledata.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         setNetamt(net_amt)
     }
 
@@ -493,14 +374,12 @@ function Bills() {
         // document.getElementById('postbtn').disabled = true;
         const btn_type = e.target.value;
         let voucher_no = "";
-
         if (btn_type === 'save') {
             voucher_no = 'VOUCHER' + Math.floor(Math.random() * 10000) + 1;
         }
         else {
             voucher_no = document.getElementById('voucher_no').value
         }
-
         const voucher_date = document.getElementById('voucher_date').value
         const vendor_detail = document.getElementById('vend_name');
         const vendor_id = vendor_detail.value;
@@ -545,10 +424,6 @@ function Bills() {
         const org = localStorage.getItem('Organisation')
         const fins_year = localStorage.getItem('fin_year')
 
-        console.log(voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, payment_term, due_date, emp_id,
-            amt_paid, amt_balance, amt_booked, tds_section, tdscomp, tds_per, tds_amt, taxable_amt, non_taxable_amt, expense_amt, remarks, cgst_amt, sgst_amt, igst_amt,
-            gst_location_id, discount, bill_url, userid, fins_year, org)
-
         if (!voucher_no) {
             alert('Please Enter mandatory field')
             document.getElementById('savebtn').disabled = false;
@@ -567,7 +442,7 @@ function Bills() {
                 //     sgst_amt,igst_amt,gst_location_id,discount,bill_url,userid,fins_year,org)
 
                 // if (result === 'Added') {
-                //     const result1 = await InsertSubBill(org, voucher_no, bill_no, tabledata, fins_year, userid)
+                //     const result1 = await InsertSubBill(org, voucher_no, bill_no, tableRowData, fins_year, userid)
 
                 //     if (btn_type !== 'save') {
                 //         await Updatefinancialcount(org, 'voucher_count', vouchercount)
@@ -624,29 +499,13 @@ function Bills() {
         for (let i = 0; i < subpodata.length; i++) {
             array.push(i)
             subtable.push({
-                location: '',
-                item: '',
-                glcode: '',
-                sac_hsn: '',
-                quantity: '',
-                rate: 0,
-                amount: 0,
-                unit: '',
-                netamount: 0,
-                cgst_amt: 0,
-                sgst_amt: 0,
-                igst_amt: 0,
-                cgst_per: 0,
-                sgst_per: 0,
-                igst_per: 0,
-                tds_per: 0,
-                tds_amt: 0,
-                gst_amt: 0,
-                tds_check: ''
+                location: '', item: '', glcode: '', sac_hsn: '', quantity: '', rate: 0, amount: 0, unit: '',
+                netamount: 0, cgst_amt: 0, sgst_amt: 0, igst_amt: 0, cgst_per: 0, sgst_per: 0, igst_per: 0,
+                tds_per: 0, tds_amt: 0, gst_amt: 0, tds_check: ''
             })
         }
-        setTotalValues(array)
-        setTabledata(subtable)
+        setTableRowData(subtable);
+
         for (let i = 0; i < array.length; i++) {
             document.getElementById(`Quantity${i}`).value = subpodata[i]["quantity"]
             document.getElementById(`rate${i}`).value = subpodata[i]["rate"]
@@ -667,7 +526,6 @@ function Bills() {
                             <div className="container-fluid">
                                 <h3 className="pt-3 pb-1 ml-3"> Purchase Journal</h3>
                                 <div className='card mb-2'>
-
                                     <article className="card-body">
                                         <form autoComplete="off">
                                             <div className="form-row" >
@@ -723,11 +581,11 @@ function Bills() {
                                                 </div>
                                                 <label htmlFor='po_date' className="col-md-2 col-form-label font-weight-normal" >Po Date  </label>
                                                 <div className="d-flex col-md-4" >
-                                                    <input type="date" className="form-control col-md-10" id="po_date" disabled />
+                                                    <input type="date" className="form-control col-md-10 cursor-notallow" id="po_date" disabled />
                                                 </div>
                                             </div>
                                             <div className="form-row mt-2" >
-                                                <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4" >
                                                     <select id="payment_term_select" className="form-control col-md-10" onChange={handleAccountTerm}>
                                                         <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : 'Select Payment term'}</option>
@@ -745,11 +603,11 @@ function Bills() {
                                             </div>
 
                                             <div className="form-row mt-2">
-                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='bill_no' className="col-md-2 col-form-label font-weight-normal" >Bill number <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <input type="text" className="form-control col-md-10" id="bill_no" />
                                                 </div>
-                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount<span className='text-danger'>*</span> </label>
+                                                <label htmlFor='bill_amt' className="col-md-2 col-form-label font-weight-normal">Bill Amount <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <input type="number" className="form-control col-md-10" id="bill_amt" />
                                                 </div>
@@ -757,9 +615,20 @@ function Bills() {
 
 
                                             <div className="form-row mt-2">
-                                                <label htmlFor='bill_date' className="col-md-2 col-form-label font-weight-normal" >Bill Date<span className='text-danger'>*</span> </label>
-                                                <div className="d-flex col-md">
-                                                    <input type="date" className="form-control col-md-4" id="bill_date" />
+                                                <label htmlFor='bill_date' className="col-md-2  col-form-label font-weight-normal" >Bill Date <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4 ">
+                                                    <input type="date" className="form-control col-md-10" id="bill_date" />
+                                                </div>
+                                                <label htmlFor='gst_location' className="col-md-2 col-form-label font-weight-normal" >GST Location <span className='text-danger'>*</span> </label>
+                                                <div className="d-flex col-md-4">
+                                                    <select className="form-control col-md-10" id="gst_location" >
+                                                        <option value='' hidden>Select GST Location</option>
+                                                        {
+                                                            locationstate.map((item, index) => (
+                                                                <option key={index} value={item.location_name} >{item.location_name}</option>
+                                                            ))
+                                                        }
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="form-row mt-2">
@@ -793,7 +662,7 @@ function Bills() {
                                                     </thead>
                                                     <tbody >
                                                         {
-                                                            totalValues.map((element, index) => (
+                                                            tableRowData.map((element, index) => (
                                                                 <tr key={index}>
                                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                         <select className="form-control ml-0" id={`local${index}`} onChange={(e) => { handleChangeLocation(e, index) }}>
@@ -863,8 +732,8 @@ function Bills() {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <input type='button' className="btn btn-primary" onClick={handleAdd} value='Add Item' />
-                                            <input type='button' className="btn btn-danger ml-2" onClick={handleRemove} value='Remove' />
+                                            <input type='button' className="btn btn-primary" onClick={() => { handleAddRemoveRow('add') }} value='Add Item' />
+                                            <input type='button' className="btn btn-danger ml-2" onClick={() => { handleAddRemoveRow('remove') }} value='Remove' />
                                             <hr />
 
                                             <div className='d-flex justify-content-between bill_bottom_sec'>
@@ -872,7 +741,7 @@ function Bills() {
                                                     <div className="form mt-2">
                                                         <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control " rows="4" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
+                                                            <textarea type="text" className="form-control" rows="4" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
                                                         </div>
 
                                                     </div>
@@ -925,12 +794,12 @@ function Bills() {
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                            <tr scope="row">
+                                                            <tr >
                                                                 <td className='text-decoration-underline' >Taxable Amount</td>
                                                                 <td className='bill_gsttds_tablecol2'></td>
                                                                 <td className='text-center' id='taxableamount'>{amt}</td>
                                                             </tr>
-                                                            <tr scope="row">
+                                                            <tr >
                                                                 <td className='text-decoration-underline' >CGST Amt</td>
                                                                 <td className='bill_gsttds_tablecol2'></td>
                                                                 <td className='text-center' id='cgstamt'>{cgstval}</td>
@@ -945,8 +814,8 @@ function Bills() {
                                                                 <td className='bill_gsttds_tablecol2' ></td>
                                                                 <td className='text-center' id='igstamt'>{igstval}</td>
                                                             </tr>
-                                                            <tr scope="row">
-                                                                <td title='Calulate TDS' className='cursor-pointer text-primary' onClick={handletdsmodal} ><span style={{borderBottom:'1px dashed blue'}}> TDS *</span></td>
+                                                            <tr >
+                                                                <td title='Calulate TDS' className='cursor-pointer text-primary' onClick={handletdsmodal} ><span style={{ borderBottom: '1px dashed blue' }}> TDS *</span></td>
                                                                 <td className='bill_gsttds_tablecol2'>
                                                                     <div className="rounded bg-white" id='tdsdiv' style={{ display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "3%", top: "20%", zIndex: "1" }}>
                                                                         <div className="card-body" >
@@ -993,33 +862,25 @@ function Bills() {
                                                                 <td className='text-center' id='tdstagval'>0.00</td>
                                                             </tr>
 
-
-
-
-
-                                                            <tr scope="row">
-                                                                <td>Expense Amt </td>
+                                                            <tr >
+                                                                <td><label htmlFor='expense_amt' className="form-check-label">Expense Amt</label></td>
                                                                 <td className='bill_gsttds_tablecol2'>
                                                                     <input type="text" className="form-control col" id='expense_amt' onChange={handlesetalldata} />
                                                                 </td>
                                                                 <td className='text-center' id='expense-amttd' >0.00</td>
                                                             </tr>
-                                                            <tr scope="row">
-                                                                <td>Discount </td>
+                                                            <tr >
+                                                                <td><label htmlFor='discount_amt' className="form-check-label">Discount</label></td>
                                                                 <td className='bill_gsttds_tablecol2'>
-                                                                    <input type="text" className="form-control col" id='discount_amt'
-                                                                        onChange={handleDiscount}
-                                                                    />
+                                                                    <input type="text" className="form-control col" id='discount_amt' onChange={handleDiscount} />
                                                                 </td>
-                                                                <td ></td>
                                                             </tr>
-                                                            <tr scope="row">
-                                                                <td>Round Off </td>
+                                                            <tr >
+                                                                <td><label htmlFor='roundoff' className="form-check-label"  >Round Off </label></td>
                                                                 <td className='bill_gsttds_tablecol2'>
                                                                     <input type="number" className="form-control col" id='roundoff' onChange={(e) => {
                                                                         e.preventDefault();
                                                                         let roundVal = netamt + Number(e.target.value);
-                                                                        console.log(e.target.value, roundVal)
                                                                         setNetamt(roundVal)
                                                                     }}
                                                                     />
@@ -1035,27 +896,17 @@ function Bills() {
                                                     </table>
                                                 </div>
                                             </div>
-                                            <PreviewBill
-                                                data={billalldetail}
-                                                Allitems={tabledata}
-                                                orgdata={orgdata}
-                                                netamt={netamt} />
-
+                                            <PreviewBill data={billalldetail} Allitems={tableRowData} orgdata={orgdata} netamt={netamt} />
                                         </form>
                                     </article>
 
                                     <div className="card-footer border-top">
-                                        <button id="savebtn" type='submit' name="save" className="btn btn-danger"
-                                            onClick={handleClickAdd}
-                                            value='save'>Save</button>
-                                        <button id="postbtn" name="save" className="btn btn-danger ml-2"
-                                            onClick={handleClickAdd}
-                                            value='post'>Post </button>
+                                        <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>Save</button>
+                                        <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>Post </button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SaveBillReport' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
                                         <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview </button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         :
