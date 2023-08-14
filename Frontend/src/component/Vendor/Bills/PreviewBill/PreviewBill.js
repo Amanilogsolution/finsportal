@@ -96,7 +96,7 @@ const PreviewBill = (props) => {
                                                 <th>Unit</th>
                                                 <th>Amount</th>
                                             </tr>
-                                            {
+                                            {/* {
                                                 props.Allitems.map((item, index) => (
                                                     <tr key={index} className=' text-center item-table-row'>
                                                         <td>{index + 1}</td>
@@ -108,7 +108,7 @@ const PreviewBill = (props) => {
                                                         <td>{item.amount}</td>
                                                     </tr>
                                                 ))
-                                            }
+                                            } */}
                                             <tr className='item-table-row'>
                                                 <th colSpan={6} className='text-right border border-dark border-bottom-0 border-left-0'>Total</th>
                                                 <td></td>
@@ -147,7 +147,7 @@ const PreviewBill = (props) => {
                                     <h6 >{props.data.remarks}</h6>
                                 </div>
                                 <div className='bottominner-table-narration p-2'>
-                                    <h5>Naration: </h5>
+                                    <h5>Narration: </h5>
                                     <h6 >{props.data.remarks}</h6>
                                 </div>
 

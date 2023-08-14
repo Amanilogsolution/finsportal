@@ -30,15 +30,15 @@ function Bills() {
     const [tdscomp, setTdscomp] = useState();
     const [netamt, setNetamt] = useState('');
     const [tdsheadlist, setTdsheadlist] = useState([])
-    const [amtWithoutTax, setAmtWithoutTax] = useState('')
-    // amt
-    const [currentIndex, setCurrentIndex] = useState()
-    // index
+    const [amt, setAmt] = useState('')
+
+    const [index, setIndex] = useState()
+
     const [billalldetail, setBillalldetail] = useState({
-        voucher_no: '', voucher_date: '', bill_date: '', net_amt: '', gst_location: '', gst_location_state: '', cgst_amt: 0, sgst_amt: 0, igst_amt: 0, bill_amt: '', tds_head: '', tds_comp_type: '', tds_per: '', tds_amt: '', remarks: ''
+        voucher_no: '', voucher_date: '', bill_date: '', pay_to: '', net_amt: '', cgst_amt: '', sgst_amt: '', igst_amt: '', bill_amt: '', tds_per: '', tds_amt: '', remarks: ''
     })
     const tableSubObj = {
-        location_id: '', location: '', item: '', glcode: '', sac_hsn: '', quantity: 0, rate: 0, amount: 0, unit: '', netamount: 0, gst_rate: 0, gst_amt: 0, tds_check: false
+        location: '', item: '', glcode: '', sac_hsn: '', quantity: '', rate: 0, amount: 0, unit: '', netamount: 0, cgst_amt: 0, sgst_amt: 0, igst_amt: 0, cgst_per: 0, sgst_per: 0, igst_per: 0, tds_per: 0, tds_amt: 0, gst_amt: 0, tds_check: ''
     }
     const [tableRowData, setTableRowData] = useState([tableSubObj])
 
@@ -57,21 +57,18 @@ function Bills() {
             setActiveUser(result2)
             const items = await ActivePurchesItems(org)
             setItemlist(items)
-
+            const result = await showOrganisation(org)
+            setOrgdata(result)
             const tds_list = await getActiveTdsHead(org)
             setTdsheadlist(tds_list)
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
             setLoading(true)
             Todaydate()
-
-            const result = await showOrganisation(org)
-            setOrgdata(result)
-
             document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
             setVouchercount(lastno)
-            // document.getElementById('savebtn').disabled = true;
-            // document.getElementById('postbtn').disabled = true;
+            document.getElementById('savebtn').disabled = true;
+            document.getElementById('postbtn').disabled = true;
         }
         fetchdata();
     }, [])
@@ -106,6 +103,21 @@ function Bills() {
         Duedate(days)
     }
 
+    const handlevendorselect = async (e) => {
+        const result = await ActiveSelectedVendor(localStorage.getItem('Organisation'), e.target.value);
+        setVendorselectedlist(result[0])
+        Duedate(result[0].payment_terms);
+
+        const result1 = await SelectVendorAddress(localStorage.getItem('Organisation'), e.target.value);
+        setVendorLocation(result1)
+
+        const po_number = await GetPodetailsVendor(localStorage.getItem('Organisation'), e.target.value)
+        setPolist(po_number);
+    }
+
+    const handleChangeLocation = (e, index) => {
+        tableRowData[index].location = e.target.value
+    }
     // Handle Add And Remove Row 
     const handleAddRemoveRow = (invokeType) => {
         if (invokeType === 'add') {
@@ -120,88 +132,69 @@ function Bills() {
         }
     }
 
-    const handlevendorselect = async (e) => {
-        let org = localStorage.getItem('Organisation')
-
-        const result = await ActiveSelectedVendor(org, e.target.value);
-        setVendorselectedlist(result[0])
-        Duedate(result[0].payment_terms);
-
-        const result1 = await SelectVendorAddress(org, e.target.value);
-        setVendorLocation(result1)
-
-        const po_number = await GetPodetailsVendor(org, e.target.value)
-        setPolist(po_number);
-    }
-
-    const handleGetPoData = async (e) => {
-        e.preventDefault();
-        let org = localStorage.getItem('Organisation')
-
-        const podata = await getPoData(org, e.target.value)
-        document.getElementById('po_date').value = podata[0].podate
-        const subpodata = await getSubPoDetailsPreview(org, e.target.value)
-        // let array = []
-        let subtable = []
-        let total_amt = 0;
-        for (let i = 0; i < subpodata.length; i++) {
-            // array.push(i)
-            subtable.push({
-                location_id: podata[0]["ship_add_id"], location: podata[0]["ship_add_location"], item: subpodata[i]["items"],
-                glcode: subpodata[i]["glcode"], sac_hsn: subpodata[i]["sac_hsn"], quantity: subpodata[i]["quantity"], rate: subpodata[i]["rate"], amount: subpodata[i]["amt"], unit: subpodata[i]["unit"],
-                netamount: subpodata[i]["amt"],
-                gst_rate: 0, gst_amt: 0, tds_check: false
-            })
-            total_amt = total_amt + Number(subpodata[i]["amt"])
-        }
-        setTableRowData(subtable);
-        setNetamt(total_amt)
-        setAmtWithoutTax(total_amt)
-
-        // for (let i = 0; i < subtable.length; i++) {
-        //     // document.getElementById(`Quantity${i}`).value = subpodata[i]["quantity"]
-        //     // document.getElementById(`rate${i}`).value = subpodata[i]["rate"]
-        //     // document.getElementById(`unit${i}`).value = subpodata[i]["unit"]
-        //     // document.getElementById(`amount${i}`).value = subpodata[i]["amt"]
-        //     // document.getElementById(`local${i}`).value = podata[0]["ship_add_location"]
-        //     // document.getElementById(`items${i}`).value = `${subpodata[i]["items"]}^${subpodata[i]["glcode"]}^${subpodata[i]["sac_hsn"]}`
-        //     document.getElementById(`gst${i}`).value = 0
-        //     document.getElementById(`tds${i}`).value = ''
-        //     // document.getElementById(`netamt${i}`).value = subpodata[i]["amt"]
-        // }
-    }
-
-    // const handleChangeLocation = (e, index) => {
-    //     tableRowData[index].location = e.target.value
-    // }
-
-
     const handleTdsCompany = (e) => {
-        setBillalldetail({ ...billalldetail, tds_comp_type: e.target.value })
+        setTdscomp(e.target.value)
     }
 
 
     // Item Handle Calculation
-    // const handleChangeItems = (e, index) => {
-    //     let val = e.target.value;
-    //     let item_arr = val.split('^')
-    //     tableRowData[index].item = item_arr[0]
-    //     tableRowData[index].glcode = item_arr[1]
-    //     tableRowData[index].sac_hsn = item_arr[2] || item_arr[3]
-    // }
+    const handleChangeItems = (e, index) => {
+        let val = e.target.value;
+        let item_arr = val.split('^')
+        tableRowData[index].item = item_arr[0]
+        tableRowData[index].glcode = item_arr[1]
+        tableRowData[index].sac_hsn = item_arr[2] || item_arr[3]
+    }
 
-    // Quantity Handle Calculation
+    // Quantity Hadle Calculation
     const handleChangeQuantity = (e, index) => {
-        tableRowData[index].quantity = e.target.value
-        tableRowData[index].amount = tableRowData[index].rate * e.target.value;
-        calculateMinorTable(e, index)
+        document.getElementById(`Quantity${index}`).value = e.target.value;
+        let amt = document.getElementById(`rate${index}`).value * e.target.value
+        document.getElementById(`amount${index}`).value = amt;
+        const sum = [Number(tableRowData[index]["cgst_amt"]), Number(tableRowData[index]["sgst_amt"]), Number(tableRowData[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
+        const tds = tableRowData[index]["tds_amt"]
+
+        document.getElementById(`netamt${index}`).value = sum + amt
+
+        tableRowData[index].amount = amt
+        tableRowData[index].quantity = Number(e.target.value)
+        tableRowData[index].rate = Number(document.getElementById(`rate${index}`).value)
+        tableRowData[index].netamount = sum + amt
+
+
+        let net_amt = 0;
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        setNetamt(net_amt)
+
+        let amtount = 0;
+        tableRowData.map((item, index) => { amtount = amtount + Number(item.amount) })
+        setAmt(amtount)
     }
 
     // Rate Hadle Calculation
     const handleChangeRate = (e, index) => {
         tableRowData[index].rate = e.target.value
-        tableRowData[index].amount = tableRowData[index].quantity * e.target.value;
-        calculateMinorTable(e, index)
+        document.getElementById(`rate${index}`).value = e.target.value;
+
+        let amt = document.getElementById(`Quantity${index}`).value * e.target.value
+        document.getElementById(`amount${index}`).value = amt;
+
+        const sum = [Number(tableRowData[index]["cgst_amt"]), Number(tableRowData[index]["sgst_amt"]), Number(tableRowData[index]["igst_amt"])].reduce((partialSum, a) => partialSum + a, 0);
+        const tds = tableRowData[index]["tds_amt"]
+
+        document.getElementById(`netamt${index}`).value = sum + amt - tds
+        tableRowData[index].amount = amt
+        tableRowData[index].quantity = Number(document.getElementById(`Quantity${index}`).value)
+        tableRowData[index].rate = Number(e.target.value)
+        tableRowData[index].netamount = sum + amt - tds
+
+        let net_amt = 0;
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        setNetamt(net_amt)
+
+        let amtount = 0;
+        tableRowData.map((item, index) => { amtount = amtount + Number(item.amount) })
+        setAmt(amtount)
     }
 
 
@@ -210,117 +203,89 @@ function Bills() {
         tableRowData[index].unit = e.target.value;
     }
 
-    // Toggle & Calculation of Gst Div
-    // const handletogglegstdiv = () => {
-    //     document.getElementById('gstdiv').style.display = 'block';
+    //Toggle & Calculation of Gst Div
+    const handletogglegstdiv = () => {
+        document.getElementById('gstdiv').style.display = 'block';
 
-    //     const vendor_detail = document.getElementById('vend_name');
-    //     const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
-    //     setBillalldetail({
-    //         ...billalldetail,
-    //         voucher_no: document.getElementById('voucher_no').value,
-    //         voucher_date: document.getElementById('voucher_date').value,
-    //         pay_to: vendor_name,
-    //         bill_date: document.getElementById('bill_date').value,
-    //         bill_amt: document.getElementById('bill_amt').value,
-    //     })
-    //     document.getElementById('savebtn').disabled = false;
-    //     document.getElementById('postbtn').disabled = false;
-    // }
+        const vendor_detail = document.getElementById('vend_name');
+        const vendor_name = vendor_detail.options[vendor_detail.selectedIndex].text;
+        setBillalldetail({
+            ...billalldetail,
+            voucher_no: document.getElementById('voucher_no').value,
+            voucher_date: document.getElementById('voucher_date').value,
+            pay_to: vendor_name,
+            bill_date: document.getElementById('bill_date').value,
+            bill_amt: document.getElementById('bill_amt').value,
+        })
+        document.getElementById('savebtn').disabled = false;
+        document.getElementById('postbtn').disabled = false;
+    }
 
 
     // ################################ Toggle & Calculation of Gst Div ##########################################
     const handlegst_submit = (e, index) => {
         e.preventDefault();
-        console.log(billalldetail, vendorlocations)
-        if (e.target.value <= 100) {
-            tableRowData[index].gst_rate = e.target.value
-            calculateMinorTable(e, index)
-        }
-    }
+        const totalvalue = document.getElementById(`amount${index}`).value
 
-    const calculateMinorTable = (e, index) => {
-        e.preventDefault();
-        console.log(tableRowData)
-        const totalvalue = tableRowData[index].amount
-        const gst = tableRowData[index].gst_rate
-        let tax = totalvalue * gst / 100;
-        console.log(tax)
-        tax = tax.toFixed(2)
-        // document.getElementById(`netamt${index}`).value = Number(tax) + Number(totalvalue)
+        const gst = document.getElementById(`gst${index}`).value
+        let tax = totalvalue * gst / 100
+        document.getElementById(`netamt${index}`).value = Number(tax) + Number(totalvalue)
 
         tableRowData[index].gst_amt = tax
-        tableRowData[index].netamount = (Number(totalvalue) + Number(tax)).toFixed(2)
+        tableRowData[index].netamount = Number(tax) + Number(totalvalue)
 
-        let net_amt = 0, without_tax_amt = 0, totalGst_amt = 0;
-        tableRowData.map((item) => {
-            net_amt = net_amt + Number(item.netamount)
-            without_tax_amt = without_tax_amt + Number(item.amount);
-            totalGst_amt = totalGst_amt + Number(item.gst_amt)
-        })
-
+        let net_amt = 0;
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
         setNetamt(net_amt)
-        setAmtWithoutTax(without_tax_amt)
-        if (billalldetail.gst_location_state !== '' || vendorlocations !== '') {
-            if (billalldetail.gst_location_state.toUpperCase() === vendorlocations[0].toUpperCase()) {
-                setBillalldetail({ ...billalldetail, cgst_amt: totalGst_amt / 2, sgst_amt: totalGst_amt / 2, igst_amt: 0 })
-            }
-            else {
-                setBillalldetail({ ...billalldetail, cgst_amt: 0, sgst_amt: 0, igst_amt: totalGst_amt })
-            }
-        }
-        else {
-            alert('Please Select Vendor Or GST Location')
-        }
 
-        // document.getElementById('gstdiv').style.display = 'none';
+        document.getElementById('gstdiv').style.display = 'none';
     }
 
 
 
-    // const handlegst_submit_txt = (e) => {
-    //     e.preventDefault();
-    //     const gst_type = document.getElementById(`gsttype`).value;
+    const handlegst_submit_txt = (e) => {
+        e.preventDefault();
+        const gst_type = document.getElementById(`gsttype`).value;
 
-    //     let net_amt = 0;
+        let net_amt = 0;
 
-    //     tableRowData.map((item, currentIndex) => { net_amt = net_amt + Number(item.gst_amt) })
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.gst_amt) })
 
-    //     if (gst_type === 'Inter') {
-    //         document.getElementById("cgstamt").innerHTML = 0
-    //         document.getElementById("sgstamt").innerHTML = 0
-    //         document.getElementById("igstamt").innerHTML = net_amt
+        if (gst_type === 'Inter') {
+            document.getElementById("cgstamt").innerHTML = 0
+            document.getElementById("sgstamt").innerHTML = 0
+            document.getElementById("igstamt").innerHTML = net_amt
 
-    //     }
-    //     else if (gst_type === 'Intra') {
-    //         document.getElementById("cgstamt").innerHTML = net_amt / 2
-    //         document.getElementById("sgstamt").innerHTML = net_amt / 2
-    //         document.getElementById("igstamt").innerHTML = 0
+        }
+        else if (gst_type === 'Intra') {
+            document.getElementById("cgstamt").innerHTML = net_amt / 2
+            document.getElementById("sgstamt").innerHTML = net_amt / 2
+            document.getElementById("igstamt").innerHTML = 0
 
-    //     }
-    //     document.getElementById('gstdiv').style.display = 'none';
-    // }
+        }
+        document.getElementById('gstdiv').style.display = 'none';
+    }
 
     // Upload Document ##########################################
-    // const handleSendFile = async (e) => {
-    //     e.preventDefault()
-    //     const data = new FormData();
-    //     data.append("images", file)
-    //     const UploadLink = await UploadData(data)
-    //     setimage(UploadLink)
-    // }
+    const handleSendFile = async (e) => {
+        e.preventDefault()
+        const data = new FormData();
+        data.append("images", file)
+        const UploadLink = await UploadData(data)
+        setimage(UploadLink)
+    }
 
     // ################################ Toggle & Calculation of TDS Div ##########################################
 
-    // const handletds = (e, index) => {
-    //     // setCurrentIndex(index)
-    //     // if (e.target.checked === true) {
-    //     //     tableRowData[index].tds_check = 'Y'
-    //     // }
-    //     // else {
-    //         tableRowData[index].tds_check = !tableRowData[index].tds_check
-    //     // }
-    // }
+    const handletds = (e, index) => {
+        setIndex(index)
+        if (e.target.checked === true) {
+            tableRowData[index].tds_check = 'Y'
+        }
+        else {
+            tableRowData[index].tds_check = 'N'
+        }
+    }
 
     const handletdsmodal = (e) => {
         e.preventDefault();
@@ -333,193 +298,199 @@ function Bills() {
         document.getElementById('tdsperinp').value = TdsPer
 
         let arr = []
-        let tds_amt = 0;
-        tableRowData.map((item) => {
-            if (item.tds_check) {
+        let net_amt = 0;
+        tableRowData.map((item, index) => {
+            if (item.tds_check === 'Y') {
                 arr.push(item.amount * Number(TdsPer) / 100)
+            } else {
+                console.log('nooo')
             }
         })
 
-        arr.map((item) => { tds_amt += item })
-
-        setNetamt(netamt - tds_amt)
-        document.getElementById('tdstagval').innerHTML = -tds_amt;
+        arr.map((item, i) => { net_amt += item })
+        document.getElementById('total_bill_amt').innerHTML = netamt - net_amt
+        document.getElementById('tdstagval').innerHTML = net_amt;
         document.getElementById('tdsdiv').style.display = 'none';
     }
 
     // ################################ Expense Div ##########################################
-    const handleExpenseAmt = (e) => {
+    const handlesetalldata = (e) => {
         e.preventDefault();
-
         let net_amt = 0;
-        tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
-        const value = net_amt - Number(e.target.value) + Number(document.getElementById('tdstagval').innerHTML) + Number(document.getElementById('discount-amttd').innerHTML)
-        setNetamt(value)
-        document.getElementById('expense-amttd').innerHTML = -e.target.value;
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        const value = net_amt;
+        setNetamt(value - Number(document.getElementById('expense_amt').value))
     }
 
     const handleDiscount = (e) => {
         e.preventDefault();
-
         let net_amt = 0;
-        tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
-        const value = net_amt + Number(document.getElementById('tdstagval').innerHTML) + Number(document.getElementById('expense-amttd').innerHTML) - Number(e.target.value)
-        setNetamt(value)
-        document.getElementById('discount-amttd').innerHTML = -e.target.value;
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        const value = net_amt;
+        setNetamt(value - Number(document.getElementById('expense_amt').value) - Number(document.getElementById('discount_amt').value))
     }
 
-    // const roundOffFun = (e) => {
-    //     let net_amt = 0;
-    //     tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
-    //     console.log('After GST', net_amt)
-    //     let amount = net_amt + Number(document.getElementById('tdstagval').innerHTML)
-    //     console.log('After TDS', amount)
-    //     amount = amount + Number(2100.89)
-    //     console.log('After Expence', amount)
-    //     amount = amount + Number(document.getElementById('discount-amttd').innerHTML )
-    //     console.log('After Discount', Math.floor(amount * 100) / 100, Number(e.target.value))
-    //     amount = Number.parseFloat(e.target.value||0) + amount
-    //     console.log('After Round Off', amount)
-
-    //     document.getElementById('total_bill_amt').innerHTML = Number(amount * 100) / 100 || 0;
-    // }
-
     // ################################ Remark Div ##########################################
-    // const handlesetremark = (e) => {
-    //     e.preventDefault();
-    //     setBillalldetail({
-    //         ...billalldetail,
-    //         remarks: document.getElementById('remarks').value,
-    //         net_amt: document.getElementById('total_bill_amt').innerHTML
-    //     })
-    //     document.getElementById('savebtn').disabled = false;
-    //     document.getElementById('postbtn').disabled = false;
-    // }
+    const handlesetremark = (e) => {
+        e.preventDefault();
+        setBillalldetail({
+            ...billalldetail,
+            remarks: document.getElementById('remarks').value,
+            net_amt: document.getElementById('total_bill_amt').innerHTML
+        })
+        document.getElementById('savebtn').disabled = false;
+        document.getElementById('postbtn').disabled = false;
+    }
 
-    // const handleCalNetAmt = () => {
-    //     let net_amt = 0;
-    //     tableRowData.map((item, currentIndex) => { net_amt = net_amt + Number(item.netamount) })
-    //     setNetamt(net_amt)
-    // }
+    const handleCalNetAmt = () => {
+        let net_amt = 0;
+        tableRowData.map((item, index) => { net_amt = net_amt + Number(item.netamount) })
+        setNetamt(net_amt)
+    }
 
-    // const handleClickAdd = async (e) => {
-    //     e.preventDefault()
-    //     // document.getElementById('savebtn').disabled = true;
-    //     // document.getElementById('postbtn').disabled = true;
-    //     const btn_type = e.target.value;
-    //     let voucher_no = "";
-    //     if (btn_type === 'save') {
-    //         voucher_no = 'VOUCHER' + Math.floor(Math.random() * 10000) + 1;
-    //     }
-    //     else {
-    //         voucher_no = document.getElementById('voucher_no').value
-    //     }
-    //     const voucher_date = document.getElementById('voucher_date').value
-    //     const vendor_detail = document.getElementById('vend_name');
-    //     const vendor_id = vendor_detail.value;
-    //     const vend_name = vendor_detail.options[vendor_detail.selectedIndex].text;
+    const handleClickAdd = async (e) => {
+        e.preventDefault()
+        // document.getElementById('savebtn').disabled = true;
+        // document.getElementById('postbtn').disabled = true;
+        const btn_type = e.target.value;
+        let voucher_no = "";
+        if (btn_type === 'save') {
+            voucher_no = 'VOUCHER' + Math.floor(Math.random() * 10000) + 1;
+        }
+        else {
+            voucher_no = document.getElementById('voucher_no').value
+        }
+        const voucher_date = document.getElementById('voucher_date').value
+        const vendor_detail = document.getElementById('vend_name');
+        const vendor_id = vendor_detail.value;
+        const vend_name = vendor_detail.options[vendor_detail.selectedIndex].text;
 
-    //     const vend_location = vendorlocations
-    //     const bill_no = document.getElementById('bill_no').value
-    //     const bill_date = document.getElementById('bill_date').value
-    //     const bill_amt = document.getElementById('bill_amt').value
-    //     const po_no = document.getElementById('po_no').value
-    //     const po_date = document.getElementById('po_date').value
+        const vend_location = vendorlocations
+        const bill_no = document.getElementById('bill_no').value
+        const bill_date = document.getElementById('bill_date').value
+        const bill_amt = document.getElementById('bill_amt').value
+        const po_no = document.getElementById('po_no').value
+        const po_date = document.getElementById('po_date').value
 
-    //     const total_bill_amt = document.getElementById('total_bill_amt').innerText;
+        const total_bill_amt = document.getElementById('total_bill_amt').innerText;
 
-    //     const payment_term = document.getElementById('payment_term_select').value
-    //     const due_date = document.getElementById('due_date').value;
-    //     const emp_id = document.getElementById('employee_name').value
-    //     const amt_paid = '';
-    //     const amt_balance = '';
-    //     const amt_booked = '';
+        const payment_term = document.getElementById('payment_term_select').value
+        const due_date = document.getElementById('due_date').value;
+        const emp_id = document.getElementById('employee_name').value
+        const amt_paid = '';
+        const amt_balance = '';
+        const amt_booked = '';
 
-    //     const tds_section = document.getElementById('tds_head').value;
-    //     const tds_per = document.getElementById('tds_per').value || 0;
-    //     const tds_amt = document.getElementById('tds_amt').value || 0;
+        const tds_section = document.getElementById('tds_head').value;
+        const tds_per = document.getElementById('tds_per').value || 0;
+        const tds_amt = document.getElementById('tds_amt').value || 0;
 
-    //     const expense_amt = document.getElementById('expense_amt').value;
+        const expense_amt = document.getElementById('expense_amt').value;
 
-    //     const cgst_amt = Number(cgstval)
-    //     const sgst_amt = Number(sgstval)
-    //     const igst_amt = Number(igstval)
+        const cgst_amt = Number(cgstval)
+        const sgst_amt = Number(sgstval)
+        const igst_amt = Number(igstval)
 
-    //     const gst_location_id = document.getElementById('gstlocation').value
+        const gst_location_id = document.getElementById('gstlocation').value
 
-    //     const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
-    //     const non_taxable_amt = ''
-    //     const discount = document.getElementById('discount_amt').value
-    //     const remarks = document.getElementById('remarks').value
-    //     const bill_url = ''
-    //     const userid = localStorage.getItem('User_id')
-    //     const org = localStorage.getItem('Organisation')
-    //     const fins_year = localStorage.getItem('fin_year')
+        const taxable_amt = (cgst_amt + sgst_amt + igst_amt) || 0;
+        const non_taxable_amt = ''
+        const discount = document.getElementById('discount_amt').value
+        const remarks = document.getElementById('remarks').value
+        const bill_url = ''
+        const userid = localStorage.getItem('User_id')
+        const org = localStorage.getItem('Organisation')
+        const fins_year = localStorage.getItem('fin_year')
 
-    //     if (!voucher_no) {
-    //         alert('Please Enter mandatory field')
-    //         document.getElementById('savebtn').disabled = false;
-    //         document.getElementById('postbtn').disabled = false;
-    //     }
-    //     else {
-    //         if (bill_amt !== total_bill_amt) {
-    //             alert('Bill Amount and Total Amount must be same')
-    //             document.getElementById('savebtn').disabled = false;
-    //             document.getElementById('postbtn').disabled = false;
-    //         }
-    //         else {
+        if (!voucher_no) {
+            alert('Please Enter mandatory field')
+            document.getElementById('savebtn').disabled = false;
+            document.getElementById('postbtn').disabled = false;
+        }
+        else {
+            if (bill_amt !== total_bill_amt) {
+                alert('Bill Amount and Total Amount must be same')
+                document.getElementById('savebtn').disabled = false;
+                document.getElementById('postbtn').disabled = false;
+            }
+            else {
 
-    //             // const result = await InsertBill(voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, 
-    //             //     payment_term,due_date, emp_id,amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,
-    //             //     sgst_amt,igst_amt,gst_location_id,discount,bill_url,userid,fins_year,org)
+                // const result = await InsertBill(voucher_no, voucher_date, vendor_id, vend_name, vend_location, bill_no, bill_date, bill_amt, po_no, po_date, total_bill_amt, 
+                //     payment_term,due_date, emp_id,amt_paid,amt_balance,amt_booked,tds_section,tds_ctype,tds_per,tds_amt,taxable_amt,non_taxable_amt,expense_amt,remarks,cgst_amt,
+                //     sgst_amt,igst_amt,gst_location_id,discount,bill_url,userid,fins_year,org)
 
-    //             // if (result === 'Added') {
-    //             //     const result1 = await InsertSubBill(org, voucher_no, bill_no, tableRowData, fins_year, userid)
+                // if (result === 'Added') {
+                //     const result1 = await InsertSubBill(org, voucher_no, bill_no, tableRowData, fins_year, userid)
 
-    //             //     if (btn_type !== 'save') {
-    //             //         await Updatefinancialcount(org, 'voucher_count', vouchercount)
-    //             //     }
+                //     if (btn_type !== 'save') {
+                //         await Updatefinancialcount(org, 'voucher_count', vouchercount)
+                //     }
 
 
-    //             //     if (result1 === 'Added') {
-    //             //         alert('Data Added')
-    //             //         window.location.href = './SaveBillReport';
-    //             //     }
-    //             // }
-    //             // else if (result === 'Already') {
-    //             //     alert('Bill no Already exists');
-    //             //     document.getElementById('savebtn').disabled = false;
-    //             //     document.getElementById('postbtn').disabled = false;
-    //             // }
+                //     if (result1 === 'Added') {
+                //         alert('Data Added')
+                //         window.location.href = './SaveBillReport';
+                //     }
+                // }
+                // else if (result === 'Already') {
+                //     alert('Bill no Already exists');
+                //     document.getElementById('savebtn').disabled = false;
+                //     document.getElementById('postbtn').disabled = false;
+                // }
 
-    //             // else {
-    //             //     alert('Server Not Response')
-    //             //     document.getElementById('savebtn').disabled = false;
-    //             //     document.getElementById('postbtn').disabled = false;
-    //             // }
-    //         }
-    //     }
+                // else {
+                //     alert('Server Not Response')
+                //     document.getElementById('savebtn').disabled = false;
+                //     document.getElementById('postbtn').disabled = false;
+                // }
+            }
+        }
 
-    // }
+    }
 
-    // const handleSearchVendid = async (e) => {
-    //     const org = localStorage.getItem('Organisation')
-    //     if (e.target.value.length > 2) {
-    //         const get = await SearchVendAddress(org, vendorselectedlist.vend_id, e.target.value)
-    //         setVendorLocation(get)
-    //     }
-    //     else if (e.target.value === 0) {
-    //         const result1 = await SelectVendorAddress(org, vendorselectedlist.vend_id);
-    //         setVendorLocation(result1)
-    //     }
-    // }
+    const handleSearchVendid = async (e) => {
+        const org = localStorage.getItem('Organisation')
+        if (e.target.value.length > 2) {
+            const get = await SearchVendAddress(org, vendorselectedlist.vend_id, e.target.value)
+            setVendorLocation(get)
+        }
+        else if (e.target.value === 0) {
+            const result1 = await SelectVendorAddress(org, vendorselectedlist.vend_id);
+            setVendorLocation(result1)
+        }
+    }
 
     const CloseModal = () => {
         document.getElementById('tdsdiv').style.display = 'none';
-        // document.getElementById('gstdiv').style.display = 'none';
+        document.getElementById('gstdiv').style.display = 'none';
     }
 
+    const handleGetPoData = async (e) => {
+        const podata = await getPoData(localStorage.getItem('Organisation'), e.target.value)
+        document.getElementById('po_date').value = podata[0].podate
+        const subpodata = await getSubPoDetailsPreview(localStorage.getItem('Organisation'), e.target.value)
+        let array = []
+        let subtable = []
 
+        for (let i = 0; i < subpodata.length; i++) {
+            array.push(i)
+            subtable.push({
+                location: '', item: '', glcode: '', sac_hsn: '', quantity: '', rate: 0, amount: 0, unit: '',
+                netamount: 0, cgst_amt: 0, sgst_amt: 0, igst_amt: 0, cgst_per: 0, sgst_per: 0, igst_per: 0,
+                tds_per: 0, tds_amt: 0, gst_amt: 0, tds_check: ''
+            })
+        }
+        setTableRowData(subtable);
+
+        for (let i = 0; i < array.length; i++) {
+            document.getElementById(`Quantity${i}`).value = subpodata[i]["quantity"]
+            document.getElementById(`rate${i}`).value = subpodata[i]["rate"]
+            document.getElementById(`unit${i}`).value = subpodata[i]["unit"]
+            document.getElementById(`amount${i}`).value = subpodata[i]["amt"]
+            document.getElementById(`local${i}`).value = podata[0]["ship_add_location"]
+            document.getElementById(`items${i}`).value = `${subpodata[i]["items"]}^${subpodata[i]["glcode"]}^^${subpodata[i]["sac_hsn"]}`
+        }
+    }
 
     return (
         <>
@@ -564,7 +535,7 @@ function Bills() {
                                                         }, 600)
                                                     }}>
                                                         {
-                                                            vendorlocations ? vendorlocations[1] : 'Select Vendor Location'
+                                                            vendorlocations ? vendorlocations : 'Select Vendor Location'
                                                         }
                                                     </button>
                                                 </div>
@@ -573,9 +544,7 @@ function Bills() {
                                             <div className="form-row mt-2">
                                                 <label htmlFor='po_no' className="col-md-2 col-form-label font-weight-normal" >P.O number</label>
                                                 <div className="d-flex col-md-4" >
-                                                    <select className="form-control col-md-10" id="po_no"
-                                                        onChange={handleGetPoData}
-                                                    >
+                                                    <select className="form-control col-md-10" id="po_no" onChange={handleGetPoData}>
                                                         <option hidden value=''>Select P.O number</option>
                                                         {
                                                             polist.length > 0 ?
@@ -594,9 +563,7 @@ function Bills() {
                                             <div className="form-row mt-2" >
                                                 <label htmlFor='payment_term_select' className="col-md-2 col-form-label font-weight-normal" >Payment Terms <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4" >
-                                                    <select id="payment_term_select" className="form-control col-md-10"
-                                                        onChange={handleAccountTerm}
-                                                    >
+                                                    <select id="payment_term_select" className="form-control col-md-10" onChange={handleAccountTerm}>
                                                         <option value={vendorselectedlist.payment_terms} hidden> {vendorselectedlist.payment_terms ? `Net ${vendorselectedlist.payment_terms}` : 'Select Payment term'}</option>
                                                         {
                                                             paymenttermlist.map((item, index) => (
@@ -630,15 +597,11 @@ function Bills() {
                                                 </div>
                                                 <label htmlFor='gst_location' className="col-md-2 col-form-label font-weight-normal" >GST Location <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
-                                                    <select className="form-control col-md-10" id="gst_location"
-                                                        onChange={(e) => {
-                                                            let temp_val = e.target.value.split('^')
-                                                            setBillalldetail({ ...billalldetail, gst_location: temp_val[0], gst_location_state: temp_val[1] })
-                                                        }} >
+                                                    <select className="form-control col-md-10" id="gst_location" >
                                                         <option value='' hidden>Select GST Location</option>
                                                         {
                                                             locationstate.map((item, index) => (
-                                                                <option key={index} value={`${item.location_name}^${item.location_state}`} >{item.location_name}</option>
+                                                                <option key={index} value={item.location_name} >{item.location_name}</option>
                                                             ))
                                                         }
                                                     </select>
@@ -678,10 +641,8 @@ function Bills() {
                                                             tableRowData.map((element, index) => (
                                                                 <tr key={index}>
                                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                        <select className="form-control ml-0" id={`local${index}`} name='location'
-                                                                        // onChange={(e) => { handleChangeLocation(e, index) }}
-                                                                        >
-                                                                            <option value={element.location ? element.location : ''} hidden>{element.location ? element.location : 'Select Location'}</option>
+                                                                        <select className="form-control ml-0" id={`local${index}`} onChange={(e) => { handleChangeLocation(e, index) }}>
+                                                                            <option value='' hidden>Select Location</option>
                                                                             {
                                                                                 locationstate.map((item, index) => (
                                                                                     <option key={index} value={item.location_name} >{item.location_name}</option>
@@ -690,10 +651,8 @@ function Bills() {
                                                                         </select>
                                                                     </td>
                                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
-                                                                        <select className="form-control ml-0" id={`items${index}`} name='item'
-                                                                        // onChange={(e) => { handleChangeItems(e, index) }}
-                                                                        >
-                                                                            <option value={element.item ? `${element.item}^${element.glcode}^${element.sac_hsn}` : ''} hidden>{element.item ? element.item : 'Select Item'}</option>
+                                                                        <select className="form-control ml-0" id={`items${index}`} onChange={(e) => { handleChangeItems(e, index) }}>
+                                                                            <option value='' hidden>Select Item</option>
                                                                             {
                                                                                 itemlist.map((items, index) => (
                                                                                     <option key={index}
@@ -706,15 +665,15 @@ function Bills() {
                                                                     </td>
 
                                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                        <input type='number' id={`Quantity${index}`} name='quantity' min={0} value={element.quantity} onChange={(e) => { handleChangeQuantity(e, index) }} className="form-control" />
+                                                                        <input type='number' id={`Quantity${index}`} onChange={(e) => { handleChangeQuantity(e, index) }} className="form-control" />
                                                                     </td>
 
                                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                        <input type='number' id={`rate${index}`} min={0} name='rate' value={element.rate} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
+                                                                        <input type='number' id={`rate${index}`} onChange={(e) => handleChangeRate(e, index)} className="form-control" />
                                                                     </td>
                                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                        <select className="form-control ml-0" id={`unit${index}`} name='unit' onChange={(e) => handleChangeUnit(e, index)} >
-                                                                            <option value={element.unit ? element.unit : ''} hidden>{element.unit ? element.unit : 'Select Unit'}</option>
+                                                                        <select className="form-control ml-0" id={`unit${index}`} onChange={(e) => handleChangeUnit(e, index)} >
+                                                                            <option value='' hidden>Select Unit</option>
                                                                             {
                                                                                 unitlist.map((item, index) =>
                                                                                     <option key={index} value={item.unit_name}>{item.unit_name}</option>)
@@ -722,20 +681,26 @@ function Bills() {
                                                                         </select>
                                                                     </td>
                                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
-                                                                        <input type='number' id={`amount${index}`} name='amount' className="form-control cursor-notallow" value={element.amount} disabled />
+                                                                        <input type='number' id={`amount${index}`} className="form-control cursor-notallow" disabled />
                                                                     </td>
 
+                                                                    {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                                    <input type='number' id={`deduction${index}`} className="form-control" defaultValue={0} onChange={(e) => handleChangeDeduction(e, index)} />
 
+                                                                </td> */}
+                                                                    {/* <td className='p-1 pt-2' style={{ width: "150px" }}>
+                                                                    <input type='text' className="form-control" id={`fileno${index}`} onChange={(e) => handleChangeFileno(e, index)} />
+                                                                </td> */}
                                                                     <td className='p-1 pt-2' style={{ width: "100px" }}>
-                                                                        <input type='number' id={`gst${index}`} className='form-control' min={0} max={100} name='gst_rate' value={element.gst_rate} onChange={(e) => { handlegst_submit(e, index) }} />
+                                                                        <input type='number' id={`gst${index}`} className='form-control' onChange={(e) => handlegst_submit(e, index)} />
                                                                     </td>
 
-                                                                    <td className='p-1 pt-2' style={{ width: "50px" }}>
-                                                                        <input type='checkbox' id={`tds${index}`} className='mx-2 mt-2' style={{ height: '18px', width: '18px' }} defaultChecked={element.tds_check} onClick={(e) => { tableRowData[index].tds_check = !tableRowData[index].tds_check }} />
+                                                                    <td className='p-1 pt-2' style={{ width: "20px" }}>
+                                                                        <input type='checkbox' id={`tds${index}`} className='ml-2 mt-2' style={{ height: '18px', width: '18px' }} onClick={(e) => handletds(e, index)} />
                                                                     </td>
 
                                                                     <td className='p-1 pt-2' style={{ width: "150px" }}>
-                                                                        <input type='number' id={`netamt${index}`} className="form-control cursor-notallow" value={element.netamount} disabled={true} />
+                                                                        <input type='number' id={`netamt${index}`} className="form-control cursor-notallow" disabled />
                                                                     </td>
                                                                 </tr>
                                                             ))
@@ -752,9 +717,7 @@ function Bills() {
                                                     <div className="form mt-2">
                                                         <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                         <div className="d-flex col-md">
-                                                            <textarea type="text" className="form-control" rows="4" id="remarks" placeholder="Remarks" style={{ resize: "none" }}
-                                                            // onBlur={handlesetremark}
-                                                            ></textarea>
+                                                            <textarea type="text" className="form-control" rows="4" id="remarks" placeholder="Remarks" style={{ resize: "none" }} onBlur={handlesetremark}></textarea>
                                                         </div>
 
                                                     </div>
@@ -768,16 +731,12 @@ function Bills() {
                                                 <div className='bill_gsttds_sec px-1 '>
                                                     <table className='table table-borderless w-100 mt-3'>
                                                         <tbody className='position-relative'>
-                                                            {/* <tr>
-                                                                {/* <td className='btn btn-primary cursor-pointer'
-                                                                // onClick={handletogglegstdiv} 
-                                                                >Inter Or Intra</td> *
+                                                            <tr>
+                                                                <td className='btn btn-primary cursor-pointer' onClick={handletogglegstdiv}  >Inter Or Intra</td>
                                                                 <td className='bill_gsttds_tablecol2'>
                                                                     <div className="dropdown-menu-lg bg-white rounded" id='gstdiv' style={{ display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "10px", top: "40px", zIndex: "1" }}>
                                                                         <div className="card-body p-2">
-                                                                            <i className="fa fa-times cursor-pointer" aria-hidden="true"
-                                                                            // onClick={CloseModal}
-                                                                            ></i>
+                                                                            <i className="fa fa-times cursor-pointer" aria-hidden="true" onClick={CloseModal}></i>
                                                                             <div className="form-group ">
                                                                                 <label htmlFor='gsttype' className="col-form-label font-weight-normal" >Select GST Type <span className='text-danger'>*</span> </label>
                                                                                 <div>
@@ -806,43 +765,37 @@ function Bills() {
                                                                             </div>
 
                                                                             <br />
-                                                                            <button className='btn btn-outline-primary float-right'
-                                                                            // onClick={handlegst_submit_txt} 
-                                                                            >Submit</button>
+                                                                            <button className='btn btn-outline-primary float-right' onClick={handlegst_submit_txt} >Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                            </tr> */}
+                                                            </tr>
                                                             <tr >
                                                                 <td className='text-decoration-underline' >Taxable Amount</td>
                                                                 <td className='bill_gsttds_tablecol2'></td>
-                                                                <td className='text-center' id='taxableamount'>{amtWithoutTax}</td>
+                                                                <td className='text-center' id='taxableamount'>{amt}</td>
                                                             </tr>
                                                             <tr >
                                                                 <td className='text-decoration-underline' >CGST Amt</td>
                                                                 <td className='bill_gsttds_tablecol2'></td>
-                                                                <td className='text-center' id='cgstamt'>{billalldetail.cgst_amt}</td>
+                                                                <td className='text-center' id='cgstamt'>{cgstval}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>SGST Amt</td>
                                                                 <td className='bill_gsttds_tablecol2'></td>
-                                                                <td className='text-center' id='sgstamt'>{billalldetail.sgst_amt}</td>
+                                                                <td className='text-center' id='sgstamt'>{sgstval}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>IGST Amt</td>
                                                                 <td className='bill_gsttds_tablecol2' ></td>
-                                                                <td className='text-center' id='igstamt'>{billalldetail.igst_amt}</td>
+                                                                <td className='text-center' id='igstamt'>{igstval}</td>
                                                             </tr>
                                                             <tr >
-                                                                <td title='Calulate TDS' className='cursor-pointer text-primary'
-                                                                    onClick={handletdsmodal}
-                                                                ><span style={{ borderBottom: '1px dashed blue' }}> TDS *</span></td>
+                                                                <td title='Calulate TDS' className='cursor-pointer text-primary' onClick={handletdsmodal} ><span style={{ borderBottom: '1px dashed blue' }}> TDS *</span></td>
                                                                 <td className='bill_gsttds_tablecol2'>
                                                                     <div className="rounded bg-white" id='tdsdiv' style={{ display: "none", boxShadow: "3px 3px 10px #000", position: "absolute", left: "3%", top: "20%", zIndex: "1" }}>
                                                                         <div className="card-body" >
-                                                                            <i className="fa fa-times cursor-pointer" aria-hidden="true"
-                                                                                onClick={CloseModal}
-                                                                            ></i>
+                                                                            <i className="fa fa-times cursor-pointer" aria-hidden="true" onClick={CloseModal}></i>
 
                                                                             <div className="form-group" id='tdshead'>
                                                                                 <label htmlFor='location' className="col-form-label font-weight-normal" >TDS Head <span className='text-danger'>*</span> </label>
@@ -860,25 +813,19 @@ function Bills() {
                                                                                 </div>
                                                                             </div>
                                                                             <div className="form-row m-0" >
-                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Company'
-                                                                                    onChange={handleTdsCompany}
-                                                                                />
+                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Company' onChange={handleTdsCompany} />
                                                                                 <label htmlFor='company' className="col-md-4 form-label font-weight-normal mt-1"  >Company</label>
 
-                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Non-Company'
-                                                                                    onChange={handleTdsCompany}
-                                                                                />&nbsp;
+                                                                                <input type="radio" id='tds_comp' name='comp_type' value='Non-Company' onChange={handleTdsCompany} />&nbsp;
                                                                                 <label htmlFor='non_company' className=" form-label font-weight-normal mt-1" > Non-Company</label>
 
                                                                             </div>
                                                                             <div className="form-row" >
                                                                                 <label htmlFor='tds_per' className="col-md-5 form-label font-weight-normal"  >TDS(%) <span className='text-danger'>*</span> </label>
-                                                                                <input type="number" className="form-control col-md-7" id='tds_per' min={0} />
+                                                                                <input type="number" className="form-control col-md-7" id='tds_per' />
                                                                             </div>
                                                                             <br />
-                                                                            <button type='button' className='btn btn-outline-primary float-right'
-                                                                                onClick={handletdsbtn}
-                                                                            >Submit</button>
+                                                                            <button className='btn btn-outline-primary float-right' onClick={handletdsbtn}>Submit</button>
                                                                         </div>
                                                                     </div>
                                                                     <div className="input-group" >
@@ -894,35 +841,32 @@ function Bills() {
                                                             <tr >
                                                                 <td><label htmlFor='expense_amt' className="form-check-label">Expense Amt</label></td>
                                                                 <td className='bill_gsttds_tablecol2'>
-                                                                    <input type="number" className="form-control col" id='expense_amt'
-                                                                        onChange={handleExpenseAmt}
-                                                                    />
+                                                                    <input type="text" className="form-control col" id='expense_amt' onChange={handlesetalldata} />
                                                                 </td>
                                                                 <td className='text-center' id='expense-amttd' >0.00</td>
                                                             </tr>
                                                             <tr >
                                                                 <td><label htmlFor='discount_amt' className="form-check-label">Discount</label></td>
                                                                 <td className='bill_gsttds_tablecol2'>
-                                                                    <input type="number" className="form-control col" id='discount_amt' min={0}
-                                                                        onChange={handleDiscount}
+                                                                    <input type="text" className="form-control col" id='discount_amt' onChange={handleDiscount} />
+                                                                </td>
+                                                            </tr>
+                                                            <tr >
+                                                                <td><label htmlFor='roundoff' className="form-check-label"  >Round Off </label></td>
+                                                                <td className='bill_gsttds_tablecol2'>
+                                                                    <input type="number" className="form-control col" id='roundoff' onChange={(e) => {
+
+                                                                        let roundVal = netamt + Number(e.target.value);
+                                                                        setNetamt(roundVal)
+                                                                    }}
                                                                     />
                                                                 </td>
-                                                                <td className='text-center' id='discount-amttd' >0.00</td>
+                                                                <td></td>
                                                             </tr>
                                                             <tr>
                                                                 <td><h4>Total</h4></td>
                                                                 <td></td>
                                                                 <td className='text-center' style={{ width: "150px" }} id='total_bill_amt'>{netamt}</td>
-                                                            </tr>
-                                                            <tr >
-                                                                <td><label htmlFor='roundoff' className="form-check-label">Total Round Value (Optional)</label></td>
-                                                                <td className='bill_gsttds_tablecol2'>
-                                                                    <input type="number" className="form-control col" id='roundoff' min={0}
-                                                                    // onChange={roundOffFun} 
-                                                                    />
-                                                                    <small className='text-danger'>This value is total value</small>
-                                                                </td>
-                                                                <td></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -933,16 +877,10 @@ function Bills() {
                                     </article>
 
                                     <div className="card-footer border-top">
-                                        <button id="savebtn" type='submit' name="save" className="btn btn-danger"
-                                            // onClick={handleClickAdd} 
-                                            value='save'>Save</button>
-                                        <button id="postbtn" name="save" className="btn btn-danger ml-2"
-                                            // onClick={handleClickAdd} 
-                                            value='post'>Post </button>
+                                        <button id="savebtn" type='submit' name="save" className="btn btn-danger" onClick={handleClickAdd} value='save'>Save</button>
+                                        <button id="postbtn" name="save" className="btn btn-danger ml-2" onClick={handleClickAdd} value='post'>Post </button>
                                         <button id="clear" onClick={(e) => { e.preventDefault(); window.location.href = '/SaveBillReport' }} name="clear" className="btn bg-secondary ml-2">Cancel</button>
-                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter"
-                                        // onClick={handleCalNetAmt}
-                                        >Preview </button>
+                                        <button type='button' className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleCalNetAmt}>Preview </button>
                                     </div>
                                 </div>
                             </div>
@@ -959,9 +897,7 @@ function Bills() {
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLongTitle">Vendor Location</h5>
                                 <div className="form-group col-md-5">
-                                    <input type="text" className='form-control col' placeholder='Search Vendor Location' id="searchLocation"
-                                    // onChange={handleSearchVendid} 
-                                    />
+                                    <input type="text" className='form-control col' placeholder='Search Vendor Location' id="searchLocation" onChange={handleSearchVendid} />
                                 </div>
                             </div>
                             <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
@@ -978,10 +914,11 @@ function Bills() {
                                                 vendorlocation.map((items, index) => (
                                                     <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                         onClick={() => {
-                                                            setVendorLocations([items.billing_address_state, items.billing_address_attention])
+                                                            setVendorLocations(items.billing_address_attention)
                                                         }}>
                                                         <td>{items.billing_address_city}</td>
                                                         <td style={{ fontSize: "15px" }}>{items.billing_address_attention}</td>
+
                                                     </tr>
                                                 ))
                                                 : <tr><td colSpan='2' className='text-center'>Select Vendor Or this vendor have't multiple address</td></tr>
@@ -1021,9 +958,7 @@ function Bills() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-primary"
-                                // onClick={handleSendFile} 
-                                data-dismiss="modal" >Upload</button>
+                            <button type="button" className="btn btn-primary" onClick={handleSendFile} data-dismiss="modal" >Upload</button>
                         </div>
                     </div>
                 </div>
