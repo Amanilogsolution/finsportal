@@ -190,6 +190,7 @@ const Reportdata = () => {
       document.getElementById('bankdiv').style.display = 'none';
     }
     else if (e.target.value === 'PO') {
+      // ---- Column Address Error -------- 
       document.getElementById('locationdiv').style.display = 'flex';
       document.getElementById('customerdiv').style.display = 'none';
       document.getElementById('vendordiv').style.display = 'flex';
