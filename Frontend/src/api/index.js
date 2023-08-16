@@ -1581,7 +1581,7 @@ export const getSavePO = async (org) => {
 }
 
 export const filterPO = async (org, startDate, lastDate, vendor_id, po_location) => {
-    const url = `https://finsbackend.awlinternational.com/api/filterpo`
+    const url = `http://localhost:3008/api/filterpo`
     return axios.post(url, { org, startDate, lastDate, vendor_id, po_location }).then(response => response.data).catch(error => console.log(error));
 }
 export const getPoDetailsPreview = async (org, po_number) => {

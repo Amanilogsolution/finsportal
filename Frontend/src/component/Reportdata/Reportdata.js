@@ -119,12 +119,13 @@ const Reportdata = () => {
 
       setVendcustname(vend.options[vend.selectedIndex].text)
       const result = await filterPO(org, fromdate, todate, vendid, locationid)
-      setData(result)
+      console.log(result)
+      // setData(result)
     }
     else if (report_type === 'SO') {
       const Customer = document.getElementById('customer');
       const Customerid = Customer.value;
-      const locationid = document.getElementById('location').value;
+      // const locationid = document.getElementById('location').value;
       setVendcustname(Customer.options[Customer.selectedIndex].text)
       const result = await filterSO(org, fromdate, todate, Customerid)
       setData(result)
@@ -147,7 +148,7 @@ const Reportdata = () => {
       setData(result)
     }
     else if (report_type === 'bank_recp') {
-      const bank = document.getElementById('bank');
+      // const bank = document.getElementById('bank');
       // const locationid = document.getElementById('location').value;
       // setVendcustname(Customer.options[Customer.selectedIndex].text)
       // const result = await filterBank(org, fromdate, todate, bank)
