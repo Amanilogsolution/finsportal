@@ -19,7 +19,6 @@ function Bills() {
     const [locationstate, setLocationstate] = useState([]);
     const [polist, setPolist] = useState([]);
     const [netTotal, setNetTotal] = useState('');
-    const [billsubtotalamt, setBillsubtotalamt] = useState(0);
     const [file, setFile] = useState('');
     const [img, setimage] = useState('');
     const [orgdata, setOrgdata] = useState([]);
