@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
 import './PreviewBill.css'
-import DecamalNumber from 'decimal-number-to-words';
+import DecimalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
 import { memo } from "react";
 
-const PreviewBill = (props) => {
+const PreviewBill = ({ billalldetail, BillItems, orgdata, netamt }) => {
     const pdfRef = useRef(null);
 
     const print = (e) => {
@@ -13,13 +13,13 @@ const PreviewBill = (props) => {
         const doc = new jsPDF();
         doc.html(content, {
             callback: function (doc) {
-                doc.save(`Bill-${props.data.voucher_no}.pdf`);
+                doc.save(`Bill-${billalldetail.voucher_no}.pdf`);
             },
             html2canvas: { scale: 0.233 },
             margin: [5, 0, 0, 6],
         });
     };
-    console.log('props', props)
+    console.log('props', billalldetail, BillItems, orgdata, netamt)
     return (
         <>
             <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -34,7 +34,7 @@ const PreviewBill = (props) => {
                                     <div className="toporgname text-center " >
                                         <h5><b>{localStorage.getItem('Organisation Name').toLocaleUpperCase()}</b></h5>
                                         <p>
-                                            {props.orgdata.org_street},{props.orgdata.org_city},{props.orgdata.org_state},{props.orgdata.org_country}
+                                            {orgdata.org_street},{orgdata.org_city},{orgdata.org_state},{orgdata.org_country}
                                         </p>
 
                                     </div>
@@ -48,19 +48,19 @@ const PreviewBill = (props) => {
                                             <tbody>
                                                 <tr >
                                                     <th >Voucher No :</th>
-                                                    <td >{props.data.voucher_no}</td>
+                                                    <td >{billalldetail.voucher_no}</td>
                                                 </tr>
                                                 <tr >
                                                     <th >Date :</th>
-                                                    <td >{props.data.voucher_date}</td>
+                                                    <td >{billalldetail.voucher_date}</td>
                                                 </tr>
                                                 <tr >
                                                     <th >Pay To :</th>
-                                                    <td >PERFECT OFFICE BUSSINESS PVT LTD.</td>
+                                                    <td >{billalldetail.vendor_name}</td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
-                                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, id modi</td>
+                                                    <td>{billalldetail.vendor_location[1]}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -71,11 +71,11 @@ const PreviewBill = (props) => {
                                             <tbody>
                                                 <tr >
                                                     <th >Bill no: </th>
-                                                    <td >GIP173/22-23/024</td>
+                                                    <td >{billalldetail.bill_no}</td>
                                                 </tr>
                                                 <tr >
-                                                    <th >Bill Date:</th>
-                                                    <td > {props.data.bill_date}</td>
+                                                    <th>Bill Date:</th>
+                                                    <td> {billalldetail.bill_date}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -85,33 +85,40 @@ const PreviewBill = (props) => {
                                 </div>
 
                                 <div className='bill-items '>
-                                    <table className='table table-borderless items-table'>
-                                        <tbody className='table-items-tbody'>
-                                            <tr className='text-center item-table-row'>
-                                                <th>Sno.</th>
-                                                <th>Item</th>
-                                                <th>GST Rate</th>
-                                                <th>Quantity</th>
-                                                <th>Rate</th>
-                                                <th>Unit</th>
-                                                <th>Amount</th>
+                                    <table className='table table-bordered table-sm items-table'>
+                                        <thead className='text-center'>
+                                            <tr className='item-table-row'>
+                                                <th rowSpan="2">Sno.</th>
+                                                <th rowSpan="2">Item</th>
+                                                <th colSpan={2}>GST</th>
+                                                <th rowSpan="2">Quantity</th>
+                                                <th rowSpan="2">Rate</th>
+                                                <th rowSpan="2">Unit</th>
+                                                <th rowSpan="2">Amount</th>
                                             </tr>
-                                            {/* {
-                                                props.Allitems.map((item, index) => (
+                                            <tr>
+                                                <th>Rate</th>
+                                                <th>Amt</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className='table-items-tbody'>
+                                            {
+                                                BillItems.map((item, index) => (
                                                     <tr key={index} className=' text-center item-table-row'>
                                                         <td>{index + 1}</td>
                                                         <td>{item.item}</td>
-                                                        <td>{Number(item.cgst_per) + Number(item.igst_per) + Number(item.sgst_per)}</td>
+                                                        <td>{item.gst_rate}</td>
+                                                        <td>{item.gst_amt}</td>
                                                         <td>{item.quantity}</td>
                                                         <td>{item.rate}</td>
                                                         <td>{item.unit}</td>
                                                         <td>{item.amount}</td>
                                                     </tr>
                                                 ))
-                                            } */}
+                                            }
                                             <tr className='item-table-row'>
-                                                <th colSpan={6} className='text-right border border-dark border-bottom-0 border-left-0'>Total</th>
-                                                <td></td>
+                                                <th colSpan={7} className='text-right mx-2'>Total</th>
+                                                <th className='text-center'>{billalldetail.amtWithoutTax}</th>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -119,38 +126,39 @@ const PreviewBill = (props) => {
                                 </div>
                                 <div className='bottom-table d-flex justify-content-end'>
                                     <div className='bottominner-table'>
-                                        <table className='text-center table-bordered' style={{background:"#eee"}} >
+                                        <table className='text-center table-bordered' style={{ background: "#eee" }} >
                                             <thead>
                                                 <tr>
-                                                    <th>Taxable Value</th>
-                                                    <th>Central Tax</th>
-                                                    <th>State Tax</th>
-                                                    <th>TDS Amt</th>
-                                                    <th>Total</th>
+                                                    <th className='px-2 py-1'>Taxable Value</th>
+                                                    <th className='px-2 py-1'>CGST</th>
+                                                    <th className='px-2 py-1'>SGST</th>
+                                                    <th className='px-2 py-1'>IGST</th>
+                                                    <th className='px-2 py-1'>TDS Amt</th>
+                                                    <th className='px-2 py-1'>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>2637</td>
-                                                    <td>72838</td>
-                                                    <td>782</td>
-                                                    <td>782</td>
-                                                    <td>2932</td>
+                                                    <td className='px-2 py-1'>{billalldetail.amtWithoutTax}</td>
+                                                    <td className='px-2 py-1'>{billalldetail.cgst_amt}</td>
+                                                    <td className='px-2 py-1'>{billalldetail.sgst_amt}</td>
+                                                    <td className='px-2 py-1'>{billalldetail.igst_amt}</td>
+                                                    <td className='px-2 py-1'>{billalldetail.tds_amt}</td>
+                                                    <td className='px-2 py-1'>{netamt}</td>
                                                 </tr>
                                             </tbody>
-                                         
+
                                         </table>
                                     </div>
                                 </div>
-                                <div className='bottominner-table-narration p-2'>
+                                <div className='bottominner-table-narration p-2 d-flex'>
                                     <h5><b>Total Amount (In Words):</b> </h5>
-                                    <h6 >{props.data.remarks}</h6>
+                                    <h5 className='bill-amt-inword'>&nbsp;{DecimalNumber.toWords(Number(netamt))} only</h5>
                                 </div>
-                                <div className='bottominner-table-narration p-2'>
-                                    <h5>Narration: </h5>
-                                    <h6 >{props.data.remarks}</h6>
+                                <div className='bottominner-table-narration p-2 d-flex'>
+                                    <h5><b>Narration:</b></h5>
+                                    <h5>&nbsp;{billalldetail.remarks}</h5>
                                 </div>
-
                             </div>
                         </div>
                         <div className="modal-footer">

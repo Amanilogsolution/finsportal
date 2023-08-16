@@ -18,24 +18,15 @@ function Bills() {
     const [itemlist, setItemlist] = useState([]);
     const [locationstate, setLocationstate] = useState([]);
     const [polist, setPolist] = useState([]);
-    const [vendorlocations, setVendorLocations] = useState('');
     const [netTotal, setNetTotal] = useState('');
     const [billsubtotalamt, setBillsubtotalamt] = useState(0);
-    const [cgstval, setCgstval] = useState(0);
-    const [sgstval, setSgstval] = useState(0);
-    const [igstval, setIgstval] = useState(0);
     const [file, setFile] = useState('');
     const [img, setimage] = useState('');
     const [orgdata, setOrgdata] = useState([]);
-    const [tdscomp, setTdscomp] = useState();
     const [netamt, setNetamt] = useState('');
     const [tdsheadlist, setTdsheadlist] = useState([])
-    const [amtWithoutTax, setAmtWithoutTax] = useState('')
-    // amt
-    const [currentIndex, setCurrentIndex] = useState()
-    // index
     const [billalldetail, setBillalldetail] = useState({
-        voucher_no: '', voucher_date: '', bill_date: '', net_amt: '', gst_location: '', gst_location_state: '', cgst_amt: 0, sgst_amt: 0, igst_amt: 0, bill_amt: '', tds_head: '', tds_comp_type: '', tds_per: '', tds_amt: '', remarks: ''
+        voucher_no: '', voucher_date: '', vendor_name: '', vendor_id: '', vendor_location: [], bill_date: '', net_amt: '', gst_location: '', gst_location_state: '', cgst_amt: 0, sgst_amt: 0, igst_amt: 0, bill_amt: '', tds_head: '', tds_comp_type: '', tds_per: '', tds_amt: '', remarks: '', amtWithoutTax: 0
     })
     const tableSubObj = {
         location_id: '', location: '', item: '', glcode: '', sac_hsn: '', quantity: 0, rate: 0, amount: 0, unit: '', netamount: 0, gst_rate: 0, gst_amt: 0, tds_check: false
@@ -62,13 +53,15 @@ function Bills() {
             setTdsheadlist(tds_list)
             const id = await Getfincialyearid(org)
             const lastno = Number(id[0].voucher_count) + 1
-            setLoading(true)
-            Todaydate()
 
             const result = await showOrganisation(org)
             setOrgdata(result)
 
-            document.getElementById('voucher_no').defaultValue = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+            setLoading(true)
+            Todaydate()
+
+            let bill_no = id[0].voucher_ser + id[0].year + String(lastno).padStart(5, '0')
+            document.getElementById('voucher_no').defaultValue = bill_no
             setVouchercount(lastno)
             // document.getElementById('savebtn').disabled = true;
             // document.getElementById('postbtn').disabled = true;
@@ -123,15 +116,22 @@ function Bills() {
     const handlevendorselect = async (e) => {
         let org = localStorage.getItem('Organisation')
 
-        const result = await ActiveSelectedVendor(org, e.target.value);
-        setVendorselectedlist(result[0])
-        Duedate(result[0].payment_terms);
+        const selectedVendData = await ActiveSelectedVendor(org, e.target.value);
+        setVendorselectedlist(selectedVendData[0])
+        Duedate(selectedVendData[0].payment_terms);
 
         const result1 = await SelectVendorAddress(org, e.target.value);
         setVendorLocation(result1)
 
         const po_number = await GetPodetailsVendor(org, e.target.value)
         setPolist(po_number);
+        setBillalldetail({
+            ...billalldetail,
+            voucher_no: document.getElementById('voucher_no').value,
+            voucher_date: document.getElementById('voucher_date').value,
+            vendor_name: selectedVendData[0].vend_name,
+            vendor_id: selectedVendData[0].vend_id
+        })
     }
 
     const handleGetPoData = async (e) => {
@@ -141,11 +141,10 @@ function Bills() {
         const podata = await getPoData(org, e.target.value)
         document.getElementById('po_date').value = podata[0].podate
         const subpodata = await getSubPoDetailsPreview(org, e.target.value)
-        // let array = []
+
         let subtable = []
         let total_amt = 0;
         for (let i = 0; i < subpodata.length; i++) {
-            // array.push(i)
             subtable.push({
                 location_id: podata[0]["ship_add_id"], location: podata[0]["ship_add_location"], item: subpodata[i]["items"],
                 glcode: subpodata[i]["glcode"], sac_hsn: subpodata[i]["sac_hsn"], quantity: subpodata[i]["quantity"], rate: subpodata[i]["rate"], amount: subpodata[i]["amt"], unit: subpodata[i]["unit"],
@@ -156,39 +155,33 @@ function Bills() {
         }
         setTableRowData(subtable);
         setNetamt(total_amt)
-        setAmtWithoutTax(total_amt)
-
-        // for (let i = 0; i < subtable.length; i++) {
-        //     // document.getElementById(`Quantity${i}`).value = subpodata[i]["quantity"]
-        //     // document.getElementById(`rate${i}`).value = subpodata[i]["rate"]
-        //     // document.getElementById(`unit${i}`).value = subpodata[i]["unit"]
-        //     // document.getElementById(`amount${i}`).value = subpodata[i]["amt"]
-        //     // document.getElementById(`local${i}`).value = podata[0]["ship_add_location"]
-        //     // document.getElementById(`items${i}`).value = `${subpodata[i]["items"]}^${subpodata[i]["glcode"]}^${subpodata[i]["sac_hsn"]}`
-        //     document.getElementById(`gst${i}`).value = 0
-        //     document.getElementById(`tds${i}`).value = ''
-        //     // document.getElementById(`netamt${i}`).value = subpodata[i]["amt"]
-        // }
+        // setAmtWithoutTax(total_amt)
+        billalldetail.amtWithoutTax = total_amt;
+    }
+    const handleGSTLocation = (e) => {
+        let temp_val = e.target.value.split('^')
+        setBillalldetail({ ...billalldetail, gst_location: temp_val[0], gst_location_state: temp_val[1] })
     }
 
-    // const handleChangeLocation = (e, index) => {
-    //     tableRowData[index].location = e.target.value
-    // }
-
+    const handleChangeLocation = (e, index) => {
+        let val = e.target.value;
+        let location_arr = val.split('^')
+        tableRowData[index].location_id = location_arr[0]
+        tableRowData[index].location = location_arr[1]
+    }
 
     const handleTdsCompany = (e) => {
         setBillalldetail({ ...billalldetail, tds_comp_type: e.target.value })
     }
 
-
     // Item Handle Calculation
-    // const handleChangeItems = (e, index) => {
-    //     let val = e.target.value;
-    //     let item_arr = val.split('^')
-    //     tableRowData[index].item = item_arr[0]
-    //     tableRowData[index].glcode = item_arr[1]
-    //     tableRowData[index].sac_hsn = item_arr[2] || item_arr[3]
-    // }
+    const handleChangeItems = (e, index) => {
+        let val = e.target.value;
+        let item_arr = val.split('^')
+        tableRowData[index].item = item_arr[0]
+        tableRowData[index].glcode = item_arr[1]
+        tableRowData[index].sac_hsn = item_arr[2] || item_arr[3]
+    }
 
     // Quantity Handle Calculation
     const handleChangeQuantity = (e, index) => {
@@ -197,7 +190,7 @@ function Bills() {
         calculateMinorTable(e, index)
     }
 
-    // Rate Hadle Calculation
+    // Handle Rate Calculation
     const handleChangeRate = (e, index) => {
         tableRowData[index].rate = e.target.value
         tableRowData[index].amount = tableRowData[index].quantity * e.target.value;
@@ -205,7 +198,7 @@ function Bills() {
     }
 
 
-    // Unit Hadle Calculation
+    // Handle Unit Calculation
     const handleChangeUnit = (e, index) => {
         tableRowData[index].unit = e.target.value;
     }
@@ -232,7 +225,7 @@ function Bills() {
     // ################################ Toggle & Calculation of Gst Div ##########################################
     const handlegst_submit = (e, index) => {
         e.preventDefault();
-        console.log(billalldetail, vendorlocations)
+
         if (e.target.value <= 100) {
             tableRowData[index].gst_rate = e.target.value
             calculateMinorTable(e, index)
@@ -253,16 +246,18 @@ function Bills() {
         tableRowData[index].netamount = (Number(totalvalue) + Number(tax)).toFixed(2)
 
         let net_amt = 0, without_tax_amt = 0, totalGst_amt = 0;
-        tableRowData.map((item) => {
-            net_amt = net_amt + Number(item.netamount)
-            without_tax_amt = without_tax_amt + Number(item.amount);
-            totalGst_amt = totalGst_amt + Number(item.gst_amt)
-        })
+
+        for (let i = 0; i < tableRowData.length; i++) {
+            net_amt = net_amt + Number(tableRowData[i].netamount)
+            without_tax_amt = without_tax_amt + Number(tableRowData[i].amount);
+            totalGst_amt = totalGst_amt + Number(tableRowData[i].gst_amt)
+        }
 
         setNetamt(net_amt)
-        setAmtWithoutTax(without_tax_amt)
-        if (billalldetail.gst_location_state !== '' || vendorlocations !== '') {
-            if (billalldetail.gst_location_state.toUpperCase() === vendorlocations[0].toUpperCase()) {
+        // setAmtWithoutTax(without_tax_amt)
+        billalldetail.amtWithoutTax = without_tax_amt
+        if (billalldetail.gst_location_state !== '' || billalldetail.vendor_location.length > 0) {
+            if (billalldetail.gst_location_state.toUpperCase() === billalldetail.vendor_location[0].toUpperCase()) {
                 setBillalldetail({ ...billalldetail, cgst_amt: totalGst_amt / 2, sgst_amt: totalGst_amt / 2, igst_amt: 0 })
             }
             else {
@@ -272,7 +267,6 @@ function Bills() {
         else {
             alert('Please Select Vendor Or GST Location')
         }
-
         // document.getElementById('gstdiv').style.display = 'none';
     }
 
@@ -302,13 +296,13 @@ function Bills() {
     // }
 
     // Upload Document ##########################################
-    // const handleSendFile = async (e) => {
-    //     e.preventDefault()
-    //     const data = new FormData();
-    //     data.append("images", file)
-    //     const UploadLink = await UploadData(data)
-    //     setimage(UploadLink)
-    // }
+    const handleSendFile = async (e) => {
+        e.preventDefault()
+        const data = new FormData();
+        data.append("images", file)
+        const UploadLink = await UploadData(data)
+        setimage(UploadLink)
+    }
 
     // ################################ Toggle & Calculation of TDS Div ##########################################
 
@@ -325,24 +319,36 @@ function Bills() {
     const handletdsmodal = (e) => {
         e.preventDefault();
         document.getElementById('tdsdiv').style.display = 'block';
+        setBillalldetail({
+            ...billalldetail,
+            bill_no: document.getElementById('bill_no').value,
+            bill_date: document.getElementById('bill_date').value
+
+        })
     }
 
     const handletdsbtn = (e) => {
         e.preventDefault();
         const TdsPer = document.getElementById('tds_per').value
         document.getElementById('tdsperinp').value = TdsPer
+        const tds_head = document.getElementById('tds_head').value;
 
-        let arr = []
+        let arr_after_tds = []
         let tds_amt = 0;
-        tableRowData.map((item) => {
-            if (item.tds_check) {
-                arr.push(item.amount * Number(TdsPer) / 100)
-            }
-        })
 
-        arr.map((item) => { tds_amt += item })
+        for (let i = 0; i < tableRowData.length; i++) {
+            if (tableRowData[i].tds_check) {
+                arr_after_tds.push(tableRowData[i].amount * Number(TdsPer) / 100)
+            }
+        }
+
+        for (let i = 0; i < arr_after_tds.length; i++) {
+            tds_amt += arr_after_tds[i]
+        }
+
 
         setNetamt(netamt - tds_amt)
+        setBillalldetail({ ...billalldetail, tds_head: tds_head, tds_per: TdsPer, tds_amt: tds_amt })
         document.getElementById('tdstagval').innerHTML = -tds_amt;
         document.getElementById('tdsdiv').style.display = 'none';
     }
@@ -350,9 +356,13 @@ function Bills() {
     // ################################ Expense Div ##########################################
     const handleExpenseAmt = (e) => {
         e.preventDefault();
-
         let net_amt = 0;
-        tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
+        // tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
+
+        for (let i = 0; i < tableRowData.length; i++) {
+            net_amt += Number(tableRowData[i].netamount)
+        }
+
         const value = net_amt - Number(e.target.value) + Number(document.getElementById('tdstagval').innerHTML) + Number(document.getElementById('discount-amttd').innerHTML)
         setNetamt(value)
         document.getElementById('expense-amttd').innerHTML = -e.target.value;
@@ -360,9 +370,12 @@ function Bills() {
 
     const handleDiscount = (e) => {
         e.preventDefault();
-
         let net_amt = 0;
-        tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
+        // tableRowData.map((item) => { net_amt = net_amt + Number(item.netamount) })
+        for (let i = 0; i < tableRowData.length; i++) {
+            net_amt += Number(tableRowData[i].netamount)
+        }
+
         const value = net_amt + Number(document.getElementById('tdstagval').innerHTML) + Number(document.getElementById('expense-amttd').innerHTML) - Number(e.target.value)
         setNetamt(value)
         document.getElementById('discount-amttd').innerHTML = -e.target.value;
@@ -385,16 +398,16 @@ function Bills() {
     // }
 
     // ################################ Remark Div ##########################################
-    // const handlesetremark = (e) => {
-    //     e.preventDefault();
-    //     setBillalldetail({
-    //         ...billalldetail,
-    //         remarks: document.getElementById('remarks').value,
-    //         net_amt: document.getElementById('total_bill_amt').innerHTML
-    //     })
-    //     document.getElementById('savebtn').disabled = false;
-    //     document.getElementById('postbtn').disabled = false;
-    // }
+    const handlesetremark = (e) => {
+        e.preventDefault();
+        setBillalldetail({
+            ...billalldetail,
+            remarks: document.getElementById('remarks').value
+            // net_amt: document.getElementById('total_bill_amt').innerHTML
+        })
+        // document.getElementById('savebtn').disabled = false;
+        // document.getElementById('postbtn').disabled = false;
+    }
 
     // const handleCalNetAmt = () => {
     //     let net_amt = 0;
@@ -564,7 +577,7 @@ function Bills() {
                                                         }, 600)
                                                     }}>
                                                         {
-                                                            vendorlocations ? vendorlocations[1] : 'Select Vendor Location'
+                                                            billalldetail.vendor_location.length > 0 ? billalldetail.vendor_location[1] : 'Select Vendor Location'
                                                         }
                                                     </button>
                                                 </div>
@@ -631,10 +644,7 @@ function Bills() {
                                                 <label htmlFor='gst_location' className="col-md-2 col-form-label font-weight-normal" >GST Location <span className='text-danger'>*</span> </label>
                                                 <div className="d-flex col-md-4">
                                                     <select className="form-control col-md-10" id="gst_location"
-                                                        onChange={(e) => {
-                                                            let temp_val = e.target.value.split('^')
-                                                            setBillalldetail({ ...billalldetail, gst_location: temp_val[0], gst_location_state: temp_val[1] })
-                                                        }} >
+                                                        onChange={handleGSTLocation}>
                                                         <option value='' hidden>Select GST Location</option>
                                                         {
                                                             locationstate.map((item, index) => (
@@ -679,19 +689,19 @@ function Bills() {
                                                                 <tr key={index}>
                                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                         <select className="form-control ml-0" id={`local${index}`} name='location'
-                                                                        // onChange={(e) => { handleChangeLocation(e, index) }}
+                                                                            onChange={(e) => { handleChangeLocation(e, index) }}
                                                                         >
-                                                                            <option value={element.location ? element.location : ''} hidden>{element.location ? element.location : 'Select Location'}</option>
+                                                                            <option value={element.location ? `${element.location_id}^${element.location}` : ''} hidden>{element.location ? element.location : 'Select Location'}</option>
                                                                             {
                                                                                 locationstate.map((item, index) => (
-                                                                                    <option key={index} value={item.location_name} >{item.location_name}</option>
+                                                                                    <option key={index} value={`${item.location_id}^${item.location_name}`} >{item.location_name}</option>
                                                                                 ))
                                                                             }
                                                                         </select>
                                                                     </td>
                                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                         <select className="form-control ml-0" id={`items${index}`} name='item'
-                                                                        // onChange={(e) => { handleChangeItems(e, index) }}
+                                                                            onChange={(e) => { handleChangeItems(e, index) }}
                                                                         >
                                                                             <option value={element.item ? `${element.item}^${element.glcode}^${element.sac_hsn}` : ''} hidden>{element.item ? element.item : 'Select Item'}</option>
                                                                             {
@@ -753,8 +763,7 @@ function Bills() {
                                                         <label htmlFor='remarks' className="col-md-7 col-form-label font-weight-normal" >Remarks</label>
                                                         <div className="d-flex col-md">
                                                             <textarea type="text" className="form-control" rows="4" id="remarks" placeholder="Remarks" style={{ resize: "none" }}
-                                                            // onBlur={handlesetremark}
-                                                            ></textarea>
+                                                                onBlur={handlesetremark}></textarea>
                                                         </div>
 
                                                     </div>
@@ -816,7 +825,7 @@ function Bills() {
                                                             <tr >
                                                                 <td className='text-decoration-underline' >Taxable Amount</td>
                                                                 <td className='bill_gsttds_tablecol2'></td>
-                                                                <td className='text-center' id='taxableamount'>{amtWithoutTax}</td>
+                                                                <td className='text-center' id='taxableamount'>{billalldetail.amtWithoutTax}</td>
                                                             </tr>
                                                             <tr >
                                                                 <td className='text-decoration-underline' >CGST Amt</td>
@@ -877,8 +886,7 @@ function Bills() {
                                                                             </div>
                                                                             <br />
                                                                             <button type='button' className='btn btn-outline-primary float-right'
-                                                                                onClick={handletdsbtn}
-                                                                            >Submit</button>
+                                                                                onClick={handletdsbtn} >Submit</button>
                                                                         </div>
                                                                     </div>
                                                                     <div className="input-group" >
@@ -928,7 +936,7 @@ function Bills() {
                                                     </table>
                                                 </div>
                                             </div>
-                                            <PreviewBill data={billalldetail} Allitems={tableRowData} orgdata={orgdata} netamt={netamt} />
+                                            <PreviewBill billalldetail={billalldetail} BillItems={tableRowData} orgdata={orgdata} netamt={netamt} />
                                         </form>
                                     </article>
 
@@ -966,8 +974,8 @@ function Bills() {
                             </div>
                             <div className="modal-body overflow-auto px-5 pt-0" style={{ maxHeight: '60vh' }}>
                                 <table className='table table-sm table-hover'>
-                                    <thead >
-                                        <tr >
+                                    <thead>
+                                        <tr>
                                             <th>City</th>
                                             <th>Address</th>
                                         </tr>
@@ -978,7 +986,7 @@ function Bills() {
                                                 vendorlocation.map((items, index) => (
                                                     <tr key={index} className="cursor-pointer py-0" data-dismiss="modal"
                                                         onClick={() => {
-                                                            setVendorLocations([items.billing_address_state, items.billing_address_attention])
+                                                            setBillalldetail({ ...billalldetail, vendor_location: [items.billing_address_state, items.billing_address_attention] })
                                                         }}>
                                                         <td>{items.billing_address_city}</td>
                                                         <td style={{ fontSize: "15px" }}>{items.billing_address_attention}</td>
@@ -1022,7 +1030,7 @@ function Bills() {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" className="btn btn-primary"
-                                // onClick={handleSendFile} 
+                                onClick={handleSendFile}
                                 data-dismiss="modal" >Upload</button>
                         </div>
                     </div>

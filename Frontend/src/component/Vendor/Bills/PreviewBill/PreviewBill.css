@@ -49,22 +49,21 @@
     margin: 20px 0px 0px 10px;
 }
 
-.modalbill .bill-items .items-table {
+/* .modalbill .bill-items .items-table {
     border: 1px solid #000;
-}
+} */
 
-.modalbill .bill-items .items-table .item-table-row {
+/* .modalbill .bill-items .items-table .item-table-row {
     border: 1px solid #000;
-}
+} */
 
 .modalbill .bottom-table {
-    height: 100px;
+    height: 70px;
     border-top: 1px solid #000
 }
 .modalbill .bottom-table .bottominner-table {
-    width: 60%;
+    /* width: 60%; */
     height: 100%;
-    float: right;
 }
 
 .modalbill .bottom-table .bottominner-table table {
@@ -74,6 +73,9 @@
 .modalbill .bottominner-table-narration {
     width: 100%;
     border-top: 1px solid #000;
+}
+.modalbill .bottominner-table-narration .bill-amt-inword::first-letter{
+    text-transform: uppercase;
 }
 @media screen and (min-width:1350px) {
     .modalbill .bill-orgname div {
