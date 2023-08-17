@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import './Preview.css'
-import DecamalNumber from 'decimal-number-to-words';
+import DecimalNumber from 'decimal-number-to-words';
 import jsPDF from "jspdf";
 
 const PreviewPO = (props) => {
@@ -117,7 +117,7 @@ const PreviewPO = (props) => {
                                             </tr>
                                             <tr style={{ borderBottom: 'none' }}>
                                                 <td><strong>Total Amount in words : </strong></td>
-                                                <td>{DecamalNumber.toWords(Number(props.data.po_amt)).toUpperCase()} Only</td>
+                                                <td> {DecimalNumber.toWords(Number(props.data.po_amt)).toUpperCase()} Only</td>
                                             </tr>
                                         </tbody>
                                     </table>
