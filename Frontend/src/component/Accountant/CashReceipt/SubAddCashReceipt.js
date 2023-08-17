@@ -6,12 +6,10 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
             <tr key={index}>
                 <td className='p-0'>
                     <button type="button" style={{ height: '50px' }} id={`chartofacct-${index}`} className="btn border col overflow-hidden p-0" data-toggle="modal" data-target="#chartofaccountmodal"
-                        data-backdrop="static"
                         onClick={() => {
                             setCurrentindex(index);
                             setTimeout(() => { document.getElementById('searchChartofAcct').focus() }, 700)
                         }}>
-
                         {rowdata.achead.length > 0 ? rowdata.achead : "Select Value"}
                     </button>
                 </td>
@@ -20,7 +18,7 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
                     <button type="button" id={`customerInvModel-${index}`} data-toggle="modal" data-target="#SelectInvoiceModal" data-backdrop="static"> Customer Invoice Model</button>
                 </td>
                 <td className='p-0'>
-                    <button type="button" id={`location-${index}`} className="btn border col p-0 overflow-auto" style={{ maxHeight: '80px', width: '120px' }} data-toggle="modal" data-target="#locationmodal" data-backdrop="static"
+                    <button type="button" id={`location-${index}`} className="btn border col p-0 overflow-auto" style={{ maxHeight: '80px', width: '120px' }} data-toggle="modal" data-target="#locationmodal"
                         onClick={(e) => {
                             e.preventDefault(); setCurrentindex(index);
                             setTimeout(() => { document.getElementById('searchLocation').focus() }, 700)
@@ -32,8 +30,8 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
                 <td className='p-0'> <input type="date" className="form-control px-1" name='refDate' id={`refDate-${index}`} value={rowdata.refDate} onChange={(e) => handleChangeRowData(e, index)} /> </td>
                 <td className='p-0'> <input type="number" className="form-control px-1" name='refAmt' id={`refAmt-${index}`} min={0} value={rowdata.refAmt}
                     onChange={(e) => handleChangeRowData(e, index)}
-                    // onChange={(e)=>{console.log(e.target.value==''|| e.target.value)}}
-                    onBlur={(e) => { handleBlurMethod(e, index) }} /> </td>
+                    onBlur={(e) => { handleBlurMethod(e, index) }} />
+                </td>
                 <td className='p-0'> <input type="number" className="form-control" name='netAmt' min={0} value={rowdata.netAmt} onChange={(e) => handleChangeRowData(e, index)} onBlur={(e) => { handleBlurMethod(e, index) }} /> </td>
                 <td className='p-0'>
                     <select className="form-control" name='payType' onChange={(e) => handleChangeRowData(e, index)} onBlur={(e) => { handleBlurMethod(e, index) }} >
@@ -50,7 +48,8 @@ const SubAddCashReceipt = ({ CashSubdata, handleDeleteRemove, handleChangeRowDat
                         <option hidden value=''>Select Sub CostCenter</option>
                         {
                             activeEmp.map((emp, index) =>
-                                <option key={index} value={`${emp.emp_id}^${emp.emp_name}`}>{emp.emp_name}</option>)
+                                <option key={index} value={`${emp.emp_id}^${emp.emp_name}`}>{emp.emp_name}</option>
+                            )
                         }
                     </select>
 
