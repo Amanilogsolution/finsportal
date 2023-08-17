@@ -60,9 +60,7 @@ function PurchaseOrder() {
 
     const handleAdd = (e) => {
         e.preventDefault()
-        let newItemRow = [...poitem]
-        newItemRow.push(itemObj)
-        setPOitems(newItemRow)
+        setPOitems([...poitem, itemObj])
     }
 
     const handleRemove = (e) => {
@@ -70,12 +68,11 @@ function PurchaseOrder() {
         if (!(poitem.length === 1)) {
             poitem.pop()
             let total_amt = 0
-            poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
+            for (let i = 0; i < poitem.length; i++) {
+                total_amt = total_amt + Number(poitem[i].amt)
+            }
             document.getElementById('subtotalval').innerHTML = total_amt;
-            setPOalldetail({
-                ...poalldetail,
-                po_amt: total_amt
-            })
+            setPOalldetail({ ...poalldetail, po_amt: total_amt })
         }
     }
     // Vendor Select
@@ -139,7 +136,9 @@ function PurchaseOrder() {
         poitem[index].amt = amt
         document.getElementById(`amount-${index}`).value = amt
         let total_amt = 0
-        poitem.map((d) => { total_amt = total_amt + Number(d.amt) })
+        for (let i = 0; i < poitem.length; i++) {
+            total_amt = total_amt + Number(poitem[i].amt)
+        }
         document.getElementById('subtotalval').innerHTML = total_amt;
 
         setPOalldetail({
@@ -156,8 +155,6 @@ function PurchaseOrder() {
     }
 
     const handleSubmit = async (btntype) => {
-        // console.log(poalldetail)
-        // console.log(poitem)
         setLoading(false)
         const org = localStorage.getItem('Organisation');
         const userid = localStorage.getItem('User_id');
@@ -203,7 +200,7 @@ function PurchaseOrder() {
                                             <div className="form-row">
                                                 <label htmlFor='voucher_no' className="col-md-2 col-form-label font-weight-normal" >P.O Number </label>
                                                 <div className="d-flex col-md-4" >
-                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no"  disabled />
+                                                    <input type="text" className="form-control col-md-10 cursor-notallow" id="po_no" disabled />
                                                 </div>
                                                 <label htmlFor='voucher_date' className="col-md-2 col-form-label font-weight-normal">P.O Date</label>
                                                 <div className="d-flex col-md-4 " >
@@ -276,14 +273,12 @@ function PurchaseOrder() {
                                                         {
                                                             poitem.map((element, index) => (
                                                                 <tr key={index}>
-
                                                                     <td className='p-1 pt-2' style={{ width: "180px" }}>
                                                                         <select id={`item-${index}`} className="form-control ml-0" onChange={(e) => { handleChangeItems(index) }}>
                                                                             <option value='' hidden>Select Item</option>
                                                                             {
                                                                                 itemlist.map((items, index) => (
                                                                                     <option key={index} value={`${items.item_name}^${items.glcode}^${items.sac_code}^${items.hsn_code}`} >{items.item_name}</option>
-
                                                                                 ))
                                                                             }
                                                                         </select>
@@ -306,7 +301,6 @@ function PurchaseOrder() {
                                                                     <td className='p-1 pt-2' style={{ width: "160px" }}>
                                                                         <input type='number' id={`amount-${index}`} className="form-control cursor-notallow" disabled />
                                                                     </td>
-
                                                                 </tr>
                                                             ))
                                                         }
