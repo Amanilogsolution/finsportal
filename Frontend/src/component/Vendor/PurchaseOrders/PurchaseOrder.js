@@ -320,7 +320,7 @@ function PurchaseOrder() {
                                     <div className='d-flex justify-content-end mx-3'>
                                         <div className='rounded py-1 px-2 col-md-3 d-flex justify-content-between'>
                                             <h4 id='subtotalbtn'>Total</h4>
-                                            <div id="Subtotal">INR <span id="subtotalval font-weight-bold">0</span></div>
+                                            <div id="Subtotal">INR <span id="subtotalval">0</span></div>
                                         </div>
                                     </div>
                                     <div className="card-footer border-top">
