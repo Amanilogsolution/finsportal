@@ -21,7 +21,7 @@ const InsertAccountType = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -39,7 +39,7 @@ const UpdateAccountName = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -51,7 +51,7 @@ const TotalAccountName = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -64,7 +64,7 @@ const AccountnameStatus = async (req, res) => {
         const result = await sql.query(`update ${org}.dbo.tbl_account_type set status='${status}' WHERE account_type_code='${account_type_code}';`)
         res.send(result.recordset)
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 const SelectAccountName = async (req, res) => {
@@ -76,7 +76,7 @@ const SelectAccountName = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -108,7 +108,7 @@ const ActiveAccountName = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

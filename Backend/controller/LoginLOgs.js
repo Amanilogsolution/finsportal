@@ -18,7 +18,7 @@ const LoginLogs = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -33,7 +33,7 @@ const LogoutLogs = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

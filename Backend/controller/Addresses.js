@@ -28,13 +28,12 @@ const InsertCustomerAddress = async (req, res) => {
         res.send(result.rowsAffected);
     }
     catch (err) {
-        res.send(err);
+        res.status(500).send(err);
     }
 }
 
 //Vendor Add Address
 const InsertVendorAddress = async (req, res) => {
-
     const vend_id = req.body.vendid;
     const vend_name = req.body.vend_name;
     const vendaddid = req.body.vendaddid;
@@ -58,9 +57,11 @@ const InsertVendorAddress = async (req, res) => {
         res.send(result.rowsAffected)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
+
 const SelectCustAddress = async (req, res) => {
     const cust_name = req.body.cust_name;
     const org = req.body.org;
@@ -68,10 +69,9 @@ const SelectCustAddress = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT DISTINCT cust_id,cust_name FROM ${org}.dbo.tbl_cust_addresses with (nolock) WHERE cust_name LIKE '%${cust_name}%';`)
         res.send(result.recordset)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -84,7 +84,7 @@ const TotalCustAddress = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -97,7 +97,7 @@ const TotalVendAddress = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -111,7 +111,7 @@ const DeleteCustAddress = async (req, res) => {
         res.send('Deleted')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -125,7 +125,7 @@ const DeleteVendAddress = async (req, res) => {
         res.send('Deleted')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -138,7 +138,7 @@ const CustAddress = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 const SearchCustAddress = async (req, res) => {
@@ -152,7 +152,7 @@ const SearchCustAddress = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -165,9 +165,10 @@ const VendAddress = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const SelectVendAddress = async (req, res) => {
     const vend_name = req.body.vend_name;
     const org = req.body.org;
@@ -177,9 +178,10 @@ const SelectVendAddress = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const UpdateCustAddress = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
@@ -199,7 +201,7 @@ const UpdateCustAddress = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -225,7 +227,7 @@ const UpdateVendAddress = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -245,11 +247,7 @@ const Importcustaddress = async (req, res) => {
                              '${os.hostname()}','${req.ip}','Active','${uuidv1()}' ,'${item.cust_add_id}')`).join(', ')}`)
 
         res.send("Data Added")
-    }
-        // }
-    )
-    // })
-
+    })
 }
 
 
@@ -265,8 +263,7 @@ const Importvendaddress = async (req, res) => {
                              '${item.billing_address_phone}','${item.billing_address_fax}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${uuidv1()}')`).join(', ')}`)
 
         res.send("Data Added")
-    }
-    )
+    })
 }
 
 const getVendorAddress = async (req, res) => {
@@ -278,7 +275,7 @@ const getVendorAddress = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -293,7 +290,8 @@ const SearchVendAddress = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
-module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress, getVendorAddress,SearchCustAddress,SearchVendAddress }
+
+module.exports = { InsertCustomerAddress, InsertVendorAddress, TotalCustAddress, TotalVendAddress, DeleteCustAddress, DeleteVendAddress, CustAddress, VendAddress, SelectVendAddress, UpdateCustAddress, UpdateVendAddress, SelectCustAddress, Importcustaddress, Importvendaddress, getVendorAddress, SearchCustAddress, SearchVendAddress }

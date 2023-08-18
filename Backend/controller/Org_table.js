@@ -18,12 +18,12 @@ const Org_table = async (req, res) => {
             values ('${org_name}',getdate(),'${User_id}','${os.hostname()}','${dbname}','Active');`)
             res.send('Added')
         }
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const TotalOrganisation = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
@@ -31,7 +31,7 @@ const TotalOrganisation = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

@@ -43,11 +43,10 @@ async function Insertorg(req, res) {
             if (insertfinsyear.rowsAffected[0] > 0) {
                 res.send('Added')
             }
-
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -59,12 +58,12 @@ const ShowOrganisation = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FinsDB.dbo.organisation with (nolock) where org_db_name = '${org_db_name}'`)
         res.send(result.recordset[0])
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const UpdateOrganisation = async (req, res) => {
     const org_db_name = req.body.org_name;
     const org_contact_name = req.body.org_contact_name;
@@ -86,13 +85,11 @@ const UpdateOrganisation = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update FINSDB.dbo.organisation set org_contact_name='${org_contact_name}', org_contact_phone ='${org_contact_phone}',org_contact_email='${org_contact_email}',
                 org_street='${org_street}',org_city='${org_city}',org_pincode='${org_pincode}',org_gst ='${org_gst}',update_ip_address='${req.ip}',update_date_time=getdate(),
-                update_user_name='${User_id}',update_system_name ='${os.hostname()}',industry_type='${industry_type}',fins_year_month='${fins_year}',report_basic='${report_basic}',company_id='${company_id}',tax_id='${tax_id}',org_logo='${uploadimage}' where org_db_name ='${org_db_name}';
-                `)
+                update_user_name='${User_id}',update_system_name ='${os.hostname()}',industry_type='${industry_type}',fins_year_month='${fins_year}',report_basic='${report_basic}',company_id='${company_id}',tax_id='${tax_id}',org_logo='${uploadimage}' where org_db_name ='${org_db_name}'`)
         res.send(result)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

@@ -11,7 +11,7 @@ const AllCashReceipt = async (req, res) => {
         res.status(200).json({ data: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -45,7 +45,7 @@ const InsertCashReceipt = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -58,7 +58,7 @@ const GetCashReceipt = async (req, res) => {
         res.status(200).json({ data: result.recordset[0] })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -74,7 +74,7 @@ const filterCashReceiptReport = async (req, res) => {
         res.status(200).json({ data: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

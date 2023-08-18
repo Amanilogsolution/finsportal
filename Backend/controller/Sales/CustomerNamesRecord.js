@@ -15,11 +15,10 @@ const AddCustomerRecord = async (req, res) => {
     try {
         const result = await sql.query(`insert into ${org}.dbo.cust_name_recoard(cust_id,cust_name,created_date,add_ip_address,add_user_name,add_system_name,add_date_time,cust_name_uuid)
         values('${cust_id}','${cust_name}','${date}','${req.ip}','${user_id}','${os.hostname()}',getdate(),'${uuid}')    `)
-
         res.send(result.rowsAffected)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -32,8 +31,8 @@ const UpdateCustomerName = async (req, res) => {
         const result = await sql.query(` UPDATE ${org}.dbo.tbl_new_customer SET cust_name='${cust_name}'WHERE cust_id='${cust_id}'`)
         res.send('Updated')
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
-module.exports = {AddCustomerRecord,UpdateCustomerName}
+module.exports = { AddCustomerRecord, UpdateCustomerName }

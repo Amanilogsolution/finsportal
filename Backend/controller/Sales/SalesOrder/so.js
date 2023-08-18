@@ -18,7 +18,6 @@ const InsertSalesorder = async (req, res) => {
     const uuid = uuidv1()
     const flagsave = req.body.flagsave;
 
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query
@@ -33,7 +32,7 @@ const InsertSalesorder = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -62,7 +61,7 @@ const InsertSubSalesorder = async (req, res) => {
         res.send("Insert")
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -74,9 +73,8 @@ const getSaveSO = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const getSoDetails = async (req, res) => {
@@ -88,7 +86,7 @@ const getSoDetails = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -101,7 +99,7 @@ const getSubSoDetails = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -116,7 +114,7 @@ const EditSalesOrder = async (req, res) => {
         res.send("Updated")
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -139,7 +137,7 @@ const filterSO = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -153,7 +151,7 @@ const GetSalesOrderByCust = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

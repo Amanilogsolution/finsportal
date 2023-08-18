@@ -10,8 +10,7 @@ const Showcompliances = async (req, res) => {
         const result = await sql.query(`select sno,compliance_type,nature,period,period_name,convert(varchar(15),from_month,121) as from_month,convert(varchar(15),to_month,121) as to_month,from_applicable,convert(varchar(15),due_date,121) as due_date,convert(varchar(15),extended_date,121) as extended_date,status  from ${org}.dbo.tbl_compliance with (nolock) order by sno desc`)
         res.send(result.recordset)
     } catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
 }
 
@@ -26,7 +25,8 @@ const Insertcompliance = async (req, res) => {
     const from_applicable = req.body.from_applicable;
     const due_date = req.body.due_date;
     const extended_date = req.body.extended_date;
-    const user_name = req.body.user_name
+    const user_name = req.body.user_name;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_compliance (compliance_type ,nature,period ,period_name ,from_month,to_month ,
@@ -37,22 +37,21 @@ const Insertcompliance = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 const ShowcompliancesData = async (req, res) => {
     const org = req.body.org
-    const sno = req.body.sno
+    const sno = req.body.sno;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select compliance_type,nature,period,period_name,convert(varchar(15),from_month,121) as from_month,convert(varchar(15),to_month,121) as to_month,from_applicable,convert(varchar(15),due_date,121) as due_date,convert(varchar(15),extended_date,121) as extended_date,status  from ${org}.dbo.tbl_compliance with (nolock) where sno=${sno}`)
         res.send(result.recordset[0])
-    } catch (err) {
-        res.send(err)
-
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 
@@ -78,11 +77,10 @@ const Updatecompliance = async (req, res) => {
         res.send('updated')
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
+
 const Compliancestatus = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
@@ -93,7 +91,7 @@ const Compliancestatus = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.status(err)
+        res.status(500).send(err)
     }
 }
 
@@ -106,10 +104,10 @@ const Compliancesduedate = async (req, res) => {
         res.status(200).send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
+
 const PendingCompliances = async (req, res) => {
     const org = req.body.org;
     try {
@@ -118,9 +116,8 @@ const PendingCompliances = async (req, res) => {
         res.status(200).send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const UpdatePendingCompliances = async (req, res) => {
@@ -135,9 +132,8 @@ const UpdatePendingCompliances = async (req, res) => {
         res.status(200).send(result)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 
@@ -156,8 +152,7 @@ const ImportCompliances = (req, res) => {
                      getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${item.document_url}','false','${item.remark}')`).join(', ')}`)
 
         res.send("Data Added")
-    }
-    )
+    })
 }
 
 module.exports = { Showcompliances, Insertcompliance, ShowcompliancesData, Updatecompliance, Compliancestatus, Compliancesduedate, PendingCompliances, UpdatePendingCompliances, ImportCompliances }

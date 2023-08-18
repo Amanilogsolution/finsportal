@@ -1,7 +1,7 @@
 const sql = require('mssql')
 const sqlConfig = require('../../config.js')
 const os = require('os')
-const uuidv1 = require("uuid/v1");
+const uuidV1 = require("uuid/v1");
 
 const Totaluser = async (req, res) => {
     const org = req.body.org;
@@ -9,8 +9,9 @@ const Totaluser = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(` select * from FINSDB.dbo.tbl_usermaster with (nolock) WHERE org_db_name='${org}' order by sno desc`)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 
@@ -30,7 +31,7 @@ const InsertUser = async (req, res) => {
     const two_factor_authentication = req.body.two_factor_authentication;
     const User_id = req.body.User_id;
     const org = req.body.org;
-    const uuid = uuidv1()
+    const uuid = uuidV1()
 
     try {
         await sql.connect(sqlConfig)
@@ -51,9 +52,10 @@ const InsertUser = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 async function showuser(req, res) {
     const sno = req.body.sno
     try {
@@ -62,7 +64,7 @@ async function showuser(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -96,7 +98,7 @@ async function updateuser(req, res) {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -109,11 +111,9 @@ async function deleteuser(req, res) {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
-
-
 
 const ImportUser = (req, res) => {
     const datas = req.body.data;
@@ -133,11 +133,11 @@ const ImportUser = (req, res) => {
                     email_id,phone,operate_mode,customer,reporting_to,designation,
                     user_profile_url,two_factor_authentication,status,add_date_time,add_user_name,add_system_name,add_ip_address,user_uuid)
                     values ${datas.map(item => `('${item.employee_name}','${item.role}','${item.warehouse}','${item.user_name}','${item.password}','${item.email_id}',${item.phone},'${item.operate_mode}','${item.customer}',
-                    '${item.reporting_to}','${item.designation}','${item.user_profile_url}','with otp','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(',')}
+                    '${item.reporting_to}','${item.designation}','${item.user_profile_url}','with otp','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidV1()}')`).join(',')}
 
                     insert into FINSDB.dbo.tbl_Login(user_id,user_name,location,comp_name,comp_ip,
                         user_password,login_uuid,org_name ,org_db_name,user_profile_url)
-                        values ${datas.map(item => `('${item.user_name}','${item.employee_name}','','${org_name}','${req.ip}','${item.password}','${uuidv1()}','${org_name}','${org}','${item.user_profile_url}')`).join(',')}`)
+                        values ${datas.map(item => `('${item.user_name}','${item.employee_name}','','${org_name}','${req.ip}','${item.password}','${uuidV1()}','${org_name}','${org}','${item.user_profile_url}')`).join(',')}`)
                     res.send("Data Added")
                 }
             })
@@ -152,10 +152,9 @@ async function UpdateImage(req, res) {
         const Login = await sql.query(`update FINSDB.dbo.tbl_Login set user_profile_url='${user_profile_url}' where user_id ='${user_id}'`)
         const User = await sql.query(`update FINSDB.dbo.tbl_usermaster set user_profile_url='${user_profile_url}' where user_id ='${user_id}';`)
         res.send(Login)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -164,8 +163,9 @@ const Activeuser = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select employee_name from FINSDB.dbo.tbl_usermaster with (nolock) where status='Active'`)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    } 
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 

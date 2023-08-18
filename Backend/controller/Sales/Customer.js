@@ -13,7 +13,7 @@ const AllCustomer = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -65,8 +65,8 @@ const AddCustomer = async (req, res) => {
 
     try {
         const duplicate = await sql.query(`select * from ${org}.dbo.tbl_new_customer where pan_no = '${pan_no}'`)
-        if(duplicate.recordset.length === 0){
-        const result = await sql.query(`INSERT into ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
+        if (duplicate.recordset.length === 0) {
+            const result = await sql.query(`INSERT into ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                 company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department,
                 website,gst_treatment,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency,
                 opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
@@ -79,13 +79,13 @@ const AddCustomer = async (req, res) => {
                       '${contact_person_email}','${contact_person_work_phone}','${contact_person_phone}','${contact_person_skype}','${contact_person_designation}','${contact_person_department}','${remark}','Active',getdate(),'${User_id}','${os.hostname()}',
                         '${req.ip}','${uuid}');`)
 
-        res.send(result.rowsAffected)
-        }else{
+            res.send(result.rowsAffected)
+        } else {
             res.send('Already');
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -99,7 +99,7 @@ const DeleteCustomer = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -112,9 +112,8 @@ const Customer = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const UpdateCustomer = async (req, res) => {
@@ -143,7 +142,7 @@ const UpdateCustomer = async (req, res) => {
          WHERE sno=${sno}`)
         res.send('Updated')
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -179,10 +178,9 @@ const Unique_Cust_id = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT cust_totalid,year FROM ${org}.dbo.tbl_fin_year  with (nolock) WHERE sno=(SELECT MAX(sno) FROM ${org}.dbo.tbl_fin_year)`)
         res.send(result.recordset[0])
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -191,12 +189,10 @@ const Lastcust_id = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT cust_id FROM ${org}.dbo.tbl_new_customer with (nolock) WHERE sno=(SELECT MAX(sno) FROM ${org}.dbo.tbl_new_customer)`)
-
         res.send(result.recordset[0])
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -206,10 +202,9 @@ const CustomerMastid = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT DISTINCT(mast_id) from ${org}.dbo.tbl_new_customer  with (nolock) where  status='Active'`)
         res.send(result.recordset)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 // const CustomerIdMid = async (req, res) => {
@@ -245,11 +240,9 @@ const Checkmidvalid = (req, res) => {
                     }
                 })
         })
-
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -257,19 +250,8 @@ const ImportCustomer = (req, res) => {
     const User_id = req.body.User_id;
     const datas = req.body.data;
     const org = req.body.org;
-    // let duplicatedate = [];
 
     sql.connect(sqlConfig).then(() => {
-
-        // sql.query(`select * from ${org}.dbo.tbl_new_customer where cust_email in ('${datas.map(data => data.cust_email)
-        //     .join("', '")}') OR cust_work_phone in ('${datas.map(data => data.cust_work_phone)
-        //         .join("', '")}') OR pan_no in ('${datas.map(data => data.pan_no).join("', '")}')`)
-
-        // .then((resp) => {
-        // if (resp.rowsAffected[0] > 0)
-        //     res.send(resp.recordset.map(item => ({ "cust_email": item.cust_email, "cust_work_phone": item.cust_work_phone, "pan_no": item.pan_no, })))
-        // else {
-
         const result = sql.query(`INSERT INTO  ${org}.dbo.tbl_new_customer(mast_id,cust_id,cust_type,cust_name,
                             company_name,cust_display_name,cust_email,cust_work_phone,cust_phone,skype_detail,designation,department ,website,gst_treatment
                             ,gstin_uin,pan_no,place_of_supply,tax_preference,exemption_reason,currency, opening_balance,payment_terms,enable_portal,portal_language,facebook_url,twitter_url,billing_address_attention,billing_address_country,
@@ -283,9 +265,6 @@ const ImportCustomer = (req, res) => {
                                       '${item.contact_person_email}','${item.contact_person_work_phone}','${item.contact_person_phone}','${item.contact_person_skype}','${item.contact_person_designation}',
                                       '${item.contact_person_department}','${item.remark}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
         res.send("Data Added")
-
-
-
     })
 }
 
@@ -340,10 +319,8 @@ const ActiveCustomer = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
-
 }
 
 
@@ -356,9 +333,8 @@ const SelectedCustomer = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 

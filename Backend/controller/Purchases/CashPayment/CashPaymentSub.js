@@ -1,20 +1,5 @@
 const sql = require('mssql')
 const sqlConfig = require('../../../config.js')
-const os = require('os')
-const uuidv1 = require("uuid/v1");
-
-// const AllCashPaymentSub = async (req, res) => {
-//     const org = req.body.org;
-//     try {
-//         await sql.connect(sqlConfig)
-//         const result = await sql.query(` select * from ${org}.dbo.tbl_cash_payment_sub with (nolock) order by sno DESC `)
-//         res.status(200).json({ result: result.recordset })
-//     }
-//     catch (err) {
-//         res.send(err)
-//     }
-// }
-
 
 const InsertCashSubPayment = async (req, res) => {
     const org = req.body.org;
@@ -63,5 +48,5 @@ const GetSubCashPayment = async (req, res) => {
     }
 
 }
-// module.exports = {AllCashPaymentSub,InsertCashSubPayment,GetSubCashPayment}
+
 module.exports = { InsertCashSubPayment, GetSubCashPayment }

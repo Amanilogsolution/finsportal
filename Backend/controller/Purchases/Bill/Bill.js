@@ -1,7 +1,7 @@
 const sql = require('mssql')
 const sqlConfig = require('../../../config.js')
 const os = require('os')
-const uuidv1 = require("uuid/v1");
+const uuidV1 = require("uuid/v1");
 
 const InsertBill = async (req, res) => {
     const org = req.body.org
@@ -40,7 +40,7 @@ const InsertBill = async (req, res) => {
     const bill_url = req.body.bill_url;
 
     const userid = req.body.userid;
-    const uuid = uuidv1()
+    const uuid = uuidV1()
 
     try {
         await sql.connect(sqlConfig)
@@ -136,13 +136,14 @@ const GetBillData = async (req, res) => {
 const GetBillVendorID = async (req, res) => {
     const org = req.body.org;
     const vendor_id = req.body.vendor_id;
+
     try {
         await sql.connect(sqlConfig)
         const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
         res.status(200).send(Bill.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

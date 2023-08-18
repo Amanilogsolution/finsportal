@@ -11,7 +11,7 @@ async function TotalRecurringFreq(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -36,9 +36,8 @@ async function InsertRecurringFreq(req, res) {
             res.send("Already")
         }
     }
-
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -50,16 +49,14 @@ async function UpdateRecurringFreq(req, res) {
     const User_id = req.body.User_id;
     const sno = req.body.sno
 
-
     try {
         await sql.connect(sqlConfig)
-       
-            const result = await sql.query(`update ${org}.dbo.tbl_recurring_freq set recurring_type='${recurring_type}',recurring_month='${recurring_month}',remark='${remark}'
+        const result = await sql.query(`update ${org}.dbo.tbl_recurring_freq set recurring_type='${recurring_type}',recurring_month='${recurring_month}',remark='${remark}'
             ,update_date_time=getdate(),update_user_name='${User_id}',update_system_name='${os.hostname()}',update_ip_address='${req.ip}' WHERE sno = '${sno}'`)
-            res.send('Updated')  
+        res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -72,21 +69,21 @@ async function ShowRecurringFreq(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 async function deleteRecurringFreq(req, res) {
     const sno = req.body.sno;
     const status = req.body.status;
-    const org = req.body.org
+    const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_recurring_freq set status='${status}' where sno = ${sno}`)
         res.send(result)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -98,8 +95,8 @@ async function ActiveRecurringFreq(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
-module.exports={TotalRecurringFreq,InsertRecurringFreq,UpdateRecurringFreq,ShowRecurringFreq,deleteRecurringFreq,ActiveRecurringFreq}
+module.exports = { TotalRecurringFreq, InsertRecurringFreq, UpdateRecurringFreq, ShowRecurringFreq, deleteRecurringFreq, ActiveRecurringFreq }

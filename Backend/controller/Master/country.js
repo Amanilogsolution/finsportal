@@ -4,23 +4,25 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const countries = async (req, res) => {
- 
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_countries with (nolock) order by sno desc`)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 const Activecountries = async (req, res) => {
- 
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select country_name,country_code from FINSDB.dbo.tbl_countries with (nolock) where status='Active' `)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 
@@ -43,9 +45,10 @@ const InsertCountry = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 async function showcountry(req, res) {
     const sno = req.body.sno
     try {
@@ -54,7 +57,7 @@ async function showcountry(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -72,7 +75,7 @@ async function updatecountry(req, res) {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -85,7 +88,7 @@ async function deletecountry(req, res) {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -95,25 +98,21 @@ const ImportCountry = (req, res) => {
     const User_id = req.body.User_id;
 
     sql.connect(sqlConfig).then(() => {
-
         sql.query(`select * from FINSDB.dbo.tbl_countries where country_name in ('${datas.map(data => data.country_name).join("', '")}') OR country_id in ('${datas.map(data => data.country_id).join("', '")}') OR country_code in ('${datas.map(data => data.country_code).join("', '")}') OR country_phonecode in ('${datas.map(data => data.country_phonecode).join("', '")}')`)
             .then((resp) => {
                 if (resp.rowsAffected[0] > 0)
                     res.send(resp.recordset.map(item => ({ "country_name": item.country_name, "country_id": item.country_id, "country_code": item.country_code, "country_phonecode": item.country_phonecode })))
                 else {
-
-                  sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode,status,add_date_time,add_user_name,add_system_name,add_ip_address,country_uuid) 
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_countries (country_name,country_id,country_code,country_phonecode,status,add_date_time,add_user_name,add_system_name,add_ip_address,country_uuid) 
                     VALUES ${datas.map(item => `('${item.country_name}','${item.country_id}','${item.country_code}','${item.country_phonecode}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
-                    
+
                     res.send("Data Added")
                 }
             })
-
-
     })
 }
 
 
 
 
-module.exports = { countries,Activecountries, InsertCountry, showcountry, updatecountry, deletecountry, ImportCountry }
+module.exports = { countries, Activecountries, InsertCountry, showcountry, updatecountry, deletecountry, ImportCountry }

@@ -1,7 +1,5 @@
 const sql = require('mssql')
 const sqlConfig = require('../../../config.js')
-const os = require('os')
-const uuidv1 = require("uuid/v1");
 
 const InsertSubBillPayment = async (req, res) => {
     const org = req.body.org
@@ -28,12 +26,12 @@ const InsertSubBillPayment = async (req, res) => {
             '${pay_type}' ,'${amt_paid}' ,'${bal_amt}' ,'${master_id}' ,'${emp_id}' ,'${emp_name}')`)
 
         res.status(201).json({ result: "Added" })
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const GetSubBillPayment = async (req, res) => {
     const org = req.body.org
     const bank_payment_id = req.body.bank_payment_id
@@ -44,7 +42,7 @@ const GetSubBillPayment = async (req, res) => {
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -53,6 +51,7 @@ const filterBankpaymentReport = async (req, res) => {
     const from_date = req.body.fromdate
     const to_date = req.body.todate;
     let bank_data = req.body.bank;
+
     try {
         await sql.connect(sqlConfig)
         if (bank_data === 'all') {
@@ -69,7 +68,7 @@ const filterBankpaymentReport = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

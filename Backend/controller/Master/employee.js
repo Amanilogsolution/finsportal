@@ -10,8 +10,9 @@ const TotalEmployee = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from  ${org}.dbo.tbl_emp order by sno desc`)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 
@@ -34,8 +35,7 @@ const insertemployee = async (req, res) => {
         if (!checkDublicate.recordset.length > 0) {
             const result = await sql.query(`insert into ${org}.dbo.tbl_emp(emp_name,wh,emp_id,bank_name,acct_no,bank_holder_name,ifsc_code,add_user_name ,add_system_name,add_ip_address,
             add_date_time,status ,emp_uuid,fin_year )
-            values('${emp_name}','${wh}','${emp_id}','${bank_name}','${account_no}','${bank_holder_name}','${ifsc_code}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${uuid}','${fin_year}') 
-          `)
+            values('${emp_name}','${wh}','${emp_id}','${bank_name}','${account_no}','${bank_holder_name}','${ifsc_code}','${User_id}','${os.hostname()}','${req.ip}',getdate(),'Active','${uuid}','${fin_year}') `)
             res.send('Added')
         }
         else {
@@ -43,7 +43,7 @@ const insertemployee = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -57,7 +57,7 @@ const deleteEmployee = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -70,9 +70,8 @@ const getemployee = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const updateemployee = async (req, res) => {
@@ -95,17 +94,19 @@ const updateemployee = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const ActiveEmployee = async (req, res) => {
     const org = req.body.org
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from  ${org}.dbo.tbl_emp where status='Active'`)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
 module.exports = { TotalEmployee, deleteEmployee, insertemployee, getemployee, updateemployee, ActiveEmployee }

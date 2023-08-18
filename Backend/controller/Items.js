@@ -39,11 +39,11 @@ const InsertItems = async (req, res) => {
             res.send('Added')
         }
         else {
-            res.send('Server error')
+            res.status(500).send('Server error')
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -56,7 +56,7 @@ const TotalItems = async (req, res) => {
 
         res.send(result.recordset)
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -70,7 +70,7 @@ const deleteItems = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -83,9 +83,11 @@ async function getItems(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
+
 const UpdateItems = async (req, res) => {
     const sno = req.body.sno;
     const org = req.body.org;
@@ -115,13 +117,12 @@ const UpdateItems = async (req, res) => {
             chart_of_acct_id='${chartofaccount_id}',tax_preference='${tax_preference}',sales_account='${sales_account}',purchase_account='${purchase_account}',gst_rate='${gst_rate}',minor_code_id='${minor_code_id}',minor_code='${minor_code}',glcode='${glcode}',
             update_user_name='${user_id}',update_system_name='${os.hostname()}' ,update_ip_address='${req.ip}' ,update_date_time=getdate()  WHERE  sno='${sno}'`)
 
-            console.log(result)
         if (result.rowsAffected[0] > 0) {
             res.send("updated")
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -134,10 +135,8 @@ const ActiveItems = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 const ActivePurchesItems = async (req, res) => {
@@ -148,10 +147,8 @@ const ActivePurchesItems = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 const ActiveAllItems = async (req, res) => {
@@ -162,10 +159,8 @@ const ActiveAllItems = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 module.exports = { InsertItems, TotalItems, ActiveItems, deleteItems, getItems, UpdateItems, ActivePurchesItems, ActiveAllItems }

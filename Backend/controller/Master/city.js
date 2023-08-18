@@ -1,8 +1,7 @@
-const sql =require('mssql')
+const sql = require('mssql')
 const sqlConfig = require('../../config.js')
 const os = require('os')
 const uuidv1 = require("uuid/v1");
-
 
 
 const city = async (req, res) => {
@@ -10,31 +9,32 @@ const city = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_cities with (nolock) order by sno desc`)
         res.send(result.recordset)
-    } catch (err) {
-        res.send(err)
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 }
+
 const insertCity = async (req, res) => {
     const city_id = req.body.city_id;
     const city_name = req.body.city_name;
     const state_name = req.body.state_name;
     const country_name = req.body.country_name;
-    const User_id= req.body.User_id;
+    const User_id = req.body.User_id;
     const uuid = uuidv1()
     try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_cities where city_id='${city_id}' OR city_name='${city_name}'`)
-        if(!duplicate.recordset.length){
-                     const result = await sql.query(`insert into FINSDB.dbo.tbl_cities (city_id,city_name,state_name,country_name,cities_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
+        if (!duplicate.recordset.length) {
+            const result = await sql.query(`insert into FINSDB.dbo.tbl_cities (city_id,city_name,state_name,country_name,cities_uuid,add_date_time,add_user_name,add_system_name,add_ip_address,status)
                         values('${city_id}','${city_name}','${state_name}','${country_name}','${uuid}',getdate(),'${User_id}','${os.hostname()}','${req.ip}','Active')`)
-        res.send('Added')
-        }else{
+            res.send('Added')
+        } else {
             res.send("Already")
         }
-       
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -47,23 +47,23 @@ const deleteCity = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
-async function showcity(req,res){
+async function showcity(req, res) {
     const sno = req.body.sno
-    try{
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from FINSDB.dbo.tbl_cities with (nolock) where sno = ${sno}`)
         res.send(result.recordset[0])
-        }
-        catch(err){
-            res.send(err)
-            }
-          }
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+}
 
-async function updateCity(req,res){
+async function updateCity(req, res) {
     const sno = req.body.sno
     const city_id = req.body.city_id;
     const city_name = req.body.city_name;
@@ -77,9 +77,10 @@ async function updateCity(req,res){
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const getCity = async (req, res) => {
     const state_name = req.body.state_name;
     try {
@@ -88,7 +89,7 @@ const getCity = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -101,7 +102,7 @@ const ImportCity = (req, res) => {
         sql.query(`select * from FINSDB.dbo.tbl_cities where city_id in ('${datas.map(data => data.city_id).join("', '")}') OR city_name in ('${datas.map(data => data.city_name).join("', '")}')`)
             .then((resp) => {
                 if (resp.rowsAffected[0] > 0)
-                    res.send(resp.recordset.map(item => ({ "city_id": item.city_id, "city_name": item.city_name})))
+                    res.send(resp.recordset.map(item => ({ "city_id": item.city_id, "city_name": item.city_name })))
                 else {
 
                     sql.query(`INSERT INTO FINSDB.dbo.tbl_cities (city_id,city_name,state_name,country_name,status,add_date_time,add_user_name,add_system_name,add_ip_address,cities_uuid) 
@@ -109,12 +110,10 @@ const ImportCity = (req, res) => {
                     res.send("Data Added")
                 }
             })
-
-
     })
 }
- 
 
 
 
-module.exports = {city,insertCity,deleteCity,showcity,updateCity,getCity,ImportCity}
+
+module.exports = { city, insertCity, deleteCity, showcity, updateCity, getCity, ImportCity }

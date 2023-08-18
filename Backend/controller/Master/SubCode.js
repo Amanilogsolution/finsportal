@@ -1,7 +1,6 @@
 const sql = require('mssql')
 const sqlConfig = require('../../config.js')
 const os = require('os')
-const uuidv1 = require("uuid/v1");
 
 const GlCode = async (req, res) => {
     const org = req.body.org;
@@ -11,7 +10,7 @@ const GlCode = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -24,9 +23,10 @@ const GlSubCode = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const InsertGlSubCode = async (req, res) => {
     const org = req.body.org;
     const glCode = req.body.glCode;
@@ -42,7 +42,7 @@ const InsertGlSubCode = async (req, res) => {
         res.send(result);
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -52,12 +52,12 @@ const ShowTotalSubCode = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_gl_sub with (nolock);`)
         res.send(result.recordset)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const SubCodeStatus = async (req, res) => {
     const org = req.body.org;
     const status = req.body.status;
@@ -69,7 +69,7 @@ const SubCodeStatus = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -82,7 +82,7 @@ const GetSubCodeDetails = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -102,7 +102,7 @@ const UpdateSubCodeDetails = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -118,9 +118,7 @@ const ImportSubcode = (req, res) => {
                     VALUES ${datas.map(item => `('${item.charge_Code}','${item.sub_code}','${item.gl_code}','${item.CompanyID}',
                     '${User_id}','${os.hostname()}','${req.ip}',getDate(),'Active')`).join(', ')}`)
         res.send("Data Added")
-    }
-    )
-
+    })
 }
 
 

@@ -9,7 +9,7 @@ const Totalcrm = async (req, res) => {
         const result = await sql.query(` SELECT *,convert(varchar(15),from_date,121) as Joindate  from ${org}.dbo.tbl_crm_master tcm with (nolock)`)
         res.send(result.recordset)
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -36,11 +36,9 @@ const insertcrm = async (req, res) => {
             values('${user_name}','${type}','${cust_vend}',getDate(),'${User_id}','${os.hostname()}','${req.ip}','Active','${from_date}');`)
         res.send('Added')
         }
-     
-       
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -54,7 +52,7 @@ const deleteCrm = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -67,9 +65,8 @@ const getcrm = async (req,res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const updatecrm = async (req, res) => {
@@ -79,7 +76,8 @@ const updatecrm = async (req, res) => {
     const type = req.body.type;
     const cust_vend = req.body.cust_vend;
     const User_id= req.body.User_id;
-    const from_date = req.body.from_date
+    const from_date = req.body.from_date;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_crm_master set user_name='${user_name}',type='${type}',cust_vend='${cust_vend}', update_date_time=getDate(),
@@ -87,7 +85,7 @@ const updatecrm = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -99,9 +97,8 @@ const Activecrm = async (req, res)=>{
         res.send(result)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 module.exports={Totalcrm,insertcrm,deleteCrm,getcrm,updatecrm,Activecrm}

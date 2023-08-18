@@ -55,7 +55,7 @@ const InsertRecurringInvoice = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -95,7 +95,7 @@ const getRecurringInvoice = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }
@@ -108,7 +108,7 @@ const TotalRecurringInvoice = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }
@@ -128,9 +128,8 @@ const UpdateRecurringInvoice = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 
@@ -144,7 +143,7 @@ const DeleteRecurringInvoice = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

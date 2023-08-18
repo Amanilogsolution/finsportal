@@ -8,51 +8,47 @@ const uuidv1 = require("uuid/v1");
 
 
 
-  const GenerateTwofa = async function(req,res){
-    const email = req.body.email;
-    const org = req.body.org;
-    console.log(email,org)
-    try{
-      const newSecret = twofactor.generateSecret({ name: org, account: email });
-      if(newSecret){
-        res.send(newSecret)
-      
-      }else{
-        res.send("ScanAgain")
+const GenerateTwofa = async function (req, res) {
+  const email = req.body.email;
+  const org = req.body.org;
 
-      }
-    }  catch (err) {
-        console.log(err)
+  try {
+    const newSecret = twofactor.generateSecret({ name: org, account: email });
+    if (newSecret) {
+      res.send(newSecret)
+    } else {
+      res.send("ScanAgain")
     }
   }
-
-  const VerifyTwofa = async function (req,res){
-    const secret = req.body.secret;
-    const otp = req.body.otp;
-    const userid = req.body.userid;
-    const org = req.body.org;
-    const userAgent = req.body.userAgent
-    console.log(userAgent)
-
-    console.log(secret,otp,userid,org)
-    try{
-        await sql.connect(sqlConfig)
-      const result = twofactor.verifyToken(secret, otp);
-      if(result && result.delta === 0){
-        const Twofa = await sql.query(`update FINSDB.dbo.tbl_Login set twofauth='true',tfact_secretkey='${secret}' WHERE user_id = '${userid}' and comp_name='${org}'`)
-        const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login',user_system='${userAgent}'  WHERE user_id ='${userid}'`)
-
-        console.log(Twofa)
-        res.send("Verify")
-      }else{
-        res.send("NotVerify")
-      }
-  
-    }catch (err) {
-        console.log(err)
-    }
+  catch (err) {
+    res.status(500).send(err)
   }
+}
+
+const VerifyTwofa = async function (req, res) {
+  const secret = req.body.secret;
+  const otp = req.body.otp;
+  const userid = req.body.userid;
+  const org = req.body.org;
+  const userAgent = req.body.userAgent
+
+  try {
+    await sql.connect(sqlConfig)
+    const result = twofactor.verifyToken(secret, otp);
+    if (result && result.delta === 0) {
+      const Twofa = await sql.query(`update FINSDB.dbo.tbl_Login set twofauth='true',tfact_secretkey='${secret}' WHERE user_id = '${userid}' and comp_name='${org}'`)
+      const Login = await sql.query(`update FINSDB.dbo.tbl_Login set comp_ip='${req.ip}',login_time=GETDATE(),status='Login',user_system='${userAgent}'  WHERE user_id ='${userid}'`)
+
+      res.send("Verify")
+    } else {
+      res.send("NotVerify")
+    }
+
+  } catch (err) {
+    res.status(500).send(err)
+  }
+}
 
 
 
-  module.exports = {GenerateTwofa,VerifyTwofa}
+module.exports = { GenerateTwofa, VerifyTwofa }

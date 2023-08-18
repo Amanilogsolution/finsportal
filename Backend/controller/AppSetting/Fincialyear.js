@@ -12,8 +12,7 @@ const Showfincialyear = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
 }
 
@@ -56,11 +55,9 @@ const Addfincialyear = async (req, res) => {
         else {
             res.send("server error")
         }
-
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
 }
 
@@ -78,7 +75,6 @@ const Updatefincialyear = async (req, res) => {
     const jv_ser = req.body.jv_ser;
     const bank_recp_ser = req.body.bank_recp_ser;
     const bank_payt_ser = req.body.bank_payt_ser;
-
     const cash_recp_ser = req.body.cash_recp_ser;
     const cash_payt_ser = req.body.cash_payt_ser;
 
@@ -93,10 +89,8 @@ const Updatefincialyear = async (req, res) => {
         res.send(result.rowsAffected)
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 const Statusfincialyear = async (req, res) => {
@@ -110,17 +104,14 @@ const Statusfincialyear = async (req, res) => {
         if (result.rowsAffected[0] > 0) {
             const result1 = await sql.query(`UPDATE ${org}.dbo.tbl_fin_year set status ='Active' WHERE sno=${sno};`)
             res.send(result1)
-
         }
         else {
             res.send(result)
         }
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 const Selectfincialyear = async (req, res) => {
@@ -132,8 +123,7 @@ const Selectfincialyear = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
 }
 
@@ -146,7 +136,7 @@ const Getfincialyearid = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -158,7 +148,7 @@ const GetfincialyearNavbar = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -173,7 +163,7 @@ const Updatefinancialcount = async (req, res) => {
         res.send("Updated")
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -190,7 +180,7 @@ const UpdatefinancialTwocount = async (req, res) => {
         res.send(result.rowsAffected)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

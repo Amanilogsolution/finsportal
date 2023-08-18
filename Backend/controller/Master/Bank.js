@@ -4,7 +4,6 @@ const os = require('os')
 const uuidv1 = require("uuid/v1");
 
 const InsertBank = async (req, res) => {
-
     const account_code = req.body.accountingcode;
     const bank_name = req.body.bank_name;
     const account_no = req.body.account_no;
@@ -65,21 +64,20 @@ const InsertBank = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 const TotalBanks = async (req, res) => {
     const org = req.body.org;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT * from ${org}.dbo.tbl_bankmaster with (nolock) order by sno desc`)
-
-        res.send(result.recordset)
-
+        res.status(200).send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -87,35 +85,36 @@ const DeleteBank = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
     const status = req.body.status;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_bankmaster set status='${status}' where sno='${sno}'`)
-        res.send('Deleted')
+        res.status(200).send('Deleted')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 const ShowBank = async (req, res) => {
-    const sno = req.body.sno
-    const org = req.body.org
+    const sno = req.body.sno;
+    const org = req.body.org;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_bankmaster with (nolock) where sno = ${sno}`)
-        res.send(result.recordset[0])
+        res.status(200).send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const UpdateBank = async (req, res) => {
     const sno = req.body.sno;
-
     const account_code = req.body.account_code;
     const bank_name = req.body.bank_name;
     const branch = req.body.branch;
-
     const account_no = req.body.account_no;
     const address_line1 = req.body.address_line1;
     const address_line2 = req.body.address_line2;
@@ -129,6 +128,7 @@ const UpdateBank = async (req, res) => {
     const description = req.body.description;
     const org = req.body.org;
     const User_id = req.body.User_id;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_bankmaster set chart_of_account='${account_code}',bank_name='${bank_name}',
@@ -138,7 +138,7 @@ const UpdateBank = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -161,8 +161,7 @@ const ImportBank = (req, res) => {
                     res.send("Data Added")
                 }
             })
-    }
-    )
+    })
 }
 
 const ActiveBank = async (req, res) => {
@@ -173,7 +172,7 @@ const ActiveBank = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

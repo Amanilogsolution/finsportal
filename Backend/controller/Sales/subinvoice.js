@@ -30,7 +30,6 @@ const InsertSubInvoice = async (req, res) => {
     const taxableamt = req.body.taxableamt;
     const User_id = req.body.User_id;
 
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`insert into ${org}.dbo.tbl_subinvoice(fin_year,invoice_no ,major,minor,glcode,billing_code,quantity,
@@ -41,7 +40,7 @@ const InsertSubInvoice = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -51,14 +50,11 @@ const getSubInvoice = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_subinvoice with (nolock) where invoice_no='${invoiceno}'`)
-        res.send(result.recordset)
-
-
+        res.status(200).send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 
@@ -70,14 +66,14 @@ const UpdateSaveSubInvoiceToPost = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(` update ${org}.dbo.tbl_subinvoice set invoice_no='${new_invoice_no}'  WHERE invoice_no='${invoice_no}'`)
         if (result.rowsAffected > 0) {
-            res.send('Updated')
+            res.status(200).send('Updated')
         }
         else {
-            res.send('Error')
+            res.status(500).send('Error')
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }

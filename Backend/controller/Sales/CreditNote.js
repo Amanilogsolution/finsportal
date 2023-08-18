@@ -28,7 +28,7 @@ const InsertCreditNote = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -40,7 +40,7 @@ const AllCNData = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -59,7 +59,7 @@ const ChangeCNStatus = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -73,7 +73,7 @@ const getCNData = async (req, res) => {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -95,7 +95,7 @@ const InsertCnSub = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 const SelectCnSubDetails = async (req, res) => {
@@ -109,7 +109,7 @@ const SelectCnSubDetails = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -133,7 +133,7 @@ const filterCN = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

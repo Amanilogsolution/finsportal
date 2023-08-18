@@ -36,7 +36,7 @@ const InsertCashSubReceipt = async (req, res) => {
         res.status(201).json({ message: "Added successfully" })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -50,7 +50,7 @@ const GetSubCashReceipt = async (req, res) => {
         res.status(200).json({ data: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }

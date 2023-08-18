@@ -52,7 +52,7 @@ const InsertInvoice = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -76,9 +76,8 @@ const filterInvoice = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const getInvoice = async (req, res) => {
@@ -92,9 +91,8 @@ const getInvoice = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const getSaveInvoice = async (req, res) => {
@@ -105,9 +103,8 @@ const getSaveInvoice = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const UpdateSaveInvoiceToPost = async (req, res) => {
@@ -125,25 +122,22 @@ const UpdateSaveInvoiceToPost = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const GetInvoicesByCustomer = async (req, res) => {
     const org = req.body.org;
     const customer_id = req.body.customer_id;
-    
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`SELECT *,convert(varchar(15),invoice_date,121) as Invdate from ${org}.dbo.tbl_invoice where custid = '${customer_id}' and flagsave = 'post'`)
         res.send(result.recordset)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 const filterInvoicebyCN = async (req, res) => {
@@ -153,7 +147,7 @@ const filterInvoicebyCN = async (req, res) => {
     const custid = req.body.custid;
     const locationid = req.body.locationid;
     const invoice_no = req.body.invoice_no;
-  
+
     try {
         await sql.connect(sqlConfig)
         if (custid === 'all') {
@@ -168,17 +162,17 @@ const filterInvoicebyCN = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
-const UpdateInvoiceCNFlag = async(req,res) =>{
+
+const UpdateInvoiceCNFlag = async (req, res) => {
     const org = req.body.org;
     const cnflag = req.body.cnflag;
     const cnamount = req.body.cnamount;
     const invoice_no = req.body.invoice_no;
 
-    try{
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(` update ${org}.dbo.tbl_invoice set cnflag='${cnflag}' ,cnamount='${cnamount}' WHERE invoice_no='${invoice_no}'`)
         if (result.rowsAffected > 0) {
@@ -188,10 +182,9 @@ const UpdateInvoiceCNFlag = async(req,res) =>{
             res.send('Error')
         }
     }
-    catch(err){
-
+    catch (err) {
+        res.status(500).send(err)
     }
-
 }
 
-module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost,GetInvoicesByCustomer,filterInvoicebyCN,UpdateInvoiceCNFlag } 
+module.exports = { InsertInvoice, filterInvoice, getInvoice, getSaveInvoice, UpdateSaveInvoiceToPost, GetInvoicesByCustomer, filterInvoicebyCN, UpdateInvoiceCNFlag } 

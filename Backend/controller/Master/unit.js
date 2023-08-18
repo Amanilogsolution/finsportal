@@ -1,7 +1,7 @@
 const sql = require('mssql');
 const sqlConfig = require('../../config.js');
 const os = require('os')
-const uuidv1 = require("uuid/v1");
+const uuidV1 = require("uuid/v1");
 
 
 async function TotalUnit(req, res) {
@@ -12,9 +12,10 @@ async function TotalUnit(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 async function TotalActiveUnit(req, res) {
     const org = req.body.org
     try {
@@ -23,24 +24,24 @@ async function TotalActiveUnit(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 async function deleteUnit(req, res) {
     const sno = req.body.sno;
     const status = req.body.status;
-    const org = req.body.org
+    const org = req.body.org;
+
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_unit set status='${status}' where sno = ${sno}`)
         res.send(result)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
-
 
 
 async function InsertUnit(req, res) {
@@ -48,7 +49,7 @@ async function InsertUnit(req, res) {
     const unit_symbol = req.body.unit_symbol;
     const org = req.body.org
     const User_id = req.body.User_id;
-    const uuid = uuidv1()
+    const uuid = uuidV1()
 
     try {
         await sql.connect(sqlConfig)
@@ -62,9 +63,8 @@ async function InsertUnit(req, res) {
             res.send("Already")
         }
     }
-
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -77,7 +77,7 @@ async function showunit(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -94,7 +94,7 @@ async function UpdateUnit(req, res) {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -109,9 +109,8 @@ const ImportUnit = (req, res) => {
                 if (resp.rowsAffected[0] > 0)
                     res.send(resp.recordset.map(item => ({ "unit_name": item.unit_name, "unit_symbol": item.unit_symbol })))
                 else {
-
                     sql.query(`INSERT INTO ${org}.dbo.tbl_unit (unit_name,unit_symbol,status,add_date_time,add_user_name,add_system_name,add_ip_address,unit_uuid) 
-                    VALUES ${datas.map(item => `('${item.unit_name}','${item.unit_symbol}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
+                    VALUES ${datas.map(item => `('${item.unit_name}','${item.unit_symbol}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidV1()}')`).join(', ')}`)
                     res.send("Data Added")
                 }
             })
@@ -127,7 +126,7 @@ async function Activeunit(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

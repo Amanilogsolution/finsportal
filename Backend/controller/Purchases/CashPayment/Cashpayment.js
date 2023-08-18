@@ -1,7 +1,7 @@
 const sql = require('mssql')
 const sqlConfig = require('../../../config.js')
 const os = require('os')
-const uuidv1 = require("uuid/v1");
+const uuidV1 = require("uuid/v1");
 
 const AllCashPayment = async (req, res) => {
     const org = req.body.org;
@@ -26,7 +26,7 @@ const InsertCashPayment = async (req, res) => {
     const remarks = req.body.remarks;
     const add_user_name = req.body.add_user_name;
     const fins_year = req.body.fins_year;
-    const uuid = uuidv1()
+    const uuid = uuidV1()
 
     try {
         await sql.connect(sqlConfig)

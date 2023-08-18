@@ -1,7 +1,7 @@
 const sql = require('mssql');
 const sqlConfig = require('../../config.js');
 const os = require('os')
-const uuidv1 = require("uuid/v1");
+const uuidV1 = require("uuid/v1");
 
 async function TotalStates(req, res) {
     try {
@@ -10,7 +10,7 @@ async function TotalStates(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -23,7 +23,7 @@ async function deleteState(req, res) {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -37,7 +37,7 @@ async function state(req, res) {
     const select_type = req.body.select_type;
     const system_name = os.hostname()
     const User_id= req.body.User_id;
-    const uuid = uuidv1()
+    const uuid = uuidV1()
     try {
         await sql.connect(sqlConfig)
         const duplicate = await sql.query(`select * from FINSDB.dbo.tbl_states where state_name='${state_name}' OR state_code='${state_code}' OR state_short_name='${state_short_name}'`)
@@ -50,7 +50,7 @@ async function state(req, res) {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -62,7 +62,7 @@ async function showstate(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -75,7 +75,7 @@ async function showactivestate(req, res) {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -94,7 +94,7 @@ async function EditState(req, res) {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -109,8 +109,7 @@ const ImportState = (req, res) => {
                 if (resp.rowsAffected[0] > 0)
                     res.send(resp.recordset.map(item => ({ "state_name": item.state_name, "state_code": item.state_code, "state_short_name": item.state_short_name })))
                 else {
-
-                    sql.query(`INSERT INTO FINSDB.dbo.tbl_states (state_name,state_code,state_short_name,state_type,country_name,status,add_date_time,add_user_name,add_system_name,add_ip_address,state_uuid) VALUES ${datas.map(item => `('${item.state_name}','${item.state_code}','${item.state_short_name}','${item.state_type}','${item.country_name}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidv1()}')`).join(', ')}`)
+                    sql.query(`INSERT INTO FINSDB.dbo.tbl_states (state_name,state_code,state_short_name,state_type,country_name,status,add_date_time,add_user_name,add_system_name,add_ip_address,state_uuid) VALUES ${datas.map(item => `('${item.state_name}','${item.state_code}','${item.state_short_name}','${item.state_type}','${item.country_name}','Active',getdate(),'${User_id}','${os.hostname()}','${req.ip}','${uuidV1()}')`).join(', ')}`)
                     res.send("Data Added")
                 }
             })

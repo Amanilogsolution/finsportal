@@ -40,7 +40,7 @@ const InsertSubRecurringInvoice = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -51,13 +51,10 @@ const getSubRecurringInvoice = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_recurring_subinvoice with (nolock) where invoice_no='${invoiceno}'`)
         res.send(result.recordset)
-
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 
@@ -76,9 +73,8 @@ const UpdateSaveSubRecurringInvoice = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
 }
 
 module.exports = { InsertSubRecurringInvoice, getSubRecurringInvoice, UpdateSaveSubRecurringInvoice }

@@ -11,9 +11,10 @@ const Totalcurrency = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const InsertCurrency = async (req, res) => {
     const org = req.body.org;
     const User_id = req.body.User_id;
@@ -32,12 +33,12 @@ const InsertCurrency = async (req, res) => {
         } else {
             res.send("Already")
         }
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 const deleteCurrency = async (req, res) => {
     const org = req.body.org;
     const sno = req.body.sno;
@@ -48,7 +49,7 @@ const deleteCurrency = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -66,9 +67,10 @@ const UpdateCurrency = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
+
 async function ShowCurrency(req, res) {
     const sno = req.body.sno
     const org = req.body.org;
@@ -78,7 +80,7 @@ async function ShowCurrency(req, res) {
         res.send(result.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -99,11 +101,7 @@ const ImportCurrency = (req, res) => {
                     res.send("Data Added")
                 }
             })
-
-
     })
-
-
 }
 
 
@@ -117,7 +115,7 @@ const ActiveCurrency = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

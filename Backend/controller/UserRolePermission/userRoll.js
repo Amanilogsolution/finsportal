@@ -388,7 +388,7 @@ const AddUserRole = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -400,8 +400,7 @@ const TotalUserRole = async (req, res) => {
         res.send(totalresult.recordset)
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
 }
 
@@ -414,8 +413,7 @@ const getUserRole = async (req, res) => {
         res.send(duplicate.recordset[0])
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
 }
 
@@ -427,7 +425,7 @@ const ActiveUserRole = async (req, res) => {
         res.send(role.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -442,7 +440,7 @@ const DeleteUserRole = async (req, res) => {
         res.send(role.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 const getUserRolePermission = async (req, res) => {
@@ -455,10 +453,8 @@ const getUserRolePermission = async (req, res) => {
         res.send(duplicate.recordset[0])
     }
     catch (err) {
-        res.send(err)
-
+        res.status(500).send(err)
     }
-
 }
 
 
